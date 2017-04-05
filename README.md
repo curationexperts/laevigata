@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/curationexperts/laevigata.svg?branch=master)](https://travis-ci.org/curationexperts/laevigata)[![Dependency Status](https://gemnasium.com/badges/github.com/curationexperts/laevigata.svg)](https://gemnasium.com/github.com/curationexperts/laevigata)
+[![Build Status](https://travis-ci.org/curationexperts/laevigata.svg?branch=master)](https://travis-ci.org/curationexperts/laevigata)[![Dependency Status](https://gemnasium.com/badges/github.com/curationexperts/laevigata.svg)](https://gemnasium.com/github.com/curationexperts/laevigata)[![Coverage Status](https://coveralls.io/repos/github/curationexperts/laevigata/badge.svg?branch=master)](https://coveralls.io/github/curationexperts/laevigata?branch=master)
 
 
 # README
