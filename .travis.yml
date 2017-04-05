@@ -4,3 +4,6 @@ sudo: false
 rvm:
   - 2.3.3
   - 2.3.4
+script:
+  - bundle exec rake spec
+  - bundle exec rubocop
