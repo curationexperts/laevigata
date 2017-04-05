@@ -23,3 +23,6 @@
 # Ignore yard docs. Build your own!
 doc
 .yardoc
+
+# Ignore coverage report
+coverage
