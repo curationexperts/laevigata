@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/curationexperts/laevigata.svg?branch=master)](https://travis-ci.org/curationexperts/laevigata)
+[![Build Status](https://travis-ci.org/curationexperts/laevigata.svg?branch=master)](https://travis-ci.org/curationexperts/laevigata)[![Dependency Status](https://gemnasium.com/badges/github.com/curationexperts/laevigata.svg)](https://gemnasium.com/github.com/curationexperts/laevigata)
+
 
 # README
 
