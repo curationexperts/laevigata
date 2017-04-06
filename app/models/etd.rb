@@ -7,4 +7,5 @@ class Etd < ActiveFedora::Base
   # self.valid_child_concerns = []
   validates :title, presence: { message: 'Your work must have a title.' }
   self.human_readable_type = 'Etd'
+  property :department, predicate: "https://schema.org/department"
 end
