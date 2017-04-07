@@ -8,4 +8,5 @@ class Etd < ActiveFedora::Base
   validates :title, presence: { message: 'Your work must have a title.' }
   self.human_readable_type = 'Etd'
   property :department, predicate: "https://schema.org/department"
+  property :school, predicate: "https://schema.org/alumniOf"
 end

@@ -5,5 +5,6 @@ module Hyrax
     self.model_class = ::Etd
     self.terms += [:resource_type]
     self.terms += [:department]
+    self.terms += [:school]
   end
 end

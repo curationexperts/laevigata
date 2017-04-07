@@ -13,5 +13,6 @@ RSpec.describe Hyrax::EtdForm do
     subject { described_class }
     its(:terms) { is_expected.to include(:title) }
     its(:terms) { is_expected.to include(:department) }
+    its(:terms) { is_expected.to include(:school) }
   end
 end

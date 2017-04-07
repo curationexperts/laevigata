@@ -24,6 +24,7 @@ RSpec.feature 'Create a Etd' do
       # Department is not required, by default it is hidden as an additional field
       click_link("Additional fields")
       fill_in "Department", with: "Department of Russian and East Asian Languages and Cultures"
+      fill_in "School", with: "Emory College of Arts and Sciences"
       select('All rights reserved', from: 'Rights')
       choose('open')
       check('agreement')
