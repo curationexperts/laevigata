@@ -1,9 +1,13 @@
 language: ruby
 cache: bundler
 sudo: false
+services:
+  - redis-server
+jdk:
+  - oraclejdk8
 rvm:
   - 2.3.3
   - 2.3.4
 script:
-  - bundle exec rake spec
+  - bundle exec rake ci
   - bundle exec rubocop
