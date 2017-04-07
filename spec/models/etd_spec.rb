@@ -3,6 +3,22 @@
 require 'rails_helper'
 
 RSpec.describe Etd do
+  describe "#degree" do
+    subject { described_class.new }
+    let(:degree) { "Bachelor of Arts with Honors" }
+    context "with a new ETD" do
+      its(:degree) { is_expected.to be_empty }
+    end
+    context "with an existing ETD that has a degree defined" do
+      subject do
+        described_class.create.tap do |etd|
+          etd.degree = [degree]
+        end
+      end
+      its(:degree) { is_expected.to eq([degree]) }
+    end
+  end
+
   describe "#department" do
     subject { described_class.new }
     context "with a new ETD" do

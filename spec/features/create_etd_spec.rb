@@ -25,6 +25,7 @@ RSpec.feature 'Create a Etd' do
       click_link("Additional fields")
       fill_in "Department", with: "Department of Russian and East Asian Languages and Cultures"
       fill_in "School", with: "Emory College of Arts and Sciences"
+      fill_in "Degree", with: "Bachelor of Arts with Honors"
       select('All rights reserved', from: 'Rights')
       choose('open')
       check('agreement')
@@ -34,7 +35,6 @@ RSpec.feature 'Create a Etd' do
       expect(page).to have_content 'Your files are being processed'
       expect(page).to have_content 'deposited'
       expect(page).to have_content 'China and its Minority Population'
-
     end
   end
 end

@@ -6,5 +6,6 @@ module Hyrax
     self.terms += [:resource_type]
     self.terms += [:department]
     self.terms += [:school]
+    self.terms += [:degree]
   end
 end

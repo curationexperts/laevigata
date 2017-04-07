@@ -9,4 +9,5 @@ class Etd < ActiveFedora::Base
   self.human_readable_type = 'Etd'
   property :department, predicate: "https://schema.org/department"
   property :school, predicate: "https://schema.org/alumniOf"
+  property :degree, predicate: "http://bibframe.org/vocab/dissertationDegree"
 end
