@@ -21,6 +21,9 @@ RSpec.feature 'Create a Etd' do
       fill_in 'Title', with: 'China and its Minority Population'
       fill_in 'Creator', with: 'Eun, Dongwon'
       fill_in 'Keyword', with: 'China'
+      # Department is not required, by default it is hidden as an additional field
+      click_link("Additional fields")
+      fill_in "Department", with: "Department of Russian and East Asian Languages and Cultures"
       select('All rights reserved', from: 'Rights')
       choose('open')
       check('agreement')
@@ -30,8 +33,7 @@ RSpec.feature 'Create a Etd' do
       expect(page).to have_content 'Your files are being processed'
       expect(page).to have_content 'deposited'
       expect(page).to have_content 'China and its Minority Population'
-      # Department is not required, by default it is hidden as an additional field
-      # click_link("Additional fields")
+
     end
   end
 end
