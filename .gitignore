@@ -26,3 +26,10 @@ doc
 
 # Ignore coverage report
 coverage
+
+# Ignore local ruby version manager config files
+.ruby-version
+.ruby-gemset
+
+# Ignore redis database saves (if launched in the application root directory)
+dump.rdb
