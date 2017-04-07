@@ -16,11 +16,25 @@ RSpec.feature 'Create a Etd' do
       login_as user
     end
 
-    scenario do
-      visit new_curation_concerns_etd_path
-      fill_in 'Title', with: 'Test Etd'
-      click_button 'Create Etd'
-      expect(page).to have_content 'Test Etd'
+    scenario "Submit a basic MS Word Thesis" do
+      visit("/concern/etds/new")
+      fill_in 'Title', with: 'China and its Minority Population'
+      fill_in 'Creator', with: 'Eun, Dongwon'
+      fill_in 'Keyword', with: 'China'
+      # Department is not required, by default it is hidden as an additional field
+      click_link("Additional fields")
+      fill_in "Department", with: "Department of Russian and East Asian Languages and Cultures"
+      fill_in "School", with: "Emory College of Arts and Sciences"
+      fill_in "Degree", with: "Bachelor of Arts with Honors"
+      select('All rights reserved', from: 'Rights')
+      choose('open')
+      check('agreement')
+      click_on('Files')
+      attach_file('files[]', "#{fixture_path}/emory_7tjfb-FILE")
+      click_on('Save')
+      expect(page).to have_content 'Your files are being processed'
+      expect(page).to have_content 'deposited'
+      expect(page).to have_content 'China and its Minority Population'
     end
   end
 end
