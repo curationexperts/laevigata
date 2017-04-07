@@ -16,7 +16,7 @@ RSpec.feature 'Create a Etd' do
       login_as user
     end
 
-    scenario "Submit a basic MS Word Thesis" do # rubocop: disable RSpec/ExampleLength
+    scenario "Submit a basic MS Word Thesis" do
       visit("/concern/etds/new")
       fill_in 'Title', with: 'China and its Minority Population'
       fill_in 'Creator', with: 'Eun, Dongwon'
