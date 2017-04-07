@@ -1,4 +1,4 @@
-class CatalogController < ApplicationController # rubocop:disable Metrics/ClassLength
+class CatalogController < ApplicationController
   include Hydra::Catalog
   include Hydra::Controller::ControllerBehavior
 
@@ -13,7 +13,7 @@ class CatalogController < ApplicationController # rubocop:disable Metrics/ClassL
     solr_name('system_modified', :stored_sortable, type: :date)
   end
 
-  configure_blacklight do |config| # rubocop:disable Metrics/BlockLength
+  configure_blacklight do |config|
     config.view.gallery.partials = [:index_header, :index]
     config.view.masonry.partials = [:index]
     config.view.slideshow.partials = [:index]
