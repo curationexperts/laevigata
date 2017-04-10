@@ -7,7 +7,7 @@ class Etd < ActiveFedora::Base
   # self.valid_child_concerns = []
   validates :title, presence: { message: 'Your work must have a title.' }
   self.human_readable_type = 'Etd'
-  property :department, predicate: "https://schema.org/department"
+  property :department, predicate: "http://vivoweb.org/ontology/core#AcademicDepartment"
   property :school, predicate: "https://schema.org/alumniOf"
-  property :degree, predicate: "http://bibframe.org/vocab/dissertationDegree"
+  property :degree, predicate: "http://vivoweb.org/ontology/core#AcademicDegree"
 end
