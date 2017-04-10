@@ -14,6 +14,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
+fits.log
 !/log/.keep
 !/tmp/.keep
 
@@ -26,3 +27,11 @@ doc
 
 # Ignore coverage report
 coverage
+
+# Ignore local ruby version manager config files
+.ruby-version
+.ruby-gemset
+
+# Ignore redis database saves
+**/dump.rdb
+
