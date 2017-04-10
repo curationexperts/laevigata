@@ -14,6 +14,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
+fits.log
 !/log/.keep
 !/tmp/.keep
 
@@ -31,5 +32,6 @@ coverage
 .ruby-version
 .ruby-gemset
 
-# Ignore redis database saves (if launched in the application root directory)
-dump.rdb
+# Ignore redis database saves
+**/dump.rdb
+
