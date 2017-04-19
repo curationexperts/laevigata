@@ -8,6 +8,6 @@ class Etd < ActiveFedora::Base
   validates :title, presence: { message: 'Your work must have a title.' }
   self.human_readable_type = 'Etd'
   property :department, predicate: "http://vivoweb.org/ontology/core#AcademicDepartment"
-  property :school, predicate: "https://schema.org/alumniOf"
+  property :school, predicate: "http://vivoweb.org/ontology/core#School"
   property :degree, predicate: "http://vivoweb.org/ontology/core#AcademicDegree"
 end
