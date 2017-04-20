@@ -24,4 +24,16 @@ class SolrDocument
   # Do content negotiation for AF models.
 
   use_extension(Hydra::ContentNegotiation)
+
+  def degree
+    self[Solrizer.solr_name('degree')]
+  end
+
+  def department
+    self[Solrizer.solr_name('department')]
+  end
+  
+  def school
+    self[Solrizer.solr_name('school')]
+  end
 end
