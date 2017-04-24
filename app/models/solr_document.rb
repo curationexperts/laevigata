@@ -32,7 +32,7 @@ class SolrDocument
   def department
     self[Solrizer.solr_name('department')]
   end
-  
+
   def school
     self[Solrizer.solr_name('school')]
   end

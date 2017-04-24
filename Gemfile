@@ -53,12 +53,12 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'fcrepo_wrapper'
   gem 'launchy'
+  gem 'rspec', "~> 3.5"
   gem 'rspec-activemodel-mocks'
   gem 'rspec-its'
-  gem 'solr_wrapper', '>= 0.3'
-  gem 'rspec', "~> 3.5"
   gem 'rspec-rails', "~> 3.5"
   gem 'shoulda-matchers'
+  gem 'solr_wrapper', '>= 0.3'
 end
 
 group :development do
