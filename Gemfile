@@ -48,15 +48,17 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger
   # console
   gem 'byebug', platform: :mri
-  gem 'capybara', '~> 2.8'
+  gem 'capybara'
   gem 'coveralls', require: false
   gem 'database_cleaner'
   gem 'fcrepo_wrapper'
   gem 'launchy'
   gem 'rspec-activemodel-mocks'
   gem 'rspec-its'
-  gem 'rspec-rails'
   gem 'solr_wrapper', '>= 0.3'
+  gem 'rspec', "~> 3.5"
+  gem 'rspec-rails', "~> 3.5"
+  gem 'shoulda-matchers'
 end
 
 group :development do
