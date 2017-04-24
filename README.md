@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/curationexperts/laevigata.png?label=ready&title=Ready)](https://waffle.io/curationexperts/laevigata)
 # LAEVIGATA
 
 <table width="100%">
