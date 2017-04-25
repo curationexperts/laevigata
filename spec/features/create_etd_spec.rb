@@ -5,12 +5,7 @@ include Warden::Test::Helpers
 
 RSpec.feature 'Create a Etd' do
   context 'a logged in user' do
-    let(:user_attributes) do
-      { email: 'test@example.com' }
-    end
-    let(:user) do
-      User.new(user_attributes) { |u| u.save(validate: false) }
-    end
+    let(:user)  { create :user }
 
     before do
       login_as user

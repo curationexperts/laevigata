@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Hyrax::EtdForm do
   subject { form }
-  let(:etd)     { Etd.new }
+  let(:etd)     { build(:etd) }
   let(:ability) { Ability.new(nil) }
   let(:request) { nil }
   let(:form)    { described_class.new(etd, ability, request) }
