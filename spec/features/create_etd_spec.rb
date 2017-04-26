@@ -12,7 +12,9 @@ RSpec.feature 'Create a Etd' do
     end
 
     scenario "Submit a basic MS Word Thesis" do
-      visit("/concern/etds/new")
+      visit(root_url)
+      click_link("Share Your Work")
+      expect(current_url).to start_with new_hyrax_etd_url
       fill_in 'Title', with: 'China and its Minority Population'
       fill_in 'Creator', with: 'Eun, Dongwon'
       fill_in 'Keyword', with: 'China'

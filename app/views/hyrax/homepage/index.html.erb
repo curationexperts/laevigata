@@ -1,0 +1,24 @@
+<% provide :page_title, application_name %>
+
+<% if @presenter.display_share_button? %>
+  <div class="home_share_work row">
+    <div class="col-sm-12 text-center">
+      <% if signed_in? %>
+        <%= link_to main_app.new_hyrax_etd_path,
+          class: "btn btn-primary btn-lg" do %>
+          <i class="glyphicon glyphicon-upload"></i> <%= t('hyrax.share_button') %>
+        <% end %>
+      <% else %>
+        <%= link_to hyrax.dashboard_path,
+          class: "btn btn-primary btn-lg" do %>
+          <i class="glyphicon glyphicon-upload"></i> <%= t('hyrax.share_button') %>
+        <% end %>
+      <% end %>
+      <p><%= link_to t(:'hyrax.controls.terms'), hyrax.terms_path %></p>
+    </div>
+  </div>
+<% end %>
+
+<div class="row home-content">
+  <%= render 'home_content' %>
+</div>
