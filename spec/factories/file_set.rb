@@ -55,6 +55,5 @@ FactoryGirl.define do
       title ["Fake Wav File.wav"]
       subject %w[sed do eiusmod tempor incididunt ut labore]
     end
-
   end
 end

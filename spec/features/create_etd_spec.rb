@@ -5,7 +5,7 @@ include Warden::Test::Helpers
 
 RSpec.feature 'Create a Etd' do
   context 'a logged in user' do
-    let(:user)  { create :user }
+    let(:user) { create :user }
 
     before do
       login_as user

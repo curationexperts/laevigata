@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.feature 'Display an ETD' do
-  let(:etd)  { build :etd }
+  let(:etd) { build :etd }
 
   context 'a logged in user' do
-    let(:user)  { create :user }
+    let(:user) { create :user }
 
     before do
       login_as user
