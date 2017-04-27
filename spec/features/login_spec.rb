@@ -3,7 +3,6 @@ include Warden::Test::Helpers
 
 RSpec.feature 'Login a User' do
   context 'a logged out user' do
-
     scenario 'Submit an ETD' do
       visit(root_url)
       click_link('Share Your Work')
