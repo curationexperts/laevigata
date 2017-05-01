@@ -160,6 +160,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
+    commonjs (0.2.7)
     concurrent-ruby (1.0.5)
     coveralls (0.8.20)
       json (>= 1.8, < 3)
@@ -238,6 +239,8 @@ GEM
       jquery-rails
     font-awesome-rails (4.7.0.1)
       railties (>= 3.2, < 5.1)
+    font-awesome-sass (4.7.0)
+      sass (>= 3.2)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     google-api-client (0.11.1)
@@ -408,6 +411,13 @@ GEM
       slop
     legato (0.7.0)
       multi_json
+    less (2.6.0)
+      commonjs (~> 0.2.7)
+    less-rails (2.8.0)
+      actionpack (>= 4.0)
+      less (~> 2.6.0)
+      sprockets (> 2, < 4)
+      tilt
     libv8 (3.16.14.19)
     link_header (0.0.8)
     listen (3.0.8)
@@ -433,9 +443,11 @@ GEM
     mini_magick (4.7.0)
     mini_portile2 (2.1.0)
     minitest (5.10.1)
+    mono_logger (1.1.0)
     multi_json (1.12.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
+    mustermann (1.0.0)
     nest (2.1.0)
       redic
     net-scp (1.2.1)
@@ -468,7 +480,6 @@ GEM
     power_converter (0.1.2)
     powerpack (0.1.1)
     public_suffix (2.0.5)
-    puma (3.8.2)
     qa (1.0.0)
       activerecord-import
       deprecation
@@ -476,6 +487,8 @@ GEM
       nokogiri (~> 1.6)
       rails (>= 4.2.0, < 6.0)
     rack (2.0.1)
+    rack-protection (2.0.0.rc2)
+      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.0.2)
@@ -547,6 +560,22 @@ GEM
       uber (< 0.2.0)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
+    resque (1.27.4)
+      mono_logger (~> 1.0)
+      multi_json (~> 1.0)
+      redis-namespace (~> 1.3)
+      sinatra (>= 0.9.2)
+      vegas (~> 0.1.2)
+    resque-pool (0.6.0)
+      rake
+      resque (~> 1.22)
+    resque-web (0.0.11)
+      coffee-rails
+      font-awesome-sass
+      jquery-rails
+      resque
+      sass-rails
+      twitter-bootstrap-rails
     retriable (3.0.1)
     rsolr (1.1.2)
       builder (>= 2.1.2)
@@ -617,6 +646,11 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
+    sinatra (2.0.0.rc2)
+      mustermann (= 1.0.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.0.rc2)
+      tilt (~> 2.0)
     skydrive (1.2.0)
       activesupport
       httmultiparty
@@ -673,6 +707,11 @@ GEM
     turbolinks (5.0.1)
       turbolinks-source (~> 5)
     turbolinks-source (5.0.0)
+    twitter-bootstrap-rails (4.0.0)
+      actionpack (~> 5.0, >= 5.0.1)
+      execjs (~> 2.7)
+      less-rails (~> 2.8, >= 2.8.0)
+      railties (~> 5.0, >= 5.0.1)
     twitter-typeahead-rails (0.11.1.pre.corejavascript)
       actionpack (>= 3.1)
       jquery-rails
@@ -683,6 +722,8 @@ GEM
     uglifier (3.2.0)
       execjs (>= 0.3.0, < 3)
     unicode-display_width (1.1.3)
+    vegas (0.1.11)
+      rack (>= 1.0.0)
     warden (1.2.7)
       rack (>= 1.0)
     web-console (3.5.0)
@@ -725,8 +766,9 @@ DEPENDENCIES
   launchy
   listen (~> 3.0.5)
   pg
-  puma (~> 3.0)
   rails (~> 5.0.2)
+  resque-pool
+  resque-web
   rsolr (~> 1.0)
   rspec (~> 3.5)
   rspec-activemodel-mocks
@@ -734,6 +776,7 @@ DEPENDENCIES
   rspec-rails (~> 3.5)
   sass-rails (~> 5.0)
   shoulda-matchers
+  sinatra (= 2.0.0.rc2)
   solr_wrapper (>= 0.3)
   spring
   spring-watcher-listen (~> 2.0.0)

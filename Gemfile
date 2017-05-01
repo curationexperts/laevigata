@@ -15,13 +15,16 @@ gem 'jbuilder', '~> 2.5'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 gem 'pg'
-# Use Puma as the app server
-gem 'puma', '~> 3.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.2'
+# use resque-pool for background jobs
+gem 'resque-pool'
+gem 'resque-web', require: 'resque_web'
 gem 'rsolr', '~> 1.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
+# Need to constrain the version of Sinatra for resque-web, see https://github.com/sinatra/sinatra/issues/1055
+gem 'sinatra', '2.0.0.rc2'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 gem 'therubyracer'
@@ -32,16 +35,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 gem 'yard'
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
-
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 3.0'
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
 
 group :development, :test do
   gem 'bixby' # bixby == the hydra community's rubocop rules
