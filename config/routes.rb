@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   devise_for :users
   mount ResqueWeb::Engine => '/resque'
+  mount Hydra::RoleManagement::Engine => '/'
   mount Qa::Engine => '/authorities'
   mount Hyrax::Engine, at: '/'
   resources :welcome, only: 'index'

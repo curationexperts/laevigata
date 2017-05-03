@@ -9,6 +9,7 @@ end
 gem 'coffee-rails', '~> 4.2'
 gem 'devise'
 gem 'devise-guests', '~> 0.5'
+gem 'hydra-role-management'
 gem 'hyrax', '1.0.0.rc1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
