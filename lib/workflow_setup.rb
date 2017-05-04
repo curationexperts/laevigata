@@ -1,17 +1,11 @@
 # Set up the AdminSets and Workflow for Laevigata
 class WorkflowSetup
-
   attr_reader :uberadmin
 
   # Demo setup: Fake values hard coded just to get something working
-  def demo_setup
-    make_uberadmin("bess@curationexperts.com")
-    make_mediated_deposit_admin_set("School of Hard Knocks")
-  end
-
   # Make an AdminSet and assign it a one step mediated deposit workflow
   def make_mediated_deposit_admin_set(admin_set_title)
-    make_uberadmin("bess@curationexperts.com")
+    make_uberadmin("uberadmin@localhost.com")
     a = make_admin_set(admin_set_title)
     activate_mediated_deposit(a)
   end
