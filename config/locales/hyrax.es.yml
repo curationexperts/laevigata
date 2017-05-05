@@ -1,12 +1,12 @@
 es:
   hyrax:
-    product_name:           "Hyrax"
-    product_twitter_handle: "@HydraSphere"
-    institution_name:       "institución"
-    institution_name_full:  "El nombre de la institución"
-    account_name:           "Mi identificador de cuenta institucional"
+    product_name:           "ETD"
+    product_twitter_handle: "@ETDemory"
+    institution_name:       "Emory"
+    institution_name_full:  "Emory Universidad"
+    account_name:           "455000"
     directory:
-      suffix:               "@example.org"
+      suffix:               "@emory.edu"
     footer:
-      copyright_html: "<strong>Copyright &copy; 2017 Proyecto Hydra</strong> bajo licencia de Apache, Version 2.0"
+      copyright_html: "<strong>Copyright &copy; 2017 Emory Universidad</strong> bajo licencia de Apache, Version 2.0"
       service_html: Un servicio de <a href="http://projecthydra.org/" class="navbar-link" target="_blank">Proyecto Hydra</a>.

@@ -5,6 +5,6 @@ es:
     select_type:
       etd:
         # TODO: translate `human_name` into Spanish
-        name:               "Etd"
+        name:               "ETD"
         # TODO: translate `human_name` into Spanish
-        description:        "Etd trabajos"
+        description:        "Tesis y Disertaciones Electrónicas"
