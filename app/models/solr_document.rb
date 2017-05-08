@@ -36,4 +36,8 @@ class SolrDocument
   def school
     self[Solrizer.solr_name('school')]
   end
+
+  def primary
+    self[Solrizer.solr_name('primary')]
+  end
 end
