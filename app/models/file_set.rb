@@ -2,8 +2,19 @@
 class FileSet < ActiveFedora::Base
   include ::Hyrax::FileSetBehavior
 
+  PRIMARY = 'http://pcdm.org/use#primary'.freeze
+  SUPPLEMENTARY = 'http://pcdm.org/use#supplementary'.freeze
+
+  property :primary, predicate: 'http://pcdm.org/use#', multiple: false
+
+  validate :primary_should_match_vocabulary
+
+  def primary_should_match_vocabulary
+    self.primary = SUPPLEMENTARY unless primary == PRIMARY
+  end
+
   def primary?
-    false
+    primary == 'http://pcdm.org/use#primary'
   end
 
   def supplementary?
