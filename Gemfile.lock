@@ -434,7 +434,7 @@ GEM
       multi_json (~> 1.10)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
-    mail (2.6.4)
+    mail (2.6.6.rc1)
       mime-types (>= 1.16, < 4)
     mailboxer (0.14.0)
       carrierwave (>= 0.5.8)
@@ -771,6 +771,7 @@ DEPENDENCIES
   jquery-rails
   launchy
   listen (~> 3.0.5)
+  mail (= 2.6.6.rc1)
   pg
   rails (~> 5.0.2)
   resque-pool
