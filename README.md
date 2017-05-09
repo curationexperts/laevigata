@@ -32,12 +32,12 @@ or cherokee rose is the <a href="https://georgia.gov/georgia-facts-and-symbols">
 1. Start redis  
     `redis-server &`  
     *note:* use ` &` to start in the background, or run redis in a new terminal session  
+1. Start the demo server in its own terminal session
+    `bin/rails hydra:server`
 1. Run the first time setup script  
     `bin/setup`
 1. Run the test suite  
     `bin/rails ci`
-1. If the tests run without error, start the demo server  
-    `bin/rails hydra:server`
 
 # README
 
