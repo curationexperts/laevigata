@@ -1,4 +1,6 @@
 # Set up the AdminSets and Workflow for Laevigata
+require File.expand_path('../../config/environment', __FILE__)
+
 class WorkflowSetup
   attr_reader :uberadmin
 
@@ -34,7 +36,7 @@ class WorkflowSetup
   # @param [String] uberadmin_email The email to use for the uberadmin account
   # @return [User] the uberadmin user
   def make_uberadmin(uberadmin_email)
-    admin_user = User.find_or_create_by(email: uberadmin_email)
+    admin_user = ::User.find_or_create_by(email: uberadmin_email)
     # TODO: How will the uberadmin authenticate? This needs re-writing to work with shibboleth
     admin_user.password = "123456"
     admin_user.save

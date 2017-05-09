@@ -4,8 +4,8 @@
 <tr><td>
 <img alt="Rosa Laevigata image" src="app/assets/images/RosaLaevigata.jpg">
 </td><td>
-A repository for depositing, managing, and discovering 
-Electronic Theses and Dissertations (ETDs). 
+A repository for depositing, managing, and discovering
+Electronic Theses and Dissertations (ETDs).
 <a href="https://en.wikipedia.org/wiki/Rosa_laevigata"><em>Rosa Laevigata</em></a>
 or cherokee rose is the <a href="https://georgia.gov/georgia-facts-and-symbols">state flower of Georgia</a>.
 <br/><br/>
@@ -21,24 +21,23 @@ or cherokee rose is the <a href="https://georgia.gov/georgia-facts-and-symbols">
 
 ## Developer Setup
 
-1) Change to your working directory for new development projects   
+1. Change to your working directory for new development projects   
     `cd .`
-1) Clone this repo   
+1. Clone this repo   
     `git clone https://github.com/curationexperts/laevigata.git`
-1) Change to the application directory  
+1. Change to the application directory  
     `cd laevigata`
-1) Use set your ruby version to **2.3.4** and the gemset of your choice  
+1. Use set your ruby version to **2.3.4** and the gemset of your choice  
     eg. `rvm use --create 2.3.4@laevigata`
-1) Run the first time setup script  
-    `bin/setup`
-1) Start redis  
+1. Start redis  
     `redis-server &`  
     *note:* use ` &` to start in the background, or run redis in a new terminal session  
-1) Run the test suite  
+1. Run the first time setup script  
+    `bin/setup`
+1. Run the test suite  
     `bin/rails ci`
-1) If the tests run without error, start the demo server  
+1. If the tests run without error, start the demo server  
     `bin/rails hydra:server`
-
 
 # README
 
