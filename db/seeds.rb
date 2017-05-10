@@ -5,3 +5,18 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+puts
+puts "== Removing any existing AdminSets  =="
+puts "== Creating AdminSets and importing workflow =="
+puts
+
+require 'workflow_setup'
+# Our database has just been reset, so you MUST destroy and
+# re-create all AdminSets too
+AdminSet.destroy_all
+w = WorkflowSetup.new
+w.make_mediated_deposit_admin_set("School One")
+w.make_mediated_deposit_admin_set("School Two")
+w.make_mediated_deposit_admin_set("School Three")
+w.make_mediated_deposit_admin_set("School Four")
