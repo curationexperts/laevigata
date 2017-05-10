@@ -9,4 +9,4 @@ en:
       suffix:               "@emory.edu"
     footer:
       copyright_html: "<strong>Copyright &copy; 2017 Emory University</strong> Licensed under the Apache License, Version 2.0"
-      service_html: A service of <a href="http://projecthydra.org/" class="navbar-link" target="_blank">Emory University</a>.
+      service_html: A service of <a href="https://emory.edu/" class="navbar-link" target="_blank">Emory University</a>.
