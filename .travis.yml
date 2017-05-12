@@ -8,6 +8,8 @@ jdk:
 rvm:
   - 2.3.3
   - 2.3.4
+before_script:
+  - bundle exec rake db:create
 script:
   - bundle exec rubocop
   - bundle exec rake ci

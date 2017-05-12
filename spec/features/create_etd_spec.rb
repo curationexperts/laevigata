@@ -4,9 +4,8 @@ require 'rails_helper'
 include Warden::Test::Helpers
 
 RSpec.feature 'Create a Etd' do
+  let(:user) { create :user }
   context 'a logged in user' do
-    let(:user) { create :user }
-
     before do
       login_as user
     end
@@ -32,6 +31,23 @@ RSpec.feature 'Create a Etd' do
       expect(page).to have_content 'Your files are being processed'
       expect(page).to have_content 'deposited'
       expect(page).to have_content 'China and its Minority Population'
+    end
+  end
+
+  context 'a logged out user' do
+    scenario "cannot get to submit page from 'share your work' link" do
+      visit(root_url)
+      click_link("Share Your Work")
+
+      expect(current_url).not_to start_with new_hyrax_etd_url
+      expect(current_url).to eq(new_user_session_url)
+    end
+
+    scenario "cannot browse to submit page" do
+      visit(new_hyrax_etd_url)
+
+      expect(page).to have_content("You are not authorized to access this page.")
+      expect(current_url).to start_with(new_user_session_url)
     end
   end
 end
