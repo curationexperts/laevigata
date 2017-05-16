@@ -1,0 +1,351 @@
+schools:
+  Laney Graduate School:
+    Divisions:
+      Humanities:
+        programs:
+          - name : Art History
+            id: ARTHISTMA
+          - name : Comparative Literature
+            id:
+              - COMPLITMA
+              - COMPLITPHD
+          - name : English
+            id:
+              - ENGLISHMA
+              - ENGLISHPHD
+          - name : Film Studies
+            id: FILMSTMA
+          - name : French
+            id: FRENCHPHD
+          - name : Graduate Institute of the Liberal Arts
+            id:
+              - ILAMA
+              - ILAPHD
+          - name : History
+            id: HISTORYMA
+          - name : Jewish Studies
+            id: JEWISHMA
+          - name : Music
+          - name : Philosophy
+            id:
+              - PHILMA
+              - PHILPHD
+          - name : Religion
+            fields:
+              - American Religious Cultures
+              - Comparative Literature and Religion
+              - Ethics and Society
+              - Hebrew Bible
+              - Historical Studies in Theology and Religion
+              - New Testament
+              - Person, Community and Religious Practices
+              - Theological Studies
+              - West and South Asian Religions
+          - name : Spanish
+            id:
+              - SPANISHMA
+              - SPANISHPHD
+      Natural/Health Sciences:
+        programs:
+          - name : Behavioral Sciences and Health Education
+          - name : Biological and Biomedical Sciences
+            fields:
+              - Biochemistry, Cell & Developmental Biology
+              - Cancer Biology
+              - Genetics and Molecular Biology
+              - Immunology
+              - Microbiology & Molecular Genetics
+              - Molecular & Systems Pharmacology
+              - Neuroscience
+              - Nutrition and Health Sciences
+              - Population Biology, Ecology & Evolution
+          - name : Biomedical Engineering
+          - name : Biostatistics
+            id:
+              - BIOSTATMS
+              - BIOSTATPHD
+          - name : Chemistry
+            id:
+              - CHEMMS
+              - CHEMPHD
+          - name : Clinical Research Curriculum Program
+            id: CLNRSRCHMS
+          - name : Computer Science and Informatics
+            id: COMPSCIPHD
+          - name : Epidemiology
+            id:
+              - EPIDMS
+              - EPIDPHD
+          - name : Health Services and Research Health Policy
+          - name : Mathematics
+            id: MATHPHD
+          - name : Nursing
+            id: NURSINGPHD
+          - name : Physics
+            id: PHYSICSPHD
+          - name : Bioethics
+            id: BIOETHMA
+      Social Sciences:
+        programs:
+          - name : Anthropology
+            id:
+              - ANTHMA
+              - ANTHPHD
+          - name : Business
+            id: BUSPHD
+          - name : Economics
+            id:
+              - ECONMA
+              - ECONPHD
+          - name : Educational Studies
+            id:
+              - EDSMA
+              - EDSPHD
+          - name : Political Science
+            id:
+              - POLISCIMA
+              - POLISCIPHD
+          - name : Psychology
+            id:
+              - PSYCMA
+              - PSYCPHD
+            fields:
+              - Clinical Psychology
+              - Cognitive and Developmental Psychology
+              - Neuroscience and Animal Behavior
+          - name : Sociology
+            id:
+              - SOCMA
+              - SOCPHD
+          - name : Women's, Gender and Sexuality Studies
+            id:
+              - WMNSTMA
+              - WMNSTPHD
+  Emory College:
+    Divisions:
+      Humanities:
+        programs:
+          - name : African Studies
+            id: AFSBA
+          - name : American Studies
+            id: AMERSTBA
+          - name : Ancient Mediterranean Studies
+            id: ANCMEDBA
+          - name : Art History
+            id: ARTHISTBA
+          - name : Art History and Visual Arts
+            id: ARTHVARTBA
+          - name : Asian and Asian American Studies
+            id: ASIANAMBA
+          - name : Chinese Language and Literature
+            id: CHINLLBA
+          - name : Classics
+            id: CLASSICSBA
+          - name : Classical Civilizations, Greek, and Latin
+            id: CLCIVBA
+          - name : Classics and History
+            id: CLASHISTBA
+          - name : Classics and Philosophy
+          - name : Comparative Literature
+            id: LITBA
+          - name : Dance and Movement Studies
+            id: DNCMVSTBA
+          - name : English
+            id:
+              - ENGLISHBA
+              - ENGLSHBAMA
+          - name : English and Creative Writing
+            id: ENGCWBA
+          - name : English and History
+            id:
+              - ENVSBS
+              - ENVSBA
+          - name : Film Studies
+            id: FILMSTBA
+          - name : French Studies
+            id: FRENSTUDBA
+          - name : German
+            id: GERMANSTBA
+          - name : Interdisciplinary Studies in Society and Culture
+            id: IDSSCBA
+          - name : Italian Studies
+            id: ITALSTBA
+          - name : Jewish Studies
+            id: JEWISHBA
+          - name : Japanese
+            id: JAPANBA
+          - name : Linguistics
+            id: LINGBA
+          - name : Middle Eastern Studies
+            id: MESASBA
+          - name : Music
+            id: MUSICBA
+          - name : Philosophy
+            id:
+              - PHILBA
+              - PHILBAMA
+          - name : Philosophy and Religion
+            id: PHILRELBA
+          - name : Religion
+            id: RELBA
+          - name : Religion and Anthropology
+            id: RELANTHBA
+          - name : Religion and Classical Civilization
+          - name : Religion and History
+            id: RELHISTBA
+          - name : Religion and Sociology
+            id: RELSOCBA
+          - name : Russian
+            id: RUSSLCBA
+          - name : Spanish
+            id: SPANISHBA
+          - name : Theater Studies
+            id: THEASTBA
+          - name : African American Studies
+            id: AASBA
+          - name : Playwriting
+            id: PLAYWRTBA
+      Natural Sciences and Mathematics:
+        programs:
+          - name : Biology
+            id:
+              - BIOLOGYBS
+              - BIOLOGYBA
+              - BIOLGYBSMS
+          - name : Chemistry
+            id:
+              - CHEMBS
+              - CHEMBA
+              - CHEMBSMS
+          - name : Computer Science
+            id:
+              - COMPSCIBS
+              - COMPSCIBA
+          - name : Mathematics
+            id:
+              - MATHBS
+              - MATHBA
+          - name : Mathematics and Computer Science
+            id:
+              - MATHCSBS
+              - MATHCSBSMS
+          - name : Mathematics and Political Science
+            id: MATHPOLSBA
+          - name : Neuroscience and Behavioral Biology
+            id: NEUROBBBS
+          - name : Physics
+            id:
+              - PHYSICSBS
+              - PHYSICSBA
+          - name : Physics and Astronomy
+            id:
+              - PHYSASTBS
+              - PHYSASTBA
+      Social Sciences:
+        programs:
+          - name : Anthropology
+            id: ANTHBA
+          - name : Economics
+            id: ECONBA
+          - name : Economics and History
+            id: ECONHISTBA
+          - name : Economics and Mathematics
+            id: ECONMATHBA
+          - name : Educational Studies
+            id: EDSBA
+          - name : Environmental Studies
+          - name : Human Health
+            id:
+              - HHBA
+              - HHND
+          - name : History
+            id:
+              - HISTORYBA
+              - HISTRYBAMA
+          - name : History and Art History
+            id: HSTARHSTBA
+          - name : International Studies
+            id: INTLSTUBA
+          - name : Journalism
+          - name : Latin American and Caribbean Studies
+            id: LACSBA
+          - name : Political Science
+            id:
+              - POLISCIBA
+              - POLISCBAMA
+          - name : Psychology
+            id: PSYCHBA
+          - name : Psychology and Linguistics
+            id: PSYCLINGBA
+          - name : Sociology
+            id: SOCBA
+          - name : Women's Studies
+            id: WOMENSTBA
+  Candler School of Theology:
+    Divisions:
+      Theology:
+        programs:
+          - name : Divinity
+            id: MDVDIVIN
+          - name : Theological Studies
+            id: THEOLSTMTS
+          - name : Pastoral Counseling
+            id: THDCOUNSEL
+  Rollins School of Public Health:
+    Divisions:
+      Executive Masters of Public Health:
+        programs:
+          - name : Applied Epidemiology
+            id: APEPIMPH
+          - name : Health Care Outcomes Management
+            id: HCOMMPH
+          - name : Maternal and Child Health Epidemiology
+            id: MCHEPIMPH
+          - name : Management Science
+            id: MSMPH
+          - name : Prevention Science
+            id: PSMPH
+          - name : Applied Public Health Informatics
+            id: APHIMPH
+          - name : Behavioral Sciences and Health Education
+            id: BSHEMPH
+      Biostatistics and Bioinformatics:
+        programs:
+          - name : Biostatistics
+            id:
+              - BIOSMPH
+              - BIOSMSPH
+          - name : Public Health Informatics
+            id: INFOMSPH
+      Environmental Health:
+        programs:
+          - name : Environmental Health - MPH
+            id: EOHMPH
+          - name : Environmental Health Epidemiology - MPH & MSPH
+            id: EOHEPIMPH
+          - name : Global Environmental Health - MPH
+            id: EOHIHMPH
+      Epidemiology:
+        programs:
+          - name : Epidemiology
+            id:
+              - EPIMPH
+              - EPIMPSH
+          - name : Global Epidemiology
+            id:
+              - GLEPIMPH
+              - GLEPIMSPH
+          - name : Health Policy and Management
+            id:
+              - HPMMPH
+              - HPMMSPH
+          - name : Hubert Department of Global Health
+            id: IHMPH
+  Neil Hodgson Woodruff School of Nursing:
+    Divisions:
+      Nursing:
+        programs:
+          - name : Doctor of Nursing Practice
+            id:
+              - NRHSLD
+              - NRPOP
