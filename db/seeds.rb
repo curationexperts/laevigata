@@ -16,7 +16,6 @@ require 'workflow_setup'
 # re-create all AdminSets too
 AdminSet.destroy_all
 w = WorkflowSetup.new
-w.make_mediated_deposit_admin_set("School One")
-w.make_mediated_deposit_admin_set("School Two")
-w.make_mediated_deposit_admin_set("School Three")
-w.make_mediated_deposit_admin_set("School Four")
+w.schools.each do |school|
+  w.make_mediated_deposit_admin_set(school)
+end
