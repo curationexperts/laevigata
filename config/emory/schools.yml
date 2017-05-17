@@ -341,11 +341,11 @@ schools:
               - HPMMSPH
           - name : Hubert Department of Global Health
             id: IHMPH
-  Neil Hodgson Woodruff School of Nursing:
-    Divisions:
-      Nursing:
-        programs:
-          - name : Doctor of Nursing Practice
-            id:
-              - NRHSLD
-              - NRPOP
+  # Neil Hodgson Woodruff School of Nursing:
+  #   Divisions:
+  #     Nursing:
+  #       programs:
+  #         - name : Doctor of Nursing Practice
+  #           id:
+  #             - NRHSLD
+  #             - NRPOP
