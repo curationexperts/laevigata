@@ -7,5 +7,14 @@ module Hyrax
     self.terms += [:department]
     self.terms += [:school]
     self.terms += [:degree]
+    self.terms += [:partnering_agency]
+
+    def multiple?(field)
+	  if field.to_sym == :partnering_agency
+	    false
+	  else
+	    super
+	  end
+	end
   end
 end

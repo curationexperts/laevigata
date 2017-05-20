@@ -10,9 +10,10 @@ describe EtdPresenter do
   let(:degree) { ['Bachelor of Arts with Honors'] }
   let(:department) { ['Department of Russian and East Asian Languages and Cultures'] }
   let(:school) { ['Emory College of Arts and Sciences'] }
+  let(:partnering_agency) { ["Does not apply (no collaborating organization)"] }
   let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
   let :etd do
-    Etd.new(title: title, creator: creator, keyword: keyword, degree: degree, department: department, school: school, visibility: visibility)
+    Etd.new(title: title, creator: creator, keyword: keyword, degree: degree, department: department, school: school, partnering_agency: partnering_agency, visibility: visibility)
   end
 
   let(:ability) { Ability.new(user) }
@@ -26,4 +27,5 @@ describe EtdPresenter do
   it { is_expected.to delegate_method(:degree).to(:solr_document) }
   it { is_expected.to delegate_method(:department).to(:solr_document) }
   it { is_expected.to delegate_method(:school).to(:solr_document) }
+  it { is_expected.to delegate_method(:partnering_agency).to(:solr_document) }
 end

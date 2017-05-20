@@ -15,5 +15,6 @@ RSpec.describe Hyrax::EtdForm do
     its(:terms) { is_expected.to include(:department) }
     its(:terms) { is_expected.to include(:school) }
     its(:terms) { is_expected.to include(:degree) }
+    its(:terms) { is_expected.to include(:partnering_agency) }
   end
 end

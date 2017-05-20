@@ -54,6 +54,7 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name("degree", :facetable), label: "Degree", limit: 5
     config.add_facet_field solr_name("department", :facetable), label: "Department", limit: 5
     config.add_facet_field solr_name("school", :facetable), label: "School", limit: 5
+    config.add_facet_field solr_name("partnering_agency", :facetable), label: "Partnering Agency", limit: 5
     # The generic_type isn't displayed on the facet list
     # It's used to give a label to the filter that comes from the user profile
     config.add_facet_field solr_name("generic_type", :facetable), label: "Type", if: false
@@ -88,6 +89,7 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("degree", :stored_searchable), label: "Degree"
     config.add_index_field solr_name("department", :stored_searchable), label: "Department"
     config.add_index_field solr_name("school", :stored_searchable), label: "School"
+    config.add_index_field solr_name("partnering_agency", :stored_searchable), label: "Partnering Agency"
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
     config.add_show_field solr_name("title", :stored_searchable), label: "Title"
