@@ -51,4 +51,12 @@ RSpec.describe Etd do
       its(:school) { is_expected.to eq([school]) }
     end
   end
+
+  # An ETD should always have a hidden metadata field saying that the degree_granting_institution is Emory
+  describe "#degree_granting_institution" do
+    subject { described_class.new }
+    context "with a new ETD" do
+      its(:degree_granting_institution) { is_expected.to eq "http://id.loc.gov/vocabulary/organizations/geu" }
+    end
+  end
 end
