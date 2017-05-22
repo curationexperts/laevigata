@@ -2,16 +2,26 @@ require 'rails_helper'
 
 RSpec.describe FileSet do
   describe 'primary' do
-    subject { described_class.new }
-
     context 'with a new FileSet' do
+      subject { described_class.new }
+
       its(:primary) { is_expected.to be_nil }
       its(:primary?) { is_expected.to be false }
       its(:supplementary?) { is_expected.to be true }
     end
 
-    context 'with a FileSet marked primary' do
-      # TODO
+    context 'when updated, but not as primary' do
+      subject { described_class.create(primary: 'garbage') }
+
+      its(:primary) { is_expected.to eq 'http://pcdm.org/use#supplementary' }
+      its(:primary?) { is_expected.to be false }
+      its(:supplementary?) { is_expected.to be true }
+    end
+
+    context 'when updated as primary' do
+      subject { described_class.create(primary: 'http://pcdm.org/use#primary') }
+
+      its(:primary) { is_expected.to eq 'http://pcdm.org/use#primary' }
       its(:primary?) { is_expected.to be true }
       its(:supplementary?) { is_expected.to be false }
     end
