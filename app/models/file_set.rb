@@ -9,6 +9,10 @@ class FileSet < ActiveFedora::Base
     index.as :facetable
   end
 
+  property :supplementary, predicate: 'http://pcdm.org/use#supplementary' do |index|
+    index.as :facetable
+  end
+
   validate :primary_should_match_vocabulary
 
   def primary_should_match_vocabulary

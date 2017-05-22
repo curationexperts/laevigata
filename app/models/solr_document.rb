@@ -37,6 +37,10 @@ class SolrDocument
     self[Solrizer.solr_name('school')]
   end
 
+  def supplementary
+    self[Solrizer.solr_name('supplementary')]
+  end
+
   def partnering_agency
     self[Solrizer.solr_name('partnering_agency')]
   end
