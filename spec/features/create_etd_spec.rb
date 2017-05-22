@@ -14,6 +14,10 @@ RSpec.feature 'Create a Etd' do
       visit(root_url)
       click_link("Share Your Work")
       expect(current_url).to start_with new_hyrax_etd_url
+      expect(page).to have_css('input#etd_title.required')
+      expect(page).not_to have_css('input#etd_title.multi_value')
+      expect(page).to have_css('input#etd_creator.required')
+      expect(page).not_to have_css('input#etd_creator.multi_value')
       fill_in 'Title', with: 'China and its Minority Population'
       fill_in 'Creator', with: 'Eun, Dongwon'
       fill_in 'Keyword', with: 'China'
