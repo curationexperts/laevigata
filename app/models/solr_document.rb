@@ -36,4 +36,8 @@ class SolrDocument
   def school
     self[Solrizer.solr_name('school')]
   end
+
+  def supplementary
+    self[Solrizer.solr_name('supplementary')]
+  end
 end
