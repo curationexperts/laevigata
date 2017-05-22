@@ -10,11 +10,11 @@ module Hyrax
     self.terms += [:partnering_agency]
 
     def multiple?(field)
-	  if field.to_sym == :partnering_agency
-	    false
-	  else
-	    super
-	  end
-	end
+      if field.to_sym == :partnering_agency
+        false
+      else
+        super
+      end
+    end
   end
 end

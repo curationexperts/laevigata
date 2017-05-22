@@ -19,5 +19,4 @@ class Etd < ActiveFedora::Base
   property :partnering_agency, predicate: "http://id.loc.gov/vocabulary/relators/ctb" do |index|
     index.as :stored_searchable, :facetable
   end
-
 end
