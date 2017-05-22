@@ -39,6 +39,7 @@ class SolrDocument
 
   def supplementary
     self[Solrizer.solr_name('supplementary')]
+  end
 
   def primary
     self[Solrizer.solr_name('primary')]

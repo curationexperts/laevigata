@@ -37,17 +37,17 @@ RSpec.describe FileSet do
     end
 
     context 'when created, but not as supplementary' do
-      subject { described_class.create(supplementary: 'http://pcdm.org/use#primary') }
+      subject { described_class.create(primary: 'http://pcdm.org/use#primary') }
 
-      its(:primaty) { is_expected.to eq 'http://pcdm.org/use#primary' }
+      its(:primary) { is_expected.to eq 'http://pcdm.org/use#primary' }
       its(:primary?) { is_expected.to be true }
       its(:supplementary?) { is_expected.to be false }
     end
 
     context 'when created as supplementary' do
-      subject { described_class.create(supplementary: 'http://pcdm.org/use#supplementary') }
+      subject { described_class.create(supplementary: ['http://pcdm.org/use#supplementary']) }
 
-      its(:supplementary) { is_expected.to eq 'http://pcdm.org/use#supplementary' }
+      its(:supplementary) { is_expected.to eq ['http://pcdm.org/use#supplementary'] }
       its(:supplementary?) { is_expected.to be true }
       its(:primary?) { is_expected.to be false }
     end
