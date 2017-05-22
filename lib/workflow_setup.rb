@@ -1,8 +1,10 @@
 # Set up the AdminSets and Workflow for Laevigata
 require File.expand_path('../../config/environment', __FILE__)
+require 'yaml'
 
 class WorkflowSetup
   attr_reader :uberadmin
+  SCHOOLS_CONFIG = "#{::Rails.root}/config/emory/schools.yml".freeze
 
   # Demo setup: Fake values hard coded just to get something working
   # Make an AdminSet and assign it a one step mediated deposit workflow
@@ -89,5 +91,12 @@ class WorkflowSetup
       permission_template: admin_set.permission_template,
       workflow_id: osmd.id
     )
+  end
+
+  # Return an array of schools that should be set up for the initial workflow
+  # @return [Array(String)]
+  def schools
+    config = YAML.safe_load(File.read(SCHOOLS_CONFIG))
+    config["schools"].keys
   end
 end

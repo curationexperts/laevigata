@@ -67,4 +67,8 @@ RSpec.describe WorkflowSetup do
     expect(w.depositing_role).to be_instance_of(Sipity::Role)
     expect(w.approving_role).to be_instance_of(Sipity::Role)
   end
+  it "has an array of all the schools" do
+    expect(w.schools.include?("Laney Graduate School")).to eq true
+    expect(w.schools.count).to eq 4
+  end
 end
