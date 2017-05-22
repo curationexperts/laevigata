@@ -8,6 +8,7 @@ module Hyrax
     self.terms += [:department]
     self.terms += [:school]
     self.terms += [:degree]
+    self.terms += [:partnering_agency]
     self.single_valued_fields = [:title, :creator]
   end
 end

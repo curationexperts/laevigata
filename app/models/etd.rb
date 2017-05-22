@@ -16,4 +16,7 @@ class Etd < ActiveFedora::Base
   property :degree, predicate: "http://vivoweb.org/ontology/core#AcademicDegree" do |index|
     index.as :stored_searchable, :facetable
   end
+  property :partnering_agency, predicate: "http://id.loc.gov/vocabulary/relators/ctb" do |index|
+    index.as :stored_searchable
+  end
 end
