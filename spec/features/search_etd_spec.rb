@@ -33,8 +33,6 @@ RSpec.feature 'Search for an ETD' do
       expect(page).to have_link(etd.department.first, class: "facet_select")
       expect(page).to have_xpath("//h3", text: "School")
       expect(page).to have_link(etd.school.first, class: "facet_select")
-      expect(page).to have_xpath("//h3", text: "Partnering Agency")
-      expect(page).to have_link(etd.partnering_agency.first, class: "facet_select")
     end
   end
 end
