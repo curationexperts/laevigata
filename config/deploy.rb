@@ -19,9 +19,19 @@ SSHKit.config.command_map[:rake] = 'bundle exec rake'
 # Default branch is :master
 set :branch, ENV['REVISION'] || ENV['BRANCH_NAME'] || 'master'
 
-append :linked_dirs, "tmp/pids", "tmp/cache", "tmp/sockets", "public/assets"
+append :linked_dirs, "tmp/pids"
+append :linked_dirs, "tmp/cache"
+append :linked_dirs, "tmp/sockets"
+append :linked_dirs, "public/assets"
 
-append :linked_files, "config/blacklight.yml", "config/database.yml", "config/fedora.yml", "config/redis.yml", "config/resque-pool.yml", "config/role_map.yml", "config/secrets.yml", "config/solr.yml"
+append :linked_files, "config/blacklight.yml"
+append :linked_files, "config/browse_everything_providers.yml"
+append :linked_files, "config/database.yml"
+append :linked_files, "config/fedora.yml"
+append :linked_files, "config/redis.yml"
+append :linked_files, "config/resque-pool.yml"
+append :linked_files, "config/secrets.yml"
+append :linked_files, "config/solr.yml"
 
 # restart resque-pool
 require 'resque'
