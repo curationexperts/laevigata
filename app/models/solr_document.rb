@@ -43,7 +43,6 @@ class SolrDocument
 
   def partnering_agency
     self[Solrizer.solr_name('partnering_agency')]
-
   end
 
   def primary
