@@ -16,7 +16,11 @@ class FileSet < ActiveFedora::Base
   validate :primary_should_match_vocabulary
 
   def primary_should_match_vocabulary
-    self.primary = SUPPLEMENTARY unless primary == PRIMARY
+    self.primary = if primary == PRIMARY || primary == true
+                     PRIMARY
+                   else
+                     SUPPLEMENTARY
+                   end
   end
 
   def primary?

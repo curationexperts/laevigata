@@ -18,8 +18,16 @@ RSpec.describe FileSet do
       its(:supplementary?) { is_expected.to be true }
     end
 
-    context 'when updated as primary' do
+    context 'when updated as primary via string' do
       subject { described_class.create(primary: 'http://pcdm.org/use#primary') }
+
+      its(:primary) { is_expected.to eq 'http://pcdm.org/use#primary' }
+      its(:primary?) { is_expected.to be true }
+      its(:supplementary?) { is_expected.to be false }
+    end
+
+    context 'when updated as primary via boolean' do
+      subject { described_class.create(primary: true) }
 
       its(:primary) { is_expected.to eq 'http://pcdm.org/use#primary' }
       its(:primary?) { is_expected.to be true }
