@@ -1,0 +1,5 @@
+<%= f.input :partnering_agency, as: :select,
+    collection: PartnersService.select_all_options,
+    include_blank: true,
+    input_html: { class: 'form-control' }
+%>

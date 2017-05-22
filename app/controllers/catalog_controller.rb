@@ -88,6 +88,7 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("degree", :stored_searchable), label: "Degree"
     config.add_index_field solr_name("department", :stored_searchable), label: "Department"
     config.add_index_field solr_name("school", :stored_searchable), label: "School"
+    config.add_index_field solr_name("partnering_agency", :stored_searchable), label: "Partnering Agency"
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
     config.add_show_field solr_name("title", :stored_searchable), label: "Title"

@@ -19,6 +19,22 @@ RSpec.describe Etd do
     end
   end
 
+  describe "#partnering_agency" do
+    subject { described_class.new }
+    let(:partnering_agency) { ["Does not apply (no collaborating organization)"] }
+    context "with a new ETD" do
+      its(:partnering_agency) { is_expected.to be_empty }
+    end
+    context "with an existing ETD that has a degree defined" do
+      subject do
+        described_class.create.tap do |etd|
+          etd.partnering_agency = partnering_agency
+        end
+      end
+      its(:partnering_agency) { is_expected.to eq(partnering_agency) }
+    end
+  end
+
   describe "#department" do
     subject { described_class.new }
     context "with a new ETD" do
