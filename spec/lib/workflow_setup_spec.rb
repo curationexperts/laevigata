@@ -78,9 +78,43 @@ RSpec.describe WorkflowSetup do
     expect(w.depositing_role).to be_instance_of(Sipity::Role)
     expect(w.approving_role).to be_instance_of(Sipity::Role)
   end
-  it "has an array of all the schools" do
-    expect(w.schools.include?("Laney Graduate School")).to eq true
-    expect(w.schools.count).to eq 4
+
+  context "schools config" do
+    it "has an array of all the schools" do
+      expect(w.schools.include?("Laney Graduate School")).to eq true
+      expect(w.schools.count).to eq 4
+    end
+    it "has config files for each school" do
+      expect(w.school_config(w.schools.first)).to be_instance_of Hash
+    end
+    it "raises an error if it can't find an expected config file" do
+      expect { w.school_config("foobar") }.to raise_error(RuntimeError, /Couldn't find expected config/)
+    end
+    context "school specific configs" do
+      it "loads approvers from a file" do
+        ActiveFedora::Cleaner.clean!
+        w.config_file_dir = "#{fixture_path}/config/emory/"
+        w.load_superusers
+        admin_set = w.make_admin_set_from_config("Fake School")
+        workflow = admin_set.permission_template.available_workflows.where(active: true).first
+        expect(workflow.name).to eq "one_step_mediated_deposit"
+        approving_role = Sipity::Role.where(name: "approving").first
+        wf_role = Sipity::WorkflowRole.find_by(workflow: workflow, role_id: approving_role)
+        approving_agents = wf_role.workflow_responsibilities.pluck(:agent_id)
+        expect(approving_agents.count).to eq 5 # 1 uberadmin + 4 approvers from the file
+      end
+    end
+  end
+  context "already existing participants" do
+    it "knows what users are enrolled in a given role for a given admin_set" do
+      ActiveFedora::Cleaner.clean!
+      w.load_superusers
+      admin_set = w.make_mediated_deposit_admin_set("Yellow Submarine")
+      yellow_submarine_approvers = w.users_in_role(admin_set, "approving")
+      expect(yellow_submarine_approvers.count).to eq 1
+      expect(yellow_submarine_approvers).to be_instance_of Array
+      expect(yellow_submarine_approvers.first).to be_instance_of Sipity::Agent
+    end
   end
   it "gives superusers superpowers" do
     ActiveFedora::Cleaner.clean!
