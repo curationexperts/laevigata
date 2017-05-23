@@ -33,7 +33,7 @@ RSpec.feature 'Create a Etd' do
       attach_file('files[]', "#{fixture_path}/emory_7tjfb-FILE")
       click_on('Save')
       expect(page).to have_content 'Your files are being processed'
-      expect(page).to have_content 'deposited'
+      expect(page).to have_content 'Deposited'
       expect(page).to have_content 'China and its Minority Population'
     end
   end
