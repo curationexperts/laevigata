@@ -7,6 +7,7 @@ FactoryGirl.define do
     department ['Department of Russian and East Asian Languages and Cultures']
     school ['Emory College of Arts and Sciences']
     partnering_agency ["Does not apply (no collaborating organization)"]
+    submitting_type ["Honors Thesis"]
     visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
   end
 end

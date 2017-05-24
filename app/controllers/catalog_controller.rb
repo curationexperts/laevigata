@@ -89,6 +89,8 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("department", :stored_searchable), label: "Department"
     config.add_index_field solr_name("school", :stored_searchable), label: "School"
     config.add_index_field solr_name("partnering_agency", :stored_searchable), label: "Partnering Agency"
+    config.add_index_field solr_name("submitting_type", :stored_searchable), label: "I am submitting"
+
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
     config.add_show_field solr_name("title", :stored_searchable), label: "Title"
@@ -111,6 +113,7 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name("department", :stored_searchable), label: "Department"
     config.add_show_field solr_name("school", :stored_searchable), label: "School"
     config.add_show_field solr_name("partnering_agency", :stored_searchable), label: "Partnering Agency"
+    config.add_show_field solr_name("submitting_type", :stored_searchable), label: "I am submitting"
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
     #

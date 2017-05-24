@@ -20,6 +20,7 @@ RSpec.feature 'Display an ETD' do
       expect(page).to have_content etd.department.first
       expect(page).to have_content etd.school.first
       expect(page).to have_content etd.partnering_agency.first
+      expect(page).to have_content etd.submitting_type.first
     end
   end
 end

@@ -30,4 +30,7 @@ class Etd < ActiveFedora::Base
   property :partnering_agency, predicate: "http://id.loc.gov/vocabulary/relators/ctb" do |index|
     index.as :stored_searchable
   end
+  property :submitting_type, predicate: "http://www.europeana.eu/schemas/edm/hasType" do |index|
+    index.as :stored_searchable
+  end
 end

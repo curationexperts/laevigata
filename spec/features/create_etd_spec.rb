@@ -41,6 +41,7 @@ RSpec.feature 'Create a Etd' do
       fill_in "Degree", with: "Bachelor of Arts with Honors"
       select('All rights reserved', from: 'Rights')
       select('CDC', from: 'Partnering agency')
+      select("Honors Thesis", from: "I am submitting")
       choose('open')
       check('agreement')
       click_on('My PDF')
