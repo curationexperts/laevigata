@@ -5,10 +5,12 @@ require 'yaml'
 class WorkflowSetup
   attr_reader :uberadmin
   attr_accessor :superusers_config
+  attr_accessor :config_file_dir
   SCHOOLS_CONFIG = "#{::Rails.root}/config/emory/schools.yml".freeze
 
   def initialize
     @superusers_config = "#{::Rails.root}/config/emory/superusers.yml"
+    @config_file_dir = "#{::Rails.root}/config/emory/"
   end
 
   # Load the superusers
@@ -18,7 +20,7 @@ class WorkflowSetup
   def setup
     load_superusers
     schools.each do |school|
-      make_mediated_deposit_admin_set(school)
+      make_admin_set_from_config(school)
     end
     everyone_can_deposit_everywhere
     give_superusers_superpowers
@@ -28,6 +30,44 @@ class WorkflowSetup
   def make_mediated_deposit_admin_set(admin_set_title)
     a = make_admin_set(admin_set_title)
     activate_mediated_deposit(a)
+  end
+
+  # Given an admin set and a role, return relevant Array of Sipity::Users for the
+  # currently active workflow
+  # @param [AdminSet] admin_set
+  # @param [String|Sipity::Role] role e.g., "approving" "depositing" "managing"
+  def users_in_role(admin_set, role)
+    users_in_role = []
+    sipity_role = if role.is_a?(Sipity::Role)
+                    role
+                  else
+                    Sipity::Role.find_by_name!(role)
+                  end
+    workflow = admin_set.permission_template.available_workflows.where(active: true).first
+    wf_role = Sipity::WorkflowRole.find_by(workflow: workflow, role_id: sipity_role)
+    wf_role.workflow_responsibilities.pluck(:agent_id).each do |agent_id|
+      users_in_role << Sipity::Agent.where(id: agent_id).first
+    end
+    users_in_role
+  end
+
+  # Read a config file to figure out what workflow to enable and how to grant approving_role
+  # @param [String] admin_set_title
+  # @return [AdminSet]
+  def make_admin_set_from_config(admin_set_title)
+    config = school_config(admin_set_title)
+    admin_set = make_mediated_deposit_admin_set(admin_set_title)
+    approving_users = []
+    config["approvers"].each do |approver_email|
+      u = ::User.find_or_create_by(email: approver_email)
+      u.password = "123456"
+      u.save
+      approving_users << u.to_sipity_agent
+    end
+    approval_role = Sipity::Role.find_by_name!('approving')
+    workflow = admin_set.permission_template.available_workflows.where(active: true).first
+    workflow.update_responsibilities(role: approval_role, agents: (approving_users.concat users_in_role(admin_set, "approving")))
+    admin_set
   end
 
   # Create the admin role, or find it if it exists already
@@ -83,7 +123,7 @@ class WorkflowSetup
     AdminSet.all.each do |admin_set|
       admin_set.permission_template.available_workflows.each do |workflow| # .where(active: true) ?
         Sipity::Role.all.each do |role|
-          workflow.update_responsibilities(role: role, agents: superusers_as_sipity_agents)
+          workflow.update_responsibilities(role: role, agents: (superusers_as_sipity_agents.concat users_in_role(admin_set, role)))
         end
       end
     end
@@ -138,5 +178,14 @@ class WorkflowSetup
   def schools
     config = YAML.safe_load(File.read(SCHOOLS_CONFIG))
     config["schools"].keys
+  end
+
+  # Given the name of a school, read its config file into a Hash
+  # @param [String] the name of a school
+  # @return [Hash] a Hash containing approvers and depositors for this school
+  def school_config(school_name)
+    YAML.safe_load(File.read("#{@config_file_dir}#{school_name.downcase.tr(' ', '_')}.yml"))
+  rescue
+    raise "Couldn't find expected config #{@config_file_dir}#{school_name.downcase.tr(' ', '_')}.yml"
   end
 end
