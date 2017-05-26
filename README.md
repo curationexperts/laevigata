@@ -42,10 +42,12 @@ or cherokee rose is the <a href="https://georgia.gov/georgia-facts-and-symbols">
 ## User and workflow setup
 
 Each Emory school has its own AdminSet, which determines the approval process for that
-school, and who can approve deposited ETDs. Running `bin/setup` will create an AdminSet for each school in the schools.yml file, load the appropriate workflow, and set permissions such that any registered user can deposit.
+school, and who can approve deposited ETDs. Running `rake db:seed` will create an AdminSet for each school in the schools.yml file, load the appropriate workflow, and set permissions such that any registered user can deposit. `rake db:seed` should be idempotent -- you can run it over and over again safely.
 
 A "superuser" can manage all admin_sets, edit all ETDs, and approve submissions
-everywhere. To create a new superuser, add the user's email address to the `config/emory/superusers.yml` file. Then run `bin/setup` to reload the config. Until we get real authentication running, the password for all superusers is `123456`
+everywhere. To create a new superuser, add the user's email address to the `config/emory/superusers.yml` file. Then run `rake db:seed` to reload the config. Until we get real authentication running, the password for all superusers is `123456`
+
+Note: Do *not* run `bin/setup` except the very first time you setup the application, or if you need to wipe out everything in your development instance. It will wipe your database but leave your AdminSets in place, making a huge mess that you can't easily recover from.
 
 # README
 
