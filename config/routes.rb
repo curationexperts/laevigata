@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   end
 
   devise_for :users
+  mount BrowseEverything::Engine => '/browse'
   mount ResqueWeb::Engine => '/resque'
   mount Hydra::RoleManagement::Engine => '/'
   mount Qa::Engine => '/authorities'
