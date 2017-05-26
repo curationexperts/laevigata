@@ -11,6 +11,8 @@ class WorkflowSetup
   def initialize
     @superusers_config = "#{::Rails.root}/config/emory/superusers.yml"
     @config_file_dir = "#{::Rails.root}/config/emory/"
+    @logger = Logger.new(STDOUT)
+    @logger.level = Logger::DEBUG
   end
 
   # Load the superusers
@@ -20,6 +22,7 @@ class WorkflowSetup
   def setup
     load_superusers
     schools.each do |school|
+      @logger.debug "Attempting to make admin set for #{school}"
       make_admin_set_from_config(school)
     end
     everyone_can_deposit_everywhere
@@ -30,6 +33,7 @@ class WorkflowSetup
   def make_mediated_deposit_admin_set(admin_set_title)
     a = make_admin_set(admin_set_title)
     activate_mediated_deposit(a)
+    a
   end
 
   # Given an admin set and a role, return relevant Array of Sipity::Users for the
@@ -37,6 +41,7 @@ class WorkflowSetup
   # @param [AdminSet] admin_set
   # @param [String|Sipity::Role] role e.g., "approving" "depositing" "managing"
   def users_in_role(admin_set, role)
+    return [] unless admin_set.permission_template.available_workflows.where(active: true).count > 0
     users_in_role = []
     sipity_role = if role.is_a?(Sipity::Role)
                     role
@@ -45,6 +50,7 @@ class WorkflowSetup
                   end
     workflow = admin_set.permission_template.available_workflows.where(active: true).first
     wf_role = Sipity::WorkflowRole.find_by(workflow: workflow, role_id: sipity_role)
+    return [] unless wf_role
     wf_role.workflow_responsibilities.pluck(:agent_id).each do |agent_id|
       users_in_role << Sipity::Agent.where(id: agent_id).first
     end
@@ -119,6 +125,7 @@ class WorkflowSetup
 
   # Give all superusers power in all roles in all workflows
   def give_superusers_superpowers
+    @logger.info "Giving superuser powers to #{superusers.pluck(:email)}"
     superusers_as_sipity_agents = superusers.map(&:to_sipity_agent)
     AdminSet.all.each do |admin_set|
       admin_set.permission_template.available_workflows.each do |workflow| # .where(active: true) ?
@@ -140,7 +147,11 @@ class WorkflowSetup
   # Make an AdminSet with the given title, belonging to the uberadmin
   # @return [AdminSet] the admin set that was just created, or the one that existed already
   def make_admin_set(admin_set_title)
-    return AdminSet.where(title: admin_set_title).first unless AdminSet.where(title: admin_set_title).empty?
+    if AdminSet.where(title: admin_set_title).count > 0
+      @logger.debug "AdminSet #{admin_set_title} already exists."
+      load_workflows # Load workflows even if the AdminSet exists already, in case new workflows have appeared
+      return AdminSet.where(title: admin_set_title).first
+    end
     a = AdminSet.new
     a.title = [admin_set_title]
     a.save
@@ -156,21 +167,26 @@ class WorkflowSetup
   # the permission templates didn't get wiped from the database somehow
   def load_workflows
     raise "Can't load workflows without a Permission Template. Do you need to make an AdminSet first?" if Hyrax::PermissionTemplate.all.empty?
-    logger = Logger.new(STDOUT)
-    logger.level = Logger::DEBUG
-    Hyrax::Workflow::WorkflowImporter.load_workflows(logger: logger)
+    Hyrax::Workflow::WorkflowImporter.load_workflows(logger: @logger)
     errors = Hyrax::Workflow::WorkflowImporter.load_errors
     abort("Failed to process all workflows:\n  #{errors.join('\n  ')}") unless errors.empty?
   end
 
-  # Activate the one_step_mediated_deposit workflow for the given admin_set
+  # Activate the one_step_mediated_deposit workflow for the given admin_set.
+  # The activate! method will DEactivate it if it was already active, so be careful.
   # @return [Boolean] true if successful
   def activate_mediated_deposit(admin_set)
     osmd = admin_set.permission_template.available_workflows.where(name: "one_step_mediated_deposit").first
+    if osmd.active == true
+      @logger.debug "AdminSet #{admin_set.title.first} already had workflow #{admin_set.permission_template.available_workflows.where(active: true).first.name}. Not making any changes."
+      return true
+    end
     Sipity::Workflow.activate!(
       permission_template: admin_set.permission_template,
       workflow_id: osmd.id
     )
+    @logger.debug "AdminSet #{admin_set.title.first} has workflow #{admin_set.permission_template.available_workflows.where(active: true).first.name}"
+    true
   end
 
   # Return an array of schools that should be set up for the initial workflow
