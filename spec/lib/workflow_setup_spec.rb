@@ -40,12 +40,14 @@ RSpec.describe WorkflowSetup do
     expect(w.make_admin_set(admin_set_title)).to be_instance_of AdminSet
     expect(AdminSet.where(title: admin_set_title).count).to eq 1
   end
-  it "won't make a second admin set with the same title" do
+  it "won't make a second admin set with the same title, it will just return the one that exists already" do
     AdminSet.where(title: admin_set_title).each(&:destroy)
-    w.make_superuser(superuser_email)
-    w.make_admin_set(admin_set_title)
+    w.load_superusers
+    a = w.make_admin_set(admin_set_title)
+    expect(a).to be_instance_of AdminSet
     expect(AdminSet.where(title: admin_set_title).count).to eq 1
-    w.make_admin_set(admin_set_title)
+    b = w.make_admin_set(admin_set_title)
+    expect(b).to be_instance_of AdminSet
     expect(AdminSet.where(title: admin_set_title).count).to eq 1
   end
   it "throws an error if it tries to load workflow without an admin set" do
@@ -63,10 +65,10 @@ RSpec.describe WorkflowSetup do
   it "makes a mediated deposit admin set" do
     new_title = "A Different Title"
     w.make_superuser(superuser_email)
-    w.make_mediated_deposit_admin_set(new_title)
+    admin_set = w.make_mediated_deposit_admin_set(new_title)
+    expect(admin_set).to be_instance_of AdminSet
     expect(AdminSet.where(title: new_title).count).to eq 1
-    a = AdminSet.where(title: new_title).first
-    expect(a.active_workflow.name).to eq "one_step_mediated_deposit"
+    expect(admin_set.active_workflow.name).to eq "one_step_mediated_deposit"
   end
   it "makes a mediated deposit admin set and enrolls participants" do
     skip "Save this for later... Jeremy has given us some clues but we aren't there yet"
