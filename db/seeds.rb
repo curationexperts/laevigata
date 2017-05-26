@@ -7,13 +7,11 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 puts
-puts "== Removing any existing AdminSets  =="
 puts "== Creating AdminSets and importing workflow =="
 puts
 
 require 'workflow_setup'
 # Our database has just been reset, so you MUST destroy and
 # re-create all AdminSets too
-AdminSet.destroy_all
 w = WorkflowSetup.new
 w.setup
