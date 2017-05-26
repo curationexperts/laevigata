@@ -1,5 +1,6 @@
-<%= f.input :partnering_agency, as: :select,
-    collection: PartnersService.select_all_options,
+<% partnering_service = Hyrax::PartnersService.new %>
+<%= f.input :partnering_agency, as: :multi_value_select,
+    collection: partnering_service.select_all_options,
     include_blank: true,
-    input_html: { class: 'form-control' }
-%>
+    item_helper: partnering_service.method(:include_current_value),
+    input_html: { class: 'form-control' } %>

@@ -27,6 +27,7 @@ RSpec.feature 'Create a Etd' do
       fill_in "School", with: "Emory College of Arts and Sciences"
       fill_in "Degree", with: "Bachelor of Arts with Honors"
       select('All rights reserved', from: 'Rights')
+      select('CDC', from: 'Partnering agency')
       choose('open')
       check('agreement')
       click_on('Files')
