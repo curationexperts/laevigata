@@ -39,6 +39,14 @@ or cherokee rose is the <a href="https://georgia.gov/georgia-facts-and-symbols">
 1. Run the test suite  
     `bin/rails ci`
 
+## User and workflow setup
+
+Each Emory school has its own AdminSet, which determines the approval process for that
+school, and who can approve deposited ETDs. Running `bin/setup` will create an AdminSet for each school in the schools.yml file, load the appropriate workflow, and set permissions such that any registered user can deposit.
+
+A "superuser" can manage all admin_sets, edit all ETDs, and approve submissions
+everywhere. To create a new superuser, add the user's email address to the `config/emory/superusers.yml` file. Then run `bin/setup` to reload the config. Until we get real authentication running, the password for all superusers is `123456`
+
 # README
 
 This README would normally document whatever steps are necessary to get the

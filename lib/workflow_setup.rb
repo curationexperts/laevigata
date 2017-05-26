@@ -4,12 +4,28 @@ require 'yaml'
 
 class WorkflowSetup
   attr_reader :uberadmin
+  attr_accessor :superusers_config
   SCHOOLS_CONFIG = "#{::Rails.root}/config/emory/schools.yml".freeze
 
-  # Demo setup: Fake values hard coded just to get something working
+  def initialize
+    @superusers_config = "#{::Rails.root}/config/emory/superusers.yml"
+  end
+
+  # Load the superusers
+  # Make an AdminSet for each school, with the proper workflow
+  # Allow any registered user to deposit into any of the AdminSets
+  # Give superusers every available role in all workflows in all AdminSets
+  def setup
+    load_superusers
+    schools.each do |school|
+      make_mediated_deposit_admin_set(school)
+    end
+    everyone_can_deposit_everywhere
+    give_superusers_superpowers
+  end
+
   # Make an AdminSet and assign it a one step mediated deposit workflow
   def make_mediated_deposit_admin_set(admin_set_title)
-    make_uberadmin("uberadmin@localhost.com")
     a = make_admin_set(admin_set_title)
     activate_mediated_deposit(a)
   end
@@ -20,41 +36,65 @@ class WorkflowSetup
     Role.find_or_create_by(name: "admin")
   end
 
-  # The Sipity::Role used to allow a user to deposit in a workflow
-  # @return [Sipity::Role]
-  def depositing_role
-    raise "Expected Sipity::Role 'depositing' not found: Do you need to load workflows?" unless Sipity::Role.where(name: "depositing").first
-    Sipity::Role.where(name: "depositing").first
-  end
-
-  # The Sipity::Role used to allow a user to approve in a workflow
-  # @return [Sipity::Role]
-  def approving_role
-    raise "Expected Sipity::Role 'approving' not found: Do you need to load workflows?" unless Sipity::Role.where(name: "approving").first
-    Sipity::Role.where(name: "approving").first
-  end
-
-  # Make an uber admin account. The first uberadmin will own all the admin sets
-  # @param [String] uberadmin_email The email to use for the uberadmin account
-  # @return [User] the uberadmin user
-  def make_uberadmin(uberadmin_email)
-    admin_user = ::User.find_or_create_by(email: uberadmin_email)
-    # TODO: How will the uberadmin authenticate? This needs re-writing to work with shibboleth
+  # Make a superuser
+  # @param [String] the email of the superuser
+  # @return [User] the superuser who was just created
+  def make_superuser(email)
+    admin_user = ::User.find_or_create_by(email: email)
     admin_user.password = "123456"
     admin_user.save
-    admin_role.users = []
     admin_role.users << admin_user
     admin_role.save
-    @uberadmin = admin_user
-    @uberadmin
+    admin_user
+  end
+
+  # return an array of all current superusers
+  # @return [Array(User)]
+  def superusers
+    raise "No superusers are defined" unless admin_role.users.count > 0
+    admin_role.users
+  end
+
+  # Load the superusers from a config file
+  def load_superusers
+    admin_role.users = [] # Remove all the admin users every time you reload
+    admin_role.save
+    raise "File #{@superusers_config} does not exist" unless File.exist?(@superusers_config)
+    config = YAML.safe_load(File.read(@superusers_config))
+    config["superusers"].each do |s|
+      make_superuser(s)
+    end
+  end
+
+  # Allow anyone with a registered account to deposit into any of the AdminSets
+  def everyone_can_deposit_everywhere
+    AdminSet.all.each do |admin_set|
+      admin_set.permission_template.access_grants.create(agent_type: 'group', agent_id: 'registered', access: 'deposit')
+      deposit = Sipity::Role.find_by_name!('depositing')
+      admin_set.permission_template.available_workflows.each do |workflow|
+        workflow.update_responsibilities(role: deposit, agents: Hyrax::Group.new('registered'))
+      end
+    end
+  end
+
+  # Give all superusers power in all roles in all workflows
+  def give_superusers_superpowers
+    superusers_as_sipity_agents = superusers.map(&:to_sipity_agent)
+    AdminSet.all.each do |admin_set|
+      admin_set.permission_template.available_workflows.each do |workflow| # .where(active: true) ?
+        Sipity::Role.all.each do |role|
+          workflow.update_responsibilities(role: role, agents: superusers_as_sipity_agents)
+        end
+      end
+    end
   end
 
   # Check to see if there is an uberadmin defined. If there isn't, throw an
-  # exception. If there is, return that user.
+  # exception. If there is, return that user. The uberadmin is the first superuser.
   # @return [User] the uberadmin user
   def uberadmin
     raise "Uberadmin not defined: Cannot create AdminSets" if admin_role.users.empty?
-    admin_role.users.first
+    superusers.first
   end
 
   # Make an AdminSet with the given title, belonging to the uberadmin
