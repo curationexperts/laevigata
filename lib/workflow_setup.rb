@@ -70,7 +70,7 @@ class WorkflowSetup
   def everyone_can_deposit_everywhere
     AdminSet.all.each do |admin_set|
       admin_set.permission_template.access_grants.create(agent_type: 'group', agent_id: 'registered', access: 'deposit')
-      deposit = Sipity::Role.find_by_name!('depositing')
+      deposit = Sipity::Role.find_by!(name: 'depositing')
       admin_set.permission_template.available_workflows.each do |workflow|
         workflow.update_responsibilities(role: deposit, agents: Hyrax::Group.new('registered'))
       end
