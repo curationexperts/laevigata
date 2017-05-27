@@ -2,17 +2,28 @@
 require File.expand_path('../../config/environment', __FILE__)
 require 'yaml'
 
+# Set up the application's initial state: load required roles, create required AdminSets, load appropriate users and workflows
 class WorkflowSetup
   attr_reader :uberadmin
   attr_accessor :superusers_config
   attr_accessor :config_file_dir
-  SCHOOLS_CONFIG = "#{::Rails.root}/config/emory/schools.yml".freeze
+  DEFAULT_SUPERUSERS_CONFIG = "#{::Rails.root}/config/emory/superusers.yml".freeze
+  DEFAULT_CONFIG_FILE_DIR = "#{::Rails.root}/config/emory/".freeze
+  DEFAULT_SCHOOLS_CONFIG = "#{::Rails.root}/config/emory/schools.yml".freeze
 
-  def initialize
-    @superusers_config = "#{::Rails.root}/config/emory/superusers.yml"
-    @config_file_dir = "#{::Rails.root}/config/emory/"
-    @logger = Logger.new(STDOUT)
+  # Set up the parameters for
+  # @param [String] superusers_config a file containing the email addresses of the application's superusers
+  # @param [String] config_file_dir the directory where the config files reside
+  # @param [String] schools_config
+  # @param [String] log_location where should the log files write? Default is STDOUT. /dev/null is also an option for CI builds
+  def initialize(superusers_config = DEFAULT_SUPERUSERS_CONFIG, config_file_dir = DEFAULT_CONFIG_FILE_DIR, schools_config = DEFAULT_SCHOOLS_CONFIG, log_location = STDOUT)
+    @superusers_config = superusers_config
+    @config_file_dir = config_file_dir
+    @schools_config = schools_config
+    @logger = Logger.new(log_location)
     @logger.level = Logger::DEBUG
+    @logger.info "Initializing new workflow setup with superusers file #{@superusers_config} and config files from #{@config_file_dir}"
+    Hyrax::RoleRegistry.new.persist_registered_roles! # Ensure we have a managing and a depositing role
   end
 
   # Load the superusers
@@ -30,9 +41,11 @@ class WorkflowSetup
   end
 
   # Make an AdminSet and assign it a one step mediated deposit workflow
-  def make_mediated_deposit_admin_set(admin_set_title)
+  # @param [String] admin_set_title The title of the admin set to create
+  # @param [String] workflow_name The name of the mediated deposit workflow to enable
+  def make_mediated_deposit_admin_set(admin_set_title, workflow_name = "one_step_mediated_deposit")
     a = make_admin_set(admin_set_title)
-    activate_mediated_deposit(a)
+    activate_mediated_deposit(a, workflow_name)
     a
   end
 
@@ -62,9 +75,10 @@ class WorkflowSetup
   # @return [AdminSet]
   def make_admin_set_from_config(admin_set_title)
     config = school_config(admin_set_title)
-    admin_set = make_mediated_deposit_admin_set(admin_set_title)
+    config["workflow"] || config["workflow"] = "one_step_mediated_deposit"
+    admin_set = make_mediated_deposit_admin_set(admin_set_title, config["workflow"])
     approving_users = []
-    config["approvers"].each do |approver_email|
+    config["approving"].each do |approver_email|
       u = ::User.find_or_create_by(email: approver_email)
       u.password = "123456"
       u.save
@@ -86,6 +100,7 @@ class WorkflowSetup
   # @param [String] the email of the superuser
   # @return [User] the superuser who was just created
   def make_superuser(email)
+    @logger.debug "Making superuser #{email}"
     admin_user = ::User.find_or_create_by(email: email)
     admin_user.password = "123456"
     admin_user.save
@@ -123,15 +138,13 @@ class WorkflowSetup
     end
   end
 
-  # Give all superusers power in all roles in all workflows
+  # Give all superusers the managing role all workflows
   def give_superusers_superpowers
     @logger.info "Giving superuser powers to #{superusers.pluck(:email)}"
     superusers_as_sipity_agents = superusers.map(&:to_sipity_agent)
     AdminSet.all.each do |admin_set|
       admin_set.permission_template.available_workflows.each do |workflow| # .where(active: true) ?
-        Sipity::Role.all.each do |role|
-          workflow.update_responsibilities(role: role, agents: (superusers_as_sipity_agents.concat users_in_role(admin_set, role)))
-        end
+        workflow.update_responsibilities(role: Sipity::Role.where(name: "managing").first, agents: superusers_as_sipity_agents)
       end
     end
   end
@@ -175,8 +188,8 @@ class WorkflowSetup
   # Activate the one_step_mediated_deposit workflow for the given admin_set.
   # The activate! method will DEactivate it if it was already active, so be careful.
   # @return [Boolean] true if successful
-  def activate_mediated_deposit(admin_set)
-    osmd = admin_set.permission_template.available_workflows.where(name: "one_step_mediated_deposit").first
+  def activate_mediated_deposit(admin_set, workflow_name = "one_step_mediated_deposit")
+    osmd = admin_set.permission_template.available_workflows.where(name: workflow_name).first
     if osmd.active == true
       @logger.debug "AdminSet #{admin_set.title.first} already had workflow #{admin_set.permission_template.available_workflows.where(active: true).first.name}. Not making any changes."
       return true
@@ -192,7 +205,8 @@ class WorkflowSetup
   # Return an array of schools that should be set up for the initial workflow
   # @return [Array(String)]
   def schools
-    config = YAML.safe_load(File.read(SCHOOLS_CONFIG))
+    @logger.debug "Loading schools.yml file #{@schools_config}"
+    config = YAML.safe_load(File.read(@schools_config))
     config["schools"].keys
   end
 
