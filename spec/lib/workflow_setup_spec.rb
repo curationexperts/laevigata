@@ -36,12 +36,13 @@ RSpec.describe WorkflowSetup do
     expect((w.admin_role.users.map(&:email).include? "bnash@emory.edu")).to eq true
   end
   it "makes an AdminSet" do
-    w.make_superuser(superuser_email)
+    ActiveFedora::Cleaner.clean!
+    w.load_superusers
     expect(w.make_admin_set(admin_set_title)).to be_instance_of AdminSet
     expect(AdminSet.where(title: admin_set_title).count).to eq 1
   end
   it "won't make a second admin set with the same title, it will just return the one that exists already" do
-    AdminSet.where(title: admin_set_title).each(&:destroy)
+    ActiveFedora::Cleaner.clean!
     w.load_superusers
     a = w.make_admin_set(admin_set_title)
     expect(a).to be_instance_of AdminSet
@@ -54,8 +55,8 @@ RSpec.describe WorkflowSetup do
     expect { w.load_workflows }.to raise_error(RuntimeError)
   end
   it "loads and activates the workflows" do
-    AdminSet.where(title: admin_set_title).each(&:destroy)
-    w.make_superuser(superuser_email)
+    ActiveFedora::Cleaner.clean!
+    w.load_superusers
     a = w.make_admin_set(admin_set_title)
     expect(AdminSet.where(title: admin_set_title).count).to eq 1
     expect(a.permission_template.available_workflows.where(name: "one_step_mediated_deposit").count).to eq 1
