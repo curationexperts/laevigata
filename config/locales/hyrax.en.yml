@@ -10,3 +10,12 @@ en:
     footer:
       copyright_html: "<strong>Copyright &copy; 2017 Emory University</strong> Licensed under the Apache License, Version 2.0"
       service_html: A service of <a href="https://emory.edu/" class="navbar-link" target="_blank">Emory University</a>.
+    works:
+      form:
+        tab:
+          about_me:      "About Me"
+          about_my_etd:  "About My ETD"
+          my_pdf:        "My PDF"
+          supplemental_files: "My Supplemental Files"
+          embargoes: "My Embargoes"
+          review:         "Review"
