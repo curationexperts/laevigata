@@ -1,22 +1,28 @@
+<h1><%= t("hyrax.works.form.tab.about_me", type: curation_concern.human_readable_type) %></h1>
 
-        <div class="form-instructions">
-          <p>The more descriptive information you provide the better we can serve your needs.</p>
-        </div>
-        <div class="base-terms">
-          <% f.object.primary_terms.each do |term| %>
-            <%= render_edit_field_partial(term, f: f) %>
-          <% end %>
-        </div>
-        <%= link_to t('hyrax.works.form.additional_fields'),
-                    '#extended-terms',
-                    class: 'btn btn-default additional-fields',
-                    data: { toggle: 'collapse' },
-                    role: "button",
-                    'aria-expanded'=> "false",
-                    'aria-controls'=> "extended-terms" %>
-        <div id="extended-terms" class='collapse'>
-          <%= render 'form_media', f: f %>
-          <% f.object.secondary_terms.each do |term| %>
-            <%= render_edit_field_partial(term, f: f) %>
-          <% end %>
-        </div>
+<div class="form-instructions">
+  <p>Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum.</p>
+</div>
+<div class="base-terms about-me">
+  <%= f.input :creator, label: "Student Name",
+      input_html: { class: 'form-control' } %>
+
+  <% graduation_dates = ["Spring 2018", "Winter 2018"] %>
+  <%= f.input :graduation_date, as: :select,
+         collection: graduation_dates,
+          input_html: { class: 'form-control' } %>
+
+  <%= f.input :post_graduation_email, hint: 'Lorum Ipsum Lorum Ipsum', input_html: { class: 'form-control' } %>
+</div>
+
+<h3>About My Program</h3>
+<p>Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum.</p>
+
+<div class="about-me">
+  <%= render 'form_media', f: f %>
+  <% f.object.about_my_program_fields.each do |term| %>
+    <%= render_edit_field_partial(term, f: f) %>
+  <% end %>
+</div>
+
+<!-- input name="save_about_me" value="Save" class="btn btn-primary" id="save_about_me" type="submit"-->

@@ -1,0 +1,5 @@
+<% emory_faculty = ["", ""] %>
+<%= f.input :committee_chair, as: :select,
+       collection: emory_faculty,
+        input_html: { class: 'form-control' } %>
+<%= f.input :committee_chair, input_html: { class: 'form-control' } %>
