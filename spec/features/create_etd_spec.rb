@@ -10,6 +10,18 @@ RSpec.feature 'Create a Etd' do
       login_as user
     end
 
+    scenario "View Etd Tabs" do
+      visit(root_url)
+      click_link("Share Your Work")
+
+      expect(page).to have_selector("[data-toggle='tab']", text: "About Me")
+      expect(page).to have_selector("[data-toggle='tab']", text: "About My ETD")
+      expect(page).to have_selector("[data-toggle='tab']", text: "My PDF")
+      expect(page).to have_selector("[data-toggle='tab']", text: "My Supplemental Files")
+      expect(page).to have_selector("[data-toggle='tab']", text: "My Embargoes")
+      expect(page).to have_selector("[data-toggle='tab']", text: "Review")
+    end
+
     scenario "Submit a basic MS Word Thesis" do
       visit(root_url)
       click_link("Share Your Work")
@@ -18,6 +30,7 @@ RSpec.feature 'Create a Etd' do
       expect(page).not_to have_css('input#etd_title.multi_value')
       expect(page).to have_css('input#etd_creator.required')
       expect(page).not_to have_css('input#etd_creator.multi_value')
+      click_link("About My ETD")
       fill_in 'Title', with: 'China and its Minority Population'
       fill_in 'Creator', with: 'Eun, Dongwon'
       fill_in 'Keyword', with: 'China'
@@ -29,7 +42,7 @@ RSpec.feature 'Create a Etd' do
       select('All rights reserved', from: 'Rights')
       choose('open')
       check('agreement')
-      click_on('Files')
+      click_on('My PDF')
       attach_file('files[]', "#{fixture_path}/emory_7tjfb-FILE")
       click_on('Save')
       expect(page).to have_content 'Your files are being processed'
