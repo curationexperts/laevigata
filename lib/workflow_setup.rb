@@ -5,10 +5,14 @@ require 'yaml'
 class WorkflowSetup
   attr_reader :uberadmin
   attr_accessor :superusers_config
+  attr_accessor :config_file_dir
   SCHOOLS_CONFIG = "#{::Rails.root}/config/emory/schools.yml".freeze
 
   def initialize
     @superusers_config = "#{::Rails.root}/config/emory/superusers.yml"
+    @config_file_dir = "#{::Rails.root}/config/emory/"
+    @logger = Logger.new(STDOUT)
+    @logger.level = Logger::DEBUG
   end
 
   # Load the superusers
@@ -18,7 +22,8 @@ class WorkflowSetup
   def setup
     load_superusers
     schools.each do |school|
-      make_mediated_deposit_admin_set(school)
+      @logger.debug "Attempting to make admin set for #{school}"
+      make_admin_set_from_config(school)
     end
     everyone_can_deposit_everywhere
     give_superusers_superpowers
@@ -28,6 +33,47 @@ class WorkflowSetup
   def make_mediated_deposit_admin_set(admin_set_title)
     a = make_admin_set(admin_set_title)
     activate_mediated_deposit(a)
+    a
+  end
+
+  # Given an admin set and a role, return relevant Array of Sipity::Users for the
+  # currently active workflow
+  # @param [AdminSet] admin_set
+  # @param [String|Sipity::Role] role e.g., "approving" "depositing" "managing"
+  def users_in_role(admin_set, role)
+    return [] unless admin_set.permission_template.available_workflows.where(active: true).count > 0
+    users_in_role = []
+    sipity_role = if role.is_a?(Sipity::Role)
+                    role
+                  else
+                    Sipity::Role.find_by!(name: role)
+                  end
+    workflow = admin_set.permission_template.available_workflows.where(active: true).first
+    wf_role = Sipity::WorkflowRole.find_by(workflow: workflow, role_id: sipity_role)
+    return [] unless wf_role
+    wf_role.workflow_responsibilities.pluck(:agent_id).each do |agent_id|
+      users_in_role << Sipity::Agent.where(id: agent_id).first
+    end
+    users_in_role
+  end
+
+  # Read a config file to figure out what workflow to enable and how to grant approving_role
+  # @param [String] admin_set_title
+  # @return [AdminSet]
+  def make_admin_set_from_config(admin_set_title)
+    config = school_config(admin_set_title)
+    admin_set = make_mediated_deposit_admin_set(admin_set_title)
+    approving_users = []
+    config["approvers"].each do |approver_email|
+      u = ::User.find_or_create_by(email: approver_email)
+      u.password = "123456"
+      u.save
+      approving_users << u.to_sipity_agent
+    end
+    approval_role = Sipity::Role.find_by!(name: 'approving')
+    workflow = admin_set.permission_template.available_workflows.where(active: true).first
+    workflow.update_responsibilities(role: approval_role, agents: (approving_users.concat users_in_role(admin_set, "approving")))
+    admin_set
   end
 
   # Create the admin role, or find it if it exists already
@@ -79,11 +125,12 @@ class WorkflowSetup
 
   # Give all superusers power in all roles in all workflows
   def give_superusers_superpowers
+    @logger.info "Giving superuser powers to #{superusers.pluck(:email)}"
     superusers_as_sipity_agents = superusers.map(&:to_sipity_agent)
     AdminSet.all.each do |admin_set|
       admin_set.permission_template.available_workflows.each do |workflow| # .where(active: true) ?
         Sipity::Role.all.each do |role|
-          workflow.update_responsibilities(role: role, agents: superusers_as_sipity_agents)
+          workflow.update_responsibilities(role: role, agents: (superusers_as_sipity_agents.concat users_in_role(admin_set, role)))
         end
       end
     end
@@ -100,7 +147,11 @@ class WorkflowSetup
   # Make an AdminSet with the given title, belonging to the uberadmin
   # @return [AdminSet] the admin set that was just created, or the one that existed already
   def make_admin_set(admin_set_title)
-    return AdminSet.where(title: admin_set_title).first unless AdminSet.where(title: admin_set_title).empty?
+    if AdminSet.where(title: admin_set_title).count > 0
+      @logger.debug "AdminSet #{admin_set_title} already exists."
+      load_workflows # Load workflows even if the AdminSet exists already, in case new workflows have appeared
+      return AdminSet.where(title: admin_set_title).first
+    end
     a = AdminSet.new
     a.title = [admin_set_title]
     a.save
@@ -116,21 +167,26 @@ class WorkflowSetup
   # the permission templates didn't get wiped from the database somehow
   def load_workflows
     raise "Can't load workflows without a Permission Template. Do you need to make an AdminSet first?" if Hyrax::PermissionTemplate.all.empty?
-    logger = Logger.new(STDOUT)
-    logger.level = Logger::DEBUG
-    Hyrax::Workflow::WorkflowImporter.load_workflows(logger: logger)
+    Hyrax::Workflow::WorkflowImporter.load_workflows(logger: @logger)
     errors = Hyrax::Workflow::WorkflowImporter.load_errors
     abort("Failed to process all workflows:\n  #{errors.join('\n  ')}") unless errors.empty?
   end
 
-  # Activate the one_step_mediated_deposit workflow for the given admin_set
+  # Activate the one_step_mediated_deposit workflow for the given admin_set.
+  # The activate! method will DEactivate it if it was already active, so be careful.
   # @return [Boolean] true if successful
   def activate_mediated_deposit(admin_set)
     osmd = admin_set.permission_template.available_workflows.where(name: "one_step_mediated_deposit").first
+    if osmd.active == true
+      @logger.debug "AdminSet #{admin_set.title.first} already had workflow #{admin_set.permission_template.available_workflows.where(active: true).first.name}. Not making any changes."
+      return true
+    end
     Sipity::Workflow.activate!(
       permission_template: admin_set.permission_template,
       workflow_id: osmd.id
     )
+    @logger.debug "AdminSet #{admin_set.title.first} has workflow #{admin_set.permission_template.available_workflows.where(active: true).first.name}"
+    true
   end
 
   # Return an array of schools that should be set up for the initial workflow
@@ -138,5 +194,14 @@ class WorkflowSetup
   def schools
     config = YAML.safe_load(File.read(SCHOOLS_CONFIG))
     config["schools"].keys
+  end
+
+  # Given the name of a school, read its config file into a Hash
+  # @param [String] the name of a school
+  # @return [Hash] a Hash containing approvers and depositors for this school
+  def school_config(school_name)
+    YAML.safe_load(File.read("#{@config_file_dir}#{school_name.downcase.tr(' ', '_')}.yml"))
+  rescue
+    raise "Couldn't find expected config #{@config_file_dir}#{school_name.downcase.tr(' ', '_')}.yml"
   end
 end
