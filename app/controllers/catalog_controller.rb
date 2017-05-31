@@ -54,6 +54,7 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name("degree", :facetable), label: "Degree", limit: 5
     config.add_facet_field solr_name("department", :facetable), label: "Department", limit: 5
     config.add_facet_field solr_name("school", :facetable), label: "School", limit: 5
+    config.add_facet_field solr_name("research_field", :facetable), label: "Research Field", limit: 5, helper_method: :research_field_facet
     # The generic_type isn't displayed on the facet list
     # It's used to give a label to the filter that comes from the user profile
     config.add_facet_field solr_name("generic_type", :facetable), label: "Type", if: false
@@ -90,6 +91,7 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("school", :stored_searchable), label: "School"
     config.add_index_field solr_name("partnering_agency", :stored_searchable), label: "Partnering Agency"
     config.add_index_field solr_name("submitting_type", :stored_searchable), label: "I am submitting"
+    config.add_index_field solr_name("research_field", :stored_searchable), label: "Research Field", helper_method: :research_field_label
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
@@ -114,6 +116,8 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name("school", :stored_searchable), label: "School"
     config.add_show_field solr_name("partnering_agency", :stored_searchable), label: "Partnering Agency"
     config.add_show_field solr_name("submitting_type", :stored_searchable), label: "I am submitting"
+    config.add_show_field solr_name("research_field", :stored_searchable), label: "Research Field"
+
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
     #

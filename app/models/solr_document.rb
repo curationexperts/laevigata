@@ -52,4 +52,8 @@ class SolrDocument
   def submitting_type
     self[Solrizer.solr_name('submitting_type')]
   end
+
+  def research_field
+    self[Solrizer.solr_name('research_field')]
+  end
 end
