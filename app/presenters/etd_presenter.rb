@@ -1,3 +1,3 @@
 class EtdPresenter < Hyrax::WorkShowPresenter
-  delegate :degree, :department, :school, :partnering_agency, to: :solr_document
+  delegate :degree, :department, :school, :partnering_agency, :submitting_type, to: :solr_document
 end

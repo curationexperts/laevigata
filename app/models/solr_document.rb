@@ -48,4 +48,8 @@ class SolrDocument
   def primary
     self[Solrizer.solr_name('primary')]
   end
+
+  def submitting_type
+    self[Solrizer.solr_name('submitting_type')]
+  end
 end

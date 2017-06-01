@@ -24,6 +24,7 @@ RSpec.feature 'Search for an ETD' do
       expect(page).to have_content etd.department.first
       expect(page).to have_content etd.school.first
       expect(page).to have_content etd.partnering_agency.first
+      expect(page).to have_content etd.submitting_type.first
       # Now look for degree in the facets on the left
       expect(page).to have_xpath("//h3", text: "Creator")
       expect(page).to have_link(etd.creator.first, class: "facet_select")
