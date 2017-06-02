@@ -1,9 +1,11 @@
 require 'rails_helper'
 require 'workflow_setup'
 require 'active_fedora/cleaner'
+include Warden::Test::Helpers
 
 RSpec.describe WorkflowSetup do
-  let(:w) { described_class.new }
+  # Change "/dev/null" to STDOUT to see all logging output
+  let(:w) { described_class.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/", "#{::Rails.root}/config/emory/schools.yml", "/dev/null") }
   let(:superuser_email) { "superuser@emory.edu" }
   let(:admin_set_title) { "School of Hard Knocks" }
   it "can instantiate" do
@@ -31,9 +33,9 @@ RSpec.describe WorkflowSetup do
     expect { w.superusers }.to raise_error(RuntimeError)
   end
   it "loads all the superusers from a file" do
-    w.superusers_config = "#{fixture_path}/config/emory/superusers.yml"
     w.load_superusers
-    expect((w.admin_role.users.map(&:email).include? "bnash@emory.edu")).to eq true
+    expect((w.admin_role.users.map(&:email).include? "wonderwoman@justicefriends.org")).to eq true
+    expect(w.superusers.pluck(:email).include?("wonderwoman@justicefriends.org")).to eq true
   end
   it "makes an AdminSet" do
     ActiveFedora::Cleaner.clean!
@@ -71,16 +73,6 @@ RSpec.describe WorkflowSetup do
     expect(AdminSet.where(title: new_title).count).to eq 1
     expect(admin_set.active_workflow.name).to eq "one_step_mediated_deposit"
   end
-  it "makes a mediated deposit admin set and enrolls participants" do
-    skip "Save this for later... Jeremy has given us some clues but we aren't there yet"
-    title = "With participants"
-    w.make_mediated_deposit_admin_set(title)
-    expect(AdminSet.where(title: title).count).to eq 1
-    a = AdminSet.where(title: title).first
-    expect(a.active_workflow.name).to eq "one_step_mediated_deposit"
-    expect(w.depositing_role).to be_instance_of(Sipity::Role)
-    expect(w.approving_role).to be_instance_of(Sipity::Role)
-  end
 
   context "schools config" do
     it "has an array of all the schools" do
@@ -108,6 +100,7 @@ RSpec.describe WorkflowSetup do
       end
     end
   end
+
   context "already existing participants" do
     it "knows what users are enrolled in a given role for a given admin_set" do
       ActiveFedora::Cleaner.clean!
@@ -126,13 +119,12 @@ RSpec.describe WorkflowSetup do
     admin_set = w.make_mediated_deposit_admin_set("River School")
     workflow = admin_set.permission_template.available_workflows.where(active: true).first
     expect(workflow).to be_instance_of Sipity::Workflow
-    approving_role = Sipity::Role.where(name: "approving").first
-    wf_role = Sipity::WorkflowRole.find_by(workflow: workflow, role_id: approving_role)
-    approving_agents = wf_role.workflow_responsibilities.pluck(:agent_id)
-    expect(approving_agents.count).to eq 1 # The only approving user should be the one who created the admin set
     w.give_superusers_superpowers
-    approving_agents = wf_role.workflow_responsibilities.pluck(:agent_id)
-    expect(approving_agents.count).to eq w.superusers.count # Now all superusers have the approving role
+    w.superusers.each do |su|
+      roles = Hyrax::Workflow::PermissionQuery.scope_processing_workflow_roles_for_user_and_workflow(user: su, workflow: workflow).pluck(:role_id)
+      su_role_names = roles.map { |r| Sipity::Role.where(id: r).first.name }
+      expect(su_role_names.include?("managing")).to eq true
+    end
   end
   it "allows any registered user to deposit anywhere" do
     ActiveFedora::Cleaner.clean!
@@ -150,5 +142,58 @@ RSpec.describe WorkflowSetup do
     # and the second depositing agent is a Group consisting of all registered users
     expect(Sipity::Agent.where(id: depositing_agents.last).first.proxy_for_id).to eq "registered"
     expect(Sipity::Agent.where(id: depositing_agents.last).first.proxy_for_type).to eq "Hyrax::Group"
+  end
+
+  context "Laney Graduate School workflow" do
+    let(:etd) { build :etd }
+    let(:user) { create :user }
+    it "loads a special laney workflow" do
+      ActiveFedora::Cleaner.clean!
+      w.load_superusers
+      laney_admin_set = w.make_admin_set_from_config("Laney Graduate School")
+      expect(laney_admin_set.permission_template.available_workflows.where(active: true).first.name).to eq "laney_graduate_school"
+    end
+    it "has the expected workflow states and roles" do
+      ActiveFedora::Cleaner.clean!
+      w.load_superusers
+      laney_admin_set = w.make_admin_set_from_config("Laney Graduate School")
+      workflow = laney_admin_set.permission_template.available_workflows.where(active: true).first
+      workflow_states = Sipity::WorkflowState.where(workflow_id: workflow.id).pluck(:name)
+      expect(workflow_states.include?("pending_review")).to eq true
+      expect(workflow_states.include?("pending_approval")).to eq true
+      expect(Sipity::Role.where(name: "reviewing").first).to be_instance_of Sipity::Role
+    end
+    it "assigns the right roles for everyone" do
+      ActiveFedora::Cleaner.clean!
+      w.setup
+      workflow = AdminSet.where(title: ["Laney Graduate School"]).first.permission_template.available_workflows.where(active: true).first
+
+      # Newly created users should be able to deposit, but nothing else
+      depositor = User.new
+      depositor.email = "fake#{rand(0..10_000)}@email.com"
+      depositor.password = "123456"
+      depositor.save
+      roles = Hyrax::Workflow::PermissionQuery.scope_processing_workflow_roles_for_user_and_workflow(user: depositor, workflow: workflow).pluck(:role_id)
+      depositor_role_names = roles.map { |r| Sipity::Role.where(id: r).first.name }
+      expect(depositor_role_names.include?("depositing")).to eq true
+      expect(depositor_role_names.include?("managing")).to eq false
+      expect(depositor_role_names.include?("reviewing")).to eq false
+      expect(depositor_role_names.include?("approving")).to eq false
+
+      # Very helpful to print out the roles of all users
+      # User.all.each do |user|
+      #   puts "-----"
+      #   puts user.email
+      #   roles = Hyrax::Workflow::PermissionQuery.scope_processing_workflow_roles_for_user_and_workflow(user: user, workflow: workflow).pluck(:role_id)
+      #   puts roles.map { |r| Sipity::Role.where(id: r).first.name }
+      # end
+
+      # Superusers should have the managing role
+      w.superusers.each do |su|
+        roles = Hyrax::Workflow::PermissionQuery.scope_processing_workflow_roles_for_user_and_workflow(user: su, workflow: workflow).pluck(:role_id)
+        su_role_names = roles.map { |r| Sipity::Role.where(id: r).first.name }
+        expect(su_role_names.include?("managing")).to eq true
+      end
+    end
   end
 end

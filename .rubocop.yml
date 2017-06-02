@@ -16,3 +16,6 @@ RSpec/MultipleExpectations:
 # complaining about the Capfile name. Wants it to be snake_case
 Style/FileName:
   Enabled: false
+
+RSpec/InstanceVariable:
+  Enabled: false

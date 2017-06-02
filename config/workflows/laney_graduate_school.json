@@ -1,0 +1,99 @@
+{
+    "workflows": [
+        {
+            "name": "laney_graduate_school",
+            "label": "Two-step mediated deposit workflow",
+            "description": "A two-step workflow for mediated deposit in which all deposits must be reviewed and approved. Reviewers and approvers may send deposits back to the depositor.",
+            "allows_access_grant": false,
+            "actions": [
+                {
+                    "name": "deposit",
+                    "from_states": [],
+                    "transition_to": "pending_review",
+                    "notifications": [
+                        {
+                            "notification_type": "email",
+                            "name": "Hyrax::Workflow::PendingReviewNotification",
+                            "to": ["reviewing"]
+                        }
+                    ],
+                    "methods": [
+                      "Hyrax::Workflow::DeactivateObject",
+                      "Hyrax::Workflow::RevokeEditFromDepositor",
+                      "Hyrax::Workflow::GrantReadToDepositor"
+                    ]
+                },
+                {
+                    "name": "mark_as_reviewed",
+                    "from_states": [{"names": ["pending_review"], "roles": ["reviewing", "approving"]}],
+                    "transition_to": "pending_approval",
+                    "notifications": [
+                        {
+                            "notification_type": "email",
+                            "name": "Hyrax::Workflow::PendingReviewNotification",
+                            "to": ["approving"]
+                        }
+                    ],
+                    "methods": [
+                        "Hyrax::Workflow::DeactivateObject"
+                    ]
+                },
+
+                 {
+                    "name": "request_changes",
+                    "from_states": [{"names": ["approved", "pending_review", "pending_approval"], "roles": ["reviewing", "approving"]}],
+                    "transition_to": "changes_required",
+                    "notifications": [
+                        {
+                            "notification_type": "email",
+                            "name": "Hyrax::Workflow::ChangesRequiredNotification",
+                            "to": ["approving"]
+                        }
+                    ],
+                    "methods": [
+                      "Hyrax::Workflow::GrantEditToDepositor",
+                      "Hyrax::Workflow::DeactivateObject"
+                    ]
+                }, {
+                    "name": "approve",
+                    "from_states": [{"names": ["pending_approval"], "roles": ["approving"]}],
+                    "transition_to": "approved",
+                    "notifications": [
+                        {
+                            "notification_type": "email",
+                            "name": "Hyrax::Workflow::DepositedNotification",
+                            "to": ["approving"]
+                        }
+                    ],
+                    "methods": [
+                      "Hyrax::Workflow::GrantReadToDepositor",
+                      "Hyrax::Workflow::RevokeEditFromDepositor",
+                      "Hyrax::Workflow::ActivateObject"
+                    ]
+                }, {
+                    "name": "request_review",
+                    "from_states": [{"names": ["changes_required"], "roles": ["depositing"]}],
+                    "transition_to": "pending_review",
+                    "notifications": [
+                        {
+                            "notification_type": "email",
+                            "name": "Hyrax::Workflow::PendingReviewNotification",
+                            "to": ["reviewing"]
+                        }
+                    ],
+                    "methods": [
+                      "Hyrax::Workflow::GrantReadToDepositor",
+                      "Hyrax::Workflow::RevokeEditFromDepositor",
+                      "Hyrax::Workflow::DeactivateObject"
+                    ]
+                }, {
+                    "name": "comment_only",
+                    "from_states": [
+                        { "names": ["pending_review", "pending_approval", "approved"], "roles": ["reviewing", "approving"] },
+                        { "names": ["changes_required"], "roles": ["depositing"] }
+                    ]
+                }
+            ]
+        }
+    ]
+}

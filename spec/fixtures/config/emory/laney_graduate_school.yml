@@ -1,5 +1,8 @@
 workflow:
-  one_step_mediated_deposit
-approvers:
-  laneyadmin@emory.edu
-  laneyadmin2@emory.edu
+ - laney_graduate_school
+approving:
+ - laneyadmin@emory.edu
+ - laneyadmin2@emory.edu
+reviewing:
+ - laneyreviewer1@emory.edu
+ - laneyreviewer2@emory.edu
