@@ -33,4 +33,7 @@ class Etd < ActiveFedora::Base
   property :submitting_type, predicate: "http://www.europeana.eu/schemas/edm/hasType" do |index|
     index.as :stored_searchable
   end
+  property :research_field, predicate: ::RDF::Vocab::DC.subject do |index|
+    index.as :stored_searchable, :facetable
+  end
 end

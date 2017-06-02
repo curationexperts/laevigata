@@ -84,6 +84,24 @@ RSpec.describe Etd do
     end
   end
 
+  describe "#research_field" do
+    subject { described_class.new }
+    let(:research_field) { ['383'] }
+
+    context "with a new ETD" do
+      its(:research_field) { is_expected.to be_empty }
+    end
+
+    context "with an existing ETD that has a research field defined" do
+      subject do
+        described_class.create.tap do |etd|
+          etd.research_field = research_field
+        end
+      end
+      its(:research_field) { is_expected.to eq(research_field) }
+    end
+  end
+
   # An ETD should always have a hidden metadata field saying that the degree_granting_institution is Emory
   describe "#degree_granting_institution" do
     subject { described_class.new }

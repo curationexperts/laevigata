@@ -10,6 +10,7 @@ module Hyrax
     self.terms += [:degree]
     self.terms += [:partnering_agency]
     self.terms += [:submitting_type]
+    self.terms += [:research_field]
     self.single_valued_fields = [:title, :creator, :submitting_type]
   end
 end

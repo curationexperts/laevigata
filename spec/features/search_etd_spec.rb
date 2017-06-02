@@ -5,6 +5,7 @@ RSpec.feature 'Search for an ETD' do
 
   context 'a logged in user' do
     let(:user) { create :user }
+    let(:research_field_label) { ResearchFieldService.new.label(etd.research_field.first) }
 
     before do
       login_as user
@@ -25,6 +26,7 @@ RSpec.feature 'Search for an ETD' do
       expect(page).to have_content etd.school.first
       expect(page).to have_content etd.partnering_agency.first
       expect(page).to have_content etd.submitting_type.first
+      expect(page).to have_content research_field_label
       # Now look for degree in the facets on the left
       expect(page).to have_xpath("//h3", text: "Creator")
       expect(page).to have_link(etd.creator.first, class: "facet_select")
@@ -34,6 +36,8 @@ RSpec.feature 'Search for an ETD' do
       expect(page).to have_link(etd.department.first, class: "facet_select")
       expect(page).to have_xpath("//h3", text: "School")
       expect(page).to have_link(etd.school.first, class: "facet_select")
+      expect(page).to have_xpath("//h3", text: "Research Field")
+      expect(page).to have_link(research_field_label, class: "facet_select")
     end
   end
 end
