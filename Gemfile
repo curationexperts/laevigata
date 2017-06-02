@@ -22,7 +22,8 @@ gem 'pg'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.2'
 # use resque-pool for background jobs
-gem 'resque-pool'
+# need master from github to get hot-swap functionality
+gem 'resque-pool', github: 'nevans/resque-pool'
 gem 'resque-web', require: 'resque_web'
 gem 'rsolr', '~> 1.0'
 # Use SCSS for stylesheets
