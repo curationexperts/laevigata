@@ -1,6 +1,0 @@
-<% research_field_service = ResearchFieldService.new %>
-<%= f.input :research_field, as: :multi_value_select,
-    collection: research_field_service.select_all_options,
-    input_html: { class: 'form-control' },
-    include_blank: true
-%>
