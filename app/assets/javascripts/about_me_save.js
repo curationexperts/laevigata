@@ -1,5 +1,6 @@
 Blacklight.onLoad(function() {
   $("#about_me_and_my_program").on("click", function(event) {
+    $('#new_etd').append('<input name="about_me" value="true" id="about_me" type="hidden" />');
     event.preventDefault();
     $.ajax({
       type: "POST",

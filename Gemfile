@@ -48,6 +48,7 @@ group :development, :test do
   # console
   gem 'byebug', platform: :mri
   gem 'capybara'
+  gem 'capybara-webkit'
   gem 'coveralls', require: false
   gem 'database_cleaner'
   gem 'factory_girl_rails'

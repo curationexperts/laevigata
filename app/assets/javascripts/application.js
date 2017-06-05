@@ -18,6 +18,11 @@
 // Required by Blacklight
 //= require blacklight/blacklight
 
-//= require_tree .
 //= require hyrax
+//= require etd
+//= require initialize
+//= require editor
+//= require etd_save_work_control
 
+// Provide AMD module support
+//= require almond

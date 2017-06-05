@@ -12,6 +12,8 @@ module Hyrax
     self.terms += [:department]
     self.terms += [:school]
     self.terms += [:degree]
+    self.terms += [:rights]
+    self.terms += [:keyword]
     self.terms += [:partnering_agency]
     self.terms += [:submitting_type]
     self.terms += [:research_field]
@@ -27,7 +29,7 @@ module Hyrax
     end
 
     def about_my_program_fields
-      [:school, :department, :research_field, :degree, :submitting_type, :committee_chair, :committee_members, :partnering_agency]
+      [:school, :department, :research_field, :degree, :submitting_type, :committee_chair, :committee_members, :partnering_agency, :title, :keyword, :rights]
     end
   end
 end
