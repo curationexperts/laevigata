@@ -16,7 +16,7 @@ namespace :resque do
     task :start do
       on roles(:resque_pool), in: :sequence, wait: 10 do
         # Starts a new resque_pool master
-        execute "cd #{release_path} && bundle exec resque-pool -d -E #{fetch(:rails_env)} -c config/resque-pool.yml -p #{shared_path}/tmp/pids/resque-pool.pid"
+        execute "cd #{release_path} && bundle exec resque-pool -d -E #{fetch(:rails_env)} -c config/resque-pool.yml --lock #{shared_path}/tmp/resque-pool.lock --hot-swap"
       end
     end
 
