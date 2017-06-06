@@ -18,11 +18,11 @@
 // Required by Blacklight
 //= require blacklight/blacklight
 
+//= require blacklight_gallery
+//= require cable
+//= require about_me_save
+//= require tab_info
+//= require openseadragon
 //= require hyrax
-//= require etd
-//= require initialize
-//= require editor
-//= require etd_save_work_control
-
 // Provide AMD module support
 //= require almond

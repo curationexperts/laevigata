@@ -4,7 +4,7 @@
   <p>Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum.</p>
 </div>
 <div class="base-terms about-me">
-  <%= f.input :creator, label: "Student Name",
+  <%= f.input :creator, label: "Student Name", hint: "",
       input_html: { class: 'form-control' } %>
 
   <% graduation_dates = ["Spring 2018", "Winter 2018"] %>
@@ -13,6 +13,11 @@
           input_html: { class: 'form-control' } %>
 
   <%= f.input :post_graduation_email, hint: 'Lorum Ipsum Lorum Ipsum', input_html: { class: 'form-control' } %>
+
+  <h3>About My Etd</h3>
+  <%= f.input :title, label: "Title", hint: "",
+      input_html: { class: 'form-control' } %>
+
 </div>
 
 <h3>About My Program</h3>

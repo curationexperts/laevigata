@@ -1,5 +1,12 @@
-<% emory_faculty = ["", ""] %>
-<%= f.input :committee_members, as: :select,
-       collection: emory_faculty,
-        input_html: { class: 'form-control' } %>
-<%= f.input :committee_members, input_html: { class: 'form-control' } %>        
+<div class="row">
+  <div class="col-sm-4">
+  <% non_emory_faculty = ["", ""] %>
+  <%= f.input :committee_members, as: :select, label: "Non-Emory Faculty",
+         collection: non_emory_faculty,
+          input_html: { class: 'form-control committee' } %>
+  </div>
+  <div class="col-sm-6 hide-label">
+  <%= f.input :committee_members, input_html: { class: 'form-control committee' } %>
+  <%= f.input :committee_members, label: "", input_html: { class: 'form-control committee' } %>
+  </div>
+</div>

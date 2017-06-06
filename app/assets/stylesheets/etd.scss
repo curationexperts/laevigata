@@ -2,3 +2,19 @@
 .about-me .input-group .form-control {
   width: 60%;
 }
+
+.about-me .form-control.committee {
+  width: 100%;
+}
+
+.about-me select.form-control.committee {
+  width: 100%;
+}
+
+.about-me div.hide-label div:nth-child(1){
+  margin-bottom: 0;
+}
+
+.about-me div.hide-label div:nth-child(2) label:nth-child(1){
+  visibility: hidden;
+}

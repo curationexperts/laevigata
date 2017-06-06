@@ -1,3 +1,5 @@
+sudo: required
+dist: trusty
 language: ruby
 cache: bundler
 sudo: false
@@ -12,4 +14,13 @@ before_script:
   - bundle exec rake db:create
 script:
   - bundle exec rubocop
-  - bundle exec rake ci
+  - xvfb-run -a bundle exec rake ci
+env:
+  - QMAKE=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
+addons:
+  apt:
+    packages:
+      - qt5-default
+      - libqt5webkit5-dev
+      - gstreamer1.0-plugins-base
+      - gstreamer1.0-tools gstreamer1.0-x

@@ -7,7 +7,7 @@ Blacklight.onLoad(function() {
       url: "/concern/etds",
       data: $('#new_etd').serialize(),
       success: function(result) {
-        $("#success").append("Successfully saved About: " + result['creator']);
+        $("#success").append("Successfully saved About: " + result['creator']+", "+ result['title']);
       },
       error: function(error_msg){
         $("#new_etd").append(error_msg);

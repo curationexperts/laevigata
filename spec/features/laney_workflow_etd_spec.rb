@@ -25,15 +25,15 @@ RSpec.feature 'Create a Laney ETD' do
       title = "Surrealism #{rand}"
       fill_in 'Title', with: title
       fill_in 'Student Name', with: 'Coppola, Joey'
-      fill_in 'Keyword', with: 'Surrealism'
+      # fill_in 'Keyword', with: 'Surrealism'
       # Department is not required, by default it is hidden as an additional field
       fill_in "Department", with: "Institute of Liberal Arts"
       fill_in "School", with: "Laney Graduate School"
-      select('All rights reserved', from: 'Rights')
+      select('CDC', from: 'Partnering agency')
       choose('open')
       check('agreement')
       click_on('My PDF')
-      # page.attach_file('files[]', "#{fixture_path}/joey/joey_thesis.pdf")
+      page.attach_file('files[]', "#{fixture_path}/joey/joey_thesis.pdf")
       click_on("Review")
       select("Laney Graduate School", from: "Add as member of administrative set")
       click_on('Save')

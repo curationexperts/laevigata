@@ -4,7 +4,7 @@ require 'rails_helper'
 
 include Warden::Test::Helpers
 
-RSpec.feature 'Create a Etd' do
+RSpec.feature 'Create an Etd' do
   let(:user) { create :user }
 
   context 'a logged in user' do
@@ -13,9 +13,7 @@ RSpec.feature 'Create a Etd' do
     end
 
     scenario "View Etd Tabs", js: true do
-      visit("/")
-      click_link("Share Your Work")
-
+      visit("/concern/etds/new")
       expect(page).to have_selector("[data-toggle='tab']", text: "About Me")
       expect(page).to have_selector("[data-toggle='tab']", text: "About My ETD")
       expect(page).to have_selector("[data-toggle='tab']", text: "My PDF")
@@ -24,11 +22,11 @@ RSpec.feature 'Create a Etd' do
       expect(page).to have_selector("[data-toggle='tab']", text: "Review")
     end
 
-    scenario "the About Me form contains the 'about me and my program' fields", js: true  do
-      visit("/")
-      click_link("Share Your Work")
+    scenario "view and save 'about me and my program' data", js: true do
+      visit("/concern/etds/new")
       # expect(current_path).to include(new_hyrax_etd_url)
       expect(page).to have_css('input#etd_creator')
+      expect(page).to have_css('input#etd_title')
       expect(page).to have_css('select#etd_graduation_date')
       expect(page).to have_css('input#etd_post_graduation_email')
       expect(page).to have_css('input#etd_school')
@@ -40,16 +38,19 @@ RSpec.feature 'Create a Etd' do
       expect(page).to have_css('select#etd_partnering_agency')
       fill_in 'Student Name', with: 'Eun, Dongwon'
       # Department is not required, by default it is hidden as an additional field
+      fill_in 'Title', with: "A Good Title"
       fill_in "School", with: "Emory College of Arts and Sciences"
       fill_in "Department", with: "Department of Russian and East Asian Languages and Cultures"
       select('Alternative Medicine', from: 'Research Field')
+      # select('All rights reserved', from: 'Rights')
+      # fill_in 'Keyword', with: 'Surrealism'
       fill_in "Degree", with: "Bachelor of Arts with Honors"
       select("Honors Thesis", from: "I am submitting")
       select('CDC', from: 'Partnering agency')
 
       click_on('Save About Me')
-      
-      expect(page).to have_content 'Successfully saved About: Eun, Dongwon'
+
+      expect(page).to have_content 'Successfully saved About: Eun, Dongwon, A Good Title'
     end
   end
 

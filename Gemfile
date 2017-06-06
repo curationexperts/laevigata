@@ -39,8 +39,8 @@ gem 'turbolinks', '~> 5'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
-gem 'yard'
 gem 'xray-rails'
+gem 'yard'
 
 group :development, :test do
   gem 'bixby' # bixby == the hydra community's rubocop rules

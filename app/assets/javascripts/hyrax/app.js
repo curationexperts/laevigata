@@ -1,3 +1,14 @@
+// Hyrax.editor = () => {
+//     var AdminSetControls = require('hyrax/admin/admin_set_controls')
+//     var MyAdminSetControls = require('my_admin_set_controls')
+//     var controls = new MyAdminSetControls($('#admin-set-controls'))
+//     console.log("Init'ng my controls")
+// }
+
+
+
+
+
 // Once, javascript is written in a modular format, all initialization
 // code should be called from here.
 Hyrax = {

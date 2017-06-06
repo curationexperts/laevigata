@@ -41,7 +41,7 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable, :facetable
   end
 
- # TODO: The following properties are placeholders and need to be edited to hold correct predicates and indexes
+  # TODO: The following properties are placeholders and need to be edited to hold correct predicates and indexes
 
   property :graduation_date, predicate: "http://vivoweb.org/ontology/core#AcademicDepartment" do |index|
     index.as :stored_searchable, :facetable
