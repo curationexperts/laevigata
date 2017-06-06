@@ -53,6 +53,7 @@ class WorkflowSetup
   # currently active workflow
   # @param [AdminSet] admin_set
   # @param [String|Sipity::Role] role e.g., "approving" "depositing" "managing"
+  # @return [Array<Sipity::Agent>] An array of Sipity::Agent objects
   def users_in_role(admin_set, role)
     return [] unless admin_set.permission_template.available_workflows.where(active: true).count > 0
     users_in_role = []
@@ -138,13 +139,38 @@ class WorkflowSetup
     end
   end
 
-  # Give all superusers the managing role all workflows
+  # Give superusers the managing role in all AdminSets
+  # Also give them all workflow roles for all AdminSets
   def give_superusers_superpowers
     @logger.info "Giving superuser powers to #{superusers.pluck(:email)}"
-    superusers_as_sipity_agents = superusers.map(&:to_sipity_agent)
+    give_superusers_managing_role
+    give_superusers_workflow_roles
+  end
+
+  def superusers_as_sipity_agents
+    superusers.map(&:to_sipity_agent)
+  end
+
+  # Give all superusers the managing role all workflows
+  def give_superusers_managing_role
     AdminSet.all.each do |admin_set|
       admin_set.permission_template.available_workflows.each do |workflow| # .where(active: true) ?
         workflow.update_responsibilities(role: Sipity::Role.where(name: "managing").first, agents: superusers_as_sipity_agents)
+      end
+    end
+  end
+
+  def give_superusers_workflow_roles
+    AdminSet.all.each do |admin_set|
+      admin_set.permission_template.available_workflows.where(active: true).each do |workflow|
+        workflow_roles = Sipity::WorkflowRole.where(workflow_id: workflow.id)
+        workflow_roles.each do |workflow_role|
+          workflow_role_name = Sipity::Role.where(id: workflow_role.role_id).first.name
+          next if workflow_role_name == "depositing" || workflow_role_name == "managing"
+          union_of_users = superusers_as_sipity_agents.concat(users_in_role(admin_set, workflow_role_name)).uniq
+          @logger.debug "Granting #{workflow_role_name} to #{union_of_users.map { |u| User.where(id: u.proxy_for_id).first.email }}"
+          workflow.update_responsibilities(role: Sipity::Role.where(id: workflow_role.role_id), agents: union_of_users)
+        end
       end
     end
   end
