@@ -86,7 +86,7 @@ RSpec.describe Etd do
 
   describe "#research_field" do
     subject { described_class.new }
-    let(:research_field) { ['383'] }
+    let(:research_field) { ['0383'] }
 
     context "with a new ETD" do
       its(:research_field) { is_expected.to be_empty }

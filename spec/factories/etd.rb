@@ -8,7 +8,7 @@ FactoryGirl.define do
     school ['Emory College of Arts and Sciences']
     partnering_agency ["Does not apply (no collaborating organization)"]
     submitting_type ["Honors Thesis"]
-    research_field ['992']
+    research_field ['0992']
     visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
   end
 end
