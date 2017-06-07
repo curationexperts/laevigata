@@ -1,7 +1,6 @@
-<% submitting_service = Hyrax::SubmittingService.new %>
+<% submitting_service = SubmittingService.new %>
 <%= f.input :submitting_type, as: :select,
     collection: submitting_service.select_all_options,
     include_blank: true,
-    item_helper: submitting_service.method(:include_current_value),
     input_html: { class: 'form-control' },
     label: "I am submitting" %>
