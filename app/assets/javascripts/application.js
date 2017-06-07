@@ -18,6 +18,11 @@
 // Required by Blacklight
 //= require blacklight/blacklight
 
-//= require_tree .
+//= require blacklight_gallery
+//= require cable
+//= require about_me_save
+//= require tab_info
+//= require openseadragon
 //= require hyrax
-
+// Provide AMD module support
+//= require almond

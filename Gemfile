@@ -39,6 +39,7 @@ gem 'turbolinks', '~> 5'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
+gem 'xray-rails'
 gem 'yard'
 
 group :development, :test do
@@ -47,6 +48,7 @@ group :development, :test do
   # console
   gem 'byebug', platform: :mri
   gem 'capybara'
+  gem 'capybara-webkit'
   gem 'coveralls', require: false
   gem 'database_cleaner'
   gem 'factory_girl_rails'

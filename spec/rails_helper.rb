@@ -19,7 +19,11 @@ require 'rspec/active_model/mocks'
 require 'active_fedora/cleaner'
 require 'capybara/rspec'
 require 'capybara/rails'
+require 'capybara/webkit'
 require 'database_cleaner'
+
+# capybara testing
+Capybara.javascript_driver = :webkit
 
 # Require support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
@@ -44,7 +48,14 @@ RSpec.configure do |config|
   end
 
   config.before :each do
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before :each, js: true do
     DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before :each do
     DatabaseCleaner.start
   end
 
