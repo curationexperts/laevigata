@@ -72,22 +72,13 @@ RSpec.feature 'Create a Laney ETD' do
       expect(available_workflow_actions.include?("request_changes")).to eq true
       expect(available_workflow_actions.include?("comment_only")).to eq true
 
-      # TODO: second superuser should have all workflow options available. (first superuser gets these by virtue of owning the admin sets)
-      # workflow = AdminSet.where(title: ["Laney Graduate School"]).first.permission_template.available_workflows.where(active: true).first
-      # User.all.each do |user|
-      #   puts "-----"
-      #   puts user.email
-      #   roles = Hyrax::Workflow::PermissionQuery.scope_processing_workflow_roles_for_user_and_workflow(user: user, workflow: workflow).pluck(:role_id)
-      #   puts roles.map { |r| Sipity::Role.where(id: r).first.name }
-      # end
-      # Check workflow permissions for superuser
-      # available_workflow_actions = Hyrax::Workflow::PermissionQuery.scope_permitted_workflow_actions_available_for_current_state(user: w.superusers.last, entity: etd.to_sipity_entity).pluck(:name)
-      # puts w.superusers.last
-      # puts available_workflow_actions.inspect
-      # expect(available_workflow_actions.include?("mark_as_reviewed")).to eq true
-      # expect(available_workflow_actions.include?("approve")).to eq false # it can't be approved until after it has been marked as reviewed
-      # expect(available_workflow_actions.include?("request_changes")).to eq true
-      # expect(available_workflow_actions.include?("comment_only")).to eq true
+      # Last superuser should have all workflow options available. (First superuser gets these by virtue of owning the admin sets.)
+      expect(w.superusers.count).to be > 1 # This test is meaningless if there is only one superuser
+      available_workflow_actions = Hyrax::Workflow::PermissionQuery.scope_permitted_workflow_actions_available_for_current_state(user: w.superusers.last, entity: etd.to_sipity_entity).pluck(:name)
+      expect(available_workflow_actions.include?("mark_as_reviewed")).to eq true
+      expect(available_workflow_actions.include?("approve")).to eq false # it can't be approved until after it has been marked as reviewed
+      expect(available_workflow_actions.include?("request_changes")).to eq true
+      expect(available_workflow_actions.include?("comment_only")).to eq true
 
       # The approving user marks the etd as reviewed
       subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)

@@ -1,6 +1,9 @@
 inherit_gem:
   bixby: bixby_default.yml
 
+Metrics/AbcSize:
+  Enabled: false
+
 Metrics/BlockLength:
   Enabled: false
 

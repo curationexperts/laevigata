@@ -41,7 +41,7 @@ RSpec.feature 'Create an Etd' do
       fill_in 'Title', with: "A Good Title"
       fill_in "School", with: "Emory College of Arts and Sciences"
       fill_in "Department", with: "Department of Russian and East Asian Languages and Cultures"
-      select('Alternative Medicine', from: 'Research Field')
+      select('Medicine', from: 'Research Field')
       # select('All rights reserved', from: 'Rights')
       # fill_in 'Keyword', with: 'Surrealism'
       fill_in "Degree", with: "Bachelor of Arts with Honors"
