@@ -1,4 +1,4 @@
-<% partnering_service = Hyrax::PartnersService.new %>
+<% partnering_service = PartnersService.new %>
 <%= f.input :partnering_agency, as: :multi_value_select,
     collection: partnering_service.select_all_options,
     include_blank: true,
