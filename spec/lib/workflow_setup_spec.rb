@@ -21,6 +21,10 @@ RSpec.describe WorkflowSetup do
     expect(User.where(email: superuser_email).count).to eq 1
     expect((w.admin_role.users.map(&:email).include? superuser_email)).to eq true
   end
+  it "ensures the superuser can make workflow roles" do
+    w.make_superuser(superuser_email)
+    expect(w.superusers.first.can?(:manage, Sipity::WorkflowResponsibility)).to eq true
+  end
   it "returns all the superusers" do
     s = %w[admin1@example.com admin2@example.com admin3@example.com]
     s.each do |t|
