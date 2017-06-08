@@ -1,819 +1,819 @@
 terms:
-    - id: '0778'
-      term: "Veterinary medicine"
-    - id: '0493'
-      term: "Aging"
-    - id: '0347'
-      term: "Mental health"
-    - id: '0572'
-      term: "Pharmaceutical sciences"
-    - id: '0380'
-      term: "Obstetrics and gynecology"
-    - id: '0498'
-      term: "Occupational therapy"
-    - id: '0564'
-      term: "Medicine"
-    - id: '0497'
-      term: "Medical ethics"
-    - id: '0570'
-      term: "Nutrition"
-    - id: '0419'
-      term: "Pharmacology"
-    - id: '0573'
-      term: "Public health"
-    - id: '0766'
-      term: "Epidemiology"
-    - id: '0381'
-      term: "Ophthalmology"
-    - id: '0567'
-      term: "Dentistry"
-    - id: '0566'
-      term: "Health sciences"
-    - id: '0992'
-      term: "Oncology"
-    - id: '0769'
-      term: "Health care management"
-    - id: '0575'
-      term: "Kinesiology"
-    - id: '0574'
-      term: "Medical imaging and radiology"
-    - id: '0383'
-      term: "Toxicology"
-    - id: '0576'
-      term: "Surgery"
-    - id: '0351'
-      term: "Gerontology"
-    - id: '0982'
-      term: "Immunology"
-    - id: '0569'
-      term: "Nursing"
-    - id: '0382'
-      term: "Physical therapy"
-    - id: '0460'
-      term: "Speech therapy"
-    - id: '0300'
-      term: "Audiology"
-    - id: '0499'
-      term: "Osteopathic medicine"
-    - id: '0500'
-      term: "Public health occupations education"
-    - id: '0496'
-      term: "Alternative medicine"
-    - id: '0571'
-      term: "Pathology"
-    - id: '0354'
-      term: "Occupational health"
-    - id: '0329'
-      term: "Ecology"
-    - id: '0420'
-      term: "Macroecology"
-    - id: '0426'
-      term: "Paleoecology"
-    - id: '0609'
-      term: "Molecular physics"
-    - id: '0463'
-      term: "Statistics"
-    - id: '0495'
-      term: "Polymer chemistry"
-    - id: '0748'
-      term: "Atomic physics"
-    - id: '0596'
-      term: "Astrophysics"
-    - id: '0599'
-      term: "Quantum physics"
-    - id: '0598'
-      term: "Low temperature physics"
-    - id: '0405'
-      term: "Mathematics"
-    - id: '0494'
-      term: "Physical chemistry"
-    - id: '0794'
-      term: "Materials science"
-    - id: '0756'
-      term: "Nuclear physics"
-    - id: '0605'
-      term: "Physics"
-    - id: '0431'
-      term: "Molecular chemistry"
-    - id: '0738'
-      term: "Nuclear chemistry"
-    - id: '0606'
-      term: "Astronomy"
-    - id: '0490'
-      term: "Organic chemistry"
-    - id: '0611'
-      term: "Condensed matter physics"
-    - id: '0986'
-      term: "Acoustics"
-    - id: '0364'
-      term: "Applied mathematics"
-    - id: '0565'
-      term: "Nanoscience"
-    - id: '0488'
-      term: "Inorganic chemistry"
-    - id: '0485'
-      term: "Chemistry"
-    - id: '0752'
-      term: "Optics"
-    - id: '0642'
-      term: "Theoretical mathematics"
-    - id: '0346'
-      term: "Mechanics"
-    - id: '0597'
-      term: "High temperature physics"
-    - id: '0759'
-      term: "Plasma physics"
-    - id: '0486'
-      term: "Analytical chemistry"
-    - id: '0607'
-      term: "Electromagnetics"
-    - id: '0753'
-      term: "Theoretical physics"
-    - id: '0798'
-      term: "Particle physics"
-    - id: '0653'
-      term: "Paleoclimate science"
-    - id: '0416'
-      term: "Biological oceanography"
-    - id: '0367'
-      term: "Aeronomy"
-    - id: '0996'
-      term: "Geochemistry"
-    - id: '0594'
-      term: "Sedimentary geology"
-    - id: '0425'
-      term: "Biogeochemistry"
-    - id: '0418'
-      term: "Paleontology"
-    - id: '0799'
-      term: "Remote sensing"
-    - id: '0373'
-      term: "Geophysics"
-    - id: '0590'
-      term: "Planetology"
-    - id: '0592'
-      term: "Plate tectonics"
-    - id: '0725'
-      term: "Atmospheric sciences"
-    - id: '0368'
-      term: "Physical geography"
-    - id: '0583'
-      term: "Petroleum geology"
-    - id: '0557'
-      term: "Meteorology"
-    - id: '0483'
-      term: "Geobiology"
-    - id: '0484'
-      term: "Geomorphology"
-    - id: '0388'
-      term: "Hydrologic sciences"
-    - id: '0411'
-      term: "Mineralogy"
-    - id: '0584'
-      term: "Petrology"
-    - id: '0372'
-      term: "Geology"
-    - id: '0406'
-      term: "Continental dynamics"
-    - id: '0371'
-      term: "Atmospheric chemistry"
-    - id: '0415'
-      term: "Physical oceanography"
-    - id: '0403'
-      term: "Chemical oceanography"
-    - id: '0370'
-      term: "Geographic information science and geodesy"
-    - id: '0556'
-      term: "Marine geology"
-    - id: '0794'
-      term: "Materials Science"
-    - id: '0548'
-      term: "Mechanical engineering"
-    - id: '0546'
-      term: "Industrial engineering"
-    - id: '0466'
-      term: "Geological engineering"
-    - id: '0552'
-      term: "Nuclear engineering"
-    - id: '0984'
-      term: "Computer science"
-    - id: '0796'
-      term: "Operations research"
-    - id: '0428'
-      term: "Geotechnology"
-    - id: '0547'
-      term: "Ocean engineering"
-    - id: '0551'
-      term: "Mining engineering"
-    - id: '0542'
-      term: "Chemical engineering"
-    - id: '0652'
-      term: "Nanotechnology"
-    - id: '0790'
-      term: "System science"
-    - id: '0541'
-      term: "Biomedical engineering"
-    - id: '0467'
-      term: "Geophysical engineering"
-    - id: '0540'
-      term: "Automotive engineering"
-    - id: '0543'
-      term: "Civil engineering"
-    - id: '0464'
-      term: "Computer engineering"
-    - id: '0544'
-      term: "Electrical engineering"
-    - id: '0538'
-      term: "Aerospace engineering"
-    - id: '0795'
-      term: "Plastics"
-    - id: '0468'
-      term: "Naval engineering"
-    - id: '0771'
-      term: "Robotics"
-    - id: '0549'
-      term: "Packaging"
-    - id: '0537'
-      term: "Engineering"
-    - id: '0765'
-      term: "Petroleum engineering"
-    - id: '0800'
-      term: "Artificial intelligence"
-    - id: '0438'
-      term: "Environmental economics"
-    - id: '0768'
-      term: "Environmental science"
-    - id: '0536'
-      term: "Land use planning"
-    - id: '0407'
-      term: "Environmental geology"
-    - id: '0408'
-      term: "Conservation biology"
-    - id: '0392'
-      term: "Environmental philosophy"
-    - id: '0595'
-      term: "Water resources management"
-    - id: '0284'
-      term: "Wildlife conservation"
-    - id: '0477'
-      term: "Environmental studies"
-    - id: '0439'
-      term: "Environmental law"
-    - id: '0619'
-      term: "Environmental justice"
-    - id: '0442'
-      term: "Environmental education"
-    - id: '0528'
-      term: "Natural resource management"
-    - id: '0470'
-      term: "Environmental health"
-    - id: '0775'
-      term: "Environmental engineering"
-    - id: '0474'
-      term: "Environmental management"
-    - id: '0390'
-      term: "Landscape architecture"
-    - id: '0729'
-      term: "Architecture"
-    - id: '0462'
-      term: "Architectural engineering"
-    - id: '0369'
-      term: "Genetics"
-    - id: '0487'
-      term: "Biochemistry"
-    - id: '0410'
-      term: "Microbiology"
-    - id: '0718'
-      term: "Parasitology"
-    - id: '0648'
-      term: "Biomechanics"
-    - id: '0317'
-      term: "Neurosciences"
-    - id: '0306'
-      term: "Biology"
-    - id: '0307'
-      term: "Molecular biology"
-    - id: '0793'
-      term: "Limnology"
-    - id: '0353'
-      term: "Entomology"
-    - id: '0786'
-      term: "Biophysics"
-    - id: '0379'
-      term: "Cellular biology"
-    - id: '0715'
-      term: "Bioinformatics"
-    - id: '0719'
-      term: "Physiology"
-    - id: '0720'
-      term: "Virology"
-    - id: '0472'
-      term: "Zoology"
-    - id: '0423'
-      term: "Systematic biology"
-    - id: '0309'
-      term: "Plant biology"
-    - id: '0412'
-      term: "Evolution and development"
-    - id: '0758'
-      term: "Developmental biology"
-    - id: '0308'
-      term: "Biostatistics"
-    - id: '0409'
-      term: "Endocrinology"
-    - id: '0414'
-      term: "Histology"
-    - id: '0287'
-      term: "Morphology"
-    - id: '0471'
-      term: "Horticulture"
-    - id: '0503'
-      term: "Agriculture economics"
-    - id: '0539'
-      term: "Agriculture engineering"
-    - id: '0475'
-      term: "Animal sciences"
-    - id: '0286'
-      term: "Wildlife management"
-    - id: '0777'
-      term: "Range management"
-    - id: '0479'
-      term: "Plant sciences"
-    - id: '0478'
-      term: "Forestry"
-    - id: '0476'
-      term: "Animal diseases"
-    - id: '0481'
-      term: "Soil sciences"
-    - id: '0792'
-      term: "Fisheries and aquatic sciences"
-    - id: '0480'
-      term: "Plant pathology"
-    - id: '0517'
-      term: "Agriculture education"
-    - id: '0285'
-      term: "Agronomy"
-    - id: '0473'
-      term: "Agriculture"
-    - id: '0281'
-      term: "Urban forestry"
-    - id: '0602'
-      term: "Animal behavior"
-    - id: '0624'
-      term: "Occupational psychology"
-    - id: '0349'
-      term: "Psychobiology"
-    - id: '0621'
-      term: "Psychology"
-    - id: '0633'
-      term: "Cognitive psychology"
-    - id: '0622'
-      term: "Clinical psychology"
-    - id: '0620'
-      term: "Developmental psychology"
-    - id: '0989'
-      term: "Physiological psychology"
-    - id: '0625'
-      term: "Personality psychology"
-    - id: '0632'
-      term: "Quantitative psychology and psychometrics"
-    - id: '0603'
-      term: "Counseling psychology"
-    - id: '0451'
-      term: "Social psychology"
-    - id: '0384'
-      term: "Behavioral sciences"
-    - id: '0623'
-      term: "Experimental psychology"
-    - id: '0377'
-      term: "Art history"
-    - id: '0641'
-      term: "Performing arts"
-    - id: '0465'
-      term: "Theater"
-    - id: '0357'
-      term: "Fine arts"
-    - id: '0378'
-      term: "Dance"
-    - id: '0900'
-      term: "Film studies"
-    - id: '0435'
-      term: "Cinematography"
-    - id: '0389'
-      term: "Design"
-    - id: '0365'
-      term: "Art criticism"
-    - id: '0644'
-      term: "Theater history"
-    - id: '0413'
-      term: "Music"
-    - id: '0604'
-      term: "Regional studies"
-    - id: '0437'
-      term: "East European studies"
-    - id: '0434'
-      term: "Classical studies"
-    - id: '0492'
-      term: "GLBT studies"
-    - id: '0631'
-      term: "Ethnic studies"
-    - id: '0639'
-      term: "Sub Saharan Africa studies"
-    - id: '0740'
-      term: "Native American studies"
-    - id: '0512'
-      term: "Islamic culture"
-    - id: '0293'
-      term: "African studies"
-    - id: '0550'
-      term: "Latin American studies"
-    - id: '0560'
-      term: "North African studies"
-    - id: '0453'
-      term: "Women's studies"
-    - id: '0343'
-      term: "Asian American studies"
-    - id: '0440'
-      term: "European studies"
-    - id: '0342'
-      term: "Asian studies"
-    - id: '0638'
-      term: "South Asian studies"
-    - id: '0385'
-      term: "Canadian studies"
-    - id: '0737'
-      term: "Hispanic American studies"
-    - id: '0614'
-      term: "Slavic studies"
-    - id: '0733'
-      term: "Gender studies"
-    - id: '0323'
-      term: "American studies"
-    - id: '0613'
-      term: "Scandinavian studies"
-    - id: '0482'
-      term: "French Canadian culture"
-    - id: '0751'
-      term: "Judaic studies"
-    - id: '0561'
-      term: "Pacific Rim studies"
-    - id: '0361'
-      term: "Baltic studies"
-    - id: '0432'
-      term: "Caribbean studies"
-    - id: '0555'
-      term: "Middle Eastern studies"
-    - id: '0654'
-      term: "South African studies"
-    - id: '0296'
-      term: "African American studies"
-    - id: '0507'
-      term: "Holocaust studies"
-    - id: '0559'
-      term: "Near Eastern studies"
-    - id: '0325'
-      term: "Black studies"
-    - id: '0643'
-      term: "Technical communication"
-    - id: '0708'
-      term: "Mass communication"
-    - id: '0459'
-      term: "Communication"
-    - id: '0399'
-      term: "Library science"
-    - id: '0391'
-      term: "Journalism"
-    - id: '0723'
-      term: "Information science"
-    - id: '0646'
-      term: "Web studies"
-    - id: '0424'
-      term: "Arts management"
-    - id: '0454'
-      term: "Management"
-    - id: '0508'
-      term: "Finance"
-    - id: '0310'
-      term: "Business"
-    - id: '0430'
-      term: "Sports management"
-    - id: '0338'
-      term: "Marketing"
-    - id: '0429'
-      term: "Entrepreneurship"
-    - id: '0770'
-      term: "Banking"
-    - id: '0272'
+    - id: "0272"
       term: "Accounting"
-    - id: '0443'
-      term: "Educational evaluation"
-    - id: '0278'
-      term: "Home economics education"
-    - id: '0998'
-      term: "Philosophy of education"
-    - id: '0727'
-      term: "Curriculum development"
-    - id: '0445'
-      term: "Gifted education"
-    - id: '0524'
-      term: "Elementary education"
-    - id: '0520'
-      term: "History of education"
-    - id: '0277'
-      term: "Education finance"
-    - id: '0747'
-      term: "Vocational education"
-    - id: '0340'
-      term: "Sociology of education"
-    - id: '0519'
-      term: "School counseling"
-    - id: '0441'
-      term: "English as a second language"
-    - id: '0518'
-      term: "Early childhood education"
-    - id: '0533'
-      term: "Secondary education"
-    - id: '0444'
-      term: "Foreign language instruction"
-    - id: '0447'
-      term: "Instructional design"
-    - id: '0688'
-      term: "Business education"
-    - id: '0680'
-      term: "Health education"
-    - id: '0275'
-      term: "Community college education"
-    - id: '0457'
-      term: "Performing arts education"
-    - id: '0521'
-      term: "Industrial arts education"
-    - id: '0529'
-      term: "Special education"
-    - id: '0514'
-      term: "Educational administration"
-    - id: '0282'
-      term: "Bilingual education"
-    - id: '0525'
-      term: "Educational psychology"
-    - id: '0449'
-      term: "Educational leadership"
-    - id: '0527'
-      term: "Religious education"
-    - id: '0288'
-      term: "Educational tests and measurements"
-    - id: '0458'
-      term: "Education policy"
-    - id: '0535'
-      term: "Reading instruction"
-    - id: '0273'
-      term: "Art education"
-    - id: '0530'
-      term: "Teacher education"
-    - id: '0522'
-      term: "Music education"
-    - id: '0714'
-      term: "Science education"
-    - id: '0456'
-      term: "Pedagogy"
-    - id: '0455'
-      term: "Multicultural education"
-    - id: '0745'
-      term: "Higher education"
-    - id: '0534'
-      term: "Social sciences education"
-    - id: '0516'
+    - id: "0986"
+      term: "Acoustics"
+    - id: "0516"
       term: "Adult education"
-    - id: '0450'
-      term: "Middle school education"
-    - id: '0280'
-      term: "Mathematics education"
-    - id: '0279'
-      term: "Language arts"
-    - id: '0710'
-      term: "Educational technology"
-    - id: '0651'
-      term: "Continuing education"
-    - id: '0446'
-      term: "Higher education administration"
-    - id: '0515'
-      term: "Education"
-    - id: '0523'
-      term: "Physical education"
-    - id: '0290'
-      term: "Linguistics"
-    - id: '0313'
-      term: "Romance literature"
-    - id: '0294'
-      term: "Classical literature"
-    - id: '0401'
-      term: "Literature"
-    - id: '0316'
-      term: "African literature"
-    - id: '0289'
-      term: "Ancient languages"
-    - id: '0298'
-      term: "Modern literature"
-    - id: '0295'
-      term: "Comparative literature"
-    - id: '0681'
-      term: "Rhetoric"
-    - id: '0314'
-      term: "Slavic literature"
-    - id: '0291'
-      term: "Modern language"
-    - id: '0679'
-      term: "Language"
-    - id: '0312'
-      term: "Latin American literature"
-    - id: '0305'
-      term: "Asian literature"
-    - id: '0360'
-      term: "Caribbean literature"
-    - id: '0355'
-      term: "French Canadian literature"
-    - id: '0362'
-      term: "Icelandic and Scandinavian literature"
-    - id: '0315'
-      term: "Middle Eastern literature"
-    - id: '0591'
-      term: "American literature"
-    - id: '0297'
-      term: "Medieval literature"
-    - id: '0593'
-      term: "British and Irish literature"
-    - id: '0352'
-      term: "Canadian literature"
-    - id: '0311'
-      term: "Germanic literature"
-    - id: '0356'
-      term: "Literature of Oceania"
-    - id: '0386'
-      term: "Home economics"
-    - id: '0436'
-      term: "Cultural resources management"
-    - id: '0746'
-      term: "Wood sciences"
-    - id: '0640'
-      term: "Sustainability"
-    - id: '0304'
-      term: "Biographies"
-    - id: '0404'
-      term: "Climate change"
-    - id: '0791'
-      term: "Energy"
-    - id: '0558'
-      term: "Multimedia"
-    - id: '0359'
-      term: "Food science"
-    - id: '0363'
-      term: "Alternative energy"
-    - id: '0994'
-      term: "Textile research"
-    - id: '0730'
-      term: "Museum studies"
-    - id: '0489'
-      term: "Information technology"
-    - id: '0393'
-      term: "Epistemology"
-    - id: '0650'
+    - id: "0367"
+      term: "Aeronomy"
+    - id: "0538"
+      term: "Aerospace engineering"
+    - id: "0650"
       term: "Aesthetics"
-    - id: '0376'
-      term: "Divinity"
-    - id: '0647'
-      term: "Spirituality"
-    - id: '0320'
-      term: "Religious history"
-    - id: '0422'
-      term: "Philosophy"
-    - id: '0397'
-      term: "Pastoral counseling"
-    - id: '0469'
-      term: "Theology"
-    - id: '0618'
-      term: "Comparative religion"
-    - id: '0318'
-      term: "Religion"
-    - id: '0395'
-      term: "Logic"
-    - id: '0319'
-      term: "Clerical studies"
-    - id: '0321'
-      term: "Biblical studies"
-    - id: '0394'
-      term: "Ethics"
-    - id: '0322'
-      term: "Philosophy of Religion"
-    - id: '0375'
-      term: "Canon law"
-    - id: '0396'
-      term: "Metaphysics"
-    - id: '0402'
-      term: "Philosophy of science"
-    - id: '0513'
-      term: "Intellectual property"
-    - id: '0562'
-      term: "Patent law"
-    - id: '0398'
-      term: "Law"
-    - id: '0649'
-      term: "Alternative dispute resolution"
-    - id: '0616'
-      term: "International law"
-    - id: '0626'
-      term: "Sociology"
-    - id: '0629'
-      term: "Labor relations"
-    - id: '0617'
-      term: "Public administration"
-    - id: '0703'
-      term: "Organizational behavior"
-    - id: '0510'
-      term: "Economics, Labor"
-    - id: '0999'
-      term: "Urban planning"
-    - id: '0615'
-      term: "Political Science"
-    - id: '0511'
-      term: "Economic theory"
-    - id: '0635'
-      term: "Organization theory"
-    - id: '0750'
-      term: "Military studies"
-    - id: '0628'
-      term: "Individual and family studies"
-    - id: '0358'
-      term: "Folklore"
-    - id: '0636'
-      term: "Sociolinguistics"
-    - id: '0341'
-      term: "Area planning and development"
-    - id: '0509'
-      term: "Economic history"
-    - id: '0563'
-      term: "Peace studies"
-    - id: '0709'
-      term: "Transportation planning"
-    - id: '0501'
-      term: "Economics"
-    - id: '0814'
-      term: "Recreation and tourism"
-    - id: '0344'
-      term: "Social research"
-    - id: '0938'
-      term: "Demography"
-    - id: '0452'
-      term: "Social work"
-    - id: '0324'
-      term: "Archaeology"
-    - id: '0326'
-      term: "Cultural anthropology"
-    - id: '0339'
-      term: "Forensic anthropology"
-    - id: '0505'
-      term: "Economics, Commerce-Business"
-    - id: '0601'
-      term: "International relations"
-    - id: '0327'
-      term: "Physical anthropology"
-    - id: '0630'
-      term: "Public policy"
-    - id: '0627'
-      term: "Criminology"
-    - id: '0700'
-      term: "Social structure"
-    - id: '0366'
-      term: "Geography"
-    - id: '0333'
-      term: "Middle Eastern history"
-    - id: '0334'
-      term: "Canadian history"
-    - id: '0332'
-      term: "Asian history"
-    - id: '0336'
-      term: "Latin American history"
-    - id: '0331'
+    - id: "0296"
+      term: "African American studies"
+    - id: "0331"
       term: "African history"
-    - id: '0722'
-      term: "Military history"
-    - id: '0335'
-      term: "European history"
-    - id: '0724'
-      term: "Russian history"
-    - id: '0504'
-      term: "History of Oceania"
-    - id: '0579'
-      term: "Ancient history"
-    - id: '0328'
-      term: "Black history"
-    - id: '0581'
-      term: "Medieval history"
-    - id: '0582'
-      term: "Modern history"
-    - id: '0506'
-      term: "World history"
-    - id: '0585'
-      term: "History of science"
-    - id: '0337'
+    - id: "0316"
+      term: "African literature"
+    - id: "0293"
+      term: "African studies"
+    - id: "0493"
+      term: "Aging"
+    - id: "0473"
+      term: "Agriculture"
+    - id: "0503"
+      term: "Agriculture economics"
+    - id: "0517"
+      term: "Agriculture education"
+    - id: "0539"
+      term: "Agriculture engineering"
+    - id: "0285"
+      term: "Agronomy"
+    - id: "0649"
+      term: "Alternative dispute resolution"
+    - id: "0363"
+      term: "Alternative energy"
+    - id: "0496"
+      term: "Alternative medicine"
+    - id: "0337"
       term: "American history"
-    - id: '0578'
+    - id: "0591"
+      term: "American literature"
+    - id: "0323"
+      term: "American studies"
+    - id: "0486"
+      term: "Analytical chemistry"
+    - id: "0579"
+      term: "Ancient history"
+    - id: "0289"
+      term: "Ancient languages"
+    - id: "0602"
+      term: "Animal behavior"
+    - id: "0476"
+      term: "Animal diseases"
+    - id: "0475"
+      term: "Animal sciences"
+    - id: "0364"
+      term: "Applied mathematics"
+    - id: "0324"
+      term: "Archaeology"
+    - id: "0462"
+      term: "Architectural engineering"
+    - id: "0729"
+      term: "Architecture"
+    - id: "0341"
+      term: "Area planning and development"
+    - id: "0365"
+      term: "Art criticism"
+    - id: "0273"
+      term: "Art education"
+    - id: "0377"
+      term: "Art history"
+    - id: "0800"
+      term: "Artificial intelligence"
+    - id: "0424"
+      term: "Arts management"
+    - id: "0343"
+      term: "Asian American studies"
+    - id: "0332"
+      term: "Asian history"
+    - id: "0305"
+      term: "Asian literature"
+    - id: "0342"
+      term: "Asian studies"
+    - id: "0606"
+      term: "Astronomy"
+    - id: "0596"
+      term: "Astrophysics"
+    - id: "0371"
+      term: "Atmospheric chemistry"
+    - id: "0725"
+      term: "Atmospheric sciences"
+    - id: "0748"
+      term: "Atomic physics"
+    - id: "0300"
+      term: "Audiology"
+    - id: "0540"
+      term: "Automotive engineering"
+    - id: "0361"
+      term: "Baltic studies"
+    - id: "0770"
+      term: "Banking"
+    - id: "0384"
+      term: "Behavioral sciences"
+    - id: "0321"
+      term: "Biblical studies"
+    - id: "0282"
+      term: "Bilingual education"
+    - id: "0487"
+      term: "Biochemistry"
+    - id: "0425"
+      term: "Biogeochemistry"
+    - id: "0304"
+      term: "Biographies"
+    - id: "0715"
+      term: "Bioinformatics"
+    - id: "0416"
+      term: "Biological oceanography"
+    - id: "0306"
+      term: "Biology"
+    - id: "0648"
+      term: "Biomechanics"
+    - id: "0541"
+      term: "Biomedical engineering"
+    - id: "0786"
+      term: "Biophysics"
+    - id: "0308"
+      term: "Biostatistics"
+    - id: "0328"
+      term: "Black history"
+    - id: "0325"
+      term: "Black studies"
+    - id: "0593"
+      term: "British and Irish literature"
+    - id: "0310"
+      term: "Business"
+    - id: "0688"
+      term: "Business education"
+    - id: "0334"
+      term: "Canadian history"
+    - id: "0352"
+      term: "Canadian literature"
+    - id: "0385"
+      term: "Canadian studies"
+    - id: "0375"
+      term: "Canon law"
+    - id: "0360"
+      term: "Caribbean literature"
+    - id: "0432"
+      term: "Caribbean studies"
+    - id: "0379"
+      term: "Cellular biology"
+    - id: "0542"
+      term: "Chemical engineering"
+    - id: "0403"
+      term: "Chemical oceanography"
+    - id: "0485"
+      term: "Chemistry"
+    - id: "0435"
+      term: "Cinematography"
+    - id: "0543"
+      term: "Civil engineering"
+    - id: "0294"
+      term: "Classical literature"
+    - id: "0434"
+      term: "Classical studies"
+    - id: "0319"
+      term: "Clerical studies"
+    - id: "0404"
+      term: "Climate change"
+    - id: "0622"
+      term: "Clinical psychology"
+    - id: "0633"
+      term: "Cognitive psychology"
+    - id: "0459"
+      term: "Communication"
+    - id: "0275"
+      term: "Community college education"
+    - id: "0295"
+      term: "Comparative literature"
+    - id: "0618"
+      term: "Comparative religion"
+    - id: "0464"
+      term: "Computer engineering"
+    - id: "0984"
+      term: "Computer science"
+    - id: "0611"
+      term: "Condensed matter physics"
+    - id: "0408"
+      term: "Conservation biology"
+    - id: "0406"
+      term: "Continental dynamics"
+    - id: "0651"
+      term: "Continuing education"
+    - id: "0603"
+      term: "Counseling psychology"
+    - id: "0627"
+      term: "Criminology"
+    - id: "0326"
+      term: "Cultural anthropology"
+    - id: "0436"
+      term: "Cultural resources management"
+    - id: "0727"
+      term: "Curriculum development"
+    - id: "0378"
+      term: "Dance"
+    - id: "0938"
+      term: "Demography"
+    - id: "0567"
+      term: "Dentistry"
+    - id: "0389"
+      term: "Design"
+    - id: "0758"
+      term: "Developmental biology"
+    - id: "0620"
+      term: "Developmental psychology"
+    - id: "0376"
+      term: "Divinity"
+    - id: "0518"
+      term: "Early childhood education"
+    - id: "0437"
+      term: "East European studies"
+    - id: "0329"
+      term: "Ecology"
+    - id: "0509"
+      term: "Economic history"
+    - id: "0511"
+      term: "Economic theory"
+    - id: "0501"
+      term: "Economics"
+    - id: "0505"
+      term: "Economics, Commerce-Business"
+    - id: "0510"
+      term: "Economics, Labor"
+    - id: "0515"
+      term: "Education"
+    - id: "0277"
+      term: "Education finance"
+    - id: "0458"
+      term: "Education policy"
+    - id: "0514"
+      term: "Educational administration"
+    - id: "0443"
+      term: "Educational evaluation"
+    - id: "0449"
+      term: "Educational leadership"
+    - id: "0525"
+      term: "Educational psychology"
+    - id: "0710"
+      term: "Educational technology"
+    - id: "0288"
+      term: "Educational tests and measurements"
+    - id: "0544"
+      term: "Electrical engineering"
+    - id: "0607"
+      term: "Electromagnetics"
+    - id: "0524"
+      term: "Elementary education"
+    - id: "0409"
+      term: "Endocrinology"
+    - id: "0791"
+      term: "Energy"
+    - id: "0537"
+      term: "Engineering"
+    - id: "0441"
+      term: "English as a second language"
+    - id: "0353"
+      term: "Entomology"
+    - id: "0429"
+      term: "Entrepreneurship"
+    - id: "0438"
+      term: "Environmental economics"
+    - id: "0442"
+      term: "Environmental education"
+    - id: "0775"
+      term: "Environmental engineering"
+    - id: "0407"
+      term: "Environmental geology"
+    - id: "0470"
+      term: "Environmental health"
+    - id: "0619"
+      term: "Environmental justice"
+    - id: "0439"
+      term: "Environmental law"
+    - id: "0474"
+      term: "Environmental management"
+    - id: "0392"
+      term: "Environmental philosophy"
+    - id: "0768"
+      term: "Environmental science"
+    - id: "0477"
+      term: "Environmental studies"
+    - id: "0766"
+      term: "Epidemiology"
+    - id: "0393"
+      term: "Epistemology"
+    - id: "0394"
+      term: "Ethics"
+    - id: "0631"
+      term: "Ethnic studies"
+    - id: "0335"
+      term: "European history"
+    - id: "0440"
+      term: "European studies"
+    - id: "0412"
+      term: "Evolution and development"
+    - id: "0623"
+      term: "Experimental psychology"
+    - id: "0900"
+      term: "Film studies"
+    - id: "0508"
+      term: "Finance"
+    - id: "0357"
+      term: "Fine arts"
+    - id: "0792"
+      term: "Fisheries and aquatic sciences"
+    - id: "0358"
+      term: "Folklore"
+    - id: "0359"
+      term: "Food science"
+    - id: "0444"
+      term: "Foreign language instruction"
+    - id: "0339"
+      term: "Forensic anthropology"
+    - id: "0478"
+      term: "Forestry"
+    - id: "0482"
+      term: "French Canadian culture"
+    - id: "0355"
+      term: "French Canadian literature"
+    - id: "0492"
+      term: "GLBT studies"
+    - id: "0733"
+      term: "Gender studies"
+    - id: "0369"
+      term: "Genetics"
+    - id: "0483"
+      term: "Geobiology"
+    - id: "0996"
+      term: "Geochemistry"
+    - id: "0370"
+      term: "Geographic information science and geodesy"
+    - id: "0366"
+      term: "Geography"
+    - id: "0466"
+      term: "Geological engineering"
+    - id: "0372"
+      term: "Geology"
+    - id: "0484"
+      term: "Geomorphology"
+    - id: "0467"
+      term: "Geophysical engineering"
+    - id: "0373"
+      term: "Geophysics"
+    - id: "0428"
+      term: "Geotechnology"
+    - id: "0311"
+      term: "Germanic literature"
+    - id: "0351"
+      term: "Gerontology"
+    - id: "0445"
+      term: "Gifted education"
+    - id: "0769"
+      term: "Health care management"
+    - id: "0680"
+      term: "Health education"
+    - id: "0566"
+      term: "Health sciences"
+    - id: "0597"
+      term: "High temperature physics"
+    - id: "0745"
+      term: "Higher education"
+    - id: "0446"
+      term: "Higher education administration"
+    - id: "0737"
+      term: "Hispanic American studies"
+    - id: "0414"
+      term: "Histology"
+    - id: "0578"
       term: "History"
+    - id: "0504"
+      term: "History of Oceania"
+    - id: "0520"
+      term: "History of education"
+    - id: "0585"
+      term: "History of science"
+    - id: "0507"
+      term: "Holocaust studies"
+    - id: "0386"
+      term: "Home economics"
+    - id: "0278"
+      term: "Home economics education"
+    - id: "0471"
+      term: "Horticulture"
+    - id: "0388"
+      term: "Hydrologic sciences"
+    - id: "0362"
+      term: "Icelandic and Scandinavian literature"
+    - id: "0982"
+      term: "Immunology"
+    - id: "0628"
+      term: "Individual and family studies"
+    - id: "0521"
+      term: "Industrial arts education"
+    - id: "0546"
+      term: "Industrial engineering"
+    - id: "0723"
+      term: "Information science"
+    - id: "0489"
+      term: "Information technology"
+    - id: "0488"
+      term: "Inorganic chemistry"
+    - id: "0447"
+      term: "Instructional design"
+    - id: "0513"
+      term: "Intellectual property"
+    - id: "0616"
+      term: "International law"
+    - id: "0601"
+      term: "International relations"
+    - id: "0512"
+      term: "Islamic culture"
+    - id: "0391"
+      term: "Journalism"
+    - id: "0751"
+      term: "Judaic studies"
+    - id: "0575"
+      term: "Kinesiology"
+    - id: "0629"
+      term: "Labor relations"
+    - id: "0536"
+      term: "Land use planning"
+    - id: "0390"
+      term: "Landscape architecture"
+    - id: "0679"
+      term: "Language"
+    - id: "0279"
+      term: "Language arts"
+    - id: "0336"
+      term: "Latin American history"
+    - id: "0312"
+      term: "Latin American literature"
+    - id: "0550"
+      term: "Latin American studies"
+    - id: "0398"
+      term: "Law"
+    - id: "0399"
+      term: "Library science"
+    - id: "0793"
+      term: "Limnology"
+    - id: "0290"
+      term: "Linguistics"
+    - id: "0401"
+      term: "Literature"
+    - id: "0356"
+      term: "Literature of Oceania"
+    - id: "0395"
+      term: "Logic"
+    - id: "0598"
+      term: "Low temperature physics"
+    - id: "0420"
+      term: "Macroecology"
+    - id: "0454"
+      term: "Management"
+    - id: "0556"
+      term: "Marine geology"
+    - id: "0338"
+      term: "Marketing"
+    - id: "0708"
+      term: "Mass communication"
+    - id: "0794"
+      term: "Materials Science"
+    - id: "0794"
+      term: "Materials science"
+    - id: "0405"
+      term: "Mathematics"
+    - id: "0280"
+      term: "Mathematics education"
+    - id: "0548"
+      term: "Mechanical engineering"
+    - id: "0346"
+      term: "Mechanics"
+    - id: "0497"
+      term: "Medical ethics"
+    - id: "0574"
+      term: "Medical imaging and radiology"
+    - id: "0564"
+      term: "Medicine"
+    - id: "0581"
+      term: "Medieval history"
+    - id: "0297"
+      term: "Medieval literature"
+    - id: "0347"
+      term: "Mental health"
+    - id: "0396"
+      term: "Metaphysics"
+    - id: "0557"
+      term: "Meteorology"
+    - id: "0410"
+      term: "Microbiology"
+    - id: "0333"
+      term: "Middle Eastern history"
+    - id: "0315"
+      term: "Middle Eastern literature"
+    - id: "0555"
+      term: "Middle Eastern studies"
+    - id: "0450"
+      term: "Middle school education"
+    - id: "0722"
+      term: "Military history"
+    - id: "0750"
+      term: "Military studies"
+    - id: "0411"
+      term: "Mineralogy"
+    - id: "0551"
+      term: "Mining engineering"
+    - id: "0582"
+      term: "Modern history"
+    - id: "0291"
+      term: "Modern language"
+    - id: "0298"
+      term: "Modern literature"
+    - id: "0307"
+      term: "Molecular biology"
+    - id: "0431"
+      term: "Molecular chemistry"
+    - id: "0609"
+      term: "Molecular physics"
+    - id: "0287"
+      term: "Morphology"
+    - id: "0455"
+      term: "Multicultural education"
+    - id: "0558"
+      term: "Multimedia"
+    - id: "0730"
+      term: "Museum studies"
+    - id: "0413"
+      term: "Music"
+    - id: "0522"
+      term: "Music education"
+    - id: "0565"
+      term: "Nanoscience"
+    - id: "0652"
+      term: "Nanotechnology"
+    - id: "0740"
+      term: "Native American studies"
+    - id: "0528"
+      term: "Natural resource management"
+    - id: "0468"
+      term: "Naval engineering"
+    - id: "0559"
+      term: "Near Eastern studies"
+    - id: "0317"
+      term: "Neurosciences"
+    - id: "0560"
+      term: "North African studies"
+    - id: "0738"
+      term: "Nuclear chemistry"
+    - id: "0552"
+      term: "Nuclear engineering"
+    - id: "0756"
+      term: "Nuclear physics"
+    - id: "0569"
+      term: "Nursing"
+    - id: "0570"
+      term: "Nutrition"
+    - id: "0380"
+      term: "Obstetrics and gynecology"
+    - id: "0354"
+      term: "Occupational health"
+    - id: "0624"
+      term: "Occupational psychology"
+    - id: "0498"
+      term: "Occupational therapy"
+    - id: "0547"
+      term: "Ocean engineering"
+    - id: "0992"
+      term: "Oncology"
+    - id: "0796"
+      term: "Operations research"
+    - id: "0381"
+      term: "Ophthalmology"
+    - id: "0752"
+      term: "Optics"
+    - id: "0490"
+      term: "Organic chemistry"
+    - id: "0635"
+      term: "Organization theory"
+    - id: "0703"
+      term: "Organizational behavior"
+    - id: "0499"
+      term: "Osteopathic medicine"
+    - id: "0561"
+      term: "Pacific Rim studies"
+    - id: "0549"
+      term: "Packaging"
+    - id: "0653"
+      term: "Paleoclimate science"
+    - id: "0426"
+      term: "Paleoecology"
+    - id: "0418"
+      term: "Paleontology"
+    - id: "0718"
+      term: "Parasitology"
+    - id: "0798"
+      term: "Particle physics"
+    - id: "0397"
+      term: "Pastoral counseling"
+    - id: "0562"
+      term: "Patent law"
+    - id: "0571"
+      term: "Pathology"
+    - id: "0563"
+      term: "Peace studies"
+    - id: "0456"
+      term: "Pedagogy"
+    - id: "0641"
+      term: "Performing arts"
+    - id: "0457"
+      term: "Performing arts education"
+    - id: "0625"
+      term: "Personality psychology"
+    - id: "0765"
+      term: "Petroleum engineering"
+    - id: "0583"
+      term: "Petroleum geology"
+    - id: "0584"
+      term: "Petrology"
+    - id: "0572"
+      term: "Pharmaceutical sciences"
+    - id: "0419"
+      term: "Pharmacology"
+    - id: "0422"
+      term: "Philosophy"
+    - id: "0322"
+      term: "Philosophy of Religion"
+    - id: "0998"
+      term: "Philosophy of education"
+    - id: "0402"
+      term: "Philosophy of science"
+    - id: "0327"
+      term: "Physical anthropology"
+    - id: "0494"
+      term: "Physical chemistry"
+    - id: "0523"
+      term: "Physical education"
+    - id: "0368"
+      term: "Physical geography"
+    - id: "0415"
+      term: "Physical oceanography"
+    - id: "0382"
+      term: "Physical therapy"
+    - id: "0605"
+      term: "Physics"
+    - id: "0989"
+      term: "Physiological psychology"
+    - id: "0719"
+      term: "Physiology"
+    - id: "0590"
+      term: "Planetology"
+    - id: "0309"
+      term: "Plant biology"
+    - id: "0480"
+      term: "Plant pathology"
+    - id: "0479"
+      term: "Plant sciences"
+    - id: "0759"
+      term: "Plasma physics"
+    - id: "0795"
+      term: "Plastics"
+    - id: "0592"
+      term: "Plate tectonics"
+    - id: "0615"
+      term: "Political Science"
+    - id: "0495"
+      term: "Polymer chemistry"
+    - id: "0349"
+      term: "Psychobiology"
+    - id: "0621"
+      term: "Psychology"
+    - id: "0617"
+      term: "Public administration"
+    - id: "0573"
+      term: "Public health"
+    - id: "0500"
+      term: "Public health occupations education"
+    - id: "0630"
+      term: "Public policy"
+    - id: "0632"
+      term: "Quantitative psychology and psychometrics"
+    - id: "0599"
+      term: "Quantum physics"
+    - id: "0777"
+      term: "Range management"
+    - id: "0535"
+      term: "Reading instruction"
+    - id: "0814"
+      term: "Recreation and tourism"
+    - id: "0604"
+      term: "Regional studies"
+    - id: "0318"
+      term: "Religion"
+    - id: "0527"
+      term: "Religious education"
+    - id: "0320"
+      term: "Religious history"
+    - id: "0799"
+      term: "Remote sensing"
+    - id: "0681"
+      term: "Rhetoric"
+    - id: "0771"
+      term: "Robotics"
+    - id: "0313"
+      term: "Romance literature"
+    - id: "0724"
+      term: "Russian history"
+    - id: "0613"
+      term: "Scandinavian studies"
+    - id: "0519"
+      term: "School counseling"
+    - id: "0714"
+      term: "Science education"
+    - id: "0533"
+      term: "Secondary education"
+    - id: "0594"
+      term: "Sedimentary geology"
+    - id: "0314"
+      term: "Slavic literature"
+    - id: "0614"
+      term: "Slavic studies"
+    - id: "0451"
+      term: "Social psychology"
+    - id: "0344"
+      term: "Social research"
+    - id: "0534"
+      term: "Social sciences education"
+    - id: "0700"
+      term: "Social structure"
+    - id: "0452"
+      term: "Social work"
+    - id: "0636"
+      term: "Sociolinguistics"
+    - id: "0626"
+      term: "Sociology"
+    - id: "0340"
+      term: "Sociology of education"
+    - id: "0481"
+      term: "Soil sciences"
+    - id: "0654"
+      term: "South African studies"
+    - id: "0638"
+      term: "South Asian studies"
+    - id: "0529"
+      term: "Special education"
+    - id: "0460"
+      term: "Speech therapy"
+    - id: "0647"
+      term: "Spirituality"
+    - id: "0430"
+      term: "Sports management"
+    - id: "0463"
+      term: "Statistics"
+    - id: "0639"
+      term: "Sub Saharan Africa studies"
+    - id: "0576"
+      term: "Surgery"
+    - id: "0640"
+      term: "Sustainability"
+    - id: "0790"
+      term: "System science"
+    - id: "0423"
+      term: "Systematic biology"
+    - id: "0530"
+      term: "Teacher education"
+    - id: "0643"
+      term: "Technical communication"
+    - id: "0994"
+      term: "Textile research"
+    - id: "0465"
+      term: "Theater"
+    - id: "0644"
+      term: "Theater history"
+    - id: "0469"
+      term: "Theology"
+    - id: "0642"
+      term: "Theoretical mathematics"
+    - id: "0753"
+      term: "Theoretical physics"
+    - id: "0383"
+      term: "Toxicology"
+    - id: "0709"
+      term: "Transportation planning"
+    - id: "0281"
+      term: "Urban forestry"
+    - id: "0999"
+      term: "Urban planning"
+    - id: "0778"
+      term: "Veterinary medicine"
+    - id: "0720"
+      term: "Virology"
+    - id: "0747"
+      term: "Vocational education"
+    - id: "0595"
+      term: "Water resources management"
+    - id: "0646"
+      term: "Web studies"
+    - id: "0284"
+      term: "Wildlife conservation"
+    - id: "0286"
+      term: "Wildlife management"
+    - id: "0453"
+      term: "Women's studies"
+    - id: "0746"
+      term: "Wood sciences"
+    - id: "0506"
+      term: "World history"
+    - id: "0472"
+      term: "Zoology"
