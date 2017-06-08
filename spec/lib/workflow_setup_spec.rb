@@ -199,7 +199,7 @@ RSpec.describe WorkflowSetup do
       # Newly created users should be able to deposit, but nothing else
       depositor = User.new
       depositor.email = "fake#{rand(0..10_000)}@email.com"
-      depositor.password = "123456"
+      # depositor.password = "123456"
       depositor.save
       roles = Hyrax::Workflow::PermissionQuery.scope_processing_workflow_roles_for_user_and_workflow(user: depositor, workflow: workflow).pluck(:role_id)
       depositor_role_names = roles.map { |r| Sipity::Role.where(id: r).first.name }
