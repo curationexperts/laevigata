@@ -14,6 +14,16 @@ class Etd < ActiveFedora::Base
     self.degree_granting_institution = "http://id.loc.gov/vocabulary/organizations/geu"
   end
 
+  def hidden?
+    return false unless hidden
+    true
+  end
+
+  # Boolean
+  property :hidden, predicate: "http://emory.edu/local/hidden", multiple: false do |index|
+    index.as :stored_searchable, :facetable
+  end
+
   property :degree, predicate: "http://vivoweb.org/ontology/core#AcademicDegree" do |index|
     index.as :stored_searchable, :facetable
   end
