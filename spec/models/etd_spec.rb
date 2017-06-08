@@ -122,5 +122,4 @@ RSpec.describe Etd do
       its(:degree_granting_institution) { is_expected.to eq "http://id.loc.gov/vocabulary/organizations/geu" }
     end
   end
-
 end

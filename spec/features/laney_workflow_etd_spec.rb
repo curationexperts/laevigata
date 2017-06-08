@@ -51,6 +51,8 @@ RSpec.feature 'Create a Laney ETD' do
       expect(available_workflow_actions.include?("approve")).to eq false
       expect(available_workflow_actions.include?("request_changes")).to eq false
       expect(available_workflow_actions.include?("comment_only")).to eq false
+      expect(available_workflow_actions.include?("hide")).to eq false
+      expect(available_workflow_actions.include?("unhide")).to eq false
 
       # Check notifications for depositing user
       visit("/notifications?locale=en")
@@ -71,6 +73,8 @@ RSpec.feature 'Create a Laney ETD' do
       expect(available_workflow_actions.include?("approve")).to eq false # it can't be approved until after it has been marked as reviewed
       expect(available_workflow_actions.include?("request_changes")).to eq true
       expect(available_workflow_actions.include?("comment_only")).to eq true
+      expect(available_workflow_actions.include?("hide")).to eq true
+      expect(available_workflow_actions.include?("unhide")).to eq true
 
       # Last superuser should have all workflow options available. (First superuser gets these by virtue of owning the admin sets.)
       expect(w.superusers.count).to be > 1 # This test is meaningless if there is only one superuser
@@ -79,6 +83,8 @@ RSpec.feature 'Create a Laney ETD' do
       expect(available_workflow_actions.include?("approve")).to eq false # it can't be approved until after it has been marked as reviewed
       expect(available_workflow_actions.include?("request_changes")).to eq true
       expect(available_workflow_actions.include?("comment_only")).to eq true
+      expect(available_workflow_actions.include?("hide")).to eq true
+      expect(available_workflow_actions.include?("unhide")).to eq true
 
       # The approving user marks the etd as reviewed
       subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
@@ -96,9 +102,26 @@ RSpec.feature 'Create a Laney ETD' do
       Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: nil)
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "approved"
 
+      # The approving user hides the ETD
+      expect(etd.hidden?).to eq false
+      sipity_workflow_action = PowerConverter.convert_to_sipity_action("hide", scope: subject.entity.workflow) { nil }
+      Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "hiding for reasons")
+      expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "approved" # workflow state has not changed
+      expect(etd.hidden?).to eq true
+
+      # The approving user unhides the ETD
+      sipity_workflow_action = PowerConverter.convert_to_sipity_action("unhide", scope: subject.entity.workflow) { nil }
+      Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "unhiding for reasons")
+      expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "approved" # workflow state has not changed
+      expect(etd.hidden?).to eq false
+
       # Check notifications for approving user
       visit("/notifications?locale=en")
       expect(page).to have_content "#{title} (#{etd.id}) was approved by"
+      expect(page).to have_content "#{title} (#{etd.id}) was hidden by"
+      expect(page).to have_content "hiding for reasons"
+      expect(page).to have_content "#{title} (#{etd.id}) was unhidden by"
+      expect(page).to have_content "unhiding for reasons"
 
       # Check notifications for depositor again
       logout
