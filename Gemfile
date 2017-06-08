@@ -19,6 +19,7 @@ gem 'jquery-rails'
 # mail pinned to specific version to address "SMTP INJECTION VIA TO/FROM ADDRESSES" vulnerability
 # See https://gemnasium.com/gems/mail
 gem 'mail', '2.6.6.rc1'
+gem 'omniauth-shibboleth', '~> 1.2', '>= 1.2.1'
 gem 'pg'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.2'
