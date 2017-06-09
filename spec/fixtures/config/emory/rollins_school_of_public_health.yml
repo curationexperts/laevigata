@@ -1,3 +1,5 @@
+workflow:
+ - emory_one_step_approval
 approving:
  - rollinsadmin@emory.edu
  - rollinsadmin2@emory.edu

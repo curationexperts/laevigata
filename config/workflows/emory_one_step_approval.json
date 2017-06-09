@@ -1,0 +1,102 @@
+{
+    "workflows": [
+        {
+            "name": "emory_one_step_approval",
+            "label": "One-step approval tailored for Emory",
+            "description": "A single-step workflow for mediated deposit in which all deposits must be approved by an approver. Approver may also send deposits back to the depositor, comment on the work, and hide or unhide a work.",
+            "allows_access_grant": false,
+            "actions": [
+                {
+                    "name": "deposit",
+                    "from_states": [],
+                    "transition_to": "pending_approval",
+                    "notifications": [
+                        {
+                            "notification_type": "email",
+                            "name": "Hyrax::Workflow::PendingApprovalNotification",
+                            "to": ["approving", "depositing"]
+                        }
+                    ],
+                    "methods": [
+                        "Hyrax::Workflow::DeactivateObject"
+                    ]
+                }, {
+                    "name": "request_changes",
+                    "from_states": [{"names": ["approved", "pending_approval"], "roles": ["approving"]}],
+                    "transition_to": "changes_required",
+                    "notifications": [
+                        {
+                            "notification_type": "email",
+                            "name": "Hyrax::Workflow::ChangesRequiredNotification",
+                            "to": ["approving"]
+                        }
+                    ],
+                    "methods": [
+                        "Hyrax::Workflow::DeactivateObject"
+                    ]
+                }, {
+                    "name": "approve",
+                    "from_states": [{"names": ["pending_approval"], "roles": ["approving"]}],
+                    "transition_to": "approved",
+                    "notifications": [
+                        {
+                            "notification_type": "email",
+                            "name": "Hyrax::Workflow::ApprovedNotification",
+                            "to": ["approving", "depositing"]
+                        }
+                    ],
+                    "methods": [
+                        "Hyrax::Workflow::ActivateObject"
+                    ]
+                }, {
+                    "name": "request_review",
+                    "from_states": [{"names": ["changes_required"], "roles": ["depositing"]}],
+                    "transition_to": "pending_approval",
+                    "notifications": [
+                        {
+                            "notification_type": "email",
+                            "name": "Hyrax::Workflow::PendingReviewNotification",
+                            "to": ["approving"]
+                        }
+                    ]
+                }, {
+                    "name": "comment_only",
+                    "from_states": [
+                        { "names": ["pending_approval", "approved"], "roles": ["approving"] },
+                        { "names": ["changes_required"], "roles": ["depositing"] }
+                    ]
+                }, {
+                    "name": "hide",
+                    "from_states": [
+                        { "names": ["pending_review", "pending_approval", "approved", "changes_required"], "roles": ["reviewing", "approving"] }
+                    ],
+                    "notifications": [
+                        {
+                            "notification_type": "email",
+                            "name": "Hyrax::Workflow::HiddenNotification",
+                            "to": ["approving"]
+                        }
+                    ],
+                    "methods": [
+                      "Hyrax::Workflow::HideObject"
+                    ]
+                }, {
+                    "name": "unhide",
+                    "from_states": [
+                        { "names": ["pending_review", "pending_approval", "approved", "changes_required"], "roles": ["reviewing", "approving"] }
+                    ],
+                    "notifications": [
+                        {
+                            "notification_type": "email",
+                            "name": "Hyrax::Workflow::UnhiddenNotification",
+                            "to": ["approving"]
+                        }
+                    ],
+                    "methods": [
+                      "Hyrax::Workflow::UnhideObject"
+                    ]
+                }
+            ]
+        }
+    ]
+}

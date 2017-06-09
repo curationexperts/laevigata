@@ -43,7 +43,7 @@ class WorkflowSetup
   # Make an AdminSet and assign it a one step mediated deposit workflow
   # @param [String] admin_set_title The title of the admin set to create
   # @param [String] workflow_name The name of the mediated deposit workflow to enable
-  def make_mediated_deposit_admin_set(admin_set_title, workflow_name = "one_step_mediated_deposit")
+  def make_mediated_deposit_admin_set(admin_set_title, workflow_name = "emory_one_step_approval")
     a = make_admin_set(admin_set_title)
     activate_mediated_deposit(a, workflow_name)
     a
@@ -76,7 +76,7 @@ class WorkflowSetup
   # @return [AdminSet]
   def make_admin_set_from_config(admin_set_title)
     config = school_config(admin_set_title)
-    config["workflow"] || config["workflow"] = "one_step_mediated_deposit"
+    config["workflow"] || config["workflow"] = "emory_one_step_approval"
     admin_set = make_mediated_deposit_admin_set(admin_set_title, config["workflow"])
     approving_users = []
     config["approving"].each do |approver_email|
@@ -211,10 +211,11 @@ class WorkflowSetup
     abort("Failed to process all workflows:\n  #{errors.join('\n  ')}") unless errors.empty?
   end
 
-  # Activate the one_step_mediated_deposit workflow for the given admin_set.
+  # Activate a mediated deposit workflow for the given admin_set.
+  # Default is emory_one_step_approval, but a different value can be passed in.
   # The activate! method will DEactivate it if it was already active, so be careful.
   # @return [Boolean] true if successful
-  def activate_mediated_deposit(admin_set, workflow_name = "one_step_mediated_deposit")
+  def activate_mediated_deposit(admin_set, workflow_name = "emory_one_step_approval")
     osmd = admin_set.permission_template.available_workflows.where(name: workflow_name).first
     if osmd.active == true
       @logger.debug "AdminSet #{admin_set.title.first} already had workflow #{admin_set.permission_template.available_workflows.where(active: true).first.name}. Not making any changes."
