@@ -99,6 +99,36 @@
                             "to": ["approving"]
                         }
                     ]
+                }, {
+                    "name": "hide",
+                    "from_states": [
+                        { "names": ["pending_review", "pending_approval", "approved", "changes_required"], "roles": ["reviewing", "approving"] }
+                    ],
+                    "notifications": [
+                        {
+                            "notification_type": "email",
+                            "name": "Hyrax::Workflow::HiddenNotification",
+                            "to": ["approving"]
+                        }
+                    ],
+                    "methods": [
+                      "Hyrax::Workflow::HideObject"
+                    ]
+                }, {
+                    "name": "unhide",
+                    "from_states": [
+                        { "names": ["pending_review", "pending_approval", "approved", "changes_required"], "roles": ["reviewing", "approving"] }
+                    ],
+                    "notifications": [
+                        {
+                            "notification_type": "email",
+                            "name": "Hyrax::Workflow::UnhiddenNotification",
+                            "to": ["approving"]
+                        }
+                    ],
+                    "methods": [
+                      "Hyrax::Workflow::UnhideObject"
+                    ]
                 }
             ]
         }
