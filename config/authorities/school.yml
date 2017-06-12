@@ -1,0 +1,9 @@
+terms:
+    - id: 'laney_programs'
+      term: 'Laney Graduate School'
+    - id: 'emory_college_programs'
+      term: 'Emory College'
+    - id: 'candler_programs'
+      term: 'Candler School of Theology'
+    - id: 'rollins_programs'
+      term: 'Rollins School of Public Health'

@@ -30,7 +30,7 @@ RSpec.feature 'Create a Laney ETD' do
       fill_in 'Keyword', with: 'Surrealism'
       # Department is not required, by default it is hidden as an additional field
       click_link("Additional fields")
-      fill_in "Department", with: "Institute of Liberal Arts"
+      fill_in "Department", with: "Religion"
       fill_in "School", with: "Laney Graduate School"
       select('All rights reserved', from: 'Rights')
       choose('open')

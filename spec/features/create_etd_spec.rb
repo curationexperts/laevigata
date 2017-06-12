@@ -22,7 +22,7 @@ RSpec.feature 'Create a Etd' do
       expect(page).to have_selector("[data-toggle='tab']", text: "Review")
     end
 
-    scenario "Submit a basic MS Word Thesis" do
+    scenario "Submit a basic MS Word Thesis", js: true do
       visit(root_url)
       click_link("Share Your Work")
       expect(current_url).to start_with new_hyrax_etd_url
@@ -36,12 +36,16 @@ RSpec.feature 'Create a Etd' do
       fill_in 'Keyword', with: 'China'
       # Department is not required, by default it is hidden as an additional field
       click_link("Additional fields")
-      fill_in "Department", with: "Department of Russian and East Asian Languages and Cultures"
-      fill_in "School", with: "Emory College of Arts and Sciences"
-      fill_in "Degree", with: "Bachelor of Arts with Honors"
+      select("Laney Graduate School", from: "School")
+      expect(page).not_to have_selector(:css, "#etd_department[disabled]", wait: 10) 
+      select('MS', from: "Degree")
+      select("Religion", from: "Department")
+      # fill_in 'Department', with: 'Religion'
       select('All rights reserved', from: 'Rights')
+      select("Ethics and Society", from: "Sub Field")
+      # fill_in 'Sub Field', with: 'Ethics and Society'
       select('CDC', from: 'Partnering agency')
-      select("Honors Thesis", from: "I am submitting")
+      select("Honors Thesis", from: "I Am Submitting My")
       choose('open')
       check('agreement')
       click_on('My PDF')

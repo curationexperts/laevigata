@@ -27,13 +27,26 @@ class Etd < ActiveFedora::Base
   property :school, predicate: "http://vivoweb.org/ontology/core#School" do |index|
     index.as :stored_searchable, :facetable
   end
+  property :subfield, predicate: "http://vivoweb.org/ontology/core#majorField" do |index|
+    index.as :stored_searchable, :facetable
+  end
+  property :degree, predicate: "http://vivoweb.org/ontology/core#AcademicDegree" do |index|
+    index.as :stored_searchable, :facetable
+  end
   property :partnering_agency, predicate: "http://id.loc.gov/vocabulary/relators/ctb" do |index|
     index.as :stored_searchable
   end
   property :submitting_type, predicate: "http://www.europeana.eu/schemas/edm/hasType" do |index|
     index.as :stored_searchable
   end
+  property :committee_members, predicate: "http://id.loc.gov/vocabulary/relators/rev" do |index|
+    index.as :stored_searchable
+  end
+  property :committee_chair, predicate: "http://id.loc.gov/vocabulary/relators/ths" do |index|
+    index.as :stored_searchable
+  end
   property :research_field, predicate: ::RDF::Vocab::DC.subject do |index|
     index.as :stored_searchable, :facetable
   end
+
 end

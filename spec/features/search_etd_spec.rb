@@ -24,6 +24,7 @@ RSpec.feature 'Search for an ETD' do
       expect(page).to have_content etd.degree.first
       expect(page).to have_content etd.department.first
       expect(page).to have_content etd.school.first
+      expect(page).to have_content etd.subfield.first
       expect(page).to have_content etd.partnering_agency.first
       expect(page).to have_content etd.submitting_type.first
       expect(page).to have_content research_field_label
@@ -36,6 +37,8 @@ RSpec.feature 'Search for an ETD' do
       expect(page).to have_link(etd.department.first, class: "facet_select")
       expect(page).to have_xpath("//h3", text: "School")
       expect(page).to have_link(etd.school.first, class: "facet_select")
+      expect(page).to have_xpath("//h3", text: "Sub Field")
+      expect(page).to have_link(etd.subfield.first, class: "facet_select")
       expect(page).to have_xpath("//h3", text: "Research Field")
       expect(page).to have_link(research_field_label, class: "facet_select")
     end
