@@ -20,9 +20,16 @@
 
 //= require blacklight_gallery
 //= require cable
+//= require openseadragon
 //= require about_me_save
 //= require tab_info
-//= require openseadragon
-//= require hyrax
+
 // Provide AMD module support
+//= require hyrax
+
+//= require etd_editor
+//= require etd_save_work_control
+//= require app
+
+
 //= require almond
