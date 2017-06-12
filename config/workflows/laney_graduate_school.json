@@ -30,8 +30,8 @@
                     "notifications": [
                         {
                             "notification_type": "email",
-                            "name": "Hyrax::Workflow::PendingReviewNotification",
-                            "to": ["approving"]
+                            "name": "Hyrax::Workflow::ReviewedNotification",
+                            "to": ["approving", "depositing"]
                         }
                     ],
                     "methods": [
@@ -91,6 +91,43 @@
                     "from_states": [
                         { "names": ["pending_review", "pending_approval", "approved"], "roles": ["reviewing", "approving"] },
                         { "names": ["changes_required"], "roles": ["depositing"] }
+                    ],
+                    "notifications": [
+                        {
+                            "notification_type": "email",
+                            "name": "Hyrax::Workflow::CommentNotification",
+                            "to": ["approving"]
+                        }
+                    ]
+                }, {
+                    "name": "hide",
+                    "from_states": [
+                        { "names": ["pending_review", "pending_approval", "approved", "changes_required"], "roles": ["reviewing", "approving"] }
+                    ],
+                    "notifications": [
+                        {
+                            "notification_type": "email",
+                            "name": "Hyrax::Workflow::HiddenNotification",
+                            "to": ["approving"]
+                        }
+                    ],
+                    "methods": [
+                      "Hyrax::Workflow::HideObject"
+                    ]
+                }, {
+                    "name": "unhide",
+                    "from_states": [
+                        { "names": ["pending_review", "pending_approval", "approved", "changes_required"], "roles": ["reviewing", "approving"] }
+                    ],
+                    "notifications": [
+                        {
+                            "notification_type": "email",
+                            "name": "Hyrax::Workflow::UnhiddenNotification",
+                            "to": ["approving"]
+                        }
+                    ],
+                    "methods": [
+                      "Hyrax::Workflow::UnhideObject"
                     ]
                 }
             ]

@@ -13,7 +13,7 @@ describe EtdPresenter do
   let(:subfield) {['Ethics and Society']}
   let(:partnering_agency) { ["Does not apply (no collaborating organization)"] }
   let(:submitting_type) { ["Honors Thesis"] }
-  let(:research_field) { ['383'] }
+  let(:research_field) { ['0383'] }
   let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
   let :etd do
     Etd.new(title: title, creator: creator, keyword: keyword, degree: degree, department: department,

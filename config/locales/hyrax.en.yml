@@ -19,3 +19,12 @@ en:
           supplemental_files: "My Supplemental Files"
           embargoes: "My Embargoes"
           review:         "Review"
+        tab-description:
+          about_me:      "About Me"
+          about_my_etd:  "About My Thesis or Dissertation"
+          my_pdf:        "My Primary PDF (Required)"
+          supplemental_files: "My Supplemental Files (Optional)"
+          embargoes: "My Embargoes"
+          review: "Review Your Submission"
+      create:
+        header: ""

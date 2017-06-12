@@ -11,22 +11,16 @@
         <% else %>
           <li role="presentation">
         <% end %>
-            <a href="#<%= tab %>" aria-controls="<%= tab %>" role="tab" data-toggle="tab">
+            <a href="#<%= tab %>" aria-controls="<%= tab %>" role="tab" data-toggle="tab" data-tab-description='<%= t("hyrax.works.form.tab-description.#{tab}") %>'>
               <i class="fa icon-<%= tab %>"></i> <%= t("hyrax.works.form.tab.#{tab}") %>
             </a>
           </li>
       <% end %>
-
-      <li role="presentation" id="tab-share" class="hidden">
-        <a href="#share" aria-controls="share" role="tab" data-toggle="tab">
-          <i class="fa icon-share"></i> <%= t("hyrax.works.form.tab.share") %>
-        </a>
-      </li>
     </ul>
 
     <!-- Tab panes -->
     <div class="tab-content">
-      <% (tabs - ['share']).each_with_index do | tab, i | %>
+      <% (tabs).each_with_index do | tab, i | %>
         <% if i == 0 %>
           <div role="tabpanel" class="tab-pane active" id="<%= tab %>">
         <% else %>
@@ -38,12 +32,6 @@
           </div>
         </div>
       <% end %>
-
-      <div role="tabpanel" class="tab-pane" id="share" data-param-key="<%= f.object.model_name.param_key %>">
-          <div class="form-tab-content">
-            <%= render "form_share", f: f %>
-          </div>
-      </div>
     </div>
   </div>
 

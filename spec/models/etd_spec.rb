@@ -3,6 +3,19 @@
 require 'rails_helper'
 
 RSpec.describe Etd do
+  context "#hidden?" do
+    let(:etd) { FactoryGirl.create(:etd) }
+    context "with a new ETD" do
+      it "is not hidden when it is first created" do
+        expect(etd.hidden?).to eq false
+      end
+      it "can be set to true" do
+        etd.hidden = true
+        expect(etd.hidden?).to eq true
+      end
+    end
+  end
+
   describe "#degree" do
     subject { described_class.new }
     let(:degree) { "MS" }
@@ -102,7 +115,7 @@ RSpec.describe Etd do
 
   describe "#research_field" do
     subject { described_class.new }
-    let(:research_field) { ['383'] }
+    let(:research_field) { ['0383'] }
 
     context "with a new ETD" do
       its(:research_field) { is_expected.to be_empty }

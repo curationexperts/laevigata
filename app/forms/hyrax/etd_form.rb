@@ -4,6 +4,10 @@ module Hyrax
   class EtdForm < Hyrax::Forms::WorkForm
     include SingleValuedForm
     self.model_class = ::Etd
+    # placeholder about me terms
+    self.terms += [:graduation_date]
+    self.terms += [:post_graduation_email]
+
     self.terms += [:resource_type]
     self.terms += [:school]
     self.terms += [:department]
@@ -12,6 +16,23 @@ module Hyrax
     self.terms += [:partnering_agency]
     self.terms += [:submitting_type]
     self.terms += [:research_field]
-    self.single_valued_fields = [:title, :creator, :submitting_type, :degree, :subfield, :department, :school]
+
+
+    # placeholder about my program fields
+    self.terms += [:committee_chair]
+    self.terms += [:committee_members]
+    # removing these for About me demo
+    self.terms -= [:rights]
+    self.terms -= [:keyword]
+
+    self.single_valued_fields = [:title, :creator, :submitting_type, :graduation_date, :degree, :subfield, :department, :school]
+
+    def about_me_fields
+      [:creator, :graduation_date, :post_graduation_email]
+    end
+
+    def about_my_program_fields
+      [:school, :department, :research_field, :degree, :submitting_type, :committee_chair, :committee_members, :partnering_agency]
+    end
   end
 end

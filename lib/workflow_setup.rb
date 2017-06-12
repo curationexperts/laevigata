@@ -43,7 +43,7 @@ class WorkflowSetup
   # Make an AdminSet and assign it a one step mediated deposit workflow
   # @param [String] admin_set_title The title of the admin set to create
   # @param [String] workflow_name The name of the mediated deposit workflow to enable
-  def make_mediated_deposit_admin_set(admin_set_title, workflow_name = "one_step_mediated_deposit")
+  def make_mediated_deposit_admin_set(admin_set_title, workflow_name = "emory_one_step_approval")
     a = make_admin_set(admin_set_title)
     activate_mediated_deposit(a, workflow_name)
     a
@@ -53,6 +53,7 @@ class WorkflowSetup
   # currently active workflow
   # @param [AdminSet] admin_set
   # @param [String|Sipity::Role] role e.g., "approving" "depositing" "managing"
+  # @return [Array<Sipity::Agent>] An array of Sipity::Agent objects
   def users_in_role(admin_set, role)
     return [] unless admin_set.permission_template.available_workflows.where(active: true).count > 0
     users_in_role = []
@@ -75,7 +76,7 @@ class WorkflowSetup
   # @return [AdminSet]
   def make_admin_set_from_config(admin_set_title)
     config = school_config(admin_set_title)
-    config["workflow"] || config["workflow"] = "one_step_mediated_deposit"
+    config["workflow"] || config["workflow"] = "emory_one_step_approval"
     admin_set = make_mediated_deposit_admin_set(admin_set_title, config["workflow"])
     approving_users = []
     config["approving"].each do |approver_email|
@@ -138,13 +139,38 @@ class WorkflowSetup
     end
   end
 
-  # Give all superusers the managing role all workflows
+  # Give superusers the managing role in all AdminSets
+  # Also give them all workflow roles for all AdminSets
   def give_superusers_superpowers
     @logger.info "Giving superuser powers to #{superusers.pluck(:email)}"
-    superusers_as_sipity_agents = superusers.map(&:to_sipity_agent)
+    give_superusers_managing_role
+    give_superusers_workflow_roles
+  end
+
+  def superusers_as_sipity_agents
+    superusers.map(&:to_sipity_agent)
+  end
+
+  # Give all superusers the managing role all workflows
+  def give_superusers_managing_role
     AdminSet.all.each do |admin_set|
       admin_set.permission_template.available_workflows.each do |workflow| # .where(active: true) ?
         workflow.update_responsibilities(role: Sipity::Role.where(name: "managing").first, agents: superusers_as_sipity_agents)
+      end
+    end
+  end
+
+  def give_superusers_workflow_roles
+    AdminSet.all.each do |admin_set|
+      admin_set.permission_template.available_workflows.where(active: true).each do |workflow|
+        workflow_roles = Sipity::WorkflowRole.where(workflow_id: workflow.id)
+        workflow_roles.each do |workflow_role|
+          workflow_role_name = Sipity::Role.where(id: workflow_role.role_id).first.name
+          next if workflow_role_name == "depositing" || workflow_role_name == "managing"
+          union_of_users = superusers_as_sipity_agents.concat(users_in_role(admin_set, workflow_role_name)).uniq
+          @logger.debug "Granting #{workflow_role_name} to #{union_of_users.map { |u| User.where(id: u.proxy_for_id).first.email }}"
+          workflow.update_responsibilities(role: Sipity::Role.where(id: workflow_role.role_id), agents: union_of_users)
+        end
       end
     end
   end
@@ -185,10 +211,11 @@ class WorkflowSetup
     abort("Failed to process all workflows:\n  #{errors.join('\n  ')}") unless errors.empty?
   end
 
-  # Activate the one_step_mediated_deposit workflow for the given admin_set.
+  # Activate a mediated deposit workflow for the given admin_set.
+  # Default is emory_one_step_approval, but a different value can be passed in.
   # The activate! method will DEactivate it if it was already active, so be careful.
   # @return [Boolean] true if successful
-  def activate_mediated_deposit(admin_set, workflow_name = "one_step_mediated_deposit")
+  def activate_mediated_deposit(admin_set, workflow_name = "emory_one_step_approval")
     osmd = admin_set.permission_template.available_workflows.where(name: workflow_name).first
     if osmd.active == true
       @logger.debug "AdminSet #{admin_set.title.first} already had workflow #{admin_set.permission_template.available_workflows.where(active: true).first.name}. Not making any changes."

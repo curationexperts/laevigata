@@ -22,7 +22,8 @@ gem 'pg'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.2'
 # use resque-pool for background jobs
-gem 'resque-pool'
+# need master from github to get hot-swap functionality
+gem 'resque-pool', github: 'nevans/resque-pool'
 gem 'resque-web', require: 'resque_web'
 gem 'rsolr', '~> 1.0'
 # Use SCSS for stylesheets
@@ -38,6 +39,7 @@ gem 'turbolinks', '~> 5'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
+gem 'xray-rails'
 gem 'yard'
 
 group :development, :test do
@@ -46,6 +48,7 @@ group :development, :test do
   # console
   gem 'byebug', platform: :mri
   gem 'capybara'
+  gem 'capybara-webkit'
   gem 'coveralls', require: false
   gem 'database_cleaner'
   gem 'factory_girl_rails'
