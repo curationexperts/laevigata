@@ -27,6 +27,7 @@
 // Provide AMD module support
 //= require hyrax
 
+//= require required_fields
 //= require etd_editor
 //= require etd_save_work_control
 //= require app

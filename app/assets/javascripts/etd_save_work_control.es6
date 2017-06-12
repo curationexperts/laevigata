@@ -1,4 +1,4 @@
-import { RequiredFields } from 'hyrax/save_work/required_fields'
+import { ETDRequiredFields } from './required_fields'
 import { ChecklistItem } from 'hyrax/save_work/checklist_item'
 import { UploadedFiles } from 'hyrax/save_work/uploaded_files'
 import { DepositAgreement } from 'hyrax/save_work/deposit_agreement'
@@ -17,6 +17,16 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     //       evt.preventDefault();
     //   })
     }
+    preventSaveAboutMeUnlessValid() {
+      $("#about_me_and_my_program").on('click', (evt) => {
+        // select form here, not this
+        if (!this.isValid())
+          evt.preventDefault();
+      })
+    }
+
+
+
     //
     // /**
     //  * Keep the form from being submitted many times.
@@ -54,19 +64,22 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       if (!this.form) {
         return
       }
-      this.requiredFields = new RequiredFields(this.form, () => this.formStateChanged())
+      //make one of these for each tab, passing in tab id, all fields are required
+      this.requiredFields = new ETDRequiredFields(this.form, () => this.formStateChanged(), ".about-me")
       this.uploads = new UploadedFiles(this.form, () => this.formStateChanged())
-      this.saveButton = this.element.find(':submit')
+      this.saveButton = this.element.find('#about_me_and_my_program')
       this.depositAgreement = new DepositAgreement(this.form, () => this.formStateChanged())
+      this.requiredMeAndMyProgram = new ChecklistItem(this.element.find('#required-about-me'))
       this.requiredMetadata = new ChecklistItem(this.element.find('#required-metadata'))
       this.requiredFiles = new ChecklistItem(this.element.find('#required-files'))
       new VisibilityComponent(this.element.find('.visibility'), this.adminSetWidget)
-      //this.preventSubmit()
+      this.preventSubmit()
       this.watchMultivaluedFields()
       this.formChanged()
     }
 
     preventSubmit() {
+      this.preventSaveAboutMeUnlessValid()
       // this.preventSubmitUnlessValid()
       // this.preventSubmitIfAlreadyInProgress()
       // this.preventSubmitIfUploading()
@@ -93,12 +106,27 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     isValid() {
     //   avoid short circuit evaluation. The checkboxes should be independent.
     //   let metadataValid = this.validateMetadata()
+      let meAndMyProgram = this.validateMeAndMyProgram()
     //   let filesValid = this.validateFiles()
     //   let agreementValid = this.validateAgreement(filesValid)
     //   return metadataValid && filesValid && agreementValid
+      // console.log(meAndMyProgram)
+      return meAndMyProgram
     }
 // hm so, should each tab have its own validations? i think so, therefor required metadata becomes required-aboutmeandmyprogram
     // // sets the metadata indicator to complete/incomplete
+
+
+
+    validateMeAndMyProgram() {
+      if (this.requiredFields.areComplete) {
+        this.requiredMeAndMyProgram.check()
+        return true
+      }
+      this.requiredMeAndMyProgram.uncheck()
+      return false
+    }
+
     validateMetadata() {
       if (this.requiredFields.areComplete) {
         this.requiredMetadata.check()
