@@ -51,6 +51,10 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable, :facetable
   end
 
+  property :committee_chair, predicate: "http://id.loc.gov/vocabulary/relators/ths", class_name: "Faculty"
+
+  property :committee_members, predicate: "http://id.loc.gov/vocabulary/relators/rev", class_name: "Faculty"
+
   # TODO: The following properties are placeholders and need to be edited to hold correct predicates and indexes
 
   property :graduation_date, predicate: "http://vivoweb.org/ontology/core#AcademicDepartment" do |index|
@@ -59,13 +63,5 @@ class Etd < ActiveFedora::Base
 
   property :post_graduation_email, predicate: "http://vivoweb.org/ontology/core#AcademicDepartment" do |index|
     index.as :stored_searchable, :facetable
-  end
-
-  property :committee_chair, predicate: "http://id.loc.gov/vocabulary/relators/ctb" do |index|
-    index.as :stored_searchable
-  end
-
-  property :committee_members, predicate: "http://id.loc.gov/vocabulary/relators/ctb" do |index|
-    index.as :stored_searchable
   end
 end
