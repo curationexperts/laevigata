@@ -25,8 +25,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       })
     }
 
-
-
     //
     // /**
     //  * Keep the form from being submitted many times.
@@ -57,7 +55,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     get isNew() {
     //   return this.form.attr('id').startsWith('new')
      }
-
     //  * Call this when the form has been rendered
     //  */
     activate() {
@@ -65,7 +62,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
         return
       }
       //make one of these for each tab, passing in tab id, all fields are required
-      this.requiredFields = new ETDRequiredFields(this.form, () => this.formStateChanged(), ".about-me")
+      this.requiredAboutMeFields = new ETDRequiredFields(this.form, () => this.formStateChanged(), ".about-me")
       this.uploads = new UploadedFiles(this.form, () => this.formStateChanged())
       this.saveButton = this.element.find('#about_me_and_my_program')
       this.depositAgreement = new DepositAgreement(this.form, () => this.formStateChanged())
@@ -113,13 +110,9 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       // console.log(meAndMyProgram)
       return meAndMyProgram
     }
-// hm so, should each tab have its own validations? i think so, therefor required metadata becomes required-aboutmeandmyprogram
-    // // sets the metadata indicator to complete/incomplete
-
-
 
     validateMeAndMyProgram() {
-      if (this.requiredFields.areComplete) {
+      if (this.requiredAboutMeFields.areComplete) {
         this.requiredMeAndMyProgram.check()
         return true
       }
@@ -127,14 +120,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       return false
     }
 
-    validateMetadata() {
-      if (this.requiredFields.areComplete) {
-        this.requiredMetadata.check()
-        return true
-      }
-      this.requiredMetadata.uncheck()
-      return false
-    }
 
   // // sets the files indicator to complete/incomplete
   validateFiles() {

@@ -37,23 +37,42 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_css('select#etd_committee_members')
       expect(page).to have_css('select#etd_partnering_agency')
       fill_in 'Student Name', with: 'Eun, Dongwon'
+      select("Spring 2018", from: "Graduation date")
       # Department is not required, by default it is hidden as an additional field
+      fill_in "Post graduation email", with: "graduate@done.com"
       fill_in 'Title', with: "A Good Title"
       fill_in "School", with: "Emory College of Arts and Sciences"
       fill_in "Department", with: "Department of Russian and East Asian Languages and Cultures"
       select('Medicine', from: 'Research Field')
-      # select('All rights reserved', from: 'Rights')
-      # fill_in 'Keyword', with: 'Surrealism'
+
       fill_in "Degree", with: "Bachelor of Arts with Honors"
       select("Honors Thesis", from: "I am submitting")
-      select('CDC', from: 'Partnering agency')
 
+      select('Person', from: 'Emory Faculty')
+      fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
+      select('Another Person', from: 'Non-Emory Faculty')
+      fill_in "Committee members", with: "Joan Didion"
+      select('CDC', from: 'Partnering agency')
       click_on('Save About Me')
 
       expect(page).to have_content 'Successfully saved About: Eun, Dongwon, A Good Title'
+      expect(page).to have_css('li#required-about-me.complete')
+      expect(page).not_to have_css('li#required-about-me.incomplete')
+    end
+
+    scenario "display indicates incomplete 'about me and my program' data", js: true do
+      visit("/concern/etds/new")
+      select('Person', from: 'Emory Faculty')
+      fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
+      select('Another Person', from: 'Non-Emory Faculty')
+      fill_in "Committee members", with: "Joan Didion"
+      select('CDC', from: 'Partnering agency')
+      click_on('Save About Me')
+
+      expect(page).to have_css('li#required-about-me.incomplete')
+      expect(page).not_to have_css('li#required-about-me.complete')
     end
   end
-
   context 'a logged out user' do
     scenario "cannot get to submit page from 'share your work' link" do
       visit(root_url)

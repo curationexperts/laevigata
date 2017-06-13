@@ -20,7 +20,7 @@ RSpec.feature 'Create an Emory College ETD' do
       visit("/concern/etds/new")
       expect(page).to have_css('input#etd_title.required')
       expect(page).not_to have_css('input#etd_title.multi_value')
-      expect(page).to have_css('input#etd_creator.required')
+      expect(page).to have_css('input#etd_creator')
       expect(page).not_to have_css('input#etd_creator.multi_value')
       title = "A Brief History of Art #{rand}"
       fill_in 'Title', with: title

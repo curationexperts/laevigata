@@ -2,6 +2,7 @@ import { RequiredFields } from 'hyrax/save_work/required_fields'
 
 export class ETDRequiredFields extends RequiredFields {
   // Monitors the form and runs the callback if any of the required fields change
+  // I want to pass in the selector for this so I can make new ones for each tab
 
   constructor(form, callback, selector) {
     super(form, callback)
