@@ -90,12 +90,14 @@ RSpec.feature 'Create a Candler ETD' do
 
       # Check notifications for approving user
       visit("/notifications?locale=en")
+      expect(page).to have_content "Deposit #{title} has been approved"
       expect(page).to have_content "#{title} (#{etd.id}) has been approved by"
 
       # Check notifications for depositor again
       logout
       login_as user
       visit("/notifications?locale=en")
+      expect(page).to have_content "Deposit #{title} has been approved"
       expect(page).to have_content "#{title} (#{etd.id}) has been approved by"
     end
   end
