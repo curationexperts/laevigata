@@ -16,6 +16,23 @@ RSpec.describe Etd do
     end
   end
 
+  context "committee_chair" do
+    let(:etd) { FactoryGirl.create(:etd) }
+    it "has a committee_chair which is a Faculty object" do
+      etd.committee_chair = [Faculty.new(name: "Smith, Jane", affiliation: "Emory University", netid: "jsmith")]
+      expect(etd.committee_chair.first).to be_instance_of Faculty
+      expect(etd.committee_chair.first.name.first).to eq "Smith, Jane"
+    end
+  end
+
+  context "committee_members" do
+    let(:etd) { FactoryGirl.create(:etd) }
+    it "has committee_members which are Faculty objects" do
+      etd.committee_members = [Faculty.new(name: "Doe, Janet", affiliation: "Emory University", netid: "jdoe"), Faculty.new(name: "Cardinal, Leland", affiliation: "Stanford University", netid: nil)]
+      expect(etd.committee_members.first).to be_instance_of Faculty
+    end
+  end
+
   describe "#degree" do
     subject { described_class.new }
     let(:degree) { "Bachelor of Arts with Honors" }
