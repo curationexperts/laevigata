@@ -16,7 +16,7 @@ RSpec.feature 'Create a Candler ETD' do
       login_as user
     end
 
-    scenario "Leland submits a thesis and an approver approves it" do
+    scenario "Leland submits a thesis and an approver approves it", js: true do
       visit("/concern/etds/new")
       expect(page).to have_css('input#etd_title.required')
       expect(page).not_to have_css('input#etd_title.multi_value')
@@ -25,8 +25,8 @@ RSpec.feature 'Create a Candler ETD' do
       title = "New Testament Narratives #{rand}"
       fill_in 'Title', with: title
       fill_in 'Student Name', with: 'Deeds, Leland'
-      fill_in "Department", with: "Theological Studies"
-      fill_in "School", with: "Candler School of Theology"
+      select("Candler School of Theology", from: "School")
+      select("Theological Studies", from: "Department")
       choose('open')
       check('agreement')
       click_on('My PDF')

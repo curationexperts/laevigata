@@ -26,3 +26,4 @@
 //= require hyrax
 // Provide AMD module support
 //= require almond
+

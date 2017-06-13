@@ -16,7 +16,7 @@ RSpec.feature 'Create a Laney ETD' do
       login_as user
     end
 
-    scenario "Joey submits a thesis and an approver reviews and approves it" do
+    scenario "Joey submits a thesis and an approver reviews and approves it", js: true do
       visit("/concern/etds/new")
       expect(page).to have_css('input#etd_title.required')
       expect(page).not_to have_css('input#etd_title.multi_value')
@@ -28,9 +28,9 @@ RSpec.feature 'Create a Laney ETD' do
       # fill_in 'Keyword', with: 'Surrealism'
       # Department is not required, by default it is hidden as an additional field
       click_link("Additional fields")
-      fill_in "Department", with: "Religion"
-      fill_in "Department", with: "Institute of Liberal Arts"
-      fill_in "School", with: "Laney Graduate School"
+      select("Laney Graduate School", from: "School")
+      expect(page).not_to have_selector(:css, "#etd_department[disabled]", wait: 10)
+      select("Religion", from: "Department")
       select('CDC', from: 'Partnering agency')
       choose('open')
       check('agreement')

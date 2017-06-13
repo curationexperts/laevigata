@@ -16,7 +16,7 @@ RSpec.feature 'Create an Emory College ETD' do
       login_as user
     end
 
-    scenario "Noah submits a thesis and an approver approves it" do
+    scenario "Noah submits a thesis and an approver approves it", js: true do
       visit("/concern/etds/new")
       expect(page).to have_css('input#etd_title.required')
       expect(page).not_to have_css('input#etd_title.multi_value')
@@ -25,8 +25,9 @@ RSpec.feature 'Create an Emory College ETD' do
       title = "A Brief History of Art #{rand}"
       fill_in 'Title', with: title
       fill_in 'Student Name', with: 'Washburn, Noah'
-      fill_in "Department", with: "Art History"
-      fill_in "School", with: "Emory College"
+      select("Emory College", from: "School")
+      expect(page).not_to have_selector(:css, "#etd_department[disabled]", wait: 10)
+      select("Art History", from: "Department")
       choose('open')
       check('agreement')
       click_on('My PDF')

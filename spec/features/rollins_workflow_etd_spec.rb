@@ -16,7 +16,7 @@ RSpec.feature 'Create a Rollins ETD' do
       login_as user
     end
 
-    scenario "Miranda submits a thesis and an approver approves it" do
+    scenario "Miranda submits a thesis and an approver approves it", js: true do
       visit("/concern/etds/new")
       expect(page).to have_css('input#etd_title.required')
       expect(page).not_to have_css('input#etd_title.multi_value')
@@ -25,8 +25,9 @@ RSpec.feature 'Create a Rollins ETD' do
       title = "Global Public Health #{rand}"
       fill_in 'Title', with: title
       fill_in 'Student Name', with: 'Park, Miranda'
-      fill_in "Department", with: "Global Health"
-      fill_in "School", with: "Rollins School of Public Health"
+      select("Rollins School of Public Health", from: "School")
+      expect(page).not_to have_selector(:css, "#etd_department[disabled]", wait: 10)
+      select("Global Health", from: "Department")
       select('CDC', from: 'Partnering agency')
       choose('open')
       check('agreement')
