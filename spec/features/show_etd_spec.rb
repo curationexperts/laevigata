@@ -5,7 +5,6 @@ RSpec.feature 'Display an ETD' do
 
   context 'a logged in user' do
     let(:user) { create :user }
-    let(:research_field_label) { ResearchFieldService.new.label(etd.research_field.first) }
 
     before do
       login_as user
@@ -23,7 +22,7 @@ RSpec.feature 'Display an ETD' do
       expect(page).to have_content etd.subfield.first
       expect(page).to have_content etd.partnering_agency.first
       expect(page).to have_content etd.submitting_type.first
-      expect(page).to have_content research_field_label
+      expect(page).to have_content etd.research_field.last
     end
   end
 end

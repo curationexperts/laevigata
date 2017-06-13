@@ -7,21 +7,21 @@ describe ResearchFieldService do
     subject(:research_field_options) { research_field_service.select_all_options }
 
     it "has a select list" do
-      expect(research_field_options.first).to eq ['Accounting', '0272']
-      expect(research_field_options).to include ['Art criticism', '0365']
-      expect(research_field_options).to include ['Clerical studies', '0319']
-      expect(research_field_options).to include ['Dentistry', '0567']
-      expect(research_field_options).to include ['French Canadian culture', '0482']
-      expect(research_field_options).to include ['Morphology', '0287']
-      expect(research_field_options).to include ['Social work', '0452']
-      expect(research_field_options).to include ['Veterinary medicine', '0778']
+      expect(research_field_options.first).to eq ['0272', 'Accounting']
+      expect(research_field_options).to include ['0365', 'Art criticism']
+      expect(research_field_options).to include ['0319', 'Clerical studies']
+      expect(research_field_options).to include ['0567', 'Dentistry']
+      expect(research_field_options).to include ['0482', 'French Canadian culture']
+      expect(research_field_options).to include ['0287', 'Morphology']
+      expect(research_field_options).to include ['0452', 'Social work']
+      expect(research_field_options).to include ['0778', 'Veterinary medicine']
       expect(research_field_options.size).to eq 409
     end
   end
 
   describe "label" do
-    subject { research_field_service.label('0383') }
+    subject { research_field_service.label('Toxicology') }
 
-    it { is_expected.to eq 'Toxicology' }
+    it { is_expected.to eq '0383' }
   end
 end
