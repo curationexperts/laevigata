@@ -773,7 +773,7 @@ DEPENDENCIES
   capistrano-rails
   capybara
   capybara-webkit
-  coffee-rails (~> 4.2)
+  coffee-rails
   coveralls
   database_cleaner
   devise
@@ -782,7 +782,7 @@ DEPENDENCIES
   fcrepo_wrapper
   hydra-role-management
   hyrax (~> 1.0)
-  jbuilder (~> 2.5)
+  jbuilder
   jquery-rails
   launchy
   listen (~> 3.0.5)
