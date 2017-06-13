@@ -4,7 +4,7 @@ module Hyrax
       private
 
         def subject
-          'Deposit #{title} has been approved'
+          "Deposit #{title} has been approved"
         end
 
         def message
