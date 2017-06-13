@@ -11,7 +11,7 @@ RSpec.describe Hyrax::ReligionService do
 
   describe "#select_all_options" do
     it "has a select list" do
-      expect(service.select_all_options).to include(["Ethics and Society","Ethics and Society"])
+      expect(service.select_all_options).to include(["Ethics and Society", "Ethics and Society"])
     end
   end
 end

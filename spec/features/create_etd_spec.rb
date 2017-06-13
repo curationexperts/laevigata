@@ -43,13 +43,9 @@ RSpec.feature 'Create an Etd' do
       fill_in 'Title', with: "A Good Title"
       select('Medicine', from: 'Research Field')
       select("Laney Graduate School", from: "School")
-      # expect(page).not_to have_selector(:css, "#etd_department[disabled]", wait: 10) 
       select('MS', from: "Degree")
-      select("Religion", from: "Department")
-      # fill_in 'Department', with: 'Religion'
-      select('All rights reserved', from: 'Rights')
-      select("Ethics and Society", from: "Sub Field")
-      # fill_in 'Sub Field', with: 'Ethics and Society'
+      select("Religion", from: "Department", match: :first)
+      select("Ethics and Society", from: "Sub Field", match: :first)
       select('CDC', from: 'Partnering agency')
       select("Honors Thesis", from: "I Am Submitting My")
 

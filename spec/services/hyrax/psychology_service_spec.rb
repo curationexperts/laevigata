@@ -11,7 +11,7 @@ RSpec.describe Hyrax::PsychologyService do
 
   describe "#select_all_options" do
     it "has a select list" do
-      expect(service.select_all_options).to include(["Clinical Psychology","Clinical Psychology"])
+      expect(service.select_all_options).to include(["Clinical Psychology", "Clinical Psychology"])
     end
   end
 end

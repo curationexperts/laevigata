@@ -11,7 +11,7 @@ RSpec.describe Hyrax::CandlerService do
 
   describe "#select_all_options" do
     it "has a select list" do
-      expect(service.select_all_options).to include(["Divinity","MDVDIVIN"])
+      expect(service.select_all_options).to include(["Divinity", "MDVDIVIN"])
     end
   end
 end

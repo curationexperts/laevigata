@@ -10,7 +10,7 @@ describe EtdPresenter do
   let(:degree) { ['MS'] }
   let(:department) { ['Religion'] }
   let(:school) { ['Laney Graduate School'] }
-  let(:subfield) {['Ethics and Society']}
+  let(:subfield) { ['Ethics and Society'] }
   let(:partnering_agency) { ["Does not apply (no collaborating organization)"] }
   let(:submitting_type) { ["Honors Thesis"] }
   let(:research_field) { ['0383'] }

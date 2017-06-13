@@ -9,7 +9,7 @@ FactoryGirl.define do
     subfield ['Ethics and Society']
     partnering_agency ["Does not apply (no collaborating organization)"]
     submitting_type ["Honors Thesis"]
-    research_field ['992']
+    research_field ['0992']
     committee_chair ['Debra Johns']
     committee_members ['Tom Lee']
     visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
