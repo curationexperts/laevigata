@@ -6,13 +6,13 @@ git_source(:github) do |repo_name|
 end
 
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.2'
+gem 'coffee-rails'
 gem 'devise'
 gem 'devise-guests', '~> 0.5'
 gem 'hydra-role-management'
 gem 'hyrax', '~> 1.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.5'
+gem 'jbuilder'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # mail pinned to specific version to address "SMTP INJECTION VIA TO/FROM ADDRESSES" vulnerability
