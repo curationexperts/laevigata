@@ -1,0 +1,34 @@
+terms:
+    - id: APEPIMPH
+      term: Applied Epidemiology
+    - id: HCOMMPH
+      term: Health Care Outcomes Management
+    - id: MCHEPIMPH
+      term: Maternal and Child Health Epidemiology
+    - id: MSMPH
+      term: Management Science
+    - id: PSMPH
+      term: Prevention Science
+    - id: APHIMPH
+      term: Applied Public Health Informatics
+    - id: BSHEMPH
+      term: Behavioral Sciences and Health Education
+    - id: BIOS
+      term: Biostatistics
+    - id: INFOMSPH
+      term: Public Health Informatics
+    - id: EOHMPH
+      term: Environmental Health - MPH
+    - id: EOHEPIMPH
+      term: Environmental Health Epidemiology - MPH & MSPH
+    - id: EOHIHMPH
+      term: Global Environmental Health - MPH
+    - id: EPI
+      term: Epidemiology
+    - id: GLEPI
+      term: Global Epidemiology
+    - id: HPM
+      term: Health Policy and Management
+    - id: IHMPH
+      term: Hubert Department of Global Health
+      

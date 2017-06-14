@@ -14,10 +14,15 @@ RSpec.feature 'Create a Laney ETD' do
       ActiveFedora::Cleaner.clean!
       w.setup
       login_as user
+      visit("/concern/etds/new")
+    end
+    # weak test of the fields but it was failing due to webkit issues with attach_file
+    scenario "Joey submits submits school and department", js: true do
+      select("Laney Graduate School", from: "School")
+      select("Religion", from: "Department", match: :first)
     end
 
     scenario "Joey submits a thesis and an approver reviews and approves it" do
-      visit("/concern/etds/new")
       expect(page).to have_css('input#etd_title.required')
       expect(page).not_to have_css('input#etd_title.multi_value')
       expect(page).to have_css('input#etd_creator.required')
@@ -27,8 +32,6 @@ RSpec.feature 'Create a Laney ETD' do
       fill_in 'Student Name', with: 'Coppola, Joey'
       # fill_in 'Keyword', with: 'Surrealism'
       # Department is not required, by default it is hidden as an additional field
-      fill_in "Department", with: "Institute of Liberal Arts"
-      fill_in "School", with: "Laney Graduate School"
       select('CDC', from: 'Partnering agency')
       choose('open')
       check('agreement')

@@ -37,6 +37,10 @@ class SolrDocument
     self[Solrizer.solr_name('school')]
   end
 
+  def subfield
+    self[Solrizer.solr_name('subfield')]
+  end
+
   def supplementary
     self[Solrizer.solr_name('supplementary')]
   end
