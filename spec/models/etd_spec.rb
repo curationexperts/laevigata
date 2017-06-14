@@ -35,7 +35,7 @@ RSpec.describe Etd do
 
   describe "#degree" do
     subject { described_class.new }
-    let(:degree) { "Bachelor of Arts with Honors" }
+    let(:degree) { "MS" }
     context "with a new ETD" do
       its(:degree) { is_expected.to be_empty }
     end
@@ -90,17 +90,17 @@ RSpec.describe Etd do
     context "with an existing ETD that has a department defined" do
       subject do
         described_class.create.tap do |etd|
-          etd.department = ["Department of Russian and East Asian Languages and Cultures"]
+          etd.department = ["Religion"]
         end
       end
 
-      its(:department) { is_expected.to eq(["Department of Russian and East Asian Languages and Cultures"]) }
+      its(:department) { is_expected.to eq(["Religion"]) }
     end
   end
 
   describe "#school" do
     subject { described_class.new }
-    let(:school) { "Emory College of Arts and Sciences" }
+    let(:school) { "Laney Graduate School" }
     context "with a new ETD" do
       its(:school) { is_expected.to be_empty }
     end
@@ -111,6 +111,22 @@ RSpec.describe Etd do
         end
       end
       its(:school) { is_expected.to eq([school]) }
+    end
+  end
+
+  describe "#subfield" do
+    subject { described_class.new }
+    let(:subfield) { "Ethics and Society" }
+    context "with a new ETD" do
+      its(:subfield) { is_expected.to be_empty }
+    end
+    context "with an existing ETD that has a subfield defined" do
+      subject do
+        described_class.create.tap do |etd|
+          etd.subfield = [subfield]
+        end
+      end
+      its(:subfield) { is_expected.to eq([subfield]) }
     end
   end
 
@@ -129,6 +145,42 @@ RSpec.describe Etd do
         end
       end
       its(:research_field) { is_expected.to eq(research_field) }
+    end
+  end
+
+  describe "#committee_chair" do
+    subject { described_class.new }
+    let(:committee_chair) { ['383'] }
+
+    context "with a new ETD" do
+      its(:committee_chair) { is_expected.to be_empty }
+    end
+
+    context "with an existing ETD that has a committee chair field defined" do
+      subject do
+        described_class.create.tap do |etd|
+          etd.committee_chair = committee_chair
+        end
+      end
+      its(:committee_chair) { is_expected.to eq(committee_chair) }
+    end
+  end
+
+  describe "#committee_members" do
+    subject { described_class.new }
+    let(:committee_members) { ['383'] }
+
+    context "with a new ETD" do
+      its(:committee_members) { is_expected.to be_empty }
+    end
+
+    context "with an existing ETD that has a committee members field defined" do
+      subject do
+        described_class.create.tap do |etd|
+          etd.committee_members = committee_members
+        end
+      end
+      its(:committee_members) { is_expected.to eq(committee_members) }
     end
   end
 

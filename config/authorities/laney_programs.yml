@@ -1,0 +1,67 @@
+terms:
+    - id: ARTHIST
+      term: Art History
+    - id: COMPLIT
+      term: Comparative Literature
+    - id: ENGLISH
+      term: English
+    - id: FILMST
+      term: Film Studies
+    - id: FRENCH
+      term: French
+    - id: ILA
+      term: Graduate Institute of the Liberal Arts
+    - id: HISTORY
+      term: History
+    - id: JEWISH
+      term: Jewish Studies
+    - id: MUSIC
+      term: Music
+    - id: PHIL
+      term: Philosophy
+    - id: religion_subfield
+      term: Religion
+    - id: SPANISH
+      term: Spanish
+    - id: BSHE
+      term: Behavioral Sciences and Health Education
+    - id: biomed_subfield
+      term: Biological and Biomedical Sciences
+    - id: BIOENG
+      term: Biomedical Engineering
+    - id: BIOSTAT
+      term: Biostatistics
+    - id: CHEM
+      term: Chemistry
+    - id: CLNRSRCH
+      term: Clinical Research Curriculum Program
+    - id: COMPSCI
+      term: Computer Science and Informatics
+    - id: EPID
+      term: Epidemiology
+    - id: HEALTH
+      term: Health Services and Research Health Policy
+    - id: MATH
+      term: Mathematics
+    - id: NURSING
+      term: Nursing
+    - id: PHYSICS
+      term: Physics
+    - id: BIOETH
+      term: Bioethics
+    - id: ANTH
+      term: Anthropology
+    - id: BUS
+      term: Business
+    - id: ECON
+      term: Economics
+    - id: EDS
+      term: Educational Studies
+    - id: POLISCI
+      term: Political Science
+    - id: psychology_subfield
+      term: Psychology
+    - id: SOC
+      term: Sociology
+    - id: WMNST
+      term: Women's, Gender and Sexuality Studies
