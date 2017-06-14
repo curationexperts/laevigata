@@ -1,67 +1,67 @@
 terms:
-    - id: ARTHIST
+    - id: Art History
       term: Art History
-    - id: COMPLIT
+    - id: Comparative Literature
       term: Comparative Literature
-    - id: ENGLISH
+    - id: English
       term: English
-    - id: FILMST
+    - id: Film Studies
       term: Film Studies
-    - id: FRENCH
+    - id: French
       term: French
-    - id: ILA
+    - id: Graduate Institute of the Liberal Arts
       term: Graduate Institute of the Liberal Arts
-    - id: HISTORY
+    - id: History
       term: History
-    - id: JEWISH
+    - id: Jewish Studies
       term: Jewish Studies
-    - id: MUSIC
+    - id: Music
       term: Music
-    - id: PHIL
+    - id: Philosophy
       term: Philosophy
     - id: religion_subfield
       term: Religion
-    - id: SPANISH
+    - id: Spanish
       term: Spanish
-    - id: BSHE
+    - id: Behavioral Sciences and Health Education
       term: Behavioral Sciences and Health Education
     - id: biomed_subfield
       term: Biological and Biomedical Sciences
-    - id: BIOENG
+    - id: Biomedical Engineering
       term: Biomedical Engineering
-    - id: BIOSTAT
+    - id: Biostatistics
       term: Biostatistics
-    - id: CHEM
+    - id: Chemistry
       term: Chemistry
-    - id: CLNRSRCH
+    - id: Clinical Research Curriculum Program
       term: Clinical Research Curriculum Program
-    - id: COMPSCI
+    - id: Computer Science and Informatics
       term: Computer Science and Informatics
-    - id: EPID
+    - id: Epidemiology
       term: Epidemiology
-    - id: HEALTH
+    - id: Health Services and Research Health Policy
       term: Health Services and Research Health Policy
-    - id: MATH
+    - id: Mathematics
       term: Mathematics
-    - id: NURSING
+    - id: Nursing
       term: Nursing
-    - id: PHYSICS
+    - id: Physics
       term: Physics
-    - id: BIOETH
+    - id: Bioethics
       term: Bioethics
-    - id: ANTH
+    - id: Anthropology
       term: Anthropology
-    - id: BUS
+    - id: Business
       term: Business
-    - id: ECON
+    - id: Economics
       term: Economics
-    - id: EDS
+    - id: Educational Studies
       term: Educational Studies
-    - id: POLISCI
+    - id: Political Science
       term: Political Science
     - id: psychology_subfield
       term: Psychology
-    - id: SOC
+    - id: Sociology
       term: Sociology
-    - id: WMNST
+    - id: Women's, Gender and Sexuality Studies
       term: Women's, Gender and Sexuality Studies

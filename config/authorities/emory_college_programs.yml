@@ -1,129 +1,129 @@
 terms:
-    - id: AFSBA
+    - id: African Studies
       term: African Studies
-    - id: AMERSTBA
+    - id: American Studies
       term: American Studies
-    - id: ANCMEDBA
+    - id: Ancient Mediterranean Studies
       term: Ancient Mediterranean Studies
-    - id: ARTHISTBA
+    - id: Art History
       term: Art History
-    - id: ARTHVARTBA
+    - id: Art History and Visual Arts
       term: Art History and Visual Arts
-    - id: ASIANAMBA
+    - id: Asian and Asian American Studies
       term: Asian and Asian American Studies
-    - id: CHINLLBA
+    - id: Chinese Language and Literature
       term: Chinese Language and Literature
-    - id: CLASSICSBA
+    - id: Classics
       term: Classics
-    - id: CLCIVBA
+    - id: Classical Civilizations, Greek, and Latin
       term: Classical Civilizations, Greek, and Latin
-    - id: CLASHISTBA
+    - id: Classics and History
       term: Classics and History
-    - id: CLASPHILBA
+    - id: Classics and Philosophy
       term: Classics and Philosophy
-    - id: LITBA
+    - id: Comparative Literature
       term: Comparative Literature
-    - id: DNCMVSTBA
+    - id: Dance and Movement Studies
       term: Dance and Movement Studies
-    - id: ENGLISH
+    - id: English
       term: English
-    - id: ENGCWBA
+    - id: English and Creative Writing
       term: English and Creative Writing
-    - id: ENVSBS
+    - id: English and History
       term: English and History
-    - id: FILMSTBA
+    - id: Film Studies
       term: Film Studies
-    - id: FRENSTUDBA
+    - id: French Studies
       term: French Studies
-    - id: GERMANSTBA
+    - id: German
       term: German
-    - id: IDSSCBA
+    - id: Interdisciplinary Studies in Society and Culture
       term: Interdisciplinary Studies in Society and Culture
-    - id: ITALSTBA
+    - id: Italian Studies
       term: Italian Studies
-    - id: JEWISHBA
+    - id: Jewish Studies
       term: Jewish Studies
-    - id: JAPANBA
+    - id: Japanese
       term: Japanese
-    - id: LINGBA
+    - id: Linguistics
       term: Linguistics
-    - id: MESASBA
+    - id: Middle Eastern Studies
       term: Middle Eastern Studies
-    - id: MUSICBA
+    - id: Music
       term: Music
-    - id: PHIL
+    - id: Philosophy
       term: Philosophy
-    - id: PHILRELBA
+    - id: Philosophy and Religion
       term: Philosophy and Religion
-    - id: RELBA
+    - id: Religion
       term: Religion
-    - id: RELANTHBA
+    - id: Religion and Anthropology
       term: Religion and Anthropology
-    - id: RELCLASSCIVBA
+    - id: Religion and Classical Civilization
       term: Religion and Classical Civilization
-    - id: RELHISTBA
+    - id: Religion and History
       term: Religion and History
-    - id: RELSOCBA
+    - id: Religion and Sociology
       term: Religion and Sociology
-    - id: RUSSLCBA
+    - id: Russian
       term: Russian
-    - id: SPANISHBA
+    - id: Spanish
       term: Spanish
-    - id: THEASTBA
+    - id: Theater Studies
       term: Theater Studies
-    - id: AASBA
+    - id: African American Studies
       term: African American Studies
-    - id: PLAYWRTBA
+    - id: Playwriting
       term: Playwriting
-    - id: BIOLOGY
+    - id: Biology
       term: Biology
-    - id: CHEM
+    - id: Chemistry
       term: Chemistry
-    - id: COMPSCI
+    - id: Computer Science
       term: Computer Science
-    - id: MATH
+    - id: Mathematics
       term: Mathematics
-    - id: MATHCS
+    - id: Mathematics and Computer Science
       term: Mathematics and Computer Science
-    - id: MATHPOLSBA
+    - id: Mathematics and Political Science
       term: Mathematics and Political Science
-    - id: NEUROBBBS
+    - id: Neuroscience and Behavioral Biology
       term: Neuroscience and Behavioral Biology
-    - id: PHYSICS
+    - id: Physics
       term: Physics
-    - id: PHYSAST
+    - id: Physics and Astronomy
       term: Physics and Astronomy
-    - id: ANTHBA
+    - id: Anthropology
       term: Anthropology
-    - id: ECONBA
+    - id: Economics
       term: Economics
-    - id: ECONHISTBA
+    - id: Economics and History
       term: Economics and History
-    - id: ECONMATHBA
+    - id: Economics and Mathematics
       term: Economics and Mathematics
-    - id: EDSBA
+    - id: Educational Studies
       term: Educational Studies
-    - id: ENVBA
+    - id: Environmental Studies
       term: Environmental Studies
-    - id: HH
+    - id: Human Health
       term: Human Health
-    - id: HISTORY
+    - id: History
       term: History
-    - id: HSTARHSTBA
+    - id: History and Art History
       term: History and Art History
-    - id: INTLSTUBA
+    - id: International Studies
       term: International Studies
-    - id: JOUR
+    - id: Journalism
       term: Journalism
-    - id: LACSBA
+    - id: Latin American and Caribbean Studies
       term: Latin American and Caribbean Studies
-    - id: POLISCI
+    - id: Political Science
       term: Political Science
-    - id: PSYCHBA
+    - id: Psychology
       term: Psychology
-    - id: PSYCLINGBA
+    - id: Psychology and Linguistics
       term: Psychology and Linguistics
-    - id: SOCBA
+    - id: Sociology
       term: Sociology
-    - id: WOMENSTBA
+    - id: Women's Studies
       term: Women's Studies
