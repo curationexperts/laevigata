@@ -18,18 +18,21 @@ RSpec.describe Etd do
 
   context "committee_chair" do
     let(:etd) { FactoryGirl.create(:etd) }
-    it "has a committee_chair which is a Faculty object" do
-      etd.committee_chair = [Faculty.new(name: "Smith, Jane", affiliation: "Emory University", netid: "jsmith")]
-      expect(etd.committee_chair.first).to be_instance_of Faculty
+    it "has a committee_chair which is a CommitteeMember object" do
+      etd.committee_chair = [CommitteeMember.new(name: "Smith, Jane", affiliation: "Emory University", netid: "jsmith")]
+      expect(etd.committee_chair.first).to be_instance_of CommitteeMember
       expect(etd.committee_chair.first.name.first).to eq "Smith, Jane"
     end
   end
 
   context "committee_members" do
     let(:etd) { FactoryGirl.create(:etd) }
-    it "has committee_members which are Faculty objects" do
-      etd.committee_members = [Faculty.new(name: "Doe, Janet", affiliation: "Emory University", netid: "jdoe"), Faculty.new(name: "Cardinal, Leland", affiliation: "Stanford University", netid: nil)]
-      expect(etd.committee_members.first).to be_instance_of Faculty
+    it "has committee_members which are CommitteeMember objects" do
+      etd.committee_members = [
+        CommitteeMember.new(name: "Doe, Janet", affiliation: "Emory University", netid: "jdoe"),
+        CommitteeMember.new(name: "Cardinal, Leland", affiliation: "Stanford University", netid: nil)
+      ]
+      expect(etd.committee_members.first).to be_instance_of CommitteeMember
     end
   end
 
