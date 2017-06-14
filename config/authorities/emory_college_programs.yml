@@ -1,0 +1,129 @@
+terms:
+    - id: AFSBA
+      term: African Studies
+    - id: AMERSTBA
+      term: American Studies
+    - id: ANCMEDBA
+      term: Ancient Mediterranean Studies
+    - id: ARTHISTBA
+      term: Art History
+    - id: ARTHVARTBA
+      term: Art History and Visual Arts
+    - id: ASIANAMBA
+      term: Asian and Asian American Studies
+    - id: CHINLLBA
+      term: Chinese Language and Literature
+    - id: CLASSICSBA
+      term: Classics
+    - id: CLCIVBA
+      term: Classical Civilizations, Greek, and Latin
+    - id: CLASHISTBA
+      term: Classics and History
+    - id: CLASPHILBA
+      term: Classics and Philosophy
+    - id: LITBA
+      term: Comparative Literature
+    - id: DNCMVSTBA
+      term: Dance and Movement Studies
+    - id: ENGLISH
+      term: English
+    - id: ENGCWBA
+      term: English and Creative Writing
+    - id: ENVSBS
+      term: English and History
+    - id: FILMSTBA
+      term: Film Studies
+    - id: FRENSTUDBA
+      term: French Studies
+    - id: GERMANSTBA
+      term: German
+    - id: IDSSCBA
+      term: Interdisciplinary Studies in Society and Culture
+    - id: ITALSTBA
+      term: Italian Studies
+    - id: JEWISHBA
+      term: Jewish Studies
+    - id: JAPANBA
+      term: Japanese
+    - id: LINGBA
+      term: Linguistics
+    - id: MESASBA
+      term: Middle Eastern Studies
+    - id: MUSICBA
+      term: Music
+    - id: PHIL
+      term: Philosophy
+    - id: PHILRELBA
+      term: Philosophy and Religion
+    - id: RELBA
+      term: Religion
+    - id: RELANTHBA
+      term: Religion and Anthropology
+    - id: RELCLASSCIVBA
+      term: Religion and Classical Civilization
+    - id: RELHISTBA
+      term: Religion and History
+    - id: RELSOCBA
+      term: Religion and Sociology
+    - id: RUSSLCBA
+      term: Russian
+    - id: SPANISHBA
+      term: Spanish
+    - id: THEASTBA
+      term: Theater Studies
+    - id: AASBA
+      term: African American Studies
+    - id: PLAYWRTBA
+      term: Playwriting
+    - id: BIOLOGY
+      term: Biology
+    - id: CHEM
+      term: Chemistry
+    - id: COMPSCI
+      term: Computer Science
+    - id: MATH
+      term: Mathematics
+    - id: MATHCS
+      term: Mathematics and Computer Science
+    - id: MATHPOLSBA
+      term: Mathematics and Political Science
+    - id: NEUROBBBS
+      term: Neuroscience and Behavioral Biology
+    - id: PHYSICS
+      term: Physics
+    - id: PHYSAST
+      term: Physics and Astronomy
+    - id: ANTHBA
+      term: Anthropology
+    - id: ECONBA
+      term: Economics
+    - id: ECONHISTBA
+      term: Economics and History
+    - id: ECONMATHBA
+      term: Economics and Mathematics
+    - id: EDSBA
+      term: Educational Studies
+    - id: ENVBA
+      term: Environmental Studies
+    - id: HH
+      term: Human Health
+    - id: HISTORY
+      term: History
+    - id: HSTARHSTBA
+      term: History and Art History
+    - id: INTLSTUBA
+      term: International Studies
+    - id: JOUR
+      term: Journalism
+    - id: LACSBA
+      term: Latin American and Caribbean Studies
+    - id: POLISCI
+      term: Political Science
+    - id: PSYCHBA
+      term: Psychology
+    - id: PSYCLINGBA
+      term: Psychology and Linguistics
+    - id: SOCBA
+      term: Sociology
+    - id: WOMENSTBA
+      term: Women's Studies
