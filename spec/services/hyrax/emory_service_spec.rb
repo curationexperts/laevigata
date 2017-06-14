@@ -11,7 +11,7 @@ RSpec.describe Hyrax::EmoryService do
 
   describe "#select_all_options" do
     it "has a select list" do
-      expect(service.select_all_options).to include(["American Studies", "AMERSTBA"])
+      expect(service.select_all_options).to include(["American Studies", "American Studies"])
     end
   end
 end

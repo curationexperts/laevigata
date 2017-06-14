@@ -11,7 +11,7 @@ RSpec.describe Hyrax::RollinsService do
 
   describe "#select_all_options" do
     it "has a select list" do
-      expect(service.select_all_options).to include(["Applied Epidemiology", "APEPIMPH"])
+      expect(service.select_all_options).to include(["Applied Epidemiology", "Applied Epidemiology"])
     end
   end
 end

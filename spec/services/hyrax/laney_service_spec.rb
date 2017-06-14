@@ -11,7 +11,7 @@ RSpec.describe Hyrax::LaneyService do
 
   describe "#select_all_options" do
     it "has a select list" do
-      expect(service.select_all_options).to include(["Art History", "ARTHIST"])
+      expect(service.select_all_options).to include(["Art History", "Art History"])
     end
   end
 end
