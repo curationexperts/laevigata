@@ -14,10 +14,14 @@ RSpec.feature 'Create an Emory College ETD' do
       ActiveFedora::Cleaner.clean!
       w.setup
       login_as user
-    end
-
-    scenario "Noah submits a thesis and an approver approves it" do
       visit("/concern/etds/new")
+    end
+    # weak test of the fields but it was failing due to webkit issues with attach_file
+    scenario "Noah submits school and department", js: true do
+      select("Emory College", from: "School")
+      select("French Studies", from: "Department", match: :first)
+    end
+    scenario "Noah submits a thesis and an approver approves it" do
       expect(page).to have_css('input#etd_title.required')
       expect(page).not_to have_css('input#etd_title.multi_value')
       expect(page).to have_css('input#etd_creator.required')
@@ -25,8 +29,6 @@ RSpec.feature 'Create an Emory College ETD' do
       title = "A Brief History of Art #{rand}"
       fill_in 'Title', with: title
       fill_in 'Student Name', with: 'Washburn, Noah'
-      fill_in "Department", with: "Art History"
-      fill_in "School", with: "Emory College"
       choose('open')
       check('agreement')
       click_on('My PDF')

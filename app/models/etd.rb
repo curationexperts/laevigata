@@ -24,10 +24,6 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable, :facetable
   end
 
-  property :degree, predicate: "http://vivoweb.org/ontology/core#AcademicDegree" do |index|
-    index.as :stored_searchable, :facetable
-  end
-
   # should always be Emory University (http://id.loc.gov/vocabulary/organizations/geu)
   property :degree_granting_institution, predicate: "http://id.loc.gov/vocabulary/relators/dgg", multiple: false
 
@@ -36,6 +32,14 @@ class Etd < ActiveFedora::Base
   end
 
   property :school, predicate: "http://vivoweb.org/ontology/core#School" do |index|
+    index.as :stored_searchable, :facetable
+  end
+
+  property :subfield, predicate: "http://vivoweb.org/ontology/core#majorField" do |index|
+    index.as :stored_searchable, :facetable
+  end
+
+  property :degree, predicate: "http://vivoweb.org/ontology/core#AcademicDegree" do |index|
     index.as :stored_searchable, :facetable
   end
 

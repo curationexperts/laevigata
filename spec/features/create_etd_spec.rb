@@ -29,8 +29,10 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_css('input#etd_title')
       expect(page).to have_css('select#etd_graduation_date')
       expect(page).to have_css('input#etd_post_graduation_email')
-      expect(page).to have_css('input#etd_school')
-      expect(page).to have_css('input#etd_degree')
+      expect(page).to have_css('select#etd_school')
+      expect(page).to have_css('select#etd_degree')
+      expect(page).to have_css('select#etd_department')
+      expect(page).to have_css('select#etd_subfield')
       expect(page).to have_css('select#etd_submitting_type')
       expect(page).to have_css('select#etd_research_field')
       expect(page).to have_css('select#etd_committee_chair')
@@ -39,14 +41,13 @@ RSpec.feature 'Create an Etd' do
       fill_in 'Student Name', with: 'Eun, Dongwon'
       # Department is not required, by default it is hidden as an additional field
       fill_in 'Title', with: "A Good Title"
-      fill_in "School", with: "Emory College of Arts and Sciences"
-      fill_in "Department", with: "Department of Russian and East Asian Languages and Cultures"
       select('Medicine', from: 'Research Field')
-      # select('All rights reserved', from: 'Rights')
-      # fill_in 'Keyword', with: 'Surrealism'
-      fill_in "Degree", with: "Bachelor of Arts with Honors"
-      select("Honors Thesis", from: "I am submitting")
+      select("Laney Graduate School", from: "School")
+      select('MS', from: "Degree")
+      select("Religion", from: "Department", match: :first)
+      select("Ethics and Society", from: "Sub Field", match: :first)
       select('CDC', from: 'Partnering agency')
+      select("Honors Thesis", from: "I am submitting my")
 
       click_on('Save About Me')
 
