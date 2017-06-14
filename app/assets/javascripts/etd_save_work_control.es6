@@ -19,7 +19,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     }
     preventSaveAboutMeUnlessValid() {
       $("#about_me_and_my_program").on('click', (evt) => {
-        // select form here, not this
         if (!this.isValid())
           evt.preventDefault();
       })
@@ -91,7 +90,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
     // Called when a file has been uploaded, the deposit agreement is clicked or a form field has had text entered.
     formStateChanged() {
-      //this.saveButton.prop("disabled", !this.isValid());
+      this.saveButton.prop("disabled", !this.isValid());
     }
 
     // called when a new field has been added to the form.
@@ -112,6 +111,11 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     }
 
     validateMeAndMyProgram() {
+      // if Rollins is school, partnering agency is required, otherwise not
+
+      if ($('#etd_school').val() != "Rollins"){
+        this.requiredAboutMeFields.requiredFields = this.requiredAboutMeFields.requiredFields.not("#etd_partnering_agency")
+      }
       if (this.requiredAboutMeFields.areComplete) {
         this.requiredMeAndMyProgram.check()
         return true
