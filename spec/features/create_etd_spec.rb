@@ -47,7 +47,7 @@ RSpec.feature 'Create an Etd' do
       select("Religion", from: "Department", match: :first)
       select("Ethics and Society", from: "Sub Field", match: :first)
       select('CDC', from: 'Partnering agency')
-      select("Honors Thesis", from: "I Am Submitting My")
+      select("Honors Thesis", from: "I am submitting my")
 
       click_on('Save About Me')
 

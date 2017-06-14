@@ -16,14 +16,14 @@
            <span class="btn btn-success fileinput-button">
                <span class="glyphicon glyphicon-plus"></span>
                <span>Add files...</span>
-               <input id="etd_files" type="file" name="files[]" multiple style="z-index: 999999999;">
+               <input type="file" name="files[]" multiple>
            </span>
            <% if browser_supports_directory_upload? %>
            <!-- The fileinput-button span is used to style the file input field as button -->
            <span class="btn btn-success fileinput-button">
                <span class="glyphicon glyphicon-plus"></span>
                <span>Add folder...</span>
-               <input type="file" name="files[]" multiple directory webkitdirectory style="z-index: 999999999;">
+               <input type="file" name="files[]" multiple directory webkitdirectory>
            </span>
            <% end %>
            <button type="reset" class="btn btn-warning cancel hidden">

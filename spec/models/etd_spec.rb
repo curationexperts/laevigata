@@ -148,42 +148,6 @@ RSpec.describe Etd do
     end
   end
 
-  describe "#committee_chair" do
-    subject { described_class.new }
-    let(:committee_chair) { ['383'] }
-
-    context "with a new ETD" do
-      its(:committee_chair) { is_expected.to be_empty }
-    end
-
-    context "with an existing ETD that has a committee chair field defined" do
-      subject do
-        described_class.create.tap do |etd|
-          etd.committee_chair = committee_chair
-        end
-      end
-      its(:committee_chair) { is_expected.to eq(committee_chair) }
-    end
-  end
-
-  describe "#committee_members" do
-    subject { described_class.new }
-    let(:committee_members) { ['383'] }
-
-    context "with a new ETD" do
-      its(:committee_members) { is_expected.to be_empty }
-    end
-
-    context "with an existing ETD that has a committee members field defined" do
-      subject do
-        described_class.create.tap do |etd|
-          etd.committee_members = committee_members
-        end
-      end
-      its(:committee_members) { is_expected.to eq(committee_members) }
-    end
-  end
-
   # An ETD should always have a hidden metadata field saying that the degree_granting_institution is Emory
   describe "#degree_granting_institution" do
     subject { described_class.new }
