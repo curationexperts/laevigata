@@ -8,4 +8,8 @@ class CommitteeMember < ActiveTriples::Resource
   property :name, predicate: RDF::Vocab::FOAF.name
   property :affiliation, predicate: "http://vivoweb.org/ontology/core#School"
   property :netid, predicate: "http://open.vocab.org/terms/accountIdentifier"
+
+  def to_s
+    "#{name.first}, #{affiliation.first} (#{netid.first})"
+  end
 end
