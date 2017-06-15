@@ -20,7 +20,6 @@ if (observed.val()) {
 url = url_mask.replace(regexp, observed.val());
 $.getJSON(url, function (data) {
 $.each(data, function (i, object) {
-console.log(object)
 observer.append($('<option>').attr('value', object.id).text(object.label));
 observer.attr('disabled', false);
 });

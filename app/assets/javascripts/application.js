@@ -23,7 +23,7 @@
 //= require openseadragon
 //= require about_me_save
 //= require tab_info
-
+//= require toggle_committee_affiliation
 // Provide AMD module support
 //= require hyrax
 
