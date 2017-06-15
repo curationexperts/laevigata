@@ -153,4 +153,12 @@ RSpec.describe Etd do
       its(:degree_granting_institution) { is_expected.to eq "http://id.loc.gov/vocabulary/organizations/geu" }
     end
   end
+
+  # An ETD should always have the Emory default rights statement
+  describe "#rights_statement" do
+    subject { described_class.new }
+    context "with a new ETD" do
+      its(:rights_statement) { is_expected.to match(/^Permission granted by the author to include this thesis/) }
+    end
+  end
 end
