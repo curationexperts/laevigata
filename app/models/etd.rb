@@ -47,7 +47,7 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable, :facetable
   end
 
-  property :subfield, predicate: "http://vivoweb.org/ontology/core#majorField" do |index|
+  property :subfield, predicate: "http://mappings.dbpedia.org/server/ontology/classes/AcademicSubject" do |index|
     index.as :stored_searchable, :facetable
   end
 
