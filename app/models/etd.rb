@@ -12,6 +12,11 @@ class Etd < ActiveFedora::Base
 
   def set_defaults
     self.degree_granting_institution = "http://id.loc.gov/vocabulary/organizations/geu"
+    self.rights_statement =
+      "Permission granted by the author to include this "                      \
+      "thesis or dissertation in this repository. All rights reserved by the " \
+      "author. Please contact the author for information regarding the "       \
+      "reproduction and use of this thesis or dissertation."
   end
 
   def hidden?
@@ -54,6 +59,8 @@ class Etd < ActiveFedora::Base
   property :research_field, predicate: ::RDF::Vocab::DC.subject do |index|
     index.as :stored_searchable, :facetable
   end
+
+  property :rights_statement, predicate: "http://purl.org/dc/elements/1.1/rights", multiple: false
 
   property :committee_chair, predicate: "http://id.loc.gov/vocabulary/relators/ths", class_name: "CommitteeMember"
 
