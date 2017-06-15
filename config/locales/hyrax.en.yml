@@ -10,6 +10,9 @@ en:
     footer:
       copyright_html: "<strong>Copyright &copy; 2017 Emory University</strong> Licensed under the Apache License, Version 2.0"
       service_html: A service of <a href="https://emory.edu/" class="navbar-link" target="_blank">Emory University</a>.
+    base:
+      form_progress:
+        required_about_me: "About Me and My Program"
     works:
       form:
         tab:
@@ -26,5 +29,6 @@ en:
           supplemental_files: "My Supplemental Files (Optional)"
           embargoes: "My Embargoes"
           review: "Review Your Submission"
+
       create:
         header: ""

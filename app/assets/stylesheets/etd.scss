@@ -18,3 +18,9 @@
 .about-me div.hide-label div:nth-child(2) label:nth-child(1){
   visibility: hidden;
 }
+
+.nav > li > a {
+    display: block;
+    padding: 10px 5px;
+    position: relative;
+}

@@ -7,6 +7,7 @@ end
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails'
+
 gem 'devise'
 gem 'devise-guests', '~> 0.5'
 gem 'hydra-role-management'

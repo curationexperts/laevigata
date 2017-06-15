@@ -24,7 +24,7 @@ RSpec.feature 'Create a Candler ETD' do
     scenario "Leland submits a thesis and an approver approves it" do
       expect(page).to have_css('input#etd_title.required')
       expect(page).not_to have_css('input#etd_title.multi_value')
-      expect(page).to have_css('input#etd_creator.required')
+      expect(page).to have_css('input#etd_creator')
       expect(page).not_to have_css('input#etd_creator.multi_value')
       title = "New Testament Narratives #{rand}"
       fill_in 'Title', with: title
