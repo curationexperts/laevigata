@@ -24,10 +24,6 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable, :facetable
   end
 
-  property :degree, predicate: "http://vivoweb.org/ontology/core#AcademicDegree" do |index|
-    index.as :stored_searchable, :facetable
-  end
-
   # should always be Emory University (http://id.loc.gov/vocabulary/organizations/geu)
   property :degree_granting_institution, predicate: "http://id.loc.gov/vocabulary/relators/dgg", multiple: false
 
@@ -36,6 +32,14 @@ class Etd < ActiveFedora::Base
   end
 
   property :school, predicate: "http://vivoweb.org/ontology/core#School" do |index|
+    index.as :stored_searchable, :facetable
+  end
+
+  property :subfield, predicate: "http://vivoweb.org/ontology/core#majorField" do |index|
+    index.as :stored_searchable, :facetable
+  end
+
+  property :degree, predicate: "http://vivoweb.org/ontology/core#AcademicDegree" do |index|
     index.as :stored_searchable, :facetable
   end
 
@@ -51,9 +55,9 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable, :facetable
   end
 
-  property :committee_chair, predicate: "http://id.loc.gov/vocabulary/relators/ths", class_name: "Faculty"
+  property :committee_chair, predicate: "http://id.loc.gov/vocabulary/relators/ths", class_name: "CommitteeMember"
 
-  property :committee_members, predicate: "http://id.loc.gov/vocabulary/relators/rev", class_name: "Faculty"
+  property :committee_members, predicate: "http://id.loc.gov/vocabulary/relators/rev", class_name: "CommitteeMember"
 
   # TODO: The following properties are placeholders and need to be edited to hold correct predicates and indexes
 

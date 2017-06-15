@@ -34,3 +34,5 @@
 
 
 //= require almond
+//= require dependent_dropdowns
+

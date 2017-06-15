@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'active_triples'
 
-class Faculty < ActiveTriples::Resource
+class CommitteeMember < ActiveTriples::Resource
   include ActiveTriples::RDFSource
   configure type: RDF::Vocab::FOAF.Person
 

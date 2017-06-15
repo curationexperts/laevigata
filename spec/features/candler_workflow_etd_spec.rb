@@ -14,10 +14,14 @@ RSpec.feature 'Create a Candler ETD' do
       ActiveFedora::Cleaner.clean!
       w.setup
       login_as user
-    end
-
-    scenario "Leland submits a thesis and an approver approves it" do
       visit("/concern/etds/new")
+    end
+    # weak test of the fields but it was failing due to webkit issues with attach_file
+    scenario "Leland submits school and department", js: true do
+      select("Candler School of Theology", from: "School")
+      select("Theological Studies", from: "Department", match: :first)
+    end
+    scenario "Leland submits a thesis and an approver approves it" do
       expect(page).to have_css('input#etd_title.required')
       expect(page).not_to have_css('input#etd_title.multi_value')
       expect(page).to have_css('input#etd_creator')
@@ -25,8 +29,6 @@ RSpec.feature 'Create a Candler ETD' do
       title = "New Testament Narratives #{rand}"
       fill_in 'Title', with: title
       fill_in 'Student Name', with: 'Deeds, Leland'
-      fill_in "Department", with: "Theological Studies"
-      fill_in "School", with: "Candler School of Theology"
       choose('open')
       check('agreement')
       click_on('My PDF')

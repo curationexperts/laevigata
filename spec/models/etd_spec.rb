@@ -18,24 +18,27 @@ RSpec.describe Etd do
 
   context "committee_chair" do
     let(:etd) { FactoryGirl.create(:etd) }
-    it "has a committee_chair which is a Faculty object" do
-      etd.committee_chair = [Faculty.new(name: "Smith, Jane", affiliation: "Emory University", netid: "jsmith")]
-      expect(etd.committee_chair.first).to be_instance_of Faculty
+    it "has a committee_chair which is a CommitteeMember object" do
+      etd.committee_chair = [CommitteeMember.new(name: "Smith, Jane", affiliation: "Emory University", netid: "jsmith")]
+      expect(etd.committee_chair.first).to be_instance_of CommitteeMember
       expect(etd.committee_chair.first.name.first).to eq "Smith, Jane"
     end
   end
 
   context "committee_members" do
     let(:etd) { FactoryGirl.create(:etd) }
-    it "has committee_members which are Faculty objects" do
-      etd.committee_members = [Faculty.new(name: "Doe, Janet", affiliation: "Emory University", netid: "jdoe"), Faculty.new(name: "Cardinal, Leland", affiliation: "Stanford University", netid: nil)]
-      expect(etd.committee_members.first).to be_instance_of Faculty
+    it "has committee_members which are CommitteeMember objects" do
+      etd.committee_members = [
+        CommitteeMember.new(name: "Doe, Janet", affiliation: "Emory University", netid: "jdoe"),
+        CommitteeMember.new(name: "Cardinal, Leland", affiliation: "Stanford University", netid: nil)
+      ]
+      expect(etd.committee_members.first).to be_instance_of CommitteeMember
     end
   end
 
   describe "#degree" do
     subject { described_class.new }
-    let(:degree) { "Bachelor of Arts with Honors" }
+    let(:degree) { "MS" }
     context "with a new ETD" do
       its(:degree) { is_expected.to be_empty }
     end
@@ -90,17 +93,17 @@ RSpec.describe Etd do
     context "with an existing ETD that has a department defined" do
       subject do
         described_class.create.tap do |etd|
-          etd.department = ["Department of Russian and East Asian Languages and Cultures"]
+          etd.department = ["Religion"]
         end
       end
 
-      its(:department) { is_expected.to eq(["Department of Russian and East Asian Languages and Cultures"]) }
+      its(:department) { is_expected.to eq(["Religion"]) }
     end
   end
 
   describe "#school" do
     subject { described_class.new }
-    let(:school) { "Emory College of Arts and Sciences" }
+    let(:school) { "Laney Graduate School" }
     context "with a new ETD" do
       its(:school) { is_expected.to be_empty }
     end
@@ -111,6 +114,22 @@ RSpec.describe Etd do
         end
       end
       its(:school) { is_expected.to eq([school]) }
+    end
+  end
+
+  describe "#subfield" do
+    subject { described_class.new }
+    let(:subfield) { "Ethics and Society" }
+    context "with a new ETD" do
+      its(:subfield) { is_expected.to be_empty }
+    end
+    context "with an existing ETD that has a subfield defined" do
+      subject do
+        described_class.create.tap do |etd|
+          etd.subfield = [subfield]
+        end
+      end
+      its(:subfield) { is_expected.to eq([subfield]) }
     end
   end
 

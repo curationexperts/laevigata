@@ -1,0 +1,5 @@
+<% school_service = Hyrax::SchoolService.new %>
+<%= f.input :school, as: :select,
+    collection: school_service.select_all_options,
+    include_blank: true,
+    input_html: { class: 'form-control' } %>
