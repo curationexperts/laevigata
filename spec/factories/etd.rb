@@ -35,9 +35,6 @@ FactoryGirl.define do
       # How to record embargo?
       # embargoed_until ['2017-08-21']
       # embargo_duration ['Embargoed for 1 year']
-      rights_statement ["Permission granted by the author to include this
-    thesis or dissertation in this repository. All rights reserved by the author. Please contact the
-    author for information regarding the reproduction and use of this thesis or dissertation."]
       identifier ['ark:/25593/rpj6m']
       # file_format ['application/pdf']
       post_graduation_email ['redacted@example.com']
