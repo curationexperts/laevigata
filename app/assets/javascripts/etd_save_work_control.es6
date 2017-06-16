@@ -19,7 +19,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     }
     preventSaveAboutMeUnlessValid() {
       $("#about_me_and_my_program").on('click', (evt) => {
-        // select form here, not this
         if (!this.isValid())
           evt.preventDefault();
       })
@@ -64,6 +63,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       //make one of these for each tab, passing in tab id, all fields are required
       this.requiredAboutMeFields = new ETDRequiredFields(this.form, () => this.formStateChanged(), ".about-me")
       this.uploads = new UploadedFiles(this.form, () => this.formStateChanged())
+      //This needs to be adjusted
       this.saveButton = this.element.find('#about_me_and_my_program')
       this.depositAgreement = new DepositAgreement(this.form, () => this.formStateChanged())
       this.requiredMeAndMyProgram = new ChecklistItem(this.element.find('#required-about-me'))
@@ -71,7 +71,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.requiredFiles = new ChecklistItem(this.element.find('#required-files'))
       new VisibilityComponent(this.element.find('.visibility'), this.adminSetWidget)
       this.preventSubmit()
-      this.watchMultivaluedFields()
       this.formChanged()
     }
 
@@ -83,21 +82,25 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     }
 
     // If someone adds or removes a field on a multivalue input, fire a formChanged event.
-    // // If someone adds or removes a field on a multivalue input, fire a formChanged event.
     // watchMultivaluedFields() {
     //     $('.multi_value.form-group', this.form).bind('managed_field:add', () => this.formChanged())
     //     $('.multi_value.form-group', this.form).bind('managed_field:remove', () => this.formChanged())
     // }
 
+
     // Called when a file has been uploaded, the deposit agreement is clicked or a form field has had text entered.
     formStateChanged() {
-      //this.saveButton.prop("disabled", !this.isValid());
+      // this.saveButton.prop("disabled", !this.isValid());
+      this.isValid()
     }
 
     // called when a new field has been added to the form.
     formChanged() {
-      //this.requiredFields.reload();
-      //this.formStateChanged();
+      //this watches the form, gets called when new field is added, true. reload now will re-find the fields and then call its callback, formstatechanged, which calls valid, which calls reload's areComplete, which checks each element's val.
+        // it just happens before the added element gets there.
+
+      //this.requiredAboutMeFields.reload();
+      // this.requiredAboutMeFields.requiredFields = $.merge($('.about-me').find('select'), $('.about-me').find('input'))
     }
 
     isValid() {
@@ -112,6 +115,12 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     }
 
     validateMeAndMyProgram() {
+      // if Rollins is school, partnering agency is required, otherwise not
+      if ($('#etd_school').val() != "rollins_programs"){
+        this.requiredAboutMeFields.requiredFields = $(this.requiredAboutMeFields.requiredFields).not("#etd_partnering_agency")
+      } else {
+        this.requiredAboutMeFields.requiredFields = $(this.requiredAboutMeFields.requiredFields).add($("#etd_partnering_agency"))
+      }
       if (this.requiredAboutMeFields.areComplete) {
         this.requiredMeAndMyProgram.check()
         return true
@@ -119,7 +128,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.requiredMeAndMyProgram.uncheck()
       return false
     }
-
 
   // // sets the files indicator to complete/incomplete
   validateFiles() {

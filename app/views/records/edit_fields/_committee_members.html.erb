@@ -1,11 +1,15 @@
 <div class="row">
-  <div class="col-sm-4">
-  <% non_emory_faculty = ["Person", "Another Person"] %>
-  <%= f.input :committee_members, as: :select, label: "Non-Emory Faculty",
-         collection: non_emory_faculty,
-          input_html: { class: 'form-control committee' } %>
+  <div class="col-sm-6 member">
+  <%= f.fields_for :committee_member do |c| %>
+  <%= c.input :name, label: "Committee Member", required: false, input_html: { class: 'form-control committee' } %>
   </div>
-  <div class="col-sm-6">
-  <%= f.input :committee_members, input_html: { class: 'form-control committee' } %>
+
+  <div class="col-sm-6 member-affiliation">
+    <% emory_faculty = ["Emory Faculty", "Non-Emory Faculty"] %>
+    <%= c.input :affiliation_type, as: :select, selected: "Emory Faculty", required: false, label: "Committee Member's Affiliation",
+           collection: emory_faculty,
+            input_html: { class: 'form-control committee-member-select' } %>
+  <%= c.input :affiliation, disabled: true, required: false, label: false, input_html: { class: 'form-control committee', data: { affiliation: 'members'}, value: "Emory"} %>
   </div>
+  <% end %>
 </div>

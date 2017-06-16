@@ -16,7 +16,8 @@ export class ETDRequiredFields extends RequiredFields {
   }
 
   isValuePresent(elem) {
-    return ($(elem).val() === null) || ($(elem).val().length < 1)
+    //these things are only a problem if disabled is not set
+    return (($(elem).prop('disabled') == false) && ($(elem).val() === null)) || (($(elem).prop('disabled') == false) && ($(elem).val().length < 1))
   }
 
   // Reassign requiredFields because fields may have been added or removed.
