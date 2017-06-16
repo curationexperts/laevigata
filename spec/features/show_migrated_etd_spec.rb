@@ -11,6 +11,11 @@ RSpec.feature 'Display an ETD built from migrated content' do
       etd.save
     end
 
+    scenario "ETD has embargo" do
+      expect(etd.embargo).to be_instance_of Hydra::AccessControls::Embargo
+      expect(etd.embargo.embargo_release_date).to eq "2017-08-21 00:00:00"
+    end
+
     scenario "Show an ETD" do
       visit("/concern/etds/#{etd.id}")
       expect(page).to have_content etd.title.first
