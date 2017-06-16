@@ -11,7 +11,7 @@ RSpec.describe Hyrax::DegreeService do
 
   describe "#select_all_options" do
     it "has a select list" do
-      expect(service.select_all_options).to include(["MS", "MS"])
+      expect(service.select_all_options).to include(["MS", "M.S."])
     end
   end
 end
