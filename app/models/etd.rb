@@ -6,9 +6,11 @@ class Etd < ActiveFedora::Base
   # Change this to restrict which works can be added as a child.
   # self.valid_child_concerns = []
   validates :title, presence: { message: 'Your work must have a title.' }
+  validates :research_field, length: { maximum: 3 }
   self.human_readable_type = 'Etd'
 
   after_initialize :set_defaults, unless: :persisted?
+  before_save :set_research_field_ids
 
   def set_defaults
     self.degree_granting_institution = "http://id.loc.gov/vocabulary/organizations/geu"
@@ -17,6 +19,11 @@ class Etd < ActiveFedora::Base
       "thesis or dissertation in this repository. All rights reserved by the " \
       "author. Please contact the author for information regarding the "       \
       "reproduction and use of this thesis or dissertation."
+  end
+
+  def set_research_field_ids
+    research_field_service = ResearchFieldService.new
+    self.research_field_id = research_field.each.map { |f| research_field_service.label(f) }
   end
 
   def hidden?
@@ -56,9 +63,11 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable
   end
 
-  property :research_field, predicate: ::RDF::Vocab::DC.subject do |index|
+  property :research_field, predicate: ::RDF::Vocab::DC11.subject do |index|
     index.as :stored_searchable, :facetable
   end
+
+  property :research_field_id, predicate: 'https://schema.org/category'
 
   property :rights_statement, predicate: "http://purl.org/dc/elements/1.1/rights", multiple: false
 

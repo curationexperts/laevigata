@@ -128,21 +128,22 @@ RSpec.describe Etd do
     end
   end
 
-  describe "#research_field" do
-    subject { described_class.new }
-    let(:research_field) { ['0383'] }
+  describe "#research_field and #research_field_id" do
+    subject(:etd) { described_class.new }
+    let(:research_field) { ['Toxicology'] }
 
-    context "with a new ETD" do
-      its(:research_field) { is_expected.to be_empty }
+    it "is empty when new" do
+      expect(etd.research_field).to be_empty
+      expect(etd.research_field_id).to be_empty
     end
 
-    context "with an existing ETD that has a research field defined" do
-      subject do
-        described_class.create.tap do |etd|
-          etd.research_field = research_field
-        end
-      end
-      its(:research_field) { is_expected.to eq(research_field) }
+    it "saves research fields and ids" do
+      etd.title = ['Test']
+      etd.research_field = research_field
+      etd.save!
+
+      expect(etd.research_field).to eq(research_field)
+      expect(etd.research_field_id).to eq(['0383'])
     end
   end
 
