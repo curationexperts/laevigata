@@ -22,7 +22,7 @@ class User < ApplicationRecord
   # a new one. Populate it with data we get from shibboleth.
   # @param [OmniAuth::AuthHash] auth
   def self.from_omniauth(auth)
-    # Rails.logger.debug "auth = #{auth.inspect}"
+    Rails.logger.debug "auth = #{auth.inspect}"
     # Uncomment the debugger above to capture what a shib auth object looks like for testing
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
