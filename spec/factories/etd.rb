@@ -8,7 +8,7 @@ FactoryGirl.define do
     school ['Laney Graduate School']
     subfield ['Ethics and Society']
     submitting_type ["Honors Thesis"]
-    research_field ['Oncology']
+    research_field ['Religion, General']
     committee_chair [FactoryGirl.build(:committee_member)]
     committee_members FactoryGirl.build_list(:committee_member, 3)
     visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
