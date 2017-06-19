@@ -31,8 +31,12 @@ RSpec.feature 'Display an ETD built from migrated content' do
       expect(page).to have_content etd.submitting_type.first
       expect(page).to have_content etd.language.first
       expect(page).to have_content "http://pid.emory.edu/#{etd.identifier.first}" # Permanent URL
-      # expect(page).to have_content research_field.first
+      expect(page).to have_content etd.research_field.first
       expect(page).to have_content etd.keyword.first
+      expect(page).to have_content etd.rights_statement.first
+      expect(page).to have_content "Treadway, Michael T"
+      expect(page).to have_content "Craighead, W Edward"
+      expect(page).to have_content "Manns, Joseph"
     end
   end
 end
