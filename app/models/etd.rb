@@ -31,6 +31,22 @@ class Etd < ActiveFedora::Base
     true
   end
 
+  property :creator, predicate: "http://id.loc.gov/vocabulary/relators/aut" do |index|
+    index.as :stored_searchable, :facetable
+  end
+
+  property :email, predicate: "http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#officeEmailAddress" do |index|
+    index.as :displayable
+  end
+
+  property :post_graduation_email, predicate: "http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#privateEmailAddress" do |index|
+    index.as :displayable
+  end
+
+  property :graduation_date, predicate: "http://purl.org/dc/terms/issued" do |index|
+    index.as :stored_searchable, :facetable
+  end
+
   # Boolean
   property :hidden, predicate: "http://emory.edu/local/hidden", multiple: false do |index|
     index.as :stored_searchable, :facetable
@@ -74,14 +90,4 @@ class Etd < ActiveFedora::Base
   property :committee_chair, predicate: "http://id.loc.gov/vocabulary/relators/ths", class_name: "CommitteeMember"
 
   property :committee_members, predicate: "http://id.loc.gov/vocabulary/relators/rev", class_name: "CommitteeMember"
-
-  # TODO: The following properties are placeholders and need to be edited to hold correct predicates and indexes
-
-  property :graduation_date, predicate: "http://vivoweb.org/ontology/core#AcademicDepartment" do |index|
-    index.as :stored_searchable, :facetable
-  end
-
-  property :post_graduation_email, predicate: "http://vivoweb.org/ontology/core#AcademicDepartment" do |index|
-    index.as :stored_searchable, :facetable
-  end
 end
