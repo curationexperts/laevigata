@@ -17,17 +17,25 @@ RSpec.describe Etd do
   end
 
   context "committee_chair" do
-    let(:etd) { FactoryGirl.create(:etd) }
+    let(:etd) { FactoryGirl.create(:ateer_etd) }
     it "has a committee_chair which is a CommitteeMember object" do
       expect(etd.committee_chair.first).to be_instance_of CommitteeMember
+    end
+    it "has committee_chair_name indexed so its accessible from the presenter" do
+      expect(etd.committee_chair_name.count).to eq 1
+      expect(etd.committee_chair_name.include?('Treadway, Michael T')).to eq true
     end
   end
 
   context "committee_members" do
-    let(:etd) { FactoryGirl.create(:etd) }
+    let(:etd) { FactoryGirl.create(:ateer_etd) }
     it "has committee_members which are CommitteeMember objects" do
       expect(etd.committee_members.first).to be_instance_of CommitteeMember
-      expect(etd.committee_members.count).to eq 3
+      expect(etd.committee_members.count).to eq 2
+    end
+    it "has committee_members_names indexed so they're accessible from the presenter" do
+      expect(etd.committee_members_names.count).to eq 2
+      expect(etd.committee_members_names.include?("Craighead, W Edward")).to eq true
     end
   end
 
