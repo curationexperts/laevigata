@@ -25,6 +25,22 @@ class SolrDocument
 
   use_extension(Hydra::ContentNegotiation)
 
+  def abstract
+    self[Solrizer.solr_name('abstract')]
+  end
+
+  def table_of_contents
+    self[Solrizer.solr_name('table_of_contents')]
+  end
+
+  def committee_chair_name
+    self[Solrizer.solr_name('committee_chair_name')]
+  end
+
+  def committee_members_names
+    self[Solrizer.solr_name('committee_members_names')]
+  end
+
   def degree
     self[Solrizer.solr_name('degree')]
   end

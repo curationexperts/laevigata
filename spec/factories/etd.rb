@@ -19,12 +19,14 @@ FactoryGirl.define do
       creator ['Teer, Drew']
       keyword ['classical conditioning', 'implict', 'self-esteem']
       submitting_type ["Master's Thesis"]
-      # research_field ['Clinical Psychology']
-      # research_field_id ['id0622']
+      research_field ['Clinical Psychology']
       school ['Laney Graduate School']
       department ['Psychology']
+      subfield []
       degree ['MA']
       language ['English']
+      abstract { [] << FFaker::Lorem.paragraph }
+      table_of_contents { [] << FFaker::Lorem.paragraph }
       committee_chair [
         FactoryGirl.build(:committee_member, name: 'Treadway, Michael T')
       ]

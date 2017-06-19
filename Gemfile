@@ -54,6 +54,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'fcrepo_wrapper'
+  gem 'ffaker'
   gem 'launchy'
   gem 'rspec', "~> 3.5"
   gem 'rspec-activemodel-mocks'
