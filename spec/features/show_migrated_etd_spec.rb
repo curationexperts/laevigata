@@ -37,6 +37,7 @@ RSpec.feature 'Display an ETD built from migrated content' do
       expect(page).to have_content "Treadway, Michael T"
       expect(page).to have_content "Craighead, W Edward"
       expect(page).to have_content "Manns, Joseph"
+      expect(page).not_to have_content "Relationships"
     end
   end
 end
