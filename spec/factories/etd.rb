@@ -7,7 +7,6 @@ FactoryGirl.define do
     department ['Religion']
     school ['Laney Graduate School']
     subfield ['Ethics and Society']
-    partnering_agency ["Does not apply (no collaborating organization)"]
     submitting_type ["Honors Thesis"]
     research_field ['Oncology']
     committee_chair [FactoryGirl.build(:committee_member)]
