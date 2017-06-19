@@ -25,6 +25,15 @@ RSpec.describe Etd do
     end
   end
 
+  context "table of contents" do
+    let(:etd) { FactoryGirl.build(:etd) }
+    it "has a table_of_contents" do
+      etd.table_of_contents = ["Irony Austin seitan vegan skateboard +1 sartorial wolf McSweeney's."]
+      expect(etd.resource.dump(:ttl)).to match(/purl.org\/dc\/terms\/tableOfContents/)
+      expect(etd.table_of_contents.first).to match(/^Irony/)
+    end
+  end
+
   context "committee_chair" do
     let(:etd) { FactoryGirl.create(:ateer_etd) }
     it "has a committee_chair which is a CommitteeMember object" do

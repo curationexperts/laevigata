@@ -47,6 +47,10 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable
   end
 
+  property :table_of_contents, predicate: "http://purl.org/dc/terms/tableOfContents" do |index|
+    index.as :stored_searchable
+  end
+
   property :creator, predicate: "http://id.loc.gov/vocabulary/relators/aut" do |index|
     index.as :stored_searchable, :facetable
   end

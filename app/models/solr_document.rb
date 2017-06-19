@@ -29,6 +29,10 @@ class SolrDocument
     self[Solrizer.solr_name('abstract')]
   end
 
+  def table_of_contents
+    self[Solrizer.solr_name('table_of_contents')]
+  end
+
   def committee_chair_name
     self[Solrizer.solr_name('committee_chair_name')]
   end

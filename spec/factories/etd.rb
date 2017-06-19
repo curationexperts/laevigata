@@ -26,6 +26,7 @@ FactoryGirl.define do
       degree ['MA']
       language ['English']
       abstract { [] << FFaker::Lorem.paragraph }
+      table_of_contents { [] << FFaker::Lorem.paragraph }
       committee_chair [
         FactoryGirl.build(:committee_member, name: 'Treadway, Michael T')
       ]

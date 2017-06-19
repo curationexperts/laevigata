@@ -1,3 +1,14 @@
 class EtdPresenter < Hyrax::WorkShowPresenter
-  delegate :abstract, :degree, :department, :school, :subfield, :partnering_agency, :submitting_type, :research_field, :committee_chair_name, :committee_members_names, to: :solr_document
+  delegate :abstract,
+           :committee_chair_name,
+           :committee_members_names,
+           :degree,
+           :department,
+           :school,
+           :subfield,
+           :partnering_agency,
+           :research_field,
+           :submitting_type,
+           :table_of_contents,
+           to: :solr_document
 end
