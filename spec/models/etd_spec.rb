@@ -31,6 +31,34 @@ RSpec.describe Etd do
     end
   end
 
+  context "author name" do
+    let(:etd) { FactoryGirl.build(:etd) }
+    it "has a creator with the expected predicate" do
+      expect(etd.resource.dump(:ttl)).to match(/id.loc.gov\/vocabulary\/relators\/aut/)
+    end
+  end
+
+  context "emails" do
+    let(:etd) { FactoryGirl.build(:etd) }
+    it "has a primary email with the expected predicate" do
+      etd.email = ['lonnie@mcdermott.ca']
+      expect(etd.resource.dump(:ttl)).to match(/www.ebu.ch\/metadata\/ontologies\/ebucore\/ebucore\#officeEmailAddress/)
+    end
+    it "has a post graduation email with the expected predicate" do
+      etd.post_graduation_email = ['kandis@robellarkin.info']
+      expect(etd.resource.dump(:ttl)).to match(/www.ebu.ch\/metadata\/ontologies\/ebucore\/ebucore\#privateEmailAddress/)
+    end
+  end
+
+  context "graduation_date" do
+    let(:etd) { FactoryGirl.build(:etd) }
+    it "has a semester and year" do
+      etd.graduation_date = ["Spring 2019"]
+      expect(etd.resource.dump(:ttl)).to match(/purl.org\/dc\/terms\/issued/)
+      expect(etd.graduation_date).to eq ["Spring 2019"]
+    end
+  end
+
   describe "#degree" do
     subject { described_class.new }
     let(:degree) { "MS" }
