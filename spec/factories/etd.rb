@@ -32,9 +32,7 @@ FactoryGirl.define do
         FactoryGirl.build(:committee_member, name: 'Craighead, W Edward'),
         FactoryGirl.build(:committee_member, name: 'Manns, Joseph')
       ]
-      # How to record embargo?
-      # embargoed_until ['2017-08-21']
-      # embargo_duration ['Embargoed for 1 year']
+      embargo_id { FactoryGirl.create(:embargo, embargo_release_date: "2017-08-21").id }
       identifier ['ark:/25593/rpj6m']
       # file_format ['application/pdf']
       post_graduation_email ['redacted@example.com']
