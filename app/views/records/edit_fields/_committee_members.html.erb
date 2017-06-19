@@ -1,15 +1,189 @@
-<div class="row">
+<div class="committee-member row">
   <div class="col-sm-6 member">
-  <%= f.fields_for :committee_member do |c| %>
-  <%= c.input :name, label: "Committee Member", required: false, input_html: { class: 'form-control committee' } %>
+    <%= f.fields_for :committee_members do |c| %>
+    <% emory_faculty = ["Emory Faculty", "Non-Emory Faculty"] %>
+    <%= c.input "affiliation_type", selected: "Emory Faculty", required: false, label: "Committee Member's Affiliation",
+         collection: emory_faculty,
+          input_html: { class: 'form-control committee-member-select' } %>
+    <%= c.input :affiliation, disabled: true, required: false, label: false, input_html: { class: 'form-control committee',  data: { affiliation: 'members'}, value: "Emory"} %>
   </div>
 
   <div class="col-sm-6 member-affiliation">
-    <% emory_faculty = ["Emory Faculty", "Non-Emory Faculty"] %>
-    <%= c.input :affiliation_type, as: :select, selected: "Emory Faculty", required: false, label: "Committee Member's Affiliation",
-           collection: emory_faculty,
-            input_html: { class: 'form-control committee-member-select' } %>
-  <%= c.input :affiliation, disabled: true, required: false, label: false, input_html: { class: 'form-control committee', data: { affiliation: 'members'}, value: "Emory"} %>
+    <%= c.input :name, label: "Committee Member", required: false, input_html: { class: 'form-control committee' } %>
   </div>
   <% end %>
+</div>
+
+<div class="committee-member row hidden">
+  <div class="col-sm-6 member">
+    <%= f.fields_for :committee_members do |c| %>
+    <% emory_faculty = ["Emory Faculty", "Non-Emory Faculty"] %>
+    <%= c.input "affiliation_type", selected: "Emory Faculty", required: false, label: "Committee Member's Affiliation",
+         collection: emory_faculty,
+          input_html: { class: 'form-control committee-member-select' } %>
+    <%= c.input :affiliation, disabled: true, required: false, label: false, input_html: { class: 'form-control committee',  data: { affiliation: 'members'}, value: "Emory"} %>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <%= c.input :name, label: "Committee Member", required: false, input_html: { class: 'form-control committee' } %>
+  </div>
+  <% end %>
+  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-member">Remove Committee Member</span></button>
+</div>
+
+<div class="committee-member row hidden">
+  <div class="col-sm-6 member">
+    <%= f.fields_for :committee_members do |c| %>
+    <% emory_faculty = ["Emory Faculty", "Non-Emory Faculty"] %>
+    <%= c.input "affiliation_type", selected: "Emory Faculty", required: false, label: "Committee Member's Affiliation",
+         collection: emory_faculty,
+          input_html: { class: 'form-control committee-member-select' } %>
+    <%= c.input :affiliation, disabled: true, required: false, label: false, input_html: { class: 'form-control committee',  data: { affiliation: 'members'}, value: "Emory"} %>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <%= c.input :name, label: "Committee Member", required: false, input_html: { class: 'form-control committee' } %>
+  </div>
+  <% end %>
+  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-member">Remove Committee Member</span></button>
+</div>
+
+<div class="committee-member row hidden">
+  <div class="col-sm-6 member">
+    <%= f.fields_for :committee_members do |c| %>
+    <% emory_faculty = ["Emory Faculty", "Non-Emory Faculty"] %>
+    <%= c.input "affiliation_type", selected: "Emory Faculty", required: false, label: "Committee Member's Affiliation",
+         collection: emory_faculty,
+          input_html: { class: 'form-control committee-member-select' } %>
+    <%= c.input :affiliation, disabled: true, required: false, label: false, input_html: { class: 'form-control committee',  data: { affiliation: 'members'}, value: "Emory"} %>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <%= c.input :name, label: "Committee Member", required: false, input_html: { class: 'form-control committee' } %>
+  </div>
+  <% end %>
+  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-member">Remove Committee Member</span></button>
+</div>
+
+<div class="committee-member row hidden">
+  <div class="col-sm-6 member">
+    <%= f.fields_for :committee_members do |c| %>
+    <% emory_faculty = ["Emory Faculty", "Non-Emory Faculty"] %>
+    <%= c.input "affiliation_type", selected: "Emory Faculty", required: false, label: "Committee Member's Affiliation",
+         collection: emory_faculty,
+          input_html: { class: 'form-control committee-member-select' } %>
+    <%= c.input :affiliation, disabled: true, required: false, label: false, input_html: { class: 'form-control committee',  data: { affiliation: 'members'}, value: "Emory"} %>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <%= c.input :name, label: "Committee Member", required: false, input_html: { class: 'form-control committee' } %>
+  </div>
+  <% end %>
+  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-member">Remove Committee Member</span></button>
+</div>
+
+<div class="committee-member row hidden">
+  <div class="col-sm-6 member">
+    <%= f.fields_for :committee_members do |c| %>
+    <% emory_faculty = ["Emory Faculty", "Non-Emory Faculty"] %>
+    <%= c.input "affiliation_type", selected: "Emory Faculty", required: false, label: "Committee Member's Affiliation",
+         collection: emory_faculty,
+          input_html: { class: 'form-control committee-member-select' } %>
+    <%= c.input :affiliation, disabled: true, required: false, label: false, input_html: { class: 'form-control committee',  data: { affiliation: 'members'}, value: "Emory"} %>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <%= c.input :name, label: "Committee Member", required: false, input_html: { class: 'form-control committee' } %>
+  </div>
+  <% end %>
+  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-member">Remove Committee Member</span></button>
+</div>
+
+<div class="committee-member row hidden">
+  <div class="col-sm-6 member">
+    <%= f.fields_for :committee_members do |c| %>
+    <% emory_faculty = ["Emory Faculty", "Non-Emory Faculty"] %>
+    <%= c.input "affiliation_type", selected: "Emory Faculty", required: false, label: "Committee Member's Affiliation",
+         collection: emory_faculty,
+          input_html: { class: 'form-control committee-member-select' } %>
+    <%= c.input :affiliation, disabled: true, required: false, label: false, input_html: { class: 'form-control committee',  data: { affiliation: 'members'}, value: "Emory"} %>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <%= c.input :name, label: "Committee Member", required: false, input_html: { class: 'form-control committee' } %>
+  </div>
+  <% end %>
+  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-member">Remove Committee Member</span></button>
+</div>
+
+
+<div class="committee-member row hidden">
+  <div class="col-sm-6 member">
+    <%= f.fields_for :committee_members do |c| %>
+    <% emory_faculty = ["Emory Faculty", "Non-Emory Faculty"] %>
+    <%= c.input "affiliation_type", selected: "Emory Faculty", required: false, label: "Committee Member's Affiliation",
+         collection: emory_faculty,
+          input_html: { class: 'form-control committee-member-select' } %>
+    <%= c.input :affiliation, disabled: true, required: false, label: false, input_html: { class: 'form-control committee',  data: { affiliation: 'members'}, value: "Emory"} %>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <%= c.input :name, label: "Committee Member", required: false, input_html: { class: 'form-control committee' } %>
+  </div>
+  <% end %>
+  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-member">Remove Committee Member</span></button>
+</div>
+
+
+<div class="committee-member row hidden">
+  <div class="col-sm-6 member">
+    <%= f.fields_for :committee_members do |c| %>
+    <% emory_faculty = ["Emory Faculty", "Non-Emory Faculty"] %>
+    <%= c.input "affiliation_type", selected: "Emory Faculty", required: false, label: "Committee Member's Affiliation",
+         collection: emory_faculty,
+          input_html: { class: 'form-control committee-member-select' } %>
+    <%= c.input :affiliation, disabled: true, required: false, label: false, input_html: { class: 'form-control committee',  data: { affiliation: 'members'}, value: "Emory"} %>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <%= c.input :name, label: "Committee Member", required: false, input_html: { class: 'form-control committee' } %>
+  </div>
+  <% end %>
+  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-member">Remove Committee Member</span></button>
+</div>
+
+
+<div class="committee-member row hidden">
+  <div class="col-sm-6 member">
+    <%= f.fields_for :committee_members do |c| %>
+    <% emory_faculty = ["Emory Faculty", "Non-Emory Faculty"] %>
+    <%= c.input "affiliation_type", selected: "Emory Faculty", required: false, label: "Committee Member's Affiliation",
+         collection: emory_faculty,
+          input_html: { class: 'form-control committee-member-select' } %>
+    <%= c.input :affiliation, disabled: true, required: false, label: false, input_html: { class: 'form-control committee',  data: { affiliation: 'members'}, value: "Emory"} %>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <%= c.input :name, label: "Committee Member", required: false, input_html: { class: 'form-control committee' } %>
+  </div>
+  <% end %>
+  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-member">Remove Committee Member</span></button>
+</div>
+
+
+<div class="committee-member row hidden">
+  <div class="col-sm-6 member">
+    <%= f.fields_for :committee_members do |c| %>
+    <% emory_faculty = ["Emory Faculty", "Non-Emory Faculty"] %>
+    <%= c.input "affiliation_type", selected: "Emory Faculty", required: false, label: "Committee Member's Affiliation",
+         collection: emory_faculty,
+          input_html: { class: 'form-control committee-member-select' } %>
+    <%= c.input :affiliation, disabled: true, required: false, label: false, input_html: { class: 'form-control committee',  data: { affiliation: 'members'}, value: "Emory"} %>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <%= c.input :name, label: "Committee Member", required: false, input_html: { class: 'form-control committee' } %>
+  </div>
+  <% end %>
+  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-member">Remove Committee Member</span></button>
 </div>

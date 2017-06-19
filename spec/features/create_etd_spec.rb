@@ -36,8 +36,8 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_css('select#etd_research_field')
       expect(page).to have_css('select#etd_committee_chair_affiliation_type')
       expect(page).to have_css('input#etd_committee_chair_name')
-      expect(page).to have_css('select#etd_committee_member_affiliation_type')
-      expect(page).to have_css('input#etd_committee_member_name')
+      expect(page).to have_css('select#etd_committee_members_affiliation_type')
+      expect(page).to have_css('input#etd_committee_members_name')
       expect(page).to have_css('select#etd_partnering_agency')
     end
 
@@ -96,10 +96,31 @@ RSpec.feature 'Create an Etd' do
     end
 
     scenario "'about me' committee affiliation accepts user input when Non-Emory Faculty is selected", js: true do
-      select('Non-Emory Faculty', from: 'etd_committee_member_affiliation_type')
+      select('Non-Emory Faculty', from: 'etd_committee_members_affiliation_type')
       wait_for_ajax
-      fill_in "etd_committee_member_affiliation", with: "MOMA"
-      expect(find_field("etd_committee_member_affiliation").value).to eq("MOMA")
+      fill_in "etd_committee_members_affiliation", with: "MOMA"
+      expect(find_field("etd_committee_members_affiliation").value).to eq("MOMA")
+    end
+
+    scenario "'about me' adds and removes committee members", js: true do
+      click_on("Add Another Committee Member")
+
+      wait_for_ajax
+
+      click_on("Add Another Committee Member")
+
+      wait_for_ajax
+
+      expect(all('select.committee-member-select').count).to eq(3)
+
+      click_on("Remove Committee Member", match: :first)
+      wait_for_ajax
+      expect(all('select.committee-member-select').count).to eq(2)
+
+      click_on("Remove Committee Member", match: :first)
+      wait_for_ajax
+
+      expect(all('select.committee-member-select').count).to eq(1)
     end
 
     scenario "'about me and my program' requires non-emory committee member affiliation", js: true do
@@ -121,7 +142,7 @@ RSpec.feature 'Create an Etd' do
 
       select('Non-Emory Faculty', from: 'etd_committee_chair_affiliation_type')
 
-      select('Emory Faculty', from: 'etd_committee_member_affiliation_type')
+      select('Emory Faculty', from: 'etd_committee_members_affiliation_type')
       fill_in "Committee Member", with: "Joan Didion"
 
       click_on('Save About Me')
@@ -135,7 +156,7 @@ RSpec.feature 'Create an Etd' do
       visit("/concern/etds/new")
       select('Emory Faculty', from: 'etd_committee_chair_affiliation_type')
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
-      select('Non-Emory Faculty', from: 'etd_committee_member_affiliation_type')
+      select('Non-Emory Faculty', from: 'etd_committee_members_affiliation_type')
       fill_in "Committee Member", with: "Joan Didion"
       select('CDC', from: 'Partnering agency')
       click_on('Save About Me')

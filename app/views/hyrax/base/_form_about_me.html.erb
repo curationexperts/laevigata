@@ -23,11 +23,17 @@
 <h3>About My Program</h3>
 <p>Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum.</p>
 
-<div class="about-me">
+<div class="about-me program">
   <%= render 'form_media', f: f %>
   <% f.object.about_my_program_fields.each do |term| %>
     <%= render_edit_field_partial(term, f: f) %>
   <% end %>
+</div>
+
+<div class='row'>
+  <div class='col-sm-12'>
+    <button type="button" class="btn btn-link add"><span class="glyphicon glyphicon-plus"></span> <span class="controls-add-text" id="add-another-member">Add Another Committee Member</span></button>
+  </div>
 </div>
 
 <input name="about_me_and_my_program" value="Save About Me" class="btn btn-primary" id="about_me_and_my_program" type="submit" />

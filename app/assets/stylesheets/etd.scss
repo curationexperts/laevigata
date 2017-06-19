@@ -3,7 +3,9 @@
   width: 60%;
 }
 
-.about-me .form-control.committee {
+.about-me .form-control.committee,
+.about-me .form-control.committee-member,
+.about-me .form-control.committee-member-select {
   width: 100%;
 }
 
@@ -11,14 +13,27 @@
   width: 100%;
 }
 
-.about-me div.hide-label div:nth-child(1){
+.about-me div.hide-label div:nth-child(1) {
   margin-bottom: 0;
 }
 
-.about-me div.hide-label div:nth-child(2) label:nth-child(1){
+.about-me div.hide-label div:nth-child(2) label:nth-child(1) {
   visibility: hidden;
 }
 
 .nav > li > a {
   padding: 10px 5px;
+}
+
+.form-group.etd_committee_member_affiliation_type,
+.form-group.etd_committee_chair_affiliation_type {
+  margin-bottom: 15px;
+}
+
+.committee-member.col-sm-12 {
+  padding-left: 0;
+}
+
+.btn-link.add, .btn-link.remove {
+  text-decoration: underline;
 }
