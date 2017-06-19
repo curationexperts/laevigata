@@ -21,6 +21,7 @@ FactoryGirl.define do
       submitting_type ["Master's Thesis"]
       # research_field ['Clinical Psychology']
       # research_field_id ['id0622']
+      school ['Laney Graduate School']
       department ['Psychology']
       degree ['MA']
       language ['English']
