@@ -38,6 +38,10 @@ RSpec.feature 'Display an ETD built from migrated content' do
       expect(page).to have_content "Craighead, W Edward"
       expect(page).to have_content "Manns, Joseph"
       expect(page).not_to have_content "Relationships"
+      expect(page).to have_content "Abstract"
+      expect(page).to have_content etd.abstract.first
+      expect(page).to have_content "Table of Contents"
+      expect(page).to have_content etd.table_of_contents.first
     end
   end
 end

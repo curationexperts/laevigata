@@ -1,0 +1,8 @@
+<h2>Table of Contents</h2>
+<% if presenter.table_of_contents %>
+  <% presenter.table_of_contents.each_with_index do |table_of_contents, index| %>
+      <p><%= presenter.table_of_contents.first %></p>
+  <% end %>
+<% else %>
+  <p>No table of contents available</p>
+<% end %>
