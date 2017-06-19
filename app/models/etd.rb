@@ -10,7 +10,7 @@ class Etd < ActiveFedora::Base
   self.human_readable_type = 'Etd'
 
   after_initialize :set_defaults, unless: :persisted?
-  before_save :set_research_field_ids
+  before_save :set_research_field_ids, :index_committee_chair_name, :index_committee_members_names
 
   def set_defaults
     self.degree_granting_institution = "http://id.loc.gov/vocabulary/organizations/geu"
@@ -24,11 +24,27 @@ class Etd < ActiveFedora::Base
   def set_research_field_ids
     research_field_service = ResearchFieldService.new
     self.research_field_id = research_field.each.map { |f| research_field_service.label(f) }
+  rescue KeyError
+    Rails.logger.error "Couldn't find research_field_id for #{research_field.inspect}"
+  end
+
+  def index_committee_chair_name
+    return unless committee_chair && committee_chair.first && committee_chair.first.name && committee_chair.first.name.first
+    committee_chair_name << committee_chair.first.name.first
+  end
+
+  def index_committee_members_names
+    return unless committee_members && committee_members.first
+    committee_members_names << committee_members.map { |e| e.name.first }
   end
 
   def hidden?
     return false unless hidden
     true
+  end
+
+  property :abstract, predicate: "http://purl.org/dc/terms/abstract" do |index|
+    index.as :stored_searchable
   end
 
   property :creator, predicate: "http://id.loc.gov/vocabulary/relators/aut" do |index|
@@ -89,5 +105,13 @@ class Etd < ActiveFedora::Base
 
   property :committee_chair, predicate: "http://id.loc.gov/vocabulary/relators/ths", class_name: "CommitteeMember"
 
+  property :committee_chair_name, predicate: "http://example.com/committee_chair_name" do |index|
+    index.as :stored_searchable, :facetable
+  end
+
   property :committee_members, predicate: "http://id.loc.gov/vocabulary/relators/rev", class_name: "CommitteeMember"
+
+  property :committee_members_names, predicate: "http://example.com/committee_members_names" do |index|
+    index.as :stored_searchable, :facetable
+  end
 end

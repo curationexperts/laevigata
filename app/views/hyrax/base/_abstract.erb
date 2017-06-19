@@ -1,0 +1,8 @@
+<h2>Abstract</h2>
+<% if presenter.abstract %>
+  <% presenter.abstract.each_with_index do |abstract, index| %>
+      <p><%= presenter.abstract.first %></p>
+  <% end %>
+<% else %>
+  <p>No abstract available</p>
+<% end %>
