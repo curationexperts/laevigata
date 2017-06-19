@@ -25,6 +25,7 @@ FactoryGirl.define do
       subfield []
       degree ['MA']
       language ['English']
+      abstract { [] << FFaker::Lorem.paragraph }
       committee_chair [
         FactoryGirl.build(:committee_member, name: 'Treadway, Michael T')
       ]

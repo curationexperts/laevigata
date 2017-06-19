@@ -8,6 +8,7 @@
     <span class="state state-<%= @presenter.workflow.state %>"><%= @presenter.workflow.state_label %></span>
   </div>
   <div class="col-sm-8">
+    <%= render 'abstract', presenter: @presenter %>
     <%= render 'work_description', presenter: @presenter %>
     <%= render 'metadata', presenter: @presenter %>
   </div>
