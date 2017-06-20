@@ -19,7 +19,6 @@ RSpec.describe Hyrax::EtdForm do
     its(:terms) { is_expected.to include(:partnering_agency) }
     its(:terms) { is_expected.to include(:research_field) }
     its(:terms) { is_expected.to include(:submitting_type) }
-    its(:terms) { is_expected.to include(:title) }
     its(:terms) { is_expected.to include(:language) }
     its(:terms) { is_expected.to include(:abstract) }
     its(:terms) { is_expected.to include(:table_of_contents) }
