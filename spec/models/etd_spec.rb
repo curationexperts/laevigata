@@ -34,6 +34,15 @@ RSpec.describe Etd do
     end
   end
 
+  context "keyword" do
+    let(:etd) { FactoryGirl.build(:etd) }
+    it "has keywords" do
+      etd.keyword = ["Irony", "Austin", "seitan"]
+      expect(etd.resource.dump(:ttl)).to match(/schema.org\/keywords/)
+      expect(etd.keyword.include?("Irony")).to be true
+    end
+  end
+
   context "committee_chair" do
     let(:etd) { FactoryGirl.create(:ateer_etd) }
     it "has a committee_chair which is a CommitteeMember object" do
