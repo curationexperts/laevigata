@@ -11,6 +11,7 @@ gem 'coffee-rails'
 gem 'devise'
 gem 'devise-guests', '~> 0.5'
 gem 'factory_girl_rails' # Needed so we can load fixtures for demos in production
+gem 'ffaker' # Needed so we can load fixtures for demos in production
 gem 'hydra-role-management'
 gem 'hyrax', '~> 1.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -56,7 +57,7 @@ group :development, :test do
   gem 'database_cleaner'
   # gem 'factory_girl_rails'
   gem 'fcrepo_wrapper'
-  gem 'ffaker'
+  # gem 'ffaker'
   gem 'launchy'
   gem 'rspec', "~> 3.5"
   gem 'rspec-activemodel-mocks'
