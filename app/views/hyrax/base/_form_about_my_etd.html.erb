@@ -1,3 +1,16 @@
+<h1><%= t("hyrax.works.form.tab.about_my_etd", type: curation_concern.human_readable_type) %></h1>
+
 <div class="form-instructions">
-  <p>About My Thesis or Dissertation</p>
+  <p>Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum.</p>
 </div>
+
+<div class="about-my-etd">
+  <%= render 'form_media', f: f %>
+  <% f.object.about_my_etd_fields.each do |term| %>
+    <%= render_edit_field_partial(term, f: f) %>
+  <% end %>
+</div>
+
+<input name="about_me_and_my_program" value="Save About Me" class="btn btn-primary" id="about_me_and_my_program" type="submit" />
+
+<div id="success"></div>
