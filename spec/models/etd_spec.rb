@@ -16,6 +16,25 @@ RSpec.describe Etd do
     end
   end
 
+  context "three kinds of embargo" do
+    let(:etd) { FactoryGirl.build(:etd) }
+    it "#files_embargoed" do
+      expect(etd.files_embargoed).to eq nil
+      etd.files_embargoed = true
+      expect(etd.files_embargoed).to eq true
+    end
+    it "#abstract_embargoed" do
+      expect(etd.abstract_embargoed).to eq nil
+      etd.abstract_embargoed = true
+      expect(etd.abstract_embargoed).to eq true
+    end
+    it "#toc_embargoed" do
+      expect(etd.toc_embargoed).to eq nil
+      etd.toc_embargoed = true
+      expect(etd.toc_embargoed).to eq true
+    end
+  end
+
   context "abstract" do
     let(:etd) { FactoryGirl.build(:etd) }
     it "has an abstract" do
@@ -60,7 +79,7 @@ RSpec.describe Etd do
     end
   end
 
-  context "committee_chair" do
+  context "committee members" do
     let(:etd) { FactoryGirl.create(:ateer_etd) }
     it "has a committee_chair which is a CommitteeMember object" do
       expect(etd.committee_chair.first).to be_instance_of CommitteeMember
@@ -69,10 +88,6 @@ RSpec.describe Etd do
       expect(etd.committee_chair_name.count).to eq 1
       expect(etd.committee_chair_name.include?('Treadway, Michael T')).to eq true
     end
-  end
-
-  context "committee_members" do
-    let(:etd) { FactoryGirl.create(:ateer_etd) }
     it "has committee_members which are CommitteeMember objects" do
       expect(etd.committee_members.first).to be_instance_of CommitteeMember
       expect(etd.committee_members.count).to eq 2
@@ -86,7 +101,16 @@ RSpec.describe Etd do
   context "author name" do
     let(:etd) { FactoryGirl.build(:etd) }
     it "has a creator with the expected predicate" do
+      etd.creator = ["Wayne, John"]
       expect(etd.resource.dump(:ttl)).to match(/id.loc.gov\/vocabulary\/relators\/aut/)
+    end
+  end
+
+  context "submitting_type" do
+    let(:etd) { FactoryGirl.build(:etd) }
+    it "has a submitting_type with the expected predicate" do
+      etd.submitting_type = ["Master's Thesis"]
+      expect(etd.submitting_type.first).to eq "Master's Thesis"
     end
   end
 
@@ -140,22 +164,6 @@ RSpec.describe Etd do
         end
       end
       its(:partnering_agency) { is_expected.to eq(partnering_agency) }
-    end
-  end
-
-  describe "#submitting_type" do
-    subject { described_class.new }
-    let(:submitting_type) { ["Honors Thesis"] }
-    context "with a new ETD" do
-      its(:submitting_type) { is_expected.to be_empty }
-    end
-    context "with an existing ETD that has a submitting work defined" do
-      subject do
-        described_class.create.tap do |etd|
-          etd.submitting_type = submitting_type
-        end
-      end
-      its(:submitting_type) { is_expected.to eq(submitting_type) }
     end
   end
 

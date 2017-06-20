@@ -1,4 +1,10 @@
-<h2>About this <%= presenter.submitting_type.first %></h2>
+<h2>About this
+  <% if presenter.submitting_type %>
+    <%= presenter.submitting_type.first %>
+  <% else %>
+    Work
+  <% end %>
+</h2>
 <table class="table table-striped <%= dom_class(presenter) %> attributes" <%= presenter.microdata_type_to_html %>>
   <tbody>
     <%= presenter.attribute_to_html(:school, render_as: :faceted) %>

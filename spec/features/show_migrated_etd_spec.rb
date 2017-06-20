@@ -1,16 +1,9 @@
 require 'rails_helper'
 
 RSpec.feature 'Display an ETD built from migrated content' do
-  let(:etd) { build :ateer_etd }
+  let(:etd) { create :ateer_etd }
 
-  context 'a logged in user' do
-    let(:user) { create :user }
-
-    before do
-      login_as user
-      etd.save
-    end
-
+  context 'ateer_etd' do
     scenario "ETD has embargo" do
       expect(etd.embargo).to be_instance_of Hydra::AccessControls::Embargo
       expect(etd.embargo.embargo_release_date).to eq "2017-08-21 00:00:00"
@@ -40,9 +33,11 @@ RSpec.feature 'Display an ETD built from migrated content' do
       expect(page).to have_content "Manns, Joseph"
       expect(page).not_to have_content "Relationships"
       expect(page).to have_content "Abstract"
-      expect(page).to have_content etd.abstract.first
+      expect(page).not_to have_content etd.abstract.first
+      expect(page).to have_content "This abstract is under embargo until 21 August 2017"
       expect(page).to have_content "Table of Contents"
-      expect(page).to have_content etd.table_of_contents.first
+      expect(page).not_to have_content etd.table_of_contents.first
+      expect(page).to have_content "This table of contents is under embargo until 21 August 2017"
       expect(page).to have_content etd.rights_statement.first
       click_on("Treadway, Michael T") # Search for all ETDs where this faculty member is the committee_chair
     end

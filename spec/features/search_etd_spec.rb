@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Search for an ETD' do
-  let(:etd) { build :etd }
+  let(:etd) { build :eun_etd }
 
   context 'a logged in user' do
     let(:user) { create :user }

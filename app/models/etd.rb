@@ -80,6 +80,18 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable, :facetable
   end
 
+  property :files_embargoed, predicate: "http://purl.org/spar/pso/embargoed#files", multiple: false do |index|
+    index.as :stored_searchable, :facetable
+  end
+
+  property :abstract_embargoed, predicate: "http://purl.org/spar/pso/embargoed#abstract", multiple: false do |index|
+    index.as :stored_searchable
+  end
+
+  property :toc_embargoed, predicate: "http://purl.org/spar/pso/embargoed#toc", multiple: false do |index|
+    index.as :stored_searchable, :facetable
+  end
+
   # should always be Emory University (http://id.loc.gov/vocabulary/organizations/geu)
   property :degree_granting_institution, predicate: "http://id.loc.gov/vocabulary/relators/dgg", multiple: false
 

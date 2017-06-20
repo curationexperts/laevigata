@@ -7,7 +7,7 @@
 <% end %>
 <% presenter.creator.each_with_index do |creator, index| %>
   <h2><%= creator %>
-    <% if presenter.graduation_year %>
+    <% if presenter.respond_to?(:graduation_year) && presenter.graduation_year %>
     (<%= presenter.graduation_year.first %>)
     <% end %>
   </h2>

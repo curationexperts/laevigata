@@ -21,6 +21,7 @@ require 'capybara/rspec'
 require 'capybara/rails'
 require 'capybara/webkit'
 require 'database_cleaner'
+require 'ffaker'
 
 # capybara testing
 Capybara.javascript_driver = :webkit
