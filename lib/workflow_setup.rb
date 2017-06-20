@@ -81,7 +81,7 @@ class WorkflowSetup
     approving_users = []
     config["approving"].each do |approver_email|
       u = ::User.find_or_create_by(email: approver_email)
-      u.password = "123456"
+      # u.password = "123456"
       u.save
       approving_users << u.to_sipity_agent
     end
@@ -103,7 +103,7 @@ class WorkflowSetup
   def make_superuser(email)
     @logger.debug "Making superuser #{email}"
     admin_user = ::User.find_or_create_by(email: email)
-    admin_user.password = "123456"
+    # admin_user.password = "123456"
     admin_user.save
     admin_role.users << admin_user
     admin_role.save

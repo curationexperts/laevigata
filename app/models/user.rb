@@ -15,8 +15,20 @@ class User < ApplicationRecord
   include Blacklight::User
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+  # changed from :database_authenticatable, removed :validatable to integrate with Shibboleth
+  devise :omniauthable, :rememberable, :trackable, omniauth_providers: [:shibboleth]
+
+  # When a user authenticates via shibboleth, find their User object or make
+  # a new one. Populate it with data we get from shibboleth.
+  # @param [OmniAuth::AuthHash] auth
+  def self.from_omniauth(auth)
+    Rails.logger.debug "auth = #{auth.inspect}"
+    # Uncomment the debugger above to capture what a shib auth object looks like for testing
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email
+      user.display_name = auth.info.name
+    end
+  end
 
   # Method added by Blacklight; Blacklight uses #to_s on your
   # user class to get a user-displayable login/identifier for
