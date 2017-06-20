@@ -43,6 +43,15 @@ RSpec.describe Etd do
     end
   end
 
+  context "graduation_year" do
+    let(:etd) { FactoryGirl.build(:etd) }
+    it "has graduation_year" do
+      etd.graduation_year = "2007"
+      expect(etd.resource.dump(:ttl)).to match(/purl.org\/dc\/terms\/issued/)
+      expect(etd.graduation_year).to eq "2007"
+    end
+  end
+
   context "committee_chair" do
     let(:etd) { FactoryGirl.create(:ateer_etd) }
     it "has a committee_chair which is a CommitteeMember object" do

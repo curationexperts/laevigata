@@ -49,6 +49,10 @@ class SolrDocument
     self[Solrizer.solr_name('department')]
   end
 
+  def graduation_year
+    self[Solrizer.solr_name('graduation_year')]
+  end
+
   def school
     self[Solrizer.solr_name('school')]
   end

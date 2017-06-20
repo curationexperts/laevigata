@@ -25,6 +25,7 @@ FactoryGirl.define do
       subfield []
       degree ['MA']
       language ['English']
+      graduation_year "2016"
       abstract { [] << FFaker::Lorem.paragraph }
       table_of_contents { [] << FFaker::Lorem.paragraph }
       committee_chair [
@@ -40,8 +41,6 @@ FactoryGirl.define do
       post_graduation_email ['redacted@example.com']
       # permanent_address ['123 Sesame St, Atlanta, GA 30306, UNITED STATES']
       # pdf ["#{fixture_path}/joey/joey_thesis.pdf"]
-      # abstract ['']
-      # table_of_contents ['']
     end
   end
 end
