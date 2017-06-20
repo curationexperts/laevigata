@@ -1,0 +1,4 @@
+<% file_type_service = Hyrax::FiletypeService.new %>
+<%= f.input :file_type, as: :select,
+    collection: file_type_service.select_all_options,
+    input_html: { class: 'form-control' } %>
