@@ -15,14 +15,13 @@ module Hyrax
     self.terms += [:partnering_agency]
     self.terms += [:submitting_type]
     self.terms += [:research_field]
-    self.terms += [:primary_title]
+    self.terms += [:title]
     self.terms += [:language]
     self.terms += [:abstract]
     self.terms += [:table_of_contents]
     self.terms += [:description]
-    self.terms += [:file_type]
-    self.terms += [:supplemental_title]
-    self.terms += [:author]
+    self.terms += [:secondary_file_type]
+    self.terms += [:creator]
     # placeholder about my program fields
     self.terms += [:committee_chair]
     self.terms += [:committee_members]
@@ -30,7 +29,7 @@ module Hyrax
     self.terms += [:rights_statement]
     self.terms += [:keyword]
     self.single_valued_fields = [:title, :creator, :submitting_type, :graduation_date, :degree, :subfield, :department,
-                                 :school, :primary_title, :language, :abstract, :table_of_contents, :rights_statement, :description, :file_type, :supplemental_title]
+                                 :school, :language, :abstract, :table_of_contents, :rights_statement, :description, :file_type]
 
     def about_me_fields
       [:creator, :graduation_date, :post_graduation_email]
@@ -41,11 +40,11 @@ module Hyrax
     end
 
     def about_my_etd_fields
-      [:primary_title, :description, :table_of_contents, :keyword]
+      [:description, :table_of_contents, :keyword]
     end
 
     def supplemental_files_fields
-      [:supplemental_title, :author, :abstract, :file_type]
+      [:creator, :abstract, :secondary_file_type]
     end
   end
 end

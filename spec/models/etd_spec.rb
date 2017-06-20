@@ -156,35 +156,19 @@ RSpec.describe Etd do
     end
   end
 
-  describe "#primary_title" do
+  describe "#title" do
     subject { described_class.new }
-    let(:primary_title) { "Cool Etd" }
+    let(:title) { "Cool Etd" }
     context "with a new ETD" do
-      its(:primary_title) { is_expected.to be_empty }
+      its(:title) { is_expected.to be_empty }
     end
-    context "with an existing ETD that has a primary title defined" do
+    context "with an existing ETD that has a title defined" do
       subject do
         described_class.create.tap do |etd|
-          etd.primary_title = [primary_title]
+          etd.title = [title]
         end
       end
-      its(:primary_title) { is_expected.to eq([primary_title]) }
-    end
-  end
-
-  describe "#supplemental_title" do
-    subject { described_class.new }
-    let(:supplemental_title) { "Cool Etd" }
-    context "with a new ETD" do
-      its(:supplemental_title) { is_expected.to be_empty }
-    end
-    context "with an existing ETD that has a supplemental title defined" do
-      subject do
-        described_class.create.tap do |etd|
-          etd.supplemental_title = [supplemental_title]
-        end
-      end
-      its(:supplemental_title) { is_expected.to eq([supplemental_title]) }
+      its(:title) { is_expected.to eq([title]) }
     end
   end
 
@@ -284,19 +268,19 @@ RSpec.describe Etd do
     end
   end
 
-  describe "#author" do
+  describe "#creator" do
     subject { described_class.new }
-    let(:author) { "ID" }
+    let(:creator) { "ID" }
     context "with a new ETD" do
-      its(:author) { is_expected.to be_empty }
+      its(:creator) { is_expected.to be_empty }
     end
     context "with an existing ETD that has a author defined" do
       subject do
         described_class.create.tap do |etd|
-          etd.author = [author]
+          etd.creator = [creator]
         end
       end
-      its(:author) { is_expected.to eq([author]) }
+      its(:creator) { is_expected.to eq([creator]) }
     end
   end
 
@@ -316,19 +300,19 @@ RSpec.describe Etd do
     end
   end
 
-  describe "#file_type" do
+  describe "#secondary_file_type" do
     subject { described_class.new }
-    let(:file_type) { "Sound" }
+    let(:secondary_file_type) { "Sound" }
     context "with a new ETD" do
-      its(:file_type) { is_expected.to be_empty }
+      its(:secondary_file_type) { is_expected.to be_empty }
     end
     context "with an existing ETD that has a file type defined" do
       subject do
         described_class.create.tap do |etd|
-          etd.file_type = [file_type]
+          etd.secondary_file_type = [secondary_file_type]
         end
       end
-      its(:file_type) { is_expected.to eq([file_type]) }
+      its(:secondary_file_type) { is_expected.to eq([secondary_file_type]) }
     end
   end
 

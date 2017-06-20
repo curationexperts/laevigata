@@ -57,14 +57,8 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name("subfield", :facetable), label: "Sub Field", limit: 5
     config.add_facet_field solr_name("research_field", :facetable), label: "Research Field", limit: 5
     config.add_facet_field solr_name("primary_title", :facetable), label: "Title", limit: 5
-    config.add_facet_field solr_name("abstract", :facetable), label: "Abstract", limit: 5
-    config.add_facet_field solr_name("table_of_contents", :facetable), label: "Table Of Contents", limit: 5
     config.add_facet_field solr_name("rights_statement", :facetable), label: "Rights", limit: 5
-    config.add_facet_field solr_name("identifier", :facetable), label: "Identifier", limit: 5
-    config.add_facet_field solr_name("supplemental_title", :facetable), label: "Title", limit: 5
-    config.add_facet_field solr_name("author", :facetable), label: "Author", limit: 5
-    config.add_facet_field solr_name("description", :facetable), label: "Description", limit: 5
-    config.add_facet_field solr_name("file_type", :facetable), label: "File Type", limit: 5
+    config.add_facet_field solr_name("secondary_file_type", :facetable), label: "File Type", limit: 5
     # The generic_type isn't displayed on the facet list
     # It's used to give a label to the filter that comes from the user profile
     config.add_facet_field solr_name("generic_type", :facetable), label: "Type", if: false
@@ -103,12 +97,9 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("partnering_agency", :stored_searchable), label: "Partnering Agency"
     config.add_index_field solr_name("submitting_type", :stored_searchable), label: "I am submitting"
     config.add_index_field solr_name("research_field", :stored_searchable), label: "Research Field"
-    config.add_index_field solr_name("primary_title", :stored_searchable), label: "Title"
     config.add_index_field solr_name("abstract", :stored_searchable), label: "Abstract"
     config.add_index_field solr_name("table_of_contents", :stored_searchable), label: "Table Of Contents"
-    config.add_index_field solr_name("supplemental_title", :stored_searchable), label: "Title"
-    config.add_index_field solr_name("author", :stored_searchable), label: "Author"
-    config.add_index_field solr_name("file_type", :stored_searchable), label: "File Type"
+    config.add_index_field solr_name("secondary_file_type", :stored_searchable), label: "File Type"
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
     config.add_show_field solr_name("title", :stored_searchable), label: "Title"
@@ -134,12 +125,9 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name("partnering_agency", :stored_searchable), label: "Partnering Agency"
     config.add_show_field solr_name("submitting_type", :stored_searchable), label: "I am submitting"
     config.add_show_field solr_name("research_field", :stored_searchable), label: "Research Field"
-    config.add_show_field solr_name("primary_title", :stored_searchable), label: "Title"
     config.add_show_field solr_name("abstract", :stored_searchable), label: "Abstract"
     config.add_show_field solr_name("table_of_contents", :stored_searchable), label: "Table Of Contents"
-    config.add_show_field solr_name("supplemental_title", :stored_searchable), label: "Title"
-    config.add_show_field solr_name("author", :stored_searchable), label: "Author"
-    config.add_show_field solr_name("file_type", :stored_searchable), label: "File Type"
+    config.add_show_field solr_name("secondary_file_type", :stored_searchable), label: "File Type"
     # "fielded" search configuration. Used by pulldown among other places.
     # For supported keys in hash, see rdoc for Blacklight::SearchFields
     #

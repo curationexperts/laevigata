@@ -19,15 +19,14 @@ RSpec.describe Hyrax::EtdForm do
     its(:terms) { is_expected.to include(:partnering_agency) }
     its(:terms) { is_expected.to include(:research_field) }
     its(:terms) { is_expected.to include(:submitting_type) }
-    its(:terms) { is_expected.to include(:primary_title) }
-    its(:terms) { is_expected.to include(:supplemental_title) }
+    its(:terms) { is_expected.to include(:title) }
     its(:terms) { is_expected.to include(:language) }
     its(:terms) { is_expected.to include(:abstract) }
     its(:terms) { is_expected.to include(:table_of_contents) }
     its(:terms) { is_expected.to include(:keyword) }
     its(:terms) { is_expected.to include(:identifier) }
-    its(:terms) { is_expected.to include(:author) }
+    its(:terms) { is_expected.to include(:creator) }
     its(:terms) { is_expected.to include(:description) }
-    its(:terms) { is_expected.to include(:file_type) }
+    its(:terms) { is_expected.to include(:secondary_file_type) }
   end
 end

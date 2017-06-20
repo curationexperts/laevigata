@@ -79,24 +79,16 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable
   end
 
-  property :primary_title, predicate: "http://purl.org/dc/terms/title" do |index|
-    index.as :stored_searchable, :facetable
-  end
-
-  property :supplemental_title, predicate: "http://purl.org/dc/terms/title" do |index|
-    index.as :stored_searchable, :facetable
-  end
-
   property :language, predicate: "http://purl.org/dc/terms/language" do |index|
     index.as :stored_searchable, :facetable
   end
 
   property :abstract, predicate: "http://purl.org/dc/terms/abstract" do |index|
-    index.as :stored_searchable, :facetable
+    index.as :stored_searchable
   end
 
   property :table_of_contents, predicate: "http://purl.org/dc/terms/tableOfContents" do |index|
-    index.as :stored_searchable, :facetable
+    index.as :stored_searchable
   end
 
   property :keyword, predicate: "http://schema.org/keywords" do |index|
@@ -107,19 +99,11 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable, :facetable
   end
 
-  property :identifier, predicate: "http://purl.org/dc/terms/identifier" do |index|
-    index.as :stored_searchable, :facetable
-  end
-
-  property :author, predicate: "http://id.loc.gov/vocabulary/relators/aut" do |index|
-    index.as :stored_searchable, :facetable
-  end
-
   property :description, predicate: "http://purl.org/dc/elements/1.1/description" do |index|
-    index.as :stored_searchable, :facetable
+    index.as :stored_searchable
   end
 
-  property :file_type, predicate: "http://purl.org/dc/elements/1.1/format" do |index|
+  property :secondary_file_type, predicate: "http://purl.org/dc/elements/1.1/format" do |index|
     index.as :stored_searchable, :facetable
   end
 
