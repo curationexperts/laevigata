@@ -28,7 +28,7 @@ module Hyrax
     end
 
     def about_my_program_fields
-      [:school, :department, :subfield, :research_field, :degree, :submitting_type, :committee_chair, :committee_members, :partnering_agency]
+      [:school, :department, :subfield, :partnering_agency, :research_field, :degree, :submitting_type, :committee_chair, :committee_members]
     end
   end
 end

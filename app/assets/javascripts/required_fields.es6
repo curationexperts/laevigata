@@ -12,17 +12,19 @@ export class ETDRequiredFields extends RequiredFields {
   }
 
   get areComplete() {
+    // console.log(this.requiredFields.filter((n, elem) => { return this.isValuePresent(elem) } ).length)
     return this.requiredFields.filter((n, elem) => { return this.isValuePresent(elem) } ).length === 0
   }
 
   isValuePresent(elem) {
     //these things are only a problem if disabled is not set
-    return (($(elem).prop('disabled') == false) && ($(elem).val() === null)) || (($(elem).prop('disabled') == false) && ($(elem).val().length < 1))
+    return (($(elem).prop('disabled') === false) && ($(elem).val() === null)) || (($(elem).prop('disabled') === false) && ($(elem).val().length < 1))
   }
 
   // Reassign requiredFields because fields may have been added or removed.
   reload(selector) {
-    this.requiredFields = $.merge($(selector).find('select'), $(selector).find('input'))
+    this.requiredFields = []
+    this.requiredFields = $.merge($(selector).find('select').filter(":visible"), $(selector).find('input').filter(":visible"))
     this.requiredFields.change(this.callback)
   }
 }
