@@ -55,6 +55,10 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable, :facetable
   end
 
+  property :graduation_year, predicate: "http://purl.org/dc/terms/issued", multiple: false do |index|
+    index.as :stored_searchable, :facetable
+  end
+
   property :keyword, predicate: "http://schema.org/keywords" do |index|
     index.as :stored_searchable, :facetable
   end

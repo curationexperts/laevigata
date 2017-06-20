@@ -24,6 +24,7 @@ RSpec.feature 'Display an ETD built from migrated content' do
       visit("/concern/etds/#{etd.id}")
       expect(page).to have_content etd.title.first
       expect(page).to have_content etd.creator.first
+      expect(page).to have_content etd.graduation_year
       expect(page).to have_content "About this #{etd.submitting_type.first}"
       expect(page).to have_content etd.school.first
       expect(page).to have_content etd.department.first

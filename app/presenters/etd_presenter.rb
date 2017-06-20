@@ -4,6 +4,7 @@ class EtdPresenter < Hyrax::WorkShowPresenter
            :committee_members_names,
            :degree,
            :department,
+           :graduation_year,
            :school,
            :subfield,
            :partnering_agency,
