@@ -49,7 +49,7 @@ RSpec.feature 'Create an Etd' do
       select("Laney Graduate School", from: "School")
       select("Religion", from: "Department")
       select("Ethics and Society", from: "Sub Field")
-      select('Medicine', from: 'Research Field')
+      select('Health Sciences, General', from: 'Research Field')
       select('MS', from: "Degree")
       select("Honors Thesis", from: "I am submitting my")
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
@@ -62,7 +62,7 @@ RSpec.feature 'Create an Etd' do
       expect(page).not_to have_css('li#required-about-me.incomplete')
     end
 
-    scenario "'about me requires Parterning Agency for Rollins School'", js: true do
+    scenario "'about me requires Partnering Agency for Rollins School'", js: true do
       fill_in 'Student Name', with: 'Eun, Dongwon'
       select("Spring 2018", from: "Graduation date")
       fill_in "Post graduation email", with: "graduate@done.com"
@@ -70,7 +70,7 @@ RSpec.feature 'Create an Etd' do
       select("Rollins School of Public Health", from: "School")
       select("Biostatistics", from: "Department")
 
-      select('Medicine', from: 'Research Field')
+      select('Health Sciences, General', from: 'Research Field')
       select('MS', from: "Degree")
       select("Honors Thesis", from: "I am submitting my")
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
@@ -110,7 +110,7 @@ RSpec.feature 'Create an Etd' do
       select("Laney Graduate School", from: "School")
       select("Religion", from: "Department")
       select("Ethics and Society", from: "Sub Field")
-      select('Medicine', from: 'Research Field')
+      select('Health Sciences, General', from: 'Research Field')
       select('MS', from: "Degree")
 
       select("Honors Thesis", from: "I am submitting my")

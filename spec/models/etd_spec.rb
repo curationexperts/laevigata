@@ -184,7 +184,7 @@ RSpec.describe Etd do
 
   describe "#research_field and #research_field_id" do
     subject(:etd) { described_class.new }
-    let(:research_field) { ['Toxicology'] }
+    let(:research_field) { ['Health Sciences, Toxicology'] }
 
     it "is empty when new" do
       expect(etd.research_field).to be_empty
