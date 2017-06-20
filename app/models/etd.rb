@@ -55,6 +55,10 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable, :facetable
   end
 
+  property :keyword, predicate: "http://schema.org/keywords" do |index|
+    index.as :stored_searchable, :facetable
+  end
+
   property :email, predicate: "http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#officeEmailAddress" do |index|
     index.as :displayable
   end
