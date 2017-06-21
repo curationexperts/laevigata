@@ -62,5 +62,4 @@ RSpec.describe Hyrax::EtdForm do
     its(:terms) { is_expected.to include(:abstract) }
     its(:terms) { is_expected.to include(:secondary_file_type) }
   end
-
 end
