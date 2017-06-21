@@ -123,6 +123,34 @@ RSpec.feature 'Create an Etd' do
       expect(all('select.committee-member-select').count).to eq(1)
     end
 
+    scenario "'about me' validates dynamically added committee members", js: true do
+      fill_in 'Student Name', with: 'Eun, Dongwon'
+      select("Spring 2018", from: "Graduation date")
+      fill_in "Post graduation email", with: "graduate@done.com"
+      fill_in 'Title', with: "A Good Title"
+      select("Emory College", from: "School")
+      select("Art History and Visual Arts", from: "Department")
+      select('Health Sciences, General', from: 'Research Field')
+      select('MS', from: "Degree")
+      select("Honors Thesis", from: "I am submitting my")
+      fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
+      fill_in "Committee Member", with: "Joan Didion"
+      click_on("Add Another Committee Member")
+      wait_for_ajax
+
+      expect(page).to have_css('li#required-about-me.incomplete')
+      expect(page).not_to have_css('li#required-about-me.complete')
+
+      all("#etd_committee_members_name")[1].set "Amelia Earhart"
+      # clicking outside of input after filling it with text tells js to fire validate event
+      find('div.about-me.program').click
+
+      wait_for_ajax
+
+      expect(page).to have_css('li#required-about-me.complete')
+      expect(page).not_to have_css('li#required-about-me.incomplete')
+    end
+
     scenario "'about me and my program' requires non-emory committee member affiliation", js: true do
       fill_in 'Student Name', with: 'Eun, Dongwon'
       select("Spring 2018", from: "Graduation date")

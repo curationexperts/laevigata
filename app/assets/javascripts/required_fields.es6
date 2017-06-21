@@ -12,7 +12,6 @@ export class ETDRequiredFields extends RequiredFields {
   }
 
   get areComplete() {
-    // console.log(this.requiredFields.filter((n, elem) => { return this.isValuePresent(elem) } ).length)
     return this.requiredFields.filter((n, elem) => { return this.isValuePresent(elem) } ).length === 0
   }
 

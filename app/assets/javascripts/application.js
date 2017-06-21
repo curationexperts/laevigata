@@ -23,7 +23,6 @@
 //= require openseadragon
 //= require about_me_save
 //= require tab_info
-//= require toggle_committee_affiliation
 // Provide AMD module support
 //= require hyrax
 
@@ -31,8 +30,8 @@
 //= require etd_editor
 //= require etd_save_work_control
 //= require app
+//= require toggle_committee_affiliation
 
 
 //= require almond
 //= require dependent_dropdowns
-
