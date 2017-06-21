@@ -22,3 +22,7 @@ Style/FileName:
 
 RSpec/InstanceVariable:
   Enabled: false
+
+RSpec/DescribeClass:
+  Exclude:
+    - 'spec/javascripts/jasmine_spec.rb' 
