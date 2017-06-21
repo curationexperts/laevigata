@@ -80,4 +80,8 @@ class SolrDocument
   def research_field
     self[Solrizer.solr_name('research_field')]
   end
+
+  def rights_statement
+    self[Solrizer.solr_name('rights_statement')]
+  end
 end

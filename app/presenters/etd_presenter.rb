@@ -9,6 +9,7 @@ class EtdPresenter < Hyrax::WorkShowPresenter
            :subfield,
            :partnering_agency,
            :research_field,
+           :rights_statement,
            :submitting_type,
            :table_of_contents,
            to: :solr_document

@@ -52,6 +52,14 @@ RSpec.describe Etd do
     end
   end
 
+  # An ETD should always have the Emory default rights statement
+  context "rights_statement" do
+    let(:etd) { described_class.new }
+    it "always has the Emory default rights statement" do
+      expect(etd.rights_statement.first).to match(/^Permission granted by the author to include this thesis/)
+    end
+  end
+
   context "committee_chair" do
     let(:etd) { FactoryGirl.create(:ateer_etd) }
     it "has a committee_chair which is a CommitteeMember object" do
@@ -224,14 +232,6 @@ RSpec.describe Etd do
     subject { described_class.new }
     context "with a new ETD" do
       its(:degree_granting_institution) { is_expected.to eq "http://id.loc.gov/vocabulary/organizations/geu" }
-    end
-  end
-
-  # An ETD should always have the Emory default rights statement
-  describe "#rights_statement" do
-    subject { described_class.new }
-    context "with a new ETD" do
-      its(:rights_statement) { is_expected.to match(/^Permission granted by the author to include this thesis/) }
     end
   end
 end
