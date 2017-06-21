@@ -1,17 +1,17 @@
 <h2>About this <%= presenter.submitting_type.first %></h2>
 <table class="table table-striped <%= dom_class(presenter) %> attributes" <%= presenter.microdata_type_to_html %>>
   <tbody>
-    <%= presenter.attribute_to_html(:school, catalog_search_link: true) %>
-    <%= presenter.attribute_to_html(:department) %>
-    <%= presenter.attribute_to_html(:subfield, label: "Subfield / Discipline") %>
-    <%= presenter.attribute_to_html(:degree) %>
-    <%= presenter.attribute_to_html(:submitting_type, label: "Submission", catalog_search_link: true) %>
+    <%= presenter.attribute_to_html(:school, render_as: :faceted) %>
+    <%= presenter.attribute_to_html(:department, render_as: :faceted) %>
+    <%= presenter.attribute_to_html(:subfield, label: "Subfield / Discipline", render_as: :faceted) %>
+    <%= presenter.attribute_to_html(:degree, render_as: :faceted) %>
+    <%= presenter.attribute_to_html(:submitting_type, label: "Submission", render_as: :faceted) %>
     <%= presenter.attribute_to_html(:language) %>
-    <%= presenter.attribute_to_html(:research_field) %>
-    <%= presenter.attribute_to_html(:keyword, label: "Keyword(s)") %>
-    <%= presenter.attribute_to_html(:committee_chair_name, label: "Committee Chair / Thesis Advisor") %>
-    <%= presenter.attribute_to_html(:committee_members_names, label: "Committee Members") %>
-    <%= presenter.attribute_to_html(:partnering_agency, label: "Partnering Agencies") %>
+    <%= presenter.attribute_to_html(:research_field, render_as: :faceted) %>
+    <%= presenter.attribute_to_html(:keyword, label: "Keywords", render_as: :faceted) %>
+    <%= presenter.attribute_to_html(:committee_chair_name, label: "Committee Chair / Thesis Advisor", render_as: :faceted) %>
+    <%= presenter.attribute_to_html(:committee_members_names, label: "Committee Members", render_as: :faceted) %>
+    <%= presenter.attribute_to_html(:partnering_agency, label: "Partnering Agencies", render_as: :faceted) %>
     <%= presenter.attribute_to_html(:permanent_url, label: "Permanent URL") %>
     <%= presenter.attribute_to_html(:rights_statement, render_as: :rights) %>
   </tbody>

@@ -44,6 +44,7 @@ RSpec.feature 'Display an ETD built from migrated content' do
       expect(page).to have_content "Table of Contents"
       expect(page).to have_content etd.table_of_contents.first
       expect(page).to have_content etd.rights_statement.first
+      click_on("Treadway, Michael T") # Search for all ETDs where this faculty member is the committee_chair
     end
   end
 end
