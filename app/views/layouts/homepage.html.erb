@@ -1,0 +1,16 @@
+<% content_for(:navbar) do %>
+  <div class="image-masthead">
+    <span class="background-container-gradient"></span>
+    <%= render '/controls' %>
+  </div>
+  <div class="row">
+  <div class="background-container" style="background-image: url('https://epv.smugmug.com/CampusArchitecture/Campus/i-nqj5JHL/0/O/0040805-09BM-F062-%5BRAW%5D.jpg')"></div>
+</div>
+<% end %>
+
+
+<% content_for(:precontainer_content) do %>
+  <%= render 'hyrax/homepage/announcement' if controller_name == 'homepage' %>
+<% end %>
+
+<%= render template: 'layouts/hyrax' %>

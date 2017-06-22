@@ -13,3 +13,115 @@
 @import "blacklight_gallery/slideshow";
 @import "blacklight_gallery/osd_viewer";
 @import 'hyrax/hyrax';
+
+.navbar-inverse {
+	background-color: #002878;
+}
+
+.site-footer {
+	background-color: #ccc;
+	color: #fff;
+	border: none;
+}
+
+.navbar-inverse .navbar-text {
+	color: white;
+}
+
+.navbar-inverse .navbar-link {
+	color: #337ab7;
+}
+
+.navbar-inverse .navbar-brand {
+	color: #e8ebf4;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+	color: #e8ebf4;
+}
+
+
+#masthead {
+    background: #002878 none repeat scroll 0 0;
+    min-height: 150px;
+    background-position: bottom right;
+    min-height: 135px;
+    background-repeat: no-repeat;
+}
+
+
+#masthead a#logo {
+    display: block;
+    /* background: url(http://libraries.emory.edu/images/EU_Libraries_webbanner.png) no-repeat; */
+    background: image-url("logo_public.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    min-width: 600px;
+    min-height: 85px;
+    margin-top: 30px;
+    margin-left: 10px;
+    margin-bottom: 0px;
+}
+
+
+#masthead2 {
+background-color: #002878;
+border-bottom: solid 5px #d2b000;	
+}
+
+#masthead2 a#logo {
+    display: block;
+    background: image-url("Emory_hz_rev.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    margin-left: 0px;
+    width: 130px;
+    
+}
+
+.navbar + .navbar, .navbar + .image-masthead {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.navbar {
+	margin-bottom: 0px;
+}
+
+.row .navbar-nav {
+	padding-bottom: 0px;
+	border: none;
+	margin-bottom: 0px;
+}
+
+.background-container {
+	margin-bottom: 20px;
+	min-height: 200px;
+	background-repeat:no-repeat;
+	background-position: bottom center;
+}
+
+.image-masthead .navbar {
+    background-color: #e4e6f0;
+    min-height: 36px;
+    border: none;
+    margin-bottom: 0px;
+}
+
+.image-masthead .navbar-default .navbar-nav li.active a {
+    background-color: #6384C6;
+    color: #fff;
+}
+
+
+.image-masthead .navbar-default .navbar-nav li:hover {
+    background-color: #6384C6;
+    color: #fff;
+}
+
+.image-masthead .navbar a:link, .image-masthead .navbar a:visited {
+    background-color: #e4e6f0;
+    color: #163b84;
+    font-weight: bold;
+}
