@@ -31,11 +31,10 @@ Blacklight.onLoad(function() {
     var $removeMember = $(".committee-member.row.hidden").first().find('.remove-member');
 
     $(".committee-member.row.hidden").first().removeClass('hidden');
-      // need to find performant way to validate new fields
-     //etd_save_work_control.validateNewField(".about-me");
-     $removeMember.on('click', function(){
-      $(this).parents('.committee-member.row').remove();
+      //fire form changed event
+      etd_save_work_control.aboutFormChanged()
+      $removeMember.on('click', function(){
+       $(this).parents('.committee-member.row').remove();
+      });
     });
-
-  });
 });

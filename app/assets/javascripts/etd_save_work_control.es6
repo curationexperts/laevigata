@@ -90,13 +90,16 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
     // Called when a file has been uploaded, the deposit agreement is clicked or a form field has had text entered.
     formStateChanged() {
-      // this.saveButton.prop("disabled", !this.isValid());
-      //console.log('statechanged')
-      this.isValid()
+      this.saveButton.prop("disabled", !this.isValid());
+    }
+
+    formChanged() {
     }
 
     // called when a new field has been added to the form.
-    formChanged(selector) {
+    aboutFormChanged() {
+      this.requiredAboutMeFields.reload(".about-me");
+      this.formStateChanged();
     //  console.log('formchanged')
       //this watches the form, gets called when new field is added, true. reload now will re-find the fields and then call its callback, formstatechanged, which calls valid, which calls reload's areComplete, which checks each element's val.
         // it just happens before the added element gets there.
@@ -119,8 +122,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
     validateMeAndMyProgram() {
       // if Rollins is school, partnering agency is required, otherwise not
-    //  console.log('validate')
-      //merge new field into
       if ($('#etd_school').val() != "rollins_programs"){
         this.requiredAboutMeFields.requiredFields = $(this.requiredAboutMeFields.requiredFields).not("#etd_partnering_agency")
       } else {

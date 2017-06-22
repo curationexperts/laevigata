@@ -7,9 +7,9 @@ end
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails'
-
 gem 'devise'
 gem 'devise-guests', '~> 0.5'
+
 gem 'factory_girl_rails' # Needed so we can load fixtures for demos in production
 gem 'ffaker' # Needed so we can load fixtures for demos in production
 gem 'hydra-role-management'
@@ -58,6 +58,7 @@ group :development, :test do
   # gem 'factory_girl_rails'
   gem 'fcrepo_wrapper'
   # gem 'ffaker'
+  gem 'jasmine' # Needed for testing forms
   gem 'launchy'
   gem 'rspec', "~> 3.5"
   gem 'rspec-activemodel-mocks'
