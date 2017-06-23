@@ -1,6 +1,6 @@
 after 'deploy:published', 'laevigata:workflow_setup'
 # config valid only for current version of Capistrano
-lock "3.8.1"
+lock "3.8.2"
 
 set :application, "laevigata"
 set :repo_url, "https://github.com/curationexperts/laevigata.git"
