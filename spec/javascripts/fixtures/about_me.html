@@ -1,0 +1,698 @@
+<div role="tabpanel" class="tab-pane active" id="about_me">
+          <div class="form-tab-content">
+
+
+<h1>About Me</h1>
+
+<div class="form-instructions">
+  <p>Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum.</p>
+</div>
+<div class="base-terms about-me">
+  <div class="form-group string required etd_creator"><label class="control-label string required" for="etd_creator">Student Name <span class="label label-info required-tag">required</span></label><p class="help-block"></p><input class="form-control string required form-control" required="required" aria-required="true" type="text" name="etd[creator]" id="etd_creator"></div>
+
+  <div class="form-group select optional etd_graduation_date"><label class="control-label select optional" for="etd_graduation_date">Graduation date</label><select class="form-control select optional form-control" name="etd[graduation_date]" id="etd_graduation_date"><option value=""></option>
+<option value="Spring 2018">Spring 2018</option>
+<option value="Winter 2018">Winter 2018</option></select></div>
+
+  <div class="form-group email optional etd_post_graduation_email"><label class="control-label email optional" for="etd_post_graduation_email">Post graduation email</label><p class="help-block">Lorum Ipsum Lorum Ipsum</p><input class="form-control string email optional form-control" type="email" value="" name="etd[post_graduation_email]" id="etd_post_graduation_email"></div>
+
+  <h3>About My Etd</h3>
+  <div class="form-group string required etd_title"><label class="control-label string required" for="etd_title">Title <span class="label label-info required-tag">required</span></label><p class="help-block"></p><input class="form-control string required form-control" required="required" aria-required="true" type="text" name="etd[title]" id="etd_title"></div>
+
+</div>
+
+<h3>About My Program</h3>
+<p>Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum.</p>
+
+<div class="about-me program">
+
+
+
+
+<div class="form-group select optional etd_school"><label class="control-label select optional" for="etd_school">School</label><select class="form-control select optional form-control" name="etd[school]" id="etd_school"><option value=""></option>
+<option value="laney_programs">Laney Graduate School</option>
+<option value="emory_college_programs">Emory College</option>
+<option value="candler_programs">Candler School of Theology</option>
+<option value="rollins_programs">Rollins School of Public Health</option></select></div>
+
+
+<div class="form-group select optional etd_department"><label class="control-label select optional" for="etd_department">Department</label><select class="form-control select optional form-control" data-option-dependent="true" data-option-observed="etd_school" data-option-url="/authorities/terms/local/:etd_school:" data-option-key-method="id" data-option-value-method="name" name="etd[department]" id="etd_department"><option value=""></option><option value="African Studies">African Studies</option><option value="American Studies">American Studies</option><option value="Ancient Mediterranean Studies">Ancient Mediterranean Studies</option><option value="Art History">Art History</option><option value="Art History and Visual Arts">Art History and Visual Arts</option><option value="Asian and Asian American Studies">Asian and Asian American Studies</option><option value="Chinese Language and Literature">Chinese Language and Literature</option><option value="Classics">Classics</option><option value="Classical Civilizations, Greek, and Latin">Classical Civilizations, Greek, and Latin</option><option value="Classics and History">Classics and History</option><option value="Classics and Philosophy">Classics and Philosophy</option><option value="Comparative Literature">Comparative Literature</option><option value="Dance and Movement Studies">Dance and Movement Studies</option><option value="English">English</option><option value="English and Creative Writing">English and Creative Writing</option><option value="English and History">English and History</option><option value="Film Studies">Film Studies</option><option value="French Studies">French Studies</option><option value="German">German</option><option value="Interdisciplinary Studies in Society and Culture">Interdisciplinary Studies in Society and Culture</option><option value="Italian Studies">Italian Studies</option><option value="Jewish Studies">Jewish Studies</option><option value="Japanese">Japanese</option><option value="Linguistics">Linguistics</option><option value="Middle Eastern Studies">Middle Eastern Studies</option><option value="Music">Music</option><option value="Philosophy">Philosophy</option><option value="Philosophy and Religion">Philosophy and Religion</option><option value="Religion">Religion</option><option value="Religion and Anthropology">Religion and Anthropology</option><option value="Religion and Classical Civilization">Religion and Classical Civilization</option><option value="Religion and History">Religion and History</option><option value="Religion and Sociology">Religion and Sociology</option><option value="Russian">Russian</option><option value="Spanish">Spanish</option><option value="Theater Studies">Theater Studies</option><option value="African American Studies">African American Studies</option><option value="Playwriting">Playwriting</option><option value="Biology">Biology</option><option value="Chemistry">Chemistry</option><option value="Computer Science">Computer Science</option><option value="Mathematics">Mathematics</option><option value="Mathematics and Computer Science">Mathematics and Computer Science</option><option value="Mathematics and Political Science">Mathematics and Political Science</option><option value="Neuroscience and Behavioral Biology">Neuroscience and Behavioral Biology</option><option value="Physics">Physics</option><option value="Physics and Astronomy">Physics and Astronomy</option><option value="Anthropology">Anthropology</option><option value="Economics">Economics</option><option value="Economics and History">Economics and History</option><option value="Economics and Mathematics">Economics and Mathematics</option><option value="Educational Studies">Educational Studies</option><option value="Environmental Studies">Environmental Studies</option><option value="Human Health">Human Health</option><option value="History">History</option><option value="History and Art History">History and Art History</option><option value="International Studies">International Studies</option><option value="Journalism">Journalism</option><option value="Latin American and Caribbean Studies">Latin American and Caribbean Studies</option><option value="Political Science">Political Science</option><option value="Psychology">Psychology</option><option value="Psychology and Linguistics">Psychology and Linguistics</option><option value="Sociology">Sociology</option><option value="Women's Studies">Women's Studies</option></select></div>
+
+
+
+<div class="form-group select optional etd_subfield"><label class="control-label select optional" for="etd_subfield">Sub Field</label><select class="form-control select optional form-control" data-option-dependent="true" data-option-observed="etd_department" data-option-url="/authorities/terms/local/:etd_department:" data-option-key-method="id" data-option-value-method="name" disabled="disabled" name="etd[subfield]" id="etd_subfield"><option value=""></option></select></div>
+
+
+<div class="form-group multi_value optional etd_partnering_agency managed"><label class="control-label multi_value optional" for="etd_partnering_agency">Partnering agency</label>    <ul class="listing" aria-live="polite">
+                  <li class="field-wrapper input-group input-append">
+            <select name="etd[partnering_agency][]" id="etd_partnering_agency" class="string multi_value optional form-control etd_partnering_agency form-control multi-text-field" value="" aria-labelledby="etd_partnering_agency_label"><option value="" label=" "></option><option value="Does not apply (no collaborating organization)">Does not apply (no collaborating organization)</option>
+<option value="CDC">CDC</option>
+<option value="US (Federal) agency other than CDC">US (Federal) agency other than CDC</option>
+<option value="Georgia state or local health department">Georgia state or local health department</option>
+<option value="Sate or local health department (not in Georgia)">Sate or local health department (not in Georgia)</option>
+<option value="Georgia state or local agency (not a health department)">Georgia state or local agency (not a health department)</option>
+<option value="State or local governmental agency (not a health department and not in Georgia)">State or local governmental agency (not a health department and not in Georgia)</option>
+<option value="National or regional non-profit organization (e.g., American Cancer Society)">National or regional non-profit organization (e.g., American Cancer Society)</option>
+<option value="Community-based non-profit organization (e.g., AID Atlanta)">Community-based non-profit organization (e.g., AID Atlanta)</option>
+<option value="International Non-governmental organization (e.g., CARE, Inc.)">International Non-governmental organization (e.g., CARE, Inc.)</option>
+<option value="International governmental organization (e.g., Agency for International Development, etc.)">International governmental organization (e.g., Agency for International Development, etc.)</option>
+<option value="Non-US governmental agency (e.g., Minister of Health in Haiti)">Non-US governmental agency (e.g., Minister of Health in Haiti)</option>
+<option value="Emory University schools, faculty or affiliated programs">Emory University schools, faculty or affiliated programs</option>
+<option value="University, college or education institution (other than Emory)">University, college or education institution (other than Emory)</option>
+<option value="Hospital or other health care provider">Hospital or other health care provider</option>
+<option value="Religious-based organization">Religious-based organization</option>
+<option value="Industrial or Commercial (for-profit) organization">Industrial or Commercial (for-profit) organization</option></select>
+          <span class="input-group-btn field-controls"><button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span><span class="controls-remove-text">Remove</span> <span class="sr-only"> previous <span class="controls-field-name-text"> Partnering agency</span></span></button></span></li>
+
+      </ul><button type="button" class="btn btn-link add"><span class="glyphicon glyphicon-plus"></span><span class="controls-add-text">Add another Partnering agency</span></button>
+</div>
+
+
+
+<div class="form-group multi_value optional etd_research_field managed"><label class="control-label multi_value optional" for="etd_research_field">Research Field</label>    <ul class="listing" aria-live="polite">
+                  <li class="field-wrapper input-group input-append">
+            <select name="etd[research_field][]" id="etd_research_field" class="string multi_value optional form-control etd_research_field form-control multi-text-field" value="" aria-labelledby="etd_research_field_label"><option value="" label=" "></option><option value="Aeronomy">Aeronomy</option>
+<option value="Aesthetics">Aesthetics</option>
+<option value="African American Studies">African American Studies</option>
+<option value="African Studies">African Studies</option>
+<option value="Agriculture, Agronomy">Agriculture, Agronomy</option>
+<option value="Agriculture, Animal Culture and Nutrition">Agriculture, Animal Culture and Nutrition</option>
+<option value="Agriculture, Animal Pathology">Agriculture, Animal Pathology</option>
+<option value="Agriculture, Fisheries and Aquaculture">Agriculture, Fisheries and Aquaculture</option>
+<option value="Agriculture, Food Science and Technology">Agriculture, Food Science and Technology</option>
+<option value="Agriculture, Forestry and Wildlife">Agriculture, Forestry and Wildlife</option>
+<option value="Agriculture, General">Agriculture, General</option>
+<option value="Agriculture, Horticulture">Agriculture, Horticulture</option>
+<option value="Agriculture, Plant Culture">Agriculture, Plant Culture</option>
+<option value="Agriculture, Plant Pathology">Agriculture, Plant Pathology</option>
+<option value="Agriculture, Range Management">Agriculture, Range Management</option>
+<option value="Agriculture, Soil Science">Agriculture, Soil Science</option>
+<option value="Agriculture, Urban Forestry">Agriculture, Urban Forestry</option>
+<option value="Agriculture, Wildlife Conservation">Agriculture, Wildlife Conservation</option>
+<option value="Agriculture, Wildlife Management">Agriculture, Wildlife Management</option>
+<option value="Agriculture, Wood Technology">Agriculture, Wood Technology</option>
+<option value="Alternative Dispute Resolution">Alternative Dispute Resolution</option>
+<option value="Alternative Energy">Alternative Energy</option>
+<option value="American Studies">American Studies</option>
+<option value="Anthropology, Archaeology">Anthropology, Archaeology</option>
+<option value="Anthropology, Cultural">Anthropology, Cultural</option>
+<option value="Anthropology, Medical and Forensic">Anthropology, Medical and Forensic</option>
+<option value="Anthropology, Physical">Anthropology, Physical</option>
+<option value="Applied Mathematics">Applied Mathematics</option>
+<option value="Applied Mechanics">Applied Mechanics</option>
+<option value="Architecture">Architecture</option>
+<option value="Area Planning and Development">Area Planning and Development</option>
+<option value="Art Criticism">Art Criticism</option>
+<option value="Art History">Art History</option>
+<option value="Artificial Intelligence">Artificial Intelligence</option>
+<option value="Asian American Studies">Asian American Studies</option>
+<option value="Asian Studies">Asian Studies</option>
+<option value="Atmospheric Chemistry">Atmospheric Chemistry</option>
+<option value="Atmospheric Sciences">Atmospheric Sciences</option>
+<option value="Baltic Studies">Baltic Studies</option>
+<option value="Biogeochemistry">Biogeochemistry</option>
+<option value="Biography">Biography</option>
+<option value="Biology, Anatomy">Biology, Anatomy</option>
+<option value="Biology, Bioinformatics">Biology, Bioinformatics</option>
+<option value="Biology, Biostatistics">Biology, Biostatistics</option>
+<option value="Biology, Botany">Biology, Botany</option>
+<option value="Biology, Cell">Biology, Cell</option>
+<option value="Biology, Conservation">Biology, Conservation</option>
+<option value="Biology, Ecology">Biology, Ecology</option>
+<option value="Biology, Endocrinology">Biology, Endocrinology</option>
+<option value="Biology, Entomology">Biology, Entomology</option>
+<option value="Biology, Evolution and Development">Biology, Evolution and Development</option>
+<option value="Biology, General">Biology, General</option>
+<option value="Biology, Genetics">Biology, Genetics</option>
+<option value="Biology, Histology">Biology, Histology</option>
+<option value="Biology, Limnology">Biology, Limnology</option>
+<option value="Biology, Macroecology">Biology, Macroecology</option>
+<option value="Biology, Microbiology">Biology, Microbiology</option>
+<option value="Biology, Molecular">Biology, Molecular</option>
+<option value="Biology, Neuroscience">Biology, Neuroscience</option>
+<option value="Biology, Oceanography">Biology, Oceanography</option>
+<option value="Biology, Parasitology">Biology, Parasitology</option>
+<option value="Biology, Physiology">Biology, Physiology</option>
+<option value="Biology, Systematic">Biology, Systematic</option>
+<option value="Biology, Veterinary Science">Biology, Veterinary Science</option>
+<option value="Biology, Virology">Biology, Virology</option>
+<option value="Biology, Zoology">Biology, Zoology</option>
+<option value="Biophysics, Biomechanics">Biophysics, Biomechanics</option>
+<option value="Biophysics, General">Biophysics, General</option>
+<option value="Black Studies">Black Studies</option>
+<option value="Business Administration, Accounting">Business Administration, Accounting</option>
+<option value="Business Administration, Arts Management">Business Administration, Arts Management</option>
+<option value="Business Administration, Banking">Business Administration, Banking</option>
+<option value="Business Administration, Entrepreneurship">Business Administration, Entrepreneurship</option>
+<option value="Business Administration, General">Business Administration, General</option>
+<option value="Business Administration, Management">Business Administration, Management</option>
+<option value="Business Administration, Marketing">Business Administration, Marketing</option>
+<option value="Business Administration, Sports Management">Business Administration, Sports Management</option>
+<option value="Canadian Studies">Canadian Studies</option>
+<option value="Canon Law">Canon Law</option>
+<option value="Caribbean Studies">Caribbean Studies</option>
+<option value="Chemical Oceanography">Chemical Oceanography</option>
+<option value="Chemistry, Analytical">Chemistry, Analytical</option>
+<option value="Chemistry, Biochemistry">Chemistry, Biochemistry</option>
+<option value="Chemistry, General">Chemistry, General</option>
+<option value="Chemistry, Inorganic">Chemistry, Inorganic</option>
+<option value="Chemistry, Molecular">Chemistry, Molecular</option>
+<option value="Chemistry, Nuclear">Chemistry, Nuclear</option>
+<option value="Chemistry, Organic">Chemistry, Organic</option>
+<option value="Chemistry, Physical">Chemistry, Physical</option>
+<option value="Chemistry, Polymer">Chemistry, Polymer</option>
+<option value="Cinema">Cinema</option>
+<option value="Cinematography">Cinematography</option>
+<option value="Classical Studies">Classical Studies</option>
+<option value="Climate Change">Climate Change</option>
+<option value="Computer Science">Computer Science</option>
+<option value="Continental Dynamics">Continental Dynamics</option>
+<option value="Cultural Resources Management">Cultural Resources Management</option>
+<option value="Dance">Dance</option>
+<option value="Design and Decorative Arts">Design and Decorative Arts</option>
+<option value="Divinity">Divinity</option>
+<option value="East European Studies">East European Studies</option>
+<option value="Economics, Agricultural">Economics, Agricultural</option>
+<option value="Economics, Commerce-Business">Economics, Commerce-Business</option>
+<option value="Economics, Environmental">Economics, Environmental</option>
+<option value="Economics, Finance">Economics, Finance</option>
+<option value="Economics, General">Economics, General</option>
+<option value="Economics, History">Economics, History</option>
+<option value="Economics, Labor">Economics, Labor</option>
+<option value="Economics, Theory">Economics, Theory</option>
+<option value="Education, Administration">Education, Administration</option>
+<option value="Education, Adult and Continuing">Education, Adult and Continuing</option>
+<option value="Education, Agricultural">Education, Agricultural</option>
+<option value="Education, Art">Education, Art</option>
+<option value="Education, Bilingual and Multicultural">Education, Bilingual and Multicultural</option>
+<option value="Education, Business">Education, Business</option>
+<option value="Education, Community College">Education, Community College</option>
+<option value="Education, Continuing">Education, Continuing</option>
+<option value="Education, Curriculum and Instruction">Education, Curriculum and Instruction</option>
+<option value="Education, Early Childhood">Education, Early Childhood</option>
+<option value="Education, Educational Psychology">Education, Educational Psychology</option>
+<option value="Education, Elementary">Education, Elementary</option>
+<option value="Education, English as a Second Language">Education, English as a Second Language</option>
+<option value="Education, Environmental">Education, Environmental</option>
+<option value="Education, Evaluation">Education, Evaluation</option>
+<option value="Education, Finance">Education, Finance</option>
+<option value="Education, Foreign Language">Education, Foreign Language</option>
+<option value="Education, General">Education, General</option>
+<option value="Education, Gifted">Education, Gifted</option>
+<option value="Education, Guidance and Counseling">Education, Guidance and Counseling</option>
+<option value="Education, Health">Education, Health</option>
+<option value="Education, Higher">Education, Higher</option>
+<option value="Education, Higher Education Administration">Education, Higher Education Administration</option>
+<option value="Education, History of">Education, History of</option>
+<option value="Education, Home Economics">Education, Home Economics</option>
+<option value="Education, Industrial">Education, Industrial</option>
+<option value="Education, Instructional Design">Education, Instructional Design</option>
+<option value="Education, Language and Literature">Education, Language and Literature</option>
+<option value="Education, Leadership">Education, Leadership</option>
+<option value="Education, Mathematics">Education, Mathematics</option>
+<option value="Education, Middle School">Education, Middle School</option>
+<option value="Education, Multilingual">Education, Multilingual</option>
+<option value="Education, Music">Education, Music</option>
+<option value="Education, Pedagogy">Education, Pedagogy</option>
+<option value="Education, Performing Arts">Education, Performing Arts</option>
+<option value="Education, Philosophy of">Education, Philosophy of</option>
+<option value="Education, Physical">Education, Physical</option>
+<option value="Education, Policy">Education, Policy</option>
+<option value="Education, Reading">Education, Reading</option>
+<option value="Education, Religious">Education, Religious</option>
+<option value="Education, Sciences">Education, Sciences</option>
+<option value="Education, Secondary">Education, Secondary</option>
+<option value="Education, Social Sciences">Education, Social Sciences</option>
+<option value="Education, Sociology of">Education, Sociology of</option>
+<option value="Education, Special">Education, Special</option>
+<option value="Education, Teacher Training">Education, Teacher Training</option>
+<option value="Education, Technology of">Education, Technology of</option>
+<option value="Education, Tests and Measurements">Education, Tests and Measurements</option>
+<option value="Education, Vocational">Education, Vocational</option>
+<option value="Energy">Energy</option>
+<option value="Engineering, Aerospace">Engineering, Aerospace</option>
+<option value="Engineering, Agricultural">Engineering, Agricultural</option>
+<option value="Engineering, Architectural">Engineering, Architectural</option>
+<option value="Engineering, Automotive">Engineering, Automotive</option>
+<option value="Engineering, Biomedical">Engineering, Biomedical</option>
+<option value="Engineering, Chemical">Engineering, Chemical</option>
+<option value="Engineering, Civil">Engineering, Civil</option>
+<option value="Engineering, Computer">Engineering, Computer</option>
+<option value="Engineering, Electronics and Electrical">Engineering, Electronics and Electrical</option>
+<option value="Engineering, Environmental">Engineering, Environmental</option>
+<option value="Engineering, General">Engineering, General</option>
+<option value="Engineering, Geological">Engineering, Geological</option>
+<option value="Engineering, Geophysical">Engineering, Geophysical</option>
+<option value="Engineering, Industrial">Engineering, Industrial</option>
+<option value="Engineering, Marine and Ocean">Engineering, Marine and Ocean</option>
+<option value="Engineering, Materials Science">Engineering, Materials Science</option>
+<option value="Engineering, Mechanical">Engineering, Mechanical</option>
+<option value="Engineering, Mining">Engineering, Mining</option>
+<option value="Engineering, Naval">Engineering, Naval</option>
+<option value="Engineering, Nuclear">Engineering, Nuclear</option>
+<option value="Engineering, Packaging">Engineering, Packaging</option>
+<option value="Engineering, Petroleum">Engineering, Petroleum</option>
+<option value="Engineering, Robotics">Engineering, Robotics</option>
+<option value="Engineering, System Science">Engineering, System Science</option>
+<option value="Environmental Geology">Environmental Geology</option>
+<option value="Environmental Health">Environmental Health</option>
+<option value="Environmental Law">Environmental Law</option>
+<option value="Environmental Management">Environmental Management</option>
+<option value="Environmental Philosophy">Environmental Philosophy</option>
+<option value="Environmental Sciences">Environmental Sciences</option>
+<option value="Environmental Studies">Environmental Studies</option>
+<option value="Epistemology">Epistemology</option>
+<option value="Ethics">Ethics</option>
+<option value="European Studies">European Studies</option>
+<option value="Fine Arts">Fine Arts</option>
+<option value="Folklore">Folklore</option>
+<option value="French Canadian Culture">French Canadian Culture</option>
+<option value="GLBT Studies">GLBT Studies</option>
+<option value="Gender Studies">Gender Studies</option>
+<option value="Geobiology">Geobiology</option>
+<option value="Geochemistry">Geochemistry</option>
+<option value="Geodesy">Geodesy</option>
+<option value="Geography">Geography</option>
+<option value="Geology">Geology</option>
+<option value="Geomorphology">Geomorphology</option>
+<option value="Geophysics">Geophysics</option>
+<option value="Geotechnology">Geotechnology</option>
+<option value="Gerontology">Gerontology</option>
+<option value="Health Sciences, Aging">Health Sciences, Aging</option>
+<option value="Health Sciences, Alternative Medicine">Health Sciences, Alternative Medicine</option>
+<option value="Health Sciences, Audiology">Health Sciences, Audiology</option>
+<option value="Health Sciences, Dentistry">Health Sciences, Dentistry</option>
+<option value="Health Sciences, Epidemiology">Health Sciences, Epidemiology</option>
+<option value="Health Sciences, General">Health Sciences, General</option>
+<option value="Health Sciences, Health Care Management">Health Sciences, Health Care Management</option>
+<option value="Health Sciences, Human Development">Health Sciences, Human Development</option>
+<option value="Health Sciences, Immunology">Health Sciences, Immunology</option>
+<option value="Health Sciences, Medical Ethics">Health Sciences, Medical Ethics</option>
+<option value="Health Sciences, Medicine and Surgery">Health Sciences, Medicine and Surgery</option>
+<option value="Health Sciences, Mental Health">Health Sciences, Mental Health</option>
+<option value="Health Sciences, Nursing">Health Sciences, Nursing</option>
+<option value="Health Sciences, Nutrition">Health Sciences, Nutrition</option>
+<option value="Health Sciences, Obstetrics and Gynecology">Health Sciences, Obstetrics and Gynecology</option>
+<option value="Health Sciences, Occupational Health and Safety">Health Sciences, Occupational Health and Safety</option>
+<option value="Health Sciences, Occupational Therapy">Health Sciences, Occupational Therapy</option>
+<option value="Health Sciences, Oncology">Health Sciences, Oncology</option>
+<option value="Health Sciences, Ophthalmology">Health Sciences, Ophthalmology</option>
+<option value="Health Sciences, Osteopathic Medicine">Health Sciences, Osteopathic Medicine</option>
+<option value="Health Sciences, Pathology">Health Sciences, Pathology</option>
+<option value="Health Sciences, Pharmacology">Health Sciences, Pharmacology</option>
+<option value="Health Sciences, Pharmacy">Health Sciences, Pharmacy</option>
+<option value="Health Sciences, Public Health">Health Sciences, Public Health</option>
+<option value="Health Sciences, Public Health Education">Health Sciences, Public Health Education</option>
+<option value="Health Sciences, Radiology">Health Sciences, Radiology</option>
+<option value="Health Sciences, Recreation">Health Sciences, Recreation</option>
+<option value="Health Sciences, Rehabilitation and Therapy">Health Sciences, Rehabilitation and Therapy</option>
+<option value="Health Sciences, Speech Pathology">Health Sciences, Speech Pathology</option>
+<option value="Health Sciences, Surgery">Health Sciences, Surgery</option>
+<option value="Health Sciences, Toxicology">Health Sciences, Toxicology</option>
+<option value="Hispanic American Studies">Hispanic American Studies</option>
+<option value="History of Science">History of Science</option>
+<option value="History, African">History, African</option>
+<option value="History, Ancient">History, Ancient</option>
+<option value="History, Asia, Australia and Oceania">History, Asia, Australia and Oceania</option>
+<option value="History, Black">History, Black</option>
+<option value="History, Canadian">History, Canadian</option>
+<option value="History, European">History, European</option>
+<option value="History, General">History, General</option>
+<option value="History, History of Oceania">History, History of Oceania</option>
+<option value="History, Latin American">History, Latin American</option>
+<option value="History, Medieval">History, Medieval</option>
+<option value="History, Middle Eastern">History, Middle Eastern</option>
+<option value="History, Military">History, Military</option>
+<option value="History, Modern">History, Modern</option>
+<option value="History, Russian and Soviet">History, Russian and Soviet</option>
+<option value="History, United States">History, United States</option>
+<option value="History, World History">History, World History</option>
+<option value="Holocaust Studies">Holocaust Studies</option>
+<option value="Home Economics">Home Economics</option>
+<option value="Hydrology">Hydrology</option>
+<option value="Information Science">Information Science</option>
+<option value="Information Technology">Information Technology</option>
+<option value="Intellectual Property">Intellectual Property</option>
+<option value="Islamic Studies">Islamic Studies</option>
+<option value="Jewish Studies">Jewish Studies</option>
+<option value="Journalism">Journalism</option>
+<option value="Land Use Planning">Land Use Planning</option>
+<option value="Landscape Architecture">Landscape Architecture</option>
+<option value="Language, Ancient">Language, Ancient</option>
+<option value="Language, General">Language, General</option>
+<option value="Language, Linguistics">Language, Linguistics</option>
+<option value="Language, Modern">Language, Modern</option>
+<option value="Language, Rhetoric and Composition">Language, Rhetoric and Composition</option>
+<option value="Latin American Studies">Latin American Studies</option>
+<option value="Law">Law</option>
+<option value="Library Science">Library Science</option>
+<option value="Literature, African">Literature, African</option>
+<option value="Literature, American">Literature, American</option>
+<option value="Literature, Asian">Literature, Asian</option>
+<option value="Literature, Australia, New Zealand and Oceania">Literature, Australia, New Zealand and Oceania</option>
+<option value="Literature, Canadian (English)">Literature, Canadian (English)</option>
+<option value="Literature, Canadian (French)">Literature, Canadian (French)</option>
+<option value="Literature, Caribbean">Literature, Caribbean</option>
+<option value="Literature, Classical">Literature, Classical</option>
+<option value="Literature, Comparative">Literature, Comparative</option>
+<option value="Literature, English">Literature, English</option>
+<option value="Literature, General">Literature, General</option>
+<option value="Literature, Germanic">Literature, Germanic</option>
+<option value="Literature, Latin American">Literature, Latin American</option>
+<option value="Literature, Medieval">Literature, Medieval</option>
+<option value="Literature, Middle Eastern">Literature, Middle Eastern</option>
+<option value="Literature, Modern">Literature, Modern</option>
+<option value="Literature, Romance">Literature, Romance</option>
+<option value="Literature, Scandinavian and Icelandic">Literature, Scandinavian and Icelandic</option>
+<option value="Literature, Slavic and East European">Literature, Slavic and East European</option>
+<option value="Logic">Logic</option>
+<option value="Marine Geology">Marine Geology</option>
+<option value="Mass Communications">Mass Communications</option>
+<option value="Mathematics">Mathematics</option>
+<option value="Metaphysics">Metaphysics</option>
+<option value="Meteorology">Meteorology</option>
+<option value="Middle Eastern Studies">Middle Eastern Studies</option>
+<option value="Military Studies">Military Studies</option>
+<option value="Mineralogy">Mineralogy</option>
+<option value="Multimedia Communications">Multimedia Communications</option>
+<option value="Museology">Museology</option>
+<option value="Music">Music</option>
+<option value="Musical Performances">Musical Performances</option>
+<option value="Nanoscience">Nanoscience</option>
+<option value="Nanotechnology">Nanotechnology</option>
+<option value="Native American Studies">Native American Studies</option>
+<option value="Natural Resource Management">Natural Resource Management</option>
+<option value="Near Eastern Studies">Near Eastern Studies</option>
+<option value="No UMI subject assigned">No UMI subject assigned</option>
+<option value="North African Studies">North African Studies</option>
+<option value="Operations Research">Operations Research</option>
+<option value="Pacific Rim Studies">Pacific Rim Studies</option>
+<option value="Paleoclimate Science">Paleoclimate Science</option>
+<option value="Paleoecology">Paleoecology</option>
+<option value="Paleontology">Paleontology</option>
+<option value="Pastoral Counseling">Pastoral Counseling</option>
+<option value="Patent Law">Patent Law</option>
+<option value="Peace Studies">Peace Studies</option>
+<option value="Performing Arts">Performing Arts</option>
+<option value="Petroleum Geology">Petroleum Geology</option>
+<option value="Petrology">Petrology</option>
+<option value="Philosophy">Philosophy</option>
+<option value="Philosophy of Science">Philosophy of Science</option>
+<option value="Physical Geography">Physical Geography</option>
+<option value="Physical Oceanography">Physical Oceanography</option>
+<option value="Physics, Acoustics">Physics, Acoustics</option>
+<option value="Physics, Astronomy and Astrophysics">Physics, Astronomy and Astrophysics</option>
+<option value="Physics, Astrophysics">Physics, Astrophysics</option>
+<option value="Physics, Atomic">Physics, Atomic</option>
+<option value="Physics, Condensed Matter">Physics, Condensed Matter</option>
+<option value="Physics, Electricity and Magnetism">Physics, Electricity and Magnetism</option>
+<option value="Physics, Elementary Particles and High Energy">Physics, Elementary Particles and High Energy</option>
+<option value="Physics, Fluid and Plasma">Physics, Fluid and Plasma</option>
+<option value="Physics, General">Physics, General</option>
+<option value="Physics, High Temperature">Physics, High Temperature</option>
+<option value="Physics, Low Temperature">Physics, Low Temperature</option>
+<option value="Physics, Molecular">Physics, Molecular</option>
+<option value="Physics, Optics">Physics, Optics</option>
+<option value="Physics, Quantum">Physics, Quantum</option>
+<option value="Physics, Radiation">Physics, Radiation</option>
+<option value="Physics, Theory">Physics, Theory</option>
+<option value="Planetology">Planetology</option>
+<option value="Plastics Technology">Plastics Technology</option>
+<option value="Plate Tectonics">Plate Tectonics</option>
+<option value="Political Science, General">Political Science, General</option>
+<option value="Political Science, International Law and Relations">Political Science, International Law and Relations</option>
+<option value="Political Science, International Relations">Political Science, International Relations</option>
+<option value="Political Science, Public Administration">Political Science, Public Administration</option>
+<option value="Psychology, Behavioral">Psychology, Behavioral</option>
+<option value="Psychology, Behavioral Sciences">Psychology, Behavioral Sciences</option>
+<option value="Psychology, Clinical">Psychology, Clinical</option>
+<option value="Psychology, Cognitive">Psychology, Cognitive</option>
+<option value="Psychology, Counseling">Psychology, Counseling</option>
+<option value="Psychology, Developmental">Psychology, Developmental</option>
+<option value="Psychology, Experimental">Psychology, Experimental</option>
+<option value="Psychology, General">Psychology, General</option>
+<option value="Psychology, Industrial">Psychology, Industrial</option>
+<option value="Psychology, Personality">Psychology, Personality</option>
+<option value="Psychology, Physiological">Psychology, Physiological</option>
+<option value="Psychology, Psychobiology">Psychology, Psychobiology</option>
+<option value="Psychology, Psychometrics">Psychology, Psychometrics</option>
+<option value="Psychology, Social">Psychology, Social</option>
+<option value="Recreation">Recreation</option>
+<option value="Regional Studies">Regional Studies</option>
+<option value="Religion, Biblical Studies">Religion, Biblical Studies</option>
+<option value="Religion, Clergy">Religion, Clergy</option>
+<option value="Religion, Comparative">Religion, Comparative</option>
+<option value="Religion, General">Religion, General</option>
+<option value="Religion, History of">Religion, History of</option>
+<option value="Religion, Philosophy of">Religion, Philosophy of</option>
+<option value="Remote Sensing">Remote Sensing</option>
+<option value="Scandinavian Studies">Scandinavian Studies</option>
+<option value="Sedimentary Geology">Sedimentary Geology</option>
+<option value="Slavic Studies">Slavic Studies</option>
+<option value="Social Work">Social Work</option>
+<option value="Sociology, Criminology and Penology">Sociology, Criminology and Penology</option>
+<option value="Sociology, Demography">Sociology, Demography</option>
+<option value="Sociology, Environmental Justice">Sociology, Environmental Justice</option>
+<option value="Sociology, Ethnic and Racial Studies">Sociology, Ethnic and Racial Studies</option>
+<option value="Sociology, General">Sociology, General</option>
+<option value="Sociology, Individual and Family Studies">Sociology, Individual and Family Studies</option>
+<option value="Sociology, Industrial and Labor Relations">Sociology, Industrial and Labor Relations</option>
+<option value="Sociology, Organization Theory">Sociology, Organization Theory</option>
+<option value="Sociology, Organizational">Sociology, Organizational</option>
+<option value="Sociology, Public and Social Welfare">Sociology, Public and Social Welfare</option>
+<option value="Sociology, Social Structure and Development">Sociology, Social Structure and Development</option>
+<option value="Sociology, Sociolinguistics">Sociology, Sociolinguistics</option>
+<option value="Sociology, Theory and Methods">Sociology, Theory and Methods</option>
+<option value="South African Studies">South African Studies</option>
+<option value="South Asian Studies">South Asian Studies</option>
+<option value="Speech Communication">Speech Communication</option>
+<option value="Spirituality">Spirituality</option>
+<option value="Statistics">Statistics</option>
+<option value="Sub Saharan Africa Studies">Sub Saharan Africa Studies</option>
+<option value="Sustainability">Sustainability</option>
+<option value="Technical Communication">Technical Communication</option>
+<option value="Textile Technology">Textile Technology</option>
+<option value="Theater">Theater</option>
+<option value="Theater History">Theater History</option>
+<option value="Theology">Theology</option>
+<option value="Theoretical Mathematics">Theoretical Mathematics</option>
+<option value="Transportation">Transportation</option>
+<option value="Urban and Regional Planning">Urban and Regional Planning</option>
+<option value="Water Resource Management">Water Resource Management</option>
+<option value="Web Studies">Web Studies</option>
+<option value="Women's Studies">Women's Studies</option></select>
+          <span class="input-group-btn field-controls"><button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span><span class="controls-remove-text">Remove</span> <span class="sr-only"> previous <span class="controls-field-name-text"> Research Field</span></span></button></span></li>
+
+      </ul><button type="button" class="btn btn-link add"><span class="glyphicon glyphicon-plus"></span><span class="controls-add-text">Add another Research Field</span></button>
+</div>
+
+<div class="form-group select optional etd_degree"><label class="control-label select optional" for="etd_degree">Degree</label><select class="form-control select optional form-control" name="etd[degree]" id="etd_degree"><option value=""></option>
+<option value="Th.D.">Th.D.</option>
+<option value="Ph.D.">PhD</option>
+<option value="D.N.P.">DNP</option>
+<option value="M.A.">MA</option>
+<option value="M.S.">MS</option>
+<option value="M.Div.">MDiv</option>
+<option value="M.T.S.">MTS</option>
+<option value="M.P.H.">MPH</option>
+<option value="M.S.P.H.">MSPH</option>
+<option value="B.A.">BA</option>
+<option value="B.S.">BS</option>
+<option value="B.B.A.">BBA</option></select></div>
+
+
+<div class="form-group select optional etd_submitting_type"><label class="control-label select optional" for="etd_submitting_type">I am submitting my</label><select class="form-control select optional form-control" name="etd[submitting_type]" id="etd_submitting_type"><option value=""></option>
+<option value="Honors Thesis">Honors Thesis</option>
+<option value="Dissertation">Dissertation</option>
+<option value="Masters Thesis">Masters Thesis</option></select></div>
+
+
+
+<div class="row">
+
+  <div class="col-sm-6">
+    <div class="form-group select optional etd_committee_chair_affiliation_type"><label class="control-label select optional" for="etd_committee_chair_affiliation_type">Committee Chair/Thesis Advisor's Affiliation</label><select class="form-control select optional form-control committee-member" name="etd[committee_chair][affiliation_type]" id="etd_committee_chair_affiliation_type"><option selected="selected" value="Emory Faculty">Emory Faculty</option>
+<option value="Non-Emory Faculty">Non-Emory Faculty</option></select></div>
+    <div class="form-group string optional disabled etd_committee_chair_affiliation"><input class="form-control string optional disabled form-control committee" value="Emory" disabled="disabled" type="text" name="etd[committee_chair][affiliation]" id="etd_committee_chair_affiliation"></div>
+  </div>
+
+  <div id="chair-affiliation" class="col-sm-6">
+    <div class="form-group string optional etd_committee_chair_name"><label class="control-label string optional" for="etd_committee_chair_name">Committee Chair/Thesis Advisor</label><input class="form-control string optional form-control committee" type="text" name="etd[committee_chair][name]" id="etd_committee_chair_name"></div>
+  </div>
+</div>
+
+
+
+<div class="committee-member row">
+  <div class="col-sm-6 member">
+
+    <div class="form-group select optional etd_committee_members_affiliation_type"><label class="control-label select optional" for="etd_committee_members_affiliation_type">Committee Member's Affiliation</label><select class="form-control select optional form-control committee-member-select" name="etd[committee_members][affiliation_type]" id="etd_committee_members_affiliation_type"><option selected="selected" value="Emory Faculty">Emory Faculty</option>
+<option value="Non-Emory Faculty">Non-Emory Faculty</option></select></div>
+    <div class="form-group string optional disabled etd_committee_members_affiliation"><input class="form-control string optional disabled form-control committee" data-affiliation="members" value="Emory" disabled="disabled" type="text" name="etd[committee_members][affiliation]" id="etd_committee_members_affiliation"></div>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <div class="form-group string optional etd_committee_members_name"><label class="control-label string optional" for="etd_committee_members_name">Committee Member</label><input class="form-control string optional form-control committee" type="text" name="etd[committee_members][name]" id="etd_committee_members_name"></div>
+  </div>
+</div>
+
+<div class="committee-member row">
+  <div class="col-sm-6 member">
+
+    <div class="form-group select optional etd_committee_members_affiliation_type"><label class="control-label select optional" for="etd_committee_members_affiliation_type">Committee Member's Affiliation</label><select class="form-control select optional form-control committee-member-select" name="committee_members[name_2][affiliation_type]" id="etd_committee_members_affiliation_type"><option selected="selected" value="Emory Faculty">Emory Faculty</option>
+<option value="Non-Emory Faculty">Non-Emory Faculty</option></select></div>
+    <div class="form-group string optional disabled etd_committee_members_affiliation"><input class="form-control string optional disabled form-control committee" data-affiliation="members" value="Emory" type="text" name="etd[committee_members][affiliation]" id="etd_committee_members_affiliation"></div>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <div class="form-group string optional etd_committee_members_name"><label class="control-label string optional" for="etd_committee_members_name">Committee Member</label><input class="form-control string optional form-control committee" type="text" name="etd[committee_members][name]" id="etd_committee_members_name"></div>
+  </div>
+  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-member">Remove Committee Member</span></button>
+</div>
+
+<div class="committee-member row hidden">
+  <div class="col-sm-6 member">
+
+    <div class="form-group select optional etd_committee_members_affiliation_type"><label class="control-label select optional" for="etd_committee_members_affiliation_type">Committee Member's Affiliation</label><select class="form-control select optional form-control committee-member-select" name="etd[committee_members][affiliation_type]" id="etd_committee_members_affiliation_type"><option selected="selected" value="Emory Faculty">Emory Faculty</option>
+<option value="Non-Emory Faculty">Non-Emory Faculty</option></select></div>
+    <div class="form-group string optional disabled etd_committee_members_affiliation"><input class="form-control string optional disabled form-control committee" data-affiliation="members" value="Emory" disabled="disabled" type="text" name="etd[committee_members][affiliation]" id="etd_committee_members_affiliation"></div>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <div class="form-group string optional etd_committee_members_name"><label class="control-label string optional" for="etd_committee_members_name">Committee Member</label><input class="form-control string optional form-control committee" type="text" name="etd[committee_members][name]" id="etd_committee_members_name"></div>
+  </div>
+  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-member">Remove Committee Member</span></button>
+</div>
+
+<div class="committee-member row hidden">
+  <div class="col-sm-6 member">
+
+    <div class="form-group select optional etd_committee_members_affiliation_type"><label class="control-label select optional" for="etd_committee_members_affiliation_type">Committee Member's Affiliation</label><select class="form-control select optional form-control committee-member-select" name="etd[committee_members][affiliation_type]" id="etd_committee_members_affiliation_type"><option selected="selected" value="Emory Faculty">Emory Faculty</option>
+<option value="Non-Emory Faculty">Non-Emory Faculty</option></select></div>
+    <div class="form-group string optional disabled etd_committee_members_affiliation"><input class="form-control string optional disabled form-control committee" data-affiliation="members" value="Emory" disabled="disabled" type="text" name="etd[committee_members][affiliation]" id="etd_committee_members_affiliation"></div>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <div class="form-group string optional etd_committee_members_name"><label class="control-label string optional" for="etd_committee_members_name">Committee Member</label><input class="form-control string optional form-control committee" type="text" name="etd[committee_members][name]" id="etd_committee_members_name"></div>
+  </div>
+  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-member">Remove Committee Member</span></button>
+</div>
+
+<div class="committee-member row hidden">
+  <div class="col-sm-6 member">
+
+    <div class="form-group select optional etd_committee_members_affiliation_type"><label class="control-label select optional" for="etd_committee_members_affiliation_type">Committee Member's Affiliation</label><select class="form-control select optional form-control committee-member-select" name="etd[committee_members][affiliation_type]" id="etd_committee_members_affiliation_type"><option selected="selected" value="Emory Faculty">Emory Faculty</option>
+<option value="Non-Emory Faculty">Non-Emory Faculty</option></select></div>
+    <div class="form-group string optional disabled etd_committee_members_affiliation"><input class="form-control string optional disabled form-control committee" data-affiliation="members" value="Emory" disabled="disabled" type="text" name="etd[committee_members][affiliation]" id="etd_committee_members_affiliation"></div>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <div class="form-group string optional etd_committee_members_name"><label class="control-label string optional" for="etd_committee_members_name">Committee Member</label><input class="form-control string optional form-control committee" type="text" name="etd[committee_members][name]" id="etd_committee_members_name"></div>
+  </div>
+  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-member">Remove Committee Member</span></button>
+</div>
+
+<div class="committee-member row hidden">
+  <div class="col-sm-6 member">
+
+    <div class="form-group select optional etd_committee_members_affiliation_type"><label class="control-label select optional" for="etd_committee_members_affiliation_type">Committee Member's Affiliation</label><select class="form-control select optional form-control committee-member-select" name="etd[committee_members][affiliation_type]" id="etd_committee_members_affiliation_type"><option selected="selected" value="Emory Faculty">Emory Faculty</option>
+<option value="Non-Emory Faculty">Non-Emory Faculty</option></select></div>
+    <div class="form-group string optional disabled etd_committee_members_affiliation"><input class="form-control string optional disabled form-control committee" data-affiliation="members" value="Emory" disabled="disabled" type="text" name="etd[committee_members][affiliation]" id="etd_committee_members_affiliation"></div>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <div class="form-group string optional etd_committee_members_name"><label class="control-label string optional" for="etd_committee_members_name">Committee Member</label><input class="form-control string optional form-control committee" type="text" name="etd[committee_members][name]" id="etd_committee_members_name"></div>
+  </div>
+  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-member">Remove Committee Member</span></button>
+</div>
+
+<div class="committee-member row hidden">
+  <div class="col-sm-6 member">
+
+    <div class="form-group select optional etd_committee_members_affiliation_type"><label class="control-label select optional" for="etd_committee_members_affiliation_type">Committee Member's Affiliation</label><select class="form-control select optional form-control committee-member-select" name="etd[committee_members][affiliation_type]" id="etd_committee_members_affiliation_type"><option selected="selected" value="Emory Faculty">Emory Faculty</option>
+<option value="Non-Emory Faculty">Non-Emory Faculty</option></select></div>
+    <div class="form-group string optional disabled etd_committee_members_affiliation"><input class="form-control string optional disabled form-control committee" data-affiliation="members" value="Emory" disabled="disabled" type="text" name="etd[committee_members][affiliation]" id="etd_committee_members_affiliation"></div>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <div class="form-group string optional etd_committee_members_name"><label class="control-label string optional" for="etd_committee_members_name">Committee Member</label><input class="form-control string optional form-control committee" type="text" name="etd[committee_members][name]" id="etd_committee_members_name"></div>
+  </div>
+  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-member">Remove Committee Member</span></button>
+</div>
+
+
+<div class="committee-member row hidden">
+  <div class="col-sm-6 member">
+
+    <div class="form-group select optional etd_committee_members_affiliation_type"><label class="control-label select optional" for="etd_committee_members_affiliation_type">Committee Member's Affiliation</label><select class="form-control select optional form-control committee-member-select" name="etd[committee_members][affiliation_type]" id="etd_committee_members_affiliation_type"><option selected="selected" value="Emory Faculty">Emory Faculty</option>
+<option value="Non-Emory Faculty">Non-Emory Faculty</option></select></div>
+    <div class="form-group string optional disabled etd_committee_members_affiliation"><input class="form-control string optional disabled form-control committee" data-affiliation="members" value="Emory" disabled="disabled" type="text" name="etd[committee_members][affiliation]" id="etd_committee_members_affiliation"></div>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <div class="form-group string optional etd_committee_members_name"><label class="control-label string optional" for="etd_committee_members_name">Committee Member</label><input class="form-control string optional form-control committee" type="text" name="etd[committee_members][name]" id="etd_committee_members_name"></div>
+  </div>
+  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-member">Remove Committee Member</span></button>
+</div>
+
+
+<div class="committee-member row hidden">
+  <div class="col-sm-6 member">
+
+    <div class="form-group select optional etd_committee_members_affiliation_type"><label class="control-label select optional" for="etd_committee_members_affiliation_type">Committee Member's Affiliation</label><select class="form-control select optional form-control committee-member-select" name="etd[committee_members][affiliation_type]" id="etd_committee_members_affiliation_type"><option selected="selected" value="Emory Faculty">Emory Faculty</option>
+<option value="Non-Emory Faculty">Non-Emory Faculty</option></select></div>
+    <div class="form-group string optional disabled etd_committee_members_affiliation"><input class="form-control string optional disabled form-control committee" data-affiliation="members" value="Emory" disabled="disabled" type="text" name="etd[committee_members][affiliation]" id="etd_committee_members_affiliation"></div>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <div class="form-group string optional etd_committee_members_name"><label class="control-label string optional" for="etd_committee_members_name">Committee Member</label><input class="form-control string optional form-control committee" type="text" name="etd[committee_members][name]" id="etd_committee_members_name"></div>
+  </div>
+  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-member">Remove Committee Member</span></button>
+</div>
+
+
+<div class="committee-member row hidden">
+  <div class="col-sm-6 member">
+
+    <div class="form-group select optional etd_committee_members_affiliation_type"><label class="control-label select optional" for="etd_committee_members_affiliation_type">Committee Member's Affiliation</label><select class="form-control select optional form-control committee-member-select" name="etd[committee_members][affiliation_type]" id="etd_committee_members_affiliation_type"><option selected="selected" value="Emory Faculty">Emory Faculty</option>
+<option value="Non-Emory Faculty">Non-Emory Faculty</option></select></div>
+    <div class="form-group string optional disabled etd_committee_members_affiliation"><input class="form-control string optional disabled form-control committee" data-affiliation="members" value="Emory" disabled="disabled" type="text" name="etd[committee_members][affiliation]" id="etd_committee_members_affiliation"></div>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <div class="form-group string optional etd_committee_members_name"><label class="control-label string optional" for="etd_committee_members_name">Committee Member</label><input class="form-control string optional form-control committee" type="text" name="etd[committee_members][name]" id="etd_committee_members_name"></div>
+  </div>
+  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-member">Remove Committee Member</span></button>
+</div>
+
+
+<div class="committee-member row hidden">
+  <div class="col-sm-6 member">
+
+    <div class="form-group select optional etd_committee_members_affiliation_type"><label class="control-label select optional" for="etd_committee_members_affiliation_type">Committee Member's Affiliation</label><select class="form-control select optional form-control committee-member-select" name="etd[committee_members][affiliation_type]" id="etd_committee_members_affiliation_type"><option selected="selected" value="Emory Faculty">Emory Faculty</option>
+<option value="Non-Emory Faculty">Non-Emory Faculty</option></select></div>
+    <div class="form-group string optional disabled etd_committee_members_affiliation"><input class="form-control string optional disabled form-control committee" data-affiliation="members" value="Emory" disabled="disabled" type="text" name="etd[committee_members][affiliation]" id="etd_committee_members_affiliation"></div>
+  </div>
+
+  <div class="col-sm-6 member-affiliation">
+    <div class="form-group string optional etd_committee_members_name"><label class="control-label string optional" for="etd_committee_members_name">Committee Member</label><input class="form-control string optional form-control committee" type="text" name="etd[committee_members][name]" id="etd_committee_members_name"></div>
+  </div>
+  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-member">Remove Committee Member</span></button>
+</div>
+
+
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <button type="button" class="btn btn-link add"><span class="glyphicon glyphicon-plus"></span> <span class="controls-add-text" id="add-another-member">Add Another Committee Member</span></button>
+  </div>
+</div>
+
+<input name="about_me_and_my_program" value="Save About Me" class="btn btn-primary" id="about_me_and_my_program" type="submit">
+
+<div id="success"></div>
+
+
+</div>
+</div>

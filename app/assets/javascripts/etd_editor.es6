@@ -5,7 +5,6 @@ export default class EtdEditor extends Editor {
         super(element)
     }
     saveWorkControl() {
-        console.log("Override the save work control?")
         new EtdSaveWorkControl(this.element.find("#form-progress"), this.adminSetWidget)
     }
 }
