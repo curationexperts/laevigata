@@ -14,7 +14,7 @@ FactoryGirl.define do
     visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
 
     factory :ateer_etd do
-      id 'rpj6m'
+      id { ActiveFedora::Noid::Service.new.mint }
       title ['Investigating and Developing a Novel Implicit Measurement of Self-Esteem']
       creator ['Teer, Drew']
       keyword ['classical conditioning', 'implict', 'self-esteem']
