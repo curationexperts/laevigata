@@ -34,7 +34,7 @@ Devise.setup do |config|
   # session. If you need permissions, you should implement that in a before filter.
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
-  # config.authentication_keys = [:email]
+  config.authentication_keys = [:ppid]
 
   # Configure parameters from the request object used for authentication. Each entry
   # given should be a request method and it will automatically be passed to the
@@ -252,8 +252,8 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :shibboleth,
-                  uid_field: 'uid',
-                  info_fields: { email: 'mail' },
+                  uid_field: 'serialNumber',
+                  info_fields: { display_name: 'displayName' },
                   callback_url: '/users/auth/shibboleth/callback'
   #
   # When using OmniAuth, Devise cannot automatically set OmniAuth path,

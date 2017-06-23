@@ -52,6 +52,7 @@ group :development, :test do
   # console
   gem 'byebug', platform: :mri
   gem 'capybara'
+  gem 'capybara-screenshot'
   gem 'capybara-webkit'
   gem 'coveralls', require: false
   gem 'database_cleaner'

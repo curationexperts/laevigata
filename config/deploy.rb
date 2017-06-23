@@ -19,10 +19,11 @@ SSHKit.config.command_map[:rake] = 'bundle exec rake'
 # Default branch is :master
 set :branch, ENV['REVISION'] || ENV['BRANCH_NAME'] || 'master'
 
+append :linked_dirs, "config/emory"
+append :linked_dirs, "public/assets"
 append :linked_dirs, "tmp/pids"
 append :linked_dirs, "tmp/cache"
 append :linked_dirs, "tmp/sockets"
-append :linked_dirs, "public/assets"
 
 append :linked_files, "config/blacklight.yml"
 append :linked_files, "config/browse_everything_providers.yml"
