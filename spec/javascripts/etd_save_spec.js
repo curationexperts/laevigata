@@ -3,14 +3,13 @@ describe("EtdSaveWorkControl", function() {
   var AdminSetWidget = require('hyrax/editor/admin_set_widget');
   var ETDRequiredFields = require('required_fields')
 
-  describe("validateAboutMe", function() {
+  describe("validateAboutMeAndProgram", function() {
     var mockCheckbox = {
       check: function() { },
       uncheck: function() { },
     };
 
     beforeEach(function() {
-      loadFixtures('about_me.html');
       var fixture = setFixtures('<form id="edit_generic_work">' +
         '<select><option></option></select>' +
         '<aside id="form-progress"><ul><li id="required-about-me"></ul>' +
@@ -18,18 +17,11 @@ describe("EtdSaveWorkControl", function() {
         '<input type="submit"></aside></form>');
       admin_set = new AdminSetWidget(fixture.find('select'))
       target = new EtdSaveWorkControl(fixture.find('#form-progress'), admin_set);
-      var mockAboutMeFields = {
-        reload: function() { },
-        areComplete: true
-      };
 
       target.requiredMeAndMyProgram = mockCheckbox;
-      target.requiredAboutMeFields = mockAboutMeFields;
       spyOn(mockCheckbox, 'check').and.stub();
       spyOn(mockCheckbox, 'uncheck').and.stub();
-      spyOn(target, 'aboutFormChanged').and.stub();
     });
-
 
     describe("activate", function() {
       var target;
@@ -49,33 +41,56 @@ describe("EtdSaveWorkControl", function() {
       });
     });
 
+    describe("when the about-me form changes", function(){
+      var mockAboutMeFields = null;
 
-    describe("when required About Me data is present", function() {
       beforeEach(function() {
-        target.requiredAboutMeFields = {
+        mockAboutMeFields = {
+          reload: function() { },
           areComplete: true
         };
+        target.requiredAboutMeFields = mockAboutMeFields;
+        spyOn(mockAboutMeFields,'reload');
+        spyOn(target, 'formStateChanged').and.callThrough();
+        spyOn(target, 'isValid').and.callThrough();
+        spyOn(target, 'validateMeAndMyProgram');
+        target.aboutMeFormChanged();
       });
-      it("is complete", function() {
-        target.validateMeAndMyProgram();
-        expect(mockCheckbox.uncheck.calls.count()).toEqual(0);
-        expect(mockCheckbox.check.calls.count()).toEqual(1);
+
+      it('it reloads the dom elements and re-validates the form', function(){
+        expect(mockAboutMeFields.reload).toHaveBeenCalled();
+        expect(target.formStateChanged).toHaveBeenCalled();
+        expect(target.isValid).toHaveBeenCalled();
+        expect(target.validateMeAndMyProgram).toHaveBeenCalled();
       });
     });
 
-    describe("when required About Me data is missing", function() {
-      beforeEach(function() {
-        target.requiredAboutMeFields = {
-          areComplete: false
-        };
-      });
-      it("is incomplete", function() {
-        target.validateMeAndMyProgram();
-        expect(mockCheckbox.uncheck.calls.count()).toEqual(1);
-        expect(mockCheckbox.check.calls.count()).toEqual(0);
-      });
+  describe("when required About Me data is present", function() {
+    beforeEach(function() {
+      target.requiredAboutMeFields = {
+        areComplete: true
+      };
+    });
+    it("is complete", function() {
+      target.validateMeAndMyProgram();
+      expect(mockCheckbox.uncheck.calls.count()).toEqual(0);
+      expect(mockCheckbox.check.calls.count()).toEqual(1);
     });
   });
+
+  describe("when required About Me data is missing", function() {
+    beforeEach(function() {
+      target.requiredAboutMeFields = {
+        areComplete: false
+      };
+    });
+    it("is incomplete", function() {
+      target.validateMeAndMyProgram();
+      expect(mockCheckbox.uncheck.calls.count()).toEqual(1);
+      expect(mockCheckbox.check.calls.count()).toEqual(0);
+    });
+  });
+});
 
   // describe("validateAgreement", function() {
   //   var target;

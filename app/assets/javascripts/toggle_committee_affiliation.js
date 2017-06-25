@@ -32,7 +32,7 @@ Blacklight.onLoad(function() {
 
     $(".committee-member.row.hidden").first().removeClass('hidden');
       //fire form changed event
-      etd_save_work_control.aboutFormChanged()
+      etd_save_work_control.aboutMeFormChanged()
       $removeMember.on('click', function(){
        $(this).parents('.committee-member.row').remove();
       });
