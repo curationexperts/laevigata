@@ -97,7 +97,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     }
 
     // called when a new field has been added to the form.
-    aboutFormChanged() {
+    aboutMeFormChanged() {
       this.requiredAboutMeFields.reload(".about-me");
       this.formStateChanged();
     //  console.log('formchanged')
@@ -121,6 +121,9 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     // }
 
     validateMeAndMyProgram() {
+      // TODO: make sure email format is valid
+      // red border around input might suffice for invalid
+
       // if Rollins is school, partnering agency is required, otherwise not
       if ($('#etd_school').val() != "rollins_programs"){
         this.requiredAboutMeFields.requiredFields = $(this.requiredAboutMeFields.requiredFields).not("#etd_partnering_agency")

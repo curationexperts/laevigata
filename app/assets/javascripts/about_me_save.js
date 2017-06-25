@@ -5,7 +5,7 @@ Blacklight.onLoad(function() {
     $.ajax({
       type: "POST",
       url: "/concern/etds",
-      data: $('#new_etd').serialize(),
+      data: $('#new_etd :input').not('#about_me :hidden').serialize(),
       success: function(result) {
         $("#success").append("Successfully saved About: " + result['creator']+", "+ result['title']);
       },
