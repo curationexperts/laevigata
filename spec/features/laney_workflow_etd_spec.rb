@@ -23,18 +23,21 @@ RSpec.feature 'Create a Laney ETD' do
     end
 
     scenario "Joey submits a thesis and an approver reviews and approves it" do
-      expect(page).to have_css('input#etd_title.required')
       expect(page).not_to have_css('input#etd_title.multi_value')
       expect(page).to have_css('input#etd_creator')
       expect(page).not_to have_css('input#etd_creator.multi_value')
-      title = "Surrealism #{rand}"
-      fill_in 'Title', with: title
       fill_in 'Student Name', with: 'Coppola, Joey'
       # fill_in 'Keyword', with: 'Surrealism'
       # Department is not required, by default it is hidden as an additional field
       select('CDC', from: 'Partnering agency')
       choose('open')
       check('agreement')
+
+      click_on('About My ETD')
+      expect(page).to have_css('#about_my_etd input#etd_title')
+      title = "Surrealism #{rand}"
+      fill_in 'Title', with: title
+
       click_on('My PDF')
       page.attach_file('files[]', "#{fixture_path}/joey/joey_thesis.pdf")
       click_on("Review")

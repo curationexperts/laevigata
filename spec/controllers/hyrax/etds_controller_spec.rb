@@ -11,7 +11,7 @@ RSpec.describe Hyrax::EtdsController do
   end
   describe "POST create" do
     it "responds to partial data in 'create'" do
-      post :create, params: { about_me: "true", etd: { creator: "Joey", title: "Very Good Thesis" } }
+      post :create, params: { partial_data: "true", etd: { creator: "Joey", title: "Very Good Thesis" } }
       assert_response :success
       etd = JSON.parse(@response.body)
       assert_equal "Joey", etd['creator']
@@ -19,7 +19,7 @@ RSpec.describe Hyrax::EtdsController do
     end
 
     xit "creates an etd from a full data set" do
-      post :hyrax_etds, params: { about_me: false, etd: { creator: "Joey" } }
+      post :hyrax_etds, params: { partial_data: false, etd: { creator: "Joey" } }
       assert_redirected_to etd_path(Etd.last)
     end
   end

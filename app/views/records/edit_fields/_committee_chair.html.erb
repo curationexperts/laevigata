@@ -1,4 +1,5 @@
 <div class="committee-chair row first">
+  <!-- okay. we have predicates for these in the etd model, as mulitples, too. might not need fields_for if so. -->
   <%= f.fields_for :committee_chair_0 do |c| %>
   <div class="col-sm-6">
     <% emory_faculty = ["Emory Faculty", "Non-Emory Faculty"] %>
@@ -29,7 +30,7 @@
     <%= c.input :chair_name, required: false, label: "Committee Chair/Thesis Advisor", input_html: { placeholder: 'Last Name, First Name', class: 'form-control committee' } %>
   </div>
   <% end %>
-  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-chair">Remove Committee Chair</span></button>
+  <button type="button" class="btn btn-link remove remove-chair"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text">Remove Committee Chair</span></button>
 </div>
 
 <div class="committee-chair row third hidden">
@@ -46,7 +47,7 @@
     <%= c.input :chair_name, required: false, label: "Committee Chair/Thesis Advisor", input_html: { placeholder: 'Last Name, First Name', class: 'form-control committee' } %>
   </div>
   <% end %>
-  <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-chair">Remove Committee Chair</span></button>
+  <button type="button" class="btn btn-link remove remove-chair"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text">Remove Committee Chair</span></button>
 </div>
 
 <div class="committee-chair row fourth hidden">
@@ -63,7 +64,7 @@
     <%= c.input :chair_name, required: false, label: "Committee Chair/Thesis Advisor", input_html: { placeholder: 'Last Name, First Name', class: 'form-control committee' } %>
   </div>
   <% end %>
-    <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-chair">Remove Committee Chair</span></button>
+    <button type="button" class="btn btn-link remove remove-chair"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text">Remove Committee Chair</span></button>
 </div>
 
 <div class="committee-chair row fifth hidden">
@@ -80,5 +81,5 @@
     <%= c.input :chair_name, required: false, label: "Committee Chair/Thesis Advisor", input_html: { placeholder: 'Last Name, First Name', class: 'form-control committee' } %>
   </div>
   <% end %>
-    <button type="button" class="btn btn-link remove"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text remove-chair">Remove Committee Chair</span></button>
+    <button type="button" class="btn btn-link remove remove-chair"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text">Remove Committee Chair</span></button>
 </div>

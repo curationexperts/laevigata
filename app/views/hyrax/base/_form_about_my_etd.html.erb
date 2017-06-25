@@ -1,3 +1,31 @@
-<div class="form-instructions">
-  <p>About My Thesis or Dissertation</p>
-</div>
+<h1><%= t("hyrax.works.form.tab.about_my_etd", type: curation_concern.human_readable_type) %></h1>
+
+  <%= f.input :title, required: false, label: "Title", hint: "",
+      input_html: { class: 'form-control' } %>
+
+  <%= f.input :language, hint: "", required: false, input_html: { class: 'form-control' } %>
+
+  <% f.object.about_my_etd_fields.each do |term| %>
+    <%= render_edit_field_partial(term, f: f) %>
+  <% end %>
+
+  <%= f.input :keyword, hint: "Lorum Ipsum", label: "Keywords", as: :multi_value, required: false, input_html: { class: 'form-control' } %>
+
+    <div id="question_1">
+      1) Does your thesis or dissertation contain any third-party text, audiovisual content or other material which is beyond a fair use and would require permission?
+      <%= f.input :copyright_question_one, as: :radio_buttons, label: "" %>
+    </div>
+
+    <div id="question_2">
+      2) Does your thesis or dissertation contain content, such as a previously published article, for which you no longer own copyright?
+      <%= f.input :copyright_question_two, as: :radio_buttons, label: "" %>
+    </div>
+
+    <div id="question_3">
+      3) Does your thesis or dissertation disclose or describe any inventions or discoveries that could potentially have commercial application and therefore may be patented? If so, please contact the Office of Technology Transfer (OTT) at Phone: (404) 727-2211.
+      <%= f.input :copyright_question_three, as: :radio_buttons, label: "" %>
+    </div>
+
+<input name="about_my_etd_data" value="Save My Etd" class="btn btn-primary" id="about_my_etd_data" type="submit" />
+
+<div id="my-etd-success"></div>
