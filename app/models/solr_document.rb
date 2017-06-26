@@ -29,6 +29,18 @@ class SolrDocument
     self[Solrizer.solr_name('abstract')]
   end
 
+  def abstract_embargoed
+    self['abstract_embargoed_bsi']
+  end
+
+  def toc_embargoed
+    self['toc_embargoed_bsi']
+  end
+
+  def files_embargoed
+    self['files_embargoed_bsi']
+  end
+
   def table_of_contents
     self[Solrizer.solr_name('table_of_contents')]
   end
