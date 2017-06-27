@@ -100,7 +100,7 @@ RSpec.describe WorkflowSetup do
         approving_role = Sipity::Role.where(name: "approving").first
         wf_role = Sipity::WorkflowRole.find_by(workflow: workflow, role_id: approving_role)
         approving_agents = wf_role.workflow_responsibilities.pluck(:agent_id)
-        expect(approving_agents.count).to eq 5 # 1 uberadmin + 4 approvers from the file
+        expect(approving_agents.count).to eq 5 # 1 superadmin + 4 approvers from the file
       end
     end
   end
