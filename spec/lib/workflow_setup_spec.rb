@@ -4,6 +4,10 @@ require 'active_fedora/cleaner'
 include Warden::Test::Helpers
 
 RSpec.describe WorkflowSetup do
+  before do
+    ActiveFedora::Cleaner.clean!
+    User.delete_all
+  end
   # Change "/dev/null" to STDOUT to see all logging output
   let(:w) { described_class.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/", "#{::Rails.root}/config/emory/schools.yml", "/dev/null") }
   let(:superuser_ppid) { "superuser001" }
@@ -42,13 +46,11 @@ RSpec.describe WorkflowSetup do
     expect(w.superusers.pluck(:ppid).include?("wonderwoman001")).to eq true
   end
   it "makes an AdminSet" do
-    ActiveFedora::Cleaner.clean!
     w.load_superusers
     expect(w.make_admin_set(admin_set_title)).to be_instance_of AdminSet
     expect(AdminSet.where(title: admin_set_title).count).to eq 1
   end
   it "won't make a second admin set with the same title, it will just return the one that exists already" do
-    ActiveFedora::Cleaner.clean!
     w.load_superusers
     a = w.make_admin_set(admin_set_title)
     expect(a).to be_instance_of AdminSet
@@ -57,11 +59,7 @@ RSpec.describe WorkflowSetup do
     expect(b).to be_instance_of AdminSet
     expect(AdminSet.where(title: admin_set_title).count).to eq 1
   end
-  it "throws an error if it tries to load workflow without an admin set" do
-    expect { w.load_workflows }.to raise_error(RuntimeError)
-  end
   it "loads and activates the workflows" do
-    ActiveFedora::Cleaner.clean!
     w.load_superusers
     a = w.make_admin_set(admin_set_title)
     expect(AdminSet.where(title: admin_set_title).count).to eq 1
@@ -91,7 +89,6 @@ RSpec.describe WorkflowSetup do
     end
     context "school specific configs" do
       it "loads approvers from a file" do
-        ActiveFedora::Cleaner.clean!
         w.config_file_dir = "#{fixture_path}/config/emory/"
         w.load_superusers
         admin_set = w.make_admin_set_from_config("Fake School")
@@ -106,7 +103,6 @@ RSpec.describe WorkflowSetup do
   end
   context "gives superusers superpowers" do
     it "gives superusers the managing role in all newly created admin sets" do
-      ActiveFedora::Cleaner.clean!
       w.load_superusers
       expect(w.superusers.count).to be > 1 # This test won't be meaningful if there is only one superuser
       admin_set = w.make_mediated_deposit_admin_set("River School")
@@ -120,7 +116,6 @@ RSpec.describe WorkflowSetup do
       end
     end
     it "knows what users are enrolled in a given role for a given admin_set" do
-      ActiveFedora::Cleaner.clean!
       w.load_superusers
       laney_admin_set = w.make_admin_set_from_config("Laney Graduate School")
       expect(laney_admin_set.permission_template.available_workflows.where(active: true).first.name).to eq "laney_graduate_school"
@@ -133,7 +128,6 @@ RSpec.describe WorkflowSetup do
       expect(laney_approvers.include?("laneyadmin2")).to eq true
     end
     it "gives superusers reviewing and approving roles in the Laney workflow without removing existing laney admins" do
-      ActiveFedora::Cleaner.clean!
       w.load_superusers
       expect(w.superusers.count).to be > 1 # This test won't be meaningful if there is only one superuser
       admin_set = w.make_admin_set_from_config("Laney Graduate School")
@@ -156,6 +150,8 @@ RSpec.describe WorkflowSetup do
 
   it "allows any registered user to deposit anywhere" do
     ActiveFedora::Cleaner.clean!
+    User.delete_all
+    expect(User.count).to eq 0
     w.load_superusers
     admin_set = w.make_mediated_deposit_admin_set("Frog and Toad")
     workflow = admin_set.permission_template.available_workflows.where(active: true).first
@@ -168,21 +164,22 @@ RSpec.describe WorkflowSetup do
     depositing_agents = wf_role.workflow_responsibilities.pluck(:agent_id)
     expect(depositing_agents.count).to eq 2 # Now there are 2 depositing_agents...
     # and the second depositing agent is a Group consisting of all registered users
-    expect(Sipity::Agent.where(id: depositing_agents.last).first.proxy_for_id).to eq "registered"
-    expect(Sipity::Agent.where(id: depositing_agents.last).first.proxy_for_type).to eq "Hyrax::Group"
+    expect(Sipity::Agent.where(proxy_for_type: "Hyrax::Group").first.proxy_for_id).to eq "registered"
   end
 
   context "Laney Graduate School workflow" do
+    before do
+      ActiveFedora::Cleaner.clean!
+      User.delete_all
+    end
     let(:etd) { build :etd }
     let(:user) { create :user }
     it "loads a special laney workflow" do
-      ActiveFedora::Cleaner.clean!
       w.load_superusers
       laney_admin_set = w.make_admin_set_from_config("Laney Graduate School")
       expect(laney_admin_set.permission_template.available_workflows.where(active: true).first.name).to eq "laney_graduate_school"
     end
     it "has the expected workflow states and roles" do
-      ActiveFedora::Cleaner.clean!
       w.load_superusers
       laney_admin_set = w.make_admin_set_from_config("Laney Graduate School")
       workflow = laney_admin_set.permission_template.available_workflows.where(active: true).first
@@ -192,7 +189,6 @@ RSpec.describe WorkflowSetup do
       expect(Sipity::Role.where(name: "reviewing").first).to be_instance_of Sipity::Role
     end
     it "assigns the right roles for everyone" do
-      ActiveFedora::Cleaner.clean!
       w.setup
       workflow = AdminSet.where(title: ["Laney Graduate School"]).first.permission_template.available_workflows.where(active: true).first
 
