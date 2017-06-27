@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :etd do
+    id { ActiveFedora::Noid::Service.new.mint }
     title { [] << FFaker::Book.title }
     visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
 
@@ -23,18 +24,13 @@ FactoryGirl.define do
       research_field ['Religion, General']
       committee_chair [FactoryGirl.build(:committee_member)]
       committee_members FactoryGirl.build_list(:committee_member, 3)
-      visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
     end
 
     factory :ateer_etd do
-      before(:create) do |etd|
-        # etd.ordered_members << FactoryGirl.create(:public_pdf,
-        #                                           content: File.open("#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf", "r"),
-        #                                           id: ActiveFedora::Noid::Service.new.mint, user: user)
-      end
-
       id { ActiveFedora::Noid::Service.new.mint }
-      depositor 'ateer@fake.com'
+      depositor do
+        FactoryGirl.create(:user).user_key
+      end
       title ['Investigating and Developing a Novel Implicit Measurement of Self-Esteem']
       creator ['Teer, Drew']
       keyword ['classical conditioning', 'implict', 'self-esteem']
