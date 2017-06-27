@@ -19,13 +19,13 @@ terms:
       term: Music
     - id: Philosophy
       term: Philosophy
-    - id: religion_subfield
+    - id: Religion
       term: Religion
     - id: Spanish
       term: Spanish
     - id: Behavioral Sciences and Health Education
       term: Behavioral Sciences and Health Education
-    - id: biomed_subfield
+    - id: Biological and Biomedical Sciences
       term: Biological and Biomedical Sciences
     - id: Biomedical Engineering
       term: Biomedical Engineering
@@ -59,7 +59,7 @@ terms:
       term: Educational Studies
     - id: Political Science
       term: Political Science
-    - id: psychology_subfield
+    - id: Psychology
       term: Psychology
     - id: Sociology
       term: Sociology

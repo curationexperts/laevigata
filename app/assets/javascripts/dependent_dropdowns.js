@@ -17,7 +17,11 @@ observer.attr('disabled', true);
 observed.on('change', function () {
 observer.empty().append(prompt);
 if (observed.val()) {
-url = url_mask.replace(regexp, observed.val());
+console.log(observer_dom_id)
+console.log(observed.val())
+var res = observed.val().split(" ")[0].toLowerCase() + "_programs";
+url = url_mask.replace(regexp, res);
+
 $.getJSON(url, function (data) {
 $.each(data, function (i, object) {
 observer.append($('<option>').attr('value', object.id).text(object.label));
