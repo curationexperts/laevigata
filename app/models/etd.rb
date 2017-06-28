@@ -119,6 +119,34 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable
   end
 
+  property :language, predicate: "http://purl.org/dc/terms/language" do |index|
+    index.as :stored_searchable, :facetable
+  end
+
+  property :abstract, predicate: "http://purl.org/dc/terms/abstract" do |index|
+    index.as :stored_searchable
+  end
+
+  property :table_of_contents, predicate: "http://purl.org/dc/terms/tableOfContents" do |index|
+    index.as :stored_searchable
+  end
+
+  property :keyword, predicate: "http://schema.org/keywords" do |index|
+    index.as :stored_searchable, :facetable
+  end
+
+  property :file_format, predicate: "http://purl.org/dc/elements/1.1/format" do |index|
+    index.as :stored_searchable, :facetable
+  end
+
+  property :description, predicate: "http://purl.org/dc/elements/1.1/description" do |index|
+    index.as :stored_searchable
+  end
+
+  property :secondary_file_type, predicate: "http://purl.org/dc/elements/1.1/format" do |index|
+    index.as :stored_searchable, :facetable
+  end
+
   property :research_field, predicate: ::RDF::Vocab::DC11.subject do |index|
     index.as :stored_searchable, :facetable
   end

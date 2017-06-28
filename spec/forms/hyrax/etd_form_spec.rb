@@ -19,5 +19,47 @@ RSpec.describe Hyrax::EtdForm do
     its(:terms) { is_expected.to include(:partnering_agency) }
     its(:terms) { is_expected.to include(:research_field) }
     its(:terms) { is_expected.to include(:submitting_type) }
+    its(:terms) { is_expected.to include(:language) }
+    its(:terms) { is_expected.to include(:abstract) }
+    its(:terms) { is_expected.to include(:table_of_contents) }
+    its(:terms) { is_expected.to include(:keyword) }
+    its(:terms) { is_expected.to include(:identifier) }
+    its(:terms) { is_expected.to include(:creator) }
+    its(:terms) { is_expected.to include(:description) }
+    its(:terms) { is_expected.to include(:secondary_file_type) }
+  end
+
+  describe "#about_me_fields" do
+    subject { described_class }
+    its(:terms) { is_expected.to include(:creator) }
+    its(:terms) { is_expected.to include(:graduation_date) }
+    its(:terms) { is_expected.to include(:post_graduation_email) }
+  end
+
+  describe "#about_my_program_fields" do
+    subject { described_class }
+    its(:terms) { is_expected.to include(:school) }
+    its(:terms) { is_expected.to include(:department) }
+    its(:terms) { is_expected.to include(:subfield) }
+    its(:terms) { is_expected.to include(:research_field) }
+    its(:terms) { is_expected.to include(:degree) }
+    its(:terms) { is_expected.to include(:submitting_type) }
+    its(:terms) { is_expected.to include(:committee_chair) }
+    its(:terms) { is_expected.to include(:committee_members) }
+    its(:terms) { is_expected.to include(:partnering_agency) }
+  end
+
+  describe "#about_my_etd_fields" do
+    subject { described_class }
+    its(:terms) { is_expected.to include(:description) }
+    its(:terms) { is_expected.to include(:table_of_contents) }
+    its(:terms) { is_expected.to include(:keyword) }
+  end
+
+  describe "#about_my_etd_fields" do
+    subject { described_class }
+    its(:terms) { is_expected.to include(:creator) }
+    its(:terms) { is_expected.to include(:abstract) }
+    its(:terms) { is_expected.to include(:secondary_file_type) }
   end
 end

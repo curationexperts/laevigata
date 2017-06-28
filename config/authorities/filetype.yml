@@ -1,0 +1,13 @@
+terms:
+    - id: 'Text'
+      term: 'Text'
+    - id: 'Sound'
+      term: 'Sound'
+    - id: 'Dataset'
+      term: "Dataset"
+    - id: "Video"
+      term: "Video"
+    - id: "Image"
+      term: "Image"
+    - id: "Software"
+      term: "Software"
