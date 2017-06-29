@@ -125,7 +125,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       // red border around input might suffice for invalid
 
       // if Rollins is school, partnering agency is required, otherwise not
-      if ($('#etd_school').val() != "rollins_programs"){
+      if ($('#etd_school').val() != "Rollins School of Public Health"){
         this.requiredAboutMeFields.requiredFields = $(this.requiredAboutMeFields.requiredFields).not("#etd_partnering_agency")
       } else {
         this.requiredAboutMeFields.requiredFields = $(this.requiredAboutMeFields.requiredFields).add($("#etd_partnering_agency"))

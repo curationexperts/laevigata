@@ -13,6 +13,7 @@ en:
     base:
       form_progress:
         required_about_me: "About Me and My Program"
+        required_my_etd: "About My Etd"
     works:
       form:
         tab:

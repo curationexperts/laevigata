@@ -136,4 +136,11 @@ class Etd < ActiveFedora::Base
   property :committee_members_names, predicate: "http://example.com/committee_members_names" do |index|
     index.as :stored_searchable, :facetable
   end
+
+  # About My Etd Questionaire questions
+  property :copyright_question_one, predicate: "http://example.com/copyright_question"
+
+  property :copyright_question_two, predicate: "http://example.com/copyright_question"
+
+  property :copyright_question_three, predicate: "http://example.com/copyright_question"
 end

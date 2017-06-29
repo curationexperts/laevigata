@@ -52,10 +52,8 @@ RSpec.feature 'Validate an Etd: About Me' do
       fill_in 'Student Name', with: 'Eun, Dongwon'
       select("Spring 2018", from: "Graduation date")
       fill_in "Post graduation email", with: "graduate@done.com"
-      fill_in 'Title', with: "A Good Title"
       select("Emory College", from: "School")
       select("Art History and Visual Arts", from: "Department")
-      select('Health Sciences, General', from: 'Research Field')
       select('MS', from: "Degree")
       select("Honors Thesis", from: "I am submitting my")
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
@@ -73,7 +71,6 @@ RSpec.feature 'Validate an Etd: About Me' do
       find('div.about-me.chairs').click
 
       wait_for_ajax
-
       expect(page).to have_css('li#required-about-me.complete')
       expect(page).not_to have_css('li#required-about-me.incomplete')
     end
@@ -82,10 +79,8 @@ RSpec.feature 'Validate an Etd: About Me' do
       fill_in 'Student Name', with: 'Eun, Dongwon'
       select("Spring 2018", from: "Graduation date")
       fill_in "Post graduation email", with: "graduate@done.com"
-      fill_in 'Title', with: "A Good Title"
       select("Emory College", from: "School")
       select("Art History and Visual Arts", from: "Department")
-      select('Health Sciences, General', from: 'Research Field')
       select('MS', from: "Degree")
       select("Honors Thesis", from: "I am submitting my")
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
@@ -112,10 +107,8 @@ RSpec.feature 'Validate an Etd: About Me' do
       fill_in 'Student Name', with: 'Eun, Dongwon'
       select("Spring 2018", from: "Graduation date")
       fill_in "Post graduation email", with: "graduate@done.com"
-      fill_in 'Title', with: "A Good Title"
       select("Emory College", from: "School")
       select("Art History and Visual Arts", from: "Department")
-      select('Health Sciences, General', from: 'Research Field')
       select('MS', from: "Degree")
       select("Honors Thesis", from: "I am submitting my")
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
@@ -140,11 +133,9 @@ RSpec.feature 'Validate an Etd: About Me' do
       fill_in 'Student Name', with: 'Eun, Dongwon'
       select("Spring 2018", from: "Graduation date")
       fill_in "Post graduation email", with: "graduate@done.com"
-      fill_in 'Title', with: "A Good Title"
       select("Rollins School of Public Health", from: "School")
       select("Biostatistics", from: "Department")
 
-      select('Health Sciences, General', from: 'Research Field')
       select('MS', from: "Degree")
       select("Honors Thesis", from: "I am submitting my")
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
@@ -163,11 +154,9 @@ RSpec.feature 'Validate an Etd: About Me' do
       fill_in 'Student Name', with: 'Eun, Dongwon'
       select("Spring 2018", from: "Graduation date")
       fill_in "Post graduation email", with: "graduate@done.com"
-      fill_in 'Title', with: "A Good Title"
       select("Laney Graduate School", from: "School")
       select("Religion", from: "Department")
       select("Ethics and Society", from: "Sub Field")
-      select('Health Sciences, General', from: 'Research Field')
       select('MS', from: "Degree")
       select("Honors Thesis", from: "I am submitting my")
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
@@ -177,7 +166,7 @@ RSpec.feature 'Validate an Etd: About Me' do
 
       click_on('Save About Me')
 
-      expect(page).to have_content 'Successfully saved About: Eun, Dongwon, A Good Title'
+      expect(page).to have_content 'Successfully saved About: Eun, Dongwon'
       expect(page).to have_css('li#required-about-me.complete')
       expect(page).not_to have_css('li#required-about-me.incomplete')
     end

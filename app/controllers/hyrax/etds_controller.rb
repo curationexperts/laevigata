@@ -11,7 +11,7 @@ module Hyrax
 
     def create
       # TODO: make this a case statement for each tab
-      if params.fetch('about_me', false) == "true"
+      if params.fetch('partial_data', false) == "true"
         @etd_about_me = params.fetch('etd')
         render json: @etd_about_me, status: 200
       else

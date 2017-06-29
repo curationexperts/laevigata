@@ -22,16 +22,18 @@ RSpec.feature 'Create a Rollins ETD' do
       select("Global Health", from: "Department", match: :first)
     end
     scenario "Miranda submits a thesis and an approver approves it" do
-      expect(page).to have_css('input#etd_title.required')
+      expect(page).to have_css('input#etd_title')
       expect(page).not_to have_css('input#etd_title.multi_value')
       expect(page).to have_css('input#etd_creator')
       expect(page).not_to have_css('input#etd_creator.multi_value')
-      title = "Global Public Health #{rand}"
-      fill_in 'Title', with: title
+
       fill_in 'Student Name', with: 'Park, Miranda'
       select('CDC', from: 'Partnering agency')
       choose('open')
       check('agreement')
+      click_on('About My ETD')
+      title = "Global Public Health #{rand}"
+      fill_in 'Title', with: title
       click_on('My PDF')
       page.attach_file('files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
       # TODO: Miranda fixture folder has supplementary files. Add these when we're ready
