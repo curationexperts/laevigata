@@ -61,8 +61,8 @@
                     "notifications": [
                         {
                             "notification_type": "email",
-                            "name": "Hyrax::Workflow::DepositedNotification",
-                            "to": ["approving"]
+                            "name": "Hyrax::Workflow::ApprovedNotification",
+                            "to": ["approving", "depositing"]
                         }
                     ],
                     "methods": [

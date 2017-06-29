@@ -8,7 +8,7 @@ module Hyrax
         end
 
         def message
-          "#{title} (#{link_to work_id, document_path}) was published by #{user.user_key}  #{comment}"
+          "#{title} (#{link_to work_id, document_path}) was published by #{user.display_name}  #{comment}"
         end
 
         def users_to_notify

@@ -57,14 +57,14 @@ RSpec.feature 'Create a Candler ETD' do
 
       # Check notifications for depositing user
       visit("/notifications?locale=en")
-      expect(page).to have_content "#{title} (#{etd.id}) was deposited by #{user.email} and is awaiting approval."
+      expect(page).to have_content "#{title} (#{etd.id}) was deposited by #{user.display_name} and is awaiting approval."
 
       # Check notifications for approving user
       logout
-      approving_user = User.where(email: "candleradmin@emory.edu").first
+      approving_user = User.where(ppid: "candleradmin").first
       login_as approving_user
       visit("/notifications?locale=en")
-      expect(page).to have_content "#{title} (#{etd.id}) was deposited by #{user.email} and is awaiting approval."
+      expect(page).to have_content "#{title} (#{etd.id}) was deposited by #{user.display_name} and is awaiting approval."
 
       # Check workflow permissions for approving user
       available_workflow_actions = Hyrax::Workflow::PermissionQuery.scope_permitted_workflow_actions_available_for_current_state(user: approving_user, entity: etd.to_sipity_entity).pluck(:name)

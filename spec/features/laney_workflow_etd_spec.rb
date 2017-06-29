@@ -63,15 +63,15 @@ RSpec.feature 'Create a Laney ETD' do
       # Check notifications for depositing user
       visit("/notifications?locale=en")
       expect(page).to have_content 'Deposit needs review'
-      expect(page).to have_content "#{title} (#{etd.id}) was deposited by #{user.email} and is awaiting initial review."
+      expect(page).to have_content "#{title} (#{etd.id}) was deposited by #{user.display_name} and is awaiting initial review."
 
       # Check notifications for approving user
       logout
-      approving_user = User.where(email: "laneyadmin@emory.edu").first
+      approving_user = User.where(ppid: "laneyadmin").first
       login_as approving_user
       visit("/notifications?locale=en")
       expect(page).to have_content 'Deposit needs review'
-      expect(page).to have_content "#{title} (#{etd.id}) was deposited by #{user.email} and is awaiting initial review."
+      expect(page).to have_content "#{title} (#{etd.id}) was deposited by #{user.display_name} and is awaiting initial review."
 
       # Check workflow permissions for approving user
       available_workflow_actions = Hyrax::Workflow::PermissionQuery.scope_permitted_workflow_actions_available_for_current_state(user: approving_user, entity: etd.to_sipity_entity).pluck(:name)
@@ -123,7 +123,7 @@ RSpec.feature 'Create a Laney ETD' do
 
       # Check notifications for approving user
       visit("/notifications?locale=en")
-      expect(page).to have_content "#{title} (#{etd.id}) was approved by"
+      expect(page).to have_content "#{title} (#{etd.id}) has been approved by"
       expect(page).to have_content "#{title} (#{etd.id}) was hidden by"
       expect(page).to have_content "hiding for reasons"
       expect(page).to have_content "#{title} (#{etd.id}) was unhidden by"
@@ -133,8 +133,9 @@ RSpec.feature 'Create a Laney ETD' do
       logout
       login_as user
       visit("/notifications?locale=en")
+      screenshot_and_open_image
       expect(page).to have_content "#{title} (#{etd.id}) has completed initial review and is awaiting final approval."
-      expect(page).to have_content "#{title} (#{etd.id}) was approved by"
+      expect(page).to have_content "#{title} (#{etd.id}) has been approved by"
     end
   end
 end

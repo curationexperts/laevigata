@@ -9,14 +9,14 @@ class User < ApplicationRecord
   include Hyrax::UserUsageStats
 
   if Blacklight::Utils.needs_attr_accessible?
-    attr_accessible :email, :password, :password_confirmation
+    attr_accessible :ppid, :email, :password, :password_confirmation
   end
   # Connects this user object to Blacklights Bookmarks.
   include Blacklight::User
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   # changed from :database_authenticatable, removed :validatable to integrate with Shibboleth
-  devise :database_authenticatable, :omniauthable, :rememberable, :trackable, omniauth_providers: [:shibboleth]
+  devise :database_authenticatable, :omniauthable, :rememberable, :trackable, omniauth_providers: [:shibboleth], authentication_keys: [:ppid]
 
   # When a user authenticates via shibboleth, find their User object or make
   # a new one. Populate it with data we get from shibboleth.
@@ -24,9 +24,9 @@ class User < ApplicationRecord
   def self.from_omniauth(auth)
     Rails.logger.debug "auth = #{auth.inspect}"
     # Uncomment the debugger above to capture what a shib auth object looks like for testing
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      user.email = auth.info.email
-      user.display_name = auth.info.name
+    where(provider: auth.provider, ppid: auth.uid).first_or_create do |user|
+      user.display_name = auth.info.display_name
+      user.email = auth.uid + '@emory.edu'
     end
   end
 
@@ -34,6 +34,6 @@ class User < ApplicationRecord
   # user class to get a user-displayable login/identifier for
   # the account.
   def to_s
-    email
+    ppid
   end
 end

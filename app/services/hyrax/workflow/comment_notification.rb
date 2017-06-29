@@ -8,7 +8,7 @@ module Hyrax
         end
 
         def message
-          "#{user.user_key} has added a comment to #{title} (#{link_to work_id, document_path}) \n\n #{comment}"
+          "#{user.display_name} has added a comment to #{title} (#{link_to work_id, document_path}) \n\n #{comment}"
         end
 
         def users_to_notify

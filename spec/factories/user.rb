@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :user do
-    sequence(:email) { |n| "user#{n}@example.com" }
+    ppid { FFaker::Internet.user_name }
+    display_name { FFaker::Name.name }
 
     transient do
       # Allow for custom groups when a user is instantiated.

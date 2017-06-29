@@ -8,7 +8,7 @@ module Hyrax
         end
 
         def message
-          "#{title} (#{link_to work_id, document_path}) was deposited by #{user.user_key} and is awaiting initial review. #{comment}"
+          "#{title} (#{link_to work_id, document_path}) was deposited by #{user.display_name} and is awaiting initial review. #{comment}"
         end
 
       private

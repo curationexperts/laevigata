@@ -79,8 +79,8 @@ class WorkflowSetup
     config["workflow"] || config["workflow"] = "emory_one_step_approval"
     admin_set = make_mediated_deposit_admin_set(admin_set_title, config["workflow"])
     approving_users = []
-    config["approving"].each do |approver_email|
-      u = ::User.find_or_create_by(email: approver_email)
+    config["approving"].each do |approver_ppid|
+      u = ::User.find_or_create_by(ppid: approver_ppid)
       u.password = "123456"
       u.save
       approving_users << u.to_sipity_agent
@@ -98,11 +98,11 @@ class WorkflowSetup
   end
 
   # Make a superuser
-  # @param [String] the email of the superuser
+  # @param [String] the ppid of the superuser
   # @return [User] the superuser who was just created
-  def make_superuser(email)
-    @logger.debug "Making superuser #{email}"
-    admin_user = ::User.find_or_create_by(email: email)
+  def make_superuser(ppid)
+    @logger.debug "Making superuser #{ppid}"
+    admin_user = ::User.find_or_create_by(ppid: ppid)
     admin_user.password = "123456"
     admin_user.save
     admin_role.users << admin_user
@@ -142,7 +142,7 @@ class WorkflowSetup
   # Give superusers the managing role in all AdminSets
   # Also give them all workflow roles for all AdminSets
   def give_superusers_superpowers
-    @logger.info "Giving superuser powers to #{superusers.pluck(:email)}"
+    @logger.info "Giving superuser powers to #{superusers.pluck(:ppid)}"
     give_superusers_managing_role
     give_superusers_workflow_roles
   end
@@ -168,7 +168,9 @@ class WorkflowSetup
           workflow_role_name = Sipity::Role.where(id: workflow_role.role_id).first.name
           next if workflow_role_name == "depositing" || workflow_role_name == "managing"
           union_of_users = superusers_as_sipity_agents.concat(users_in_role(admin_set, workflow_role_name)).uniq
-          @logger.debug "Granting #{workflow_role_name} to #{union_of_users.map { |u| User.where(id: u.proxy_for_id).first.email }}"
+          # neither of these two lines works
+          # @logger.debug "Granting #{workflow_role_name} to #{union_of_users.map { |u| User.where(id: u.proxy_for_id).first.user_key }}"
+          # @logger.debug "Granting #{workflow_role_name} to #{union_of_users.map { |u| User.where(id: u.proxy_for_id).first.ppid }}"
           workflow.update_responsibilities(role: Sipity::Role.where(id: workflow_role.role_id), agents: union_of_users)
         end
       end
