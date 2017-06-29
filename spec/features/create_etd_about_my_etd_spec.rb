@@ -4,7 +4,7 @@ require 'rails_helper'
 
 include Warden::Test::Helpers
 
-RSpec.feature 'Create an Etd' do
+RSpec.feature 'Create an Etd: About My Etd' do
   let(:user) { create :user }
 
   context 'a logged in user' do
@@ -15,6 +15,7 @@ RSpec.feature 'Create an Etd' do
 
     scenario "'about my etd' has all its inputs" do
       click_on("About My ETD")
+      expect(page).to have_css('li#required-my-etd')
       expect(page).to have_css('#about_my_etd input#etd_title')
       expect(page).to have_css('#about_my_etd input#etd_language')
       expect(page).to have_css('#about_my_etd textarea#etd_abstract')

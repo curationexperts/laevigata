@@ -1,3 +1,6 @@
+//= require tinymce
+//= require tinymce-jquery
+
 describe("EtdSaveWorkControl", function() {
   var EtdSaveWorkControl = require('etd_save_work_control');
   var AdminSetWidget = require('hyrax/editor/admin_set_widget');
@@ -10,13 +13,14 @@ describe("EtdSaveWorkControl", function() {
     };
 
     beforeEach(function() {
+      loadFixtures('work_form.html');
       var fixture = setFixtures('<form id="edit_generic_work">' +
         '<select><option></option></select>' +
         '<aside id="form-progress"><ul><li id="required-about-me"></ul>' +
         '<input type="checkbox" name="agreement" id="agreement" value="1" required="required" checked="checked" />' +
         '<input type="submit"></aside></form>');
       admin_set = new AdminSetWidget(fixture.find('select'))
-      target = new EtdSaveWorkControl(fixture.find('#form-progress'), admin_set);
+      target = new EtdSaveWorkControl($('#form-progress'), admin_set);
 
       target.requiredMeAndMyProgram = mockCheckbox;
       spyOn(mockCheckbox, 'check').and.stub();
@@ -26,8 +30,7 @@ describe("EtdSaveWorkControl", function() {
     describe("activate", function() {
       var target;
       beforeEach(function() {
-        var fixture = setFixtures('<form id="new_generic_work"><aside id="form-progress"><ul><li id="required-metadata"><li id="required-files"></ul><input type="submit"></aside></form>');
-        target = new EtdSaveWorkControl(fixture.find('#form-progress'));
+        target = new EtdSaveWorkControl($('#form-progress'));
         target.activate()
       });
 
@@ -59,7 +62,7 @@ describe("EtdSaveWorkControl", function() {
 
       it('it reloads the dom elements and re-validates the form', function(){
         expect(mockAboutMeFields.reload).toHaveBeenCalled();
-        expect(target.formStateChanged).toHaveBeenCalled();
+        expect(target.formStateChanged).toHaveBeenCalledWith('.about-me');
         expect(target.isValid).toHaveBeenCalled();
         expect(target.validateMeAndMyProgram).toHaveBeenCalled();
       });
@@ -90,7 +93,76 @@ describe("EtdSaveWorkControl", function() {
       expect(mockCheckbox.check.calls.count()).toEqual(0);
     });
   });
+
 });
+
+describe("Validate My ETD", function(){
+  var target;
+  var mockCheckbox = {
+    check: function() { },
+    uncheck: function() { },
+  };
+  beforeEach(function() {
+    loadFixtures('work_form.html');
+    target = new EtdSaveWorkControl($('#form-progress'));
+
+    target.activate()
+    target.requiredMyETD = mockCheckbox;
+    spyOn(mockCheckbox, 'check').and.stub();
+    spyOn(mockCheckbox, 'uncheck').and.stub();
+  });
+
+  describe("when required My ETD data is present", function() {
+    beforeEach(function() {
+      target.requiredAboutMyETDFields = {
+        areComplete: true
+      };
+    });
+    it("is complete", function() {
+      target.validateMyETD();
+      expect(mockCheckbox.uncheck.calls.count()).toEqual(0);
+      expect(mockCheckbox.check.calls.count()).toEqual(1);
+    });
+  });
+  describe('when all required fields have data', function(){
+    beforeEach(function() {
+      Blacklight.activate();
+      var SaveEtd = require('etd_save_work_control')
+      var etd_save_work_control = new SaveEtd($("#form-progress"), this.adminSetWidget)
+      tinyEditor = {
+        getContent: function(){}
+      }
+      mockMCE = {
+        get: function(value) {}
+      };
+
+      tinyMCE = mockMCE;
+
+      spyOn(tinyMCE, 'get').and.callFake(function(id) {
+        return tinyEditor;
+       });
+      spyOn(tinyEditor, 'getContent').and.returnValue("dhsjkfds");
+    });
+
+    it("areComplete is true", function(){
+      $('#etd_title').val("something");
+      $('#etd_language').val("something");
+      $('#etd_abstract').val("something");
+      $('#etd_table_of_contents').val("something");
+      $('#etd_research_field').val("Aeronomy");
+      $("#etd_keyword").val("something");
+
+      target.validateMyETD();
+
+      expect(mockMCE.get).toHaveBeenCalledWith('etd_abstract');
+      expect(tinyEditor.getContent).toHaveBeenCalled();
+      expect(mockMCE.get).toHaveBeenCalledWith('etd_table_of_contents');
+      expect(mockCheckbox.uncheck.calls.count()).toEqual(0);
+      expect(mockCheckbox.check.calls.count()).toEqual(1);
+      });
+  });
+});
+
 
   // describe("validateAgreement", function() {
   //   var target;

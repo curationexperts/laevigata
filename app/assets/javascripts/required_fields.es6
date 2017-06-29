@@ -2,17 +2,23 @@ import { RequiredFields } from 'hyrax/save_work/required_fields'
 
 export class ETDRequiredFields extends RequiredFields {
   // Monitors the form and runs the callback if any of the required fields change
-  // I want to pass in the selector for this so I can make new ones for each tab
 
   constructor(form, callback, selector) {
     super(form, callback)
     this.form = form
     this.callback = callback
+    this.selector = selector
     this.reload(selector)
   }
 
   get areComplete() {
-    return this.requiredFields.filter((n, elem) => { return this.isValuePresent(elem) } ).length === 0
+    if (this.selector == ".about-my-etd") {
+      var validFields = this.requiredFields.filter((n, elem) => { return this.isValuePresent(elem) } ).length === 0
+
+      return validFields && tinyMCE.get('etd_abstract').getContent().length > 0 && tinyMCE.get('etd_table_of_contents').getContent().length > 0
+    } else {
+      return this.requiredFields.filter((n, elem) => { return this.isValuePresent(elem) } ).length === 0
+    }
   }
 
   isValuePresent(elem) {
