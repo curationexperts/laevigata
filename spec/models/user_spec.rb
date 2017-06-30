@@ -9,6 +9,9 @@ auth_hash = OmniAuth::AuthHash.new(
 )
 
 RSpec.describe User do
+  before :all do
+    described_class.delete_all
+  end
   context "shibboleth" do
     let(:user) { described_class.from_omniauth(auth_hash) }
     it "has a shibboleth provided name" do
