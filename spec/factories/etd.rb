@@ -27,7 +27,6 @@ FactoryGirl.define do
     end
 
     factory :ateer_etd do
-      id { ActiveFedora::Noid::Service.new.mint }
       depositor do
         FactoryGirl.create(:user).user_key
       end
@@ -59,6 +58,38 @@ FactoryGirl.define do
       # file_format ['application/pdf']
       post_graduation_email ['redacted@example.com']
       # permanent_address ['123 Sesame St, Atlanta, GA 30306, UNITED STATES']
+    end
+
+    factory :sample_data do
+      depositor do
+        u = User.new(ppid: FFaker::Internet.user_name, display_name: FFaker::Name.name)
+        u.save
+        u.user_key
+      end
+      table_of_contents { [] << FFaker::Lorem.paragraph }
+      abstract { [] << FFaker::Lorem.paragraph }
+      title ["Sample Data: #{FFaker::Book.title}"]
+      committee_chair [
+        FactoryGirl.build(:committee_member, name: FFaker::NameCS.name)
+      ]
+      committee_members [
+        FactoryGirl.build(:committee_member, name: FFaker::NameRU.name),
+        FactoryGirl.build(:committee_member, name: FFaker::NameVN.name)
+      ]
+
+      factory :sample_data_with_everything_embargoed do
+        title ["Sample Data With Full Embargo: #{FFaker::Book.title}"]
+        embargo { FactoryGirl.create(:embargo, embargo_release_date: (DateTime.current + 14)) }
+        files_embargoed true
+        abstract_embargoed true
+        toc_embargoed true
+
+        factory :sample_data_with_only_files_embargoed do
+          title ["Sample Data With File Embargo: #{FFaker::Book.title}"]
+          abstract_embargoed false
+          toc_embargoed false
+        end
+      end
     end
   end
 end
