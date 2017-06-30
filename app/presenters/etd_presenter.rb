@@ -56,6 +56,12 @@ class EtdPresenter < Hyrax::WorkShowPresenter
     end
   end
 
+  def files_embargo_check
+    return nil unless embargo_release_date && files_embargoed
+    return nil if current_ability.admin?
+    "File download under embargo until #{formatted_embargo_release_date}"
+  end
+
   def toc_for_admin
     admin_return_message = ""
     if embargo_release_date && toc_embargoed
