@@ -72,6 +72,12 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       new VisibilityComponent(this.element.find('.visibility'), this.adminSetWidget)
       this.preventSubmit()
       this.formChanged()
+      this.removePartialDataParamUponSubmit()
+    }
+
+    removePartialDataParamUponSubmit(){
+      this.form.on('submit', (evt) =>
+        $('#partial_data').remove())
     }
 
     preventSubmit() {

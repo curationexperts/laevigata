@@ -21,6 +21,18 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_selector("[data-toggle='tab']", text: "My Embargoes")
       expect(page).to have_selector("[data-toggle='tab']", text: "Review")
     end
+
+    scenario "Submit an ETD after saving data in the tabs", js: true do
+      click_on('Save About Me')
+      click_on('About My ETD')
+      fill_in 'Title', with: 'A great thesis'
+      click_on('Save My ETD')
+      check('agreement')
+
+      click_on('Save')
+
+      expect(page).to have_content("Your files are being processed by ETD in the background. The metadata and access controls you specified are being applied.")
+    end
   end
 
   context 'a logged out user' do
