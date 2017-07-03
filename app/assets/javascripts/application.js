@@ -21,20 +21,17 @@
 //= require blacklight_gallery
 //= require cable
 //= require openseadragon
-//= require about_me_save
-//= require toggle_committee_affiliation
 //= require tab_info
 // Provide AMD module support
 //= require hyrax
 
-
 //= require required_fields
+//= require about_my_etd
+//= require about_me_and_my_program
 //= require hydra-editor/manage_repeating_fields
 //= require etd_editor
 //= require etd_save_work_control
 //= require app
-
-
 
 //= require almond
 //= require dependent_dropdowns

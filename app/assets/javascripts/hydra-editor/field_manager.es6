@@ -1,6 +1,7 @@
 export class FieldManager {
     constructor(element, options) {
         this.element = $(element);
+
         this.options = options;
 
         this.options.label = this.getFieldLabel(this.element, options)
@@ -174,7 +175,6 @@ export class FieldManager {
     }
 
     createAddHtml(options) {
-        // TODO: don't add link to add another when length is 2.
         var $addHtml  = $(options.addHtml);
         $addHtml.find('.controls-add-text').html(options.addText + options.label);
         return $addHtml;

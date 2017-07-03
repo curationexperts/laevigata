@@ -48,32 +48,6 @@ RSpec.feature 'Validate an Etd: About Me' do
       expect(all('select.committee-member-select').count).to eq(1)
     end
 
-    scenario "'about me' validates absence of dynamically added committee member affiliations", js: true do
-      fill_in 'Student Name', with: 'Eun, Dongwon'
-      select("Spring 2018", from: "Graduation date")
-      fill_in "Post graduation email", with: "graduate@done.com"
-      select("Emory College", from: "School")
-      select("Art History and Visual Arts", from: "Department")
-      select('MS', from: "Degree")
-      select("Honors Thesis", from: "I am submitting my")
-      fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
-
-      click_on("Add Another Committee Member")
-      wait_for_ajax
-
-      within('.committee-member.row.second') do
-        fill_in("Committee Member", with: "Amelia Earhart")
-        select('Non-Emory Faculty', from: 'etd_committee_members_1_affiliation_type')
-        fill_in("etd_committee_members_1_affiliation", with: " ")
-      end
-
-      find('div.about-me.chairs').click
-      wait_for_ajax
-
-      expect(page).to have_css('li#required-about-me.incomplete')
-      expect(page).not_to have_css('li#required-about-me.complete')
-    end
-
     scenario "'about me requires Partnering Agency for Rollins School'", js: true do
       fill_in 'Student Name', with: 'Eun, Dongwon'
       select("Spring 2018", from: "Graduation date")

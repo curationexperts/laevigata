@@ -3,8 +3,8 @@ import { ChecklistItem } from 'hyrax/save_work/checklist_item'
 import { UploadedFiles } from 'hyrax/save_work/uploaded_files'
 import { DepositAgreement } from 'hyrax/save_work/deposit_agreement'
 import VisibilityComponent from 'hyrax/save_work/visibility_component'
-
 import SaveWorkControl from 'hyrax/save_work/save_work_control'
+
 export default class EtdSaveWorkControl extends SaveWorkControl {
     constructor(element, adminSetWidget) {
         super(element, adminSetWidget)
@@ -47,6 +47,8 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     //     }
     //   })
     }
+
+
     //
     // /**
     //  * Is the form for a new object (vs edit an existing object)
@@ -62,8 +64,9 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       }
       //make one of these for each tab, passing in tab id, all fields are required
       this.requiredAboutMeFields = new ETDRequiredFields(this.form, () => this.formStateChanged(".about-me"), ".about-me")
-      //trial
+
       this.requiredAboutMyETDFields = new ETDRequiredFields(this.form, () => this.formStateChanged(".about-my-etd"), ".about-my-etd")
+
       this.uploads = new UploadedFiles(this.form, () => this.formStateChanged())
       //This needs to be adjusted
       this.saveButton = this.element.find('#about_me_and_my_program')
@@ -75,13 +78,8 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       new VisibilityComponent(this.element.find('.visibility'), this.adminSetWidget)
       this.preventSubmit()
       this.formChanged()
-      this.removePartialDataParamUponSubmit()
     }
 
-    removePartialDataParamUponSubmit(){
-      this.form.on('submit', (evt) =>
-        $('#partial_data').remove())
-    }
 
     preventSubmit() {
       this.preventSaveAboutMeUnlessValid()
@@ -89,14 +87,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       // this.preventSubmitIfAlreadyInProgress()
       // this.preventSubmitIfUploading()
     }
-
-    // Called when a file has been uploaded, the deposit agreement is clicked or a form field has had text entered.
-    //seems like it would be best to have selectors in these so that each tab could use them for themselves.
-
-    // formStateChanged() {
-    //   console.log('hey, form state changed');
-    //   this.saveButton.prop("disabled", !this.isValid());
-    // }
 
     formStateChanged(selector) {
       switch (selector) {

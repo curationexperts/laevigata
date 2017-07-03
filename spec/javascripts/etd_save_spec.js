@@ -6,6 +6,10 @@ describe("EtdSaveWorkControl", function() {
   var AdminSetWidget = require('hyrax/editor/admin_set_widget');
   var ETDRequiredFields = require('required_fields')
 
+  describe("AboutMeAndProgramManagesAdditionalFields", function() {
+    //test the committee member affiliation and adding and removing in here
+  });
+
   describe("validateAboutMeAndProgram", function() {
     var mockCheckbox = {
       check: function() { },
