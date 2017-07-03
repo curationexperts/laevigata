@@ -12,6 +12,7 @@ RSpec.describe EtdFactory do
   end
   before do
     allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
+    allow(CreateDerivativesJob).to receive(:perform_later)
   end
   let(:etd_factory) { described_class.new }
   it "can be instantiated" do
@@ -48,10 +49,29 @@ RSpec.describe EtdFactory do
     it "copies the embargo to the pdf file if files_embargoed == true" do
       expect(attached_etd.files_embargoed).to eq true
       expect(primary_pdf_fs.embargo_id).to eq attached_etd.embargo_id
-      expect(primary_pdf_fs.visibility).to eq "open"
+      expect(primary_pdf_fs.visibility).to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
     end
     it "marks the primary_pdf as primary" do
-      expect(primary_pdf_fs.primary).to match(/primary/)
+      expect(primary_pdf_fs.pcdm_use).to eq FileSet::PRIMARY
+    end
+  end
+  context "attaching supplemental_files" do
+    let(:attached_etd) do
+      etd_factory.etd = FactoryGirl.create(:ateer_etd)
+      etd_factory.primary_pdf_file = "#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf"
+      etd_factory.attach_primary_pdf_file
+      etd_factory.supplemental_files = ["#{::Rails.root}/spec/fixtures/miranda/rural_clinics.zip", "#{::Rails.root}/spec/fixtures/miranda/image.tif"]
+      etd_factory.attach_supplemental_files
+      etd_factory.etd
+    end
+    it "attaches supplemental_files" do
+      expect(attached_etd.supplemental_files_fs.count).to eq 2
+      expect(attached_etd.supplemental_files_fs.first).to be_instance_of FileSet
+    end
+    it "copies the embargo to the supplemental_files if files_embargoed == true" do
+      expect(attached_etd.files_embargoed).to eq true
+      expect(attached_etd.supplemental_files_fs.first.embargo_id).to eq attached_etd.embargo_id
+      expect(attached_etd.supplemental_files_fs.first.visibility).to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
     end
   end
 end

@@ -23,7 +23,8 @@
 
 <div class="row">
   <div class="col-sm-12">
-    <%= render 'items', presenter: @presenter %>
+    <%= render 'primary_pdf', presenter: @presenter %>
+    <%= render 'supplementary_files', presenter: @presenter %>
     <%= render 'workflow_actions_widget', presenter: @presenter %>
     <%# TODO: we may consider adding these partials in the future %>
     <%#= render 'sharing_with', presenter: @presenter %>

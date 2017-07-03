@@ -73,16 +73,12 @@ class SolrDocument
     self[Solrizer.solr_name('subfield')]
   end
 
-  def supplementary
-    self[Solrizer.solr_name('supplementary')]
-  end
-
   def partnering_agency
     self[Solrizer.solr_name('partnering_agency')]
   end
 
-  def primary
-    self[Solrizer.solr_name('primary')]
+  def pcdm_use
+    self[Solrizer.solr_name('pcdm_use')]
   end
 
   def submitting_type

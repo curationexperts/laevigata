@@ -23,6 +23,14 @@ FactoryGirl.define do
       read_groups ["registered"]
     end
 
+    factory :primary_file_set do
+      pcdm_use FileSet::PRIMARY
+    end
+
+    factory :supplemental_file_set do
+      pcdm_use FileSet::SUPPLEMENTARY
+    end
+
     factory :public_pdf do
       transient do
         id "fixturepdf"
