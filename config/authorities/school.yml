@@ -1,9 +1,9 @@
 terms:
-    - id: 'Laney Graduate School'
-      term: 'Laney Graduate School'
-    - id: 'Emory College'
-      term: 'Emory College'
     - id: 'Candler School of Theology'
       term: 'Candler School of Theology'
+    - id: 'Emory College'
+      term: 'Emory College'
+    - id: 'Laney Graduate School'
+      term: 'Laney Graduate School'
     - id: 'Rollins School of Public Health'
       term: 'Rollins School of Public Health'

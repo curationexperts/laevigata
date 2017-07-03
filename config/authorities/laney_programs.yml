@@ -1,67 +1,68 @@
 terms:
+    - id: Anthropology
+      term: Anthropology
     - id: Art History
       term: Art History
-    - id: Comparative Literature
-      term: Comparative Literature
-    - id: English
-      term: English
-    - id: Film Studies
-      term: Film Studies
-    - id: French
-      term: French
-    - id: Graduate Institute of the Liberal Arts
-      term: Graduate Institute of the Liberal Arts
-    - id: History
-      term: History
-    - id: Jewish Studies
-      term: Jewish Studies
-    - id: Music
-      term: Music
-    - id: Philosophy
-      term: Philosophy
-    - id: Religion
-      term: Religion
-    - id: Spanish
-      term: Spanish
     - id: Behavioral Sciences and Health Education
       term: Behavioral Sciences and Health Education
+    - id: Bioethics
+      term: Bioethics
     - id: Biological and Biomedical Sciences
       term: Biological and Biomedical Sciences
     - id: Biomedical Engineering
       term: Biomedical Engineering
     - id: Biostatistics
       term: Biostatistics
+    - id: Business
+      term: Business
     - id: Chemistry
       term: Chemistry
     - id: Clinical Research Curriculum Program
       term: Clinical Research Curriculum Program
+    - id: Comparative Literature
+      term: Comparative Literature
     - id: Computer Science and Informatics
       term: Computer Science and Informatics
-    - id: Epidemiology
-      term: Epidemiology
-    - id: Health Services and Research Health Policy
-      term: Health Services and Research Health Policy
-    - id: Mathematics
-      term: Mathematics
-    - id: Nursing
-      term: Nursing
-    - id: Physics
-      term: Physics
-    - id: Bioethics
-      term: Bioethics
-    - id: Anthropology
-      term: Anthropology
-    - id: Business
-      term: Business
     - id: Economics
       term: Economics
     - id: Educational Studies
       term: Educational Studies
+    - id: English
+      term: English
+    - id: Epidemiology
+      term: Epidemiology
+    - id: Film Studies
+      term: Film Studies
+    - id: French
+      term: French
+    - id: Graduate Institute of the Liberal Arts
+      term: Graduate Institute of the Liberal Arts
+    - id: Health Services and Research Health Policy
+      term: Health Services and Research Health Policy
+    - id: History
+      term: History
+    - id: Jewish Studies
+      term: Jewish Studies
+    - id: Mathematics
+      term: Mathematics
+    - id: Music
+      term: Music
+    - id: Nursing
+      term: Nursing
+    - id: Philosophy
+      term: Philosophy
+    - id: Physics
+      term: Physics
     - id: Political Science
       term: Political Science
     - id: Psychology
       term: Psychology
+    - id: Religion
+      term: Religion
     - id: Sociology
       term: Sociology
+    - id: Spanish
+      term: Spanish
     - id: Women's, Gender and Sexuality Studies
       term: Women's, Gender and Sexuality Studies
+    
