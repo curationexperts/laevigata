@@ -55,6 +55,7 @@ FactoryGirl.define do
       abstract_embargoed true
       toc_embargoed true
       identifier ['ark:/25593/rpj6m']
+      legacy_id ["emory:rpj8w", "emory:rpj91"]
       # file_format ['application/pdf']
       post_graduation_email ['redacted@example.com']
       # permanent_address ['123 Sesame St, Atlanta, GA 30306, UNITED STATES']

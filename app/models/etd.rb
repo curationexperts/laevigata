@@ -43,6 +43,8 @@ class Etd < ActiveFedora::Base
     true
   end
 
+  property :legacy_id, predicate: "http://id.loc.gov/vocabulary/identifiers/local"
+
   property :abstract, predicate: "http://purl.org/dc/terms/abstract" do |index|
     index.as :stored_searchable
   end
