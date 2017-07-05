@@ -11,7 +11,7 @@ RSpec.describe Hyrax::LanguageService do
 
   describe "#select_all_options" do
     it "has a select list" do
-      expect(service.select_all_options).to include(["French", "fre"])
+      expect(service.select_all_options).to include(["French", "French"])
     end
   end
 end
