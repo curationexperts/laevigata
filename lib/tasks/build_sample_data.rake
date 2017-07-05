@@ -2,7 +2,7 @@ require 'etd_factory'
 
 desc "Build sample data"
 task :sample_data do
-  sample_data = [:sample_data, :sample_data_with_everything_embargoed, :sample_data_with_only_files_embargoed]
+  sample_data = [:sample_data, :sample_data_with_everything_embargoed, :sample_data_with_only_files_embargoed, :ateer_etd]
   sample_data.each do |s|
     etd_factory = EtdFactory.new
     etd = FactoryGirl.create(s)

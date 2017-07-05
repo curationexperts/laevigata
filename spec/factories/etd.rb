@@ -27,15 +27,20 @@ FactoryGirl.define do
     end
 
     factory :ateer_etd do
+      creator ['Teer, Drew']
       depositor do
-        FactoryGirl.create(:user).user_key
+        u = User.new(ppid: FFaker::Internet.user_name, display_name: creator.first)
+        u.save
+        u.user_key
       end
       title ['Investigating and Developing a Novel Implicit Measurement of Self-Esteem']
-      creator ['Teer, Drew']
       keyword ['classical conditioning', 'implict', 'self-esteem']
       submitting_type ["Master's Thesis"]
       research_field ['Clinical Psychology']
       school ['Laney Graduate School']
+      admin_set do
+        AdminSet.where(title: 'Laney Graduate School').first
+      end
       department ['Psychology']
       subfield []
       degree ['MA']
