@@ -22,15 +22,18 @@
 //= require cable
 //= require openseadragon
 //= require about_me_save
+//= require toggle_committee_affiliation
 //= require tab_info
 // Provide AMD module support
 //= require hyrax
 
+
 //= require required_fields
+//= require hydra-editor/manage_repeating_fields
 //= require etd_editor
 //= require etd_save_work_control
 //= require app
-//= require toggle_committee_affiliation
+
 
 
 //= require almond

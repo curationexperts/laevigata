@@ -45,5 +45,21 @@ RSpec.feature 'Create an Etd' do
       click_on('about_my_etd_data')
       expect(page).to have_content 'Successfully saved About My Etd'
     end
+
+    scenario "manages limit of 3 research fields", js: true do
+      click_on("About My ETD")
+      expect(page).to have_content('
+Select one primary research field and add up to two additional research fields')
+
+      click_on("Add another Research Field")
+      click_on("Add another Research Field")
+
+      expect(page).not_to have_css('.etd_research_field button.add')
+
+      first('.etd_research_field button.remove').click
+      first('.etd_research_field button.remove').click
+
+      expect(page).to have_css('.etd_research_field button.add')
+    end
   end
 end
