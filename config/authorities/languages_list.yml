@@ -1,0 +1,13 @@
+terms:
+    - id: 'eng'
+      term: 'English'
+    - id: 'spa'
+      term: 'Spanish'
+    - id: 'fre'
+      term: 'French'
+    - id: 'ger'
+      term: 'German'
+    - id: 'ita'
+      term: 'Italian'
+    - id: 'isl'
+      term: 'Icelandic'

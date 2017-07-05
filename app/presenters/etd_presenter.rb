@@ -7,6 +7,7 @@ class EtdPresenter < Hyrax::WorkShowPresenter
            :department,
            :files_embargoed,
            :graduation_year,
+           :language,
            :school,
            :subfield,
            :partnering_agency,

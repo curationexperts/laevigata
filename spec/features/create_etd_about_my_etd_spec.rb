@@ -16,7 +16,7 @@ RSpec.feature 'Create an Etd' do
     scenario "'about my etd' has all its inputs" do
       click_on("About My ETD")
       expect(page).to have_css('#about_my_etd input#etd_title')
-      expect(page).to have_css('#about_my_etd input#etd_language')
+      expect(page).to have_css('#about_my_etd select#etd_language')
       expect(page).to have_css('#about_my_etd textarea#etd_abstract')
       expect(page).to have_css('#about_my_etd textarea#etd_table_of_contents')
       expect(page).to have_css('#about_my_etd select#etd_research_field')
@@ -33,7 +33,7 @@ RSpec.feature 'Create an Etd' do
       pending
       click_on("About My ETD")
       fill_in 'Title', with: 'Middlemarch'
-      fill_in 'Language', with: 'French'
+      select("French", from: "Language")
       fill_in 'Abstract', with: "Literature from the US"
       fill_in 'Table of contents', with: "Chapter One"
       select 'Aeronomy', from: 'Research Field'
