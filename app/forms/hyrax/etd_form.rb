@@ -23,13 +23,14 @@ module Hyrax
     # about my etd terms
     self.terms += [:abstract]
     self.terms += [:keyword]
+    self.terms += [:language]
     self.terms += [:research_field]
     self.terms += [:table_of_contents]
     self.terms += [:copyright_question_one]
     self.terms += [:copyright_question_two]
     self.terms += [:copyright_question_three]
 
-    self.single_valued_fields = [:title, :creator, :submitting_type, :graduation_date, :degree, :subfield, :department, :school]
+    self.single_valued_fields = [:title, :creator, :submitting_type, :graduation_date, :degree, :subfield, :department, :school, :language]
 
     def about_me_fields
       [:creator, :graduation_date, :post_graduation_email]
@@ -40,7 +41,7 @@ module Hyrax
     end
 
     def about_my_etd_fields
-      [:abstract, :table_of_contents, :research_field]
+      [:language, :abstract, :table_of_contents, :research_field]
     end
   end
 end

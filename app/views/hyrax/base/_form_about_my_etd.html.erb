@@ -3,8 +3,6 @@
   <%= f.input :title, required: false, label: "Title", hint: "",
       input_html: { class: 'form-control' } %>
 
-  <%= f.input :language, hint: "", required: false, input_html: { class: 'form-control' } %>
-
   <% f.object.about_my_etd_fields.each do |term| %>
     <%= render_edit_field_partial(term, f: f) %>
   <% end %>
