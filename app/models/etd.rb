@@ -45,6 +45,16 @@ class Etd < ActiveFedora::Base
 
   property :legacy_id, predicate: "http://id.loc.gov/vocabulary/identifiers/local"
 
+  # Get all attached file sets that are "primary"
+  def primary_file_fs
+    members.select(&:primary?)
+  end
+
+  # Get all attached file sets that are not "primary"
+  def supplemental_files_fs
+    members.reject(&:primary?)
+  end
+
   property :abstract, predicate: "http://purl.org/dc/terms/abstract" do |index|
     index.as :stored_searchable
   end

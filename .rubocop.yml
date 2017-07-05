@@ -10,6 +10,9 @@ Metrics/BlockLength:
 Metrics/ClassLength:
   Enabled: false
 
+Metrics/MethodLength:
+  Enabled: false
+
 RSpec/ExampleLength:
   Enabled: false
 

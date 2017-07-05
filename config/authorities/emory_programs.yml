@@ -1,16 +1,24 @@
 terms:
+    - id: African American Studies
+      term: African American Studies
     - id: African Studies
       term: African Studies
     - id: American Studies
       term: American Studies
     - id: Ancient Mediterranean Studies
       term: Ancient Mediterranean Studies
+    - id: Anthropology
+      term: Anthropology
     - id: Art History
       term: Art History
     - id: Art History and Visual Arts
       term: Art History and Visual Arts
     - id: Asian and Asian American Studies
       term: Asian and Asian American Studies
+    - id: Biology
+      term: Biology
+    - id: Chemistry
+      term: Chemistry
     - id: Chinese Language and Literature
       term: Chinese Language and Literature
     - id: Classics
@@ -23,38 +31,82 @@ terms:
       term: Classics and Philosophy
     - id: Comparative Literature
       term: Comparative Literature
+    - id: Computer Science
+      term: Computer Science
     - id: Dance and Movement Studies
       term: Dance and Movement Studies
+    - id: Economics
+      term: Economics
+    - id: Economics and History
+      term: Economics and History
+    - id: Economics and Mathematics
+      term: Economics and Mathematics
+    - id: Educational Studies
+      term: Educational Studies
     - id: English
       term: English
     - id: English and Creative Writing
       term: English and Creative Writing
     - id: English and History
       term: English and History
+    - id: Environmental Studies
+      term: Environmental Studies
     - id: Film Studies
       term: Film Studies
     - id: French Studies
       term: French Studies
     - id: German
       term: German
+    - id: History
+      term: History
+    - id: History and Art History
+      term: History and Art History
+    - id: Human Health
+      term: Human Health
     - id: Interdisciplinary Studies in Society and Culture
       term: Interdisciplinary Studies in Society and Culture
+    - id: International Studies
+      term: International Studies
     - id: Italian Studies
       term: Italian Studies
-    - id: Jewish Studies
-      term: Jewish Studies
     - id: Japanese
       term: Japanese
+    - id: Jewish Studies
+      term: Jewish Studies
+    - id: Journalism
+      term: Journalism
+    - id: Latin American and Caribbean Studies
+      term: Latin American and Caribbean Studies
     - id: Linguistics
       term: Linguistics
+    - id: Mathematics
+      term: Mathematics
+    - id: Mathematics and Computer Science
+      term: Mathematics and Computer Science
+    - id: Mathematics and Political Science
+      term: Mathematics and Political Science
     - id: Middle Eastern Studies
       term: Middle Eastern Studies
     - id: Music
       term: Music
+    - id: Neuroscience and Behavioral Biology
+      term: Neuroscience and Behavioral Biology
     - id: Philosophy
       term: Philosophy
     - id: Philosophy and Religion
       term: Philosophy and Religion
+    - id: Physics
+      term: Physics
+    - id: Physics and Astronomy
+      term: Physics and Astronomy
+    - id: Playwriting
+      term: Playwriting
+    - id: Political Science
+      term: Political Science
+    - id: Psychology
+      term: Psychology
+    - id: Psychology and Linguistics
+      term: Psychology and Linguistics
     - id: Religion
       term: Religion
     - id: Religion and Anthropology
@@ -67,63 +119,11 @@ terms:
       term: Religion and Sociology
     - id: Russian
       term: Russian
+    - id: Sociology
+      term: Sociology
     - id: Spanish
       term: Spanish
     - id: Theater Studies
       term: Theater Studies
-    - id: African American Studies
-      term: African American Studies
-    - id: Playwriting
-      term: Playwriting
-    - id: Biology
-      term: Biology
-    - id: Chemistry
-      term: Chemistry
-    - id: Computer Science
-      term: Computer Science
-    - id: Mathematics
-      term: Mathematics
-    - id: Mathematics and Computer Science
-      term: Mathematics and Computer Science
-    - id: Mathematics and Political Science
-      term: Mathematics and Political Science
-    - id: Neuroscience and Behavioral Biology
-      term: Neuroscience and Behavioral Biology
-    - id: Physics
-      term: Physics
-    - id: Physics and Astronomy
-      term: Physics and Astronomy
-    - id: Anthropology
-      term: Anthropology
-    - id: Economics
-      term: Economics
-    - id: Economics and History
-      term: Economics and History
-    - id: Economics and Mathematics
-      term: Economics and Mathematics
-    - id: Educational Studies
-      term: Educational Studies
-    - id: Environmental Studies
-      term: Environmental Studies
-    - id: Human Health
-      term: Human Health
-    - id: History
-      term: History
-    - id: History and Art History
-      term: History and Art History
-    - id: International Studies
-      term: International Studies
-    - id: Journalism
-      term: Journalism
-    - id: Latin American and Caribbean Studies
-      term: Latin American and Caribbean Studies
-    - id: Political Science
-      term: Political Science
-    - id: Psychology
-      term: Psychology
-    - id: Psychology and Linguistics
-      term: Psychology and Linguistics
-    - id: Sociology
-      term: Sociology
     - id: Women's Studies
       term: Women's Studies
