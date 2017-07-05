@@ -61,12 +61,15 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
         return
       }
       //make one of these for each tab, passing in tab id, all fields are required
-      this.requiredAboutMeFields = new ETDRequiredFields(this.form, () => this.formStateChanged(), ".about-me")
+      this.requiredAboutMeFields = new ETDRequiredFields(this.form, () => this.formStateChanged(".about-me"), ".about-me")
+      //trial
+      this.requiredAboutMyETDFields = new ETDRequiredFields(this.form, () => this.formStateChanged(".about-my-etd"), ".about-my-etd")
       this.uploads = new UploadedFiles(this.form, () => this.formStateChanged())
       //This needs to be adjusted
       this.saveButton = this.element.find('#about_me_and_my_program')
       this.depositAgreement = new DepositAgreement(this.form, () => this.formStateChanged())
       this.requiredMeAndMyProgram = new ChecklistItem(this.element.find('#required-about-me'))
+      this.requiredMyETD = new ChecklistItem(this.element.find('#required-my-etd'))
       this.requiredMetadata = new ChecklistItem(this.element.find('#required-metadata'))
       this.requiredFiles = new ChecklistItem(this.element.find('#required-files'))
       new VisibilityComponent(this.element.find('.visibility'), this.adminSetWidget)
@@ -87,44 +90,55 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       // this.preventSubmitIfUploading()
     }
 
-    // If someone adds or removes a field on a multivalue input, fire a formChanged event.
-    // watchMultivaluedFields() {
-    //     $('.multi_value.form-group', this.form).bind('managed_field:add', () => this.formChanged())
-    //     $('.multi_value.form-group', this.form).bind('managed_field:remove', () => this.formChanged())
+    // Called when a file has been uploaded, the deposit agreement is clicked or a form field has had text entered.
+    //seems like it would be best to have selectors in these so that each tab could use them for themselves.
+
+    // formStateChanged() {
+    //   console.log('hey, form state changed');
+    //   this.saveButton.prop("disabled", !this.isValid());
     // }
 
-
-    // Called when a file has been uploaded, the deposit agreement is clicked or a form field has had text entered.
-    formStateChanged() {
-      this.saveButton.prop("disabled", !this.isValid());
+    formStateChanged(selector) {
+      switch (selector) {
+        case '.about-me':
+          this.requiredAboutMeFields.reload(".about-me");
+        case '.about-my-etd':
+          this.requiredAboutMyETDFields.reload('.about-my-etd')
+        default:
+          break;
+      }
+      this.saveButton.prop("disabled", !this.isValid(selector));
     }
 
-    formChanged() {
-    }
+    formChanged() {}
 
     // called when a new field has been added to the form.
     aboutMeFormChanged() {
       this.requiredAboutMeFields.reload(".about-me");
-      this.formStateChanged();
-    //  console.log('formchanged')
-      //this watches the form, gets called when new field is added, true. reload now will re-find the fields and then call its callback, formstatechanged, which calls valid, which calls reload's areComplete, which checks each element's val.
-        // it just happens before the added element gets there.
+      this.formStateChanged(".about-me");
     }
 
-    isValid() {
-    //   avoid short circuit evaluation. The checkboxes should be independent.
-    //   let metadataValid = this.validateMetadata()
-      let meAndMyProgram = this.validateMeAndMyProgram()
-    //   let filesValid = this.validateFiles()
-    //   let agreementValid = this.validateAgreement(filesValid)
+    isValid(selector) {
+      switch (selector) {
+        case ".about-my-etd":
+          return this.validateMyETD()
+        case ".about-me":
+          return this.validateMeAndMyProgram()
+        default:
+          //console.log('nothing is valid');
+          break;
+      }
     //   return metadataValid && filesValid && agreementValid
-      // console.log(meAndMyProgram)
-      return meAndMyProgram
     }
 
-    // validateNewField(selector){
-    //   this.requiredAboutMeFields.isValuePresent(selector)
-    // }
+    validateMyETD() {
+      if (this.requiredAboutMyETDFields.areComplete) {
+        this.requiredMyETD.check()
+        return true
+      }
+      this.requiredMyETD.uncheck()
+      return false
+    }
 
     validateMeAndMyProgram() {
       // TODO: make sure email format is valid
