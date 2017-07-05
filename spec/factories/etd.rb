@@ -62,8 +62,14 @@ FactoryGirl.define do
     end
 
     factory :sample_data do
+      creator { [] << FFaker::Name.name }
+      graduation_year "2017"
+      school ["Rollins School of Public Health"]
+      admin_set do
+        AdminSet.where(title: "Rollins School of Public Health").first
+      end
       depositor do
-        u = User.new(ppid: FFaker::Internet.user_name, display_name: FFaker::Name.name)
+        u = User.new(ppid: FFaker::Internet.user_name, display_name: creator.first)
         u.save
         u.user_key
       end
