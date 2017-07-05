@@ -43,6 +43,8 @@ class Etd < ActiveFedora::Base
     true
   end
 
+  property :legacy_id, predicate: "http://id.loc.gov/vocabulary/identifiers/local"
+
   # Get all attached file sets that are "primary"
   def primary_file_fs
     members.select(&:primary?)

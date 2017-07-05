@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Etd do
   context "#hidden?" do
-    let(:etd) { FactoryGirl.create(:etd) }
+    let(:etd) { FactoryGirl.build(:etd) }
     context "with a new ETD" do
       it "is not hidden when it is first created" do
         expect(etd.hidden?).to eq false
@@ -59,6 +59,15 @@ RSpec.describe Etd do
       etd.keyword = ["Irony", "Austin", "seitan"]
       expect(etd.resource.dump(:ttl)).to match(/schema.org\/keywords/)
       expect(etd.keyword.include?("Irony")).to be true
+    end
+  end
+
+  context "legacy_id" do
+    let(:etd) { FactoryGirl.build(:etd) }
+    it "has several legacy ids" do
+      etd.legacy_id = ["emory:rpj8w", "emory:rpj91"]
+      expect(etd.resource.dump(:ttl)).to match(/id.loc.gov\/vocabulary\/identifiers\/local/)
+      expect(etd.legacy_id.include?("emory:rpj91")).to be true
     end
   end
 
