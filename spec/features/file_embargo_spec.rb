@@ -10,6 +10,8 @@ RSpec.feature 'Enforce file level embargoes' do
     etd_factory.etd = FactoryGirl.create(:sample_data_with_everything_embargoed)
     etd_factory.primary_pdf_file = "#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf"
     etd_factory.attach_primary_pdf_file
+    etd_factory.supplemental_files = ["#{::Rails.root}/spec/fixtures/miranda/rural_clinics.zip", "#{::Rails.root}/spec/fixtures/miranda/image.tif"]
+    etd_factory.attach_supplemental_files
     etd_factory.etd
   end
 
@@ -28,6 +30,8 @@ RSpec.feature 'Enforce file level embargoes' do
       expect(page).not_to have_content "Download the file"
       expect(page).not_to have_link "joey_thesis.pdf"
       expect(page).not_to have_css "td.thumbnail/a/img" # thumbnail image link
+      expect(page).to have_content "Primary PDF"
+      expect(page).to have_content "Supplementary Files"
     end
   end
 end

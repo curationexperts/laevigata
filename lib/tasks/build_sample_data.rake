@@ -10,6 +10,9 @@ task :sample_data do
     etd_factory.etd = etd
     etd_factory.primary_pdf_file = primary_pdf_file
     etd_factory.attach_primary_pdf_file
+    etd_factory.supplemental_files = ["#{::Rails.root}/spec/fixtures/miranda/rural_clinics.zip", "#{::Rails.root}/spec/fixtures/miranda/image.tif"]
+    etd_factory.attach_supplemental_files
+    etd_factory.etd.save
     puts "Created #{etd.id}"
   end
 end
