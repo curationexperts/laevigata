@@ -17,6 +17,12 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     //       evt.preventDefault();
     //   })
     }
+    removeHiddenAboutMeElements(){
+      this.form.on('submit', (evt) => {
+        let elements = $("#new_etd #about_me :input").filter(':hidden')
+        elements.remove()
+      })
+    }
     preventSaveAboutMeUnlessValid() {
       $("#about_me_and_my_program").on('click', (evt) => {
         if (!this.isValid())

@@ -22,6 +22,15 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_selector("[data-toggle='tab']", text: "Review")
     end
 
+    scenario "Submission Checklist contains all ETD requirement checkboxes" do
+      expect(page).to have_selector("li#required-about-me")
+      expect(page).to have_selector("li#required-my-etd")
+      expect(page).to have_selector("li#required-files")
+      expect(page).to have_selector("li#required-supplemental-files")
+      expect(page).to have_selector("li#required-embargoes")
+      expect(page).to have_selector("li#required-review")
+    end
+
     scenario "Submit an ETD after saving data in the tabs", js: true do
       click_on('Save About Me')
       click_on('About My ETD')

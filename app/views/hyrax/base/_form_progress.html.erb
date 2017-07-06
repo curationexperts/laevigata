@@ -8,18 +8,20 @@
         <legend class="legend-save-work"><%= t('.requirements') %></legend>
         <ul class="requirements">
           <li class="incomplete" id="required-about-me"><%= t('.required_about_me') %></li>
-          <li class="incomplete" id="required-my-etd"><%= t('.required_my_etd') %></li>          
+          <li class="incomplete" id="required-my-etd"><%= t('.required_my_etd') %></li>
           <!-- these are for PDF and supplemental files -->
-          <% if Hyrax.config.work_requires_files? %>
-            <li class="incomplete" id="required-files"><%= t('.required_files') %></li>
-          <% end %>
+
+          <li class="incomplete" id="required-files"><%= t('.required_files') %></li>
+
+          <li class="incomplete" id="required-supplemental-files"><%= t('.required_supplemental_files') %></li>
+
+          <li class="incomplete" id="required-embargoes"><%= t('.required_embargoes') %></li>
+
+          <li class="incomplete" id="required-review"><%= t('.required_review') %></li>
         </ul>
       </fieldset>
     </div>
 
-    <div class="set-access-controls list-group-item">
-      <%= render 'form_visibility_component', f: f %>
-    </div>
     <% unless current_user.can_make_deposits_for.empty? %>
         <div class="list-group-item">
           <%= f.input :on_behalf_of, collection: current_user.can_make_deposits_for.map(&:user_key), prompt: "Yourself" %>

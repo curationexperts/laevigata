@@ -14,6 +14,11 @@ en:
       form_progress:
         required_about_me: "About Me and My Program"
         required_my_etd: "About My Etd"
+        required_files: "My PDF"
+        required_supplemental_files: "My Supplemental Files"
+        required_embargoes: "My Embargoes"
+        required_review: "Review"
+
     works:
       form:
         tab:
@@ -26,8 +31,8 @@ en:
         tab-description:
           about_me:      "About Me"
           about_my_etd:  "About My Thesis or Dissertation"
-          my_pdf:        "My Primary PDF (Required)"
-          supplemental_files: "My Supplemental Files (Optional)"
+          my_pdf:        "My Primary PDF"
+          supplemental_files: "My Supplemental Files"
           embargoes: "My Embargoes"
           review: "Review Your Submission"
 

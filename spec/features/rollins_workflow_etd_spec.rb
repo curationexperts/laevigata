@@ -29,7 +29,6 @@ RSpec.feature 'Create a Rollins ETD' do
 
       fill_in 'Student Name', with: 'Park, Miranda'
       select('CDC', from: 'Partnering agency')
-      choose('open')
       check('agreement')
       click_on('About My ETD')
       title = "Global Public Health #{rand}"

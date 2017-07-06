@@ -38,7 +38,7 @@ RSpec.feature 'Create an Etd: About My Etd' do
       fill_in 'Abstract', with: "Literature from the US"
       fill_in 'Table of contents', with: "Chapter One"
       select 'Aeronomy', from: 'Research Field'
-      fill_in 'Keywords', with: "Courtship"
+      fill_in 'Keyword', with: "Courtship"
       choose 'etd_copyright_question_one_true'
       choose 'etd_copyright_question_two_false'
       choose 'etd_copyright_question_three_true'

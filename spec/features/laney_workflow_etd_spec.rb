@@ -30,7 +30,6 @@ RSpec.feature 'Create a Laney ETD' do
       # fill_in 'Keyword', with: 'Surrealism'
       # Department is not required, by default it is hidden as an additional field
       select('CDC', from: 'Partnering agency')
-      choose('open')
       check('agreement')
 
       click_on('About My ETD')
