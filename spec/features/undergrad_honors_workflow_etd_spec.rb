@@ -30,7 +30,6 @@ RSpec.feature 'Create an Emory College ETD' do
       title = "A Brief History of Art #{rand}"
       fill_in 'Title', with: title
       fill_in 'Student Name', with: 'Washburn, Noah'
-      choose('open')
       check('agreement')
       click_on('My PDF')
       page.attach_file('files[]', "#{fixture_path}/noah/noah_thesis.pdf")

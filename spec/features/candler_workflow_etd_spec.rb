@@ -30,7 +30,6 @@ RSpec.feature 'Create a Candler ETD' do
       title = "New Testament Narratives #{rand}"
       fill_in 'Title', with: title
       fill_in 'Student Name', with: 'Deeds, Leland'
-      choose('open')
       check('agreement')
       click_on('My PDF')
       page.attach_file('files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
