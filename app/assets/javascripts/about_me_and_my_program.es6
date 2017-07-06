@@ -10,7 +10,7 @@ export default class AboutMeAndMyProgram {
 
   attach_committee_select_listeners(selector){
     $('.about-me').on('change', selector, function(){
-      if ($(this).val() == "Emory Faculty"){
+      if ($(this).val() == "Emory Committee Chair" || $(this).val() == "Emory Committee Member"){
         //needs to be pulled, ajax autocomplete faculty list
         $(this).parent().next('div').find($('input')).val("Emory")
         $(this).parent().next('div').find($('input')).prop('disabled', true);

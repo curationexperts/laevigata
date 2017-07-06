@@ -12,18 +12,18 @@ RSpec.feature 'Validate an Etd: About Me' do
     end
 
     # TODO: need another one of these for chairs: scenario "'about me' adds and removes committee members"
-    scenario "'about me' has no committee affiliation field when affiliation type Emory Faculty is selected", js: true do
-      select('Non-Emory Faculty', from: 'etd_committee_chair_0_affiliation_type')
+    scenario "'about me' has no committee affiliation field when affiliation type Emory is selected", js: true do
+      select('Non-Emory Committee Chair', from: 'etd_committee_chair_0_affiliation_type')
       wait_for_ajax
       expect(find("#etd_committee_chair_0_affiliation")).not_to be_disabled
 
-      select('Emory Faculty', from: 'etd_committee_chair_0_affiliation_type')
+      select('Emory Committee Chair', from: 'etd_committee_chair_0_affiliation_type')
       wait_for_ajax
       expect(find("#etd_committee_chair_0_affiliation")).to be_disabled
     end
 
-    scenario "'about me' committee affiliation accepts user input when Non-Emory Faculty is selected", js: true do
-      select('Non-Emory Faculty', from: 'etd_committee_members_0_affiliation_type')
+    scenario "'about me' committee affiliation accepts user input when Non-Emory is selected", js: true do
+      select('Non-Emory Committee Member', from: 'etd_committee_members_0_affiliation_type')
       wait_for_ajax
       fill_in "etd_committee_members_0_affiliation", with: "MOMA"
       expect(find_field("etd_committee_members_0_affiliation").value).to eq("MOMA")
@@ -79,7 +79,7 @@ RSpec.feature 'Validate an Etd: About Me' do
       select('MS', from: "Degree")
       select("Honors Thesis", from: "I am submitting my")
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
-      select('Non-Emory Faculty', from: "Committee Chair/Thesis Advisor's Affiliation")
+      select('Non-Emory Committee Chair', from: "Committee Chair/Thesis Advisor's Affiliation")
       fill_in('etd_committee_chair_0_affiliation', with: 'Oxford')
       fill_in "Committee Member", with: "Joan Didion"
 

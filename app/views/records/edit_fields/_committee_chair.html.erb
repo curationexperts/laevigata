@@ -1,9 +1,10 @@
+<% emory_faculty = ["Emory Committee Chair", "Non-Emory Committee Chair"] %>
+
 <div class="committee-chair row first">
   <!-- okay. we have predicates for these in the etd model, as mulitples, too. might not need fields_for if so. -->
   <%= f.fields_for :committee_chair_0 do |c| %>
   <div class="col-sm-6">
-    <% emory_faculty = ["Emory Faculty", "Non-Emory Faculty"] %>
-    <%= c.input :affiliation_type, as: :select, selected: "Emory Faculty", required: false, label: "Committee Chair/Thesis Advisor's Affiliation",
+    <%= c.input :affiliation_type, as: :select, selected: emory_faculty[0], required: false, label: "Committee Chair/Thesis Advisor's Affiliation",
          collection: emory_faculty,
           input_html: { class: 'form-control committee-chair-select' } %>
     <%= c.input :affiliation, required: false, disabled: true, label: false, input_html: { class: 'form-control committee', value: "Emory", data: { affiliation: 'chairs'} } %>
@@ -19,8 +20,7 @@
 <div class="committee-chair row second hidden">
   <%= f.fields_for :committee_chair_1 do |c| %>
   <div class="col-sm-6">
-    <% emory_faculty = ["Emory Faculty", "Non-Emory Faculty"] %>
-    <%= c.input :affiliation_type, as: :select, selected: "Emory Faculty", required: false, label: "Committee Chair/Thesis Advisor's Affiliation",
+    <%= c.input :affiliation_type, as: :select, selected: emory_faculty[0], required: false, label: "Committee Chair/Thesis Advisor's Affiliation",
          collection: emory_faculty,
           input_html: { class: 'form-control committee-chair-select' } %>
     <%= c.input :affiliation, required: false, disabled: true, label: false, input_html: { class: 'form-control committee',  value: "Emory" } %>
@@ -36,8 +36,7 @@
 <div class="committee-chair row third hidden">
   <%= f.fields_for :committee_chair_2 do |c| %>
   <div class="col-sm-6">
-    <% emory_faculty = ["Emory Faculty", "Non-Emory Faculty"] %>
-    <%= c.input :affiliation_type, as: :select, selected: "Emory Faculty", required: false, label: "Committee Chair/Thesis Advisor's Affiliation",
+    <%= c.input :affiliation_type, as: :select, selected: emory_faculty[0], required: false, label: "Committee Chair/Thesis Advisor's Affiliation",
          collection: emory_faculty,
           input_html: { class: 'form-control committee-chair-select' } %>
     <%= c.input :affiliation, required: false, disabled: true, label: false, input_html: { class: 'form-control committee',  value: "Emory" } %>
@@ -53,8 +52,7 @@
 <div class="committee-chair row fourth hidden">
   <%= f.fields_for :committee_chair_3 do |c| %>
   <div class="col-sm-6">
-    <% emory_faculty = ["Emory Faculty", "Non-Emory Faculty"] %>
-    <%= c.input :affiliation_type, as: :select, selected: "Emory Faculty", required: false, label: "Committee Chair/Thesis Advisor's Affiliation",
+    <%= c.input :affiliation_type, as: :select, selected: emory_faculty[0], required: false, label: "Committee Chair/Thesis Advisor's Affiliation",
          collection: emory_faculty,
           input_html: { class: 'form-control committee-chair-select' } %>
     <%= c.input :affiliation, required: false, disabled: true, label: false, input_html: { class: 'form-control committee',  value: "Emory" } %>
@@ -70,8 +68,7 @@
 <div class="committee-chair row fifth hidden">
   <%= f.fields_for :committee_chair_4 do |c| %>
   <div class="col-sm-6">
-    <% emory_faculty = ["Emory Faculty", "Non-Emory Faculty"] %>
-    <%= c.input :affiliation_type, as: :select, selected: "Emory Faculty", required: false, label: "Committee Chair/Thesis Advisor's Affiliation",
+    <%= c.input :affiliation_type, as: :select, selected: emory_faculty[0], required: false, label: "Committee Chair/Thesis Advisor's Affiliation",
          collection: emory_faculty,
           input_html: { class: 'form-control committee-chair-select' } %>
     <%= c.input :affiliation, required: false, disabled: true, label: false, input_html: { class: 'form-control committee',  value: "Emory" } %>
