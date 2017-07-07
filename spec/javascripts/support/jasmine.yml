@@ -1,3 +1,7 @@
+
+
+show_console_log: true
+
 # src_files
 #
 # Return an array of filepaths relative to src_dir to include before jasmine specs.
