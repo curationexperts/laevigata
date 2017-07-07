@@ -27,7 +27,7 @@ RSpec.feature 'Create a Candler ETD' do
       expect(page).to have_css('input#etd_creator')
       expect(page).not_to have_css('input#etd_creator.multi_value')
       click_on('About My ETD')
-      title = "New Testament Narratives #{rand}"
+      title = FFaker::Book.title
       fill_in 'Title', with: title
       fill_in 'Student Name', with: 'Deeds, Leland'
       check('agreement')

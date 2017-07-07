@@ -1,6 +1,10 @@
 module Hyrax
   module Workflow
-    class ReviewedNotification < AbstractNotification
+    class ReviewedNotification < LaevigataNotification
+      def workflow_recipients
+        { "to" => (reviewers << depositor) }
+      end
+
       private
 
         def subject
@@ -9,10 +13,6 @@ module Hyrax
 
         def message
           "#{title} (#{link_to work_id, document_path}) has completed initial review and is awaiting final approval. #{comment}"
-        end
-
-        def users_to_notify
-          super << user
         end
     end
   end

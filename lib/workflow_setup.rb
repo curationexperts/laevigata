@@ -88,8 +88,12 @@ class WorkflowSetup
       approving_users << u.to_sipity_agent
     end
     approval_role = Sipity::Role.find_by!(name: 'approving')
-    workflow = admin_set.permission_template.available_workflows.where(active: true).first
+    workflow = admin_set.active_workflow
     workflow.update_responsibilities(role: approval_role, agents: (approving_users.concat users_in_role(admin_set, "approving")))
+    if workflow.workflow_roles.map { |workflow_role| workflow_role.role.name }.include?("reviewing")
+      reviewing_role = Sipity::Role.find_by!(name: 'reviewing')
+      workflow.update_responsibilities(role: reviewing_role, agents: (approving_users.concat users_in_role(admin_set, "reviewing")))
+    end
     admin_set
   end
 

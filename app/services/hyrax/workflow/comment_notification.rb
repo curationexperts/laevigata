@@ -1,6 +1,10 @@
 module Hyrax
   module Workflow
-    class CommentNotification < AbstractNotification
+    class CommentNotification < LaevigataNotification
+      def workflow_recipients
+        { "to" => (approvers << depositor) }
+      end
+
       private
 
         def subject
@@ -9,10 +13,6 @@ module Hyrax
 
         def message
           "#{user.display_name} has added a comment to #{title} (#{link_to work_id, document_path}) \n\n #{comment}"
-        end
-
-        def users_to_notify
-          super << user
         end
     end
   end

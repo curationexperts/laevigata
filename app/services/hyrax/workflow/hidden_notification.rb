@@ -1,6 +1,10 @@
 module Hyrax
   module Workflow
-    class HiddenNotification < AbstractNotification
+    class HiddenNotification < LaevigataNotification
+      def workflow_recipients
+        { "to" => (approvers << depositor) }
+      end
+
       private
 
         def subject

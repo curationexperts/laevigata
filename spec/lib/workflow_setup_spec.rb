@@ -141,7 +141,7 @@ RSpec.describe WorkflowSetup do
       laney_admin_user = User.where(ppid: "laneyadmin").first
       roles = Hyrax::Workflow::PermissionQuery.scope_processing_workflow_roles_for_user_and_workflow(user: laney_admin_user, workflow: workflow).pluck(:role_id)
       la_role_names = roles.map { |r| Sipity::Role.where(id: r).first.name }
-      expect(la_role_names.include?("reviewing")).to eq false
+      expect(la_role_names.include?("reviewing")).to eq true
       expect(la_role_names.include?("approving")).to eq true
     end
   end
@@ -180,7 +180,7 @@ RSpec.describe WorkflowSetup do
     it "has the expected workflow states and roles" do
       w.load_superusers
       laney_admin_set = w.make_admin_set_from_config("Laney Graduate School")
-      workflow = laney_admin_set.permission_template.available_workflows.where(active: true).first
+      workflow = laney_admin_set.active_workflow
       workflow_states = Sipity::WorkflowState.where(workflow_id: workflow.id).pluck(:name)
       expect(workflow_states.include?("pending_review")).to eq true
       expect(workflow_states.include?("pending_approval")).to eq true
@@ -188,7 +188,7 @@ RSpec.describe WorkflowSetup do
     end
     it "assigns the right roles for everyone" do
       w.setup
-      workflow = AdminSet.where(title: ["Laney Graduate School"]).first.permission_template.available_workflows.where(active: true).first
+      workflow = AdminSet.where(title: ["Laney Graduate School"]).first.active_workflow
 
       # Newly created users should be able to deposit, but nothing else
       depositor = FactoryGirl.create(:user, groups: "registered")
@@ -199,10 +199,19 @@ RSpec.describe WorkflowSetup do
       expect(depositor_role_names.include?("reviewing")).to eq false
       expect(depositor_role_names.include?("approving")).to eq false
 
+      # Laney admins should have reviewing and approving roles
+      laneyadmin = ::User.where(ppid: "laneyadmin").first
+      roles = Hyrax::Workflow::PermissionQuery.scope_processing_workflow_roles_for_user_and_workflow(user: laneyadmin, workflow: workflow).pluck(:role_id)
+      laneyadmin_role_names = roles.map { |r| Sipity::Role.where(id: r).first.name }
+      expect(laneyadmin_role_names.include?("depositing")).to eq true
+      expect(laneyadmin_role_names.include?("managing")).to eq false
+      expect(laneyadmin_role_names.include?("reviewing")).to eq true
+      expect(laneyadmin_role_names.include?("approving")).to eq true
+
       # Very helpful to print out the roles of all users
       # User.all.each do |user|
       #   puts "-----"
-      #   puts user.email
+      #   puts user.ppid
       #   roles = Hyrax::Workflow::PermissionQuery.scope_processing_workflow_roles_for_user_and_workflow(user: user, workflow: workflow).pluck(:role_id)
       #   puts roles.map { |r| Sipity::Role.where(id: r).first.name }
       # end
