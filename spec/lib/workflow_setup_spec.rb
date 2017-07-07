@@ -12,8 +12,9 @@ RSpec.describe WorkflowSetup do
   let(:w) { described_class.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/", "#{::Rails.root}/config/emory/schools.yml", "/dev/null") }
   let(:superuser_ppid) { "superuser001" }
   let(:admin_set_title) { "School of Hard Knocks" }
-  it "can instantiate" do
+  it "can instantiate and make admin_set_owner" do
     expect(w).to be_instance_of(described_class)
+    expect(User.where(ppid: WorkflowSetup::ADMIN_SET_OWNER).count).to eq 1
   end
   it "makes an admin Role" do
     admin = w.admin_role
@@ -34,11 +35,8 @@ RSpec.describe WorkflowSetup do
     s.each do |t|
       w.make_superuser(t)
     end
-    expect(w.superusers.count).to eq 3
+    expect(w.superusers.count).to eq 4 # 3 + 1 existing admin_set_owner
     expect(w.superusers.pluck(:ppid).include?(s.first)).to be true
-  end
-  it "throws an error if there are no superusers" do
-    expect { w.superusers }.to raise_error(RuntimeError)
   end
   it "loads all the superusers from a file" do
     w.load_superusers
@@ -97,7 +95,7 @@ RSpec.describe WorkflowSetup do
         approving_role = Sipity::Role.where(name: "approving").first
         wf_role = Sipity::WorkflowRole.find_by(workflow: workflow, role_id: approving_role)
         approving_agents = wf_role.workflow_responsibilities.pluck(:agent_id)
-        expect(approving_agents.count).to eq 5 # 1 superadmin + 4 approvers from the file
+        expect(approving_agents.count).to eq 5 # 1 admin_set_owner + 4 approvers from the file
       end
     end
   end

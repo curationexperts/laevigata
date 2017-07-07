@@ -4,9 +4,10 @@ require 'yaml'
 
 # Set up the application's initial state: load required roles, create required AdminSets, load appropriate users and workflows
 class WorkflowSetup
-  attr_reader :superadmin
+  attr_reader :admin_set_owner
   attr_accessor :superusers_config
   attr_accessor :config_file_dir
+  ADMIN_SET_OWNER = "admin_set_owner".freeze
   DEFAULT_SUPERUSERS_CONFIG = "#{::Rails.root}/config/emory/superusers.yml".freeze
   DEFAULT_CONFIG_FILE_DIR = "#{::Rails.root}/config/emory/".freeze
   DEFAULT_SCHOOLS_CONFIG = "#{::Rails.root}/config/emory/schools.yml".freeze
@@ -24,6 +25,7 @@ class WorkflowSetup
     @logger.level = Logger::DEBUG
     @logger.info "Initializing new workflow setup with superusers file #{@superusers_config} and config files from #{@config_file_dir}"
     Hyrax::RoleRegistry.new.persist_registered_roles! # Ensure we have a managing and a depositing role
+    @admin_set_owner = make_superuser(ADMIN_SET_OWNER)
   end
 
   # Load the superusers
@@ -177,15 +179,7 @@ class WorkflowSetup
     end
   end
 
-  # Check to see if there is a superadmin defined. If there isn't, throw an
-  # exception. If there is, return that user. The superadmin is the first superuser.
-  # @return [User] the superadmin user
-  def superadmin
-    raise "Superadmin not defined: Cannot create AdminSets" if admin_role.users.empty?
-    superusers.first
-  end
-
-  # Make an AdminSet with the given title, belonging to the superadmin
+  # Make an AdminSet with the given title, belonging to the @admin_set_owner
   # @return [AdminSet] the admin set that was just created, or the one that existed already
   def make_admin_set(admin_set_title)
     if AdminSet.where(title: admin_set_title).count > 0
@@ -196,7 +190,7 @@ class WorkflowSetup
     a = AdminSet.new
     a.title = [admin_set_title]
     a.save
-    Hyrax::AdminSetCreateService.call(admin_set: a, creating_user: superadmin)
+    Hyrax::AdminSetCreateService.call(admin_set: a, creating_user: @admin_set_owner)
     load_workflows # You must load_workflows after every AdminSet creation
     a
   end
