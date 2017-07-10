@@ -40,7 +40,7 @@ RSpec.feature 'Create an Etd' do
 
       click_on('Save')
 
-      expect(page).to have_content("Your files are being processed by ETD in the background. The metadata and access controls you specified are being applied.")
+      expect(page).to have_content("Your files are being processed" || "The work is not currently available")
     end
   end
 
