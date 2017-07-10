@@ -12,8 +12,9 @@ export class ETDRequiredFields extends RequiredFields {
   }
 
   get areComplete() {
-    if (this.selector == ".about-my-etd") {
-      var validFields = this.requiredFields.filter((n, elem) => { return this.isValuePresent(elem) } ).length === 0
+    if (this.selector == ".about-my-etd input:not(:radio)") {
+      var validFields = this.requiredFields.filter((n, elem) => {
+        return this.isValuePresent(elem) } ).length === 0
 
       return validFields && tinyMCE.get('etd_abstract').getContent().length > 0 && tinyMCE.get('etd_table_of_contents').getContent().length > 0
     } else {
