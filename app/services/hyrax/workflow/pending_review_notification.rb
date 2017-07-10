@@ -1,7 +1,11 @@
 module Hyrax
   module Workflow
-    class PendingReviewNotification < AbstractNotification
-      protected
+    class PendingReviewNotification < LaevigataNotification
+      def workflow_recipients
+        { "to" => (reviewers << depositor) }
+      end
+
+      private
 
         def subject
           'Deposit needs review'
@@ -9,12 +13,6 @@ module Hyrax
 
         def message
           "#{title} (#{link_to work_id, document_path}) was deposited by #{user.display_name} and is awaiting initial review. #{comment}"
-        end
-
-      private
-
-        def users_to_notify
-          super << user
         end
     end
   end

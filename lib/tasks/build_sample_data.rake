@@ -16,3 +16,16 @@ task :sample_data do
     puts "Created #{etd.id}"
   end
 end
+task :sample_data_with_workflow do
+  sample_data = [:sample_data, :sample_data_with_everything_embargoed, :sample_data_with_only_files_embargoed, :ateer_etd]
+  sample_data.each do |s|
+    etd = FactoryGirl.build(s)
+    user = User.where(ppid: etd.depositor).first
+    ability = ::Ability.new(user)
+    actor = Hyrax::CurationConcern.actor(etd, ability)
+    # TODO: Figure out how to attach files via the actor.create hash
+    # actor.create(admin_set_id: etd.admin_set.id, files: [Hyrax::UploadedFile.create(file: File.open("#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf"))])
+    actor.create(admin_set_id: etd.admin_set.id)
+    puts "Created #{etd.id}"
+  end
+end

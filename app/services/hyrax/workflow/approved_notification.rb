@@ -1,6 +1,12 @@
 module Hyrax
   module Workflow
-    class ApprovedNotification < AbstractNotification
+    # Notification of state change to "approved".
+    # Should notify users with the approving role for the work's AdminSet, plus super users.
+    class ApprovedNotification < LaevigataNotification
+      def workflow_recipients
+        { "to" => (approvers << depositor) }
+      end
+
       private
 
         def subject
@@ -9,10 +15,6 @@ module Hyrax
 
         def message
           "#{title} (#{link_to work_id, document_path}) has been approved by #{user.display_name}  #{comment}"
-        end
-
-        def users_to_notify
-          super << user
         end
     end
   end
