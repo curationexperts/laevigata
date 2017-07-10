@@ -1,5 +1,0 @@
-workflow:
- - emory_one_step_approval
-approving:
- - rollinsadmin
- - rollinsadmin2

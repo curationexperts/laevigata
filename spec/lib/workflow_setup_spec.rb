@@ -9,7 +9,7 @@ RSpec.describe WorkflowSetup do
     User.delete_all
   end
   # Change "/dev/null" to STDOUT to see all logging output
-  let(:w) { described_class.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/", "#{::Rails.root}/config/emory/schools.yml", "/dev/null") }
+  let(:w) { described_class.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/admin_sets.yml", "/dev/null") }
   let(:superuser_ppid) { "superuser001" }
   let(:admin_set_title) { "School of Hard Knocks" }
   it "can instantiate and make admin_set_owner" do
@@ -74,28 +74,26 @@ RSpec.describe WorkflowSetup do
     expect(admin_set.active_workflow.name).to eq "emory_one_step_approval"
   end
 
-  context "schools config" do
-    it "has an array of all the schools" do
-      expect(w.schools.include?("Laney Graduate School")).to eq true
-      expect(w.schools.count).to eq 4
+  context "admin_set config" do
+    it "has an array of all the admin_sets" do
+      expect(w.admin_sets).to contain_exactly("Laney Graduate School", "Emory College", "Candler School of Theology", "Rollins School of Public Health")
     end
-    it "has config files for each school" do
-      expect(w.school_config(w.schools.first)).to be_instance_of Hash
+    it "has config options for each admin_set" do
+      expect(w.admin_set_config("Laney Graduate School")).to be_instance_of Hash
     end
-    it "raises an error if it can't find an expected config file" do
-      expect { w.school_config("foobar") }.to raise_error(RuntimeError, /Couldn't find expected config/)
+    it "raises an error if it can't find an expected config" do
+      expect { w.admin_set_config("foobar") }.to raise_error(RuntimeError, /Couldn't find expected config/)
     end
     context "school specific configs" do
-      it "loads approvers from a file" do
-        w.config_file_dir = "#{fixture_path}/config/emory/"
+      it "loads approvers from a config" do
         w.load_superusers
-        admin_set = w.make_admin_set_from_config("Fake School")
-        workflow = admin_set.permission_template.available_workflows.where(active: true).first
+        admin_set = w.make_admin_set_from_config("Candler School of Theology")
+        workflow = admin_set.active_workflow
         expect(workflow.name).to eq "emory_one_step_approval"
         approving_role = Sipity::Role.where(name: "approving").first
         wf_role = Sipity::WorkflowRole.find_by(workflow: workflow, role_id: approving_role)
         approving_agents = wf_role.workflow_responsibilities.pluck(:agent_id)
-        expect(approving_agents.count).to eq 5 # 1 admin_set_owner + 4 approvers from the file
+        expect(approving_agents.count).to eq 3 # 1 admin_set_owner + 2 approvers from the file
       end
     end
   end

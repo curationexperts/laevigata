@@ -5,25 +5,23 @@ require 'yaml'
 # Set up the application's initial state: load required roles, create required AdminSets, load appropriate users and workflows
 class WorkflowSetup
   attr_reader :admin_set_owner
+  attr_reader :admin_sets_config
   attr_accessor :superusers_config
-  attr_accessor :config_file_dir
   ADMIN_SET_OWNER = "admin_set_owner".freeze
   DEFAULT_SUPERUSERS_CONFIG = "#{::Rails.root}/config/emory/superusers.yml".freeze
-  DEFAULT_CONFIG_FILE_DIR = "#{::Rails.root}/config/emory/".freeze
-  DEFAULT_SCHOOLS_CONFIG = "#{::Rails.root}/config/emory/schools.yml".freeze
+  DEFAULT_ADMIN_SETS_CONFIG = "#{::Rails.root}/config/emory/admin_sets.yml".freeze
 
   # Set up the parameters for
   # @param [String] superusers_config a file containing the email addresses of the application's superusers
   # @param [String] config_file_dir the directory where the config files reside
   # @param [String] schools_config
   # @param [String] log_location where should the log files write? Default is STDOUT. /dev/null is also an option for CI builds
-  def initialize(superusers_config = DEFAULT_SUPERUSERS_CONFIG, config_file_dir = DEFAULT_CONFIG_FILE_DIR, schools_config = DEFAULT_SCHOOLS_CONFIG, log_location = STDOUT)
+  def initialize(superusers_config = DEFAULT_SUPERUSERS_CONFIG, admin_sets_config = DEFAULT_ADMIN_SETS_CONFIG, log_location = STDOUT)
     @superusers_config = superusers_config
-    @config_file_dir = config_file_dir
-    @schools_config = schools_config
+    @admin_sets_config = YAML.safe_load(File.read(admin_sets_config))
     @logger = Logger.new(log_location)
     @logger.level = Logger::DEBUG
-    @logger.info "Initializing new workflow setup with superusers file #{@superusers_config} and config files from #{@config_file_dir}"
+    @logger.info "Initializing new workflow setup with superusers file #{@superusers_config} and admin_sets_config files from #{@admin_sets_config}"
     Hyrax::RoleRegistry.new.persist_registered_roles! # Ensure we have a managing and a depositing role
     @admin_set_owner = make_superuser(ADMIN_SET_OWNER)
   end
@@ -34,9 +32,9 @@ class WorkflowSetup
   # Give superusers every available role in all workflows in all AdminSets
   def setup
     load_superusers
-    schools.each do |school|
-      @logger.debug "Attempting to make admin set for #{school}"
-      make_admin_set_from_config(school)
+    admin_sets.each do |as|
+      @logger.debug "Attempting to make admin set for #{as}"
+      make_admin_set_from_config(as)
     end
     everyone_can_deposit_everywhere
     give_superusers_superpowers
@@ -77,7 +75,7 @@ class WorkflowSetup
   # @param [String] admin_set_title
   # @return [AdminSet]
   def make_admin_set_from_config(admin_set_title)
-    config = school_config(admin_set_title)
+    config = admin_set_config(admin_set_title)
     config["workflow"] || config["workflow"] = "emory_one_step_approval"
     admin_set = make_mediated_deposit_admin_set(admin_set_title, config["workflow"])
     approving_users = []
@@ -229,20 +227,17 @@ class WorkflowSetup
     true
   end
 
-  # Return an array of schools that should be set up for the initial workflow
+  # Return an array of AdminSets that should be set up for the initial workflow
   # @return [Array(String)]
-  def schools
-    @logger.debug "Loading schools.yml file #{@schools_config}"
-    config = YAML.safe_load(File.read(@schools_config))
-    config["schools"].keys
+  def admin_sets
+    @admin_sets_config.keys
   end
 
-  # Given the name of a school, read its config file into a Hash
-  # @param [String] the name of a school
-  # @return [Hash] a Hash containing approvers and depositors for this school
-  def school_config(school_name)
-    YAML.safe_load(File.read("#{@config_file_dir}#{school_name.downcase.tr(' ', '_')}.yml"))
-  rescue
-    raise "Couldn't find expected config #{@config_file_dir}#{school_name.downcase.tr(' ', '_')}.yml"
+  # Given the name of a school, read its config into a Hash
+  # @param [String] the name of an admin_set
+  # @return [Hash] a Hash containing approvers and (optionally) workflow for this school
+  def admin_set_config(school_name)
+    raise "Couldn't find expected config for #{school_name}" unless @admin_sets_config[school_name]
+    @admin_sets_config[school_name]
   end
 end
