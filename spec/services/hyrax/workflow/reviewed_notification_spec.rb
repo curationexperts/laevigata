@@ -38,9 +38,9 @@ RSpec.describe Hyrax::Workflow::ReviewedNotification do
   end
   it "can find reviewers" do
     expect(notification.reviewers).to be_instance_of(Array)
-    expect(notification.reviewers.pluck(:ppid)).to contain_exactly("admin_set_owner", "superman001", "wonderwoman001", "laneyadmin", "laneyadmin2")
+    expect(notification.reviewers.pluck(:ppid)).to contain_exactly("admin_set_owner", "superman001", "wonderwoman001", "P1529006", "laneyadmin", "laneyadmin2")
   end
   it "sends notifications to the depositor, school reviewers and superusers and no one else" do
-    expect(notification.recipients["to"].pluck(:ppid)).to contain_exactly("admin_set_owner", "superman001", "wonderwoman001", "laneyadmin", "laneyadmin2", etd.depositor)
+    expect(notification.recipients["to"].pluck(:ppid)).to contain_exactly("admin_set_owner", "superman001", "wonderwoman001", "P1529006", "laneyadmin", "laneyadmin2", etd.depositor)
   end
 end
