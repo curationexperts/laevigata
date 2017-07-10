@@ -43,6 +43,12 @@
   color: #d9534f;
 }
 
-#add-another-chair, #add-another-member {
-  //float: right;
+span.disabled_element{
+  cursor: not-allowed;
+  opacity: 0.65;
+  box-shadow: none;
+}
+
+span.disabled_element input[disabled] {
+  cursor: not-allowed;
 }

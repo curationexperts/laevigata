@@ -7,23 +7,16 @@
    <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
 
    <h2><%= t('hyrax.base.form_files.local_upload') %></h2>
+   <div id="pdf-max-error" class='alert alert-warning hidden col-xs-12'>Only one PDF may be uploaded.</div>
    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
    <div class="row fileupload-buttonbar">
        <div class="col-xs-7">
            <!-- The fileinput-button span is used to style the file input field as button -->
            <span class="btn btn-success fileinput-button">
                <span class="glyphicon glyphicon-plus"></span>
-               <span>Add files...</span>
+               <span>Add Primary PDF...</span>
                <input type="file" name="files[]" multiple>
            </span>
-           <% if browser_supports_directory_upload? %>
-           <!-- The fileinput-button span is used to style the file input field as button -->
-           <span class="btn btn-success fileinput-button">
-               <span class="glyphicon glyphicon-plus"></span>
-               <span>Add folder...</span>
-               <input type="file" name="files[]" multiple directory webkitdirectory>
-           </span>
-           <% end %>
            <button type="reset" class="btn btn-warning cancel hidden">
                <span class="glyphicon glyphicon-ban-circle"></span>
                <span>Cancel upload</span>
@@ -40,9 +33,6 @@
            <!-- The extended global progress state -->
            <div class="progress-extended">&nbsp;</div>
        </div>
-   </div>
-   <div class="dropzone">
-     <%= t('hyrax.base.form_files.dropzone') %>
    </div>
 </div>
 

@@ -30,6 +30,9 @@ module Hyrax
     self.terms += [:copyright_question_two]
     self.terms += [:copyright_question_three]
 
+    # supplemental files terms
+    self.terms += [:no_supplemental_files]
+
     self.single_valued_fields = [:title, :creator, :submitting_type, :graduation_date, :degree, :subfield, :department, :school, :language]
 
     def about_me_fields
