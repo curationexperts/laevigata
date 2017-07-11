@@ -1,7 +1,7 @@
 module Hyrax
   module Workflow
     class LaevigataNotification < AbstractNotification
-      # regardless of what is passed in, set the recipients to users with the approving role, plus the depositing user
+      # regardless of what is passed in, set the recipients according to this notification's requirements
       def initialize(entity, comment, user, recipients)
         super
         @recipients = workflow_recipients
@@ -35,8 +35,8 @@ module Hyrax
         reviewers
       end
 
-      # The Users who desposited the work
-      # @return [<Array>::User] an Array of Hyrax::User objects
+      # The Hyrax::User who desposited the work
+      # @return [Hyrax::User]
       def depositor
         ::User.where(ppid: document.depositor).first
       end
