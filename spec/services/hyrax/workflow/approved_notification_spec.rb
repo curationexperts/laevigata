@@ -14,7 +14,7 @@ RSpec.describe Hyrax::Workflow::ApprovedNotification do
     w.setup
   end
   let(:user) { FactoryGirl.create(:user) }
-  let(:etd) { FactoryGirl.create(:sample_data, depositor: user.user_key) }
+  let(:etd) { FactoryGirl.create(:sample_data, depositor: user.user_key, school: ["Candler School of Theology"]) }
   let(:ability) { ::Ability.new(user) }
   let(:recipients) do
     { 'to' => [FactoryGirl.create(:user), FactoryGirl.create(:user)] }

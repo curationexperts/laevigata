@@ -21,13 +21,11 @@ RSpec.feature 'Create a Rollins ETD' do
       select("Rollins School of Public Health", from: "School")
       select("Epidemiology", from: "Department", match: :first)
     end
-    scenario "Miranda submits a thesis and an approver approves it" do
-      expect(page).to have_css('input#etd_title')
-      expect(page).not_to have_css('input#etd_title.multi_value')
-      expect(page).to have_css('input#etd_creator')
-      expect(page).not_to have_css('input#etd_creator.multi_value')
-
+    scenario "Miranda submits a thesis and an approver approves it", js: true do
       fill_in 'Student Name', with: 'Park, Miranda'
+      select("Rollins School of Public Health", from: "School")
+      select("Epidemiology", from: "Department")
+
       select('CDC', from: 'Partnering agency')
       check('agreement')
       click_on('About My ETD')
@@ -38,8 +36,6 @@ RSpec.feature 'Create a Rollins ETD' do
         page.attach_file('files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
       end
       # TODO: Miranda fixture folder has supplementary files. Add these when we're ready
-      click_on("Review")
-      select("Epidemiology", from: "Add as member of administrative set")
       click_on('Save')
       expect(page).to have_content title
       expect(page).to have_content 'Pending approval'

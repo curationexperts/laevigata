@@ -35,3 +35,6 @@ RSpec/DescribeClass:
 
 RSpec/NestedGroups:
   Enabled: false
+
+RSpec/VerifiedDoubles:
+  Enabled: false
