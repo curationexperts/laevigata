@@ -1,6 +1,9 @@
 FactoryGirl.define do
   factory :user do
-    ppid { FFaker::Internet.user_name }
+    ppid do
+      "P#{rand(1...10_000)}"
+    end
+    uid { FFaker::Internet.user_name }
     display_name { FFaker::Name.name }
 
     transient do

@@ -3,4 +3,4 @@ superusers:
    - bess
    - alicia
   shibboleth:
-   - P1529006 # tezprox
+   - tezprox # tezprox

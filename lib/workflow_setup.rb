@@ -81,9 +81,11 @@ class WorkflowSetup
     config["workflow"] || config["workflow"] = "emory_one_step_approval"
     admin_set = make_mediated_deposit_admin_set(admin_set_title, config["workflow"])
     approving_users = []
-    config["approving"].each do |approver_ppid|
-      u = ::User.find_or_create_by(ppid: approver_ppid)
-      u.password = "123456"
+    config["approving"].each do |approver_uid|
+      u = ::User.find_or_create_by(uid: approver_uid)
+      u.password = "123456" # only used in dev and test environments
+      u.provider = "shibboleth"
+      u.ppid = approver_uid # temporary ppid, will get replaced when user signs in with shibboleth
       u.save
       approving_users << u.to_sipity_agent
     end
@@ -115,13 +117,14 @@ class WorkflowSetup
   end
 
   # Make a superuser
-  # @param [String] the ppid of the superuser
+  # @param [String] the uid of the superuser
   # @return [User] the superuser who was just created
-  def make_superuser(ppid, provider = "database")
-    @logger.debug "Making superuser #{ppid}"
-    admin_user = ::User.find_or_create_by(ppid: ppid)
+  def make_superuser(uid, provider = "database")
+    @logger.debug "Making superuser #{uid}"
+    admin_user = ::User.find_or_create_by(uid: uid)
     admin_user.password = "123456"
-    admin_user.provider = "shibboleth" if provider == "shibboleth"
+    admin_user.ppid = uid # temporary ppid, will get replaced when user signs in with shibboleth
+    admin_user.provider = provider
     admin_user.save
     admin_role.users << admin_user
     admin_role.save

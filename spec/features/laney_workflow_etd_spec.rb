@@ -66,7 +66,7 @@ RSpec.feature 'Create a Laney ETD' do
 
       # Check notifications for approving user
       logout
-      approving_user = User.where(ppid: "laneyadmin").first
+      approving_user = User.where(uid: "laneyadmin").first
       login_as approving_user
       visit("/notifications?locale=en")
       expect(page).to have_content 'Deposit needs review'

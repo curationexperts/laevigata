@@ -62,7 +62,7 @@ RSpec.feature 'Create a Rollins ETD' do
 
       # Check notifications for approving user
       logout
-      approving_user = User.where(ppid: "rollinsadmin").first
+      approving_user = User.where(uid: "rollinsadmin").first
       login_as approving_user
       visit("/notifications?locale=en")
       expect(page).to have_content "#{title} (#{etd.id}) was deposited by #{user.display_name} and is awaiting approval."

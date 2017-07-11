@@ -2,9 +2,10 @@ require 'rails_helper'
 
 auth_hash = OmniAuth::AuthHash.new(
   provider: 'shibboleth',
-  uid: 'brianbboys1967',
+  ppid: 'P000001',
   info: {
-    display_name: "Brian Wilson"
+    display_name: "Brian Wilson",
+    uid: 'brianbboys1967'
   }
 )
 
@@ -17,8 +18,11 @@ RSpec.describe User do
     it "has a shibboleth provided name" do
       expect(user.display_name).to eq auth_hash.info.display_name
     end
+    it "has a shibboleth provided uid" do
+      expect(user.uid).to eq auth_hash.info.uid
+    end
     it "has a shibboleth provided ppid" do
-      expect(user.ppid).to eq auth_hash.uid
+      expect(user.ppid).to eq auth_hash.ppid
     end
   end
   context "signing in twice" do
@@ -36,6 +40,7 @@ RSpec.describe User do
       expect(user.ppid).to be_instance_of String
       expect(user.user_key).to eq user.ppid
       expect(user.display_name).to be_instance_of String
+      expect(user.uid).to be_instance_of String
     end
     it "makes an admin user" do
       admin = FactoryGirl.create(:admin)
