@@ -7,7 +7,7 @@ include Warden::Test::Helpers
 
 RSpec.feature 'Create a Rollins ETD' do
   let(:user) { create :user }
-  let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/admin_sets.yml", "/dev/null") }
+  let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/epidemiology_admin_sets.yml", "/dev/null") }
   let(:superuser) { w.superusers.first }
   context 'a logged in user' do
     before do
@@ -19,7 +19,7 @@ RSpec.feature 'Create a Rollins ETD' do
     # weak test of the fields but it was failing due to webkit issues with attach_file
     scenario "Miranda submits school and department", js: true do
       select("Rollins School of Public Health", from: "School")
-      select("Global Health", from: "Department", match: :first)
+      select("Epidemiology", from: "Department", match: :first)
     end
     scenario "Miranda submits a thesis and an approver approves it" do
       expect(page).to have_css('input#etd_title')
@@ -37,7 +37,7 @@ RSpec.feature 'Create a Rollins ETD' do
       page.attach_file('files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
       # TODO: Miranda fixture folder has supplementary files. Add these when we're ready
       click_on("Review")
-      select("Rollins School of Public Health", from: "Add as member of administrative set")
+      select("Epidemiology", from: "Add as member of administrative set")
       click_on('Save')
       expect(page).to have_content title
       expect(page).to have_content 'Pending approval'
@@ -62,7 +62,7 @@ RSpec.feature 'Create a Rollins ETD' do
 
       # Check notifications for approving user
       logout
-      approving_user = User.where(uid: "rollinsadmin").first
+      approving_user = User.where(uid: "epidemiology_admin").first
       login_as approving_user
       visit("/notifications?locale=en")
       expect(page).to have_content "#{title} (#{etd.id}) was deposited by #{user.display_name} and is awaiting approval."

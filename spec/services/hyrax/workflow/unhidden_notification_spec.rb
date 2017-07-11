@@ -10,7 +10,7 @@ RSpec.describe Hyrax::Workflow::UnhiddenNotification do
     ActiveFedora::Cleaner.clean!
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean
-    w = WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/admin_sets.yml", "/dev/null")
+    w = WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null")
     w.setup
   end
   let(:user) { FactoryGirl.create(:user) }

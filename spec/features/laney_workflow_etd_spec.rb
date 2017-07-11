@@ -7,7 +7,7 @@ include Warden::Test::Helpers
 
 RSpec.feature 'Create a Laney ETD' do
   let(:user) { create :user }
-  let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/admin_sets.yml", "/dev/null") }
+  let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/laney_admin_sets.yml", "/dev/null") }
   let(:superuser) { w.superusers.first }
   context 'a logged in user' do
     before do

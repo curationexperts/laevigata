@@ -1,0 +1,6 @@
+Laney Graduate School:
+  workflow:
+   - laney_graduate_school
+  approving:
+   - laneyadmin
+   - laneyadmin2
