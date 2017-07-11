@@ -1,3 +1,6 @@
 superusers:
- - superman001
- - wonderwoman001
+  database:
+   - superman001
+   - wonderwoman001
+  shibboleth:
+   - tezprox # P1529006

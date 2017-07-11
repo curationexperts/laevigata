@@ -2,17 +2,18 @@ Laney Graduate School:
   workflow:
    - laney_graduate_school
   approving:
-   - laneyadmin
-   - laneyadmin2
+   - thairst # Tamika Hairston
+   - twrig31 # Tracey Wright
+   - unilsso # Ulf Nilsson
+   - rlwebb # Renee Webb
 Emory College:
   approving:
-   - ecadmin
-   - ecadmin2
+   - cbeard4 # Carlee Beard
 Candler School of Theology:
   approving:
-   - candleradmin
-   - candleradmin2
+   - shart # Shelly Hart
+   - ksgarne # Kelly Garner Shannon
 Rollins School of Public Health:
   approving:
-   - rollinsadmin
+   - tezprox
    - rollinsadmin2

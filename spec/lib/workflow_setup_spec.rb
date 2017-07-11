@@ -10,11 +10,11 @@ RSpec.describe WorkflowSetup do
   end
   # Change "/dev/null" to STDOUT to see all logging output
   let(:w) { described_class.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/admin_sets.yml", "/dev/null") }
-  let(:superuser_ppid) { "superuser001" }
+  let(:superuser_uid) { "superuser001" }
   let(:admin_set_title) { "School of Hard Knocks" }
   it "can instantiate and make admin_set_owner" do
     expect(w).to be_instance_of(described_class)
-    expect(User.where(ppid: WorkflowSetup::ADMIN_SET_OWNER).count).to eq 1
+    expect(User.where(uid: WorkflowSetup::ADMIN_SET_OWNER).count).to eq 1
   end
   it "makes an admin Role" do
     admin = w.admin_role
@@ -22,12 +22,12 @@ RSpec.describe WorkflowSetup do
     expect(Role.where(name: "admin").count).to eq 1
   end
   it "makes a superuser" do
-    w.make_superuser(superuser_ppid)
-    expect(User.where(ppid: superuser_ppid).count).to eq 1
-    expect((w.admin_role.users.map(&:ppid).include? superuser_ppid)).to eq true
+    w.make_superuser(superuser_uid)
+    expect(User.where(uid: superuser_uid).count).to eq 1
+    expect((w.admin_role.users.map(&:uid).include? superuser_uid)).to eq true
   end
   it "ensures the superuser can make workflow roles" do
-    w.make_superuser(superuser_ppid)
+    w.make_superuser(superuser_uid)
     expect(w.superusers.first.can?(:manage, Sipity::WorkflowResponsibility)).to eq true
   end
   it "returns all the superusers" do
@@ -36,12 +36,12 @@ RSpec.describe WorkflowSetup do
       w.make_superuser(t)
     end
     expect(w.superusers.count).to eq 4 # 3 + 1 existing admin_set_owner
-    expect(w.superusers.pluck(:ppid).include?(s.first)).to be true
+    expect(w.superusers.pluck(:uid).include?(s.first)).to be true
   end
   it "loads all the superusers from a file" do
     w.load_superusers
-    expect((w.admin_role.users.map(&:ppid).include? "wonderwoman001")).to eq true
-    expect(w.superusers.pluck(:ppid).include?("wonderwoman001")).to eq true
+    expect((w.admin_role.users.map(&:uid).include? "wonderwoman001")).to eq true
+    expect(w.superusers.pluck(:uid).include?("wonderwoman001")).to eq true
   end
   it "makes an AdminSet" do
     w.load_superusers
@@ -67,7 +67,7 @@ RSpec.describe WorkflowSetup do
   end
   it "makes a mediated deposit admin set" do
     new_title = "A Different Title"
-    w.make_superuser(superuser_ppid)
+    w.make_superuser(superuser_uid)
     admin_set = w.make_mediated_deposit_admin_set(new_title)
     expect(admin_set).to be_instance_of AdminSet
     expect(AdminSet.where(title: new_title).count).to eq 1
@@ -119,7 +119,7 @@ RSpec.describe WorkflowSetup do
       expect(laney_approvers.count).to eq 3
       expect(laney_approvers).to be_instance_of Array
       expect(laney_approvers.first).to be_instance_of Sipity::Agent
-      laney_approvers = laney_approvers.map { |u| User.find(u.proxy_for_id).user_key }
+      laney_approvers = laney_approvers.map { |u| User.find(u.proxy_for_id).uid }
       expect(laney_approvers.include?("laneyadmin")).to eq true
       expect(laney_approvers.include?("laneyadmin2")).to eq true
     end
@@ -136,7 +136,7 @@ RSpec.describe WorkflowSetup do
         expect(su_role_names.include?("reviewing")).to eq true
         expect(su_role_names.include?("approving")).to eq true
       end
-      laney_admin_user = User.where(ppid: "laneyadmin").first
+      laney_admin_user = User.where(uid: "laneyadmin").first
       roles = Hyrax::Workflow::PermissionQuery.scope_processing_workflow_roles_for_user_and_workflow(user: laney_admin_user, workflow: workflow).pluck(:role_id)
       la_role_names = roles.map { |r| Sipity::Role.where(id: r).first.name }
       expect(la_role_names.include?("reviewing")).to eq true
@@ -198,7 +198,7 @@ RSpec.describe WorkflowSetup do
       expect(depositor_role_names.include?("approving")).to eq false
 
       # Laney admins should have reviewing and approving roles
-      laneyadmin = ::User.where(ppid: "laneyadmin").first
+      laneyadmin = ::User.where(uid: "laneyadmin").first
       roles = Hyrax::Workflow::PermissionQuery.scope_processing_workflow_roles_for_user_and_workflow(user: laneyadmin, workflow: workflow).pluck(:role_id)
       laneyadmin_role_names = roles.map { |r| Sipity::Role.where(id: r).first.name }
       expect(laneyadmin_role_names.include?("depositing")).to eq true
@@ -209,7 +209,7 @@ RSpec.describe WorkflowSetup do
       # Very helpful to print out the roles of all users
       # User.all.each do |user|
       #   puts "-----"
-      #   puts user.ppid
+      #   puts user.uid
       #   roles = Hyrax::Workflow::PermissionQuery.scope_processing_workflow_roles_for_user_and_workflow(user: user, workflow: workflow).pluck(:role_id)
       #   puts roles.map { |r| Sipity::Role.where(id: r).first.name }
       # end

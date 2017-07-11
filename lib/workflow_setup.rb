@@ -17,11 +17,13 @@ class WorkflowSetup
   # @param [String] schools_config
   # @param [String] log_location where should the log files write? Default is STDOUT. /dev/null is also an option for CI builds
   def initialize(superusers_config = DEFAULT_SUPERUSERS_CONFIG, admin_sets_config = DEFAULT_ADMIN_SETS_CONFIG, log_location = STDOUT)
-    @superusers_config = superusers_config
+    raise "File #{superusers_config} does not exist" unless File.exist?(superusers_config)
+    @superusers_config = YAML.safe_load(File.read(superusers_config))
+    raise "File #{admin_sets_config} does not exist" unless File.exist?(admin_sets_config)
     @admin_sets_config = YAML.safe_load(File.read(admin_sets_config))
     @logger = Logger.new(log_location)
     @logger.level = Logger::DEBUG
-    @logger.info "Initializing new workflow setup with superusers file #{@superusers_config} and admin_sets_config files from #{@admin_sets_config}"
+    @logger.info "Initializing new workflow setup with superusers file #{superusers_config} and admin_sets_config files from #{admin_sets_config}"
     Hyrax::RoleRegistry.new.persist_registered_roles! # Ensure we have a managing and a depositing role
     @admin_set_owner = make_superuser(ADMIN_SET_OWNER)
   end
@@ -79,9 +81,11 @@ class WorkflowSetup
     config["workflow"] || config["workflow"] = "emory_one_step_approval"
     admin_set = make_mediated_deposit_admin_set(admin_set_title, config["workflow"])
     approving_users = []
-    config["approving"].each do |approver_ppid|
-      u = ::User.find_or_create_by(ppid: approver_ppid)
-      u.password = "123456"
+    config["approving"].each do |approver_uid|
+      u = ::User.find_or_create_by(uid: approver_uid)
+      u.password = "123456" # only used in dev and test environments
+      u.provider = "shibboleth"
+      u.ppid = approver_uid # temporary ppid, will get replaced when user signs in with shibboleth
       u.save
       approving_users << u.to_sipity_agent
     end
@@ -101,13 +105,26 @@ class WorkflowSetup
     Role.find_or_create_by(name: "admin")
   end
 
+  # Load the superusers from a config file
+  def load_superusers
+    admin_role.users = [] # Remove all the admin users every time you reload
+    admin_role.save
+    @superusers_config["superusers"].keys.each do |provider|
+      @superusers_config["superusers"][provider].each do |s|
+        make_superuser(s, provider)
+      end
+    end
+  end
+
   # Make a superuser
-  # @param [String] the ppid of the superuser
+  # @param [String] the uid of the superuser
   # @return [User] the superuser who was just created
-  def make_superuser(ppid)
-    @logger.debug "Making superuser #{ppid}"
-    admin_user = ::User.find_or_create_by(ppid: ppid)
+  def make_superuser(uid, provider = "database")
+    @logger.debug "Making superuser #{uid}"
+    admin_user = ::User.find_or_create_by(uid: uid)
     admin_user.password = "123456"
+    admin_user.ppid = uid # temporary ppid, will get replaced when user signs in with shibboleth
+    admin_user.provider = provider
     admin_user.save
     admin_role.users << admin_user
     admin_role.save
@@ -119,17 +136,6 @@ class WorkflowSetup
   def superusers
     raise "No superusers are defined" unless admin_role.users.count > 0
     admin_role.users
-  end
-
-  # Load the superusers from a config file
-  def load_superusers
-    admin_role.users = [] # Remove all the admin users every time you reload
-    admin_role.save
-    raise "File #{@superusers_config} does not exist" unless File.exist?(@superusers_config)
-    config = YAML.safe_load(File.read(@superusers_config))
-    config["superusers"].each do |s|
-      make_superuser(s)
-    end
   end
 
   # Allow anyone with a registered account to deposit into any of the AdminSets

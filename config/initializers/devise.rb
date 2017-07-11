@@ -251,9 +251,11 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
+  # Note: serialNumber contains "ppid", the only guaranteed unique field
+  # Also, `uid` is the name of the field commonly referred to as `NetID`
   config.omniauth :shibboleth,
                   uid_field: 'serialNumber',
-                  info_fields: { display_name: 'displayName' },
+                  info_fields: { display_name: 'displayName', uid: 'uid' },
                   callback_url: '/users/auth/shibboleth/callback'
   #
   # When using OmniAuth, Devise cannot automatically set OmniAuth path,

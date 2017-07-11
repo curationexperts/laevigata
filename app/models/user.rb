@@ -16,7 +16,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   # changed from :database_authenticatable, removed :validatable to integrate with Shibboleth
-  devise :database_authenticatable, :omniauthable, :rememberable, :trackable, omniauth_providers: [:shibboleth], authentication_keys: [:ppid]
+  devise :database_authenticatable, :omniauthable, :rememberable, :trackable, omniauth_providers: [:shibboleth], authentication_keys: [:uid]
 
   # When a user authenticates via shibboleth, find their User object or make
   # a new one. Populate it with data we get from shibboleth.
@@ -24,9 +24,11 @@ class User < ApplicationRecord
   def self.from_omniauth(auth)
     Rails.logger.debug "auth = #{auth.inspect}"
     # Uncomment the debugger above to capture what a shib auth object looks like for testing
-    where(provider: auth.provider, ppid: auth.uid).first_or_create do |user|
+    where(provider: auth.provider, uid: auth.info.uid).first_or_create do |user|
       user.display_name = auth.info.display_name
-      user.email = auth.uid + '@emory.edu'
+      user.uid = auth.info.uid
+      user.ppid = auth.ppid
+      user.email = auth.info.uid + '@emory.edu'
     end
   end
 
