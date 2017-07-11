@@ -2,7 +2,7 @@ require 'rails_helper'
 
 auth_hash = OmniAuth::AuthHash.new(
   provider: 'shibboleth',
-  ppid: 'P000001',
+  uid: "P8806459",
   info: {
     display_name: "Brian Wilson",
     uid: 'brianbboys1967'
@@ -21,8 +21,9 @@ RSpec.describe User do
     it "has a shibboleth provided uid" do
       expect(user.uid).to eq auth_hash.info.uid
     end
-    it "has a shibboleth provided ppid" do
-      expect(user.ppid).to eq auth_hash.ppid
+    it "has a shibboleth provided ppid which is not nil" do
+      expect(user.ppid).to eq auth_hash.uid
+      expect(user.ppid).not_to eq nil
     end
   end
   context "signing in twice" do
