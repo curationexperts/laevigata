@@ -32,7 +32,9 @@ RSpec.feature 'Create an Emory College ETD' do
       fill_in 'Student Name', with: 'Washburn, Noah'
       check('agreement')
       click_on('My PDF')
-      page.attach_file('files[]', "#{fixture_path}/noah/noah_thesis.pdf")
+      within('#fileupload') do
+        page.attach_file('files[]', "#{fixture_path}/noah/noah_thesis.pdf")
+      end
       # TODO: Miranda fixture folder has supplementary files. Add these when we're ready
       click_on("Review")
       select("Emory College", from: "Add as member of administrative set")

@@ -1,6 +1,7 @@
 <h1><%= t("hyrax.works.form.tab.supplemental_files", type: curation_concern.human_readable_type) %></h1>
 
-<div id="fileupload">
+<div id="supplemental_fileupload">
+  <%= f.input :no_supplemental_files, as: :boolean, label: "I have no supplemental files." %>
    <!-- Redirect browsers with JavaScript disabled to the origin page -->
    <noscript><input type="hidden" name="redirect" value="<%= main_app.root_path %>"></noscript>
    <!-- The table listing the files available for upload/download -->
@@ -14,14 +15,14 @@
            <span class="btn btn-success fileinput-button">
                <span class="glyphicon glyphicon-plus"></span>
                <span>Add files...</span>
-               <input type="file" name="supplemental_files[]" multiple>
+               <input type="file" name="files[]" multiple>
            </span>
            <% if browser_supports_directory_upload? %>
            <!-- The fileinput-button span is used to style the file input field as button -->
            <span class="btn btn-success fileinput-button">
                <span class="glyphicon glyphicon-plus"></span>
                <span>Add folder...</span>
-               <input type="file" name="supplemental_files[]" multiple directory webkitdirectory>
+               <input type="file" name="files[]" multiple directory webkitdirectory>
            </span>
            <% end %>
            <button type="reset" class="btn btn-warning cancel hidden">
@@ -41,13 +42,10 @@
            <div class="progress-extended">&nbsp;</div>
        </div>
    </div>
-   <div class="dropzone">
-     <%= t('hyrax.base.form_files.dropzone') %>
-   </div>
 </div>
 
 <%= render 'hyrax/uploads/js_templates' %>
 <% if Hyrax.config.browse_everything? %>
 <h2><%= t('hyrax.base.form_files.external_upload') %></h2>
-<%= render 'browse_everything', f: f %>
+<%= render 'browse_everything_supplemental', f: f %>
 <% end %>

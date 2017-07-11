@@ -32,7 +32,9 @@ RSpec.feature 'Create a Candler ETD' do
       fill_in 'Student Name', with: 'Deeds, Leland'
       check('agreement')
       click_on('My PDF')
-      page.attach_file('files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
+      within('#fileupload') do
+        attach_file('files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
+      end
       # TODO: Miranda fixture folder has supplementary files. Add these when we're ready
       click_on("Review")
       select("Candler School of Theology", from: "Add as member of administrative set")

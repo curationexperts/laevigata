@@ -34,7 +34,9 @@ RSpec.feature 'Create a Rollins ETD' do
       title = "Global Public Health #{rand}"
       fill_in 'Title', with: title
       click_on('My PDF')
-      page.attach_file('files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
+      within('#fileupload') do
+        page.attach_file('files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
+      end
       # TODO: Miranda fixture folder has supplementary files. Add these when we're ready
       click_on("Review")
       select("Rollins School of Public Health", from: "Add as member of administrative set")
