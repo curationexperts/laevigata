@@ -16,6 +16,39 @@ RSpec.describe Etd do
     end
   end
 
+  context "determining admin set" do
+    let(:etd) { FactoryGirl.build(:etd) }
+    let(:epidemiology_admin_set) { FactoryGirl.create(:admin_set, title: ["Epidemiology"]) }
+
+    it "assigns the laney admin set when the school is laney" do
+      etd.school = ["Laney Graduate School"]
+      expect(etd.determine_admin_set).to eq "Laney Graduate School"
+    end
+    it "assigns the candler admin set when the school is candler" do
+      etd.school = ["Candler School of Theology"]
+      expect(etd.determine_admin_set).to eq "Candler School of Theology"
+    end
+    it "assigns the emory college admin set when the school is emory college" do
+      etd.school = ["Emory College"]
+      expect(etd.determine_admin_set).to eq "Emory College"
+    end
+    it "assigns according to department for Rollins" do
+      etd.school = ["Rollins School of Public Health"]
+      etd.department = ["Epidemiology"]
+      expect(etd.determine_admin_set).to eq "Epidemiology"
+    end
+    it "raises an error if it can't find the admin set in the config" do
+      etd.school = ["Fake School"]
+      expect { etd.determine_admin_set }.to raise_error(RuntimeError, /Cannot find admin set config/)
+    end
+    it "assigns the admin set" do
+      expect(epidemiology_admin_set.title).to contain_exactly("Epidemiology")
+      etd.department = ["Epidemiology"]
+      etd.assign_admin_set
+      expect(etd.admin_set.title).to contain_exactly("Epidemiology")
+    end
+  end
+
   context "three kinds of embargo" do
     let(:etd) { FactoryGirl.build(:etd) }
     it "#files_embargoed" do

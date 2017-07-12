@@ -13,6 +13,9 @@ Metrics/ClassLength:
 Metrics/MethodLength:
   Enabled: false
 
+Rails/FindBy:
+  Enabled: false
+
 RSpec/ExampleLength:
   Enabled: false
 

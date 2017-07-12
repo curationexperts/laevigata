@@ -17,12 +17,20 @@ task :sample_data do
   end
 end
 task :sample_data_with_workflow do
-  sample_data = [:sample_data, :sample_data_with_everything_embargoed, :sample_data_with_only_files_embargoed, :ateer_etd]
-  admin_sets = YAML.safe_load(File.read("#{::Rails.root}/config/emory/admin_sets.yml"))
-  admin_sets.keys.each do |as|
+  sample_data = [:sample_data, :sample_data_with_everything_embargoed, :sample_data_with_only_files_embargoed]
+  school_based_admin_sets = ["Laney Graduate School", "Emory College", "Candler School of Theology"]
+  admin_sets = YAML.safe_load(File.read("#{::Rails.root}/config/emory/admin_sets.yml")).keys
+  admin_sets.each do |as|
     puts "Making sample data for #{as}"
     sample_data.each do |s|
-      etd = FactoryGirl.build(s, school: [as], admin_set: AdminSet.where(title: as).first)
+      etd = FactoryGirl.build(s)
+      if school_based_admin_sets.include?(as)
+        etd.school = [as]
+      else
+        etd.school = ["Rollins School of Public Health"]
+        etd.department = [as]
+      end
+      etd.assign_admin_set
       user = User.where(ppid: etd.depositor).first
       ability = ::Ability.new(user)
       actor = Hyrax::CurationConcern.actor(etd, ability)
