@@ -24,18 +24,19 @@ class User < ApplicationRecord
   def self.from_omniauth(auth)
     Rails.logger.debug "auth = #{auth.inspect}"
     # Uncomment the debugger above to capture what a shib auth object looks like for testing
-    where(provider: auth.provider, uid: auth.info.uid).first_or_create do |user|
-      user.display_name = auth.info.display_name
-      user.uid = auth.info.uid
-      user.ppid = auth.uid
-      user.email = auth.info.uid + '@emory.edu'
-    end
+    user = where(provider: auth.provider, uid: auth.info.uid).first_or_create
+    user.display_name = auth.info.display_name
+    user.uid = auth.info.uid
+    user.ppid = auth.uid
+    user.email = auth.info.uid + '@emory.edu'
+    user.save
+    user
   end
 
   # Method added by Blacklight; Blacklight uses #to_s on your
   # user class to get a user-displayable login/identifier for
   # the account.
   def to_s
-    ppid
+    uid
   end
 end
