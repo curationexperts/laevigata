@@ -44,7 +44,7 @@ describe("EtdSaveWorkControl", function() {
         expect(target.requiredMeAndMyProgram).toBeDefined();
         expect(target.primary_pdf_upload).toBeDefined();
         expect(target.supplemental_files_upload).toBeDefined();
-        // expect(target.depositAgreement).toBeDefined();
+        expect(target.requiredEmbargoes).toBeDefined();
         // expect(target.saveButton).toBeDisabled();
       });
     });
@@ -111,7 +111,7 @@ describe("Validate My ETD", function(){
       loadFixtures('work_form.html');
       target = new EtdSaveWorkControl($('#form-progress'));
 
-      target.activate()
+      target.activate();
       target.requiredMyETD = mockCheckbox;
       spyOn(mockCheckbox, 'check').and.stub();
       spyOn(mockCheckbox, 'uncheck').and.stub();
@@ -305,6 +305,61 @@ describe("Validate My ETD", function(){
     //   });
     // });
   });
+
+describe("Validate My Embargoes", function(){
+  var mockCheckbox = {
+    check: function() { },
+    uncheck: function() { },
+  };
+
+  beforeEach(function() {
+    loadFixtures('work_form.html');
+    var fixture = setFixtures(
+      '<select><option></option></select>');
+    admin_set = new AdminSetWidget(fixture.find('select'))
+    target = new EtdSaveWorkControl($('#form-progress'), admin_set);
+  });
+
+  describe("when No Embargoes is checked", function() {
+    beforeEach(function() {
+      loadFixtures('work_form.html');
+      target.requiredEmbargoes = mockCheckbox;
+      spyOn(mockCheckbox, 'check').and.stub();
+      spyOn(mockCheckbox, 'uncheck').and.stub();
+      target.requiredEmbargoFields = {
+        areComplete: true
+      };
+    });
+    it("is valid and the embargo fields are disabled", function() {
+      $('#no_embargoes').prop('checked', true)
+      target.validateMyEmbargo();
+      expect($('#my_embargoes select')).toBeDisabled();
+      expect(mockCheckbox.uncheck.calls.count()).toEqual(0);
+      expect(mockCheckbox.check.calls.count()).toEqual(1);
+    });
+  });
+
+  describe("when No Embargoes is not checked", function() {
+    beforeEach(function() {
+      loadFixtures('work_form.html');
+      target.requiredEmbargoes = mockCheckbox;
+      spyOn(mockCheckbox, 'check').and.stub();
+      spyOn(mockCheckbox, 'uncheck').and.stub();
+      target.requiredEmbargoFields = {
+        areComplete: false
+      };
+    });
+    it("is not valid and the embargo fields are enabled", function() {
+      $('#no_embargoes').prop('checked', false)
+      target.validateMyEmbargo();
+      expect($('#my_embargoes select')).not.toBeDisabled();
+      expect(mockCheckbox.uncheck.calls.count()).toEqual(1);
+      expect(mockCheckbox.check.calls.count()).toEqual(0);
+    });
+  });
+});
+
+
 
   // describe("on submit", function() {
   //   var target;

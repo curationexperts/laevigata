@@ -1,4 +1,29 @@
+<h1><%= t("hyrax.works.form.tab.embargoes", type: curation_concern.human_readable_type) %></h1>
 
-        <div class="form-instructions">
-          <p>My Embargoes</p>
-        </div>
+<div id="my_embargoes">
+  <div class="checkbox">
+    <label class="boolean optional" for="etd_no_embargoes">
+      <%= check_box_tag :no_embargoes %> I have no embargoes.
+    </label>
+  </div>
+
+  <h4>What do you want to embargo?</h4>
+  <div>description </div>
+  <%= select_tag "embargo_type", options_for_select([["Files", :files_embargoed], ["Files and Table of Contents", [:files_embargoed, :toc_embargoed]],
+ ["Files, Table of Contents and Abstract", [:files_embargoed, :toc_embargoed, :abstract_embargoed]]]), { class: 'form-control required-embargo', include_blank: true } %>
+
+  <%= f.input :toc_embargoed, as: :hidden %>
+  <%= f.input :abstract_embargoed, as: :hidden %>
+  <%= f.input :files_embargoed, as: :hidden %>
+
+  <h4>Which program are you in?</h4>
+
+  <div class='form-group select'>
+    <%= select_tag "embargo_school", options_for_select(['Undergraduate Honors, Rollins or Candler', 'Laney Graduate School']), { include_blank: true, class: 'form-control' } %>
+  </div>
+
+  <h4>How long will the embargo last?</h4>
+  <%= f.input :embargo_release_date, as: :select, collection: ["6 months", "1 year", "2 years", "6 years"], required: false, label: false, hint: "Lorum Ipsum, Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum", input_html: { class: 'form-control required-embargo' } %>
+</div>
+
+<input name="my_embargoes" value="Save My Embargoes" class="btn btn-primary" id="my_embargoes" type="submit" />
