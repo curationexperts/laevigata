@@ -7,7 +7,7 @@ include Warden::Test::Helpers
 
 RSpec.feature 'Create a Candler ETD' do
   let(:user) { create :user }
-  let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/admin_sets.yml", "/dev/null") }
+  let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null") }
   let(:superuser) { w.superusers.first }
   context 'a logged in user' do
     before do

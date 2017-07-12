@@ -2,18 +2,61 @@ Laney Graduate School:
   workflow:
    - laney_graduate_school
   approving:
-   - thairst # Tamika Hairston
-   - twrig31 # Tracey Wright
-   - unilsso # Ulf Nilsson
-   - rlwebb # Renee Webb
+   - laneyadmin
+   - laneyadmin2
 Emory College:
   approving:
-   - cbeard4 # Carlee Beard
+   - ecadmin
+   - ecadmin2
 Candler School of Theology:
   approving:
-   - shart # Shelly Hart
-   - ksgarne # Kelly Garner Shannon
-Rollins School of Public Health:
+   - candleradmin
+   - candleradmin2
+Applied Epidemiology:
   approving:
-   - tezprox
-   - rollinsadmin2
+   - applied_epidemiology_admin
+Applied Public Health Informatics:
+  approving:
+   - applied_public_health_informatics_admin
+Behavioral Sciences and Health Education:
+  approving:
+   - behavioral_sciences_and_health_education_admin
+Biostatistics:
+  approving:
+   - biostatistics_admin
+Environmental Health - MPH:
+  approving:
+   - environmental_health_mph_admin
+Environmental Health Epidemiology - MPH & MSPH:
+  approving:
+   - environmental_health_epidemiology_admin
+Epidemiology:
+  approving:
+   - epidemiology_admin
+Global Environmental Health - MPH:
+  approving:
+   - global_environmental_health_admin
+Global Epidemiology:
+  approving:
+   - global_epidemiology_admin
+Health Care Outcomes Management:
+  approving:
+   - health_care_outcomes_management_admin
+Health Policy and Management:
+  approving:
+   - health_policy_and_management
+Hubert Department of Global Health:
+  approving:
+   - hubert_department_of_global_health_admin
+Management Science:
+  approving:
+   - management_science_admin
+Maternal and Child Health Epidemiology:
+  approving:
+   - maternal_and_child_health_epidemiology
+Prevention Science:
+  approving:
+   - prevention_science_admin
+Public Health Informatics:
+  approving:
+   - public_health_informatics_admin

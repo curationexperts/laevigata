@@ -76,7 +76,11 @@ RSpec.describe WorkflowSetup do
 
   context "admin_set config" do
     it "has an array of all the admin_sets" do
-      expect(w.admin_sets).to contain_exactly("Laney Graduate School", "Emory College", "Candler School of Theology", "Rollins School of Public Health")
+      expect(w.admin_sets).to include("Laney Graduate School", "Emory College", "Candler School of Theology")
+      rollins_programs = YAML.safe_load(File.read("#{::Rails.root}/config/authorities/rollins_programs.yml"))
+      rollins_programs["terms"].map { |p| p["id"] }.each do |program_name|
+        expect(w.admin_sets).to include(program_name)
+      end
     end
     it "has config options for each admin_set" do
       expect(w.admin_set_config("Laney Graduate School")).to be_instance_of Hash
@@ -168,12 +172,13 @@ RSpec.describe WorkflowSetup do
       ActiveFedora::Cleaner.clean!
       User.delete_all
     end
+    let(:w) { described_class.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/laney_admin_sets.yml", "/dev/null") }
     let(:etd) { build :etd }
     let(:user) { create :user }
     it "loads a special laney workflow" do
       w.load_superusers
       laney_admin_set = w.make_admin_set_from_config("Laney Graduate School")
-      expect(laney_admin_set.permission_template.available_workflows.where(active: true).first.name).to eq "laney_graduate_school"
+      expect(laney_admin_set.active_workflow.name).to eq "laney_graduate_school"
     end
     it "has the expected workflow states and roles" do
       w.load_superusers

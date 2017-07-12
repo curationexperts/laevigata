@@ -7,7 +7,7 @@ include Warden::Test::Helpers
 RSpec.describe EtdFactory do
   before :all do
     ActiveFedora::Cleaner.clean!
-    wf = WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/admin_sets.yml", "/dev/null")
+    wf = WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/laney_admin_sets.yml", "/dev/null")
     wf.setup
   end
   before do
