@@ -46,6 +46,7 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.before :suite do
+    DatabaseCleaner.clean_with(:truncation)
     ActiveFedora::Cleaner.clean!
   end
 
@@ -61,7 +62,7 @@ RSpec.configure do |config|
     DatabaseCleaner.start
   end
 
-  config.after do
+  config.append_after :each do
     DatabaseCleaner.clean
   end
 

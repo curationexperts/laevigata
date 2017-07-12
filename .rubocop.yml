@@ -26,6 +26,12 @@ RSpec/MultipleExpectations:
 Style/FileName:
   Enabled: false
 
+Style/Semicolon:
+  Enabled: false
+
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+
 RSpec/InstanceVariable:
   Enabled: false
 
