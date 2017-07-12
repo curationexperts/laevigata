@@ -29,7 +29,7 @@ FactoryGirl.define do
     factory :ateer_etd do
       creator ['Teer, Drew']
       depositor do
-        u = User.new(ppid: FFaker::Internet.user_name, display_name: creator.first)
+        u = User.new(uid: FFaker::Internet.user_name, ppid: ActiveFedora::Noid::Service.new.mint, display_name: creator.first)
         u.save
         u.user_key
       end
@@ -74,7 +74,7 @@ FactoryGirl.define do
         AdminSet.where(title: "Candler School of Theology").first
       end
       depositor do
-        u = User.new(uid: FFaker::Internet.user_name, ppid: "S#{rand(1...10_000)}", display_name: creator.first)
+        u = User.new(uid: FFaker::Internet.user_name, ppid: ActiveFedora::Noid::Service.new.mint, display_name: creator.first)
         u.save
         u.user_key
       end

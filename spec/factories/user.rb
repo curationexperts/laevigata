@@ -1,8 +1,6 @@
 FactoryGirl.define do
   factory :user do
-    ppid do
-      "P#{rand(1...10_000)}"
-    end
+    ppid { ActiveFedora::Noid::Service.new.mint }
     uid { FFaker::Internet.user_name }
     display_name { FFaker::Name.name }
 
