@@ -4,13 +4,22 @@ require 'rails_helper'
 
 include Warden::Test::Helpers
 
-RSpec.feature 'Create an Etd: About My Etd' do
+RSpec.feature 'Create an Etd: My Embargoes' do
   let(:user) { create :user }
 
   context 'a logged in user' do
     before do
       login_as user
       visit("/concern/etds/new")
+    end
+
+    scenario "My Embargo fields are present in tab" do
+      click_on("My Embargoes")
+
+      expect(page).to have_content("What do you want to embargo?")
+      expect(page).to have_content("Which school are you in?")
+      expect(page).to have_content("How long will the embargo last?")
+      expect(page).to have_css('#save_my_embargoes')
     end
 
     scenario "selecting Files sets files_embargoed value", js: true do
