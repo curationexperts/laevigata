@@ -26,6 +26,7 @@ RSpec.feature 'Create a Candler ETD' do
       expect(page).not_to have_css('input#etd_title.multi_value')
       expect(page).to have_css('input#etd_creator')
       expect(page).not_to have_css('input#etd_creator.multi_value')
+      select("Candler School of Theology", from: "School")
       click_on('About My ETD')
       title = FFaker::Book.title
       fill_in 'Title', with: title
@@ -36,8 +37,6 @@ RSpec.feature 'Create a Candler ETD' do
         attach_file('files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
       end
       # TODO: Miranda fixture folder has supplementary files. Add these when we're ready
-      click_on("Review")
-      select("Candler School of Theology", from: "Add as member of administrative set")
       click_on('Save')
       expect(page).to have_content title
       expect(page).to have_content 'Pending approval'

@@ -24,13 +24,13 @@ RSpec.feature 'Create a Laney ETD' do
 
     scenario "Joey submits a thesis and an approver reviews and approves it" do
       pending
+      select("Laney Graduate School", from: "School")
       expect(page).not_to have_css('input#etd_title.multi_value')
       expect(page).to have_css('input#etd_creator')
       expect(page).not_to have_css('input#etd_creator.multi_value')
       fill_in 'Student Name', with: 'Coppola, Joey'
       # fill_in 'Keyword', with: 'Surrealism'
       # Department is not required, by default it is hidden as an additional field
-      select('CDC', from: 'Partnering agency')
       check('agreement')
 
       click_on('About My ETD')
@@ -42,8 +42,6 @@ RSpec.feature 'Create a Laney ETD' do
       within('#fileupload') do
         page.attach_file('files[]', "#{fixture_path}/joey/joey_thesis.pdf")
       end
-      click_on("Review")
-      select("Laney Graduate School", from: "Add as member of administrative set")
       click_on('Save')
       expect(page).to have_content title
       expect(page).to have_content 'Pending review'

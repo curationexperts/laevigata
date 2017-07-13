@@ -26,6 +26,7 @@ RSpec.feature 'Create an Emory College ETD' do
       expect(page).not_to have_css('input#etd_title.multi_value')
       expect(page).to have_css('input#etd_creator')
       expect(page).not_to have_css('input#etd_creator.multi_value')
+      select("Emory College", from: "School")
       click_on('About My ETD')
       title = "A Brief History of Art #{rand}"
       fill_in 'Title', with: title
@@ -36,8 +37,6 @@ RSpec.feature 'Create an Emory College ETD' do
         page.attach_file('files[]', "#{fixture_path}/noah/noah_thesis.pdf")
       end
       # TODO: Miranda fixture folder has supplementary files. Add these when we're ready
-      click_on("Review")
-      select("Emory College", from: "Add as member of administrative set")
       click_on('Save')
       expect(page).to have_content title
       expect(page).to have_content 'Pending approval'

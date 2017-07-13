@@ -19,7 +19,6 @@ RSpec.describe Etd do
   context "determining admin set" do
     let(:etd) { FactoryGirl.build(:etd) }
     let(:epidemiology_admin_set) { FactoryGirl.create(:admin_set, title: ["Epidemiology"]) }
-
     it "assigns the laney admin set when the school is laney" do
       etd.school = ["Laney Graduate School"]
       expect(etd.determine_admin_set).to eq "Laney Graduate School"

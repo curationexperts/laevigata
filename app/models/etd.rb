@@ -47,7 +47,7 @@ class Etd < ActiveFedora::Base
   # Determine what admin set an ETD should belong to, based on what school and
   # department it belongs to
   # @return [String] the name of an admin set
-  def determine_admin_set
+  def determine_admin_set(school = self.school, department = self.department)
     valid_admin_sets = YAML.safe_load(File.read(WorkflowSetup::DEFAULT_ADMIN_SETS_CONFIG)).keys
     admin_set_determined_by_school = ["Laney Graduate School", "Candler School of Theology", "Emory College"]
     return school.first if admin_set_determined_by_school.include?(school.first) && valid_admin_sets.include?(school.first)
@@ -57,8 +57,8 @@ class Etd < ActiveFedora::Base
 
   # Assign an admin_set based on what is returned by #determine_admin_set
   # @return [AdminSet]
-  def assign_admin_set
-    as = AdminSet.where(title: determine_admin_set).first
+  def assign_admin_set(school = self.school, department = self.department)
+    as = AdminSet.where(title: determine_admin_set(school, department)).first
     self.admin_set = as
     as
   end
