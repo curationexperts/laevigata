@@ -1,3 +1,38 @@
-<div class="form-instructions">
-  <p>Review</p>
+<h1><%= t("hyrax.works.form.tab.review", type: curation_concern.human_readable_type) %></h1>
+
+<div id="review_my_etd">
+  <table class="table table-striped etd attributes" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <tbody></tbody>
+  </table>
+
+<p>
+<span class="btn btn-primary hidden" id="preview_my_etd">Preview My ETD</span>
+</p>
+  <div id='submission-agreement' class="hidden">
+    <% if ::Flipflop.show_deposit_agreement? %>
+      <% if ::Flipflop.active_deposit_agreement_acceptance? %>
+      <p id='submission-agreement-copy'>
+        <%= t('hyrax.active_consent_to_agreement') %>
+        <label class="submission_agreement">
+          <%= check_box_tag 'agreement', 1, f.object.agreement_accepted, required: true %>
+          I HAVE READ AND AGREE TO THE SUBMISSION AGREEMENT
+        </label>
+      </p>
+      <% else %>
+        <%= t('hyrax.passive_consent_to_agreement') %><br>
+        <%= link_to t('hyrax.deposit_agreement'),
+                    hyrax.agreement_path,
+                    target: '_blank' %>
+      <% end %>
+    <% end %>
+    <br>
+    <%= link_to t(:'helpers.action.cancel'),
+                hyrax.dashboard_index_path,
+                class: 'btn btn-default' %>
+    <%# TODO: If we start using ActionCable, we could listen for object updates and
+              alert the user that the object has changed by someone else %>
+    <%= f.input Hyrax::Actors::OptimisticLockValidator.version_field, as: :hidden if f.object.persisted? %>
+    <%= f.submit class: 'btn btn-primary', onclick: "confirmation_needed = false;", id: "with_files_submit", name: "save_with_files" %>
+  </div>
+
 </div>
