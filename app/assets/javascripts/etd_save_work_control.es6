@@ -76,6 +76,9 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.primary_pdf_upload = new UploadedFiles(this.form, () => this.formStateChanged('#fileupload'), '#fileupload', 'li#required-files')
 
       this.supplemental_files_upload = new UploadedFiles(this.form, () => this.formStateChanged('#supplemental_fileupload'),'#supplemental_fileupload','li#required-supplemental-files')
+
+      this.requiredEmbargoFields = new ETDRequiredFields(this.form, () => this.formStateChanged('#my_embargoes'), '#my_embargoes')
+
       //This needs to be adjusted
       this.saveButton = this.element.find('#about_me_and_my_program')
       this.depositAgreement = new DepositAgreement(this.form, () => this.formStateChanged())
@@ -84,11 +87,19 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.requiredMetadata = new ChecklistItem(this.element.find('#required-metadata'))
       this.requiredPDF = new ChecklistItem(this.element.find('#required-files'))
       this.supplementalFiles = new ChecklistItem(this.element.find('#required-supplemental-files'))
-      new VisibilityComponent(this.element.find('.visibility'), this.adminSetWidget)
+      this.requiredEmbargoes = new ChecklistItem(this.element.find('#required-embargoes'))
+
+      // this is not at all ideal, but because this class is instanted in several places, it's not easy to append and remove one option, so we just remove and append the whole set
+      this.nonLaneyEmbargoDurations = '<option value=""></option><option value="6 months">6 months</option><option value="1 year">1 year</option><option value="2 years">2 years</option>';
+
+      this.laneyEmbargoDurations = '<option value=""></option><option value="6 months">6 months</option><option value="1 year">1 year</option><option value="2 years">2 years</option><option value="6 years">6 years</option>';
+
       this.preventSubmit()
       this.formChanged()
       this.fileDeleted()
-      this.supplemental_files_listener()
+      this.supplementalFilesListener()
+      this.setEmbargoReleaseDates()
+      this.setEmbargoContentListener()
     }
 
 
@@ -108,6 +119,10 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
         case '#fileupload':
 
         case '#supplemental_fileupload':
+
+        case '#my_embargoes':
+          this.requiredEmbargoFields.reload('#my_embargoes')
+
         default:
           break;
       }
@@ -148,7 +163,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       }
     }
 
-    supplemental_files_listener(){
+    supplementalFilesListener(){
       let form = this
       $('#etd_no_supplemental_files').on('change', function(){
         form.validateSupplementalFiles()
@@ -178,11 +193,90 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
           return this.validatePDF()
         case "#supplemental_fileupload":
           return this.validateSupplementalFiles()
+        case '#my_embargoes':
+          return this.validateMyEmbargo()
         default:
           //console.log('nothing is valid');
           break;
       }
     //   return metadataValid && filesValid && agreementValid
+    }
+
+    setEmbargoContent(el){
+      if($(el).val() === 'files_embargoed'){
+        $('#etd_files_embargoed').val(true);
+
+        //other two are false
+        $('#etd_toc_embargoed').val(false);
+        $('#etd_abstract_embargoed').val(false)
+      } else if ($(el).val() === '[:files_embargoed, :toc_embargoed]'){
+        $('#etd_files_embargoed').val(true);
+        $('#etd_toc_embargoed').val(true);
+
+        //other one is false
+        $('#etd_abstract_embargoed').val(false);
+      } else if ($(el).val() === '[:files_embargoed, :toc_embargoed, :abstract_embargoed]') {
+        // no one is false
+        $('#etd_files_embargoed').val(true);
+        $('#etd_toc_embargoed').val(true);
+        $('#etd_abstract_embargoed').val(true);
+      } else {
+        // everyone is false
+        $('#etd_files_embargoed').val(false);
+        $('#etd_toc_embargoed').val(false);
+        $('#etd_abstract_embargoed').val(false);
+      }
+    }
+
+    setEmbargoContentListener(){
+      var form = this
+      $('#embargo_type').on('change', function(e){
+        form.setEmbargoContent(this);
+      });
+    }
+
+    attachNonLaneyEmbargoDurations(){
+      $('#etd_embargo_release_date').empty();
+      $('#etd_embargo_release_date').html(this.nonLaneyEmbargoDurations)
+    }
+
+    attachLaneyEmbargoDurations(){
+      $('#etd_embargo_release_date').empty();
+      $('#etd_embargo_release_date').html(this.laneyEmbargoDurations)
+    }
+
+    setEmbargoReleaseDates(){
+      var form = this;
+      $('#embargo_school').on('change', function(){
+        if ($(this).val() === 'Undergraduate Honors, Rollins or Candler') {
+          form.attachNonLaneyEmbargoDurations();
+        } else if ($(this).val() === 'Laney Graduate School') {
+          form.attachLaneyEmbargoDurations();
+        }
+      });
+    }
+
+    disableEmbargoes(){
+      $('#my_embargoes select').prop('disabled', true);
+    }
+
+    enableEmbargoes(){
+      $('#my_embargoes select').prop('disabled', false);
+    }
+
+    validateMyEmbargo() {
+      if ($('#no_embargoes').prop('checked')){
+        this.requiredEmbargoes.check();
+        this.disableEmbargoes();
+        return true
+      } else {
+        this.enableEmbargoes();
+        if (this.requiredEmbargoFields.areComplete) {
+          this.requiredEmbargoes.check();
+        } else {
+          this.requiredEmbargoes.uncheck();
+        }
+      }
     }
 
     validateMyETD() {
