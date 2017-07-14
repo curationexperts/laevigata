@@ -58,7 +58,7 @@ class Etd < ActiveFedora::Base
   # Assign an admin_set based on what is returned by #determine_admin_set
   # @return [AdminSet]
   def assign_admin_set(school = self.school, department = self.department)
-    as = AdminSet.where(title: determine_admin_set(school, department)).first
+    as = AdminSet.where(title_sim: determine_admin_set(school, department)).first
     self.admin_set = as
     as
   end
