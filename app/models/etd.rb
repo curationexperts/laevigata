@@ -173,9 +173,9 @@ class Etd < ActiveFedora::Base
   end
 
   # About My Etd Questionaire questions
-  property :copyright_question_one, predicate: "http://example.com/copyright_question"
+  property :copyright_question_one, predicate: "http://www.w3.org/2004/02/skos/core#note_permissions", multiple: false
 
-  property :copyright_question_two, predicate: "http://example.com/copyright_question"
+  property :copyright_question_two, predicate: "http://www.w3.org/2004/02/skos/core#note_copyrights", multiple: false
 
-  property :copyright_question_three, predicate: "http://example.com/copyright_question"
+  property :copyright_question_three, predicate: "http://www.w3.org/2004/02/skos/core#note_patents", multiple: false
 end
