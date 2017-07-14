@@ -176,6 +176,25 @@ RSpec.describe Etd do
     end
   end
 
+  context "the three intellectual property questions" do
+    let(:etd) { FactoryGirl.build(:etd) }
+    it "has an answer about permissions" do
+      etd.copyright_question_one = true
+      expect(etd.resource.dump(:ttl)).to match(/www.w3.org\/2004\/02\/skos\/core\#note_permissions/)
+      expect(etd.copyright_question_one).to eq true
+    end
+    it "has an answer about copyright" do
+      etd.copyright_question_two = true
+      expect(etd.resource.dump(:ttl)).to match(/www.w3.org\/2004\/02\/skos\/core\#note_copyrights/)
+      expect(etd.copyright_question_two).to eq true
+    end
+    it "has an answer about patents" do
+      etd.copyright_question_three = true
+      expect(etd.resource.dump(:ttl)).to match(/www.w3.org\/2004\/02\/skos\/core\#note_patents/)
+      expect(etd.copyright_question_three).to eq true
+    end
+  end
+
   describe "#degree" do
     subject { described_class.new }
     let(:degree) { "MS" }
