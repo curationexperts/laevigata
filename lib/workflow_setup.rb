@@ -190,10 +190,10 @@ class WorkflowSetup
   # Make an AdminSet with the given title, belonging to the @admin_set_owner
   # @return [AdminSet] the admin set that was just created, or the one that existed already
   def make_admin_set(admin_set_title)
-    if AdminSet.where(title: admin_set_title).count > 0
+    if AdminSet.where(title_sim: admin_set_title).count > 0
       @logger.debug "AdminSet #{admin_set_title} already exists."
       load_workflows # Load workflows even if the AdminSet exists already, in case new workflows have appeared
-      return AdminSet.where(title: admin_set_title).first
+      return AdminSet.where(title_sim: admin_set_title).first
     end
     a = AdminSet.new
     a.title = [admin_set_title]

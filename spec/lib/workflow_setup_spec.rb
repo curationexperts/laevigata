@@ -227,4 +227,22 @@ RSpec.describe WorkflowSetup do
       end
     end
   end
+  context "creating all the admin sets" do
+    before do
+      ActiveFedora::Cleaner.clean!
+      User.delete_all
+    end
+    let(:w) { described_class.new("#{fixture_path}/config/emory/superusers.yml", Rails.root.join('config', 'emory', 'admin_sets.yml'), "/dev/null") }
+    it "doesn't miss any" do
+      allow(w).to receive(:load_workflows)
+      allow(w).to receive(:load_superusers)
+      allow(w).to receive(:everyone_can_deposit_everywhere)
+      allow(w).to receive(:give_superusers_superpowers)
+      allow(w).to receive(:activate_mediated_deposit)
+      w.setup
+      expected = w.admin_sets_config.keys
+      found = AdminSet.all.map(&:title).map(&:first)
+      expect(found).to match_array(expected)
+    end
+  end
 end
