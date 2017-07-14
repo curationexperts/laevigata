@@ -1,5 +1,4 @@
-# Generated via
-#  `rails generate hyrax:work Etd`
+# Generated via `rails generate hyrax:work Etd`
 require 'rails_helper'
 
 include Warden::Test::Helpers
@@ -30,18 +29,87 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_selector("li#required-embargoes")
       expect(page).to have_selector("li#required-review")
     end
+  end
 
-    scenario "Submit an ETD after saving data in the tabs", js: true do
+  context 'a logged in (non-admin) user' do
+    let(:title) { 'A great thesis by Frodo' }
+    let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
+
+    before do
+      # Don't run background jobs during the spec
+      allow(ActiveJob::Base).to receive_messages(perform_later: nil, perform_now: nil)
+
+      # Create AdminSet and Workflow
+      ActiveFedora::Cleaner.clean!
+      workflow_setup.setup
+
+      login_as user
+      visit new_hyrax_etd_path
+    end
+
+    scenario "Create a new ETD", js: true do
+      # Fill in 'About Me' tab
+      fill_in 'Student Name', with: 'Johnson, Frodo'
+      select 'Spring 2018', from: 'Graduation date'
+      fill_in 'Post graduation email', with: 'frodo@example.com'
+      select 'Emory College', from: 'School'
+      select 'Religion', from: 'Department'
+      select 'Ethics and Society', from: 'Sub Field'
+      select 'CDC', from: 'Partnering agency'
+      select 'PhD', from: 'Degree'
+      select 'Dissertation', from: 'I am submitting my'
+      # TODO: Committee Chair
+      # TODO: Committee Member
       click_on('Save About Me')
-      click_on('About My ETD')
-      fill_in 'Title', with: 'A great thesis'
-      click_on('Save My ETD')
-      check('agreement')
 
-      # TODO: This is failing intermittently and holding up progress on other work.
-      # Go back and fix this when we've nailed down the expected behavior.
-      # click_on('Save')
-      # expect(page).to have_content("Your files are being processed" || "The work is not currently available")
+      # Fill in 'About My ETD' tab
+      click_on('About My ETD')
+      fill_in 'Title', with: title
+      # TODO: fill in all fields
+      click_on('Save My ETD')
+
+      # TODO: Attach primary PDF
+      # TODO: Attach supplementary file(s)
+      # TODO: Create an embargo
+
+      # Save the form
+      check('agreement')
+      save_and_wait = -> { click_button "Save"; wait_for_ajax(10) }
+      expect(save_and_wait).to change { Etd.count }.by(1)
+                           .and change { FileSet.count }.by(0)
+
+      # Find our newly-created ETD
+      etds = Etd.where(title_tesim: title)
+      expect(etds.length).to eq 1 # Make sure only 1 ETD in array
+      etd = etds.first
+
+      # Meanwhile, an admin user approves our ETD
+      expect(page).to have_content "The work is not currently available because it has not yet completed the approval process"
+      expect(etd.to_sipity_entity.workflow_state_name).to eq 'pending_approval'
+      approve_etd(etd, workflow_setup.superusers.first)
+      expect(etd.to_sipity_entity.workflow_state_name).to eq 'approved'
+
+      # TODO: For now, we need to set the visibility, but this is a bug.  The visibility should be changed automatically as part of approval process.
+      etd.visibility = 'open'
+      etd.save!
+
+      # After it is approved, we can view the ETD
+      visit hyrax_etd_path(etd)
+
+      # Verify metadata from 'About Me' tab
+      expect(page).to have_content 'Johnson, Frodo'
+      expect(page).to have_content 'Spring 2018'
+      # TODO: expect(etd.post_graduation_email).to eq ['frodo@example.com']
+      expect(page).to have_content 'School Emory College'
+      expect(page).to have_content 'Department Religion'
+      expect(page).to have_content 'Subfield / Discipline Ethics and Society'
+      expect(page).to have_content 'Partnering Agencies CDC'
+      expect(page).to have_content 'Degree Ph.D.'
+      expect(page).to have_content 'Submission Dissertation'
+      # TODO: Test committee chair & members names and affiliations
+
+      # Verify metadata from 'About My ETD' tab
+      expect(page).to have_content title
     end
   end
 
