@@ -23,6 +23,7 @@ module Hyrax
         school = attributes["school"] ? attributes["school"] : curation_concern.school
         department = attributes["department"] ? attributes["department"] : curation_concern.department
         curation_concern.assign_admin_set(school, department)
+        raise "Could not assign admin_set for #{curation_concern.id}" if curation_concern.admin_set.nil?
         attributes[:admin_set_id] = curation_concern.admin_set.id
       end
   end
