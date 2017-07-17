@@ -61,6 +61,7 @@ group :development, :test do
   # gem 'ffaker'
   gem 'jasmine' # Needed for testing forms
   gem 'launchy'
+  gem 'rails-controller-testing'
   gem 'rspec', "~> 3.5"
   gem 'rspec-activemodel-mocks'
   gem 'rspec-its'

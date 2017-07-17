@@ -40,5 +40,13 @@ Rails.application.routes.draw do
     end
   end
 
+  delete '/uploads/:id', to: 'hyrax/uploads#destroy', as: :uploaded_file
+  post '/uploads', to: 'hyrax/uploads#create'
+  # This is a hack that is required because the rails form the uploader is on
+  # sets the _method parameter to patch when the work already exists.
+  # Eventually it would be good to update the javascript so that it doesn't
+  # submit the form, just the file and always uses POST.
+  patch '/uploads', to: 'hyrax/uploads#create'
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

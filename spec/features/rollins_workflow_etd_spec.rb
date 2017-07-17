@@ -33,7 +33,7 @@ RSpec.feature 'Create a Rollins ETD' do
       fill_in 'Title', with: title
       click_on('My PDF')
       within('#fileupload') do
-        page.attach_file('files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
+        page.attach_file('primary_files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
       end
       # TODO: Miranda fixture folder has supplementary files. Add these when we're ready
       click_on('Save')
