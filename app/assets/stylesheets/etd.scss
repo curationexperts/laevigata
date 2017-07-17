@@ -52,3 +52,18 @@ span.disabled_element{
 span.disabled_element input[disabled] {
   cursor: not-allowed;
 }
+
+.navbar ul li{
+    display:inline-block;
+    float: none;
+ }
+
+ .center {
+ text-align: center;
+ }
+
+ .site-footer {
+ height: 202px !important;
+ }
+
+
