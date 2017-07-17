@@ -5,7 +5,14 @@ task :sample_data do
   sample_data = [:sample_data, :sample_data_with_everything_embargoed, :sample_data_with_only_files_embargoed, :ateer_etd]
   sample_data.each do |s|
     etd_factory = EtdFactory.new
-    etd = FactoryGirl.create(s)
+    etd = FactoryGirl.create(
+      s,
+      submitting_type: ["Master's Thesis"],
+      school: ["Rollins School of Public Health"],
+      department: ["Epidemiology"],
+      degree: ["M.S."],
+      subfield: ["Political Robotics"]
+    )
     primary_pdf_file = "#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf"
     etd_factory.etd = etd
     etd_factory.primary_pdf_file = primary_pdf_file
@@ -23,7 +30,7 @@ task :sample_data_with_workflow do
   admin_sets.each do |as|
     puts "Making sample data for #{as}"
     sample_data.each do |s|
-      etd = FactoryGirl.build(s)
+      etd = FactoryGirl.build(s, submitting_type: ["Master's Thesis"], degree: ["M.S."])
       if school_based_admin_sets.include?(as)
         etd.school = [as]
       else
