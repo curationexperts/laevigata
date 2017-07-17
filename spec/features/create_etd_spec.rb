@@ -89,10 +89,6 @@ RSpec.feature 'Create an Etd' do
       approve_etd(etd, workflow_setup.superusers.first)
       expect(etd.to_sipity_entity.workflow_state_name).to eq 'approved'
 
-      # TODO: For now, we need to set the visibility, but this is a bug.  The visibility should be changed automatically as part of approval process.
-      etd.visibility = 'open'
-      etd.save!
-
       # After it is approved, we can view the ETD
       visit hyrax_etd_path(etd)
 
