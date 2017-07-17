@@ -33,10 +33,14 @@ task :sample_data_with_workflow do
       etd.assign_admin_set
       user = User.where(ppid: etd.depositor).first
       ability = ::Ability.new(user)
+
+      file1 = File.open("#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf")
+      file2 = File.open("#{::Rails.root}/spec/fixtures/miranda/image.tif")
+      upload1 = Hyrax::UploadedFile.create(user: user, file: file1, pcdm_use: 'primary')
+      upload2 = Hyrax::UploadedFile.create(user: user, file: file2, pcdm_use: 'supplementary')
       actor = Hyrax::CurationConcern.actor(etd, ability)
-      # TODO: Figure out how to attach files via the actor.create hash
-      # actor.create(admin_set_id: etd.admin_set.id, files: [Hyrax::UploadedFile.create(file: File.open("#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf"))])
-      actor.create(admin_set_id: etd.admin_set.id)
+      attributes_for_actor = { uploaded_files: [upload1.id, upload2.id] }
+      actor.create(attributes_for_actor)
       puts "Created #{etd.id}"
     end
   end
