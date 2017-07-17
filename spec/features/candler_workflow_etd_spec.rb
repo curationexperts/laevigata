@@ -34,9 +34,8 @@ RSpec.feature 'Create a Candler ETD' do
       check('agreement')
       click_on('My PDF')
       within('#fileupload') do
-        attach_file('files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
+        attach_file('primary_files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
       end
-      # TODO: Miranda fixture folder has supplementary files. Add these when we're ready
       click_on('Save')
       expect(page).to have_content title
       expect(page).to have_content 'Pending approval'

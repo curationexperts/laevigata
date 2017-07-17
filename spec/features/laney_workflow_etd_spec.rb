@@ -40,7 +40,7 @@ RSpec.feature 'Create a Laney ETD' do
 
       click_on('My PDF')
       within('#fileupload') do
-        page.attach_file('files[]', "#{fixture_path}/joey/joey_thesis.pdf")
+        page.attach_file('primary_files[]', "#{fixture_path}/joey/joey_thesis.pdf")
       end
       click_on('Save')
       expect(page).to have_content title
