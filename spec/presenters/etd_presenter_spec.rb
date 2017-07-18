@@ -22,6 +22,7 @@ describe EtdPresenter do
           described_class.new(SolrDocument.new(etd.to_solr), ability)
         end
         it "returns the toc if the toc is not under embargo" do
+          allow(presenter).to receive(:current_ability_is_approver?).and_return(false)
           expect(etd.toc_embargoed).to eq nil
           expect(presenter.toc_with_embargo_check).to eq etd.table_of_contents.first
         end
@@ -29,6 +30,9 @@ describe EtdPresenter do
           it "provides a toc unavailable message if the toc is under embargo" do
             etd.embargo_id = FactoryGirl.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
             etd.toc_embargoed = true
+            etd.save
+            presenter = described_class.new(SolrDocument.new(etd.to_solr), ability)
+            allow(presenter).to receive(:current_ability_is_approver?).and_return(false)
             expect(presenter.toc_with_embargo_check).to eq "This table of contents is under embargo until #{presenter.formatted_embargo_release_date}"
           end
         end
@@ -46,7 +50,7 @@ describe EtdPresenter do
           it "displays the toc even if it is under embargo" do
             etd.embargo_id = FactoryGirl.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
             etd.toc_embargoed = true
-            expect(presenter.toc_with_embargo_check).to eq "[Embargoed until #{presenter.formatted_embargo_release_date}] #{presenter.table_of_contents.first}"
+            expect(presenter.toc_with_embargo_check).to eq "[Table of content embargoed until #{presenter.formatted_embargo_release_date}] #{presenter.table_of_contents.first}"
           end
         end
       end
@@ -72,6 +76,7 @@ describe EtdPresenter do
         let(:presenter) do
           described_class.new(SolrDocument.new(etd.to_solr), ability)
         end
+        before { allow(presenter).to receive(:current_ability_is_approver?).and_return(false) }
         it "returns the abstract if it is not under embargo" do
           expect(etd.abstract_embargoed).to eq nil
           expect(presenter.abstract_with_embargo_check).to eq etd.abstract.first
@@ -80,6 +85,9 @@ describe EtdPresenter do
           it "provides an abstract unavailable message if the abstract is under embargo" do
             etd.embargo_id = FactoryGirl.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
             etd.abstract_embargoed = true
+            etd.save
+            presenter = described_class.new(SolrDocument.new(etd.to_solr), ability)
+            allow(presenter).to receive(:current_ability_is_approver?).and_return(false)
             expect(presenter.abstract_with_embargo_check).to eq "This abstract is under embargo until #{presenter.formatted_embargo_release_date}"
           end
         end
@@ -97,7 +105,7 @@ describe EtdPresenter do
           it "displays the abstract even if it is under embargo" do
             etd.embargo_id = FactoryGirl.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
             etd.abstract_embargoed = true
-            expect(presenter.abstract_with_embargo_check).to eq "[Embargoed until #{presenter.formatted_embargo_release_date}] #{presenter.abstract.first}"
+            expect(presenter.abstract_with_embargo_check).to eq "[Abstract embargoed until #{presenter.formatted_embargo_release_date}] #{presenter.abstract.first}"
           end
         end
       end
