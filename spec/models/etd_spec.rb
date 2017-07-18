@@ -67,6 +67,15 @@ RSpec.describe Etd do
     end
   end
 
+  context "embargo length" do
+    let(:etd) { FactoryGirl.build(:etd) }
+    it "has an embargo length" do
+      etd.embargo_length = "6 months"
+      expect(etd.resource.dump(:ttl)).to match(/purl.org\/spar\/fabio\/hasEmbargoDuration/)
+      expect(etd.embargo_length).to eq "6 months"
+    end
+  end
+
   context "abstract" do
     let(:etd) { FactoryGirl.build(:etd) }
     it "has an abstract" do
