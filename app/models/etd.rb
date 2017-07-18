@@ -113,7 +113,7 @@ class Etd < ActiveFedora::Base
   end
 
   # booleans, placeholder predicates --
-  property :no_supplemental_files, predicate: "http://emory.edu/local/hidden", multiple: false
+  property :no_supplemental_files, predicate: "http://emory.edu/local/no_supplemental_files", multiple: false
 
   property :files_embargoed, predicate: "http://purl.org/spar/pso/embargoed#files", multiple: false do |index|
     index.as :stored_searchable, :facetable

@@ -23,7 +23,6 @@ RSpec.feature 'Create a Laney ETD' do
     end
 
     scenario "Joey submits a thesis and an approver reviews and approves it" do
-      pending
       select("Laney Graduate School", from: "School")
       expect(page).not_to have_css('input#etd_title.multi_value')
       expect(page).to have_css('input#etd_creator')
