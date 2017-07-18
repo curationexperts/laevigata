@@ -33,7 +33,7 @@ RSpec.feature 'Display an ETD with embargoed content' do
       expect(page).to have_content "[Abstract embargoed until "
       expect(page).to have_content "Table of Contents"
       expect(page).to have_content etd.table_of_contents.first
-      expect(page).to have_content "[Table of content embargoed until "
+      expect(page).to have_content "[Table of contents embargoed until "
       expect(page).to have_content "joey_thesis.pdf"
       expect(page).to have_link "joey_thesis.pdf"
       expect(page).to have_link "Download"
