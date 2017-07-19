@@ -5,53 +5,25 @@ require 'active_fedora/cleaner'
 require 'workflow_setup'
 include Warden::Test::Helpers
 
-RSpec.feature 'Create a Laney ETD' do
-  let(:user) { create :user }
+RSpec.feature 'Laney Graduate School two step approval workflow' do
+  let(:depositing_user) { User.where(ppid: etd.depositor).first }
+  let(:approving_user) { User.where(uid: "laneyadmin").first }
   let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/laney_admin_sets.yml", "/dev/null") }
-  let(:superuser) { w.superusers.first }
+  let(:etd) { FactoryGirl.create(:sample_data, school: ["Laney Graduate School"]) }
   context 'a logged in user' do
     before do
+      allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
       ActiveFedora::Cleaner.clean!
       w.setup
-      login_as user
-      visit("/concern/etds/new")
+      actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(depositing_user))
+      actor.create({})
     end
-    # weak test of the fields but it was failing due to webkit issues with attach_file
-    scenario "Joey submits submits school and department", js: true do
-      select("Laney Graduate School", from: "School")
-      select("Religion", from: "Department", match: :first)
-    end
-
-    scenario "Joey submits a thesis and an approver reviews and approves it" do
-      select("Laney Graduate School", from: "School")
-      expect(page).not_to have_css('input#etd_title.multi_value')
-      expect(page).to have_css('input#etd_creator')
-      expect(page).not_to have_css('input#etd_creator.multi_value')
-      fill_in 'Student Name', with: 'Coppola, Joey'
-      # fill_in 'Keyword', with: 'Surrealism'
-      # Department is not required, by default it is hidden as an additional field
-      check('agreement')
-
-      click_on('About My ETD')
-      expect(page).to have_css('#about_my_etd input#etd_title')
-      title = "Surrealism #{rand}"
-      fill_in 'Title', with: title
-
-      click_on('My PDF')
-      within('#fileupload') do
-        page.attach_file('primary_files[]', "#{fixture_path}/joey/joey_thesis.pdf")
-      end
-      click_on('Save')
-      expect(page).to have_content title
-      expect(page).to have_content 'Pending review'
-
-      # Check the ETD was assigned the right workflow
-      etd = Etd.where(title: [title]).first
+    scenario "an approver reviews and approves a work" do
       expect(etd.active_workflow.name).to eq "laney_graduate_school"
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "pending_review"
 
       # Check workflow permissions for depositing user
-      available_workflow_actions = Hyrax::Workflow::PermissionQuery.scope_permitted_workflow_actions_available_for_current_state(user: user, entity: etd.to_sipity_entity).pluck(:name)
+      available_workflow_actions = Hyrax::Workflow::PermissionQuery.scope_permitted_workflow_actions_available_for_current_state(user: depositing_user, entity: etd.to_sipity_entity).pluck(:name)
       expect(available_workflow_actions.include?("mark_as_reviewed")).to eq false
       expect(available_workflow_actions.include?("approve")).to eq false
       expect(available_workflow_actions.include?("request_changes")).to eq false
@@ -60,17 +32,17 @@ RSpec.feature 'Create a Laney ETD' do
       expect(available_workflow_actions.include?("unhide")).to eq false
 
       # Check notifications for depositing user
+      login_as depositing_user
       visit("/notifications?locale=en")
       expect(page).to have_content 'Deposit needs review'
-      expect(page).to have_content "#{title} (#{etd.id}) was deposited by #{user.display_name} and is awaiting initial review."
+      expect(page).to have_content "#{etd.title.first} (#{etd.id}) was deposited by #{depositing_user.display_name} and is awaiting initial review."
 
       # Check notifications for approving user
       logout
-      approving_user = User.where(uid: "laneyadmin").first
       login_as approving_user
       visit("/notifications?locale=en")
       expect(page).to have_content 'Deposit needs review'
-      expect(page).to have_content "#{title} (#{etd.id}) was deposited by #{user.display_name} and is awaiting initial review."
+      expect(page).to have_content "#{etd.title.first} (#{etd.id}) was deposited by #{depositing_user.display_name} and is awaiting initial review."
 
       # Check workflow permissions for approving user
       available_workflow_actions = Hyrax::Workflow::PermissionQuery.scope_permitted_workflow_actions_available_for_current_state(user: approving_user, entity: etd.to_sipity_entity).pluck(:name)
@@ -99,7 +71,7 @@ RSpec.feature 'Create a Laney ETD' do
 
       # Check notifications for approving user
       visit("/notifications?locale=en")
-      expect(page).to have_content "#{title} (#{etd.id}) has completed initial review and is awaiting final approval."
+      expect(page).to have_content "#{etd.title.first} (#{etd.id}) has completed initial review and is awaiting final approval."
 
       # The approving user marks the etd as approved
       subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
@@ -122,19 +94,18 @@ RSpec.feature 'Create a Laney ETD' do
 
       # Check notifications for approving user
       visit("/notifications?locale=en")
-      expect(page).to have_content "#{title} (#{etd.id}) has been approved by"
-      expect(page).to have_content "#{title} (#{etd.id}) was hidden by"
+      expect(page).to have_content "#{etd.title.first} (#{etd.id}) has been approved by"
+      expect(page).to have_content "#{etd.title.first} (#{etd.id}) was hidden by"
       expect(page).to have_content "hiding for reasons"
-      expect(page).to have_content "#{title} (#{etd.id}) was unhidden by"
+      expect(page).to have_content "#{etd.title.first} (#{etd.id}) was unhidden by"
       expect(page).to have_content "unhiding for reasons"
 
       # Check notifications for depositor again
       logout
-      login_as user
+      login_as depositing_user
       visit("/notifications?locale=en")
-      screenshot_and_open_image
-      expect(page).to have_content "#{title} (#{etd.id}) has completed initial review and is awaiting final approval."
-      expect(page).to have_content "#{title} (#{etd.id}) has been approved by"
+      expect(page).to have_content "#{etd.title.first} (#{etd.id}) has completed initial review and is awaiting final approval."
+      expect(page).to have_content "#{etd.title.first} (#{etd.id}) has been approved by"
     end
   end
 end
