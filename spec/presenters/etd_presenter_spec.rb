@@ -50,7 +50,7 @@ describe EtdPresenter do
           it "displays the toc even if it is under embargo" do
             etd.embargo_id = FactoryGirl.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
             etd.toc_embargoed = true
-            expect(presenter.toc_with_embargo_check).to eq "[Table of content embargoed until #{presenter.formatted_embargo_release_date}] #{presenter.table_of_contents.first}"
+            expect(presenter.toc_with_embargo_check).to eq "[Table of contents embargoed until #{presenter.formatted_embargo_release_date}] #{presenter.table_of_contents.first}"
           end
         end
       end
