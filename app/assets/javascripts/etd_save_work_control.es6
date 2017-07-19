@@ -230,6 +230,9 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
     setEmbargoContentListener(){
       var form = this
+      $("#no_embargoes").on('change', function(e){
+        form.validateMyEmbargo();
+      });
       $('#embargo_type').on('change', function(e){
         form.setEmbargoContent(this);
       });
@@ -273,8 +276,10 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
         this.enableEmbargoes();
         if (this.requiredEmbargoFields.areComplete) {
           this.requiredEmbargoes.check();
+          return true
         } else {
           this.requiredEmbargoes.uncheck();
+          return false
         }
       }
     }
