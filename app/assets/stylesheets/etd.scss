@@ -52,3 +52,16 @@ span.disabled_element{
 span.disabled_element input[disabled] {
   cursor: not-allowed;
 }
+
+.navbar ul li{
+    display:inline-block;
+    float: none;
+ }
+
+ .center {
+ text-align: center;
+ }
+
+ .navbar-text {
+ margin:0px !important;
+}
