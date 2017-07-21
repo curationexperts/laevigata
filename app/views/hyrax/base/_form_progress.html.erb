@@ -16,8 +16,6 @@
           <li class="incomplete" id="required-supplemental-files"><%= t('.required_supplemental_files') %></li>
 
           <li class="incomplete" id="required-embargoes"><%= t('.required_embargoes') %></li>
-
-          <li class="incomplete" id="required-review"><%= t('.required_review') %></li>
         </ul>
       </fieldset>
     </div>
@@ -27,31 +25,5 @@
           <%= f.input :on_behalf_of, collection: current_user.can_make_deposits_for.map(&:user_key), prompt: "Yourself" %>
         </div>
     <% end %>
-  </div>
-  <div class="panel-footer text-center">
-    <% if ::Flipflop.show_deposit_agreement? %>
-      <% if ::Flipflop.active_deposit_agreement_acceptance? %>
-        <label>
-          <%= check_box_tag 'agreement', 1, f.object.agreement_accepted, required: true %>
-          <%= t('hyrax.active_consent_to_agreement') %><br>
-          <%= link_to t('hyrax.deposit_agreement'),
-                      hyrax.agreement_path,
-                      target: '_blank' %>
-        </label>
-      <% else %>
-        <%= t('hyrax.passive_consent_to_agreement') %><br>
-        <%= link_to t('hyrax.deposit_agreement'),
-                    hyrax.agreement_path,
-                    target: '_blank' %>
-      <% end %>
-    <% end %>
-    <br>
-    <%= link_to t(:'helpers.action.cancel'),
-                hyrax.dashboard_index_path,
-                class: 'btn btn-default' %>
-    <%# TODO: If we start using ActionCable, we could listen for object updates and
-              alert the user that the object has changed by someone else %>
-    <%= f.input Hyrax::Actors::OptimisticLockValidator.version_field, as: :hidden if f.object.persisted? %>
-    <%= f.submit class: 'btn btn-primary', onclick: "confirmation_needed = false;", id: "with_files_submit", name: "save_with_files" %>
   </div>
 </aside>

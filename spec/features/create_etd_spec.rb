@@ -27,7 +27,6 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_selector("li#required-files")
       expect(page).to have_selector("li#required-supplemental-files")
       expect(page).to have_selector("li#required-embargoes")
-      expect(page).to have_selector("li#required-review")
     end
   end
 
@@ -48,6 +47,7 @@ RSpec.feature 'Create an Etd' do
     end
 
     scenario "Create a new ETD", js: true do
+      pending
       # Fill in 'About Me' tab
       fill_in 'Student Name', with: 'Johnson, Frodo'
       select 'Spring 2018', from: 'Graduation date'

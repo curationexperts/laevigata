@@ -27,6 +27,11 @@ require 'ffaker'
 # capybara testing
 Capybara.javascript_driver = :webkit
 
+Capybara::Webkit.configure do |config|
+  # config.debug = true
+  config.raise_javascript_errors = true
+end
+
 # Require support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
