@@ -37,6 +37,7 @@ class EtdPresenter < Hyrax::WorkShowPresenter
   end
 
   def current_ability_is_approver?
+    return false if current_ability.current_user.id.nil?
     roles = current_user_roles
     return true if roles.include? "approving"
     return true if roles.include? "reviewing"

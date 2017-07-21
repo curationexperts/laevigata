@@ -1,28 +1,33 @@
 require 'rails_helper'
 
-RSpec.feature 'Display an ETD' do
-  let(:etd) { build :etd }
-
-  context 'a logged in user' do
-    let(:user) { create :user }
-
-    before do
-      login_as user
-      etd.save
-    end
-
-    scenario "Show an ETD" do
-      visit("/concern/etds/#{etd.id}")
-      expect(page).to have_content etd.title.first
-      expect(page).to have_content etd.creator.first
-      expect(page).to have_content etd.keyword.first
-      expect(page).to have_content etd.degree.first
-      expect(page).to have_content etd.department.first
-      expect(page).to have_content etd.school.first
-      expect(page).to have_content etd.subfield.first
-      expect(page).to have_content etd.partnering_agency.first
-      expect(page).to have_content etd.submitting_type.first
-      expect(page).to have_content etd.research_field.last
+RSpec.feature 'Display ETD metadata' do
+  let(:etd) { FactoryGirl.create(:sample_data, partnering_agency: ["CDC"]) }
+  # These are all the fields listed on our show wireframes
+  let(:required_fields) do
+    [
+      "title",
+      "creator",
+      "graduation_year",
+      "abstract",
+      "table_of_contents",
+      "school",
+      "department",
+      "degree",
+      "submitting_type",
+      "language",
+      "subfield",
+      "keyword",
+      "committee_chair_name",
+      "committee_members_names",
+      "partnering_agency"
+    ]
+  end
+  scenario "Show all expected ETD fields" do
+    visit("/concern/etds/#{etd.id}")
+    required_fields.each do |field|
+      value = etd.send(field.to_sym).first
+      expect(value).not_to eq nil
+      expect(page).to have_content value
     end
   end
 end
