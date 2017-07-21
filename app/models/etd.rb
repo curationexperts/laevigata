@@ -133,7 +133,9 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable, :facetable
   end
 
-  property :embargo_length, predicate: "http://purl.org/spar/fabio/hasEmbargoDuration", multiple: false
+  property :embargo_length, predicate: "http://purl.org/spar/fabio/hasEmbargoDuration", multiple: false do |index|
+    index.as :displayable
+  end
 
   # should always be Emory University (http://id.loc.gov/vocabulary/organizations/geu)
   property :degree_granting_institution, predicate: "http://id.loc.gov/vocabulary/relators/dgg", multiple: false
