@@ -4,6 +4,7 @@ class EtdPresenter < Hyrax::WorkShowPresenter
            :committee_chair_name,
            :committee_members_names,
            :degree,
+           :degree_awarded,
            :department,
            :files_embargoed,
            :graduation_year,

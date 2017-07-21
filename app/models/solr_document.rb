@@ -57,6 +57,10 @@ class SolrDocument
     self[Solrizer.solr_name('degree')]
   end
 
+  def degree_awarded
+    self[Solrizer.solr_name('degree_awarded')]
+  end
+
   def department
     self[Solrizer.solr_name('department')]
   end
