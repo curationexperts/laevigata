@@ -58,8 +58,8 @@ RSpec.feature 'Create an Etd' do
       select 'CDC', from: 'Partnering agency'
       select 'PhD', from: 'Degree'
       select 'Dissertation', from: 'I am submitting my'
-      fill_in 'Committee Member', with: 'John Smith'
       # TODO: Committee Chair
+      # TODO: Committee Member
       click_on('Save About Me')
 
       # Fill in 'About My ETD' tab
@@ -107,6 +107,7 @@ RSpec.feature 'Create an Etd' do
       # Verify metadata from 'About My ETD' tab
       expect(page).to have_content title
     end
+
   end
 
   context 'a logged out user' do
