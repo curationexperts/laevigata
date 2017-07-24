@@ -4,7 +4,9 @@ class EtdPresenter < Hyrax::WorkShowPresenter
            :committee_chair_name,
            :committee_members_names,
            :degree,
+           :degree_awarded,
            :department,
+           :embargo_length,
            :files_embargoed,
            :graduation_year,
            :language,
@@ -44,10 +46,17 @@ class EtdPresenter < Hyrax::WorkShowPresenter
     false
   end
 
+  def current_ability_is_depositor?
+    return false unless solr_document["depositor_ssim"] && solr_document["depositor_ssim"].first
+    return true if current_ability.current_user.ppid == solr_document["depositor_ssim"].first
+    false
+  end
+
   # TODO: check date of embargo release and make sure it hasn't passed already
   def abstract_with_embargo_check
     return "No abstract is available." unless abstract && abstract.first
     return abstract_for_admin if current_ability.admin?
+    return abstract_for_admin if current_ability_is_depositor?
     return abstract_for_admin if current_ability_is_approver?
     return "This abstract is under embargo until #{formatted_embargo_release_date}" if embargo_release_date && abstract_embargoed
     abstract.first
@@ -55,8 +64,10 @@ class EtdPresenter < Hyrax::WorkShowPresenter
 
   def abstract_for_admin
     admin_return_message = ""
-    if embargo_release_date && abstract_embargoed
+    if embargo_release_date && abstract_embargoed && degree_awarded
       admin_return_message += "[Abstract embargoed until #{formatted_embargo_release_date}] "
+    elsif embargo_release_date && abstract_embargoed
+      admin_return_message += "[Abstract embargoed until #{embargo_length.first} post-graduation] "
     end
     admin_return_message + abstract.first
   end
@@ -64,6 +75,7 @@ class EtdPresenter < Hyrax::WorkShowPresenter
   def toc_with_embargo_check
     return "No table of contents is available." unless table_of_contents && table_of_contents.first
     return toc_for_admin if current_ability.admin?
+    return toc_for_admin if current_ability_is_depositor?
     return toc_for_admin if current_ability_is_approver?
     return "This table of contents is under embargo until #{formatted_embargo_release_date}" if embargo_release_date && toc_embargoed
     table_of_contents.first
@@ -72,14 +84,17 @@ class EtdPresenter < Hyrax::WorkShowPresenter
   def files_embargo_check
     return nil unless embargo_release_date && files_embargoed
     return nil if current_ability.admin?
+    return nil if current_ability_is_depositor?
     return nil if current_ability_is_approver?
     "File download under embargo until #{formatted_embargo_release_date}"
   end
 
   def toc_for_admin
     admin_return_message = ""
-    if embargo_release_date && toc_embargoed
+    if embargo_release_date && toc_embargoed && degree_awarded
       admin_return_message += "[Table of contents embargoed until #{formatted_embargo_release_date}] "
+    elsif embargo_release_date && toc_embargoed
+      admin_return_message += "[Table of contents embargoed until #{embargo_length.first} post-graduation] "
     end
     admin_return_message + table_of_contents.first
   end

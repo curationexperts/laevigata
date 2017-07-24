@@ -57,8 +57,16 @@ class SolrDocument
     self[Solrizer.solr_name('degree')]
   end
 
+  def degree_awarded
+    self['degree_awarded_ssm']
+  end
+
   def department
     self[Solrizer.solr_name('department')]
+  end
+
+  def embargo_length
+    self['embargo_length_ssm']
   end
 
   def graduation_year
