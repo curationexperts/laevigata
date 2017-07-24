@@ -71,16 +71,28 @@ RSpec.feature 'Create an Etd' do
       select("Laney Graduate School", from: "School")
       wait_for_ajax
       expect(page).to have_css('#help-members')
-      expect(page).to have_css('input#etd_committee_members_0_name[required]')   
+      expect(page).to have_css('input#etd_committee_members_0_name.required')   
+      expect(page).to have_css('div.etd_committee_members_0_name.required')   
     end
 
     scenario "'about me' non-required committee members field", js: true do
       select("Rollins School of Public Health", from: "School")
       wait_for_ajax
       expect(page).not_to have_css('#help-members')
-      expect(page).not_to have_css('input#etd_committee_members_0_name[required]')   
-    
-         
+      expect(page).to have_css('input#etd_committee_members_0_name.optional')   
+      expect(page).to have_css('div.etd_committee_members_0_name.optional')       
+    end
+
+    scenario "'about me' suppress partnering agencies", js: true do
+      select("Laney Graduate School", from: "School")
+      wait_for_ajax
+      expect(page).not_to have_css('div.etd_partnering_agency')          
+    end
+
+    scenario "'about me' not suppress partnering agencies", js: true do
+      select("Rollins School of Public Health", from: "School")
+      wait_for_ajax
+      expect(page).to have_css('div.etd_partnering_agency')          
     end
 
     scenario "'about me' adds and removes committee members", js: true do

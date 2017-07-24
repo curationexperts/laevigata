@@ -24,9 +24,9 @@ RSpec.feature 'Create a Rollins ETD' do
     scenario "Miranda submits a thesis and an approver approves it", js: true do
       fill_in 'Student Name', with: 'Park, Miranda'
       select("Rollins School of Public Health", from: "School")
+      wait_for_ajax
       select("Epidemiology", from: "Department")
-
-      select('CDC', from: 'Partnering agency')
+      select('CDC', from: 'Partnering agency', visible: false)
       check('agreement')
       click_on('About My ETD')
       title = "Global Public Health #{rand}"

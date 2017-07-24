@@ -52,3 +52,7 @@ span.disabled_element{
 span.disabled_element input[disabled] {
   cursor: not-allowed;
 }
+
+.hidden {
+  display: none;
+}
