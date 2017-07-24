@@ -48,5 +48,19 @@ RSpec.feature 'Create an Etd: My Embargoes' do
       expect(find("#etd_toc_embargoed", visible: false).value).to eq("true")
       expect(find("#etd_abstract_embargoed", visible: false).value).to eq("true")
     end
+
+    scenario "Selecting embargo types and duration makes form valid", js: true do
+      click_on("My Embargoes")
+
+      expect(page).to have_content('What do you want to embargo?')
+
+      select('Files and Table of Contents', from: 'embargo_type')
+
+      select('Laney Graduate School', from: 'embargo_school')
+
+      select('6 months', from: 'etd_embargo_release_date')
+
+      expect(page).to have_css('li#required-embargoes.complete')
+    end
   end
 end

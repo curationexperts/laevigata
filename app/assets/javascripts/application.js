@@ -28,9 +28,11 @@
 //= require required_fields
 //= require about_my_etd
 //= require about_me_and_my_program
+//= require review_my_etd
 //= require hydra-editor/manage_repeating_fields
 //= require etd_editor
 //= require etd_save_work_control
+//= require tinymce-jquery
 //= require app
 
 //= require almond

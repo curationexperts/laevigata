@@ -292,18 +292,6 @@ describe("Validate My ETD", function(){
         expect(mockCheckbox.check.calls.count()).toEqual(0);
       });
     });
-
-    // describe("when a required files are missing and it's an edit form", function() {
-    //   beforeEach(function() {
-    //     form_id = 'edit_generic_work'
-    //     target = buildTarget(form_id)
-    //   });
-    //   it("is complete", function() {
-    //     target.validateFiles();
-    //     expect(mockCheckbox.uncheck.calls.count()).toEqual(0);
-    //     expect(mockCheckbox.check.calls.count()).toEqual(1);
-    //   });
-    // });
   });
 
 describe("Validate My Embargoes", function(){
@@ -359,7 +347,46 @@ describe("Validate My Embargoes", function(){
   });
 });
 
+describe("Review My Etd", function(){
+  var mockCheckbox = {
+    check: function() { },
+    uncheck: function() { },
+  };
 
+  beforeEach(function() {
+    loadFixtures('work_form.html');
+    var fixture = setFixtures(
+      '<select><option></option></select>');
+    admin_set = new AdminSetWidget(fixture.find('select'))
+    target = new EtdSaveWorkControl($('#form-progress'), admin_set);
+  });
+
+  it("the preview button is disabled unless all of the forms are complete", function() {
+    var reviewMyETD = require('./review_my_etd')
+    var review = new reviewMyETD("#review_my_etd", "#preview_my_etd")
+
+    spyOn(review, 'attach_validity_listener')
+    target.requiredAboutMeFields = {
+      areComplete: true
+    };
+    target.requiredAboutMyETDFields = {
+      areComplete: true
+    };
+    target.primary_pdf_upload = {
+      hasFiles: true
+    };
+    target.supplemental_files_upload = {
+      hasFiles: true
+    };
+    target.requiredEmbargoFields = {
+      areComplete: true
+    };
+    //maybe better would be to just call the method and spy on its effects
+    review.attach_validity_listener()
+    expect($("span#preview_my_etd")).not.toExist();
+
+  });
+});
 
   // describe("on submit", function() {
   //   var target;

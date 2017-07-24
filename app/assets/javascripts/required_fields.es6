@@ -31,6 +31,9 @@ export class ETDRequiredFields extends RequiredFields {
   reload(selector) {
     this.requiredFields = []
     this.requiredFields = $.merge($(selector).find('select').filter(":visible"), $(selector).find('input').filter(":visible"))
-    this.requiredFields.change(this.callback)
+    if(this.callback !== 'none'){
+      this.requiredFields.change(this.callback)
+    }
+
   }
 }

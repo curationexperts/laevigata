@@ -185,6 +185,20 @@ RSpec.describe Etd do
     end
   end
 
+  context "degree_awarded" do
+    let(:etd) { FactoryGirl.build(:etd) }
+    it "says when it was awarded" do
+      etd.degree_awarded = "10 July 2017"
+      expect(etd.resource.dump(:ttl)).to match(/dublincore.org\/documents\/dcmi-terms\/#terms-dateAccepted/)
+      expect(etd.degree_awarded).to eq "10 July 2017"
+    end
+    it "says whether the student is post-graduation" do
+      expect(etd.post_graduation?).to eq false
+      etd.degree_awarded = "10 July 2017"
+      expect(etd.post_graduation?).to eq true
+    end
+  end
+
   context "the three intellectual property questions" do
     let(:etd) { FactoryGirl.build(:etd) }
     it "has an answer about permissions" do
