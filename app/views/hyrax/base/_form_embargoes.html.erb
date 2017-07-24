@@ -8,7 +8,9 @@
   </div>
 
   <h4>What do you want to embargo?</h4>
-  <div>description </div>
+
+  <p class="help-block">Lorum Ipsum, Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum</p>
+  
   <%= select_tag "embargo_type", options_for_select([["Files", :files_embargoed], ["Files and Table of Contents", [:files_embargoed, :toc_embargoed]],
  ["Files, Table of Contents and Abstract", [:files_embargoed, :toc_embargoed, :abstract_embargoed]]]), { class: 'form-control required-embargo', include_blank: true } %>
 
@@ -25,5 +27,7 @@
   <h4>How long will the embargo last?</h4>
   <%= f.input :embargo_release_date, as: :select, collection: ["6 months", "1 year", "2 years", "6 years"], required: false, label: false, hint: "Lorum Ipsum, Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum", input_html: { class: 'form-control required-embargo' } %>
 </div>
+
+
 
 <input name="save_my_embargoes" value="Save My Embargoes" class="btn btn-primary" id="save_my_embargoes" type="submit" />

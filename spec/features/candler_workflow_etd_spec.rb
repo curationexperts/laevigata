@@ -5,48 +5,26 @@ require 'active_fedora/cleaner'
 require 'workflow_setup'
 include Warden::Test::Helpers
 
-RSpec.feature 'Create a Candler ETD' do
-  let(:user) { create :user }
+RSpec.feature 'Candler approval workflow' do
+  let(:depositing_user) { User.where(ppid: etd.depositor).first }
+  let(:approving_user) { User.where(uid: "candleradmin").first }
   let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null") }
-  let(:superuser) { w.superusers.first }
+  let(:etd) { FactoryGirl.create(:sample_data, school: ["Candler School of Theology"]) }
   context 'a logged in user' do
     before do
+      allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
       ActiveFedora::Cleaner.clean!
       w.setup
-      login_as user
-      visit("/concern/etds/new")
+      actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(depositing_user))
+      actor.create({})
     end
-    # weak test of the fields but it was failing due to webkit issues with attach_file
-    scenario "Leland submits school and department", js: true do
-      select("Candler School of Theology", from: "School")
-      select("Theological Studies", from: "Department", match: :first)
-    end
-    scenario "Leland submits a thesis and an approver approves it" do
-      expect(page).to have_css('input#etd_title')
-      expect(page).not_to have_css('input#etd_title.multi_value')
-      expect(page).to have_css('input#etd_creator')
-      expect(page).not_to have_css('input#etd_creator.multi_value')
-      select("Candler School of Theology", from: "School")
-      click_on('About My ETD')
-      title = FFaker::Book.title
-      fill_in 'Title', with: title
-      fill_in 'Student Name', with: 'Deeds, Leland'
-      check('agreement')
-      click_on('My PDF')
-      within('#fileupload') do
-        attach_file('primary_files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
-      end
-      click_on('Save')
-      expect(page).to have_content title
-      expect(page).to have_content 'Pending approval'
-
+    scenario "a school approver approves a work" do
       # Check the ETD was assigned the right workflow
-      etd = Etd.where(title: [title]).first
       expect(etd.active_workflow.name).to eq "emory_one_step_approval"
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "pending_approval"
 
       # Check workflow permissions for depositing user
-      available_workflow_actions = Hyrax::Workflow::PermissionQuery.scope_permitted_workflow_actions_available_for_current_state(user: user, entity: etd.to_sipity_entity).pluck(:name)
+      available_workflow_actions = Hyrax::Workflow::PermissionQuery.scope_permitted_workflow_actions_available_for_current_state(user: depositing_user, entity: etd.to_sipity_entity).pluck(:name)
       expect(available_workflow_actions.include?("mark_as_reviewed")).to eq false
       expect(available_workflow_actions.include?("approve")).to eq false
       expect(available_workflow_actions.include?("request_changes")).to eq false
@@ -55,15 +33,15 @@ RSpec.feature 'Create a Candler ETD' do
       expect(available_workflow_actions.include?("unhide")).to eq false
 
       # Check notifications for depositing user
+      login_as depositing_user
       visit("/notifications?locale=en")
-      expect(page).to have_content "#{title} (#{etd.id}) was deposited by #{user.display_name} and is awaiting approval."
+      expect(page).to have_content "#{etd.title.first} (#{etd.id}) was deposited by #{depositing_user.display_name} and is awaiting approval."
 
       # Check notifications for approving user
       logout
-      approving_user = User.where(uid: "candleradmin").first
       login_as approving_user
       visit("/notifications?locale=en")
-      expect(page).to have_content "#{title} (#{etd.id}) was deposited by #{user.display_name} and is awaiting approval."
+      expect(page).to have_content "#{etd.title.first} (#{etd.id}) was deposited by #{depositing_user.display_name} and is awaiting approval."
 
       # Check workflow permissions for approving user
       available_workflow_actions = Hyrax::Workflow::PermissionQuery.scope_permitted_workflow_actions_available_for_current_state(user: approving_user, entity: etd.to_sipity_entity).pluck(:name)
@@ -92,15 +70,15 @@ RSpec.feature 'Create a Candler ETD' do
 
       # Check notifications for approving user
       visit("/notifications?locale=en")
-      expect(page).to have_content "Deposit #{title} has been approved"
-      expect(page).to have_content "#{title} (#{etd.id}) has been approved by"
+      expect(page).to have_content "Deposit #{etd.title.first} has been approved"
+      expect(page).to have_content "#{etd.title.first} (#{etd.id}) has been approved by"
 
       # Check notifications for depositor again
       logout
-      login_as user
+      login_as depositing_user
       visit("/notifications?locale=en")
-      expect(page).to have_content "Deposit #{title} has been approved"
-      expect(page).to have_content "#{title} (#{etd.id}) has been approved by"
+      expect(page).to have_content "Deposit #{etd.title.first} has been approved"
+      expect(page).to have_content "#{etd.title.first} (#{etd.id}) has been approved by"
     end
   end
 end

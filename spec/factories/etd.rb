@@ -70,6 +70,7 @@ FactoryGirl.define do
       creator { [] << FFaker::Name.name }
       graduation_year "2017"
       school ["Candler School of Theology"]
+      post_graduation_email { [] << FFaker::Internet.email }
       admin_set do
         AdminSet.where(title: "Candler School of Theology").first
       end
@@ -88,6 +89,12 @@ FactoryGirl.define do
         FactoryGirl.build(:committee_member, name: FFaker::NameRU.name),
         FactoryGirl.build(:committee_member, name: FFaker::NameVN.name)
       ]
+      department ["Divinity"]
+      subfield ["Political Robotics"]
+      degree ["Th.D."]
+      submitting_type ["Dissertation"]
+      language ["English"]
+      keyword [FFaker::Education.major, FFaker::Education.major, FFaker::Education.major]
 
       factory :sample_data_with_everything_embargoed do
         title ["Sample Data With Full Embargo: #{FFaker::Book.title}"]

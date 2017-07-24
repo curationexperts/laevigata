@@ -44,6 +44,12 @@ class Etd < ActiveFedora::Base
     true
   end
 
+  # Return false until a value is set for degree_awarded, then return true
+  def post_graduation?
+    return false unless degree_awarded
+    true
+  end
+
   # Determine what admin set an ETD should belong to, based on what school and
   # department it belongs to
   # @return [String] the name of an admin set
@@ -127,7 +133,9 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable, :facetable
   end
 
-  property :embargo_length, predicate: "http://purl.org/spar/fabio/hasEmbargoDuration", multiple: false
+  property :embargo_length, predicate: "http://purl.org/spar/fabio/hasEmbargoDuration", multiple: false do |index|
+    index.as :displayable
+  end
 
   # should always be Emory University (http://id.loc.gov/vocabulary/organizations/geu)
   property :degree_granting_institution, predicate: "http://id.loc.gov/vocabulary/relators/dgg", multiple: false
@@ -146,6 +154,10 @@ class Etd < ActiveFedora::Base
 
   property :degree, predicate: "http://vivoweb.org/ontology/core#AcademicDegree" do |index|
     index.as :stored_searchable, :facetable
+  end
+
+  property :degree_awarded, predicate: "http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted", multiple: false do |index|
+    index.as :displayable
   end
 
   property :partnering_agency, predicate: "http://id.loc.gov/vocabulary/relators/ctb" do |index|

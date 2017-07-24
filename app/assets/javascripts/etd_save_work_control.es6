@@ -1,4 +1,5 @@
 import { ETDRequiredFields } from './required_fields'
+import { ReviewMyETD } from './review_my_etd'
 import { ChecklistItem } from 'hyrax/save_work/checklist_item'
 import { UploadedFiles } from 'hyrax/save_work/uploaded_files'
 import { DepositAgreement } from 'hyrax/save_work/deposit_agreement'
@@ -77,9 +78,9 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
       this.supplemental_files_upload = new UploadedFiles(this.form, () => this.formStateChanged('#supplemental_fileupload'),'#supplemental_fileupload','li#required-supplemental-files')
 
-      this.requiredEmbargoFields = new ETDRequiredFields(this.form, () => this.formStateChanged('#my_embargoes'), '#my_embargoes')
+      this.requiredEmbargoFields = new ETDRequiredFields(this.form, 'none', '#my_embargoes')
 
-      //This needs to be adjusted
+    //This needs to be adjusted
       this.saveButton = this.element.find('#about_me_and_my_program')
       this.depositAgreement = new DepositAgreement(this.form, () => this.formStateChanged())
       this.requiredMeAndMyProgram = new ChecklistItem(this.element.find('#required-about-me'))
@@ -143,7 +144,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
     fileDeleted(){
       let form = this
-      //https://github.com/blueimp/jQuery-File-Upload/wiki/Options
       $('#fileupload').bind('fileuploaddestroyed', function (e, data) {
         form.validatePDF()
       })
@@ -236,6 +236,9 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       $('#embargo_type').on('change', function(e){
         form.setEmbargoContent(this);
       });
+      $('#my_embargoes select').on('change', function(e){
+        form.formStateChanged('#my_embargoes');
+      });
     }
 
     attachNonLaneyEmbargoDurations(){
@@ -260,6 +263,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     }
 
     disableEmbargoes(){
+      $('#my_embargoes select').val("")
       $('#my_embargoes select').prop('disabled', true);
     }
 
@@ -269,10 +273,11 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
     validateMyEmbargo() {
       if ($('#no_embargoes').prop('checked')){
-        this.requiredEmbargoes.check();
         this.disableEmbargoes();
+        this.requiredEmbargoes.check();
         return true
       } else {
+
         this.enableEmbargoes();
         if (this.requiredEmbargoFields.areComplete) {
           this.requiredEmbargoes.check();
@@ -283,7 +288,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
         }
       }
     }
-
     validateMyETD() {
       if (this.requiredAboutMyETDFields.areComplete) {
         this.requiredMyETD.check()
@@ -337,6 +341,13 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
      }
    }
   }
+
+//one way to validate form
+  // validateForm(){
+  //   if(this.validateMeAndMyProgram() && this.validateMyETD() && this.validatePDF() && this.validateSupplementalFiles() && this.validateMyEmbargo()){
+  //     $(this.previewButtonSelector).prop('disabled', false);
+  //   }
+  // }
 
   validateAgreement(filesValid) {
   //   if (filesValid && this.uploads.hasNewFiles && this.depositAgreement.mustAgreeAgain) {
