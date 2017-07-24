@@ -2,7 +2,7 @@
   <tr class="<%= dom_class(member) %> attributes">
     <td class="thumbnail">
       <% if @presenter.files_embargo_check %>
-        Embargoed
+        <%= image_tag "No_Preview.png" %>
       <% else %>
         <%= render_thumbnail_tag member %>
       <% end %>

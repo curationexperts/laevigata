@@ -103,7 +103,8 @@ RSpec.feature 'Display an ETD with embargoed content' do
       expect(page).not_to have_content "joey_thesis.pdf"
       expect(page).not_to have_link "joey_thesis.pdf"
       expect(page).not_to have_link "Download"
-      expect(page).not_to have_css "td.thumbnail/a/img" # thumbnail image link
+      expect(page).to have_css "td.thumbnail/img[alt='No preview']" # "no preview" image
+      expect(page).to have_css "img.representative-media[alt='No preview']" # "no preview" large image
     end
   end
   def formatted_embargo_release_date(etd)
