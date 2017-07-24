@@ -19,8 +19,7 @@ RSpec.feature 'Create a Rollins ETD' do
       actor.create({})
     end
     scenario "Miranda submits a thesis and an approver approves it", js: true do
-<<<<<<< HEAD
-=======
+
       fill_in 'Student Name', with: 'Park, Miranda'
       select("Rollins School of Public Health", from: "School")
       wait_for_ajax
@@ -41,7 +40,6 @@ RSpec.feature 'Create a Rollins ETD' do
 
       # Check the ETD was assigned the right workflow
       etd = Etd.where(title: [title]).first
->>>>>>> 50953e9... adding tests
       expect(etd.active_workflow.name).to eq "emory_one_step_approval"
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "pending_approval"
 
