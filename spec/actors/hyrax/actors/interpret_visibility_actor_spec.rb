@@ -69,4 +69,27 @@ describe Hyrax::Actors::InterpretVisibilityActor do
       end
     end
   end
+  context 'without embargo' do
+    let(:attributes) do
+      {
+        "title" => ["good fun"],
+        "creator" => ["Sneddon, River"],
+        "keyword" => [],
+        "language" => [""],
+        "graduation_date" => [""],
+        "school" => ["Candler School of Theology"],
+        "department" => ["Divinity"],
+        "files_embargoed" => "",
+        "abstract_embargoed" => "",
+        "toc_embargoed" => ""
+      }
+    end
+    context 'without an embargo length' do
+      it "does not create an embargo" do
+        actor.create(attributes)
+        expect(etd.embargo).to eq nil
+        expect(etd.visibility).to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+      end
+    end
+  end
 end

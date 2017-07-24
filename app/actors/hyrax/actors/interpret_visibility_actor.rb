@@ -6,11 +6,11 @@ module Hyrax
       def create(attributes)
         @attributes = attributes
         save_embargo_length
-        attributes.delete(:embargo_release_date)
-        attributes[:visibility] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+        @attributes.delete(:embargo_release_date)
+        @attributes[:visibility] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
         apply_pre_graduation_embargo
         curation_concern.save
-        next_actor.create(attributes)
+        next_actor.create(@attributes)
       end
 
       def update(attributes)
@@ -27,6 +27,7 @@ module Hyrax
 
         # Save embargo_length so we can apply it post-graduation
         def save_embargo_length
+          return unless curation_concern.class == Etd
           return unless @attributes[:embargo_release_date]
           curation_concern.embargo_length = @attributes[:embargo_release_date]
         end
@@ -53,6 +54,8 @@ module Hyrax
         # relevant views check for the existence of an embargo and the
         # authorization of the current user, and display embargoed fields accordingly.
         def apply_pre_graduation_embargo
+          return unless curation_concern.class == Etd # don't set a pre-graduation embargo for the FileSet
+          return unless curation_concern.embargo_length # don't set a pre-graduation embargo unless there is an embargo length
           six_years_from_today = Time.zone.today + 6.years
           curation_concern.apply_embargo(
             six_years_from_today,
