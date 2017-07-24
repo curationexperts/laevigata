@@ -106,7 +106,6 @@ RSpec.feature 'Create an Etd' do
       # Verify metadata from 'About My ETD' tab
       expect(page).to have_content title
     end
-
   end
 
   context 'a logged out user' do
