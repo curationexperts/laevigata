@@ -12,12 +12,12 @@
          collection: graduation_dates,
           input_html: { class: 'form-control' } %>
 
-  <%= f.input :post_graduation_email, hint: 'Lorum Ipsum Lorum Ipsum', input_html: { class: 'form-control' } %>
+  <%= f.input :post_graduation_email, hint: 'We will need a way to contact you after graduation. Please provide a non-Emory email address where you can be reached after your Emory email address is disabled. Make sure the email address is one you plan to maintain and check regularly.', input_html: { class: 'form-control' } %>
 
 </div>
 
 <h3>About My Program</h3>
-<p>Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum.</p>
+<p>Select your school and department from the menus below.</p>
 
 <div class="about-me chairs">
   <% f.object.about_my_program_fields.each do |term| %>
