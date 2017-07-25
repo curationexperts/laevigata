@@ -55,8 +55,9 @@ RSpec.feature 'Create an Etd: About My Etd' do
 
     scenario "manages limit of 3 research fields", js: true do
       click_on("About My ETD")
-      expect(page).to have_content('
-Select one primary research field and add up to two additional research fields')
+      expect(page).to have_content('Select at least one, but no more than three,' \
+      ' research fields that best describe your work. List your primary field first.' \
+      ' If you do not see your exact field, pick the closest option.')
 
       click_on("Add another Research Field")
       click_on("Add another Research Field")
