@@ -152,6 +152,19 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       })
     }
 
+    // this is not a check of the file type, but given that the app writes the filename to the page, and a student would have to change their Primary PDF file's type while uploading in order to foil this, I feel this is sufficient.
+    
+    isAPdf(){
+      if( $('#fileupload p.name span').text().includes('.pdf')){
+        $("#pdf-format-error").addClass('hidden')
+        return true
+      } else {
+        $("#pdf-format-error").removeClass('hidden')
+        $('#fileupload tbody.files').empty()
+        return false
+      }
+    }
+
     onlyOnePdfAllowed(){
       if($('#fileupload tbody.files tr').length > 1){
         $("#pdf-max-error").removeClass('hidden')
@@ -317,7 +330,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
   // sets the file indicators to complete/incomplete
   validatePDF() {
-    if (this.primary_pdf_upload.hasFiles && this.onlyOnePdfAllowed()) {
+    if (this.primary_pdf_upload.hasFiles && this.onlyOnePdfAllowed() && this.isAPdf()) {
       this.requiredPDF.check()
       return true
     }

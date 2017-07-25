@@ -189,6 +189,8 @@ describe("Validate My ETD", function(){
         target.primary_pdf_upload = {
           hasFiles: true
         };
+
+        spyOn(target, 'isAPdf').and.returnValue(true);
       });
       it("is complete", function() {
         target.validatePDF();
