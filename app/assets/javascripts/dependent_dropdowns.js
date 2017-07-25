@@ -23,7 +23,10 @@ if(observed.val()=="Rollins School of Public Health"){
 	$('#help-members').remove();
 	$(".etd_committee_members_0_name label, .etd_committee_members_0_name, #etd_committee_members_0_name").removeClass('required').addClass('optional');
 }else{
-	$('.etd_committee_members_0_name label').append("<p class='help-block' id='help-members'>At least one committee member is required</p>")
+	
+	if ($('#help-members').length === 0) {
+		$('.etd_committee_members_0_name label').append("<p class='help-block' id='help-members'>At least one committee member is required</p>")
+	}
 	$(".etd_committee_members_0_name label, .etd_committee_members_0_name, #etd_committee_members_0_name").removeClass('optional').addClass('required');
 }
 var res = observed.val().split(" ")[0].toLowerCase() + "_programs";
