@@ -18,7 +18,7 @@ observed.on('change', function () {
 observer.empty().append(prompt);
 if (observed.val()) {
 
-if($('#etd_school option:selected').index()==4){
+if(observed.val()=="Rollins School of Public Health"){
 	
 	$('#help-members').remove();
 	$(".etd_committee_members_0_name label, .etd_committee_members_0_name, #etd_committee_members_0_name").removeClass('required').addClass('optional');
