@@ -5,6 +5,7 @@ export default class ReviewMyETD {
     this.previewButtonSelector = previewButtonSelector
     this.attach_preview_listener()
     this.attach_validity_listener()
+    this.attach_agreement_listener()
   }
 
   attach_validity_listener(){
@@ -25,6 +26,17 @@ export default class ReviewMyETD {
       form.previewMyEtd()
       $('#submission-agreement').removeClass('hidden')
       $(this).addClass('hidden')
+    });
+  }
+
+  attach_agreement_listener(){
+    var form = this
+    $('#agreement').on('change', function(){
+      if ($(this).prop('checked')){
+        $('#with_files_submit').prop('disabled', false)
+      } else {
+        $('#with_files_submit').prop('disabled', true)
+      }
     });
   }
 

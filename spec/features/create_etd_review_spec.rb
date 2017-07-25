@@ -128,6 +128,8 @@ RSpec.feature 'Create an Etd' do
       # My Embargoes
       expect(page).to have_content('Files and Table of Contents')
       expect(page).to have_content('6 months')
+
+      expect(page).to have_css('#with_files_submit:disabled')
     end
 
     scenario "Miranda previews, agrees to Emory submission policy and submits her ETD", js: true do
@@ -182,7 +184,12 @@ RSpec.feature 'Create an Etd' do
 
       find("#preview_my_etd").click
 
+      expect(find("#with_files_submit")).to be_disabled
+
       check('agreement')
+
+      expect(find("#with_files_submit")).not_to be_disabled
+
       click_on('Save')
 
       expect(page).to have_content 'Middlemarch'
