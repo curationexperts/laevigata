@@ -99,6 +99,7 @@ FactoryGirl.define do
       factory :sample_data_with_everything_embargoed do
         title ["Sample Data With Full Embargo: #{FFaker::Book.title}"]
         embargo { FactoryGirl.create(:embargo, embargo_release_date: (DateTime.current + 14)) }
+        embargo_length "6 months"
         files_embargoed true
         abstract_embargoed true
         toc_embargoed true

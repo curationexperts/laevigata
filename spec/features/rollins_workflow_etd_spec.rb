@@ -76,6 +76,30 @@ RSpec.feature 'Create a Rollins ETD' do
       login_as depositing_user
       visit("/notifications?locale=en")
       expect(page).to have_content "#{etd.title.first} (#{etd.id}) has been approved by"
+
+      # Visit the ETD as a public user. It should not be visible.
+      logout
+      visit("/concern/etds/#{etd.id}")
+      expect(page).to have_content "The work is not currently available"
+
+      # Run the graduation service
+      allow(GraduationService).to receive(:check_degree_status).and_return(Time.zone.today)
+      GraduationService.check_for_new_graduates
+
+      # Now the work should be publicly visible
+      visit("/concern/etds/#{etd.id}")
+      expect(page).not_to have_content "The work is not currently available"
+
+      # Check for graduation notifications
+      login_as depositing_user
+      visit("/notifications?locale=en")
+      expect(page).to have_content "Degree awarded for #{etd.title.first}"
+
+      # Check graduation notifications for approving user
+      logout
+      login_as approving_user
+      visit("/notifications?locale=en")
+      expect(page).to have_content "Degree awarded for #{etd.title.first}"
     end
   end
 end

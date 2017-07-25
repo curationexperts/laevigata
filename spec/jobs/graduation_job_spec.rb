@@ -15,6 +15,7 @@ describe GraduationJob do
     let(:depositing_user) { User.where(ppid: etd.depositor).first }
     let(:six_years_from_today) { Time.zone.today + 6.years }
     before do
+      allow(Hyrax::Workflow::DegreeAwardedNotification).to receive(:send_notification)
       # This replicates what InterpretVisibilityActor does
       etd.embargo_length = "6 months"
       etd.apply_embargo(
@@ -27,17 +28,20 @@ describe GraduationJob do
       expect(etd.degree_awarded).to eq nil
       expect(etd.embargo.embargo_release_date).to eq six_years_from_today
       expect(etd.embargo_length).to eq "6 months"
-      described_class.perform_now(etd)
+      described_class.perform_now(etd, Time.zone.tomorrow)
       etd.reload
     end
     it "records the graduation date" do
-      expect(etd.degree_awarded).to eq Time.zone.today
+      expect(etd.degree_awarded).to eq Time.zone.tomorrow
     end
     it "resets the embargo_release_date" do
-      expect(etd.embargo.embargo_release_date).to eq Time.zone.today + 6.months
+      expect(etd.embargo.embargo_release_date).to eq Time.zone.tomorrow + 6.months
     end
     it "leaves embargo_length intact" do
       expect(etd.embargo_length).to eq "6 months"
+    end
+    it "sends notifications" do
+      expect(Hyrax::Workflow::DegreeAwardedNotification).to have_received(:send_notification)
     end
   end
 end

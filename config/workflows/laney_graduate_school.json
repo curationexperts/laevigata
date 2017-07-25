@@ -67,8 +67,7 @@
                     ],
                     "methods": [
                       "Hyrax::Workflow::GrantReadToDepositor",
-                      "Hyrax::Workflow::RevokeEditFromDepositor",
-                      "Hyrax::Workflow::ActivateObject"
+                      "Hyrax::Workflow::RevokeEditFromDepositor"
                     ]
                 }, {
                     "name": "request_review",

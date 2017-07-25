@@ -16,6 +16,10 @@ RSpec.describe WorkflowSetup do
     expect(w).to be_instance_of(described_class)
     expect(User.where(uid: WorkflowSetup::ADMIN_SET_OWNER).count).to eq 1
   end
+  it "makes a notification_owner" do
+    w.make_notification_owner
+    expect(User.where(uid: WorkflowSetup::NOTIFICATION_OWNER).count).to eq 1
+  end
   it "makes an admin Role" do
     admin = w.admin_role
     expect(admin).to be_instance_of(Role)
