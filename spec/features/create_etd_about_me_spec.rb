@@ -105,13 +105,25 @@ RSpec.feature 'Create an Etd' do
       expect(all('select.committee-chair-select').count).to eq(1)
     end
 
+    scenario "'about me' hides partnering agencies unless the Rollins school is selected", js: true do
+      select("Laney Graduate School", from: "School")
+
+      expect(page).not_to have_css('div#rollins_partnering_agencies')
+    end
+
+    scenario "'about me' displays partnering agencies when Rollins is the selected school", js: true do
+      select("Rollins School of Public Health", from: "School")
+      wait_for_ajax
+      expect(page).to have_css('div#rollins_partnering_agencies')
+    end
+
     scenario "display indicates incomplete 'about me and my program' data", js: true do
       visit("/concern/etds/new")
       select('Emory Committee Chair', from: 'etd_committee_chair_0_affiliation_type')
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
       select('Non-Emory Committee Member', from: 'etd_committee_members_0_affiliation_type')
       fill_in "Committee Member", with: "Joan Didion"
-      select('CDC', from: 'Partnering Agency')
+
       click_on('Save About Me')
 
       expect(page).to have_css('li#required-about-me.incomplete')
