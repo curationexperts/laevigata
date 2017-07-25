@@ -19,6 +19,7 @@ RSpec.feature 'Create a Rollins ETD' do
       actor.create({})
     end
     scenario "Miranda submits a thesis and an approver approves it", js: true do
+
       expect(etd.active_workflow.name).to eq "emory_one_step_approval"
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "pending_approval"
 

@@ -54,7 +54,6 @@ RSpec.feature 'Validate an Etd: About Me' do
       fill_in "Post graduation email", with: "graduate@done.com"
       select("Rollins School of Public Health", from: "School")
       select("Biostatistics", from: "Department")
-
       select('MS', from: "Degree")
       select("Honors Thesis", from: "I am submitting my")
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
@@ -63,7 +62,7 @@ RSpec.feature 'Validate an Etd: About Me' do
       expect(page).not_to have_css('li#required-about-me.complete')
       expect(page).to have_css('li#required-about-me.incomplete')
 
-      select('CDC', from: 'Partnering agency')
+      select('CDC', from: 'Partnering agency', visible: false)
 
       expect(page).to have_css('li#required-about-me.complete')
       expect(page).not_to have_css('li#required-about-me.incomplete')

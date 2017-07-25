@@ -53,6 +53,7 @@ span.disabled_element input[disabled] {
   cursor: not-allowed;
 }
 
+
 .navbar ul li{
     display:inline-block;
     float: none;
@@ -70,4 +71,8 @@ span.disabled_element input[disabled] {
   height: 200px;
   color: white;
   background-color: #000080;
+}
+
+.hidden {
+  display: none;
 }

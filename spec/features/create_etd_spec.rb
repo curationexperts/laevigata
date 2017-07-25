@@ -55,11 +55,10 @@ RSpec.feature 'Create an Etd' do
       select 'Emory College', from: 'School'
       select 'Religion', from: 'Department'
       select 'Ethics and Society', from: 'Sub Field'
-      select 'CDC', from: 'Partnering agency'
       select 'PhD', from: 'Degree'
       select 'Dissertation', from: 'I am submitting my'
+      fill_in 'Committee Member', with: 'John Smith'
       # TODO: Committee Chair
-      # TODO: Committee Member
       click_on('Save About Me')
 
       # Fill in 'About My ETD' tab
@@ -99,7 +98,7 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_content 'School Emory College'
       expect(page).to have_content 'Department Religion'
       expect(page).to have_content 'Subfield / Discipline Ethics and Society'
-      expect(page).to have_content 'Partnering Agencies CDC'
+      expect(page).not_to have_content 'Partnering Agencies CDC'
       expect(page).to have_content 'Degree Ph.D.'
       expect(page).to have_content 'Submission Dissertation'
       # TODO: Test committee chair & members names and affiliations
