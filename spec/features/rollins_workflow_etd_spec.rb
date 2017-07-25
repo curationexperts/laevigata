@@ -20,26 +20,6 @@ RSpec.feature 'Create a Rollins ETD' do
     end
     scenario "Miranda submits a thesis and an approver approves it", js: true do
 
-      fill_in 'Student Name', with: 'Park, Miranda'
-      select("Rollins School of Public Health", from: "School")
-      wait_for_ajax
-      select("Epidemiology", from: "Department")
-      select('CDC', from: 'Partnering agency', visible: false)
-      check('agreement')
-      click_on('About My ETD')
-      title = "Global Public Health #{rand}"
-      fill_in 'Title', with: title
-      click_on('My PDF')
-      within('#fileupload') do
-        page.attach_file('primary_files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
-      end
-      # TODO: Miranda fixture folder has supplementary files. Add these when we're ready
-      click_on('Save')
-      expect(page).to have_content title
-      expect(page).to have_content 'Pending approval'
-
-      # Check the ETD was assigned the right workflow
-      etd = Etd.where(title: [title]).first
       expect(etd.active_workflow.name).to eq "emory_one_step_approval"
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "pending_approval"
 
