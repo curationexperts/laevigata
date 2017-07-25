@@ -3,14 +3,14 @@
 <div id="my_embargoes">
   <div class="checkbox">
     <label class="boolean optional" for="etd_no_embargoes">
-      <%= check_box_tag :no_embargoes %> I have no embargoes.
+      <%= check_box_tag :no_embargoes %> I do not want to embargo my thesis or dissertation.
     </label>
   </div>
 
   <h4>What do you want to embargo?</h4>
 
-  <p class="help-block">Lorum Ipsum, Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum</p>
-  
+  <p class="help-block">You can choose to embargo only your files or more of your thesis or dissertation record. Select which parts of your record you would like to include in your embargo. If a patent is associated with your thesis or dissertation, consult with the Office of Technology Transfer about your embargo. Contact the Office of Technology Transfer at (404) 727-2211.</p>
+
   <%= select_tag "embargo_type", options_for_select([["Files", :files_embargoed], ["Files and Table of Contents", [:files_embargoed, :toc_embargoed]],
  ["Files, Table of Contents and Abstract", [:files_embargoed, :toc_embargoed, :abstract_embargoed]]]), { class: 'form-control required-embargo', include_blank: true } %>
 
@@ -25,7 +25,7 @@
   </div>
 
   <h4>How long will the embargo last?</h4>
-  <%= f.input :embargo_release_date, as: :select, collection: ["6 months", "1 year", "2 years", "6 years"], required: false, label: false, hint: "Lorum Ipsum, Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum Lorum Ipsum", input_html: { class: 'form-control required-embargo' } %>
+  <%= f.input :embargo_release_date, as: :select, collection: ["6 months", "1 year", "2 years", "6 years"], required: false, label: false, hint: "Choose the length of time for your embargo.", input_html: { class: 'form-control required-embargo' } %>
 </div>
 
 
