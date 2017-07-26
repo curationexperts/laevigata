@@ -1,5 +1,5 @@
 <h1><%= t("hyrax.works.form.tab.my_pdf", type: curation_concern.human_readable_type) %></h1>
-
+<div class="form-instructions">Upload the version of your thesis or dissertation approved by your committee. You can only upload one file. This file should not contain any signatures or other personally identifying information. Because it is a better version for preservation, we recommend you upload a PDF/A file, but it is not required. For help converting your manuscript to PDF/A, please contact Student Digital Life http://it.emory.edu/studentdigitallife/.</div>
 <div id="fileupload">
    <!-- Redirect browsers with JavaScript disabled to the origin page -->
    <noscript><input type="hidden" name="redirect" value="<%= main_app.root_path %>"></noscript>
@@ -7,6 +7,7 @@
    <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
 
    <h2><%= t('hyrax.base.form_files.local_upload') %></h2>
+   <div class="alert alert-success form-instructions">For PDFs 100MB or smaller, upload from your computer.</div>
    <div id="pdf-max-error" class='alert alert-warning hidden col-xs-12'>Only one PDF may be uploaded.</div>
    <div id="pdf-format-error" class='alert alert-warning hidden col-xs-12'>The Primary PDF must be a file in the .pdf format.
    </div>

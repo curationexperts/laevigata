@@ -29,7 +29,7 @@ RSpec.feature 'Upload Files' do
     end
 
     scenario "Supplemental Files", js: true do
-      click_on('My Supplemental Files')
+      click_on('Supplemental Files')
       expect(page).to have_content('I have no supplemental files.')
       expect(page).to have_content('Add Supplementary files...')
       # expect(page).to have_content('Browse cloud files')

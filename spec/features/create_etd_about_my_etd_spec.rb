@@ -14,7 +14,7 @@ def tinymce_fill_in(id, val)
   page.execute_script(js)
 end
 
-RSpec.feature 'Create an Etd: About My Etd' do
+RSpec.feature 'Create an Etd: My Etd' do
   let(:user) { create :user }
 
   context 'a logged in user' do
@@ -23,8 +23,8 @@ RSpec.feature 'Create an Etd: About My Etd' do
       visit("/concern/etds/new")
     end
 
-    scenario "'about my etd' has all its inputs" do
-      click_on("About My ETD")
+    scenario "'my etd' has all its inputs" do
+      click_on("My ETD")
       expect(page).to have_css('li#required-my-etd')
       expect(page).to have_css('#about_my_etd input#etd_title')
       expect(page).to have_css('#about_my_etd select#etd_language')
@@ -40,8 +40,8 @@ RSpec.feature 'Create an Etd: About My Etd' do
       expect(page).to have_css('#about_my_etd input#etd_copyright_question_three_false')
     end
 
-    scenario "can save 'about my etd'", js: true do
-      click_on("About My ETD")
+    scenario "can save 'my etd'", js: true do
+      click_on("My ETD")
       fill_in 'Title', with: 'Middlemarch'
       select("French", from: "Language")
       tinymce_fill_in('etd_abstract', 'Literature from the US')
@@ -54,7 +54,7 @@ RSpec.feature 'Create an Etd: About My Etd' do
     end
 
     scenario "manages limit of 3 research fields", js: true do
-      click_on("About My ETD")
+      click_on("My ETD")
       expect(page).to have_content('Select at least one, but no more than three,' \
       ' research fields that best describe your work. List your primary field first.' \
       ' If you do not see your exact field, pick the closest option.')

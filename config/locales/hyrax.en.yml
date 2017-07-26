@@ -24,15 +24,15 @@ en:
       form:
         tab:
           about_me:      "About Me"
-          about_my_etd:  "About My ETD"
+          about_my_etd:  "My ETD"
           my_pdf:        "My PDF"
-          supplemental_files: "My Supplemental Files"
-          embargoes: "My Embargoes"
-          review:         "Review"
+          supplemental_files: "Supplemental Files"
+          embargoes: "Embargoes"
+          review:         "Review & Submit"
         tab-description:
           about_me:      "About Me"
           about_my_etd:  "About My Thesis or Dissertation"
-          my_pdf:        "My Primary PDF"
+          my_pdf:        "My PDF"
           supplemental_files: "My Supplemental Files"
           embargoes: "My Embargoes"
           review: "Review Your Submission"

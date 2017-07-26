@@ -14,11 +14,11 @@ RSpec.feature 'Create an Etd' do
 
     scenario "View Etd Tabs", js: true do
       expect(page).to have_selector("[data-toggle='tab']", text: "About Me")
-      expect(page).to have_selector("[data-toggle='tab']", text: "About My ETD")
+      expect(page).to have_selector("[data-toggle='tab']", text: "My ETD")
       expect(page).to have_selector("[data-toggle='tab']", text: "My PDF")
-      expect(page).to have_selector("[data-toggle='tab']", text: "My Supplemental Files")
-      expect(page).to have_selector("[data-toggle='tab']", text: "My Embargoes")
-      expect(page).to have_selector("[data-toggle='tab']", text: "Review")
+      expect(page).to have_selector("[data-toggle='tab']", text: "Supplemental Files")
+      expect(page).to have_selector("[data-toggle='tab']", text: "Embargoes")
+      expect(page).to have_selector("[data-toggle='tab']", text: "Review & Submit")
     end
 
     scenario "Submission Checklist contains all ETD requirement checkboxes" do
@@ -63,7 +63,7 @@ RSpec.feature 'Create an Etd' do
       click_on('Save About Me')
 
       # Fill in 'About My ETD' tab
-      click_on('About My ETD')
+      click_on('My ETD')
       fill_in 'Title', with: title
       # TODO: fill in all fields
       click_on('Save My ETD')
@@ -104,7 +104,7 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_content 'Submission Dissertation'
       # TODO: Test committee chair & members names and affiliations
 
-      # Verify metadata from 'About My ETD' tab
+      # Verify metadata from 'My ETD' tab
       expect(page).to have_content title
     end
   end
