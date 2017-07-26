@@ -157,7 +157,7 @@ class Etd < ActiveFedora::Base
   end
 
   property :degree_awarded, predicate: "http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted", multiple: false do |index|
-    index.as :displayable
+    index.as :stored_searchable, :facetable
   end
 
   property :partnering_agency, predicate: "http://id.loc.gov/vocabulary/relators/ctb" do |index|

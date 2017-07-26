@@ -8,6 +8,7 @@ class WorkflowSetup
   attr_reader :admin_sets_config
   attr_accessor :superusers_config
   ADMIN_SET_OWNER = "admin_set_owner".freeze
+  NOTIFICATION_OWNER = "notification_owner".freeze
   DEFAULT_SUPERUSERS_CONFIG = "#{::Rails.root}/config/emory/superusers.yml".freeze
   DEFAULT_ADMIN_SETS_CONFIG = "#{::Rails.root}/config/emory/admin_sets.yml".freeze
 
@@ -33,6 +34,7 @@ class WorkflowSetup
   # Allow any registered user to deposit into any of the AdminSets
   # Give superusers every available role in all workflows in all AdminSets
   def setup
+    make_notification_owner
     load_superusers
     admin_sets.each do |as|
       @logger.debug "Attempting to make admin set for #{as}"
@@ -40,6 +42,14 @@ class WorkflowSetup
     end
     everyone_can_deposit_everywhere
     give_superusers_superpowers
+  end
+
+  # A ::User to own notifications
+  def make_notification_owner
+    u = ::User.find_or_create_by(uid: NOTIFICATION_OWNER)
+    u.ppid = NOTIFICATION_OWNER
+    u.display_name = "ETD Notification System"
+    u.save
   end
 
   # Make an AdminSet and assign it a one step mediated deposit workflow
