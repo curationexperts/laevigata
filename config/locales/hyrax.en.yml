@@ -18,7 +18,7 @@ en:
         required_files: "My PDF"
         required_supplemental_files: "My Supplemental Files"
         required_embargoes: "My Embargoes"
-        required_review: "Review"
+        required_review: "Review & Submit"
 
     works:
       form:

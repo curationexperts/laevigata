@@ -17,7 +17,7 @@ RSpec.feature 'Upload Files' do
         page.attach_file('primary_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
       end
 
-      expect(page).to have_content('The Primary PDF must be a file in the .pdf fomat.')
+      expect(page).to have_content('The Primary PDF must be a file in the .pdf format.')
       expect(page).to have_css('li#required-files.incomplete')
 
       within('#fileupload') do
