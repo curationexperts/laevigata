@@ -191,6 +191,8 @@ RSpec.feature 'Create an Etd' do
 
       expect(find("#with_files_submit")).not_to be_disabled
 
+      expect(page).to have_css('li#required-review.complete')
+
       click_on('Save')
 
       expect(page).to have_content 'Middlemarch'

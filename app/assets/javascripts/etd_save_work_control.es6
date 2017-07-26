@@ -89,6 +89,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.requiredPDF = new ChecklistItem(this.element.find('#required-files'))
       this.supplementalFiles = new ChecklistItem(this.element.find('#required-supplemental-files'))
       this.requiredEmbargoes = new ChecklistItem(this.element.find('#required-embargoes'))
+      this.requiredReview = new ChecklistItem(this.element.find('#required-review'))
 
       // this is not at all ideal, but because this class is instanted in several places, it's not easy to append and remove one option, so we just remove and append the whole set
       this.nonLaneyEmbargoDurations = '<option value=""></option><option value="6 months">6 months</option><option value="1 year">1 year</option><option value="2 years">2 years</option>';
@@ -101,6 +102,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.supplementalFilesListener()
       this.setEmbargoReleaseDates()
       this.setEmbargoContentListener()
+      this.setAgreementListener()
     }
 
 
@@ -109,6 +111,16 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       // this.preventSubmitUnlessValid()
       // this.preventSubmitIfAlreadyInProgress()
       // this.preventSubmitIfUploading()
+    }
+    setAgreementListener(){
+      var form = this
+      $('#agreement').on('change', function(){
+        if ($(this).prop('checked')){
+          form.requiredReview.check()
+        } else {
+          form.requiredReview.uncheck()
+        }
+      })
     }
 
     formStateChanged(selector) {
@@ -153,7 +165,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     }
 
     // this is not a check of the file type, but given that the app writes the filename to the page, and a student would have to change their Primary PDF file's type while uploading in order to foil this, I feel this is sufficient.
-    
+
     isAPdf(){
       if( $('#fileupload p.name span').text().includes('.pdf')){
         $("#pdf-format-error").addClass('hidden')
