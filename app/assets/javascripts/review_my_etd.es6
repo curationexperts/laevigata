@@ -160,8 +160,13 @@ export default class ReviewMyETD {
       $(this.tableSelector).append('<tr><th>' +  this.getLabel(data_four[i].name) +'</th><td><ul class="tabular"><li class="attribute">'+  data_four[i].value +'</li></ul></td></tr>');
     }
   }
+  showPreviewInstructions(){
+    $('.form-instructions p').remove();
+    $('.form-instructions').append('<p>Review the information you entered on previous tabs. To edit, use the tabs above to navigate back to that section and correct your information.</p>')
+  }
 
   previewMyEtd(){
+    this.showPreviewInstructions();
     this.createAllTheRows();
   }
 }

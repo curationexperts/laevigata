@@ -129,6 +129,7 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_content('Files and Table of Contents')
       expect(page).to have_content('6 months')
 
+      expect(page).to have_content('Review the information you entered on previous tabs. To edit, use the tabs above to navigate back to that section and correct your information.')
       expect(page).to have_css('#with_files_submit:disabled')
     end
 
