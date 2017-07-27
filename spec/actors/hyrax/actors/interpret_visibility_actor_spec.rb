@@ -23,7 +23,7 @@ describe Hyrax::Actors::InterpretVisibilityActor do
     context 'when visibility is set to open' do
       let(:attributes) do
         { visibility: Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC,
-          embargo_release_date: date.to_s }
+          embargo_length: "6 months" }
       end
 
       it 'removes embargo_release_date from attributes' do
@@ -42,7 +42,7 @@ describe Hyrax::Actors::InterpretVisibilityActor do
           "creator" => ["Sneddon, River"],
           "keyword" => [],
           "language" => [""],
-          "embargo_release_date" => "6 months",
+          "embargo_length" => "6 months",
           "graduation_date" => [""],
           "school" => ["Candler School of Theology"],
           "department" => ["Divinity"],
@@ -58,7 +58,7 @@ describe Hyrax::Actors::InterpretVisibilityActor do
           actor.create(attributes)
           expect(etd.embargo.embargo_release_date).to eq six_years_from_today
         end
-        it "saves the embargo lenth" do
+        it "saves the embargo length" do
           actor.create(attributes)
           expect(etd.embargo_length).to eq "6 months"
         end

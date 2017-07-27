@@ -31,7 +31,7 @@ module Hyrax
     self.terms += [:copyright_question_three]
     self.terms += [:no_supplemental_files]
     # my embargo terms
-
+    self.terms += [:embargo_length]
     self.terms += [:embargo_release_date]
     self.terms += [:files_embargoed]
     self.terms += [:abstract_embargoed]

@@ -85,7 +85,7 @@ RSpec.feature 'Create an Etd' do
 
       select('Laney Graduate School', from: 'embargo_school')
 
-      select('6 months', from: 'etd_embargo_release_date')
+      select('6 months', from: 'etd_embargo_length')
 
       expect(page).to have_css('li#required-embargoes.complete')
 

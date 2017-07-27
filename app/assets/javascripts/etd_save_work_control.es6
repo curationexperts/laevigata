@@ -153,7 +153,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     }
 
     // this is not a check of the file type, but given that the app writes the filename to the page, and a student would have to change their Primary PDF file's type while uploading in order to foil this, I feel this is sufficient.
-    
+
     isAPdf(){
       if( $('#fileupload p.name span').text().includes('.pdf')){
         $("#pdf-format-error").addClass('hidden')
@@ -255,13 +255,13 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     }
 
     attachNonLaneyEmbargoDurations(){
-      $('#etd_embargo_release_date').empty();
-      $('#etd_embargo_release_date').html(this.nonLaneyEmbargoDurations)
+      $('#etd_embargo_length').empty();
+      $('#etd_embargo_length').html(this.nonLaneyEmbargoDurations)
     }
 
     attachLaneyEmbargoDurations(){
-      $('#etd_embargo_release_date').empty();
-      $('#etd_embargo_release_date').html(this.laneyEmbargoDurations)
+      $('#etd_embargo_length').empty();
+      $('#etd_embargo_length').html(this.laneyEmbargoDurations)
     }
 
     setEmbargoReleaseDates(){
