@@ -47,7 +47,7 @@ RSpec.feature 'Create an Etd' do
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
       fill_in "Committee Member", with: "Joan Didion"
 
-      click_on("About My ETD")
+      click_on("My ETD")
       fill_in 'Title', with: 'Middlemarch'
       select("French", from: "Language")
       tinymce_fill_in('etd_abstract', 'Literature from the US')
@@ -69,7 +69,7 @@ RSpec.feature 'Create an Etd' do
 
       expect(page).to have_css('li#required-files.complete')
 
-      click_on('My Supplemental Files')
+      click_on('Supplemental Files')
 
       expect(page).to have_content('Add Supplementary files...')
 
@@ -77,7 +77,7 @@ RSpec.feature 'Create an Etd' do
 
       expect(page).to have_css('li#required-supplemental-files.complete')
 
-      click_on("My Embargoes")
+      click_on("Embargoes")
 
       expect(page).to have_content('What do you want to embargo?')
 
@@ -147,7 +147,7 @@ RSpec.feature 'Create an Etd' do
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
       fill_in "Committee Member", with: "Joan Didion"
 
-      click_on("About My ETD")
+      click_on("My ETD")
       fill_in 'Title', with: 'Middlemarch'
       select("French", from: "Language")
       tinymce_fill_in('etd_abstract', 'Literature from the US')
@@ -167,13 +167,13 @@ RSpec.feature 'Create an Etd' do
 
       expect(page).to have_css('li#required-files.complete')
 
-      click_on('My Supplemental Files')
+      click_on('Supplemental Files')
 
       check('etd_no_supplemental_files')
 
       expect(page).to have_css('li#required-supplemental-files.complete')
 
-      click_on('My Embargoes')
+      click_on('Embargoes')
 
       check('no_embargoes')
 

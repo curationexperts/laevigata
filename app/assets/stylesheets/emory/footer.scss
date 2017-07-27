@@ -1,0 +1,8 @@
+@import 'colors';
+
+.site-footer {
+    background-color: $emory-light-grey;
+    .navbar-text {
+        color: $emory-web-text;    
+    }
+}

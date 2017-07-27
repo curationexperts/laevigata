@@ -1,7 +1,9 @@
 <h1><%= t("hyrax.works.form.tab.supplemental_files", type: curation_concern.human_readable_type) %></h1>
+<div class="form-instructions">Uploading supplemental files is not required, but it gives you a way to share more of your research. These files could be video, research data, securely zipped software, or other materials. Please upload one file at a time, completing the additional information for each. You may upload as many supplemental files as you like. No single file should exceed 2.5 GB. If you have a file larger than 2.5 GB, contact the ETD team at etd-help@LISTSERV.CC.EMORY.EDU for help.</div>
 
 <div id="supplemental_fileupload">
-<h2><%= t('hyrax.base.form_files.local_upload') %></h2>
+  <h2><%= t('hyrax.base.form_files.local_upload') %></h2>
+  <div class="alert alert-success form-instructions">For supplemental files 100MB or smaller, upload from your computer.</div>
   <%= f.input :no_supplemental_files, as: :boolean, label: "I have no supplemental files." %>
    <!-- The table listing the files available for upload/download -->
    <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>

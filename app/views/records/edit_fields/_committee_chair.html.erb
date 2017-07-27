@@ -1,5 +1,6 @@
 <% emory_faculty = ["Emory Committee Chair", "Non-Emory Committee Chair"] %>
-
+<h3>Committee Chair, Thesis Advisor & Committee Members</h3>
+<div class="form-instructions">If your committee chair, thesis advisor, or committee members are not affiliated with Emory, select "Non-Emory" and enter his/her organization.</div>
 <div class="committee-chair row first">
   <!-- okay. we have predicates for these in the etd model, as mulitples, too. might not need fields_for if so. -->
   <%= f.fields_for :committee_chair_0 do |c| %>

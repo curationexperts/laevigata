@@ -1,0 +1,12 @@
+@import 'fonts';
+@import 'colors';
+
+.form-instructions, .help-block {
+    font-family:$caption-sans-serif-font-family;
+    margin-top:.5em;
+    margin-bottom:.5em;
+}
+
+.help-block {
+    color: $emory-web-text;
+}

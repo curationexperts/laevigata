@@ -1,0 +1,50 @@
+@import 'colors';
+@import 'fonts';
+
+.image-masthead .navbar-default .navbar-nav li.active a {
+    background-color: $emory-light-grey;
+    color: $emory-web-text;
+}
+
+.navbar-default {
+    background-color:$emory-light-grey;
+}
+
+.navbar {
+    font-family:$label-font-family;
+    ul {
+        li {
+            display: inline-block;
+            float: none;
+            margin: 1em;
+            margin-left:1.5em;
+        }
+    }
+}
+
+
+.navbar-default .navbar-nav li {
+    a {
+        color: $emory-blue;
+        font-weight:bold;
+        text-transform:uppercase;
+    }
+
+} 
+
+.nav-tabs {
+    font-family: $label-font-family;
+}
+
+#search-form-header {
+    margin-top: 1em;
+}
+
+.nav-tabs {
+    li {
+        a {
+            padding-left: 1em;
+            padding-right: 1em;
+        }
+    }
+}
