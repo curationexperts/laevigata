@@ -12,6 +12,8 @@ export class ETDRequiredFields extends RequiredFields {
   }
 
   get areComplete() {
+    // this selector should get changed to '.copyright'
+    // because not all radios should be optional, just the copyright ones
     if (this.selector == ".about-my-etd input:not(:radio)") {
       var validFields = this.requiredFields.filter((n, elem) => {
         return this.isValuePresent(elem) } ).length === 0

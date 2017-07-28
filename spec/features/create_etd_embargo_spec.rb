@@ -22,6 +22,33 @@ RSpec.feature 'Create an Etd: My Embargoes' do
       expect(page).to have_css('#save_my_embargoes')
     end
 
+    scenario "Checking 'No embargoes' makes invalid form valid", js: true do
+      click_on("Embargoes")
+
+      expect(page).to have_css('li#required-embargoes.incomplete')
+
+      check('no_embargoes')
+
+      expect(page).to have_css('li#required-embargoes.complete')
+    end
+
+    scenario "Unchecking 'No embargoes' makes valid form invalid", js: true do
+      click_on("Embargoes")
+
+      expect(page).to have_css('li#required-embargoes.incomplete')
+
+      check('no_embargoes')
+
+      expect(page).to have_field('no_embargoes', checked: true)
+
+      expect(page).to have_css('li#required-embargoes.complete')
+
+      uncheck('no_embargoes')
+
+      expect(page).to have_field('no_embargoes', checked: false)
+      expect(page).to have_css('li#required-embargoes.incomplete')
+    end
+
     scenario "selecting Files sets files_embargoed value", js: true do
       click_on("Embargoes")
       select('Files', from: "embargo_type")
@@ -49,10 +76,12 @@ RSpec.feature 'Create an Etd: My Embargoes' do
       expect(find("#etd_abstract_embargoed", visible: false).value).to eq("true")
     end
 
-    scenario "Selecting embargo types and duration makes form valid", js: true do
+    scenario "Selecting embargo types and embargo length makes invalid form valid", js: true do
       click_on("Embargoes")
 
       expect(page).to have_content('What do you want to embargo?')
+
+      expect(page).to have_css('li#required-embargoes.incomplete')
 
       select('Files and Table of Contents', from: 'embargo_type')
 
