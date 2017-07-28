@@ -6,6 +6,7 @@ RSpec.describe FileSet do
       subject { described_class.new }
 
       its(:pcdm_use) { is_expected.to be_nil }
+      its(:embargo_length) { is_expected.to be_nil }
       its(:primary?) { is_expected.to be false }
       its(:supplementary?) { is_expected.to be true }
     end

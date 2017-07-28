@@ -74,7 +74,7 @@ namespace :sample_data do
 
   task :preapproved_embargo_demo do
     puts "Making preapproved embargo data"
-    etd = FactoryGirl.build(
+    etd = FactoryGirl.create(
       :sample_data_with_everything_embargoed,
       title: ["Interpret Visibility Demo: #{FFaker::Book.title}"],
       submitting_type: ["Master's Thesis"],
@@ -90,7 +90,7 @@ namespace :sample_data do
     upload1 = Hyrax::UploadedFile.create(user: user, file: file1, pcdm_use: 'primary')
     upload2 = Hyrax::UploadedFile.create(user: user, file: file2, pcdm_use: 'supplementary')
     actor = Hyrax::CurationConcern.actor(etd, ability)
-    attributes_for_actor = { uploaded_files: [upload1.id, upload2.id] }
+    attributes_for_actor = { embargo_length: etd.embargo_length, uploaded_files: [upload1.id, upload2.id] }
     actor.create(attributes_for_actor)
     approving_user = User.where(ppid: 'candleradmin').first
     subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)

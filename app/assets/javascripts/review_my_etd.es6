@@ -83,7 +83,7 @@ export default class ReviewMyETD {
   }
 
   aboutMyEmbargoData(){
-    let data = $.merge($('#my_embargoes #embargo_type'), $('#my_embargoes #etd_embargo_release_date')).serializeArray()
+    let data = $.merge($('#my_embargoes #embargo_type'), $('#my_embargoes #etd_embargo_length')).serializeArray()
 
     let row_data = [{'name': "Embargoed ETD Content", 'value': "No Embargoed Content"}]
     let embargo_type = $('#embargo_type :selected').text()

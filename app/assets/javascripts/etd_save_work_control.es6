@@ -267,13 +267,13 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     }
 
     attachNonLaneyEmbargoDurations(){
-      $('#etd_embargo_release_date').empty();
-      $('#etd_embargo_release_date').html(this.nonLaneyEmbargoDurations)
+      $('#etd_embargo_length').empty();
+      $('#etd_embargo_length').html(this.nonLaneyEmbargoDurations)
     }
 
     attachLaneyEmbargoDurations(){
-      $('#etd_embargo_release_date').empty();
-      $('#etd_embargo_release_date').html(this.laneyEmbargoDurations)
+      $('#etd_embargo_length').empty();
+      $('#etd_embargo_length').html(this.laneyEmbargoDurations)
     }
 
     setEmbargoReleaseDates(){
