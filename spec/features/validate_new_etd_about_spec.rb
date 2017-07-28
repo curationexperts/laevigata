@@ -29,6 +29,7 @@ RSpec.feature 'Validate an Etd: About Me' do
       expect(find_field("etd_committee_members_0_affiliation").value).to eq("MOMA")
     end
 
+    pending
     scenario "'about me' adds and removes committee members", js: true do
       click_on("Add Another Committee Member")
       wait_for_ajax
@@ -61,12 +62,10 @@ RSpec.feature 'Validate an Etd: About Me' do
       fill_in "Committee Member", with: "Joan Didion"
 
       expect(page).not_to have_css('li#required-about-me.complete')
-      expect(page).to have_css('li#required-about-me.incomplete')
 
       select('CDC', from: 'Partnering agency')
 
       expect(page).to have_css('li#required-about-me.complete')
-      expect(page).not_to have_css('li#required-about-me.incomplete')
     end
 
     scenario "'about me and my program' requires non-emory committee member affiliation", js: true do

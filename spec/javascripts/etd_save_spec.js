@@ -45,7 +45,6 @@ describe("EtdSaveWorkControl", function() {
         expect(target.primary_pdf_upload).toBeDefined();
         expect(target.supplemental_files_upload).toBeDefined();
         expect(target.requiredEmbargoes).toBeDefined();
-        // expect(target.saveButton).toBeDisabled();
       });
     });
 
@@ -59,15 +58,15 @@ describe("EtdSaveWorkControl", function() {
         };
         target.requiredAboutMeFields = mockAboutMeFields;
         spyOn(mockAboutMeFields,'reload');
-        spyOn(target, 'formStateChanged').and.callThrough();
         spyOn(target, 'isValid').and.callThrough();
         spyOn(target, 'validateMeAndMyProgram');
-        target.aboutMeFormChanged();
       });
 
       it('it reloads the dom elements and re-validates the form', function(){
+
+        target.formStateChanged('.about-me');
+
         expect(mockAboutMeFields.reload).toHaveBeenCalled();
-        expect(target.formStateChanged).toHaveBeenCalledWith('.about-me');
         expect(target.isValid).toHaveBeenCalled();
         expect(target.validateMeAndMyProgram).toHaveBeenCalled();
       });
@@ -99,6 +98,23 @@ describe("EtdSaveWorkControl", function() {
     });
   });
 
+});
+
+
+describe("Submit My ETD", function(){
+  var target;
+
+  beforeEach(function() {
+      loadFixtures('work_form.html');
+      target = new EtdSaveWorkControl($('#form-progress'));
+      target.activate();
+      spyOn(target, 'getTinyContent');
+  });
+
+  it('needs to submit tinyMCE content', function(){
+    target.form.submit();
+    expect(target.getTinyContent).toHaveBeenCalled();
+  });
 });
 
 describe("Validate My ETD", function(){
