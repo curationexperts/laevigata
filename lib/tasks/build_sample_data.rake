@@ -72,11 +72,12 @@ namespace :sample_data do
     puts "Created #{etd.id}"
   end
 
-  task :preapproved_embargo_demo do
+  desc "Build sample data to demo daily jobs (graduation and embargo expiration)"
+  task :daily_jobs_demo do
     puts "Making preapproved embargo data"
     etd = FactoryGirl.create(
       :sample_data_with_everything_embargoed,
-      title: ["Interpret Visibility Demo: #{FFaker::Book.title}"],
+      title: ["Daily Jobs Demo: #{FFaker::Book.title}"],
       submitting_type: ["Master's Thesis"],
       degree: ["M.S."],
       school: ['Candler School of Theology']
@@ -84,7 +85,6 @@ namespace :sample_data do
     etd.assign_admin_set
     user = User.where(ppid: etd.depositor).first
     ability = ::Ability.new(user)
-
     file1 = File.open("#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf")
     file2 = File.open("#{::Rails.root}/spec/fixtures/miranda/image.tif")
     upload1 = Hyrax::UploadedFile.create(user: user, file: file1, pcdm_use: 'primary')

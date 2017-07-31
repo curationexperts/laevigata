@@ -14,6 +14,8 @@ class EmbargoExpirationService
   # You can also pass in a date.
   # @param [Date] date the date by which to measure expirations
   def self.run(date = Time.zone.today)
+    date = Date.parse(date)
+    Rails.logger.info "Running embargo expiration service for #{date}"
     EmbargoExpirationService.new(date).run
   end
 

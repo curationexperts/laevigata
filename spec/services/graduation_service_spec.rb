@@ -19,7 +19,7 @@ describe GraduationService do
     Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: nil)
     expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "approved"
   end
-  describe "#check_for_new_graduates" do
+  describe "#run" do
     it "finds all works in an approved state that do not yet have a degree_awarded value" do
       expect(described_class.graduation_eligible_works.map(&:id)).to contain_exactly(etd.id)
     end
@@ -28,7 +28,7 @@ describe GraduationService do
     end
     it "checks for new graduates" do
       allow(GraduationJob).to receive(:perform_later)
-      described_class.check_for_new_graduates
+      described_class.run
       expect(GraduationJob).to have_received(:perform_later)
     end
   end
