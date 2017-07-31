@@ -13,11 +13,11 @@ en:
     active_consent_to_agreement: "I hereby grant to Emory University and its agents the non-exclusive license to archive, make accessible, and display, subject to any embargo restrictions I have specified above, my thesis or dissertation in whole or in part in all forms of media, now or hereafter known, including the display of the thesis or dissertation on the world wide web. I retain all ownership rights to the copyright of the thesis or dissertation. I also retain the right to use in future works (such as articles or books) all or part of this thesis or dissertation. I certify that my electronic submission is the version of my thesis/dissertation that was approved by my committee."
     base:
       form_progress:
-        required_about_me: "About Me and My Program"
-        required_my_etd: "About My ETD"
+        required_about_me: "About Me"
+        required_my_etd: "My ETD"
         required_files: "My PDF"
-        required_supplemental_files: "My Supplemental Files"
-        required_embargoes: "My Embargoes"
+        required_supplemental_files: "Supplemental Files"
+        required_embargoes: "Embargoes"
         required_review: "Review & Submit"
 
     works:
@@ -33,8 +33,8 @@ en:
           about_me:      "About Me"
           about_my_etd:  "About My Thesis or Dissertation"
           my_pdf:        "My PDF"
-          supplemental_files: "My Supplemental Files"
-          embargoes: "My Embargoes"
+          supplemental_files: "Supplemental Files"
+          embargoes: "Embargoes"
           review: "Review Your Submission"
 
       create:
