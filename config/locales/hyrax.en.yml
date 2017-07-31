@@ -14,7 +14,7 @@ en:
     base:
       form_progress:
         required_about_me: "About Me and My Program"
-        required_my_etd: "About My Etd"
+        required_my_etd: "About My ETD"
         required_files: "My PDF"
         required_supplemental_files: "My Supplemental Files"
         required_embargoes: "My Embargoes"
