@@ -9,7 +9,10 @@
    <h2><%= t('hyrax.base.form_files.local_upload') %></h2>
    <div class="alert alert-success form-instructions">For PDFs 100MB or smaller, upload from your computer.</div>
    <div id="pdf-max-error" class='alert alert-warning hidden col-xs-12'>Only one PDF may be uploaded.</div>
-   <div id="pdf-format-error" class='alert alert-warning hidden col-xs-12'>The Primary PDF must be a file in the .pdf format.
+   <div id="pdf-format-error" class='alert alert-danger hidden col-xs-12'>
+     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+     <span class="sr-only">Error:</span>
+     The Primary PDF must be a file in the .pdf format.
    </div>
    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
    <div class="row fileupload-buttonbar">

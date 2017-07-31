@@ -5,8 +5,38 @@
     font-family:$caption-sans-serif-font-family;
     margin-top:.5em;
     margin-bottom:.5em;
+    margin-left:0;
+}
+
+.alert {
+    font-family:$caption-sans-serif-font-family;
+    margin-top:.5em;
+    margin-bottom:.5em;
+    margin-left:0;
+    font-weight: bold;
 }
 
 .help-block {
     color: $emory-web-text;
 }
+
+form label {
+    margin-bottom:0;
+}
+
+#my_embargoes {   
+    .checkbox {
+        margin: 2em;
+    }
+    .do_not_want_embargo {
+        font-weight:bold;
+        margin-left: 1em;
+        line-height: 1.7;
+    }
+
+}
+
+#no_embargoes {
+    transform: scale(1.5);
+}
+

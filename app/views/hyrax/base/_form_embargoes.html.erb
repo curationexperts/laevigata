@@ -1,9 +1,10 @@
 <h1><%= t("hyrax.works.form.tab.embargoes", type: curation_concern.human_readable_type) %></h1>
 <div class="form-instructions">You have the option to restrict access to your thesis or dissertation for a limited time. Select which parts of your record to include in the embargo and how long the embargo should last. If you are unsure whether to embargo your ETD, consult with your thesis advisor or committee chair.</div>
 <div id="my_embargoes">
-  <div class="checkbox">
+  <div class="checkbox well">
     <label class="boolean optional" for="etd_no_embargoes">
-      <%= check_box_tag :no_embargoes %> I do not want to embargo my thesis or dissertation.
+      <span class="sr-only">Warning:</span>
+      <%= check_box_tag :no_embargoes %> <span class="do_not_want_embargo">I do not want to embargo my thesis or dissertation.</span>
     </label>
   </div>
 
@@ -12,7 +13,7 @@
   <p class="help-block">You can choose to embargo only your files or more of your thesis or dissertation record. Select which parts of your record you would like to include in your embargo. If a patent is associated with your thesis or dissertation, consult with the Office of Technology Transfer about your embargo. Contact the Office of Technology Transfer at (404) 727-2211.</p>
 
   <%= select_tag "embargo_type", options_for_select([["Files", :files_embargoed], ["Files and Table of Contents", [:files_embargoed, :toc_embargoed]],
- ["Files, Table of Contents and Abstract", [:files_embargoed, :toc_embargoed, :abstract_embargoed]]]), { class: 'form-control required-embargo', include_blank: true } %>
+      ["Files, Table of Contents and Abstract", [:files_embargoed, :toc_embargoed, :abstract_embargoed]]]), { class: 'form-control required-embargo', include_blank: true } %>
 
   <%= f.input :toc_embargoed, as: :hidden %>
   <%= f.input :abstract_embargoed, as: :hidden %>
