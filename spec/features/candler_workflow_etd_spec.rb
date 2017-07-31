@@ -8,7 +8,10 @@ include Warden::Test::Helpers
 RSpec.feature 'Candler approval workflow' do
   let(:depositing_user) { User.where(ppid: etd.depositor).first }
   let(:approving_user) { User.where(uid: "candleradmin").first }
+  let(:admin_superuser) { User.where(uid: "tezprox").first } # uid from superuser.yml
+
   let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null") }
+
   let(:etd) { FactoryGirl.create(:sample_data, school: ["Candler School of Theology"]) }
   context 'a logged in user' do
     before do
@@ -41,6 +44,7 @@ RSpec.feature 'Candler approval workflow' do
       logout
       login_as approving_user
       visit("/notifications?locale=en")
+
       expect(page).to have_content "#{etd.title.first} (#{etd.id}) was deposited by #{depositing_user.display_name} and is awaiting approval."
 
       # Check workflow permissions for approving user
@@ -103,6 +107,34 @@ RSpec.feature 'Candler approval workflow' do
       login_as approving_user
       visit("/notifications?locale=en")
       expect(page).to have_content "Degree awarded for #{etd.title.first}"
+    end
+
+    scenario "Approving Users have links to their dashboards but not the admin panel", js: true do
+      logout
+      login_as approving_user
+      visit("/notifications?locale=en")
+
+      expect(page).not_to have_link("Administration")
+      expect(page).to have_link("Dashboard")
+    end
+
+    scenario "Superusers always have links to the Admin Panel and their dashboards" do
+      logout
+      login_as admin_superuser
+      visit("/notifications?locale=en")
+
+      expect(page).to have_link("Administration")
+      expect(page).to have_link("Dashboard")
+    end
+
+    scenario "Superusers can see the admin panel" do
+      logout
+      login_as admin_superuser
+      visit("/notifications?locale=en")
+      click_on("Administration")
+
+      expect(page).to have_content("Administrative Sets")
+      expect(page).to have_content("Workflows")
     end
   end
 end

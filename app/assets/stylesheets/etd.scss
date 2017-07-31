@@ -71,3 +71,16 @@ span.disabled_element input[disabled] {
   color: white;
   background-color: #000080;
 }
+
+ul.admin-sidebar {
+  margin-top: 85px;
+}
+
+@media (min-width: 768px){
+  div ul.navbar-nav {
+    float: right;
+  }
+  div ul.navbar-right {
+    margin-right: 0;
+  }
+}
