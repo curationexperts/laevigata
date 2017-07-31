@@ -100,7 +100,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.formChanged()
       this.fileDeleted()
       this.supplementalFilesListener()
-      this.setEmbargoReleaseDates()
+      this.setEmbargoLengths()
       this.setEmbargoContentListener()
       this.setAgreementListener()
     }
@@ -256,8 +256,15 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     setEmbargoContentListener(){
       var form = this
       $("#no_embargoes").on('change', function(e){
-        form.validateMyEmbargo();
+        if ($(this).prop('checked')){
+          form.disableEmbargoes();
+          form.requiredEmbargoes.check();
+        } else {
+          form.requiredEmbargoes.uncheck();
+          form.enableEmbargoes();
+        }
       });
+
       $('#embargo_type').on('change', function(e){
         form.setEmbargoContent(this);
       });
@@ -276,7 +283,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       $('#etd_embargo_length').html(this.laneyEmbargoDurations)
     }
 
-    setEmbargoReleaseDates(){
+    setEmbargoLengths(){
       var form = this;
       $('#embargo_school').on('change', function(){
         if ($(this).val() === 'Undergraduate Honors, Rollins or Candler') {
@@ -297,20 +304,12 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     }
 
     validateMyEmbargo() {
-      if ($('#no_embargoes').prop('checked')){
-        this.disableEmbargoes();
+      if (this.requiredEmbargoFields.areComplete) {
         this.requiredEmbargoes.check();
         return true
       } else {
-
-        this.enableEmbargoes();
-        if (this.requiredEmbargoFields.areComplete) {
-          this.requiredEmbargoes.check();
-          return true
-        } else {
-          this.requiredEmbargoes.uncheck();
-          return false
-        }
+        this.requiredEmbargoes.uncheck();
+        return false
       }
     }
     validateMyETD() {

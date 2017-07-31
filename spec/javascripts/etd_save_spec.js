@@ -310,41 +310,21 @@ describe("Validate My Embargoes", function(){
     target = new EtdSaveWorkControl($('#form-progress'), admin_set);
   });
 
-  describe("when No Embargoes is checked", function() {
+  describe("when the required fields have content", function() {
     beforeEach(function() {
       loadFixtures('work_form.html');
       target.requiredEmbargoes = mockCheckbox;
       spyOn(mockCheckbox, 'check').and.stub();
       spyOn(mockCheckbox, 'uncheck').and.stub();
+
       target.requiredEmbargoFields = {
         areComplete: true
       };
     });
-    it("is valid and the embargo fields are disabled", function() {
-      $('#no_embargoes').prop('checked', true)
+    it("is valid", function() {
       target.validateMyEmbargo();
-      expect($('#my_embargoes select')).toBeDisabled();
       expect(mockCheckbox.uncheck.calls.count()).toEqual(0);
       expect(mockCheckbox.check.calls.count()).toEqual(1);
-    });
-  });
-
-  describe("when No Embargoes is not checked", function() {
-    beforeEach(function() {
-      loadFixtures('work_form.html');
-      target.requiredEmbargoes = mockCheckbox;
-      spyOn(mockCheckbox, 'check').and.stub();
-      spyOn(mockCheckbox, 'uncheck').and.stub();
-      target.requiredEmbargoFields = {
-        areComplete: false
-      };
-    });
-    it("is not valid and the embargo fields are enabled", function() {
-      $('#no_embargoes').prop('checked', false)
-      target.validateMyEmbargo();
-      expect($('#my_embargoes select')).not.toBeDisabled();
-      expect(mockCheckbox.uncheck.calls.count()).toEqual(1);
-      expect(mockCheckbox.check.calls.count()).toEqual(0);
     });
   });
 });
