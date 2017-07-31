@@ -62,7 +62,7 @@ RSpec.feature 'Create an Etd' do
       # TODO: Committee Member
       click_on('Save About Me')
 
-      # Fill in 'About My ETD' tab
+      # Fill in 'My ETD' tab
       click_on('My ETD')
       fill_in 'Title', with: title
       # TODO: fill in all fields

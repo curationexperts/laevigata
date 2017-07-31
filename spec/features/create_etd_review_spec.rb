@@ -97,7 +97,7 @@ RSpec.feature 'Create an Etd' do
 
       find("#preview_my_etd").click
 
-      # About Me and My Program
+      # About Me
       expect(page).to have_content("Park, Miranda")
       expect(page).to have_content('frodo@example.com')
       expect(page).to have_content("Rollins School of Public Health")
