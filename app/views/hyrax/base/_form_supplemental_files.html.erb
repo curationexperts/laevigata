@@ -17,6 +17,7 @@
                <span>Add Supplemental Files</span>
                <input type="file" name="supplemental_files[]" multiple>
            </span>
+
            <% if browser_supports_directory_upload? %>
            <!-- The fileinput-button span is used to style the file input field as button -->
            <span class="btn btn-success fileinput-button">
@@ -49,3 +50,15 @@
 <h2><%= t('hyrax.base.form_files.external_upload') %></h2>
 <%= render 'browse_everything_supplemental', f: f %>
 <% end %>
+
+<%= link_to "Show Additional Metadata",
+            '#additional_metadata',
+            id: 'additional_metadata_link',
+            class: 'btn btn-default additional-fields',
+            data: { toggle: 'collapse' },
+            role: "button",
+            'aria-expanded'=> "false",
+            'aria-controls'=> "additional_metadata" %>
+<div id="additional_metadata" class='collapse'>
+some stuff
+</div>

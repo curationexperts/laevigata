@@ -104,6 +104,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.setEmbargoContentListener()
       this.setAgreementListener()
       this.getTinyContent()
+      this.addSupplementalFilesMetadata()
     }
 
     getTinyContent(){
@@ -186,6 +187,22 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       let form = this
       $('#etd_no_supplemental_files').on('change', function(){
         form.validateSupplementalFiles()
+      });
+    }
+
+    addSupplementalFilesMetadata(){
+      //is this called by both local and cloud? this is a local event handler
+
+      // better to just have our own, watches for files in the uploaded table, submits to uploads controller?
+      $('#supplemental_fileupload').bind('fileuploaddone', function (e, data) {
+        $('#additional_metadata_link').show();
+        //show metadata fields -- ajax post to uploads controller with them?
+        //
+        // $.ajax({
+        //   type: "POST",
+        //   url: "/uploads",
+        //   data: "a string"
+        // });
       });
     }
 
