@@ -104,6 +104,21 @@ FactoryGirl.define do
         abstract_embargoed true
         toc_embargoed true
 
+        factory :sixty_day_expiration do
+          degree_awarded { Time.zone.today - 2.years }
+          embargo { FactoryGirl.create(:embargo, embargo_release_date: (Time.zone.today + 60.days)) }
+        end
+
+        factory :seven_day_expiration do
+          degree_awarded { Time.zone.today - 2.years }
+          embargo { FactoryGirl.create(:embargo, embargo_release_date: (Time.zone.today + 7.days)) }
+        end
+
+        factory :tomorrow_expiration do
+          degree_awarded { Time.zone.today - 2.years }
+          embargo { FactoryGirl.create(:embargo, embargo_release_date: Time.zone.tomorrow) }
+        end
+
         factory :sample_data_with_only_files_embargoed do
           title ["Sample Data With File Embargo: #{FFaker::Book.title}"]
           abstract_embargoed false

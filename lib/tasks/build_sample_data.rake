@@ -1,7 +1,7 @@
 require 'etd_factory'
 
 namespace :sample_data do
-  desc "Build sample data"
+  desc "Build basic sample data"
   task :basic do
     sample_data = [:sample_data, :sample_data_with_everything_embargoed, :sample_data_with_only_files_embargoed, :ateer_etd]
     sample_data.each do |s|
@@ -99,18 +99,28 @@ namespace :sample_data do
     puts "Created #{etd.id}"
   end
 
+  desc "Build sample data to demo embargo expiration service"
   task :embargo_expiration do
-    sample_data = [:sample_data_with_everything_embargoed, :sample_data_with_only_files_embargoed]
-    expirations = [(Time.zone.today + 60.days), (Time.zone.today + 7.days), Time.zone.tomorrow]
-    sample_data.each do |s|
-      expirations.each do |e|
-        etd = FactoryGirl.create(
-          s,
-          degree_awarded: (Time.zone.today - 2.years),
-          embargo: FactoryGirl.create(:embargo, embargo_release_date: e)
-        )
-        puts "Made #{etd.id}"
-      end
+    approving_user = User.where(ppid: 'candleradmin').first
+    [:sixty_day_expiration, :seven_day_expiration, :tomorrow_expiration].each do |e|
+      etd = FactoryGirl.create(
+        e,
+        title: ["Embargo Expiration Demo: #{FFaker::Book.title}"],
+        school: ['Candler School of Theology']
+      )
+      user = User.where(ppid: etd.depositor).first
+      ability = ::Ability.new(user)
+      file1 = File.open("#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf")
+      file2 = File.open("#{::Rails.root}/spec/fixtures/miranda/image.tif")
+      upload1 = Hyrax::UploadedFile.create(user: user, file: file1, pcdm_use: 'primary')
+      upload2 = Hyrax::UploadedFile.create(user: user, file: file2, pcdm_use: 'supplementary')
+      actor = Hyrax::CurationConcern.actor(etd, ability)
+      attributes_for_actor = { uploaded_files: [upload1.id, upload2.id] }
+      actor.create(attributes_for_actor)
+      subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
+      sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
+      Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "Preapproved")
+      puts "Built #{etd.id}"
     end
   end
 end
