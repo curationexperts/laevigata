@@ -27,7 +27,19 @@ RSpec.feature 'Supplemental files' do
 
       page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
 
-      expect(page).to have_content('Show Additional Metadata')
+      expect(page).to have_link('Show Additional Metadata')
+
+      click_on('Show Additional Metadata')
+
+      expect(page).to have_css('table.metadata')
+      expect(page).to have_content('Hide Additional Metadata')
+
+      # click_on('Hide Additional Metadata')
+
+      # why doesn't this js collapse event occur?
+      # the first one does
+      # expect(page).not_to have_content('some good things')
+      # expect(page).to have_link('Show Additional Metadata')
     end
   end
 end

@@ -4,10 +4,15 @@
 <div id="supplemental_fileupload">
   <h2><%= t('hyrax.base.form_files.local_upload') %></h2>
   <div class="alert alert-success form-instructions">For supplemental files 100MB or smaller, upload from your computer.</div>
+  <div id='duplicate-files-error' class='alert alert-warning hidden col-xs-12'>NO DUPLICATE FILES.</div>
   <%= f.input :no_supplemental_files, as: :boolean, label: "I have no supplemental files." %>
    <!-- The table listing the files available for upload/download -->
    <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
-
+   <div id="additional_metadata" class='collapse col-xs-12'>
+     <table class='metadata' id='supplemental_files_metatdata'>
+       <tbody></tbody>
+     </table>
+   </div>
    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
    <div class="row fileupload-buttonbar">
        <div class="col-xs-7">
@@ -59,6 +64,3 @@
             role: "button",
             'aria-expanded'=> "false",
             'aria-controls'=> "additional_metadata" %>
-<div id="additional_metadata" class='collapse'>
-some stuff
-</div>

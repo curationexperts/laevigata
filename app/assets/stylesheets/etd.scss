@@ -83,6 +83,11 @@ ul.admin-sidebar {
   }
 }
 
-#additional_metadata_link{
+#additional_metadata_link {
   display: none;
+}
+
+#additional_metadata {
+  min-height: 30px;
+  display: block;
 }
