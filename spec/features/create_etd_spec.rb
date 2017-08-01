@@ -112,9 +112,9 @@ RSpec.feature 'Create an Etd' do
   end
 
   context 'a logged out user' do
-    scenario "cannot get to submit page from 'share your work' link" do
+    scenario "cannot get to submit page from 'Submit My ETD' link" do
       visit(root_url)
-      click_link("Share Your Work")
+      click_link("Submit My ETD")
 
       expect(current_url).not_to start_with new_hyrax_etd_url
       expect(current_url).to eq(new_user_session_url)
