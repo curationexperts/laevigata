@@ -72,9 +72,27 @@ RSpec.feature 'Create an Etd' do
 
       click_on('Supplemental Files')
 
-      expect(page).to have_content('Add Supplemental Files')
+      expect(page).to have_content('Add Supplementary files...')
 
       page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
+
+      expect(page).to have_css('li#required-supplemental-files.complete')
+
+      click_on('Show Additional Metadata')
+      # sleep is not ideal for these collapse and show events but the length of wait time is proving difficult to mandate otherwise
+      sleep(10)
+
+      expect(page).to have_css('li#required-supplemental-files.incomplete')
+
+      expect(page).to have_content('File Name')
+      expect(page).to have_content('Title')
+      expect(page).to have_content('Description')
+
+      fill_in :supplemental_file_title, with: "Super Great Title"
+      fill_in :supplemental_file_description, with: "Super Great Description"
+      select('Sound', from: 'supplemental_file_file_type')
+
+      sleep(10)
 
       expect(page).to have_css('li#required-supplemental-files.complete')
 
@@ -125,7 +143,8 @@ RSpec.feature 'Create an Etd' do
 
       # My Supplementary Files
       expect(page).to have_content('magic_warrior_cat.jpg')
-
+      expect(page).to have_content("Super Great Title")
+      expect(page).to have_content("Super Great Description")
       # My Embargoes
       expect(page).to have_content('Files and Table of Contents')
       expect(page).to have_content('6 months')

@@ -42,12 +42,7 @@ RSpec.feature 'Create an Etd' do
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
       fill_in "Committee Member", with: "Joan Didion"
 
-      click_on('Save About Me')
-
-      expect(page).to have_content 'Successfully saved About:'
-
       expect(page).to have_css('li#required-about-me.complete')
-      expect(page).not_to have_css('li#required-about-me.incomplete')
     end
 
     scenario "'about me' has no committee affiliation field when affiliation type Emory is selected", js: true do
@@ -119,14 +114,13 @@ RSpec.feature 'Create an Etd' do
 
     scenario "display indicates incomplete 'about me and my program' data", js: true do
       visit("/concern/etds/new")
+
       select('Emory Committee Chair', from: 'etd_committee_chair_0_affiliation_type')
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
       select('Non-Emory Committee Member', from: 'etd_committee_members_0_affiliation_type')
+
       fill_in "Committee Member", with: "Joan Didion"
 
-      click_on('Save About Me')
-
-      expect(page).to have_css('li#required-about-me.incomplete')
       expect(page).not_to have_css('li#required-about-me.complete')
     end
   end

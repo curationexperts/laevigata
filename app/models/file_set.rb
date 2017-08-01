@@ -13,6 +13,10 @@ class FileSet < ActiveFedora::Base
     index.as :facetable
   end
 
+  property :file_type, predicate: 'http://purl.org/dc/elements/1.1/format', multiple: false do |index|
+    index.as :facetable
+  end
+
   def primary?
     pcdm_use == PRIMARY
   end

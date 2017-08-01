@@ -11,7 +11,8 @@ RSpec.feature 'Validate an Etd: About Me' do
       visit("/concern/etds/new")
     end
 
-    # TODO: need another one of these for chairs: scenario "'about me' adds and removes committee members"
+    # TODO: evaluate and discuss value of this spec
+    pending
     scenario "'about me' has no committee affiliation field when affiliation type Emory is selected", js: true do
       select('Non-Emory Committee Chair', from: 'etd_committee_chair_0_affiliation_type')
       wait_for_ajax
@@ -87,7 +88,6 @@ RSpec.feature 'Validate an Etd: About Me' do
       wait_for_ajax(5)
 
       expect(page).to have_css('li#required-about-me.complete')
-      expect(page).not_to have_css('li#required-about-me.incomplete')
     end
   end
 end

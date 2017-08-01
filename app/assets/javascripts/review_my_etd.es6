@@ -1,7 +1,9 @@
 export default class ReviewMyETD {
   constructor(formSelector, previewButtonSelector) {
     this.formSelector = formSelector
-    this.tableSelector = formSelector + " table"
+    this.tableSelector = formSelector + " table#metadata"
+    this.pdfTableSelector = formSelector + " table#uploaded_pdf"
+    this.supplementalFilesTableSelector = formSelector + " table#uploaded_supplemental_files"
     this.previewButtonSelector = previewButtonSelector
     this.attach_preview_listener()
     this.attach_validity_listener()
@@ -14,6 +16,7 @@ export default class ReviewMyETD {
       let valid_form = $('li#required-about-me').hasClass('complete') && $('li#required-my-etd').hasClass('complete') &&
       $('li#required-files').hasClass('complete') && $('li#required-supplemental-files').hasClass('complete') && $('li#required-embargoes').hasClass('complete')
       if(valid_form){
+      //remove table if it's there
         $(form.previewButtonSelector).prop('disabled', false);
         $(form.previewButtonSelector).removeClass('hidden');
       }
@@ -61,12 +64,20 @@ export default class ReviewMyETD {
     return data
   }
 
-  getFileList(){
-    let list = []
-    $('#new_etd #supplemental_fileupload tbody tr').each(function(){
-      list.push($(this).find('p.name').text())
+  getSupplementalFileList(){
+    var supplemental_files = $("#new_etd #supplemental_fileupload table").clone();
+    $(supplemental_files).find('th').remove();
+    $(supplemental_files).find('td').each(function(){
+      var data = "";
+      // skip the delete button that is in the table
+      if($(this).find('button').length > 0){
+        data = "";
+      } else {
+        data = $(this).text();
+      }
+      $(this).html(data);
     });
-    return list
+    return supplemental_files;
   }
 
   aboutMyPDFData(){
@@ -76,10 +87,11 @@ export default class ReviewMyETD {
 
   aboutMySupplementalFilesData(){
     let data = ""
-    if ($('#new_etd #supplemental_fileupload tbody tr').length > 0) {
-      data = [{'name': "My Supplemental Files", 'value': this.getFileList()}]
-    }
-    return data
+      if ($('#new_etd #supplemental_fileupload tbody tr').length > 0) {
+        data = [{'name': "My Supplemental Files", 'value': this.getFileList()}]
+        return data
+      }
+      return data;
   }
 
   aboutMyEmbargoData(){
@@ -147,18 +159,55 @@ export default class ReviewMyETD {
     return $('.form-group.'+ label_class +' label').text()
   }
 
-  createAllTheRows(){
-    let data_one = $.merge(this.aboutMeData(), this.aboutMyETDData())
-    let data_two = $.merge(this.aboutMyPDFData(),
-  this.aboutMySupplementalFilesData())
+  showUploadedFilesTables(){
+    $(this.pdfTableSelector).append('<tr><th colspan="4">Primary PDF</th></tr>');
 
-    let data_three = $.merge(data_one, data_two)
+    let $pdf = $('#fileupload tbody.files tr');
+    $pdf.find('td:last-child').remove();
 
-    let data_four = $.merge(data_three, this.aboutMyEmbargoData())
+    $(this.pdfTableSelector).append($pdf);
 
-    for (var i = 0; i < data_four.length; i++){
-      $(this.tableSelector).append('<tr><th>' +  this.getLabel(data_four[i].name) +'</th><td><ul class="tabular"><li class="attribute">'+  data_four[i].value +'</li></ul></td></tr>');
+    // do we have supplemental files but no metadata?
+    if ($('#etd_no_supplemental_files').prop('checked') === false && $('#additional_metadata_link').text() == 'Show Additional Metadata') {
+      $(this.supplementalFilesTableSelector).append('<tr><th colspan="4">Supplemental Files</th></tr>');
+
+      $(this.supplementalFilesTableSelector).append(this.getSupplementalFileList());
+
+      //do we have supp metadata?
+
+    } else if ($('#new_etd #additional_metadata tr').length > 0 && $('#additional_metadata_link').text() == 'Hide Additional Metadata') {
+      $(this.supplementalFilesTableSelector).append('<tr><th colspan="4">Supplemental Files</th></tr>');
+      // switch the value of the input with the html for each td
+      var supp_data = $("#additional_metadata").clone();
+      $(supp_data).find('th').remove();
+      $(supp_data).find('td').each(function(){
+        //find input and selects
+        var data = "";
+        if($(this).find('input').length > 0){
+          data = $(this).find('input').val();
+        } else if ($(this).find('select').length > 0) {
+          data = $(this).find('select').val();
+        } else {
+          //nothing else
+        }
+        $(this).html(data);
+      });
+      $(this.supplementalFilesTableSelector).append(supp_data);
+    //no supp files at all
+    } else {
+      $(this.supplementalFilesTableSelector).append('<tr><td colspan="4">No Supplemental Files</td></tr>');
     }
+  }
+
+  createAllTheRows(){
+    let data_me_and_my = $.merge(this.aboutMeData(), this.aboutMyETDData())
+    //do the pdf and supplemental files separately
+    let data = $.merge(data_me_and_my, this.aboutMyEmbargoData())
+
+    for (var i = 0; i < data.length; i++){
+      $(this.tableSelector).append('<tr><th>' +  this.getLabel(data[i].name) +'</th><td><ul class="tabular"><li class="attribute">'+  data[i].value +'</li></ul></td></tr>');
+    }
+    this.showUploadedFilesTables();
   }
   showPreviewInstructions(){
     $('.form-instructions p').remove();

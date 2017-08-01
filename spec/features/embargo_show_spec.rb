@@ -36,8 +36,8 @@ RSpec.feature 'Display an ETD with embargoed content' do
       expect(page).to have_content "Table of Contents"
       expect(page).to have_content etd.table_of_contents.first
       expect(page).to have_content "[Table of contents embargoed until #{etd.embargo_length} post-graduation"
-      expect(page).to have_content "joey_thesis.pdf"
-      expect(page).to have_link "joey_thesis.pdf"
+      expect(page).to have_content etd.title.first
+      expect(page).to have_link etd.title.first
       expect(page).to have_link "Download"
       expect(page).to have_css "td.thumbnail/a/img" # thumbnail image link
     end
@@ -53,8 +53,8 @@ RSpec.feature 'Display an ETD with embargoed content' do
       expect(page).to have_content "Table of Contents"
       expect(page).to have_content etd.table_of_contents.first
       expect(page).to have_content "[Table of contents embargoed until #{formatted_embargo_release_date(etd)}"
-      expect(page).to have_content "joey_thesis.pdf"
-      expect(page).to have_link "joey_thesis.pdf"
+      expect(page).to have_content etd.title.first
+      expect(page).to have_link etd.title.first
       expect(page).to have_link "Download"
       expect(page).to have_css "td.thumbnail/a/img" # thumbnail image link
     end
@@ -70,8 +70,8 @@ RSpec.feature 'Display an ETD with embargoed content' do
       expect(page).to have_content "Table of Contents"
       expect(page).to have_content etd.table_of_contents.first
       expect(page).to have_content "[Table of contents embargoed until #{etd.embargo_length} post-graduation"
-      expect(page).to have_content "joey_thesis.pdf"
-      expect(page).to have_link "joey_thesis.pdf"
+      expect(page).to have_content etd.title.first
+      expect(page).to have_link etd.title.first
       expect(page).to have_link "Download"
       expect(page).to have_css "td.thumbnail/a/img" # thumbnail image link
     end
@@ -86,8 +86,8 @@ RSpec.feature 'Display an ETD with embargoed content' do
       expect(page).to have_content "Table of Contents"
       expect(page).to have_content etd.table_of_contents.first
       expect(page).to have_content "[Table of contents embargoed until #{formatted_embargo_release_date(etd)}"
-      expect(page).to have_content "joey_thesis.pdf"
-      expect(page).to have_link "joey_thesis.pdf"
+      expect(page).to have_content etd.title.first
+      expect(page).to have_link etd.title.first
       expect(page).to have_link "Download"
       expect(page).to have_css "td.thumbnail/a/img" # thumbnail image link
     end
@@ -100,8 +100,7 @@ RSpec.feature 'Display an ETD with embargoed content' do
       expect(page).to have_content "Table of Contents"
       expect(page).not_to have_content etd.table_of_contents.first
       expect(page).to have_content "This table of contents is under embargo until #{formatted_embargo_release_date(etd)}"
-      expect(page).not_to have_content "joey_thesis.pdf"
-      expect(page).not_to have_link "joey_thesis.pdf"
+      expect(page).not_to have_link etd.title.first
       expect(page).not_to have_link "Download"
       expect(page).to have_css "td.thumbnail/img[alt='No preview']" # "no preview" image
       expect(page).to have_css "img.representative-media[alt='No preview']" # "no preview" large image

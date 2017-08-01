@@ -14,6 +14,13 @@ class AttachFilesToWorkJob < ActiveJob::Base
       actor.attach_file_to_work(work)
       actor.file_set.permissions_attributes = work.permissions.map(&:to_hash)
       file_set.pcdm_use = uploaded_file.pcdm_use
+      if uploaded_file.pcdm_use == 'primary'
+        file_set.title = work.title
+      else
+        file_set.title = Array.wrap(uploaded_file.title)
+        file_set.description = Array.wrap(uploaded_file.description)
+        file_set.file_type = uploaded_file.file_type
+      end
       file_set.save
       uploaded_file.update(file_set_uri: file_set.uri)
     end
