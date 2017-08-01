@@ -3,9 +3,9 @@
 # 2. For each of these works, query the registrar data to see if the student has graduated
 # 3. If so, call GraduationJob for the given work and the graduation_date returned by registrar data
 # @example How to call this service
-#  GraduationService.check_for_new_graduates
+#  GraduationService.run
 class GraduationService
-  def self.check_for_new_graduates
+  def self.run
     GraduationService.graduation_eligible_works.each do |work|
       degree_awarded_date = GraduationService.check_degree_status(work)
       GraduationJob.perform_later(work, degree_awarded_date.to_s) if degree_awarded_date

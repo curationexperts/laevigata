@@ -91,7 +91,7 @@ RSpec.feature 'Candler approval workflow' do
 
       # Run the graduation service
       allow(GraduationService).to receive(:check_degree_status).and_return(Time.zone.today)
-      GraduationService.check_for_new_graduates
+      GraduationService.run
 
       # Now the work should be publicly visible
       visit("/concern/etds/#{etd.id}")
