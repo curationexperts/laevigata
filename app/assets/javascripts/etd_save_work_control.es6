@@ -103,15 +103,16 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.setEmbargoLengths()
       this.setEmbargoContentListener()
       this.setAgreementListener()
+      this.getTinyContent()
     }
 
-
-    preventSubmit() {
-      //this.preventSaveAboutMeUnlessValid()
-      // this.preventSubmitUnlessValid()
-      // this.preventSubmitIfAlreadyInProgress()
-      // this.preventSubmitIfUploading()
+    getTinyContent(){
+      this.form.on('submit', (evt) => {
+        $('#etd_abstract').val(this.getTinyContent('etd_abstract'))
+        $('#etd_table_of_contents').val(this.getTinyContent('etd_table_of_contents'))
+      });
     }
+
     setAgreementListener(){
       var form = this
       $('#agreement').on('change', function(){
@@ -142,17 +143,10 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.saveButton.prop("disabled", !this.isValid(selector));
     }
 
-
+    //this empty function overrides the super function, we track when the form has changed more explicitly, per form tab, in this class
     formChanged() {}
 
-    // called when a new field has been added to the form.
-    // TODO: remove
-    aboutMeFormChanged() {
-      this.requiredAboutMeFields.reload(".about-me");
-      this.formStateChanged(".about-me");
-    }
-
-    // pdf and supplemental files functions - might extract to class might use object in here instead
+    // pdf and supplemental files functions
 
     fileDeleted(){
       let form = this
@@ -224,7 +218,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
           //console.log('nothing is valid');
           break;
       }
-    //   return metadataValid && filesValid && agreementValid
     }
 
     setEmbargoContent(el){
@@ -364,21 +357,5 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
         return false
      }
    }
-  }
-
-//one way to validate form
-  // validateForm(){
-  //   if(this.validateMeAndMyProgram() && this.validateMyETD() && this.validatePDF() && this.validateSupplementalFiles() && this.validateMyEmbargo()){
-  //     $(this.previewButtonSelector).prop('disabled', false);
-  //   }
-  // }
-
-  validateAgreement(filesValid) {
-  //   if (filesValid && this.uploads.hasNewFiles && this.depositAgreement.mustAgreeAgain) {
-  //     // Force the user to agree again
-  //     this.depositAgreement.setNotAccepted()
-  //     return false
-  //   }
-  //   return this.depositAgreement.isAccepted
   }
 }
