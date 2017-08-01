@@ -17,8 +17,12 @@ observer.attr('disabled', true);
 observed.on('change', function () {
 observer.empty().append(prompt);
 if (observed.val()) {
-// console.log(observer_dom_id)
-// console.log(observed.val())
+
+if(observed.val()=="Rollins School of Public Health"){
+	$(".etd_committee_members_0_name label, .etd_committee_members_0_name, #etd_committee_members_0_name").removeClass('required').addClass('optional');
+}else{
+	$(".etd_committee_members_0_name label, .etd_committee_members_0_name, #etd_committee_members_0_name").removeClass('optional').addClass('required');
+}
 var res = observed.val().split(" ")[0].toLowerCase() + "_programs";
 url = url_mask.replace(regexp, res);
 
@@ -28,6 +32,8 @@ observer.append($('<option>').attr('value', object.id).text(object.label));
 observer.attr('disabled', false);
 });
 });
+}else{
+	$(".etd_committee_members_0_name label, .etd_committee_members_0_name, #etd_committee_members_0_name").removeClass('required').addClass('optional');
 }
 });
 });

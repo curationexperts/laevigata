@@ -67,6 +67,20 @@ RSpec.feature 'Create an Etd' do
       expect(find_field("etd_committee_members_0_affiliation").value).to eq("MOMA")
     end
 
+    scenario "'about me' required committee members field", js: true do
+      select("Laney Graduate School", from: "School")
+      wait_for_ajax
+      expect(page).to have_css('input#etd_committee_members_0_name.required')
+      expect(page).to have_css('div.etd_committee_members_0_name.required')
+    end
+
+    scenario "'about me' non-required committee members field", js: true do
+      select("Rollins School of Public Health", from: "School")
+      wait_for_ajax
+      expect(page).to have_css('input#etd_committee_members_0_name.optional')
+      expect(page).to have_css('div.etd_committee_members_0_name.optional')
+    end
+
     scenario "'about me' adds and removes committee members", js: true do
       click_on("Add Another Committee Member")
       wait_for_ajax
