@@ -106,7 +106,7 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name("school", :stored_searchable), label: "School"
     config.add_show_field solr_name("subfield", :stored_searchable), label: "Sub Field"
     config.add_show_field solr_name("partnering_agency", :stored_searchable), label: "Partnering Agency"
-    config.add_show_field solr_name("submitting_type", :stored_searchable), label: "I am submitting"
+    config.add_show_field solr_name("submitting_type", :stored_searchable), label: "Submission Type"
     config.add_show_field solr_name("research_field", :stored_searchable), label: "Research Field"
 
     # "fielded" search configuration. Used by pulldown among other places.

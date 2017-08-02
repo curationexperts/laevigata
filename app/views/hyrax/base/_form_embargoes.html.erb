@@ -19,7 +19,7 @@
   <%= f.input :abstract_embargoed, as: :hidden %>
   <%= f.input :files_embargoed, as: :hidden %>
 
-  <h4>Which school are you in?</h4>
+  <h4>Select your school</h4>
 
   <div class='form-group select'>
     <%= select_tag "embargo_school", options_for_select(['Undergraduate Honors, Rollins or Candler', 'Laney Graduate School']), { include_blank: true, class: 'form-control' } %>

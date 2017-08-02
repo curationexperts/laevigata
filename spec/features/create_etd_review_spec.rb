@@ -35,14 +35,14 @@ RSpec.feature 'Create an Etd' do
 
     scenario "Miranda can preview her entire etd", js: true do
       fill_in 'Student Name', with: 'Park, Miranda'
-      select 'Spring 2018', from: 'Graduation date'
-      fill_in 'Post graduation email', with: 'frodo@example.com'
+      select 'Spring 2018', from: 'Graduation Date'
+      fill_in 'Post Graduation Email', with: 'frodo@example.com'
       select("Rollins School of Public Health", from: "School")
       select("Epidemiology", from: "Department")
 
-      select('CDC', from: 'Partnering agency')
+      select('CDC', from: 'Partnering Agency')
       select 'PhD', from: 'Degree'
-      select 'Dissertation', from: 'I am submitting my'
+      select 'Dissertation', from: 'Submission Type'
 
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
       fill_in "Committee Member", with: "Joan Didion"
@@ -61,7 +61,7 @@ RSpec.feature 'Create an Etd' do
 
       click_on('My PDF')
 
-      expect(page).to have_content('Add Primary PDF...')
+      expect(page).to have_content('Add Primary PDF')
 
       within('#fileupload') do
         page.attach_file('primary_files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
@@ -71,7 +71,7 @@ RSpec.feature 'Create an Etd' do
 
       click_on('Supplemental Files')
 
-      expect(page).to have_content('Add Supplementary files...')
+      expect(page).to have_content('Add Supplemental Files')
 
       page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
 
@@ -135,14 +135,14 @@ RSpec.feature 'Create an Etd' do
 
     scenario "Miranda previews, agrees to Emory submission policy and submits her ETD", js: true do
       fill_in 'Student Name', with: 'Park, Miranda'
-      select 'Spring 2018', from: 'Graduation date'
-      fill_in 'Post graduation email', with: 'frodo@example.com'
+      select 'Spring 2018', from: 'Graduation Date'
+      fill_in 'Post Graduation Email', with: 'frodo@example.com'
       select("Rollins School of Public Health", from: "School")
       select("Epidemiology", from: "Department")
 
-      select('CDC', from: 'Partnering agency')
+      select('CDC', from: 'Partnering Agency')
       select 'PhD', from: 'Degree'
-      select 'Dissertation', from: 'I am submitting my'
+      select 'Dissertation', from: 'Submission Type'
 
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
       fill_in "Committee Member", with: "Joan Didion"

@@ -31,10 +31,10 @@ RSpec.feature 'Validate an Etd: About Me' do
 
     pending
     scenario "'about me' adds and removes committee members", js: true do
-      click_on("Add Another Committee Member")
+      click_on("Add another Committee Member")
       wait_for_ajax
 
-      click_on("Add Another Committee Member")
+      click_on("Add another Committee Member")
       wait_for_ajax
 
       expect(all('select.committee-member-select').count).to eq(3)
@@ -51,32 +51,32 @@ RSpec.feature 'Validate an Etd: About Me' do
 
     scenario "'about me requires Partnering Agency for Rollins School'", js: true do
       fill_in 'Student Name', with: 'Eun, Dongwon'
-      select("Spring 2018", from: "Graduation date")
-      fill_in "Post graduation email", with: "graduate@done.com"
+      select("Spring 2018", from: "Graduation Date")
+      fill_in "Post Graduation Email", with: "graduate@done.com"
       select("Rollins School of Public Health", from: "School")
       select("Biostatistics", from: "Department")
 
       select('MS', from: "Degree")
-      select("Honors Thesis", from: "I am submitting my")
+      select("Honors Thesis", from: "Submission Type")
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
       fill_in "Committee Member", with: "Joan Didion"
 
       expect(page).not_to have_css('li#required-about-me.complete')
 
-      select('CDC', from: 'Partnering agency')
+      select('CDC', from: 'Partnering Agency')
 
       expect(page).to have_css('li#required-about-me.complete')
     end
 
     scenario "'about me and my program' requires non-emory committee member affiliation", js: true do
       fill_in 'Student Name', with: 'Eun, Dongwon'
-      select("Spring 2018", from: "Graduation date")
-      fill_in "Post graduation email", with: "graduate@done.com"
+      select("Spring 2018", from: "Graduation Date")
+      fill_in "Post Graduation Email", with: "graduate@done.com"
       select("Laney Graduate School", from: "School")
       select("Religion", from: "Department")
       select("Ethics and Society", from: "Sub Field")
       select('MS', from: "Degree")
-      select("Honors Thesis", from: "I am submitting my")
+      select("Honors Thesis", from: "Submission Type")
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
       select('Non-Emory Committee Chair', from: "Committee Chair/Thesis Advisor's Affiliation")
       fill_in('etd_committee_chair_0_affiliation', with: 'Oxford')

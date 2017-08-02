@@ -11,13 +11,13 @@ RSpec.feature 'Upload Files' do
 
     scenario "Primary Pdf requires pdf format", js: true do
       click_on('My PDF')
-      expect(page).to have_content('Add Primary PDF...')
+      expect(page).to have_content('Add Primary PDF')
 
       within('#fileupload') do
         page.attach_file('primary_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
       end
 
-      expect(page).to have_content('The Primary PDF must be a file in the .pdf format.')
+      expect(page).to have_content('The primary file must be in the PDF format.')
       expect(page).to have_css('li#required-files.incomplete')
 
       within('#fileupload') do
@@ -31,7 +31,7 @@ RSpec.feature 'Upload Files' do
     scenario "Supplemental Files", js: true do
       click_on('Supplemental Files')
       expect(page).to have_content('I have no supplemental files.')
-      expect(page).to have_content('Add Supplementary files...')
+      expect(page).to have_content('Add Supplemental Files')
       # expect(page).to have_content('Browse cloud files')
     end
   end

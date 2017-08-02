@@ -1,5 +1,5 @@
 <h1><%= t("hyrax.works.form.tab.my_pdf", type: curation_concern.human_readable_type) %></h1>
-<div class="form-instructions">Upload the version of your thesis or dissertation approved by your committee. You can only upload one file. This file should not contain any signatures or other personally identifying information. Because it is a better version for preservation, we recommend you upload a PDF/A file, but it is not required. For help converting your manuscript to PDF/A, please contact Student Digital Life http://it.emory.edu/studentdigitallife/.</div>
+<div class="form-instructions">Upload the version of your thesis or dissertation approved by your committee. You can only upload one file. This file should not contain any signatures or other personally identifying information. Because it is a better version for preservation, we recommend you upload a PDF/A file, but it is not required. For help converting your manuscript to PDF/A, please contact <a href="http://it.emory.edu/studentdigitallife/">Student Digital Life</a>.</div>
 <div id="fileupload">
    <!-- Redirect browsers with JavaScript disabled to the origin page -->
    <noscript><input type="hidden" name="redirect" value="<%= main_app.root_path %>"></noscript>
@@ -12,7 +12,7 @@
    <div id="pdf-format-error" class='alert alert-danger hidden col-xs-12'>
      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
      <span class="sr-only">Error:</span>
-     The Primary PDF must be a file in the .pdf format.
+     The primary file must be in the PDF format.
    </div>
    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
    <div class="row fileupload-buttonbar">
@@ -20,7 +20,7 @@
            <!-- The fileinput-button span is used to style the file input field as button -->
            <span class="btn btn-success fileinput-button">
                <span class="glyphicon glyphicon-plus"></span>
-               <span>Add Primary PDF...</span>
+               <span>Add Primary PDF</span>
                <input type="file" name="primary_files[]" multiple>
            </span>
            <button type="reset" class="btn btn-warning cancel hidden">

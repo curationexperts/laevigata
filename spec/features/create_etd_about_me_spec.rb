@@ -32,13 +32,13 @@ RSpec.feature 'Create an Etd' do
 
     scenario "can save 'about me and my program'", js: true do
       fill_in 'Student Name', with: 'Eun, Dongwon'
-      select("Spring 2018", from: "Graduation date")
-      fill_in "Post graduation email", with: "graduate@done.com"
+      select("Spring 2018", from: "Graduation Date")
+      fill_in "Post Graduation Email", with: "graduate@done.com"
       select("Laney Graduate School", from: "School")
       select("Religion", from: "Department")
       select("Ethics and Society", from: "Sub Field")
       select('MS', from: "Degree")
-      select("Honors Thesis", from: "I am submitting my")
+      select("Honors Thesis", from: "Submission Type")
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
       fill_in "Committee Member", with: "Joan Didion"
 
@@ -68,10 +68,10 @@ RSpec.feature 'Create an Etd' do
     end
 
     scenario "'about me' adds and removes committee members", js: true do
-      click_on("Add Another Committee Member")
+      click_on("Add another Committee Member")
       wait_for_ajax
 
-      click_on("Add Another Committee Member")
+      click_on("Add another Committee Member")
       wait_for_ajax
 
       expect(all('select.committee-member-select').count).to eq(3)
@@ -87,10 +87,10 @@ RSpec.feature 'Create an Etd' do
     end
 
     scenario "'about me' adds and removes committee chairs", js: true do
-      click_on("Add Another Committee Chair/Thesis Advisor")
+      click_on("Add another Committee Chair/Thesis Advisor")
       wait_for_ajax
 
-      click_on("Add Another Committee Chair/Thesis Advisor")
+      click_on("Add another Committee Chair/Thesis Advisor")
       wait_for_ajax
 
       expect(all('select.committee-chair-select').count).to eq(3)
@@ -111,7 +111,7 @@ RSpec.feature 'Create an Etd' do
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
       select('Non-Emory Committee Member', from: 'etd_committee_members_0_affiliation_type')
       fill_in "Committee Member", with: "Joan Didion"
-      select('CDC', from: 'Partnering agency')
+      select('CDC', from: 'Partnering Agency')
       click_on('Save About Me')
 
       expect(page).to have_css('li#required-about-me.incomplete')
