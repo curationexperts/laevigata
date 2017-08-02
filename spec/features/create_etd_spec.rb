@@ -49,7 +49,6 @@ RSpec.feature 'Create an Etd' do
     end
 
     scenario "Create a new ETD", js: true do
-      pending
       # Fill in 'About Me' tab
       fill_in 'Student Name', with: 'Johnson, Frodo'
       select 'Spring 2018', from: 'Graduation Date'
@@ -57,24 +56,41 @@ RSpec.feature 'Create an Etd' do
       select 'Emory College', from: 'School'
       select 'Religion', from: 'Department'
       select 'Ethics and Society', from: 'Sub Field'
-      select 'CDC', from: 'Partnering Agency'
       select 'PhD', from: 'Degree'
       select 'Dissertation', from: 'Submission Type'
-      # TODO: Committee Chair
-      # TODO: Committee Member
-      click_on('Save About Me')
+      fill_in 'Committee Chair/Thesis Advisor', with: 'Fred'
+      fill_in 'etd[committee_members_attributes][0]_name', with: 'Barney'
 
       # Fill in 'My ETD' tab
       click_on('My ETD')
       fill_in 'Title', with: title
-      # TODO: fill in all fields
+      select 'English', from: 'Language'
+      tinymce_fill_in('etd_abstract', 'Literature from the US')
+      tinymce_fill_in('etd_table_of_contents', 'Chapter One')
+      select 'Aeronomy', from: 'Research Field'
+      fill_in 'Keyword', with: 'key1'
+      find('#question_1').choose('No')
+      find('#question_2').choose('No')
+      find('#question_3').choose('No')
       click_on('Save My ETD')
 
-      # TODO: Attach primary PDF
+      click_on('My PDF')
+      page.attach_file('primary_files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
+      expect(page).to have_css('li#required-files.complete')
+
       # TODO: Attach supplementary file(s)
-      # TODO: Create an embargo
+      click_on('Supplemental Files')
+      check 'I have no supplemental files.'
+
+      # TODO: Should we create an embargo in this spec, or is
+      # that tested in spec/features/create_etd_embargo_spec.rb?
+      click_on('Embargoes')
+      check 'I do not want to embargo my thesis or dissertation.'
 
       # Save the form
+      click_on('Review & Submit')
+      expect(page).to have_css '#preview_my_etd'
+      find(:css, '#preview_my_etd').click
       check('agreement')
       save_and_wait = -> { click_button "Save"; wait_for_ajax(10) }
       expect(save_and_wait).to change { Etd.count }.by(1)
@@ -85,13 +101,16 @@ RSpec.feature 'Create an Etd' do
       expect(etds.length).to eq 1 # Make sure only 1 ETD in array
       etd = etds.first
 
-      # Meanwhile, an admin user approves our ETD
-      expect(page).to have_content "The work is not currently available because it has not yet completed the approval process"
-      expect(etd.to_sipity_entity.workflow_state_name).to eq 'pending_approval'
-      approve_etd(etd, workflow_setup.superusers.first)
-      expect(etd.to_sipity_entity.workflow_state_name).to eq 'approved'
+      # TODO: There is a bug that doesn't allow a student to
+      # view their own ETD until after their graduation date.
+      # After that bug is fixed, remove this code that sets
+      # the degree_awarded date.
+      # https://github.com/curationexperts/laevigata/issues/575
+      etd.degree_awarded = Date.parse("17-05-17").strftime("%d %B %Y")
+      etd.state = Vocab::FedoraResourceStatus.active
+      etd.save!
 
-      # After it is approved, we can view the ETD
+      # The student views his ETD
       visit hyrax_etd_path(etd)
 
       # Verify metadata from 'About Me' tab
@@ -101,13 +120,23 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_content 'School Emory College'
       expect(page).to have_content 'Department Religion'
       expect(page).to have_content 'Subfield / Discipline Ethics and Society'
-      expect(page).to have_content 'Partnering Agencies CDC'
       expect(page).to have_content 'Degree Ph.D.'
       expect(page).to have_content 'Submission Dissertation'
-      # TODO: Test committee chair & members names and affiliations
+      # TODO: Test Committee Chair names and affiliations
+      # TODO: Test Committee Member names and affiliations
 
       # Verify metadata from 'My ETD' tab
       expect(page).to have_content title
+      # TODO: Test language
+      # TODO: Test abstract
+      # TODO: Test table of contents
+      # TODO: Research field
+      # TODO: Keyword
+      # TODO: 3 copyright questions
+
+      # TODO: Test primary PDF
+      # TODO: Test Supplemental files
+      # TODO: Test Embargo (if there is one)
     end
   end
 

@@ -4,16 +4,6 @@ require 'rails_helper'
 
 include Warden::Test::Helpers
 
-def tinymce_fill_in(id, val)
-  # wait until the TinyMCE editor instance is ready. This is required for cases
-  # where the editor is loaded via XHR.
-  # sleep 0.5 until
-  page.evaluate_script("tinyMCE.get('#{id}') !== null")
-
-  js = "tinyMCE.get('#{id}').setContent('#{val}')"
-  page.execute_script(js)
-end
-
 RSpec.feature 'Create an Etd: My Etd' do
   let(:user) { create :user }
 
