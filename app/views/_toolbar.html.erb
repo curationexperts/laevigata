@@ -1,5 +1,5 @@
 <% if user_signed_in? %>
-  <ul class="nav navbar-nav">
+  <ul class="nav navbar-nav navbar-right">
     <%= render 'hyrax/admin/menu' if can? :read, :admin_dashboard %>
     <li class="dropdown">
       <%= link_to hyrax.dashboard_index_path, role: 'button', data: { toggle: 'dropdown' }, aria: { haspopup: true, expanded: false } do %>

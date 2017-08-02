@@ -1,6 +1,12 @@
 @import 'colors';
 @import 'fonts';
 
+@media (min-width: 768px){
+  div ul.navbar-right {
+    margin-right: 0;
+  }
+}
+
 .image-masthead .navbar-default .navbar-nav li.active a {
     background-color: $emory-light-grey;
     color: $emory-web-text;
@@ -48,3 +54,4 @@
         }
     }
 }
+
