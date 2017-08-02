@@ -8,9 +8,10 @@
   <%= f.input :no_supplemental_files, as: :boolean, label: "I have no supplemental files." %>
    <!-- The table listing the files available for upload/download -->
    <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
-   <div id="additional_metadata" class='collapse col-xs-12'>
-     <table class='metadata' id='supplemental_files_metatdata'>
-       <tbody></tbody>
+
+   <div id='link_goes_here'></div>
+   <div id="additional_metadata" class='collapse'>
+     <table class='table table-striped metadata' id='supplemental_files_metadata'>
      </table>
    </div>
    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->

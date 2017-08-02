@@ -5,6 +5,7 @@ RSpec.feature 'Supplemental files' do
   let(:user) { create :user }
   context 'logged in user uploads Supplemental files' do
     before do
+      page.driver.console_messages # need capybara confg debug = true also to see them
       login_as user
       visit("/concern/etds/new")
     end
@@ -31,15 +32,18 @@ RSpec.feature 'Supplemental files' do
 
       click_on('Show Additional Metadata')
 
-      expect(page).to have_css('table.metadata')
-      expect(page).to have_content('Hide Additional Metadata')
+      expect(page).to have_content('File Name')
+      expect(page).to have_link('Hide Additional Metadata')
 
-      # click_on('Hide Additional Metadata')
+      click_link('Hide Additional Metadata')
+      
+      # expect will wait for dom to finish up
+      expect(page).to have_content('magic_warrior_cat.jpg')
 
       # why doesn't this js collapse event occur?
       # the first one does
-      # expect(page).not_to have_content('some good things')
-      # expect(page).to have_link('Show Additional Metadata')
+      expect(page).not_to have_content('File Name')
+      expect(page).to have_link('Show Additional Metadata')
     end
   end
 end

@@ -88,6 +88,10 @@ ul.admin-sidebar {
 }
 
 #additional_metadata {
-  min-height: 30px;
+  // min-height: 30px;
   display: block;
+}
+
+#supplemental_files_metadata{
+  height: inherit;
 }
