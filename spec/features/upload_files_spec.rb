@@ -31,15 +31,11 @@ RSpec.feature 'Primary PDF' do
       expect(page).not_to have_content('The Primary PDF must be a file in the .pdf fomat.')
       expect(page).to have_css('li#required-files.complete')
     end
-<<<<<<< HEAD
-
     scenario "Supplemental Files", js: true do
       click_on('Supplemental Files')
       expect(page).to have_content('I have no supplemental files.')
       expect(page).to have_content('Add Supplemental Files')
       # expect(page).to have_content('Browse cloud files')
     end
-=======
->>>>>>> test and show metadata button working
   end
 end
