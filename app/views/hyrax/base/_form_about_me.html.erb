@@ -8,11 +8,11 @@
       input_html: { class: 'form-control' } %>
 
   <% graduation_dates = ["Spring 2018", "Winter 2018"] %>
-  <%= f.input :graduation_date, as: :select,
+  <%= f.input :graduation_date, label: "Graduation Date",  as: :select,
          collection: graduation_dates,
           input_html: { class: 'form-control' } %>
 
-  <%= f.input :post_graduation_email, hint: 'We will need a way to contact you after graduation. Please provide a non-Emory email address where you can be reached after your Emory email address is disabled. Make sure the email address is one you plan to maintain and check regularly.', input_html: { class: 'form-control' } %>
+  <%= f.input :post_graduation_email, label: "Post Graduation Email", hint: 'We will need a way to contact you after graduation. Please provide a non-Emory email address where you can be reached after your Emory email address is disabled. Make sure the email address is one you plan to maintain and check regularly.', input_html: { class: 'form-control' } %>
 
 </div>
 
@@ -26,7 +26,7 @@
 </div>
 <div class='row'>
   <div class='col-sm-12'>
-    <button type="button" id="add-another-chair" class="btn btn-link add"><span class="glyphicon glyphicon-plus"></span> <span class="controls-add-text">Add Another Committee Chair/Thesis Advisor</span></button>
+    <button type="button" id="add-another-chair" class="btn btn-link add"><span class="glyphicon glyphicon-plus"></span> <span class="controls-add-text">Add another Committee Chair/Thesis Advisor</span></button>
   </div>
 </div>
 
@@ -36,7 +36,7 @@
 
 <div class='row'>
   <div class='col-sm-12'>
-    <button type="button" id="add-another-member" class="btn btn-link add"><span class="glyphicon glyphicon-plus"></span><span class="controls-add-text">Add Another Committee Member</span></button>
+    <button type="button" id="add-another-member" class="btn btn-link add"><span class="glyphicon glyphicon-plus"></span><span class="controls-add-text">Add another Committee Member</span></button>
   </div>
 </div>
 

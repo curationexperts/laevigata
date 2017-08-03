@@ -17,7 +17,7 @@ RSpec.feature 'Create an Etd: My Embargoes' do
       click_on("Embargoes")
 
       expect(page).to have_content("What do you want to embargo?")
-      expect(page).to have_content("Which school are you in?")
+      expect(page).to have_content("Select your school")
       expect(page).to have_content("How long will the embargo last?")
       expect(page).to have_css('#save_my_embargoes')
     end

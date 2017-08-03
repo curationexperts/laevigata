@@ -1,5 +1,5 @@
 <h1><%= t("hyrax.works.form.tab.supplemental_files", type: curation_concern.human_readable_type) %></h1>
-<div class="form-instructions">Uploading supplemental files is not required, but it gives you a way to share more of your research. These files could be video, research data, securely zipped software, or other materials. Please upload one file at a time, completing the additional information for each. You may upload as many supplemental files as you like. No single file should exceed 2.5 GB. If you have a file larger than 2.5 GB, contact the ETD team at etd-help@LISTSERV.CC.EMORY.EDU for help.</div>
+<div class="form-instructions">Uploading supplemental files is not required, but it gives you a way to share more of your research. These files could be video, research data, securely zipped software, or other materials. Please upload one file at a time, completing the additional information for each. You may upload as many supplemental files as you like. No single file should exceed 2.5 GB. If you have a file larger than 2.5 GB, contact the ETD team at <a href="mailto:etd-help@LISTSERV.CC.EMORY.EDU">etd-help@LISTSERV.CC.EMORY.EDU</a> for help."</div>
 
 <div id="supplemental_fileupload">
   <h2><%= t('hyrax.base.form_files.local_upload') %></h2>
@@ -14,14 +14,14 @@
            <!-- The fileinput-button span is used to style the file input field as button -->
            <span class="btn btn-success fileinput-button">
                <span class="glyphicon glyphicon-plus"></span>
-               <span>Add Supplementary files...</span>
+               <span>Add Supplemental Files</span>
                <input type="file" name="supplemental_files[]" multiple>
            </span>
            <% if browser_supports_directory_upload? %>
            <!-- The fileinput-button span is used to style the file input field as button -->
            <span class="btn btn-success fileinput-button">
                <span class="glyphicon glyphicon-plus"></span>
-               <span>Add folder...</span>
+               <span>Add folder</span>
                <input type="file" name="supplemental_files[]" multiple directory webkitdirectory>
            </span>
            <% end %>

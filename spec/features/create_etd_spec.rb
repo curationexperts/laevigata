@@ -52,14 +52,14 @@ RSpec.feature 'Create an Etd' do
       pending
       # Fill in 'About Me' tab
       fill_in 'Student Name', with: 'Johnson, Frodo'
-      select 'Spring 2018', from: 'Graduation date'
-      fill_in 'Post graduation email', with: 'frodo@example.com'
+      select 'Spring 2018', from: 'Graduation Date'
+      fill_in 'Post Graduation Email', with: 'frodo@example.com'
       select 'Emory College', from: 'School'
       select 'Religion', from: 'Department'
       select 'Ethics and Society', from: 'Sub Field'
-      select 'CDC', from: 'Partnering agency'
+      select 'CDC', from: 'Partnering Agency'
       select 'PhD', from: 'Degree'
-      select 'Dissertation', from: 'I am submitting my'
+      select 'Dissertation', from: 'Submission Type'
       # TODO: Committee Chair
       # TODO: Committee Member
       click_on('Save About Me')
