@@ -107,6 +107,11 @@ RSpec.feature 'Laney Graduate School two step approval workflow' do
       expect(page).to have_content "#{etd.title.first} (#{etd.id}) has completed initial review and is awaiting final approval."
       expect(page).to have_content "#{etd.title.first} (#{etd.id}) has been approved by"
 
+      # Depositing user should be able to see their work, even if it hasn't been approved yet
+      visit("/concern/etds/#{etd.id}")
+      expect(page).to have_content(etd.abstract.first)
+      expect(page).not_to have_content("The work is not currently available")
+
       # Visit the ETD as a public user. It should not be visible.
       logout
       visit("/concern/etds/#{etd.id}")
