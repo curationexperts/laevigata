@@ -31,7 +31,10 @@ class EtdPresenter < Hyrax::WorkShowPresenter
   end
 
   def current_user_roles
-    workflow = AdminSet.where(title: admin_set).first.active_workflow
+    # Note: AdminSets need an exact, non-tokenized solr query. A query like
+    # AdminSet.where(title: admin_set) is too broad and might match the wrong AdminSet,
+    # because there are AdminSets with similar names (e.g., Epidemiology and Global Epidemiology)
+    workflow = AdminSet.where(title_sim: admin_set.first).first.active_workflow
     Hyrax::Workflow::PermissionQuery.scope_processing_workflow_roles_for_user_and_workflow(
       user: current_ability.current_user,
       workflow: workflow
