@@ -22,11 +22,11 @@
 # Email output to Bess, for now
 env 'MAILTO', 'bess@curationexperts.com'
 
-every :day, at: '12:20am' do
+every :monday, at: '12:20am' do
   rake "emory:graduation"
 end
 
-every :day, at: '1:20am' do
+every :saturday, at: '1:20am' do
   rake "emory:fixity"
 end
 
