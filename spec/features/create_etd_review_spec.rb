@@ -40,6 +40,7 @@ RSpec.feature 'Create an Etd' do
       select("Rollins School of Public Health", from: "School")
       select("Epidemiology", from: "Department")
 
+      expect(page).to have_select('Partnering Agency')
       select('CDC', from: 'Partnering Agency')
       select 'PhD', from: 'Degree'
       select 'Dissertation', from: 'Submission Type'

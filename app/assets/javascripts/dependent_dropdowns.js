@@ -12,23 +12,22 @@ var observer = $('select#' + observer_dom_id);
 var observed = $('#' + observed_dom_id);
 
 if (!observer.val() && observed.size() > 1) {
-observer.attr('disabled', true);
+	observer.attr('disabled', true);
 }
 observed.on('change', function () {
-observer.empty().append(prompt);
-if (observed.val()) {
-// console.log(observer_dom_id)
-// console.log(observed.val())
-var res = observed.val().split(" ")[0].toLowerCase() + "_programs";
-url = url_mask.replace(regexp, res);
+	observer.empty().append(prompt);
+	if (observed.val()) {
 
-$.getJSON(url, function (data) {
-$.each(data, function (i, object) {
-observer.append($('<option>').attr('value', object.id).text(object.label));
-observer.attr('disabled', false);
-});
-});
-}
+		var res = observed.val().split(" ")[0].toLowerCase() + "_programs";
+		url = url_mask.replace(regexp, res);
+
+		$.getJSON(url, function (data) {
+			$.each(data, function (i, object) {
+				observer.append($('<option>').attr('value', object.id).text(object.label));
+				observer.attr('disabled', false);
+			});
+		});
+	}
 });
 });
 });

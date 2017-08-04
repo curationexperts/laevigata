@@ -54,6 +54,7 @@ RSpec.feature 'Validate an Etd: About Me' do
       select("Spring 2018", from: "Graduation Date")
       fill_in "Post Graduation Email", with: "graduate@done.com"
       select("Rollins School of Public Health", from: "School")
+      wait_for_ajax
       select("Biostatistics", from: "Department")
 
       select('MS', from: "Degree")
@@ -82,9 +83,9 @@ RSpec.feature 'Validate an Etd: About Me' do
       fill_in('etd_committee_chair_0_affiliation', with: 'Oxford')
       fill_in "Committee Member", with: "Joan Didion"
 
-      click_on('Save About Me')
+      click_on('About Me')
+      wait_for_ajax(5)
 
-      expect(page).to have_content 'Successfully saved About: Eun, Dongwon'
       expect(page).to have_css('li#required-about-me.complete')
       expect(page).not_to have_css('li#required-about-me.incomplete')
     end

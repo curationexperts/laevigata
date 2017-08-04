@@ -72,6 +72,11 @@ span.disabled_element input[disabled] {
   background-color: #000080;
 }
 
+// the agency content is hidden until the student selects the Rollins School
+div#rollins_partnering_agencies {
+  display: none;
+}
+
 ul.admin-sidebar {
   margin-top: 85px;
 }

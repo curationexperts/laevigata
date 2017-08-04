@@ -6,6 +6,19 @@ export default class AboutMeAndMyProgram {
     this.attach_committee_select_listeners('.committee-member-select')
     this.attach_add_committee_listeners('#add-another-chair', ".committee-chair.row", ".remove-chair")
     this.attach_add_committee_listeners('#add-another-member', ".committee-member.row", ".remove-member")
+    this.attach_school_listener()
+  }
+
+  // Partnering Agencies are not shown unless the Rollins School is selected (or derived from the student's netId, potentially.)
+
+  attach_school_listener(){
+    $('#etd_school').on('change', function(){
+      if ($(this).val() === "Rollins School of Public Health"){
+        $('#rollins_partnering_agencies').show();
+      } else {
+        $('#rollins_partnering_agencies').hide();
+      }
+    });
   }
 
   attach_committee_select_listeners(selector){
