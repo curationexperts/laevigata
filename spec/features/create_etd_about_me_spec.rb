@@ -92,6 +92,12 @@ RSpec.feature 'Create an Etd' do
       expect(page).not_to have_css('div#rollins_partnering_agencies')
     end
 
+    scenario "'about me' select a graduation date from the dropdown", js: true do
+      select("Summer 2018", from: "Graduation Date")
+
+      expect(page).to have_select('etd_graduation_date', selected: 'Summer 2018')
+    end
+
     scenario "'about me' displays partnering agencies when Rollins is the selected school", js: true do
       select("Rollins School of Public Health", from: "School")
       wait_for_ajax
