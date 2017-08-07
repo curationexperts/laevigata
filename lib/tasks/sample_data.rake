@@ -80,10 +80,14 @@ namespace :sample_data do
         user = User.where(ppid: etd.depositor).first
         ability = ::Ability.new(user)
 
-        file1 = File.open("#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf")
-        file2 = File.open("#{::Rails.root}/spec/fixtures/miranda/image.tif")
-        upload1 = Hyrax::UploadedFile.create(user: user, file: file1, pcdm_use: 'primary')
-        upload2 = Hyrax::UploadedFile.create(user: user, file: file2, pcdm_use: 'supplementary')
+        file1_path = "#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf"
+        file2_path = "#{::Rails.root}/spec/fixtures/miranda/image.tif"
+        upload1 = File.open(file1_path) do |file1|
+          Hyrax::UploadedFile.create(user: user, file: file1, pcdm_use: 'primary')
+        end
+        upload2 = File.open(file2_path) do |file2|
+          Hyrax::UploadedFile.create(user: user, file: file2, pcdm_use: 'supplementary')
+        end
         actor = Hyrax::CurationConcern.actor(etd, ability)
         attributes_for_actor = { uploaded_files: [upload1.id, upload2.id] }
         actor.create(attributes_for_actor)
@@ -133,6 +137,39 @@ namespace :sample_data do
     subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
     sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
     Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "Preapproved")
+    puts "Created #{etd.id}"
+  end
+
+  desc "Build sample data to demo ProQuest submission"
+  task :proquest_demo do
+    puts "Making ProQuest ready data"
+    etd = FactoryGirl.create(:ready_for_proquest_submission_phd)
+    etd.assign_admin_set
+    user = User.where(ppid: etd.depositor).first
+    ability = ::Ability.new(user)
+    file1_path = "#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf"
+    file2_path = "#{::Rails.root}/spec/fixtures/miranda/image.tif"
+    upload1 = File.open(file1_path) { |file1|
+      Hyrax::UploadedFile.create(user: user, file: file1, pcdm_use: 'primary')
+    }
+    upload2 = File.open(file2_path) { |file2|
+      Hyrax::UploadedFile.create(
+        user: user,
+        file: file2,
+        pcdm_use: 'supplementary',
+        description: 'Description of the supplementary file',
+        file_type: 'Image'
+      )
+    }
+    actor = Hyrax::CurationConcern.actor(etd, ability)
+    attributes_for_actor = { uploaded_files: [upload1.id, upload2.id] }
+    actor.create(attributes_for_actor)
+    approving_user = User.where(ppid: 'laneyadmin').first
+    subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
+    sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
+    Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "Preapproved")
+    etd.state = Vocab::FedoraResourceStatus.active # simulates GraduationJob
+    etd.save
     puts "Created #{etd.id}"
   end
 
