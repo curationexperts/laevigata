@@ -146,6 +146,53 @@ RSpec.describe Etd do
       expect(etd.committee_members_names.count).to eq 2
       expect(etd.committee_members_names.include?("Craighead, W Edward")).to eq true
     end
+    it "updates committee_member_names when committee_members are edited" do
+      expect(etd.committee_members_names).to contain_exactly("Craighead, W Edward", "Manns, Joseph")
+      cm = etd.committee_members.select { |m| m.name.first.match(/Manns/) }.first
+      cm.name = ['New Name']
+      etd.committee_members_will_change!
+      etd.save!
+      etd.reload # Make sure the new data is persisted
+      expect(etd.committee_members_names).to contain_exactly("Craighead, W Edward", "New Name")
+    end
+  end
+
+  context "committee members" do
+    let(:etd) { described_class.new(attrs) }
+
+    context "with nested attributes" do
+      let(:attrs) do
+        {
+          committee_members_attributes:
+          [{ name: ['Member 1'], affiliation: ['Aff 1'], netid: ['mem1'] },
+           { name: ['Member 2'], affiliation: ['Aff 2'], netid: ['mem2'] }]
+        }
+      end
+
+      it "has the correct values" do
+        expect(etd.committee_members.map(&:name)).to contain_exactly(['Member 1'], ['Member 2'])
+        expect(etd.committee_members.map(&:affiliation)).to contain_exactly(['Aff 1'], ['Aff 2'])
+        expect(etd.committee_members.map(&:netid)).to contain_exactly(['mem1'], ['mem2'])
+      end
+    end
+
+    context "with empty attributes" do
+      let(:attrs) do
+        {
+          committee_members_attributes:
+          [{ name: ['Member 1'], affiliation: ['Aff 1'], netid: ['mem1'] },
+           { affiliation: ['Emory University'], netid: ['mem2'] },
+           { name: [''], affiliation: [], netid: nil }]
+        }
+      end
+
+      it "rejects the ones that are completely empty" do
+        expect(etd.committee_members.map(&:name)).to contain_exactly(['Member 1'], [])
+        expect(etd.committee_members.map(&:affiliation)).to contain_exactly(['Aff 1'], ['Emory University'])
+        expect(etd.committee_members.map(&:netid)).to contain_exactly(['mem1'], ['mem2'])
+        expect(etd.committee_members.count).to eq 2
+      end
+    end
   end
 
   context "author name" do

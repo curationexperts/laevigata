@@ -50,5 +50,41 @@ module Hyrax
     def about_my_etd_fields
       [:language, :abstract, :table_of_contents, :research_field]
     end
+
+    def cm_affiliation_options
+      ["Emory Committee Member", "Non-Emory Committee Member"]
+    end
+
+    # Select the correct affiliation type on the form
+    def cm_affiliation_type(value)
+      value = Array(value).first
+      if value.blank? || value == 'Emory University'
+        cm_affiliation_options[0]
+      else
+        cm_affiliation_options[1]
+      end
+    end
+
+    # In the view we have "fields_for :committee_members".
+    # This method is needed to make fields_for behave as an
+    # association and populate the form with the correct
+    # committee member data.
+    delegate :committee_members_attributes=, to: :model
+
+    # We need to call ".to_a" on committee_members to force it
+    # to resolve.  Otherwise in the form, the fields don't
+    # display the committee member's name and affiliation.
+    # Instead they display something like:
+    # "#<ActiveTriples::Relation:0x007fb564969c88>"
+    def committee_members
+      model.committee_members.build if model.committee_members.blank?
+      model.committee_members.to_a
+    end
+
+    def self.build_permitted_params
+      permitted = super
+      permitted << { committee_members_attributes: [:id, { name: [] }, { affiliation: [] }, { netid: [] }, :_destroy] }
+      permitted
+    end
   end
 end

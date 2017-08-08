@@ -6,8 +6,11 @@ describe CommitteeMember do
   let(:name)  { "Smith, Jane" }
   let(:netid) { "jsmith" }
   let(:affiliation) { "Emory University" }
-  context "empty initialization" do
-    let(:committee_member) { described_class.new }
+  let(:etd) { FactoryGirl.build(:etd) }
+
+  context "a new committee member" do
+    let(:committee_member) { etd.committee_members.build }
+
     it "can set a name" do
       committee_member.name = [name]
       expect(committee_member.name).to eq [name]
