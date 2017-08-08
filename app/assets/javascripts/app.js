@@ -14,6 +14,9 @@ Hyrax.editor = function() {
       var aboutMeAndMyProgram = require('about_me_and_my_program')
       new aboutMeAndMyProgram()
 
+      var AboutMySupplementalFiles = require('about_my_supplemental_files')
+      new AboutMySupplementalFiles()
+
       var reviewMyETD = require('review_my_etd')
       new reviewMyETD("#review_my_etd", "#preview_my_etd")
   }

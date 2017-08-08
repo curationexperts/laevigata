@@ -65,6 +65,7 @@ span.disabled_element input[disabled] {
  .navbar-text {
  margin:0px !important;
 }
+
 #submission-agreement-copy {
   padding: 5%;
   height: 200px;
@@ -85,4 +86,17 @@ ul.admin-sidebar {
   div ul.navbar-right {
     margin-right: 0;
   }
+}
+
+#additional_metadata_link {
+  display: none;
+}
+
+#additional_metadata {
+  // min-height: 30px;
+  display: block;
+}
+
+#supplemental_files_metadata{
+  height: inherit;
 }

@@ -1,12 +1,16 @@
 require 'rails_helper'
 include Warden::Test::Helpers
 
-RSpec.feature 'Upload Files' do
+RSpec.feature 'Primary PDF' do
   let(:user) { create :user }
-  context 'a logged in user' do
+  context 'a logged in user uploads Primary PDF' do
     before do
       login_as user
       visit("/concern/etds/new")
+    end
+
+    after do
+      logout
     end
 
     scenario "Primary Pdf requires pdf format", js: true do
@@ -27,7 +31,6 @@ RSpec.feature 'Upload Files' do
       expect(page).not_to have_content('The Primary PDF must be a file in the .pdf fomat.')
       expect(page).to have_css('li#required-files.complete')
     end
-
     scenario "Supplemental Files", js: true do
       click_on('Supplemental Files')
       expect(page).to have_content('I have no supplemental files.')

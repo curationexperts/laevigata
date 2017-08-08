@@ -25,6 +25,43 @@ namespace :sample_data do
     end
   end
 
+  desc "Sample data with supplementary file metadata"
+  task :with_supplementary_file_metadata do
+    puts "Making sample data with supplementary file metadata"
+    sample_data = [
+      :sample_data,
+      :sample_data_with_everything_embargoed,
+      :sample_data_with_only_files_embargoed
+    ]
+    sample_data.each do |s|
+      etd = FactoryGirl.create(s)
+      uploaded_files = []
+      primary_pdf_file = "#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf"
+      supplementary_file_one = "#{::Rails.root}/spec/fixtures/miranda/rural_clinics.zip"
+      supplementary_file_two = "#{::Rails.root}/spec/fixtures/miranda/image.tif"
+      uploaded_files << Hyrax::UploadedFile.create(
+        file: File.open(primary_pdf_file),
+        pcdm_use: FileSet::PRIMARY
+      )
+      uploaded_files << Hyrax::UploadedFile.create(
+        file: File.open(supplementary_file_one),
+        pcdm_use: FileSet::SUPPLEMENTARY,
+        title: "Rural Clinics in Georgia",
+        description: "GIS shapefile showing rural clinics",
+        file_type: "Dataset"
+      )
+      uploaded_files << Hyrax::UploadedFile.create(
+        file: File.open(supplementary_file_two),
+        pcdm_use: FileSet::SUPPLEMENTARY,
+        title: "Photographer",
+        description: "a portrait of the artist",
+        file_type: "Image"
+      )
+      AttachFilesToWorkJob.perform_now(etd, uploaded_files)
+      puts "Created #{etd.id}"
+    end
+  end
+
   task :workflow do
     sample_data = [:sample_data, :sample_data_with_everything_embargoed, :sample_data_with_only_files_embargoed]
     school_based_admin_sets = ["Laney Graduate School", "Emory College", "Candler School of Theology"]

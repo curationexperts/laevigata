@@ -9,6 +9,7 @@ import SaveWorkControl from 'hyrax/save_work/save_work_control'
 export default class EtdSaveWorkControl extends SaveWorkControl {
     constructor(element, adminSetWidget) {
         super(element, adminSetWidget)
+        this.supplemental_file_list = [];
     }
     //  * This seems to occur when focus is on one of the visibility buttons
     //  */
@@ -182,6 +183,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       }
     }
 
+
     supplementalFilesListener(){
       let form = this
       $('#etd_no_supplemental_files').on('change', function(){
@@ -341,6 +343,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     this.requiredPDF.uncheck()
     return false
   }
+
 
   validateSupplementalFiles() {
     if ($('#etd_no_supplemental_files').prop('checked')){

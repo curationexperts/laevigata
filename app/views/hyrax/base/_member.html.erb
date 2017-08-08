@@ -11,7 +11,10 @@
       <% if @presenter.files_embargo_check %>
         <%= @presenter.files_embargo_check %>
       <% else %>
-      <%= link_to(member.link_name, contextual_path(member, @presenter)) %>
+        <%= link_to(member.link_name, contextual_path(member, @presenter)) %>
+        <% if member.description %>
+          <%= " (#{member.description.first})" %>
+        <% end %>
       <% end %>
     </td>
     <td class="attribute date_uploaded"><%= member.try(:date_uploaded) %></td>
