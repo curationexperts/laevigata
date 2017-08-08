@@ -1,0 +1,50 @@
+<div class="col-xs-12 col-sm-6">
+  <h2>Electronic Theses and Dissertations</h2>
+The Emory Electronic Theses and Dissertations (ETD) Repository holds theses and dissertations from the Laney Graduate School, the Rollins School of Public Health, and the Candler School of Theology, as well as undergraduate honors papers from Emory College of Arts and Sciences. Emory University theses and dissertations submitted before the launch of the ETD repository can be found by using Emory University’s <a href="http://discovere.emory.edu/primo_library/libweb/action/search.do">discoverE catalog</a>.
+
+The theses and dissertations of the Wallace H. Coulter Department of Biomedical Engineering, a joint degree program by Emory University and Georgia Tech, are available in <a href="https://smartech.gatech.edu/">SMARTech</a> , Georgia Tech’s repository, and Emory University’s <a href="http://discovere.emory.edu/primo_library/libweb/action/search.do">discoverE catalog</a>.
+
+  <div class="sumbit-my-etd">
+    <%= render 'submit_my_etd' %>
+  </div>
+  <hr>
+  <div class="news-and-announcements">
+  <h2>News & Announcements</h2>
+  <h3>ETD Copyright & Submission Workshops</h3>
+Visit the Woodruff Library's <a href=" http://web.library.emory.edu/news-events/upcoming-classes.html">class calendar</a> for upcoming ETD workshops, including copyright and how to submit your thesis/dissertation.
+
+<h3>Submission Forms For All Participants</h3>
+All students depositing their thesis or dissertation must complete the ETD Submission form:
+<ul class="submission-forms">
+  <li>
+    <a href="http://web.library.emory.edu/etd-static/docs/Laney_ETD_Submission_Form_revised_2015.pdf">Laney Graduate School submission form</a>
+  </li>
+  <li>
+    <a href="http://web.library.emory.edu/etd-static/docs/Honors_ETD_Submission_Form_revised_2015.pdf">College Honors Program submission form</a>
+  </li>
+  <li>
+    <a href="http://web.library.emory.edu/etd-static/docs/Candler_ETD_Submission_Form_revised_2015.pdf">Candler School of Theology submission form</a>
+  </li>
+  <li>
+    <a href="http://web.library.emory.edu/etd-static/docs/Rollins_ETD_Submission_Form_revised_2015.pdf">Rollins School of Public Health submission form</a>
+  </li>
+  <li>
+    <a href="http://web.library.emory.edu/etd-static/docs/Nursing_ETD_Submission_Form_revised_2015.pdf">Nell Hodgson Woodruff School of Nursing submission form</a>
+  </li>
+</ul>
+This form WHICH REQUIRES THE SIGNATURE OF YOUR ADVISOR gives the library permission to publish your thesis or dissertation on the web; confirms access restrictions -- if any; and certifies that you have secured rights to all content that you will be publishing.
+  </div>
+</div><!-- /.col-xs-6 -->
+
+<div class="col-xs-12 col-sm-6">
+
+   <ul id="homeTabs" class="nav nav-tabs">
+    <li class="active"><a href="#recently_uploaded" data-toggle="tab" role="tab" id="recentTab"><%= t('hyrax.homepage.recently_uploaded.tab_label') %></a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane fade in active" id="recently_uploaded" role="tabpanel" aria-labelledby="recentTab">
+      <%= render 'recently_uploaded', recent_documents: @recent_documents %>
+    </div>
+  </div>
+  
+</div>
