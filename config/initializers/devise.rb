@@ -256,7 +256,8 @@ Devise.setup do |config|
   config.omniauth :shibboleth,
                   uid_field: 'serialNumber',
                   info_fields: { display_name: 'displayName', uid: 'uid' },
-                  callback_url: '/users/auth/shibboleth/callback'
+                  callback_url: '/users/auth/shibboleth/callback',
+                  strategy_class: OmniAuth::Strategies::Shibboleth
   #
   # When using OmniAuth, Devise cannot automatically set OmniAuth path,
   # so you need to do it manually. For the users scope, it would be:

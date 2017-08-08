@@ -1,8 +1,8 @@
-class SessionsController < Devise::SessionsController
+class OmniauthController < Devise::SessionsController
   def new
     # Rails.logger.debug "SessionsController#new: request.referer = #{request.referer}"
     if Rails.env.production?
-      redirect_to user_omniauth_authorize_path(:shibboleth)
+      redirect_to user_shibboleth_omniauth_authorize_path
     else
       super
     end
