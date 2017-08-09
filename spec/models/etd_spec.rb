@@ -146,14 +146,22 @@ RSpec.describe Etd do
       expect(etd.committee_members_names.count).to eq 2
       expect(etd.committee_members_names.include?("Craighead, W Edward")).to eq true
     end
+
     it "updates committee_member_names when committee_members are edited" do
       expect(etd.committee_members_names).to contain_exactly("Craighead, W Edward", "Manns, Joseph")
       cm = etd.committee_members.select { |m| m.name.first.match(/Manns/) }.first
       cm.name = ['New Name']
-      etd.committee_members_will_change!
       etd.save!
       etd.reload # Make sure the new data is persisted
       expect(etd.committee_members_names).to contain_exactly("Craighead, W Edward", "New Name")
+    end
+
+    it "updates committee_chair_name when committee_chair is edited" do
+      expect(etd.committee_chair_name).to contain_exactly('Treadway, Michael T')
+      etd.committee_chair.first.name = ['New Name']
+      etd.save!
+      etd.reload # Make sure the new data is persisted
+      expect(etd.committee_chair_name).to contain_exactly('New Name')
     end
   end
 
@@ -191,6 +199,28 @@ RSpec.describe Etd do
         expect(etd.committee_members.map(&:affiliation)).to contain_exactly(['Aff 1'], ['Emory University'])
         expect(etd.committee_members.map(&:netid)).to contain_exactly(['mem1'], ['mem2'])
         expect(etd.committee_members.count).to eq 2
+      end
+    end
+  end
+
+  context "committee chair" do
+    let(:etd) { described_class.new(attrs) }
+
+    context "with nested attributes" do
+      let(:attrs) do
+        {
+          committee_chair_attributes:
+          [{ name: ['Chair 1'], affiliation: ['Aff 1'], netid: ['cc1'] },
+           { name: [''], affiliation: [], netid: nil },
+           { name: ['Chair 2'], affiliation: ['Aff 2'], netid: ['cc2'] }]
+        }
+      end
+
+      it "has the correct values and rejects completely empty fields" do
+        expect(etd.committee_chair.map(&:name)).to contain_exactly(['Chair 1'], ['Chair 2'])
+        expect(etd.committee_chair.map(&:affiliation)).to contain_exactly(['Aff 1'], ['Aff 2'])
+        expect(etd.committee_chair.map(&:netid)).to contain_exactly(['cc1'], ['cc2'])
+        expect(etd.committee_chair.count).to eq 2
       end
     end
   end

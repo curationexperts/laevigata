@@ -52,12 +52,11 @@ RSpec.feature 'Create an Etd' do
 
     scenario "'about me' has no committee affiliation field when affiliation type Emory is selected", js: true do
       select('Non-Emory Committee Chair', from: "Committee Chair/Thesis Advisor's Affiliation")
-      wait_for_ajax
-      expect(find("#etd_committee_chair_0_affiliation")).not_to be_disabled
-
+      affiliation = find_field(id: 'etd[committee_chair_attributes][0]_affiliation')
+      expect(affiliation).not_to be_disabled
       select('Emory Committee Chair', from: "Committee Chair/Thesis Advisor's Affiliation")
-      wait_for_ajax
-      expect(find("#etd_committee_chair_0_affiliation")).to be_disabled
+      expect(affiliation).to be_disabled
+      expect(affiliation.value).to eq 'Emory'
     end
 
     scenario "'about me' committee affiliation accepts user input when Non-Emory is selected", js: true do
@@ -103,7 +102,7 @@ RSpec.feature 'Create an Etd' do
       visit("/concern/etds/new")
 
       select('Emory Committee Chair', from: "Committee Chair/Thesis Advisor's Affiliation")
-      fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
+      fill_in 'etd[committee_chair_attributes][0]_name', with: "Diane Arbus"
       select('Non-Emory Committee Member', from: "Committee Member's Affiliation")
       expect(page).to have_content('Committee Member')
       fill_in "etd[committee_members_attributes][0][name][]", with: "Joan Didion"
