@@ -36,7 +36,7 @@ class Etd < ActiveFedora::Base
 
   def index_committee_members_names
     return unless committee_members && committee_members.first
-    committee_members_names << committee_members.map { |e| e.name.first }
+    self.committee_members_names = committee_members.map { |e| e.name.first }
   end
 
   def hidden?
@@ -192,4 +192,16 @@ class Etd < ActiveFedora::Base
   property :copyright_question_two, predicate: "http://www.w3.org/2004/02/skos/core#note_copyrights", multiple: false
 
   property :copyright_question_three, predicate: "http://www.w3.org/2004/02/skos/core#note_patents", multiple: false
+
+  # accepts_nested_attributes_for can not be called until all
+  # the properties are declared because it calls resource_class,
+  # which finalizes the propery declarations.
+  # See https://github.com/projecthydra/active_fedora/issues/847
+  accepts_nested_attributes_for :committee_members,
+    allow_destroy: true,
+    reject_if: proc { |attrs|
+      ['name', 'affiliation', 'netid'].all? do |key|
+        Array(attrs[key]).all?(&:blank?)
+      end
+    }
 end

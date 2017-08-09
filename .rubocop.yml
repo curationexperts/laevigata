@@ -4,6 +4,9 @@ inherit_gem:
 Lint/Void:
   Enabled: false
 
+Lint/UnusedBlockArgument:
+  Enabled: false
+
 Metrics/AbcSize:
   Enabled: false
 
@@ -40,6 +43,10 @@ Style/Semicolon:
 
 Layout/MultilineMethodCallIndentation:
   Enabled: false
+
+Layout/AlignParameters:
+  Exclude:
+    - 'app/models/etd.rb'
 
 RSpec/InstanceVariable:
   Enabled: false

@@ -22,8 +22,11 @@ FactoryGirl.define do
       subfield ['Ethics and Society']
       submitting_type ["Honors Thesis"]
       research_field ['Religion, General']
-      committee_chair [FactoryGirl.build(:committee_member)]
-      committee_members FactoryGirl.build_list(:committee_member, 3)
+
+      after(:build) do |etd, evaluator|
+        etd.committee_chair.build(FactoryGirl.attributes_for(:committee_member))
+        etd.committee_members.build(FactoryGirl.attributes_for_list(:committee_member, 3))
+      end
     end
 
     factory :ateer_etd do
@@ -48,13 +51,6 @@ FactoryGirl.define do
       graduation_year "2016"
       abstract { [] << FFaker::Lorem.paragraph }
       table_of_contents { [] << FFaker::Lorem.paragraph }
-      committee_chair [
-        FactoryGirl.build(:committee_member, name: 'Treadway, Michael T')
-      ]
-      committee_members [
-        FactoryGirl.build(:committee_member, name: 'Craighead, W Edward'),
-        FactoryGirl.build(:committee_member, name: 'Manns, Joseph')
-      ]
       embargo_id { FactoryGirl.create(:embargo, embargo_release_date: "2017-08-21").id }
       files_embargoed true
       abstract_embargoed true
@@ -64,6 +60,12 @@ FactoryGirl.define do
       # file_format ['application/pdf']
       post_graduation_email ['redacted@example.com']
       # permanent_address ['123 Sesame St, Atlanta, GA 30306, UNITED STATES']
+
+      after(:build) do |etd, evaluator|
+        etd.committee_chair.build(FactoryGirl.attributes_for(:committee_member, name: ['Treadway, Michael T']))
+        etd.committee_members.build(FactoryGirl.attributes_for(:committee_member, name: ['Craighead, W Edward']))
+        etd.committee_members.build(FactoryGirl.attributes_for(:committee_member, name: ['Manns, Joseph']))
+      end
     end
 
     factory :sample_data do
@@ -82,19 +84,19 @@ FactoryGirl.define do
       table_of_contents { [] << FFaker::Lorem.paragraph }
       abstract { [] << FFaker::Lorem.paragraph }
       title ["Sample Data: #{FFaker::Book.title}"]
-      committee_chair [
-        FactoryGirl.build(:committee_member, name: FFaker::NameCS.name)
-      ]
-      committee_members [
-        FactoryGirl.build(:committee_member, name: FFaker::NameRU.name),
-        FactoryGirl.build(:committee_member, name: FFaker::NameVN.name)
-      ]
       department ["Divinity"]
       subfield ["Political Robotics"]
       degree ["Th.D."]
       submitting_type ["Dissertation"]
       language ["English"]
       keyword [FFaker::Education.major, FFaker::Education.major, FFaker::Education.major]
+
+      after(:build) do |etd, evaluator|
+        etd.committee_chair.build(FactoryGirl.attributes_for(:committee_member, name: [FFaker::NameCS.name]))
+
+        etd.committee_members.build(FactoryGirl.attributes_for(:committee_member, name: [FFaker::NameRU.name]))
+        etd.committee_members.build(FactoryGirl.attributes_for(:committee_member, name: [FFaker::NameVN.name]))
+      end
 
       factory :sample_data_with_everything_embargoed do
         title ["Sample Data With Full Embargo: #{FFaker::Book.title}"]

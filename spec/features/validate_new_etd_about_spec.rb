@@ -24,10 +24,10 @@ RSpec.feature 'Validate an Etd: About Me' do
     end
 
     scenario "'about me' committee affiliation accepts user input when Non-Emory is selected", js: true do
-      select('Non-Emory Committee Member', from: 'etd_committee_members_0_affiliation_type')
+      select('Non-Emory Committee Member', from: 'etd_committee_members_attributes_0_affiliation_type')
       wait_for_ajax
-      fill_in "etd_committee_members_0_affiliation", with: "MOMA"
-      expect(find_field("etd_committee_members_0_affiliation").value).to eq("MOMA")
+      fill_in "etd[committee_members_attributes][0]_affiliation", with: "MOMA"
+      expect(find_field("etd[committee_members_attributes][0]_affiliation").value).to eq("MOMA")
     end
 
     scenario "'about me' adds and removes committee members", js: true unless continuous_integration? do
@@ -60,7 +60,7 @@ RSpec.feature 'Validate an Etd: About Me' do
       select('MS', from: "Degree")
       select("Honors Thesis", from: "Submission Type")
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
-      fill_in "Committee Member", with: "Joan Didion"
+      fill_in "etd[committee_members_attributes][0][name][]", with: "Joan Didion"
 
       expect(page).not_to have_css('li#required-about-me.complete')
 
@@ -81,7 +81,7 @@ RSpec.feature 'Validate an Etd: About Me' do
       fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
       select('Non-Emory Committee Chair', from: "Committee Chair/Thesis Advisor's Affiliation")
       fill_in('etd_committee_chair_0_affiliation', with: 'Oxford')
-      fill_in "Committee Member", with: "Joan Didion"
+      fill_in "etd[committee_members_attributes][0][name][]", with: "Joan Didion"
 
       click_on('About Me')
       wait_for_ajax(5)
