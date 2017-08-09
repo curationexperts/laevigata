@@ -220,8 +220,12 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
     disableSupplementalUpload(){
       $('#supplemental_files .fileupload-buttonbar input').prop('disabled', true)
-      //remove showMetadata link
+      //remove showMetadata link and metadata form if visible
       $('#additional_metadata_link').hide();
+      if($('#additional_metadata').is(':visible')){
+        $('#additional_metadata').collapse('hide');
+      }
+
       $('#supplemental_files tbody.files').empty();
       $('#supplemental_files span.fileinput-button').addClass('disabled_element');
       $('#supplemental-browse-btn').prop('disabled', true)

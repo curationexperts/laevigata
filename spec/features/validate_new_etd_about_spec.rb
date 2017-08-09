@@ -11,7 +11,7 @@ RSpec.feature 'Validate an Etd: About Me' do
       visit("/concern/etds/new")
     end
 
-    scenario "'about me' committee affiliation accepts user input when Non-Emory is selected", js: true do
+    scenario "'about me' committee affiliation accepts user input when Non-Emory is selected", js: true unless continuous_integration? do
       select('Non-Emory Committee Member', from: 'etd_committee_members_attributes_0_affiliation_type')
       wait_for_ajax
       fill_in "etd[committee_members_attributes][0]_affiliation", with: "MOMA"

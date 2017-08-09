@@ -32,7 +32,7 @@ RSpec.feature 'Create an Etd: My Embargoes' do
       expect(page).to have_css('li#required-embargoes.complete')
     end
 
-    scenario "Unchecking 'No embargoes' makes valid form invalid", js: true do
+    scenario "Unchecking 'No embargoes' makes valid form invalid", js: true unless continuous_integration? do
       click_on("Embargoes")
 
       expect(page).to have_css('li#required-embargoes.incomplete')
@@ -49,7 +49,7 @@ RSpec.feature 'Create an Etd: My Embargoes' do
       expect(page).to have_css('li#required-embargoes.incomplete')
     end
 
-    scenario "selecting Files sets files_embargoed value", js: true do
+    scenario "selecting Files sets files_embargoed value", js: true unless continuous_integration? do
       click_on("Embargoes")
       select('Files', from: "embargo_type")
 
@@ -58,7 +58,7 @@ RSpec.feature 'Create an Etd: My Embargoes' do
       expect(find("#etd_abstract_embargoed", visible: false).value).to eq("false")
     end
 
-    scenario "selecting Files and Table of Contents sets files_embargoed and toc_embargoed values", js: true do
+    scenario "selecting Files and Table of Contents sets files_embargoed and toc_embargoed values", js: true unless continuous_integration? do
       click_on("Embargoes")
 
       select('Files and Table of Contents', from: "embargo_type")
@@ -67,7 +67,7 @@ RSpec.feature 'Create an Etd: My Embargoes' do
       expect(find("#etd_abstract_embargoed", visible: false).value).to eq("false")
     end
 
-    scenario "selecting Files and Table of Contents sets files_embargoed toc_embargoed and abstract_embargoed values", js: true do
+    scenario "selecting Files and Table of Contents sets files_embargoed toc_embargoed and abstract_embargoed values", js: true unless continuous_integration? do
       click_on("Embargoes")
 
       select('Files, Table of Contents and Abstract', from: "embargo_type")
@@ -76,7 +76,7 @@ RSpec.feature 'Create an Etd: My Embargoes' do
       expect(find("#etd_abstract_embargoed", visible: false).value).to eq("true")
     end
 
-    scenario "Selecting embargo types and embargo length makes invalid form valid", js: true do
+    scenario "Selecting embargo types and embargo length makes invalid form valid", js: true unless continuous_integration? do
       click_on("Embargoes")
 
       expect(page).to have_content('What do you want to embargo?')

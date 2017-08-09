@@ -50,7 +50,7 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_css('li#required-about-me.complete')
     end
 
-    scenario "'about me' has no committee affiliation field when affiliation type Emory is selected", js: true do
+    scenario "'about me' has no committee affiliation field when affiliation type Emory is selected", js: true unless continuous_integration? do
       select('Non-Emory Committee Chair', from: "Committee Chair/Thesis Advisor's Affiliation")
       affiliation = find_field(id: 'etd[committee_chair_attributes][0]_affiliation')
       expect(affiliation).not_to be_disabled
@@ -59,7 +59,7 @@ RSpec.feature 'Create an Etd' do
       expect(affiliation.value).to eq 'Emory'
     end
 
-    scenario "'about me' committee affiliation accepts user input when Non-Emory is selected", js: true do
+    scenario "'about me' committee affiliation accepts user input when Non-Emory is selected", js: true unless continuous_integration? do
       select('Non-Emory Committee Member', from: "Committee Member's Affiliation")
       wait_for_ajax
       fill_in "etd[committee_members_attributes][0]_affiliation", with: "MOMA"
@@ -86,7 +86,7 @@ RSpec.feature 'Create an Etd' do
     end
     # the add code works only for committee members right now
 
-    scenario "'about me' hides partnering agencies unless the Rollins school is selected", js: true do
+    scenario "'about me' hides partnering agencies unless the Rollins school is selected", js: true unless continuous_integration? do
       select("Laney Graduate School", from: "School")
 
       expect(page).not_to have_css('div#rollins_partnering_agencies')
@@ -104,7 +104,7 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_css('div#rollins_partnering_agencies')
     end
 
-    scenario "display indicates incomplete 'about me and my program' data", js: true do
+    scenario "display indicates incomplete 'about me and my program' data", js: true unless continuous_integration? do
       visit("/concern/etds/new")
 
       select('Emory Committee Chair', from: "Committee Chair/Thesis Advisor's Affiliation")

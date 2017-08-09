@@ -13,7 +13,7 @@ RSpec.feature 'Primary PDF' do
       logout
     end
 
-    scenario "Primary Pdf requires pdf format", js: true do
+    scenario "Primary Pdf requires pdf format", js: true unless continuous_integration? do
       click_on('My PDF')
       expect(page).to have_content('Add Primary PDF')
 
