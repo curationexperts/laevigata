@@ -93,7 +93,7 @@ class WorkflowSetup
     approving_users = []
     config["approving"].each do |approver_uid|
       u = ::User.find_or_create_by(uid: approver_uid)
-      u.password = "123456" # only used in dev and test environments
+      # u.password = "123456" # only used in dev and test environments
       u.provider = "shibboleth"
       u.ppid = approver_uid # temporary ppid, will get replaced when user signs in with shibboleth
       u.save
@@ -132,7 +132,7 @@ class WorkflowSetup
   def make_superuser(uid, provider = "database")
     @logger.debug "Making superuser #{uid}"
     admin_user = ::User.find_or_create_by(uid: uid)
-    admin_user.password = "123456"
+    # admin_user.password = "123456"
     admin_user.ppid = uid # temporary ppid, will get replaced when user signs in with shibboleth
     admin_user.provider = provider
     admin_user.save
