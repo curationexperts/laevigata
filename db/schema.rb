@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170716022050) do
+ActiveRecord::Schema.define(version: 20170804150336) do
 
   create_table "bookmarks", force: :cascade do |t|
     t.integer  "user_id",       null: false
@@ -432,6 +432,9 @@ ActiveRecord::Schema.define(version: 20170716022050) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.string   "pcdm_use"
+    t.string   "title"
+    t.string   "description"
+    t.string   "file_type"
     t.index ["file_set_uri"], name: "index_uploaded_files_on_file_set_uri"
     t.index ["user_id"], name: "index_uploaded_files_on_user_id"
   end

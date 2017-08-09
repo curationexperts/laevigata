@@ -1,5 +1,6 @@
 class FileSetPresenter < Hyrax::FileSetPresenter
   delegate :pcdm_use,
+           :description,
            to: :solr_document
 
   def primary?

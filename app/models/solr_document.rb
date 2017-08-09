@@ -65,6 +65,10 @@ class SolrDocument
     self[Solrizer.solr_name('department')]
   end
 
+  def description
+    self[Solrizer.solr_name('description')]
+  end
+
   def embargo_length
     self['embargo_length_ssm']
   end

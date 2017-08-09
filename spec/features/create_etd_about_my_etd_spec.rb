@@ -40,7 +40,7 @@ RSpec.feature 'Create an Etd: My Etd' do
       expect(page).to have_css('#about_my_etd input#etd_copyright_question_three_false')
     end
 
-    scenario "can save 'my etd'", js: true do
+    scenario "validates 'my etd'", js: true unless continuous_integration? do
       click_on("My ETD")
       fill_in 'Title', with: 'Middlemarch'
       select("French", from: "Language")

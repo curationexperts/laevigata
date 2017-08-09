@@ -9,6 +9,7 @@ import SaveWorkControl from 'hyrax/save_work/save_work_control'
 export default class EtdSaveWorkControl extends SaveWorkControl {
     constructor(element, adminSetWidget) {
         super(element, adminSetWidget)
+        this.supplemental_file_list = [];
     }
     //  * This seems to occur when focus is on one of the visibility buttons
     //  */
@@ -104,6 +105,8 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.setEmbargoContentListener()
       this.setAgreementListener()
       this.getTinyContent()
+      this.addSupplementalFilesMetadata()
+      this.supplementalMetadataListener()
     }
 
     getTinyContent(){
@@ -150,11 +153,31 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
     fileDeleted(){
       let form = this
+      let file = ''
       $('#fileupload').bind('fileuploaddestroyed', function (e, data) {
         form.validatePDF()
-      })
+      });
+
+      $('#supplemental_fileupload').bind('fileuploaddestroy', function (e, data) {
+        file = $(data.context).find('p.name span').text();
+      });
+
       $('#supplemental_fileupload').bind('fileuploaddestroyed', function (e, data) {
         form.validateSupplementalFiles()
+        //use jquery to find filename and make sure it gets deleted from metadata table if it is there
+
+        //if user is deleting the last file, empty the metadata table and hide the show metadata link
+        if ($('#supplemental_fileupload tbody.files tr').length === 0){
+          $('#supplemental_files_metadata').empty();
+          $('#additional_metadata_link').css('display', 'none');
+        } else {
+          $('#supplemental_files_metadata tr').each(function(){
+            if ($(this).find('td').first().text() === file) {
+              $(this).remove();
+            }
+          });
+        }
+
       })
     }
 
@@ -182,6 +205,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       }
     }
 
+
     supplementalFilesListener(){
       let form = this
       $('#etd_no_supplemental_files').on('change', function(){
@@ -189,8 +213,16 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       });
     }
 
+    addSupplementalFilesMetadata(){
+      $('#supplemental_fileupload').bind('fileuploaddone', function (e, data) {
+        $('#additional_metadata_link').show();
+      });
+    }
+
     disableSupplementalUpload(){
       $('#supplemental_files .fileupload-buttonbar input').prop('disabled', true)
+      //remove showMetadata link
+      $('#additional_metadata_link').hide();
       $('#supplemental_files tbody.files').empty();
       $('#supplemental_files span.fileinput-button').addClass('disabled_element');
       $('#supplemental-browse-btn').prop('disabled', true)
@@ -342,6 +374,45 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     return false
   }
 
+ supplementalMetadataListener(){
+  var form = this
+
+   $('#additional_metadata').on('show.bs.collapse', function(){
+     //just uncheck
+     form.supplementalFiles.uncheck();
+   });
+   // the 'shown' hook means the dom will now have these elements
+   $('#additional_metadata').on('shown.bs.collapse', function(){
+     $("#additional_metadata :input").on('change', function() {
+       form.validateSupplementalFiles();
+      });
+   });
+
+   $('#additional_metadata').on('hidden.bs.collapse', function(){
+     //validate
+     form.validateSupplementalFiles();
+   });
+ }
+
+  hasSupplementalMetadata(){
+    if ($('#additional_metadata').is(':visible')) {
+      var invalidInputs;
+      invalidInputs = $("#additional_metadata :input").map(function() {
+        return invalidVal($( this ).val());
+      });
+      return invalidInputs.length === 0
+    } else {
+      return true
+    }
+
+    function invalidVal(val){
+      if ((val === undefined) || (val === "")){
+        return val
+      }
+    }
+  }
+
+
   validateSupplementalFiles() {
     if ($('#etd_no_supplemental_files').prop('checked')){
       this.supplementalFiles.check()
@@ -349,7 +420,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       return true
     } else {
       this.enableSupplementalUpload()
-      if (this.supplemental_files_upload.hasFiles) {
+      if (this.supplemental_files_upload.hasFiles && this.hasSupplementalMetadata()) {
         this.supplementalFiles.check()
         return true
       } else {

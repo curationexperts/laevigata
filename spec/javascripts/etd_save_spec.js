@@ -312,6 +312,10 @@ describe("Validate My ETD", function(){
     });
   });
 
+describe("Add Metadata to Supplemental Files", function(){
+  //load the page, activate the form, require the supple js (might not be necessary), spyon the show and hide metadata events and make sure they occur
+  
+});
 describe("Validate My Embargoes", function(){
   var mockCheckbox = {
     check: function() { },
