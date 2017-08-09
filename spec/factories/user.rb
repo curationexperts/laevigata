@@ -28,6 +28,14 @@ FactoryGirl.define do
       email ["ateer@example.com"]
     end
 
+    factory :nongraduated_user do
+      ppid { "P0000001" }
+    end
+
+    factory :graduated_user do
+      ppid { "P0000002" }
+    end
+
     trait :guest do
       guest true
     end
