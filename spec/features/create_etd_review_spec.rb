@@ -33,7 +33,7 @@ RSpec.feature 'Create an Etd' do
       visit new_hyrax_etd_path
     end
 
-    scenario "Miranda can preview her entire etd", js: true do
+    scenario "Miranda can preview her entire etd", js: true unless continuous_integration? do
       fill_in 'Student Name', with: 'Park, Miranda'
       select 'Spring 2018', from: 'Graduation Date'
       fill_in 'Post Graduation Email', with: 'frodo@example.com'

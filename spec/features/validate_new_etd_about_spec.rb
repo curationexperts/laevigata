@@ -30,8 +30,7 @@ RSpec.feature 'Validate an Etd: About Me' do
       expect(find_field("etd_committee_members_0_affiliation").value).to eq("MOMA")
     end
 
-    pending
-    scenario "'about me' adds and removes committee members", js: true do
+    scenario "'about me' adds and removes committee members", js: true unless continuous_integration? do
       click_on("Add another Committee Member")
       wait_for_ajax
 
@@ -50,7 +49,7 @@ RSpec.feature 'Validate an Etd: About Me' do
       expect(all('select.committee-member-select').count).to eq(1)
     end
 
-    scenario "'about me requires Partnering Agency for Rollins School'", js: true do
+    scenario "'about me requires Partnering Agency for Rollins School'", js: true unless continuous_integration? do
       fill_in 'Student Name', with: 'Eun, Dongwon'
       select("Spring 2018", from: "Graduation Date")
       fill_in "Post Graduation Email", with: "graduate@done.com"
@@ -70,7 +69,7 @@ RSpec.feature 'Validate an Etd: About Me' do
       expect(page).to have_css('li#required-about-me.complete')
     end
 
-    scenario "'about me and my program' requires non-emory committee member affiliation", js: true do
+    scenario "'about me and my program' requires non-emory committee member affiliation", js: true unless continuous_integration? do
       fill_in 'Student Name', with: 'Eun, Dongwon'
       select("Spring 2018", from: "Graduation Date")
       fill_in "Post Graduation Email", with: "graduate@done.com"
