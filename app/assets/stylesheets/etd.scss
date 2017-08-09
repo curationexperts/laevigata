@@ -102,3 +102,7 @@ table#uploaded_pdf th, table#uploaded_supplemental_files th {
   margin-top: 20px;
   border-bottom: none;
 }
+
+table#uploaded_pdf tr.template-download {
+  background-color: #f9f9f9;
+}
