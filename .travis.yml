@@ -8,7 +8,6 @@ services:
 jdk:
   - oraclejdk8
 rvm:
-  - 2.3.3
   - 2.3.4
 before_script:
   - bundle exec rake db:create
