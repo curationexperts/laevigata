@@ -5,7 +5,9 @@
   <h2><%= t('hyrax.base.form_files.local_upload') %></h2>
   <div class="alert alert-info form-instructions">For supplemental files 100MB or smaller, upload from your computer.</div>
   <div id='duplicate-files-error' class='alert alert-warning hidden col-xs-12'>Duplicate found. This file has already been uploaded.</div>
-  <%= f.input :no_supplemental_files, as: :boolean, label: "I have no supplemental files." %>
+  <div class="checkbox well">
+    <%= f.input :no_supplemental_files, as: :boolean, label: "I have no supplemental files." %>
+  </div>
    <!-- The table listing the files available for upload/download -->
    <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
 
