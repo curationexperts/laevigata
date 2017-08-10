@@ -34,9 +34,9 @@ RSpec/ExampleLength:
 RSpec/MultipleExpectations:
   Enabled: false
 
-# complaining about the Capfile name. Wants it to be snake_case
+# complaining about the Capfile name. Wants it to be snake_case - re-enabling, should be fixed by updated Bixby 
 Style/FileName:
-  Enabled: false
+  Enabled: true
 
 Style/Semicolon:
   Enabled: false
