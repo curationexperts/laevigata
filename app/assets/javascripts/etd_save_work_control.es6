@@ -164,7 +164,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
       $('#supplemental_fileupload').bind('fileuploaddestroyed', function (e, data) {
         form.validateSupplementalFiles()
-        //use jquery to find filename and make sure it gets deleted from metadata table if it is there
 
         //if user is deleting the last file, empty the metadata table and hide the show metadata link
         if ($('#supplemental_fileupload tbody.files tr').length === 0){
@@ -419,7 +418,11 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.disableSupplementalUpload()
       return true
     } else {
-      this.enableSupplementalUpload()
+      // if metadata form is showing, make sure students can't upload more files, because metadata form will become stale.
+
+      if ($('#additional_metadata').is(':hidden')) {
+        this.enableSupplementalUpload();
+      }
       if (this.supplemental_files_upload.hasFiles && this.hasSupplementalMetadata()) {
         this.supplementalFiles.check()
         return true
