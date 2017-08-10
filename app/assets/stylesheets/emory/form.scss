@@ -44,5 +44,15 @@ form label {
     margin-left:2em;
 }
 
+#supplemental_fileupload > div.checkbox.well > div > div > label {
+  font-weight: bold;
+}
 
+#supplemental_fileupload input {
+  transform: scale(1.5);
+}
 
+.well {
+  max-height: 80px;	
+  max-width: 556px;	
+}
