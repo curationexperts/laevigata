@@ -1,0 +1,11 @@
+#logo {
+    fill: #fff;
+    width: 20em;
+    margin-bottom: 5em;
+}
+
+@media screen and (min-width: 360px) {
+    #etd_logo
+    { max-height: 150px;
+    }
+}

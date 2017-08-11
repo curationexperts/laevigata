@@ -6,8 +6,8 @@
    <!-- The table listing the files available for upload/download -->
    <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
 
-   <h2><%= t('hyrax.base.form_files.local_upload') %></h2>
-   <div class="alert alert-success form-instructions">For PDFs 100MB or smaller, upload from your computer.</div>
+   <h2>Upload Small Files</h2>
+   <div class="alert alert-info form-instructions">For PDFs 100MB or smaller, upload from your computer.</div>
    <div id="pdf-max-error" class='alert alert-warning hidden col-xs-12'>Only one PDF may be uploaded.</div>
    <div id="pdf-format-error" class='alert alert-danger hidden col-xs-12'>
      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -18,7 +18,7 @@
    <div class="row fileupload-buttonbar">
        <div class="col-xs-7">
            <!-- The fileinput-button span is used to style the file input field as button -->
-           <span class="btn btn-success fileinput-button">
+           <span class="btn btn-primary fileinput-button">
                <span class="glyphicon glyphicon-plus"></span>
                <span>Add Primary PDF</span>
                <input type="file" name="primary_files[]" multiple>
@@ -44,6 +44,7 @@
 
 <%= render 'hyrax/uploads/js_templates' %>
 <% if Hyrax.config.browse_everything? %>
-<h2><%= t('hyrax.base.form_files.external_upload') %></h2>
+<h2>Upload Large Files</h2>
+<p>For PDFs 100MB or larger, we recommend uploading via your Emory Box account. You will be asked to log into Box. If you have a file larger than 2.5 GB, contact the ETD team at <a href="mailto:etd-help@LISTSERV.CC.EMORY.EDU">etd-help@LISTSERV.CC.EMORY.EDU</a> for help.</p>
 <%= render 'browse_everything', f: f %>
 <% end %>
