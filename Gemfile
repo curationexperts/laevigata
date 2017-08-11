@@ -7,6 +7,8 @@ end
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails'
+# Use a locally patched clamby gem that enables the --fdpass option
+gem 'clamby', github: 'curationexperts/clamby'
 gem 'devise'
 gem 'devise-guests', '~> 0.5'
 
