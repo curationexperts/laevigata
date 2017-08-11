@@ -69,7 +69,7 @@ FactoryGirl.define do
     end
 
     factory :sample_data do
-      creator { [] << FFaker::Name.name }
+      creator { [] << "#{FFaker::Name.last_name}, #{FFaker::Name.first_name}" }
       graduation_year "2017"
       school ["Candler School of Theology"]
       post_graduation_email { [] << FFaker::Internet.email }
@@ -86,16 +86,28 @@ FactoryGirl.define do
       title ["Sample Data: #{FFaker::Book.title}"]
       department ["Divinity"]
       subfield ["Political Robotics"]
+      research_field ["Artificial Intelligence", "Canadian Studies", "Folklore"]
       degree ["Th.D."]
       submitting_type ["Dissertation"]
       language ["English"]
       keyword [FFaker::Education.major, FFaker::Education.major, FFaker::Education.major]
 
       after(:build) do |etd, evaluator|
-        etd.committee_chair.build(FactoryGirl.attributes_for(:committee_member, name: [FFaker::NameCS.name]))
-
-        etd.committee_members.build(FactoryGirl.attributes_for(:committee_member, name: [FFaker::NameRU.name]))
-        etd.committee_members.build(FactoryGirl.attributes_for(:committee_member, name: [FFaker::NameVN.name]))
+        etd.committee_chair.build(
+          name: ["#{FFaker::Name.last_name}, #{FFaker::Name.first_name}"],
+          affiliation: [FFaker::Education.school],
+          netid: [FFaker::Internet.user_name]
+        )
+        etd.committee_members.build(
+          name: ["#{FFaker::Name.last_name}, #{FFaker::Name.first_name}"],
+          affiliation: [FFaker::Education.school],
+          netid: [FFaker::Internet.user_name]
+        )
+        etd.committee_members.build(
+          name: ["#{FFaker::Name.last_name}, #{FFaker::Name.first_name}"],
+          affiliation: [FFaker::Education.school],
+          netid: [FFaker::Internet.user_name]
+        )
       end
 
       factory :sample_data_with_everything_embargoed do
@@ -126,6 +138,16 @@ FactoryGirl.define do
           abstract_embargoed false
           toc_embargoed false
         end
+      end
+      factory :ready_for_proquest_submission_phd do
+        title ["ProQuest PhD: #{FFaker::Book.title}"]
+        degree_awarded { Time.zone.today - 1.week }
+        submitting_type { [] << "Dissertation" }
+        school ["Laney Graduate School"]
+        admin_set do
+          AdminSet.where(title: "Laney Graduate School").first
+        end
+        degree ["PhD"]
       end
     end
   end

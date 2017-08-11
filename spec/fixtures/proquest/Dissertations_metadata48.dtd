@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by Joe McConnell (ProQuest) -->
+<!-- DTD for dissertation metadata DRAFT       -->
+<!-- Version 1.0: McConnell: 2002 10 14 -->
+<!-- Version 2.0: McConnell: 2002 10 22: minor upgrades -->
+<!-- Version 3.0: McConnell: 2002 11 21: input from DTG and VIP -->
+<!-- Version 4.0: Vlahakis:  2004 02 13: minor upgrades -->
+<!-- Version 4.1: Vlahakis:  2004 06 01: minor deletions -->
+<!-- Version 4.2: Prasad:    2006 08 11: various updates as follows-->
+<!--                                     Open access, committee members, -->
+<!--                                     Addr eff date, phone# format-->
+<!-- Version 4.3  Prasad: 2007 04 11: minor updates as follows:
+     *Added added embargo code 4 for future use	
+     *Removed SS_NO element
+     *Removed dissertation type other 
+     *Removed Sales restriction 3 
+     *Added Restriction note
+     *Added file attachment -->
+<!-- Version 4.4  Prasad: 2007 06 13: Removed third party sales and made 
+     DISS_citizenship optional -->
+<!-- Version 4.5 Prasad/Visser: 2007 08 23: Added additional 
+     instructional comments throughout -->
+<!-- Version 4.6 Prasad: 2008 03 05: Added Supplementary File Category & Processing code (school instruction) -->
+<!-- Copyright 2002-2007 ProQuest -->
+<!-- DISS_submission is the root element. One XML file structured as
+     shown here equals one dissertation -->
+<!-- Version 4.7 Prasad/SRamaswamy  2009 04 30 Per PID1695 Added etd_author_id under DISS_name to hold the
+	  ETDAdmin's Author id cross reference. Not required to be populated by providers, except ETD -->
+<!-- Version 4.8 Prasad/SRamaswamy 2009 05 31 various updates as follows:
+	   	Added:embargo code 4
+   		Added:attribute for third_party_sales -->
+<!ELEMENT DISS_submission (DISS_authorship, DISS_description, DISS_content, (DISS_restriction)*)>
+<!ATTLIST DISS_submission
+	publishing_option (0 | 1) "0"
+	embargo_code (0 | 1 | 2 | 3 | 4 ) "0"
+	third_party_search (Y | N) "Y"
+	third_party_sales (Y | N) "Y"
+>
+<!-- *Publishing option can be 0 (Traditional) or 1 (Open Access). Open Access 
+     publishing requires a $95 fee, in addition to the Traditional publishing fee.
+     *Embargo code can be 0 corresponding to no embargo OR 
+     1 - 6 months embargo
+     2 - 1 year embargo
+     3 - 2 year embargo
+     4 - flexible delayed release
+	   Note: 	if embargo code = 4  
+			sales_restriction 1 (seperately in the XML) should be populated. The corresponding "remove" attribute should 
+			have the delayed release date chosen by the author/administrator.In case the author chooses to never release 
+			his/her work the corresponding "remove" date on the restriction should be null.
+  Examples: embargo_code = 4, Diss_sales_restriction = 1, remove = 01/01/2010 (delayed release until 01/01/2010)
+		embargo_code = 4, Diss_sales_restriction = 1, remove = null	      (never to be released)
+
+  Diss_sales_restriction need not be populated for embargo options 1,2 and 3 since the release date is implied.
+  
+     *third_party_search = indicates the author would like to have his or her 
+  				   metadata indexed by external search engines.
+				   Use N if the author does not want that.
+     *third_party_sales =  indicates the author like to have his or her work 
+			         sold by 3rd party retailers in addition to ProQuest / UMI.
+ -->
+<!-- the attribute prepub_order should correspond to a check off, indicating 
+     whether the author wants us to manufacture copies for him or her.  The 
+     quantity attribute indicates how many copies -->
+<!-- DISS_authorship permits collection of data regarding at least one primary
+     and optionally many additional authors -->
+<!ELEMENT DISS_authorship (DISS_author)+>
+<!-- DISS_author describes one person claiming authorship of the dissertation 
+     the "claimant" attribute identifies a designated owner if the
+     author of the disseration dies 
+     note that the author can specify multiple addresses, and
+     the contact element has a "current" or "future" attribute,
+     letting us know where to contact the author subsequently -->
+<!ELEMENT DISS_author (DISS_name, (DISS_contact)+, DISS_citizenship?)>
+<!ATTLIST DISS_author
+	type (primary | additional | claimant) "primary"
+>
+<!-- for the primary author, we request his or her country of citizenship, 
+     but it is optional -->
+<!ELEMENT DISS_citizenship (#PCDATA)>
+<!-- this block of elements describes the dissertation for both processing
+     and access purposes. 
+     The attributes are: 
+     *page_count  = the number of pages in the dissertation.                  
+     *type = graduate work type - master's thesis or doctoral dissertation.
+     *external_id = a unique id assigned by the transmission service. For 
+     FTP sites, it should begin with a lower case school identifer such as hkust 
+     or emory, followed by a colon, and then the school's own unique identifier.
+     *apply_for_copyright = indicate if the author want us to apply for copyright. 
+     There is an additional $65 fee for copyright registration, and for FTP sites, 
+     the author must submit a signed paper form with the additional payment.-->
+<!ELEMENT DISS_description (DISS_title, DISS_dates, DISS_degree, (DISS_institution), (DISS_advisor)*, DISS_cmte_member*, DISS_categorization)>
+<!ATTLIST DISS_description
+	page_count CDATA #REQUIRED
+	type (masters | doctoral) #REQUIRED
+	external_id CDATA #REQUIRED
+	apply_for_copyright (yes | no) #REQUIRED
+>
+<!-- DISS_title is the full title of the dissertation -->
+<!ELEMENT DISS_title (#PCDATA)>
+<!-- these elements record the year the degree was conferred (DISS_comp_date) 
+     and they date the manuscript was completed (DISS_accept_date). Unless 
+     otherwise specified, dates format should be mm/dd/yyyy. Future: other date 
+     tags may be added here to facilitate internal processing. -->
+<!ELEMENT DISS_dates (DISS_comp_date, DISS_accept_date)>
+<!-- DISS_comp_date refers to the year the degree was conferred. Should be 
+     provided in yyyy format -->
+<!ELEMENT DISS_comp_date (#PCDATA)>
+<!-- DISS_accept_date refers to the date the manuscript was completed. 
+     Should be provided in mm/dd/yyyy format. If only year is available, 
+     default to 01/01/yyyy -->
+<!ELEMENT DISS_accept_date (#PCDATA)>
+<!-- The text description of the degree associated with this dissertation
+     Must conform to PQ list of degree acronyms -->
+<!ELEMENT DISS_degree (#PCDATA)>
+<!-- contact information for the degree-granting institution -->
+<!ELEMENT DISS_institution (DISS_inst_code, DISS_inst_name, (DISS_inst_contact)?, DISS_processing_code?)>
+<!-- DISS_inst_code is a PQ-assigned school code. FTP sites should contact 
+     PQ to obtain their school code -->
+<!ELEMENT DISS_inst_code (#PCDATA)>
+<!-- the name of the degree granting institution -->
+<!ELEMENT DISS_inst_name (#PCDATA)>
+<!-- Department name within the institution -->
+<!ELEMENT DISS_inst_contact (#PCDATA)>
+<!-- This is the ETD code assigned to the school instruction to be used when checking items in 
+ Can be blank for external vendors sending submissions -->
+<!ELEMENT DISS_processing_code (#PCDATA)>
+<!-- the advisor or advisors associated with the graduate work -->
+<!ELEMENT DISS_advisor (DISS_name)>
+<!-- committee members, excluding primary advisor, associated with the 
+     graduate work. -->
+<!ELEMENT DISS_cmte_member (DISS_name)+>
+<!-- this block of elements provides techniques for categorizing the
+     dissertation. Future: this is extremely simplified at the moment; it 
+     needs to expand to specify the category hierarchy used.  Other 
+     search methods could be used here as well. -->
+<!ELEMENT DISS_categorization ((DISS_category)+, (DISS_keyword)*, (DISS_ISBN)*, DISS_language)>
+<!-- DISS_categories are codes corresponding to members of a 
+     fixed hierarchy. FTP sites must use UMI list of subject category 
+     descriptions and codes -->
+<!ELEMENT DISS_category (DISS_cat_code, DISS_cat_desc)>
+<!ELEMENT DISS_cat_code (#PCDATA)>
+<!ELEMENT DISS_cat_desc (#PCDATA)>
+<!-- DISS_keywords are a set of up to 6 keywords that the author 
+     believes describe the graduate work -->
+<!ELEMENT DISS_keyword (#PCDATA)>
+<!-- DISS_ISBN permits schools who have ISBNs to send them to us. 
+     PQ will assign ISBNs to new graduate works that do not have them -->
+<!ELEMENT DISS_ISBN (#PCDATA)>
+<!-- DISS_language captures the code for the language in which the graduate 
+     work is written. The default is "EN" for English. FTP sites must use 
+     the PQ list of language codes -->
+<!ELEMENT DISS_language (#PCDATA)>
+<!-- this block permits capture of actual dissertation content -->
+<!ELEMENT DISS_content ((DISS_abstract)?, (DISS_binary)+, (DISS_plaintext)?, (DISS_attachment)*)>
+<!-- DISS_abstract permits capture of one or more paragraphs of text
+     abstract from the author; future: addition of multiple abstracts, 
+     identified as being author, human, or automatically generated. -->
+<!ELEMENT DISS_abstract (DISS_para)+>
+<!-- DISS_binary captures the name of at least one non-XML file containing
+     the full dissertation.  Future: additional types -->
+<!ELEMENT DISS_binary (#PCDATA)>
+<!ATTLIST DISS_binary
+	type (PDF | other) "PDF"
+>
+<!-- DISS_plaintext permits us to capture ascii text of the graduate work,
+     if available, for use in full-text indexing and searching.  As written here,
+     this would be for search only, not display. Future: additional markup, making
+     the text displayable. -->
+<!ELEMENT DISS_plaintext (DISS_para)+>
+<!ELEMENT DISS_attachment (DISS_file_name, DISS_file_category, DISS_file_descr?)>
+<!ELEMENT DISS_file_name (#PCDATA)>
+<!ELEMENT DISS_file_category (#PCDATA)>
+<!--Valid values for DISS_file_category are:
+	audio                                                                                                                                                                                                                                                          
+	code/script                                                                                                                                                                                                                                                    
+	image                                                                                                                                                                                                                                                          
+	pdf                                                                                                                                                                                                                                                            
+	presentation                                                                                                                                                                                                                                                   
+	spreadsheet                                                                                                                                                                                                                                                    
+	text                                                                                                                                                                                                                                                           
+	video                                                                                                                                                                                                                                                          
+	webpage                                                                                                                                                                                                                                                        
+	data                                                                                                                                                                                                                                                           
+	other                                                                                                                                                                                                                                                          
+	-->
+<!ELEMENT DISS_file_descr (#PCDATA)>
+<!-- standard block of elements to record an individual's name and 
+     school affiliation. -->
+<!ELEMENT DISS_name (DISS_etd_author_id?, DISS_surname, DISS_fname?, DISS_middle?, DISS_suffix?, DISS_affiliation?)>
+<!-- Author id is the ETD cross reference. Not required to be populated by providers, except ETD -->
+<!ELEMENT DISS_etd_author_id (#PCDATA)>
+<!ELEMENT DISS_surname (#PCDATA)>
+<!ELEMENT DISS_fname (#PCDATA)>
+<!ELEMENT DISS_middle (#PCDATA)>
+<!ELEMENT DISS_suffix (#PCDATA)>
+<!ELEMENT DISS_affiliation (#PCDATA)>
+<!-- standard block of elements to record an individual's contact info.
+     Used for authors and advisors -->
+<!ELEMENT DISS_contact (DISS_contact_effdt, DISS_phone_fax?, DISS_address, DISS_email?)>
+<!ATTLIST DISS_contact
+	type (current | future) "current"
+>
+<!ELEMENT DISS_contact_effdt (#PCDATA)>
+<!ELEMENT DISS_phone_fax ((DISS_cntry_cd)?, DISS_area_code, DISS_phone_num, DISS_phone_ext?)>
+<!ATTLIST DISS_phone_fax
+	type (P | F) "P"
+>
+<!-- P is Phone number, F is Fax number -->
+<!ELEMENT DISS_cntry_cd (#PCDATA)>
+<!ELEMENT DISS_area_code (#PCDATA)>
+<!ELEMENT DISS_phone_num (#PCDATA)>
+<!ELEMENT DISS_phone_ext (#PCDATA)>
+<!ELEMENT DISS_address ((DISS_addrline)+, DISS_city, (DISS_st)*, DISS_pcode, DISS_country)>
+<!ELEMENT DISS_addrline (#PCDATA)>
+<!ELEMENT DISS_city (#PCDATA)>
+<!ELEMENT DISS_st (#PCDATA)>
+<!ELEMENT DISS_pcode (#PCDATA)>
+<!ELEMENT DISS_country (#PCDATA)>
+<!ELEMENT DISS_email (#PCDATA)>
+<!-- standard paragraph of text -->
+<!ELEMENT DISS_para (#PCDATA)>
+<!-- this element permits the submitting body to restrict formats in which
+     the dissertation can be sold and the conditions under which it can be sold -->
+<!ELEMENT DISS_restriction ((DISS_sales_restriction)*, (DISS_format_restriction)*, DISS_note?)>
+<!ELEMENT DISS_sales_restriction EMPTY>
+<!ATTLIST DISS_sales_restriction
+	code (0 | 1 | 2 | 4) "0"
+	remove CDATA #IMPLIED
+>
+<!-- the sales restriction codes are as follows:
+0: No sales restriction
+1: Not available for sale
+2: Sell to author only/copyright
+4: Sell to author only
+the remove attribute is a mm/dd/yyyy date on which the restriction
+is to be removed -->
+<!-- the format restriction codes are:
+0:   no format restriction
+X    Xerographic not available
+F    Microfiche not available
+M    Microfilm not available
+C    CD-ROM not available
+E    Electronic not available
+XF   Xerographic and Microfiche not available
+XM   Xerographic and Microfilm not available
+XC   Xerographic and CD-ROM not available
+XE   Xerographic and Electronic not available
+FM   Microform not available
+FC   Microfiche and CD-ROM not available
+FE   Microfiche and Electronic not available
+MC   Microfilm and CD-ROM not available
+ME   Microfilm and Electronic not available
+CE   CD-ROM and Electronic not available
+XFM  Only CD-ROM and Electronic available
+XFC  Only Microfilm and Electronic available
+XFE  Only Microfilm and CD-ROM available
+XMC  Only Microfiche and Electronic available
+XME  Only Microfiche and CD-ROM available
+XCE  Only Microform available
+FMC  Only Xerographic and electronic available
+FCE  Only Xerographic and Microfilm available
+FME  Only Xerographic and CD-ROM available
+MCE  Only Xerographic and Microfiche available
+XFMC Only Electronic available
+XFME Only CD-ROM available
+XFCE Only Microfilm available
+XMCE Only Microfiche available
+FMCE Only Xerographic available
+the remove attribute is a mm/dd/yyyy date on which the restriction
+is to be removed -->
+<!ELEMENT DISS_format_restriction EMPTY>
+<!ATTLIST DISS_format_restriction
+	code (0 | X | F | M | C | E | XF | XM | XC | XE | FM | FC | FE | MC | ME | CE | XFM | XFC | XFE | XMC | XME | XCE | FMC | FCE | FME | MCE | XFMC | XFME | XFCE | XMCE | FMCE) "0"
+	remove CDATA #IMPLIED
+>
+<!ELEMENT DISS_note (#PCDATA)>

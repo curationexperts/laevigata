@@ -32,6 +32,9 @@ Metrics/PerceivedComplexity:
 Metrics/MethodLength:
   Enabled: false
 
+Metrics/ModuleLength:
+  Enabled: false
+
 Rails/FindBy:
   Enabled: false
 
@@ -66,4 +69,7 @@ RSpec/NestedGroups:
   Enabled: false
 
 RSpec/VerifiedDoubles:
+  Enabled: false
+
+Style/BlockDelimiters:
   Enabled: false

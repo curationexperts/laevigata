@@ -31,4 +31,12 @@ class CommitteeMember < ActiveTriples::Resource
     end
     super
   end
+
+  def last_name
+    name.first.split(", ").first
+  end
+
+  def first_name
+    name.first.split(", ").last
+  end
 end
