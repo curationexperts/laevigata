@@ -1,5 +1,37 @@
 @import 'fonts';
+@import 'colors';
+
+.btn-link.add, .btn-link.remove {
+    text-decoration: none;
+    margin-top: 23px;
+    margin-bottom:1em;
+    background-color: $button-grey;
+    border: 1px solid $button-border;
+    border-radius: 4px;
+    color: $button-text;
+}
+
+.multi_value .btn.remove, .multi_value .remove.facets-toggle, .multi_value td.toggle input.remove[type=submit], td.toggle .multi_value input.remove[type=submit], .multi_value .btn.add, .multi_value .add.facets-toggle, .multi_value td.toggle input.add[type=submit], td.toggle .multi_value input.add[type=submit]  {
+    padding: 1em;
+    @extend .btn-link.add;
+    padding: .5em;
+}
+
+.btn-link.add:hover, .btn-link.remove:hover {
+    background-color: $button-hover-blue;
+}
+
 
 .btn, .controls-add-text {
     font-family:$label-font-family;
+}
+
+.btn-primary, input[type=submit].active {
+    background-color: $button-primary-blue;
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0.25), rgba(255,255,255,0));
+}
+
+.btn-primary:hover {
+    @extend .btn-primary;
+    background-image:none;
 }
