@@ -101,22 +101,13 @@ RSpec.feature 'Create an Etd' do
       expect(etds.length).to eq 1 # Make sure only 1 ETD in array
       etd = etds.first
 
-      # TODO: There is a bug that doesn't allow a student to
-      # view their own ETD until after their graduation date.
-      # After that bug is fixed, remove this code that sets
-      # the degree_awarded date.
-      # https://github.com/curationexperts/laevigata/issues/575
-      etd.degree_awarded = Date.parse("17-05-17").strftime("%d %B %Y")
-      etd.state = Vocab::FedoraResourceStatus.active
-      etd.save!
-
       # The student views his ETD
       visit hyrax_etd_path(etd)
 
       # Verify metadata from 'About Me' tab
       expect(page).to have_content 'Johnson, Frodo'
       expect(page).to have_content 'Spring 2018'
-      # TODO: expect(etd.post_graduation_email).to eq ['frodo@example.com']
+      expect(etd.post_graduation_email).to eq ['frodo@example.com']
       expect(page).to have_content 'School Emory College'
       expect(page).to have_content 'Department Religion'
       expect(page).to have_content 'Subfield / Discipline Ethics and Society'
@@ -129,12 +120,14 @@ RSpec.feature 'Create an Etd' do
 
       # Verify metadata from 'My ETD' tab
       expect(page).to have_content title
-      # TODO: Test language
+      expect(page).to have_content 'Language English'
       # TODO: Test abstract
       # TODO: Test table of contents
-      # TODO: Research field
-      # TODO: Keyword
-      # TODO: 3 copyright questions
+      expect(page).to have_content 'Research field Aeronomy'
+      expect(page).to have_content 'Keyword key1'
+      expect(etd.copyright_question_one).to eq 'false'
+      expect(etd.copyright_question_two).to eq 'false'
+      expect(etd.copyright_question_three).to eq 'false'
 
       # TODO: Test primary PDF
       # TODO: Test Supplemental files
