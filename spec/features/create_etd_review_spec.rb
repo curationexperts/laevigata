@@ -3,16 +3,6 @@ require 'active_fedora/cleaner'
 require 'workflow_setup'
 include Warden::Test::Helpers
 
-def tinymce_fill_in(id, val)
-  # use 'sleep until' if you need wait until the TinyMCE editor instance is ready. This is required for cases
-  # where the editor is loaded via XHR.
-  # sleep 0.5 until
-  page.evaluate_script("tinyMCE.get('#{id}') !== null")
-
-  js = "tinyMCE.get('#{id}').setContent('#{val}')"
-  page.execute_script(js)
-end
-
 RSpec.feature 'Create an Etd' do
   let(:user) { create :user }
 
@@ -164,7 +154,7 @@ RSpec.feature 'Create an Etd' do
       select 'PhD', from: 'Degree'
       select 'Dissertation', from: 'Submission Type'
 
-      fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
+      fill_in "etd[committee_chair_attributes][0][name][]", with: "Diane Arbus"
       fill_in "etd[committee_members_attributes][0][name][]", with: "Joan Didion"
 
       click_on("My ETD")

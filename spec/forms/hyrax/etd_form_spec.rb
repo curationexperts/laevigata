@@ -44,4 +44,28 @@ RSpec.describe Hyrax::EtdForm do
       it { is_expected.to eq 'Non-Emory Committee Member' }
     end
   end
+
+  describe "#cc_affiliation_type" do
+    subject { form.cc_affiliation_type(affiliation) }
+
+    context 'without a value for affiliation' do
+      let(:affiliation) { nil }
+      it { is_expected.to eq 'Emory Committee Chair' }
+    end
+
+    context 'when value for affiliation is empty' do
+      let(:affiliation) { [''] }
+      it { is_expected.to eq 'Emory Committee Chair' }
+    end
+
+    context 'when affiliation is set to Emory' do
+      let(:affiliation) { ['Emory University'] }
+      it { is_expected.to eq 'Emory Committee Chair' }
+    end
+
+    context 'when affiliation is set to Non-Emory' do
+      let(:affiliation) { ['Some Other University'] }
+      it { is_expected.to eq 'Non-Emory Committee Chair' }
+    end
+  end
 end

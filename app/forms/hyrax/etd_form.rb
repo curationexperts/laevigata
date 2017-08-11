@@ -44,18 +44,14 @@ module Hyrax
     end
 
     def about_my_program_fields
-      [:school, :department, :subfield, :partnering_agency, :degree, :submitting_type, :committee_chair]
+      [:school, :department, :subfield, :partnering_agency, :degree, :submitting_type]
     end
 
     def about_my_etd_fields
       [:language, :abstract, :table_of_contents, :research_field]
     end
 
-    def cm_affiliation_options
-      ["Emory Committee Member", "Non-Emory Committee Member"]
-    end
-
-    # Select the correct affiliation type on the form
+    # Select the correct affiliation type for committee member
     def cm_affiliation_type(value)
       value = Array(value).first
       if value.blank? || value == 'Emory University'
@@ -65,11 +61,30 @@ module Hyrax
       end
     end
 
+    # Select the correct affiliation type for committee chair
+    def cc_affiliation_type(value)
+      value = Array(value).first
+      if value.blank? || value == 'Emory University'
+        cc_affiliation_options[0]
+      else
+        cc_affiliation_options[1]
+      end
+    end
+
+    def cm_affiliation_options
+      ["Emory Committee Member", "Non-Emory Committee Member"]
+    end
+
+    def cc_affiliation_options
+      ["Emory Committee Chair", "Non-Emory Committee Chair"]
+    end
+
     # In the view we have "fields_for :committee_members".
     # This method is needed to make fields_for behave as an
     # association and populate the form with the correct
     # committee member data.
     delegate :committee_members_attributes=, to: :model
+    delegate :committee_chair_attributes=, to: :model
 
     # We need to call ".to_a" on committee_members to force it
     # to resolve.  Otherwise in the form, the fields don't
@@ -81,10 +96,39 @@ module Hyrax
       model.committee_members.to_a
     end
 
+    def committee_chair
+      model.committee_chair.build if model.committee_chair.blank?
+      model.committee_chair.to_a
+    end
+
     def self.build_permitted_params
       permitted = super
-      permitted << { committee_members_attributes: [:id, { name: [] }, { affiliation: [] }, { netid: [] }, :_destroy] }
+      permitted << { committee_members_attributes: [:id, { name: [] }, { affiliation: [] }, :affiliation_type, { netid: [] }, :_destroy] }
+      permitted << { committee_chair_attributes: [:id, { name: [] }, { affiliation: [] }, :affiliation_type, { netid: [] }, :_destroy] }
       permitted
+    end
+
+    # If the student selects 'Emory Committee Chair' or
+    # 'Emory Committee Member' for the 'affiliation_type' field,
+    # then the 'affiliation' field becomes disabled in the form.
+    # In that case, we need to fill in the 'affiliation' data
+    # with 'Emory University', and we need to remove the
+    # 'affiliation_type' field because that is not a valid field
+    # for the CommitteeMember model.
+    def self.model_attributes(form_params)
+      attrs = super
+      keys = ['committee_chair_attributes', 'committee_members_attributes']
+
+      keys.each do |field_name|
+        attrs[field_name].each do |member_key, member_attrs|
+          aff_type = attrs[field_name][member_key].delete 'affiliation_type'
+          if member_attrs['affliation'].blank? && aff_type && aff_type.start_with?('Emory')
+            attrs[field_name][member_key]['affiliation'] = ['Emory University']
+          end
+        end
+      end
+
+      attrs
     end
   end
 end

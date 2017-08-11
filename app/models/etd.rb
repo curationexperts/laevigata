@@ -30,13 +30,13 @@ class Etd < ActiveFedora::Base
   end
 
   def index_committee_chair_name
-    return unless committee_chair && committee_chair.first && committee_chair.first.name && committee_chair.first.name.first
-    committee_chair_name << committee_chair.first.name.first
+    return unless committee_chair && committee_chair.first
+    self.committee_chair_name = committee_chair.map { |cc| cc.name.first }
   end
 
   def index_committee_members_names
     return unless committee_members && committee_members.first
-    self.committee_members_names = committee_members.map { |e| e.name.first }
+    self.committee_members_names = committee_members.map { |cm| cm.name.first }
   end
 
   def hidden?
@@ -198,6 +198,14 @@ class Etd < ActiveFedora::Base
   # which finalizes the propery declarations.
   # See https://github.com/projecthydra/active_fedora/issues/847
   accepts_nested_attributes_for :committee_members,
+    allow_destroy: true,
+    reject_if: proc { |attrs|
+      ['name', 'affiliation', 'netid'].all? do |key|
+        Array(attrs[key]).all?(&:blank?)
+      end
+    }
+
+  accepts_nested_attributes_for :committee_chair,
     allow_destroy: true,
     reject_if: proc { |attrs|
       ['name', 'affiliation', 'netid'].all? do |key|

@@ -1,6 +1,13 @@
 inherit_gem:
   bixby: bixby_default.yml
 
+AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'script/**/*'
+    - 'vendor/**/*'
+    - 'tmp/**/*'
+
 Lint/Void:
   Enabled: false
 

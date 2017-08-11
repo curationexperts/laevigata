@@ -11,18 +11,6 @@ RSpec.feature 'Validate an Etd: About Me' do
       visit("/concern/etds/new")
     end
 
-    # TODO: evaluate and discuss value of this spec
-    pending
-    scenario "'about me' has no committee affiliation field when affiliation type Emory is selected", js: true do
-      select('Non-Emory Committee Chair', from: 'etd_committee_chair_0_affiliation_type')
-      wait_for_ajax
-      expect(find("#etd_committee_chair_0_affiliation")).not_to be_disabled
-
-      select('Emory Committee Chair', from: 'etd_committee_chair_0_affiliation_type')
-      wait_for_ajax
-      expect(find("#etd_committee_chair_0_affiliation")).to be_disabled
-    end
-
     scenario "'about me' committee affiliation accepts user input when Non-Emory is selected", js: true do
       select('Non-Emory Committee Member', from: 'etd_committee_members_attributes_0_affiliation_type')
       wait_for_ajax

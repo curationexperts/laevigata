@@ -19,16 +19,16 @@
   </div>
 <% end %>
 
-  <% index = @form.committee_members.count %>
+  <% member_index = @form.committee_members.count %>
+  <!-- this hidden element keeps track of the member count for an about_me_and_my_program.es6 function -->
+  <input type='hidden' name='index-member' id='index-member' value="<%= member_index %>" />
 
-  <input type='hidden' name='index' id='index' value="<%= index %>" />
-
-  <div class="committee-member row hidden" id='cloning_row'>
+  <div class="committee-member row hidden" id='member-cloning_row'>
     <div class="col-sm-6 member">
 
       <div class="form-group select optional etd_committee_members_affiliation_type">
 
-        <label class="control-label select optional" for="etd_committee_members_attributes_#{index}_affiliation_type">Committee Member's Affiliation</label>
+        <label class="control-label select optional" for="etd_committee_members_attributes_#{member_index}_affiliation_type">Committee Member's Affiliation</label>
 
         <%= f.select_tag "affiliation_type",
           options_for_select(@form.cm_affiliation_options, @form.cm_affiliation_options[0]),
@@ -37,15 +37,15 @@
       </div>
 
       <div class="form-group committee_member optional disabled etd_committee_members_affiliation">
-        <%= f.text_field_tag "etd[committee_members_attributes][#{index}][affiliation][]", 'Emory',
+        <%= f.text_field_tag "etd[committee_members_attributes][#{member_index}][affiliation][]", 'Emory',
         disabled: true, required: false, label: false, class: 'form-control committee' %>
       </div>
     </div>
 
     <div class="col-sm-6 member-name">
-      <label class="control-label committee_member optional" for="etd_committee_members_attributes_#{index}_name">Committee Member</label>
+      <label class="control-label committee_member optional" for="etd_committee_members_attributes_#{member_index}_name">Committee Member</label>
 
-      <%= f.text_field_tag "etd[committee_members_attributes][#{index}][name][]", '', required: false, placeholder: 'Last Name, First Name', class: 'form-control committee' %>
+      <%= f.text_field_tag "etd[committee_members_attributes][#{member_index}][name][]", '', required: false, placeholder: 'Last Name, First Name', class: 'form-control committee' %>
 
       <button type="button" class="btn btn-link remove remove-member"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text">Remove Committee Member</span></button>
     </div>

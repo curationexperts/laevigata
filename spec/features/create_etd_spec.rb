@@ -58,7 +58,7 @@ RSpec.feature 'Create an Etd' do
       select 'Ethics and Society', from: 'Sub Field'
       select 'PhD', from: 'Degree'
       select 'Dissertation', from: 'Submission Type'
-      fill_in 'Committee Chair/Thesis Advisor', with: 'Fred'
+      fill_in 'etd[committee_chair_attributes][0]_name', with: 'Fred'
       fill_in 'etd[committee_members_attributes][0]_name', with: 'Barney'
 
       # Fill in 'My ETD' tab
@@ -122,8 +122,10 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_content 'Subfield / Discipline Ethics and Society'
       expect(page).to have_content 'Degree Ph.D.'
       expect(page).to have_content 'Submission Dissertation'
-      # TODO: Test Committee Chair names and affiliations
-      # TODO: Test Committee Member names and affiliations
+      expect(page).to have_content 'Committee Chair / Thesis Advisor Fred'
+      expect(page).to have_content 'Committee Members Barney'
+      expect(etd.committee_chair.map(&:affiliation)).to eq [['Emory University']]
+      expect(etd.committee_members.map(&:affiliation)).to eq [['Emory University']]
 
       # Verify metadata from 'My ETD' tab
       expect(page).to have_content title

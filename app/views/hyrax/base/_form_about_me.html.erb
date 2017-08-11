@@ -24,13 +24,21 @@
     <%= render_edit_field_partial(term, f: f) %>
   <% end %>
 </div>
+
+<h3>Committee Chair, Thesis Advisor &amp; Committee Members</h3>
+<div class="form-instructions">If your committee chair, thesis advisor, or committee members are not affiliated with Emory, select "Non-Emory" and enter his/her organization.</div>
+
+<div class="about-me chair">
+  <%= render_edit_field_partial(:committee_chair, f: f) %>
+</div>
+
 <div class='row'>
   <div class='col-sm-12'>
     <button type="button" id="add-another-chair" class="btn btn-link add"><span class="glyphicon glyphicon-plus"></span> <span class="controls-add-text">Add another Committee Chair/Thesis Advisor</span></button>
   </div>
 </div>
 
-<div class="about-me members">
+<div class="about-me member">
   <%= render_edit_field_partial(:committee_members, f: f) %>
 </div>
 
