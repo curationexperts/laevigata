@@ -65,6 +65,8 @@ RSpec.configure do |config|
 
   config.before :each do
     DatabaseCleaner.start
+    class_double("Clamby").as_stubbed_const
+    allow(Clamby).to receive(:virus?).and_return(false)
   end
 
   config.append_after :each do

@@ -187,6 +187,39 @@ namespace :sample_data do
     puts "ProQuest sample exported to #{export_location}"
   end
 
+  def virus_demo
+    etd = FactoryGirl.create(:sample_data)
+    etd.assign_admin_set
+    user = User.where(ppid: etd.depositor).first
+    ability = ::Ability.new(user)
+    file1_path = "#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf"
+    file2_path = "#{::Rails.root}/spec/fixtures/virus_checking/virus_check.txt"
+    upload1 = File.open(file1_path) { |file1|
+      Hyrax::UploadedFile.create(user: user, file: file1, pcdm_use: 'primary')
+    }
+    upload2 = File.open(file2_path) { |file2|
+      Hyrax::UploadedFile.create(
+        user: user,
+        file: file2,
+        pcdm_use: 'supplementary',
+        title: 'Virus',
+        description: 'payload',
+        file_type: 'Software'
+      )
+    }
+    actor = Hyrax::CurationConcern.actor(etd, ability)
+    attributes_for_actor = { uploaded_files: [upload1.id, upload2.id] }
+    actor.create(attributes_for_actor)
+    etd
+  end
+
+  desc "Build sample data to demo virus checking"
+  task :virus do
+    puts "Making virus infected ETD"
+    etd = virus_demo
+    puts "Created #{etd.id}"
+  end
+
   desc "Build sample data to demo embargo expiration service"
   task :embargo_expiration do
     approving_user = User.where(ppid: 'candleradmin').first
