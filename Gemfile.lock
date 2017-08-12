@@ -913,6 +913,7 @@ DEPENDENCIES
   rspec-activemodel-mocks
   rspec-its
   rspec-rails (~> 3.5)
+  rubyzip
   sass-rails (~> 5.0)
   shoulda-matchers
   sinatra (= 2.0.0.rc2)
