@@ -30,6 +30,7 @@ gem 'rails', '~> 5.0.2'
 gem 'resque-pool', github: 'nevans/resque-pool'
 gem 'resque-web', require: 'resque_web'
 gem 'rsolr', '~> 1.0'
+gem 'rubyzip'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Need to constrain the version of Sinatra for resque-web, see https://github.com/sinatra/sinatra/issues/1055
