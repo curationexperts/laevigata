@@ -9,6 +9,8 @@ module Hyrax
     self.curation_concern_type = Etd
     self.show_presenter = EtdPresenter
 
+    helper EtdHelper
+
     def create
       apply_supplemental_file_metadata(params) if params["etd"]["supplemental_file_metadata"]
       # TODO: make this a case statement for each tab

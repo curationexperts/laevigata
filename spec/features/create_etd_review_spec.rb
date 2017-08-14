@@ -47,7 +47,6 @@ RSpec.feature 'Create an Etd' do
       fill_in 'Keyword', with: "Courtship"
       click_on('about_my_etd_data')
 
-      expect(page).to have_content 'Successfully saved About My Etd'
       expect(page).to have_css 'li#required-my-etd.complete'
 
       click_on('My PDF')
@@ -168,7 +167,6 @@ RSpec.feature 'Create an Etd' do
       fill_in 'Keyword', with: "Courtship"
       click_on('about_my_etd_data')
 
-      expect(page).to have_content 'Successfully saved About My Etd'
       expect(page).to have_css 'li#required-my-etd.complete'
 
       click_on('My PDF')
