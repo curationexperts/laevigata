@@ -38,7 +38,7 @@ RSpec.feature 'Supplemental files' do
       expect(page).to have_content('Title')
       expect(page).to have_content('Description')
 
-      expect(page).to have_select('supplemental_file_file_type', options: ['Text', 'Dataset', 'Video', 'Image', 'Sound', 'Software'])
+      expect(page).to have_select('etd[supplemental_file_metadata][0]file_type')
 
       # capybara wait settings aren't working here but sleep does
       sleep(5)
@@ -76,9 +76,9 @@ RSpec.feature 'Supplemental files' do
 
       click_on('Show Additional Metadata')
       wait_for_ajax
-      fill_in :supplemental_file_title, with: "Super Great Title"
-      fill_in :supplemental_file_description, with: "Super Great Description"
-      select('Sound', from: 'supplemental_file_file_type')
+      fill_in 'etd[supplemental_file_metadata][0]title', with: "Super Great Title"
+      fill_in 'etd[supplemental_file_metadata][0]description', with: "Super Great Description"
+      select('Sound', from: 'etd[supplemental_file_metadata][0]file_type')
       # the rest of the test might end up in the create etd super spec or review, fake expect for now, test is checking the form works
       expect(page).to have_content('File Name')
     end
@@ -89,11 +89,22 @@ RSpec.feature 'Supplemental files' do
       within('#supplemental_fileupload') do
         page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
       end
-
+      # any time metadata is showing, uploading should be disabled to prevent metadata form from becoming stale
       click_on('Show Additional Metadata')
-      wait_for_ajax
+      sleep(5) # more reliable than wait_times
 
       expect(find("#supplemental_files_uploader")).to be_disabled
+
+      fill_in 'etd[supplemental_file_metadata][0]title', with: "Super Great Title"
+
+      sleep(5)
+
+      expect(find("#supplemental_files_uploader")).to be_disabled
+
+      click_on('Hide Additional Metadata')
+      sleep(5)
+
+      expect(find("#supplemental_files_uploader")).not_to be_disabled
     end
 
     scenario "deleting a file removes its metadata content", js: true do
@@ -109,7 +120,7 @@ RSpec.feature 'Supplemental files' do
       end
 
       click_on('Show Additional Metadata')
-      fill_in(:supplemental_file_title, with: "Super Great Title", match: :first)
+      fill_in 'etd[supplemental_file_metadata][0]title', with: "Super Great Title"
 
       find('button.delete', match: :first).click
 

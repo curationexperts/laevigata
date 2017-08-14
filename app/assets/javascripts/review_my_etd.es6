@@ -186,7 +186,8 @@ export default class ReviewMyETD {
         if($(this).find('input').length > 0){
           data = $(this).find('input').val();
         } else if ($(this).find('select').length > 0) {
-          data = $(this).find('select').val();
+          // was unable to get selected option value from select so it is stored in a hidden element in the td
+          data = $(this).find('input["type=hidden"]').val();
         } else {
           //nothing else
         }

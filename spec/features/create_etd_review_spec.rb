@@ -23,7 +23,7 @@ RSpec.feature 'Create an Etd' do
       visit new_hyrax_etd_path
     end
 
-    scenario "Miranda can preview her entire etd", js: true unless continuous_integration? do
+    scenario "Miranda can preview her entire etd", js: true do
       fill_in 'Student Name', with: 'Park, Miranda'
       select 'Spring 2018', from: 'Graduation Date'
       fill_in 'Post Graduation Email', with: 'frodo@example.com'
@@ -78,9 +78,9 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_content('Title')
       expect(page).to have_content('Description')
 
-      fill_in :supplemental_file_title, with: "Super Great Title"
-      fill_in :supplemental_file_description, with: "Super Great Description"
-      select('Sound', from: 'supplemental_file_file_type')
+      fill_in 'etd[supplemental_file_metadata][0]title', with: "Super Great Title"
+      fill_in 'etd[supplemental_file_metadata][0]description', with: "Super Great Description"
+      select('Sound', from: 'etd[supplemental_file_metadata][0]file_type')
 
       sleep(10)
 
@@ -135,6 +135,8 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_content('magic_warrior_cat.jpg')
       expect(page).to have_content("Super Great Title")
       expect(page).to have_content("Super Great Description")
+      expect(page).to have_content("Sound")
+
       # My Embargoes
       expect(page).to have_content('Files and Table of Contents')
       expect(page).to have_content('6 months')
