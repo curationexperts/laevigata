@@ -35,7 +35,7 @@ RSpec.feature 'Create an Etd' do
       select 'PhD', from: 'Degree'
       select 'Dissertation', from: 'Submission Type'
 
-      fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
+      fill_in "etd[committee_chair_attributes][0][name][]", with: "Diane Arbus"
       fill_in "etd[committee_members_attributes][0][name][]", with: "Joan Didion"
 
       click_on("My ETD")
