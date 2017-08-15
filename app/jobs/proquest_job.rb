@@ -8,13 +8,14 @@ class ProquestJob < ActiveJob::Base
   # @param [ActiveFedora::Base] work - the work object
   def perform(work)
     @work = work
-    return unless ProquestJob.submit_to_proquest(@work)
+    return unless ProquestJob.submit_to_proquest?(@work)
     @xml = @work.export_proquest_xml
     # TODO: submit to ProQuest
-    # 1. Create a directory
-    # 2. Write XML file there
-    # 3. Write PDF and supplementary files there
-    # 4. Zip the directory
+    # 1. Create a directory. Done. See config/environments
+    # 2. Write XML file there Done.
+    # 3. Write PDF and supplementary files there. Done.
+    # 4. Zip the directory. Done. Tasks 1 - 4 encapsulated in export_zipped_proquest_package
+    @work.export_zipped_proquest_package
     # 5. Transmit the zip to ProQuest
     # 6. Send ProQuest an email notifying them of the transmission
     # 7. Record the transmission on the object

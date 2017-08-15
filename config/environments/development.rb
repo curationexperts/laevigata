@@ -1,6 +1,7 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-
+  config.registrar_data = ::Rails.root.join('spec', 'fixtures', 'registrar_sample.json')
+  config.proquest_export_directory = Rails.root.join('tmp', 'proquest_exports', 'dev')
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.

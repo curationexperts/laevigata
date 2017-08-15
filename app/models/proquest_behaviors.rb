@@ -1,19 +1,62 @@
+require 'fileutils'
+require 'loofah'
 require 'nokogiri'
+require 'open-uri'
+require 'sanitize'
+require 'zip'
+require 'zip/filesystem'
+
 module ProquestBehaviors
-  attr_accessor :path_to_registrar_data
-  # Given a ppid and a JSON file of registrar data, return the portion of the
-  # registrar data relevant to the user in question
+  attr_accessor :registrar_data
+  attr_accessor :export_directory
+
+  # Export a zipped directory of an ETD in the format expected by ProQuest
+  def export_zipped_proquest_package
+    FileUtils.mkdir_p Rails.configuration.proquest_export_directory
+    output_file = Rails.configuration.proquest_export_directory.join("#{export_id}.zip").to_s
+    Zip::File.open(output_file, Zip::File::CREATE) do |zip|
+      zip.dir.mkdir(export_id)
+      zip.file.open("#{export_id}/#{export_id}.xml", 'w') { |file| file.write(export_proquest_xml) }
+      members.each do |fs|
+        zip.file.open("#{export_id}/#{fs.label}", "wb") do |saved_file|
+          open(fs.files.first.uri, "rb") do |read_file|
+            saved_file.write(read_file.read)
+          end
+        end
+      end
+    end
+    Rails.logger.info "ProQuest package created: #{output_file}"
+  end
+
+  # Given a ppid, load the configured JSON file of registrar data, return the portion
+  # relevant to the user in question
   # @param [String] ppid
-  # @param [String] path_to_registrar_data
   # @return [Hash]
-  def load_registrar_data_for_user(ppid, path_to_registrar_data = @path_to_registrar_data)
-    registrar_hash = JSON.parse(File.read(path_to_registrar_data))
+  def load_registrar_data_for_user(ppid)
+    ppid = "P0000001" if Rails.env.development? # Otherwise it will never find registrar data for our fake users
+    registrar_hash = JSON.parse(File.read(Rails.configuration.registrar_data))
     @registrar_data = registrar_hash.select { |p| p.match(ppid) }.values.first
-    @registrar_data
+    return @registrar_data if @registrar_data
+    Rails.logger.error "FAILURE TO EXPORT PROQUEST PACKAGE: Cannot find registrar data for user #{ppid} etd #{id}"
+    raise "Cannot find registrar data for user #{ppid} etd #{id}"
   end
 
   def registrar_data
-    @registrar_data ||= load_registrar_data_for_user(depositor, @path_to_registrar_data)
+    @registrar_data ||= load_registrar_data_for_user(depositor)
+  end
+
+  def export_directory
+    @export_directory ||= make_export_directory
+  end
+
+  def export_id
+    creator.first.downcase.tr(',', '_').tr(' ', '').strip + '_' + id
+  end
+
+  def make_export_directory
+    dirname = Rails.configuration.proquest_export_directory.join(export_id)
+    FileUtils.mkdir_p dirname
+    dirname
   end
 
   def proquest_language
@@ -53,6 +96,26 @@ module ProquestBehaviors
     primary_pdf_fs.label
   end
 
+  # Given text output from tinymce, turn it into something ProQuest can handle
+  # @param [String] tinymce_output
+  # @return [String] proquest sanitized text
+  def mce_to_proquest(tinymce_output)
+    clean_html = Sanitize.clean(tinymce_output, elements: ['p', 'em', 'b', 'i'])
+
+    proquest_scrubber = Loofah::Scrubber.new do |node|
+      if node.name == "img" || node.name == "br"
+        node.remove
+        Loofah::Scrubber::STOP # don't bother with the rest of the subtree
+      end
+      node.name = "DISS_para" if node.name == "p"
+      node.name = "italic" if node.name == "em"
+      node.name = "italic" if node.name == "b"
+      node.name = "italic" if node.name == "i"
+    end
+    doc = Loofah.fragment(clean_html).scrub!(:whitewash).scrub!(proquest_scrubber)
+    CGI.unescapeHTML(doc.to_s)
+  end
+
   def export_proquest_xml
     @registrar_data = registrar_data
     lastname, firstname = creator.first.split(", ")
@@ -84,7 +147,7 @@ module ProquestBehaviors
             xml.DISS_comp_date proquest_diss_comp_date
             xml.DISS_accept_date proquest_diss_accept_date
           }
-          xml.DISS_degree degree.first
+          xml.DISS_degree "Ph.D."
           xml.DISS_institution {
             xml.DISS_inst_code "0665"
             xml.DISS_inst_name "Emory University"
@@ -121,10 +184,7 @@ module ProquestBehaviors
           }
         }
         xml.DISS_content {
-          # TODO: Format as ProQuest expects, with paragraph tags and translated emphasis tags
-          xml.DISS_abstract {
-            xml.DISS_para abstract.first
-          }
+          xml.DISS_abstract mce_to_proquest(abstract.first)
           xml.DISS_binary(primary_pdf_file_name, type: "PDF")
           members.select { |a| a.pcdm_use == "supplementary" }.each do |attachment|
             xml.DISS_attachment {
@@ -136,6 +196,6 @@ module ProquestBehaviors
         }
       }
     end
-    builder.to_xml
+    CGI.unescapeHTML(builder.to_xml)
   end
 end

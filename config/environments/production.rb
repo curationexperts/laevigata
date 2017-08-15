@@ -1,4 +1,7 @@
 Rails.application.configure do
+  # Where to write ProQuest export packages
+  config.proquest_export_directory = Rails.root.join('tmp', 'proquest_exports')
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.

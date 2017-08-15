@@ -20,6 +20,7 @@ gem 'jbuilder'
 gem 'jquery-rails'
 # mail pinned to specific version to address "SMTP INJECTION VIA TO/FROM ADDRESSES" vulnerability
 # See https://gemnasium.com/gems/mail
+gem 'loofah'
 gem 'mail', '2.6.6.rc1'
 gem 'omniauth-shibboleth', '~> 1.2', '>= 1.2.1'
 gem 'pg'
@@ -30,6 +31,8 @@ gem 'rails', '~> 5.0.2'
 gem 'resque-pool', github: 'nevans/resque-pool'
 gem 'resque-web', require: 'resque_web'
 gem 'rsolr', '~> 1.0'
+gem 'rubyzip'
+gem 'sanitize'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Need to constrain the version of Sinatra for resque-web, see https://github.com/sinatra/sinatra/issues/1055

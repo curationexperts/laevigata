@@ -4,7 +4,6 @@ require 'rails_helper'
 require 'active_fedora/cleaner'
 require 'workflow_setup'
 include Warden::Test::Helpers
-
 RSpec.describe Etd do
   let(:etd) { FactoryGirl.create(:ready_for_proquest_submission_phd) }
   context "ProQuest submission" do
@@ -16,16 +15,13 @@ RSpec.describe Etd do
     let(:file1_path) { "#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf" }
     let(:file2_path) { "#{::Rails.root}/spec/fixtures/miranda/image.tif" }
     let(:upload1) do
-      uploaded_file = ''
       File.open(file1_path) do |file1|
-        uploaded_file = Hyrax::UploadedFile.create(user: user, file: file1, pcdm_use: 'primary')
+        Hyrax::UploadedFile.create(user: user, file: file1, pcdm_use: 'primary')
       end
-      uploaded_file
     end
     let(:upload2) do
-      uploaded_file = ''
       File.open(file2_path) do |file2|
-        uploaded_file = Hyrax::UploadedFile.create(
+        Hyrax::UploadedFile.create(
           user: user,
           file: file2,
           pcdm_use: 'supplementary',
@@ -33,7 +29,6 @@ RSpec.describe Etd do
           file_type: 'Image'
         )
       end
-      uploaded_file
     end
     let(:actor) { Hyrax::CurationConcern.actor(etd, ability) }
     let(:attributes_for_actor) { { uploaded_files: [upload1.id, upload2.id] } }
@@ -63,9 +58,11 @@ RSpec.describe Etd do
     end
     it "exports well formed XML" do
       allow(etd).to receive(:depositor).and_return("P0000002")
-      etd.path_to_registrar_data = "#{fixture_path}/registrar_sample.json"
+      allow(etd).to receive(:abstract).and_return(Array.wrap(File.read("#{fixture_path}/proquest/tinymce_output.txt")))
       File.open(output_xml, 'w') { |file| file.write(etd.export_proquest_xml) }
       expect { Nokogiri::XML(etd.export_proquest_xml) }.not_to raise_error
+      doc = Nokogiri::XML(etd.export_proquest_xml)
+      expect(doc.xpath('//DISS_para').count).to be > 0
     end
     it "gets the page count of the primary PDF" do
       expect(etd.page_count).to eq "7"
@@ -73,7 +70,39 @@ RSpec.describe Etd do
     it "gets the primary pdf filename" do
       expect(etd.primary_pdf_file_name).to eq "joey_thesis.pdf"
     end
+    context "exporting packages" do
+      it "knows where to write exported proquest packages" do
+        expect(Rails.configuration.proquest_export_directory).to eq Rails.root.join('spec', 'fixtures', 'proquest', 'exports')
+      end
+      it "zips the exported directory" do
+        allow(etd).to receive(:depositor).and_return("P0000002")
+        etd.export_zipped_proquest_package
+        expect(File.exist?(Rails.configuration.proquest_export_directory.join("#{etd.export_id}.zip").to_s)).to eq true
+        File.delete(Rails.configuration.proquest_export_directory.join("#{etd.export_id}.zip").to_s)
+      end
+    end
   end
+
+  context "abstract formatting" do
+    it "transforms tinymce output into something proquest can handle" do
+      tinymce_output = File.read("#{fixture_path}/proquest/tinymce_output.txt")
+      doc = etd.mce_to_proquest(tinymce_output)
+      expect(doc).not_to match(/textarea/)
+      expect(doc).not_to match(/h1/)
+      expect(doc).not_to match(/h2/)
+      expect(doc).not_to match(/h3/)
+      expect(doc).not_to match(/h4/)
+      expect(doc).not_to match(/h5/)
+      expect(doc).not_to match(/text-align/)
+      expect(doc).not_to match(/img/)
+      expect(doc).not_to match(/<br/)
+      expect(doc).not_to match(/span/)
+      expect(doc).to match(/DISS_para/)
+      expect(doc).to match(/italic/)
+      expect(doc).to match(/This is an abstract./)
+    end
+  end
+
   context "Language codes" do
     it "transforms a language string into a ProQuest expected language code" do
       etd.language = ["English"]
@@ -84,6 +113,7 @@ RSpec.describe Etd do
       expect(etd.proquest_language).to eq "SP"
     end
   end
+
   context "proquest submission type" do
     it "returns either 'masters' or 'doctoral'" do
       etd.submitting_type = ["Master's Thesis"]
@@ -92,11 +122,13 @@ RSpec.describe Etd do
       expect(etd.proquest_submission_type).to eq "doctoral"
     end
   end
+
   context "DISS_accept_date" do
     it "formats the degree awarded date as expected" do
       expect(etd.proquest_diss_accept_date).to eq etd.degree_awarded.strftime("%d/%m/%Y")
     end
   end
+
   context "ProQuest research field" do
     it "associates research codes" do
       expect(etd.proquest_code("Artificial Intelligence")).to eq "0800"
@@ -104,9 +136,10 @@ RSpec.describe Etd do
       expect(etd.proquest_code("Folklore")).to eq "0358"
     end
   end
+
   context "registrar data" do
     it "can load registrar data from a configurable location" do
-      registrar_data = etd.load_registrar_data_for_user("P0000001", "#{fixture_path}/registrar_sample.json")
+      registrar_data = etd.load_registrar_data_for_user("P0000001")
       expect(registrar_data["home address 1"]).to eq "123 Fake St"
     end
   end
