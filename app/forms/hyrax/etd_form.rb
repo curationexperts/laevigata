@@ -86,11 +86,11 @@ module Hyrax
     delegate :committee_members_attributes=, to: :model
     delegate :committee_chair_attributes=, to: :model
 
-    # We need to call ".to_a" on committee_members to force it
+    # We need to call '.to_a' on committee_members to force it
     # to resolve.  Otherwise in the form, the fields don't
     # display the committee member's name and affiliation.
     # Instead they display something like:
-    # "#<ActiveTriples::Relation:0x007fb564969c88>"
+    # '#<ActiveTriples::Relation:0x007fb564969c88>'
     def committee_members
       model.committee_members.build if model.committee_members.blank?
       model.committee_members.to_a
