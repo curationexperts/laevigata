@@ -1,4 +1,10 @@
 GIT
+  remote: https://github.com/curationexperts/clamby.git
+  revision: 12500be8399c5a73b3c84627d7db532b90299fe5
+  specs:
+    clamby (1.2.4)
+
+GIT
   remote: https://github.com/nevans/resque-pool.git
   revision: ec81c92df41ecdbdecaea55863964baf3e9e03ad
   specs:
@@ -886,6 +892,7 @@ DEPENDENCIES
   capybara
   capybara-screenshot
   capybara-webkit
+  clamby!
   coffee-rails
   coveralls
   database_cleaner

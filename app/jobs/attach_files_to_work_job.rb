@@ -24,6 +24,14 @@ class AttachFilesToWorkJob < ActiveJob::Base
       file_set.save
       uploaded_file.update(file_set_uri: file_set.uri)
     end
+  rescue ActiveFedora::RecordInvalid => e
+    # If the file set cannot be saved because a virus was encountered,
+    # delete the file and notify the depositor and approvers
+    raise e unless e.to_s =~ /virus/
+    Rails.logger.error "Virus encountered while processing work #{work.id}."
+    work_global_id = work.to_global_id.to_s
+    entity = Sipity::Entity.where(proxy_for_global_id: work_global_id).first
+    Hyrax::Workflow::VirusEncounteredNotification.send_notification(entity: entity, comment: '', user: ::User.where(ppid: WorkflowSetup::NOTIFICATION_OWNER).first, recipients: nil)
   end
 
   private
