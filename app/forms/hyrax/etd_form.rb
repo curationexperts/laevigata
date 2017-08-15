@@ -37,7 +37,7 @@ module Hyrax
     self.terms += [:abstract_embargoed]
     self.terms += [:toc_embargoed]
 
-    self.single_valued_fields = [:title, :creator, :post_graduation_email, :submitting_type, :graduation_date, :degree, :subfield, :department, :school, :language]
+    self.single_valued_fields = [:title, :creator, :post_graduation_email, :submitting_type, :graduation_date, :degree, :subfield, :department, :school, :language, :abstract, :table_of_contents]
 
     def about_me_fields
       [:creator, :graduation_date, :post_graduation_email]

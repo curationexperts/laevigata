@@ -121,8 +121,8 @@ RSpec.feature 'Create an Etd' do
       # Verify metadata from 'My ETD' tab
       expect(page).to have_content title
       expect(page).to have_content 'Language English'
-      # TODO: Test abstract
-      # TODO: Test table of contents
+      expect(page).to have_content 'Abstract <p>Literature from the US</p>'
+      expect(page).to have_content 'Table of Contents <p>Chapter One</p>'
       expect(page).to have_content 'Research field Aeronomy'
       expect(page).to have_content 'Keyword key1'
       expect(etd.copyright_question_one).to eq 'false'
