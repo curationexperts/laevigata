@@ -140,9 +140,7 @@ namespace :sample_data do
     puts "Created #{etd.id}"
   end
 
-  desc "Build sample data to demo ProQuest submission"
-  task :proquest_demo do
-    puts "Making ProQuest ready data"
+  def proquest_demo
     etd = FactoryGirl.create(:ready_for_proquest_submission_phd)
     etd.assign_admin_set
     user = User.where(ppid: etd.depositor).first
@@ -170,7 +168,23 @@ namespace :sample_data do
     Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "Preapproved")
     etd.state = Vocab::FedoraResourceStatus.active # simulates GraduationJob
     etd.save
+    etd
+  end
+
+  desc "Build sample data to demo ProQuest submission"
+  task :proquest_demo do
+    puts "Making ProQuest ready data"
+    etd = proquest_demo
     puts "Created #{etd.id}"
+  end
+
+  desc "Export sample ProQuest package"
+  task :proquest_export do
+    puts "Exporting sample ProQuest package"
+    etd = proquest_demo
+    ProquestJob.perform_now(etd)
+    export_location = Rails.configuration.proquest_export_directory.join("#{etd.export_id}.zip").to_s
+    puts "ProQuest sample exported to #{export_location}"
   end
 
   desc "Build sample data to demo embargo expiration service"

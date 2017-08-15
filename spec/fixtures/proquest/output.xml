@@ -3,12 +3,12 @@
   <DISS_authorship>
     <DISS_author type="primary">
       <DISS_name>
-        <DISS_surname>Graham</DISS_surname>
-        <DISS_fname>Caitlin</DISS_fname>
+        <DISS_surname>Schowalter</DISS_surname>
+        <DISS_fname>Tuan</DISS_fname>
         <DISS_affiliation>Divinity</DISS_affiliation>
       </DISS_name>
       <DISS_contact type="future">
-        <DISS_contact_effdt>08/13/2017</DISS_contact_effdt>
+        <DISS_contact_effdt>08/15/2017</DISS_contact_effdt>
         <DISS_address>
           <DISS_addrline>321 Ash Way</DISS_addrline>
           <DISS_city>Atlanta</DISS_city>
@@ -16,15 +16,15 @@
           <DISS_pcode>30301</DISS_pcode>
           <DISS_country>United States</DISS_country>
         </DISS_address>
-        <DISS_email>gerry_parker@pollich.ca</DISS_email>
+        <DISS_email>inez.okon@gottliebbruen.info</DISS_email>
       </DISS_contact>
     </DISS_author>
   </DISS_authorship>
-  <DISS_description external_id="sj139192w" page_count="7" type="doctoral" apply_for_copyright="no">
-    <DISS_title>ProQuest PhD: Journey of the Fake Friday</DISS_title>
+  <DISS_description external_id="mp48sc763" page_count="7" type="doctoral" apply_for_copyright="no">
+    <DISS_title>ProQuest PhD: Red Wizard</DISS_title>
     <DISS_dates>
       <DISS_comp_date>2017</DISS_comp_date>
-      <DISS_accept_date>06/08/2017</DISS_accept_date>
+      <DISS_accept_date>08/08/2017</DISS_accept_date>
     </DISS_dates>
     <DISS_degree>Ph.D.</DISS_degree>
     <DISS_institution>
@@ -34,49 +34,73 @@
     </DISS_institution>
     <DISS_advisor>
       <DISS_name>
-        <DISS_surname>Block</DISS_surname>
-        <DISS_fname>Mariette</DISS_fname>
-        <DISS_affiliation>Maryland International Academy</DISS_affiliation>
+        <DISS_surname>Lakin</DISS_surname>
+        <DISS_fname>Marlyn</DISS_fname>
+        <DISS_affiliation>Southville University</DISS_affiliation>
       </DISS_name>
     </DISS_advisor>
     <DISS_cmte_member>
       <DISS_name>
-        <DISS_surname>Durgan</DISS_surname>
-        <DISS_fname>Towanda</DISS_fname>
-        <DISS_affiliation>Nebraska University of Architecture</DISS_affiliation>
+        <DISS_surname>Batz</DISS_surname>
+        <DISS_fname>Israel</DISS_fname>
+        <DISS_affiliation>College of Alaska</DISS_affiliation>
       </DISS_name>
     </DISS_cmte_member>
     <DISS_cmte_member>
       <DISS_name>
-        <DISS_surname>Zboncak</DISS_surname>
-        <DISS_fname>Catherina</DISS_fname>
-        <DISS_affiliation>Redspur Global College</DISS_affiliation>
+        <DISS_surname>Hudson</DISS_surname>
+        <DISS_fname>Norine</DISS_fname>
+        <DISS_affiliation>College of Oklahoma</DISS_affiliation>
       </DISS_name>
     </DISS_cmte_member>
     <DISS_categorization>
       <DISS_category>
-        <DISS_cat_code>0385</DISS_cat_code>
-        <DISS_cat_desc>Canadian Studies</DISS_cat_desc>
+        <DISS_cat_code>0800</DISS_cat_code>
+        <DISS_cat_desc>Artificial Intelligence</DISS_cat_desc>
       </DISS_category>
       <DISS_category>
         <DISS_cat_code>0358</DISS_cat_code>
         <DISS_cat_desc>Folklore</DISS_cat_desc>
       </DISS_category>
       <DISS_category>
-        <DISS_cat_code>0800</DISS_cat_code>
-        <DISS_cat_desc>Artificial Intelligence</DISS_cat_desc>
+        <DISS_cat_code>0385</DISS_cat_code>
+        <DISS_cat_desc>Canadian Studies</DISS_cat_desc>
       </DISS_category>
-      <DISS_keyword>Industrial Arts</DISS_keyword>
-      <DISS_keyword>Marketing Economics</DISS_keyword>
-      <DISS_keyword>Marketing Administration</DISS_keyword>
+      <DISS_keyword>Business Arts</DISS_keyword>
+      <DISS_keyword>Political Production</DISS_keyword>
+      <DISS_keyword>Marketing Philosophy</DISS_keyword>
       <DISS_ISBN/>
       <DISS_language>EN</DISS_language>
     </DISS_categorization>
   </DISS_description>
   <DISS_content>
-    <DISS_abstract>
-      <DISS_para>Vel rerum non error iste. Labore sit explicabo eligendi accusantium nihil sunt consequatur iste. Necessitatibus et maxime facilis inventore doloremque quis. Et similique quia a voluptatum voluptatem voluptate magnam.</DISS_para>
-    </DISS_abstract>
+    <DISS_abstract><DISS_para>This is an abstract.<italic>&#xA0;</italic><italic>It will
+            contain bold and italic text.&#xA0;</italic></DISS_para>\r\n<DISS_para>Contrary
+            to popular belief, Lorem Ipsum is not simply random text.
+        </DISS_para>\r\n<DISS_para><italic>Underlined text.&#xA0;</italic>It has
+            roots in a piece of classical Latin literature from 45 BC, making it over 2000 years
+            old. </DISS_para>\r\n<DISS_para>Some will
+        contain superscript: Richard McClintock, a Latin professor at Hampden-Sydney
+            College in Virginia, looked up one of the more obscure Latin words,
+        consectetur, from a Lorem Ipsum passage, and going through the cites of the word in
+        classical literature, discovered the undoubtable source. </DISS_para>\r\n<DISS_para>Some will
+        contain subscript:&#xA0;Lorem
+            Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum"
+            (The Extremes of Good and Evil) by Cicero, written in 45 BC.
+        </DISS_para>\r\n<DISS_para>Some will
+        contain strikethroughs:&#xA0;This book
+            is a treatise on the theory of ethics, very popular during the Renaissance. The
+            first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in
+            section 1.10.32.</DISS_para>\r\n<DISS_para>Some will be
+        in code:&#xA0;</DISS_para>\r\n<DISS_para>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for
+        those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by
+        Cicero are also reproduced in their exact original form, accompanied by English versions
+        from the 1914 translation by H. Rackham.</DISS_para>\r\n<DISS_para>Some will be in blockquotes:</DISS_para>\r\n \r\n<DISS_para>There are many variations of passages of Lorem Ipsum available, but the majority have
+        suffered alteration in some form, by injected humour, or randomised words which don't
+        look even slightly believable.</DISS_para>\r\n \r\n<DISS_para>&#xA0;</DISS_para>\r\n<DISS_para>Some will have muiltple styles applied:<italic> If you are going to use</italic> a
+    passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing
+            hidden in the middle of text.</DISS_para>\r\n<DISS_para>&#xA0;</DISS_para>\r\n<DISS_para>&#xA0;</DISS_para>
+</DISS_abstract>
     <DISS_binary type="PDF">joey_thesis.pdf</DISS_binary>
     <DISS_attachment>
       <DISS_file_name>image.tif</DISS_file_name>
