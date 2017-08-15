@@ -17,6 +17,7 @@
 fits.log
 !/log/.keep
 !/tmp/.keep
+spec/fixtures/proquest/output.xml
 
 # Ignore Byebug command history file.
 .byebug_history
