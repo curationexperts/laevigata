@@ -122,6 +122,13 @@ module Hyrax
       keys.each do |field_name|
         attrs[field_name].each do |member_key, member_attrs|
           aff_type = attrs[field_name][member_key].delete 'affiliation_type'
+
+          names = attrs[field_name][member_key]['name'] || []
+          netids = attrs[field_name][member_key]['netid'] || []
+          names_blank = names.all?(&:blank?)
+          netids_blank = netids.all?(&:blank?)
+          next if names_blank && netids_blank
+
           if member_attrs['affliation'].blank? && aff_type && aff_type.start_with?('Emory')
             attrs[field_name][member_key]['affiliation'] = ['Emory University']
           end
