@@ -28,7 +28,7 @@ RSpec.feature 'Primary PDF' do
         page.attach_file('primary_files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
       end
 
-      expect(page).not_to have_content('The Primary PDF must be a file in the .pdf fomat.')
+      expect(page).not_to have_content('The Primary PDF must be a file in the .pdf format.')
       expect(page).to have_css('li#required-files.complete')
     end
   end
