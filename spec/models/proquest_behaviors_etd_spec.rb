@@ -58,8 +58,11 @@ RSpec.describe Etd do
     end
     it "exports well formed XML" do
       allow(etd).to receive(:depositor).and_return("P0000002")
+      allow(etd).to receive(:abstract).and_return(Array.wrap(File.read("#{fixture_path}/proquest/tinymce_output.txt")))
       File.open(output_xml, 'w') { |file| file.write(etd.export_proquest_xml) }
       expect { Nokogiri::XML(etd.export_proquest_xml) }.not_to raise_error
+      doc = Nokogiri::XML(etd.export_proquest_xml)
+      expect(doc.xpath('//DISS_para').count).to be > 0
     end
     it "gets the page count of the primary PDF" do
       expect(etd.page_count).to eq "7"
@@ -77,6 +80,26 @@ RSpec.describe Etd do
         expect(File.exist?(Rails.configuration.proquest_export_directory.join("#{etd.export_id}.zip").to_s)).to eq true
         File.delete(Rails.configuration.proquest_export_directory.join("#{etd.export_id}.zip").to_s)
       end
+    end
+  end
+
+  context "abstract formatting" do
+    it "transforms tinymce output into something proquest can handle" do
+      tinymce_output = File.read("#{fixture_path}/proquest/tinymce_output.txt")
+      doc = etd.mce_to_proquest(tinymce_output)
+      expect(doc).not_to match(/textarea/)
+      expect(doc).not_to match(/h1/)
+      expect(doc).not_to match(/h2/)
+      expect(doc).not_to match(/h3/)
+      expect(doc).not_to match(/h4/)
+      expect(doc).not_to match(/h5/)
+      expect(doc).not_to match(/text-align/)
+      expect(doc).not_to match(/img/)
+      expect(doc).not_to match(/<br/)
+      expect(doc).not_to match(/span/)
+      expect(doc).to match(/DISS_para/)
+      expect(doc).to match(/italic/)
+      expect(doc).to match(/This is an abstract./)
     end
   end
 

@@ -8,7 +8,7 @@ class ProquestJob < ActiveJob::Base
   # @param [ActiveFedora::Base] work - the work object
   def perform(work)
     @work = work
-    return unless ProquestJob.submit_to_proquest(@work)
+    return unless ProquestJob.submit_to_proquest?(@work)
     @xml = @work.export_proquest_xml
     # TODO: submit to ProQuest
     # 1. Create a directory. Done. See config/environments

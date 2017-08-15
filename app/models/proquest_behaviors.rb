@@ -1,6 +1,8 @@
-require 'nokogiri'
 require 'fileutils'
+require 'loofah'
+require 'nokogiri'
 require 'open-uri'
+require 'sanitize'
 require 'zip'
 require 'zip/filesystem'
 
@@ -31,6 +33,7 @@ module ProquestBehaviors
   # @param [String] ppid
   # @return [Hash]
   def load_registrar_data_for_user(ppid)
+    ppid = "P0000001" if Rails.env.development? # Otherwise it will never find registrar data for our fake users
     registrar_hash = JSON.parse(File.read(Rails.configuration.registrar_data))
     @registrar_data = registrar_hash.select { |p| p.match(ppid) }.values.first
     return @registrar_data if @registrar_data
@@ -91,6 +94,26 @@ module ProquestBehaviors
   def primary_pdf_file_name
     primary_pdf_fs = members.select { |a| a.pcdm_use == "primary" }.first
     primary_pdf_fs.label
+  end
+
+  # Given text output from tinymce, turn it into something ProQuest can handle
+  # @param [String] tinymce_output
+  # @return [String] proquest sanitized text
+  def mce_to_proquest(tinymce_output)
+    clean_html = Sanitize.clean(tinymce_output, elements: ['p', 'em', 'b', 'i'])
+
+    proquest_scrubber = Loofah::Scrubber.new do |node|
+      if node.name == "img" || node.name == "br"
+        node.remove
+        Loofah::Scrubber::STOP # don't bother with the rest of the subtree
+      end
+      node.name = "DISS_para" if node.name == "p"
+      node.name = "italic" if node.name == "em"
+      node.name = "italic" if node.name == "b"
+      node.name = "italic" if node.name == "i"
+    end
+    doc = Loofah.fragment(clean_html).scrub!(:whitewash).scrub!(proquest_scrubber)
+    CGI.unescapeHTML(doc.to_s)
   end
 
   def export_proquest_xml
@@ -161,10 +184,7 @@ module ProquestBehaviors
           }
         }
         xml.DISS_content {
-          # TODO: Format as ProQuest expects, with paragraph tags and translated emphasis tags
-          xml.DISS_abstract {
-            xml.DISS_para abstract.first
-          }
+          xml.DISS_abstract mce_to_proquest(abstract.first)
           xml.DISS_binary(primary_pdf_file_name, type: "PDF")
           members.select { |a| a.pcdm_use == "supplementary" }.each do |attachment|
             xml.DISS_attachment {
@@ -176,6 +196,6 @@ module ProquestBehaviors
         }
       }
     end
-    builder.to_xml
+    CGI.unescapeHTML(builder.to_xml)
   end
 end
