@@ -3,12 +3,12 @@
   <DISS_authorship>
     <DISS_author type="primary">
       <DISS_name>
-        <DISS_surname>Quitzon</DISS_surname>
-        <DISS_fname>Heidy</DISS_fname>
+        <DISS_surname>Graham</DISS_surname>
+        <DISS_fname>Caitlin</DISS_fname>
         <DISS_affiliation>Divinity</DISS_affiliation>
       </DISS_name>
       <DISS_contact type="future">
-        <DISS_contact_effdt>08/11/2017</DISS_contact_effdt>
+        <DISS_contact_effdt>08/13/2017</DISS_contact_effdt>
         <DISS_address>
           <DISS_addrline>321 Ash Way</DISS_addrline>
           <DISS_city>Atlanta</DISS_city>
@@ -16,17 +16,17 @@
           <DISS_pcode>30301</DISS_pcode>
           <DISS_country>United States</DISS_country>
         </DISS_address>
-        <DISS_email>lai@gleason.name</DISS_email>
+        <DISS_email>gerry_parker@pollich.ca</DISS_email>
       </DISS_contact>
     </DISS_author>
   </DISS_authorship>
-  <DISS_description external_id="08612n52b" page_count="7" type="doctoral" apply_for_copyright="no">
-    <DISS_title>ProQuest PhD: Death Monster</DISS_title>
+  <DISS_description external_id="sj139192w" page_count="7" type="doctoral" apply_for_copyright="no">
+    <DISS_title>ProQuest PhD: Journey of the Fake Friday</DISS_title>
     <DISS_dates>
       <DISS_comp_date>2017</DISS_comp_date>
-      <DISS_accept_date>04/08/2017</DISS_accept_date>
+      <DISS_accept_date>06/08/2017</DISS_accept_date>
     </DISS_dates>
-    <DISS_degree>PhD</DISS_degree>
+    <DISS_degree>Ph.D.</DISS_degree>
     <DISS_institution>
       <DISS_inst_code>0665</DISS_inst_code>
       <DISS_inst_name>Emory University</DISS_inst_name>
@@ -34,48 +34,48 @@
     </DISS_institution>
     <DISS_advisor>
       <DISS_name>
-        <DISS_surname>Parisian</DISS_surname>
-        <DISS_fname>Bernie</DISS_fname>
-        <DISS_affiliation>University of Lakefield</DISS_affiliation>
+        <DISS_surname>Block</DISS_surname>
+        <DISS_fname>Mariette</DISS_fname>
+        <DISS_affiliation>Maryland International Academy</DISS_affiliation>
       </DISS_name>
     </DISS_advisor>
     <DISS_cmte_member>
       <DISS_name>
-        <DISS_surname>Reilly</DISS_surname>
-        <DISS_fname>Sara</DISS_fname>
-        <DISS_affiliation>Greenspur College of Architecture</DISS_affiliation>
+        <DISS_surname>Durgan</DISS_surname>
+        <DISS_fname>Towanda</DISS_fname>
+        <DISS_affiliation>Nebraska University of Architecture</DISS_affiliation>
       </DISS_name>
     </DISS_cmte_member>
     <DISS_cmte_member>
       <DISS_name>
-        <DISS_surname>Cronin</DISS_surname>
-        <DISS_fname>Shannon</DISS_fname>
-        <DISS_affiliation>Southfield College</DISS_affiliation>
+        <DISS_surname>Zboncak</DISS_surname>
+        <DISS_fname>Catherina</DISS_fname>
+        <DISS_affiliation>Redspur Global College</DISS_affiliation>
       </DISS_name>
     </DISS_cmte_member>
     <DISS_categorization>
       <DISS_category>
-        <DISS_cat_code>0800</DISS_cat_code>
-        <DISS_cat_desc>Artificial Intelligence</DISS_cat_desc>
+        <DISS_cat_code>0385</DISS_cat_code>
+        <DISS_cat_desc>Canadian Studies</DISS_cat_desc>
       </DISS_category>
       <DISS_category>
         <DISS_cat_code>0358</DISS_cat_code>
         <DISS_cat_desc>Folklore</DISS_cat_desc>
       </DISS_category>
       <DISS_category>
-        <DISS_cat_code>0385</DISS_cat_code>
-        <DISS_cat_desc>Canadian Studies</DISS_cat_desc>
+        <DISS_cat_code>0800</DISS_cat_code>
+        <DISS_cat_desc>Artificial Intelligence</DISS_cat_desc>
       </DISS_category>
-      <DISS_keyword>Systems Studies</DISS_keyword>
-      <DISS_keyword>Medical Production</DISS_keyword>
-      <DISS_keyword>Marketing Education</DISS_keyword>
+      <DISS_keyword>Industrial Arts</DISS_keyword>
+      <DISS_keyword>Marketing Economics</DISS_keyword>
+      <DISS_keyword>Marketing Administration</DISS_keyword>
       <DISS_ISBN/>
       <DISS_language>EN</DISS_language>
     </DISS_categorization>
   </DISS_description>
   <DISS_content>
     <DISS_abstract>
-      <DISS_para>Sed dolores id dicta ea cum est et facere. Dignissimos repudiandae alias numquam temporibus. Omnis modi nobis id est enim aut sed. Itaque et repellendus adipisci quibusdam facere.</DISS_para>
+      <DISS_para>Vel rerum non error iste. Labore sit explicabo eligendi accusantium nihil sunt consequatur iste. Necessitatibus et maxime facilis inventore doloremque quis. Et similique quia a voluptatum voluptatem voluptate magnam.</DISS_para>
     </DISS_abstract>
     <DISS_binary type="PDF">joey_thesis.pdf</DISS_binary>
     <DISS_attachment>
