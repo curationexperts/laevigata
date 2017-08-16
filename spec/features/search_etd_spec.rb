@@ -8,9 +8,19 @@ RSpec.feature 'Search for an ETD' do
       subfield: ["Political Robotics"],
       date_uploaded: DateTime.current,
       submitting_type: ["Master's Thesis"],
-      degree: ["M.S."]
+      degree: ["M.S."],
+      committee_members_attributes: cm_attrs,
+      committee_chair_attributes: cc_attrs,
+      keyword: ['key1', 'key2']
     )
   end
+
+  let(:cm_attrs) do
+    [{ name: 'Jackson, Henrietta' },
+     { name: 'Matsumoto, Yukihiro' }]
+  end
+
+  let(:cc_attrs) { [{ name: 'Yurchenko, Alice' }] }
 
   context 'a logged in user' do
     let(:user) { User.where(ppid: etd.depositor).first }
@@ -48,6 +58,13 @@ RSpec.feature 'Search for an ETD' do
       expect(page).to have_link(etd.submitting_type.first, class: "facet_select")
       expect(page).to have_xpath("//h3", text: "Research Field")
       expect(page).to have_link(etd.subfield.first, class: "facet_select")
+      expect(page).to have_xpath("//h3", text: "Committee")
+      expect(page).to have_link('Jackson, Henrietta', class: "facet_select")
+      expect(page).to have_link('Matsumoto, Yukihiro', class: "facet_select")
+      expect(page).to have_link('Yurchenko, Alice', class: "facet_select")
+      expect(page).to have_xpath("//h3", text: "Keyword")
+      expect(page).to have_link('key1', class: "facet_select")
+      expect(page).to have_link('key2', class: "facet_select")
     end
   end
 end

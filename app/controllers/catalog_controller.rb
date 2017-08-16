@@ -51,6 +51,9 @@ class CatalogController < ApplicationController
     # It's used to give a label to the filter that comes from the user profile
     config.add_facet_field solr_name("generic_type", :facetable), label: "Type", if: false
 
+    config.add_facet_field solr_name("committee_names", :facetable), label: "Committee"
+    config.add_facet_field solr_name("keyword", :facetable), label: "Keyword"
+
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
     # handler defaults, or have no facets.
