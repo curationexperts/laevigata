@@ -5,8 +5,12 @@ class Etd < ActiveFedora::Base
   include ::Hyrax::WorkBehavior
   include ::Hyrax::BasicMetadata
   include ::ProquestBehaviors
+
   # Change this to restrict which works can be added as a child.
   # self.valid_child_concerns = []
+
+  self.indexer = EtdIndexer
+
   validates :title, presence: { message: 'Your work must have a title.' }
   validates :research_field, length: { maximum: 3 }
   self.human_readable_type = 'ETD'

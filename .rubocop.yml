@@ -58,6 +58,9 @@ Layout/AlignParameters:
   Exclude:
     - 'app/models/etd.rb'
 
+Layout/ClosingParenthesisIndentation:
+  Enabled: false
+
 RSpec/InstanceVariable:
   Enabled: false
 
