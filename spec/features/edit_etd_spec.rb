@@ -33,8 +33,8 @@ RSpec.feature 'Edit an Etd' do
       select 'Spring 2018', from: 'Graduation Date'
       fill_in 'Post Graduation Email', with: 'frodo@example.com'
       select 'Emory College', from: 'School'
-      select 'Religion', from: 'Department'
-      select 'Ethics and Society', from: 'Sub Field'
+      select 'Biology', from: 'Department'
+      select 'Genetics and Molecular Biology', from: 'Sub Field'
       select 'PhD', from: 'Degree'
       select 'Dissertation', from: 'Submission Type'
       fill_in 'etd[committee_chair_attributes][0]_name', with: 'Fred'
@@ -106,11 +106,12 @@ RSpec.feature 'Edit an Etd' do
       click_on('Edit')
 
       # Verify correct Department and Sub Fields are selected and not disabled
-      expect(find('#etd_department').value).to eq 'Religion'
-      expect(find('#etd_subfield').value).to eq 'Ethics and Society'
+      expect(find('#etd_department').value).to eq 'Biology'
+      expect(find('#etd_subfield').value).to eq 'Genetics and Molecular Biology'
       expect(find('#etd_department')).not_to be_disabled
       expect(find('#etd_subfield')).not_to be_disabled
     end
+
     scenario "Edit a new ETD's department", js: true do
       # expect 'About Me' department and subfield to be disabled, as they are dynamically supplied by student's school choice
       expect(find('#etd_department')).to be_disabled
