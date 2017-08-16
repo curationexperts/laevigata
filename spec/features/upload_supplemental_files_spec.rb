@@ -13,7 +13,7 @@ RSpec.feature 'Supplemental files' do
       logout
     end
 
-    scenario "Supplemental Files Content", js: true do
+    scenario "Supplemental Files Content", js: true unless continuous_integration? do
       click_on('Supplemental Files')
       expect(page).to have_content('I have no supplemental files.')
       expect(page).to have_content('Add Supplementary files...')
@@ -67,7 +67,7 @@ RSpec.feature 'Supplemental files' do
       expect(page).to have_content('Duplicate found. This file has already been uploaded.')
     end
 
-    scenario "Students can submit metadata for each of their supplemental files", js: true do
+    scenario "Students can submit metadata for each of their supplemental files", js: true unless continuous_integration? do
       click_on('Supplemental Files')
 
       within('#supplemental_fileupload') do
@@ -83,7 +83,7 @@ RSpec.feature 'Supplemental files' do
       expect(page).to have_content('File Name')
     end
 
-    scenario "Adding more files is not allowed after students have begun entering metadata", js: true do
+    scenario "Adding more files is not allowed after students have begun entering metadata", js: true unless continuous_integration? do
       click_on('Supplemental Files')
 
       within('#supplemental_fileupload') do
@@ -105,6 +105,22 @@ RSpec.feature 'Supplemental files' do
       sleep(5)
 
       expect(find("#supplemental_files_uploader")).not_to be_disabled
+    end
+
+    scenario "checking 'no files' after uploading a few and entering metadata hides the files and metadata form", js: true unless continuous_integration? do
+      click_on('Supplemental Files')
+
+      within('#supplemental_fileupload') do
+        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
+      end
+
+      click_on('Show Additional Metadata')
+      sleep(10) # ugly but works
+
+      check('etd_no_supplemental_files')
+
+      expect(page).not_to have_content('magic_warrior_cat.jpg')
+      expect(page).not_to have_content('File Name')
     end
 
     scenario "deleting a file removes its metadata content", js: true do

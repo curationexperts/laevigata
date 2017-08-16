@@ -43,7 +43,7 @@ RSpec.feature 'Create an Etd: My Etd' do
       expect(page).to have_css 'li#required-my-etd.complete'
     end
 
-    scenario "manages limit of 3 research fields", js: true do
+    scenario "manages limit of 3 research fields", js: true unless continuous_integration? do
       click_on("My ETD")
       expect(page).to have_content('Select at least one, but no more than three,' \
       ' research fields that best describe your work. List your primary field first.' \
