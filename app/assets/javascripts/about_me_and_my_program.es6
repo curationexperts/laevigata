@@ -57,12 +57,17 @@ export default class AboutMeAndMyProgram {
 
       // same 'etd_committee_members_affiliation' class used for both containing divs
       var $affiliation_input = $new_row.find('div.etd_committee_members_affiliation input');
-      var affiliation_name = $affiliation_input.prop('name')
+      var $affiliation_type_input = $new_row.find('div.etd_committee_members_affiliation_type select');
+
+      var affiliation_name = $affiliation_input.prop('name');
+      var affiliation_type_name = $affiliation_type_input.prop('name');
 
       var new_affiliation_name = affiliation_name.replace(/\d/, current_index);
+      var new_affiliation_type_name = affiliation_type_name.replace(/\d/, current_index);
 
       // we are adding the index to the element's name, which the back end will use to keep track of each member.
       $affiliation_input.prop('name', new_affiliation_name);
+      $affiliation_type_input.prop('name', new_affiliation_type_name);
 
       var $name_input = $new_row.find('div.member-name input');
 

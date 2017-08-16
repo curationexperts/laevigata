@@ -32,6 +32,7 @@
       <%= f.select_tag "affiliation_type",
         options_for_select(@form.cc_affiliation_options, @form.cm_affiliation_options[0]),
         required: false,
+        name: "etd[committee_chair_attributes][#{chair_index}][affiliation_type]",
         class: 'form-control committee-chair-select' %>
     </div>
 
