@@ -2,12 +2,11 @@
 # 1. Checks the repository for works in the `approved` workflow state but which have no `degree_awarded` value
 # 2. For each of these works, query the registrar data to see if the student has graduated
 # 3. If so, call GraduationJob for the given work and the graduation_date returned by registrar data
-# @param [String] The path to the data JSON file. Uses an environment variable if defined.
+# @param [String] The path to the data JSON file. Defaults to the location given in config/secrets.yml
 # @example How to call this service
 #  GraduationService.run('./sample/data.json')
 class GraduationService
-  # TODO: env var
-  def self.run(path_to_data = './spec/fixtures/registrar_sample.json')
+  def self.run(path_to_data = Rails.application.secrets.registrar_data_path)
     GraduationService.load_data(path_to_data)
     GraduationService.graduation_eligible_works.each do |work|
       degree_awarded_date = GraduationService.check_degree_status(work)
