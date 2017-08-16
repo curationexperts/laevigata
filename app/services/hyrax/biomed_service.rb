@@ -1,7 +1,7 @@
 module Hyrax
   class BiomedService < Hyrax::QaSelectService
     def initialize
-      super('biological_programs')
+      super('biology_programs')
     end
   end
 end
