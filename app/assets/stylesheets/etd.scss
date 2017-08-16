@@ -106,3 +106,9 @@ table#uploaded_pdf th, table#uploaded_supplemental_files th {
 table#uploaded_pdf tr.template-download {
   background-color: #f9f9f9;
 }
+
+// override an emory style for metadata form
+// that makes inputs too large
+div#supplemental_fileupload table#supplemental_files_metadata input{
+  transform: scale(1);
+}
