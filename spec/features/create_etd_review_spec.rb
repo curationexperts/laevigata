@@ -36,6 +36,8 @@ RSpec.feature 'Create an Etd' do
       select 'Dissertation', from: 'Submission Type'
 
       fill_in "etd[committee_chair_attributes][0][name][]", with: "Diane Arbus"
+      select 'Non-Emory Committee Member', from: "etd_committee_members_attributes_0_affiliation_type"
+      fill_in "etd[committee_members_attributes][0]_affiliation", with: "NASA"
       fill_in "etd[committee_members_attributes][0][name][]", with: "Joan Didion"
 
       click_on("My ETD")
@@ -115,9 +117,8 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_content('Ph.D.')
       expect(page).to have_content('Dissertation')
 
-      # TODO: committee content
-      # expect(page).to have_content('Diane Arbus')
-      # expect(page).to have_content('Joan Didion')
+      expect(page).to have_content('Diane Arbus, Emory')
+      expect(page).to have_content('Joan Didion, NASA')
 
       # About My Etd
       expect(page).to have_content('Middlemarch')

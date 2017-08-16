@@ -16,7 +16,7 @@ export default class ReviewMyETD {
       let valid_form = $('li#required-about-me').hasClass('complete') && $('li#required-my-etd').hasClass('complete') &&
       $('li#required-files').hasClass('complete') && $('li#required-supplemental-files').hasClass('complete') && $('li#required-embargoes').hasClass('complete')
       if(valid_form){
-      //remove table if it's there
+      // remove table if it's there
         $(form.previewButtonSelector).prop('disabled', false);
         $(form.previewButtonSelector).removeClass('hidden');
       }
@@ -60,6 +60,7 @@ export default class ReviewMyETD {
     }
     let copyright_data = {'name': 'Copyrights and Patents', 'value': optional_values }
     data.push(copyright_data)
+
     return data
   }
 
@@ -76,11 +77,13 @@ export default class ReviewMyETD {
       }
       $(this).html(data);
     });
+
     return supplemental_files;
   }
 
   aboutMyPDFData(){
     let data = [{'name': "My Primary PDF", 'value': $('#new_etd #fileupload p.name span').text()}]
+
     return data
   }
 
@@ -90,7 +93,8 @@ export default class ReviewMyETD {
         data = [{'name': "My Supplemental Files", 'value': this.getFileList()}]
         return data
       }
-      return data;
+
+    return data;
   }
 
   aboutMyEmbargoData(){
@@ -98,6 +102,7 @@ export default class ReviewMyETD {
 
     let row_data = [{'name': "Embargoed ETD Content", 'value': "No Embargoed Content"}]
     let embargo_type = $('#embargo_type :selected').text()
+
     if(data.length > 0){
       row_data = [{'name': "Embargoed ETD Content", 'value': embargo_type }, {'name': "Embargo Release Date", 'value': data[1].value}]
     }
@@ -105,44 +110,81 @@ export default class ReviewMyETD {
   }
 
   aboutMeData(){
-    let no_committee_data = $('#new_etd #about_me :input').not(':input.committee').not('.committee-member-select').not('.committee-chair-select').serializeArray();
+    // just the non-committee text inputs
+    let no_committee_data = $('#new_etd #about_me :input').not('.form-control.committee').not('.committee-member-select').not('.committee-chair-select').not(':button').not('[type="hidden"]').serializeArray();
 
-    //let committee_member_data = $('#new_etd #about_me .committee-member.row :input.committee').not('select');
+    let committee_member_rows = $('#about_me div.committee-member.row').not('#member-cloning_row');
 
-    //get committee member data separately
-    //also, no to serialize array. just get all the rows' inputs and do it yourself.
-    //get committee chair
-  //  console.log(raw_committee_data)
-    // let these_great_rows = this.getCommitteeMemberRow(committee_member_data)
-    // let ready_data = no_committee_data.concat(these_great_rows)
-    return no_committee_data
+    let committee_chair_rows = $('#about_me div.committee-chair.row').not('#chair-cloning_row');
+
+    let committee_member_data = this.getCommitteeRow(committee_member_rows);
+
+    let committee_chair_data = this.getCommitteeRow(committee_chair_rows);
+
+    var partial_data = $.merge(no_committee_data, committee_chair_data);
+    var data = $.merge(partial_data, committee_member_data)
+    return data;
   }
 
-  getCommitteeMemberRow(data){
-    let valid_data = $.grep(data, function( a ) {
-      return a.value !== "";
+  name_and_affiliation(member_inputs){
+    //serializeArray rejects disabled fields, and we need to find affiliation from fields that might be disabled, so re-enable temporarily
+    $(member_inputs).each(function(){
+      $(this).prop('disabled', false)
     });
 
-    let members = ""
-    for (var i = 0; i < valid_data.length; i++){
-      if(data[i+1].name !== undefined){
+    var members = member_inputs.serializeArray().reverse();
+    var member_string;
 
-        let str = data[i+1].value
-        str += ', '
-        str += data[i].value
-        members += str
+    member_string = $.map(members, function(m){
+        return m.value;
+    });
+
+    //find affiliation = Emory and re-disable
+    $(member_inputs).each(function(){
+      if($(this).val() === "Emory"){
+        $(this).prop('disabled', true);
       }
+    });
+
+    return member_string.join(', ');
+  }
+
+  getCommitteeRow(rows){
+    let committee = "";
+    let name = "";
+
+    for (var i = 0; i < rows.length; i++){
+      var row_inputs = $(rows[i]).find('input').not('select');
+        committee += `${this.name_and_affiliation(row_inputs)}`;
+        if (i !== (rows.length - 1)) {
+          committee += '<br/>'
+        }
     }
-    let member_data = {'name': 'Committee Members', 'value': members}
-    return member_data
+
+    if($(rows).first().hasClass('committee-member')){
+      name = 'Committee Members';
+    } else {
+      name = 'Committee Chair/Thesis Advisor';
+    }
+
+    let committee_data = [{'name': name, 'value': committee}]
+    return committee_data
   }
 
   getLabel(el){
     if (el === undefined){
       return
     }
-    if (el === "My Primary PDF" || el === "My Supplemental Files" || el.includes('Committee') || el.includes('Affiliation') || el.includes('Embargo') || el.includes('Copyrights')){
+    if (el === "My Primary PDF" || el === "My Supplemental Files" || el.includes('Affiliation') || el.includes('Embargo') || el.includes('Copyrights')){
       return el
+    }
+
+    if (el.includes('Committee Chair')){
+      return "Committee Chair/Thesis Advisor"
+    }
+
+    if (el.includes('Committee Members')){
+      return "Committee Members"
     }
 
     let label_class = null
@@ -172,7 +214,7 @@ export default class ReviewMyETD {
 
       $(this.supplementalFilesTableSelector).append(this.getSupplementalFileList());
 
-      //do we have supp metadata?
+      //do we have supplemental metadata?
 
     } else if ($('#new_etd #additional_metadata tr').length > 0 && $('#additional_metadata_link').text() == 'Hide Additional Metadata') {
       $(this.supplementalFilesTableSelector).append('<tr><th colspan="4">Supplemental Files</th></tr>');
@@ -193,7 +235,7 @@ export default class ReviewMyETD {
         $(this).html(data);
       });
       $(this.supplementalFilesTableSelector).append(supp_data);
-    //no supp files at all
+    //no supplemental files at all
     } else {
       $(this.supplementalFilesTableSelector).append('<tr><td colspan="4">No Supplemental Files</td></tr>');
     }
@@ -201,7 +243,7 @@ export default class ReviewMyETD {
 
   createAllTheRows(){
     let data_me_and_my = $.merge(this.aboutMeData(), this.aboutMyETDData())
-    //do the pdf and supplemental files separately
+
     let data = $.merge(data_me_and_my, this.aboutMyEmbargoData())
 
     for (var i = 0; i < data.length; i++){
@@ -209,6 +251,7 @@ export default class ReviewMyETD {
     }
     this.showUploadedFilesTables();
   }
+
   showPreviewInstructions(){
     $('.form-instructions p').remove();
     $('.form-instructions').append('<p>Review the information you entered on previous tabs. To edit, use the tabs above to navigate back to that section and correct your information.</p>')
