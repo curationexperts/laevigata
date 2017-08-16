@@ -54,11 +54,10 @@ export default class ReviewMyETD {
     let optional_values = ""
 
     if(optional_data.length > 0){
-      optional_values = optional_data[0].value + ", "
-      optional_values += optional_data[1].value + ", "
-      optional_values += optional_data[2].value
+      for (var i = 0; i < optional_data.length; i++){
+        optional_values += optional_data[i].value;
+      }
     }
-
     let copyright_data = {'name': 'Copyrights and Patents', 'value': optional_values }
     data.push(copyright_data)
     return data

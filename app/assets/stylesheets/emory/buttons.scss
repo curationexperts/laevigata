@@ -2,13 +2,21 @@
 @import 'colors';
 
 .btn-link.add, .btn-link.remove {
+    margin-top: 0;
+    margin-bottom: 1em;
     text-decoration: none;
-    margin-top: 23px;
-    margin-bottom:1em;
     background-color: $button-grey;
     border: 1px solid $button-border;
     border-radius: 4px;
     color: $button-text;
+}
+
+.multi_value .btn-link.remove {
+    margin-left: 1em;
+}
+
+#about_me .btn-link.remove {
+    margin-top: 23px;
 }
 
 .multi_value .btn.remove, .multi_value .remove.facets-toggle, .multi_value td.toggle input.remove[type=submit], td.toggle .multi_value input.remove[type=submit], .multi_value .btn.add, .multi_value .add.facets-toggle, .multi_value td.toggle input.add[type=submit], td.toggle .multi_value input.add[type=submit]  {
@@ -20,7 +28,6 @@
 .btn-link.add:hover, .btn-link.remove:hover {
     background-color: $button-hover-blue;
 }
-
 
 .btn, .controls-add-text {
     font-family:$label-font-family;
