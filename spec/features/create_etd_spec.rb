@@ -65,8 +65,8 @@ RSpec.feature 'Create an Etd' do
       click_on('My ETD')
       fill_in 'Title', with: title
       select 'English', from: 'Language'
-      tinymce_fill_in('etd_abstract', 'Literature from the US')
-      tinymce_fill_in('etd_table_of_contents', 'Chapter One')
+      tinymce_fill_in('etd_abstract', '<em>Literature</em> from the US')
+      tinymce_fill_in('etd_table_of_contents', ' <script>alert("attack!");</script>Chapter One')
       select 'Aeronomy', from: 'Research Field'
       fill_in 'Keyword', with: 'key1'
       find('#question_1').choose('No')
@@ -121,8 +121,8 @@ RSpec.feature 'Create an Etd' do
       # Verify metadata from 'My ETD' tab
       expect(page).to have_content title
       expect(page).to have_content 'Language English'
-      expect(page).to have_content 'Abstract <p>Literature from the US</p>'
-      expect(page).to have_content 'Table of Contents <p>Chapter One</p>'
+      expect(page).to have_content 'Abstract Literature from the US'
+      expect(page).to have_content 'Table of Contents Chapter One'
       expect(page).to have_content 'Research field Aeronomy'
       expect(page).to have_content 'Keyword key1'
       expect(etd.copyright_question_one).to eq 'false'
