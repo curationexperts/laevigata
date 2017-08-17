@@ -33,7 +33,7 @@ RSpec.feature 'Edit an existing ETD' do
       copyright_question_one: false,
       copyright_question_two: true,
       copyright_question_three: false,
-      no_supplemental_files: supp_files,
+      no_supplemental_files: supp_files
     }
   end
 
