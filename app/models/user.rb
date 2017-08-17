@@ -13,11 +13,13 @@ class User < ApplicationRecord
   end
   # Connects this user object to Blacklights Bookmarks.
   include Blacklight::User
-  # Include default devise modules. Others available are:
+
+  # Include devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   # remove :database_authenticatable in production, remove :validatable to integrate with Shibboleth
-  devise :omniauthable, :rememberable, :trackable, omniauth_providers: [:shibboleth], authentication_keys: [:uid]
-  # devise :database_authenticatable, :omniauthable, :rememberable, :trackable, omniauth_providers: [:shibboleth], authentication_keys: [:uid]
+  devise_modules = [:omniauthable, :rememberable, :trackable, omniauth_providers: [:shibboleth], authentication_keys: [:uid]]
+  devise_modules.prepend(:database_authenticatable) if AuthConfig.use_database_auth?
+  devise *devise_modules
 
   # When a user authenticates via shibboleth, find their User object or make
   # a new one. Populate it with data we get from shibboleth.

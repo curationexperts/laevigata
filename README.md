@@ -32,12 +32,21 @@ or cherokee rose is the <a href="https://georgia.gov/georgia-facts-and-symbols">
 1. Start redis  
     `redis-server &`  
     *note:* use ` &` to start in the background, or run redis in a new terminal session  
+1. Read the section on 'Database Authentication' below and decide if you want to set up your environment for database authentication.
 1. Start the demo server in its own terminal session
     `bin/rails hydra:server`
 1. Run the first time setup script  
     `bin/setup`
 1. Run the test suite  
     `bin/rails ci`
+
+## Database Authentication
+
+In production, we use Shibboleth exclusively for user authentication.  However, authenticating to Shibboleth from your local development environment might not be feasible.  Instead, you'll want to set up local database authentication.
+
+To set your dev environment for database authentication, you need to set this environment variable:
+
+`export LAEVIGATA_DATABASE_AUTH=true`
 
 ## User and workflow setup
 
@@ -49,27 +58,3 @@ everywhere. To create a new superuser, add the user's email address to the `conf
 
 Note: Do *not* run `bin/setup` except the very first time you setup the application, or if you need to wipe out everything in your development instance. It will wipe your database but leave your AdminSets in place, making a huge mess that you can't easily recover from.
 
-# README
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
