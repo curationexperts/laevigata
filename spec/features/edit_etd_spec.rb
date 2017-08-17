@@ -6,13 +6,14 @@ include Warden::Test::Helpers
 RSpec.feature 'Edit an existing ETD' do
   # using an admin in this test because they will see the edit button in the show view and be allowed to edit
   let(:admin_superuser) { User.where(uid: "tezprox").first }
+  let(:student) { create :user }
 
-  let(:etd) { FactoryGirl.create(:etd, attrs) }
-
-  # TODO: attach primary file
+  let(:etd) { FactoryGirl.build(:etd, attrs) }
+  let(:primary_pdf_file) { File.join(fixture_path, "joey/joey_thesis.pdf") }
 
   let(:attrs) do
     {
+      depositor: student.user_key,
       title: ['Another great thesis by Frodo'],
       creator: ['Johnson, Frodo'],
       graduation_date: ['Spring 2018'],
@@ -40,19 +41,29 @@ RSpec.feature 'Edit an existing ETD' do
   let(:cm_attrs) { [{ name: 'Barney' }] }
   let(:supp_files) { false }
 
+  let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
+
+  before do
+    # Create AdminSet and Workflow
+    ActiveFedora::Cleaner.clean!
+    workflow_setup.setup
+
+    # Don't characterize the file during specs
+    allow(CharacterizeJob).to receive_messages(perform_later: nil, perform_now: nil)
+
+    etd.assign_admin_set
+    ability = ::Ability.new(student)
+    upload = File.open(primary_pdf_file) { |file| Hyrax::UploadedFile.create(user: student, file: file, pcdm_use: 'primary') }
+    actor = Hyrax::CurationConcern.actor(etd, ability)
+    attributes_for_actor = { uploaded_files: [upload.id] }
+    actor.create(attributes_for_actor)
+
+    # Don't run background jobs during the spec
+    allow(ActiveJob::Base).to receive_messages(perform_later: nil, perform_now: nil)
+  end
+
   context 'a logged in admin_superuser' do
-    let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
-
-    before do
-      # Don't run background jobs during the spec
-      allow(ActiveJob::Base).to receive_messages(perform_later: nil, perform_now: nil)
-
-      # Create AdminSet and Workflow
-      ActiveFedora::Cleaner.clean!
-      workflow_setup.setup
-
-      login_as admin_superuser
-    end
+    before { login_as admin_superuser }
 
     context "A department without any subfield" do
       let(:dept) { 'African American Studies' }
