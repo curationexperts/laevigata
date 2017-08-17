@@ -44,17 +44,18 @@ RSpec.feature 'Edit an existing ETD' do
   let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
 
   before do
-    # Create AdminSet and Workflow
     ActiveFedora::Cleaner.clean!
+
+    # Create AdminSet and Workflow
     workflow_setup.setup
 
     # Don't characterize the file during specs
     allow(CharacterizeJob).to receive_messages(perform_later: nil, perform_now: nil)
 
+    # Create ETD & attach PDF file
     etd.assign_admin_set
-    ability = ::Ability.new(student)
     upload = File.open(primary_pdf_file) { |file| Hyrax::UploadedFile.create(user: student, file: file, pcdm_use: 'primary') }
-    actor = Hyrax::CurationConcern.actor(etd, ability)
+    actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(student))
     attributes_for_actor = { uploaded_files: [upload.id] }
     actor.create(attributes_for_actor)
 
@@ -88,30 +89,59 @@ RSpec.feature 'Edit an existing ETD' do
         visit hyrax_etd_path(etd)
         click_on('Edit')
 
-        # TODO: Verify that all our data appears on the form and that the fields are editable.
+        # Verify existing data in About Me tab
+        expect(find_field('Student Name').value).to eq attrs[:creator].first
+        expect(find_field('Student Name')).not_to be_disabled
+        expect(find_field('Graduation Date').value).to eq attrs[:graduation_date].first
+        expect(find_field('Graduation Date')).not_to be_disabled
+        expect(find_field('Post Graduation Email').value).to eq attrs[:post_graduation_email].first
+        expect(find_field('Post Graduation Email')).not_to be_disabled
+        expect(find_field('School').value).to eq attrs[:school].first
+        expect(find_field('School')).not_to be_disabled
+        expect(find_field('Department').value).to eq attrs[:department].first
+        expect(find_field('Department')).not_to be_disabled
+        expect(find_field('Sub Field').value).to eq attrs[:subfield].first
+        expect(find_field('Sub Field')).not_to be_disabled
+        # TODO: expect(find_field('Degree').value).to eq attrs[:degree].first
+        expect(find_field('Degree')).not_to be_disabled
+        expect(find_field('Submission Type').value).to eq attrs[:submitting_type].first
+        expect(find_field('Submission Type')).not_to be_disabled
 
-        dept_field = find('#etd_department')
-        subfield_field = find('#etd_subfield')
+        # Check fields for Committee Chair
+        expect(find_field("Committee Chair/Thesis Advisor's Affiliation").value).to eq 'Emory Committee Chair'
+        expect(find_field("Committee Chair/Thesis Advisor's Affiliation")).not_to be_disabled
+        expect(find_field(id: 'etd[committee_chair_attributes][0]_name').value).to eq cc_attrs.first[:name]
+        expect(find_field(id: 'etd[committee_chair_attributes][0]_name')).not_to be_disabled
+        # TODO: expect(find_field(id: 'etd[committee_chair_attributes][0]_affiliation').value).to eq 'Emory'
+        # TODO: expect(find_field(id: 'etd[committee_chair_attributes][0]_affiliation')).to be_disabled
 
-        # Verify correct Department and Sub Fields are selected and not disabled
-        expect(dept_field.value).to eq dept
-        expect(subfield_field.value).to eq subfield.first
-        expect(dept_field).not_to be_disabled
-        expect(subfield_field).not_to be_disabled
+        # Check fields for Committee Member
+        expect(find_field("Committee Member's Affiliation").value).to eq 'Emory Committee Member'
+        expect(find_field("Committee Member's Affiliation")).not_to be_disabled
+        expect(find_field(id: 'etd[committee_members_attributes][0]_name').value).to eq cm_attrs.first[:name]
+        expect(find_field(id: 'etd[committee_members_attributes][0]_name')).not_to be_disabled
+        # TODO: expect(find_field(id: 'etd[committee_members_attributes][0]_affiliation').value).to eq 'Emory'
+        # TODO: expect(find_field(id: 'etd[committee_members_attributes][0]_affiliation')).to be_disabled
 
-        # Edit some data in the form
-        select 'Chemistry', from: 'Department'
-        # Subfield should change according to department
-        expect(subfield_field.value).to eq ''
+        # TODO: Verify existing data in About My ETD tab
+        # TODO: Verify existing data in My PDF tab
+        # TODO: Verify existing data in Supplemental Files tab
+        # TODO: Verify existing data in Embargoes tab
+        # TODO: Verify existing data in Review tab
 
         # TODO:
-        # The form should allow the student to save the new data, even though we only edited one field.
+        # All tabs in the form should be marked as valid so that the student can edit the fields and save the new data.
         # expect(page).to have_css('li#required-about-me.complete')
         # expect(page).to have_css('li#required-my-etd.complete')
         # expect(page).to have_css('li#required-files.complete')
         # expect(page).to have_css('li#required-supplemental-files.complete')
         # expect(page).to have_css('li#required-embargoes.complete')
         # expect(page).to have_css('li#required-review.complete')
+
+        # The student edits some data in the form
+        select 'Chemistry', from: 'Department'
+        # Subfield should change according to department
+        expect(find_field('Sub Field').value).to eq ''
 
         # TODO:
         # Save the form
@@ -121,7 +151,7 @@ RSpec.feature 'Edit an existing ETD' do
         # wait_for_ajax
 
         # TODO:
-        # Check our new values appear on the show page
+        # Check that the new values appear on the show page
         # expect(page).to have_content 'Department Chemistry'
         # expect(page).not_to have_content 'Subfield'
       end
