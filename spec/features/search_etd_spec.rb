@@ -3,7 +3,10 @@ require 'rails_helper'
 RSpec.feature 'Search for an ETD' do
   let(:etd) do
     FactoryGirl.create(
-      :sample_data,
+      :etd,
+      creator: ["Janakiramen, Helen"],
+      graduation_year: '2017',
+      school: ["Candler School of Theology"],
       department: ["Robotics"],
       subfield: ["Political Robotics"],
       date_uploaded: DateTime.current,
@@ -33,15 +36,15 @@ RSpec.feature 'Search for an ETD' do
       visit("/")
       fill_in "q", with: etd.title.first
       click_button "Go"
-      # Uncomment this to display the HTML capybara is seeing
-      # puts page.body
+
+      # The metadata that shows in search results
       expect(page).to have_content etd.title.first
       expect(page).to have_content etd.creator.first
-      expect(page).to have_content etd.school.first
-      expect(page).to have_content etd.degree.first
-      expect(page).to have_content etd.department.first
-      expect(page).to have_content etd.subfield.first
       expect(page).to have_content etd.date_uploaded.strftime("%m/%d/%Y")
+      expect(page).to have_content etd.research_field[0]
+      expect(page).to have_content etd.research_field[1]
+      expect(page).to have_content etd.research_field[2]
+      expect(page).to have_content etd.department.first
 
       # Facets
       expect(page).not_to have_xpath("//h3", text: "Student Name")

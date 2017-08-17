@@ -51,8 +51,8 @@ class CatalogController < ApplicationController
     # It's used to give a label to the filter that comes from the user profile
     config.add_facet_field solr_name("generic_type", :facetable), label: "Type", if: false
 
-    config.add_facet_field solr_name("committee_names", :facetable), label: "Committee"
-    config.add_facet_field solr_name("keyword", :facetable), label: "Keyword"
+    config.add_facet_field solr_name("committee_names", :facetable), label: "Committee", limit: 5
+    config.add_facet_field solr_name("keyword", :facetable), label: "Keyword", limit: 5
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
@@ -60,31 +60,12 @@ class CatalogController < ApplicationController
     config.add_facet_fields_to_solr_request!
 
     # solr fields to be displayed in the index (search results) view
-    #   The ordering of the field names is the order of the display
+    # The ordering of the field names is the order of the display
     config.add_index_field solr_name("title", :stored_searchable), label: "Title", itemprop: 'name', if: false
     config.add_index_field solr_name("creator", :stored_searchable), label: "Student Name", itemprop: 'creator'
-    config.add_index_field solr_name("school", :stored_searchable), label: "School", link_to_search: solr_name("school", :facetable)
-    config.add_index_field solr_name("department", :stored_searchable), label: "Department", link_to_search: solr_name("department", :facetable)
-    config.add_index_field solr_name("subfield", :stored_searchable), label: "Research Field", link_to_search: solr_name("subfield", :facetable)
     config.add_index_field solr_name("date_uploaded", :stored_sortable, type: :date), label: "Date Uploaded", itemprop: 'datePublished', helper_method: :human_readable_date
-    # config.add_index_field solr_name("description", :stored_searchable), label: "Description", itemprop: 'description', helper_method: :iconify_auto_link
-    # config.add_index_field solr_name("keyword", :stored_searchable), label: "Keyword", itemprop: 'keywords', link_to_search: solr_name("keyword", :facetable)
-    # config.add_index_field solr_name("contributor", :stored_searchable), label: "Contributor", itemprop: 'contributor', link_to_search: solr_name("contributor", :facetable)
-    # config.add_index_field solr_name("proxy_depositor", :symbol), label: "Depositor", helper_method: :link_to_profile
-    # config.add_index_field solr_name("publisher", :stored_searchable), label: "Publisher", itemprop: 'publisher', link_to_search: solr_name("publisher", :facetable)
-    # config.add_index_field solr_name("language", :stored_searchable), label: "Language", itemprop: 'inLanguage', link_to_search: solr_name("language", :facetable)
-    # config.add_index_field solr_name("date_modified", :stored_sortable, type: :date), label: "Date Modified", itemprop: 'dateModified', helper_method: :human_readable_date
-    # config.add_index_field solr_name("date_created", :stored_searchable), label: "Date Created", itemprop: 'dateCreated'
-    # config.add_index_field solr_name("rights", :stored_searchable), label: "Rights", helper_method: :license_links
-    # config.add_index_field solr_name("resource_type", :stored_searchable), label: "Resource Type", link_to_search: solr_name("resource_type", :facetable)
-    # config.add_index_field solr_name("file_format", :stored_searchable), label: "File Format", link_to_search: solr_name("file_format", :facetable)
-    # config.add_index_field solr_name("identifier", :stored_searchable), label: "Identifier", helper_method: :index_field_link, field_name: 'identifier'
-    # config.add_index_field solr_name("embargo_release_date", :stored_sortable, type: :date), label: "Embargo release date", helper_method: :human_readable_date
-    # config.add_index_field solr_name("lease_expiration_date", :stored_sortable, type: :date), label: "Lease expiration date", helper_method: :human_readable_date
-    # config.add_index_field solr_name("degree", :stored_searchable), label: "Degree"
-    # config.add_index_field solr_name("partnering_agency", :stored_searchable), label: "Partnering Agency"
-    # config.add_index_field solr_name("submitting_type", :stored_searchable), label: "I am submitting"
-    # config.add_index_field solr_name("research_field", :stored_searchable), label: "Research Field"
+    config.add_index_field solr_name("research_field", :stored_searchable), label: "Research Field"
+    config.add_index_field solr_name("department", :stored_searchable), label: "Department", link_to_search: solr_name("department", :facetable)
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
