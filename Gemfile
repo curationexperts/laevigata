@@ -5,6 +5,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+gem 'clamby', '>= 1.2.5'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails'
 gem 'devise'

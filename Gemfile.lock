@@ -175,6 +175,7 @@ GEM
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
     chronic (0.10.2)
+    clamby (1.2.5)
     clipboard-rails (1.7.1)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
@@ -893,6 +894,7 @@ DEPENDENCIES
   capybara
   capybara-screenshot
   capybara-webkit
+  clamby (>= 1.2.5)
   coffee-rails
   coveralls
   database_cleaner
