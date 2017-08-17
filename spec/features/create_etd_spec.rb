@@ -4,11 +4,11 @@ require 'rails_helper'
 include Warden::Test::Helpers
 
 RSpec.feature 'Create an Etd' do
-  let(:user) { create :user }
+  let(:student) { create :user }
 
   context 'a logged in user' do
     before do
-      login_as user
+      login_as student
       visit("/concern/etds/new")
     end
 
@@ -32,7 +32,7 @@ RSpec.feature 'Create an Etd' do
     end
   end
 
-  context 'a logged in (non-admin) user' do
+  context 'a student (non-admin user)' do
     let(:title) { 'A great thesis by Frodo' }
     let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
 
@@ -44,11 +44,15 @@ RSpec.feature 'Create an Etd' do
       ActiveFedora::Cleaner.clean!
       workflow_setup.setup
 
-      login_as user
+      login_as student
       visit new_hyrax_etd_path
     end
 
     scenario "Create a new ETD", js: true do
+      # expect 'About Me' department and subfield to be disabled, as they are dynamically supplied by student's school choice
+      expect(find('#etd_department')).to be_disabled
+      expect(find('#etd_subfield')).to be_disabled
+
       # Fill in 'About Me' tab
       fill_in 'Student Name', with: 'Johnson, Frodo'
       select 'Spring 2018', from: 'Graduation Date'
@@ -59,20 +63,24 @@ RSpec.feature 'Create an Etd' do
       select 'PhD', from: 'Degree'
       select 'Dissertation', from: 'Submission Type'
       fill_in 'etd[committee_chair_attributes][0]_name', with: 'Fred'
+      expect(page).to have_css('li#required-about-me.incomplete')
       fill_in 'etd[committee_members_attributes][0]_name', with: 'Barney'
 
       # Fill in 'My ETD' tab
       click_on('My ETD')
+      expect(page).to have_css('li#required-about-me.complete')
       fill_in 'Title', with: title
       select 'English', from: 'Language'
       tinymce_fill_in('etd_abstract', '<em>Literature</em> from the US')
       tinymce_fill_in('etd_table_of_contents', ' <script>alert("attack!");</script>Chapter One')
       select 'Aeronomy', from: 'Research Field'
       fill_in 'Keyword', with: 'key1'
+      expect(page).to have_css('li#required-my-etd.incomplete')
       find('#question_1').choose('No')
       find('#question_2').choose('No')
       find('#question_3').choose('No')
       click_on('Save My ETD')
+      expect(page).to have_css('li#required-my-etd.complete')
 
       click_on('My PDF')
       page.attach_file('primary_files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
@@ -80,18 +88,24 @@ RSpec.feature 'Create an Etd' do
 
       # TODO: Attach supplementary file(s)
       click_on('Supplemental Files')
+      expect(page).to have_css('li#required-supplemental-files.incomplete')
       check 'I have no supplemental files.'
+      expect(page).to have_css('li#required-supplemental-files.complete')
 
       # TODO: Should we create an embargo in this spec, or is
       # that tested in spec/features/create_etd_embargo_spec.rb?
       click_on('Embargoes')
+      expect(page).to have_css('li#required-embargoes.incomplete')
       check 'I do not want to embargo my thesis or dissertation.'
+      expect(page).to have_css('li#required-embargoes.complete')
 
       # Save the form
       click_on('Review & Submit')
+      expect(page).to have_css('li#required-review.incomplete')
       expect(page).to have_css '#preview_my_etd'
       find(:css, '#preview_my_etd').click
       check('agreement')
+      expect(page).to have_css('li#required-review.complete')
       save_and_wait = -> { click_button "Save"; wait_for_ajax(10) }
       expect(save_and_wait).to change { Etd.count }.by(1)
                            .and change { FileSet.count }.by(0)
