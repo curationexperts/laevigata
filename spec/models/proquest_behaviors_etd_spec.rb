@@ -71,14 +71,12 @@ RSpec.describe Etd do
       expect(etd.primary_pdf_file_name).to eq "joey_thesis.pdf"
     end
     context "exporting packages" do
-      it "knows where to write exported proquest packages" do
-        expect(Rails.configuration.proquest_export_directory).to eq Rails.root.join('spec', 'fixtures', 'proquest', 'exports')
-      end
       it "zips the exported directory" do
         allow(etd).to receive(:depositor).and_return("P0000002")
         etd.export_zipped_proquest_package
-        expect(File.exist?(Rails.configuration.proquest_export_directory.join("#{etd.export_id}.zip").to_s)).to eq true
-        File.delete(Rails.configuration.proquest_export_directory.join("#{etd.export_id}.zip").to_s)
+        export_file = "#{etd.export_directory}/#{etd.export_id}.zip"
+        expect(File.exist?(export_file)).to eq true
+        File.delete(export_file)
       end
     end
   end
