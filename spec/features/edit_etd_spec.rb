@@ -20,7 +20,7 @@ RSpec.feature 'Edit an existing ETD' do
       school: ['Emory College'],
       department: [dept],
       subfield: subfield,
-      degree: ['PhD'],
+      degree: ['Ph.D.'],
       submitting_type: ['Dissertation'],
       committee_chair_attributes: cc_attrs,
       committee_members_attributes: cm_attrs,
@@ -111,7 +111,7 @@ RSpec.feature 'Edit an existing ETD' do
         expect(find_field('Department')).not_to be_disabled
         expect(find_field('Sub Field').value).to eq attrs[:subfield].first
         expect(find_field('Sub Field')).not_to be_disabled
-        # TODO: expect(find_field('Degree').value).to eq attrs[:degree].first
+        expect(find_field('Degree').value).to eq attrs[:degree].first
         expect(find_field('Degree')).not_to be_disabled
         expect(find_field('Submission Type').value).to eq attrs[:submitting_type].first
         expect(find_field('Submission Type')).not_to be_disabled
