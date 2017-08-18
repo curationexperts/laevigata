@@ -146,17 +146,26 @@ RSpec.feature 'Edit an existing ETD' do
         expect(find_field('Keyword')).not_to be_disabled
 
         # Verify copyright questions
-        # TODO copyright question 1
+        expect(find_field(id: 'etd_copyright_question_one_true').checked?).to be false
+        # TODO: expect(find_field(id: 'etd_copyright_question_one_false').checked?).to be true
+        expect(find_field(id: 'etd_copyright_question_one_true')).not_to be_disabled
+        expect(find_field(id: 'etd_copyright_question_one_false')).not_to be_disabled
+
         expect(find_field(id: 'etd_copyright_question_two_true').checked?).to be true
         expect(find_field(id: 'etd_copyright_question_two_false').checked?).to be false
         expect(find_field(id: 'etd_copyright_question_two_true')).not_to be_disabled
         expect(find_field(id: 'etd_copyright_question_two_false')).not_to be_disabled
-        # TODO copyright question 3
+
+        expect(find_field(id: 'etd_copyright_question_three_true').checked?).to be false
+        # TODO: expect(find_field(id: 'etd_copyright_question_three_false').checked?).to be true
+        expect(find_field(id: 'etd_copyright_question_three_true')).not_to be_disabled
+        expect(find_field(id: 'etd_copyright_question_three_false')).not_to be_disabled
 
         # TODO: Verify existing data in My PDF tab
         # TODO: Verify existing data in Supplemental Files tab
         # TODO: Verify existing data in Embargoes tab
-        # TODO: Verify existing data in Review tab
+
+        # TODO: Verify existing data in Review tab - maybe nothing?
 
         # TODO:
         # All tabs in the form should be marked as valid so that the student can edit the fields and save the new data.
