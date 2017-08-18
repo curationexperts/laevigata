@@ -125,7 +125,27 @@ RSpec.feature 'Edit an existing ETD' do
         # TODO: expect(find_field(id: 'etd[committee_members_attributes][0]_affiliation').value).to eq 'Emory'
         # TODO: expect(find_field(id: 'etd[committee_members_attributes][0]_affiliation')).to be_disabled
 
-        # TODO: Verify existing data in About My ETD tab
+        # Verify existing data in About My ETD tab
+        click_on('My ETD')
+        expect(find_field('Title').value).to eq attrs[:title].first
+        expect(find_field('Title')).not_to be_disabled
+        expect(find_field('Language').value).to eq attrs[:language].first
+        expect(find_field('Language')).not_to be_disabled
+        # TODO: abstract - Add some html tags to the data and make sure they appear or don't appear correctly in the edit field
+        # TODO: table_of_contents - Add some html tags to the data and make sure they appear or don't appear correctly in the edit field
+        expect(find_field('Research Field').value).to eq attrs[:research_field].first
+        expect(find_field('Research Field')).not_to be_disabled
+        expect(find_field('Keyword').value).to eq attrs[:keyword].first
+        expect(find_field('Keyword')).not_to be_disabled
+
+        # Verify copyright questions
+        # TODO copyright question 1
+        expect(find_field(id: 'etd_copyright_question_two_true').checked?).to be true
+        expect(find_field(id: 'etd_copyright_question_two_false').checked?).to be false
+        expect(find_field(id: 'etd_copyright_question_two_true')).not_to be_disabled
+        expect(find_field(id: 'etd_copyright_question_two_false')).not_to be_disabled
+        # TODO copyright question 3
+
         # TODO: Verify existing data in My PDF tab
         # TODO: Verify existing data in Supplemental Files tab
         # TODO: Verify existing data in Embargoes tab
@@ -141,9 +161,12 @@ RSpec.feature 'Edit an existing ETD' do
         # expect(page).to have_css('li#required-review.complete')
 
         # The student edits some data in the form
+        click_on('About Me')
         select 'Chemistry', from: 'Department'
         # Subfield should change according to department
         expect(find_field('Sub Field').value).to eq ''
+
+        # TODO: Maybe edit Abstract or Table of Contents to make sure the markup gets saved properly.
 
         # TODO:
         # Save the form
