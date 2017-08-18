@@ -32,13 +32,12 @@ RSpec.feature 'Edit an existing ETD' do
       copyright_question_one: false,
       copyright_question_two: true,
       copyright_question_three: false,
-      no_supplemental_files: supp_files
+      no_supplemental_files: no_supp_files
     }
   end
 
   let(:cc_attrs) { [{ name: 'Fred' }] }
   let(:cm_attrs) { [{ name: 'Barney' }] }
-  let(:supp_files) { false }
 
   let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
 
@@ -68,9 +67,10 @@ RSpec.feature 'Edit an existing ETD' do
   context 'a logged in student' do
     before { login_as student }
 
-    context "A department without any subfield" do
+    context "No supplemental files, and a department without any subfield" do
       let(:dept) { 'African American Studies' }
       let(:subfield) { nil }
+      let(:no_supp_files) { true }
 
       scenario "on the edit form", js: true do
         visit hyrax_etd_path(etd)
@@ -80,12 +80,19 @@ RSpec.feature 'Edit an existing ETD' do
         expect(find('#etd_department').value).to eq dept
         expect(find('#etd_department')).not_to be_disabled
         expect(find('#etd_subfield')).to be_disabled
+
+        # Verify that 'no supplemental files' is checked
+        click_on('Supplemental Files')
+        expect(find_field(id: 'etd_no_supplemental_files').checked?).to be true
       end
     end
 
     context "An existing ETD" do
       let(:dept) { 'Biology' }
       let(:subfield) { ['Genetics and Molecular Biology'] }
+      let(:no_supp_files) { false }
+
+      # TODO: Attach supplemental files to the ETD in a before block so we can validate that they appear correctly on the Supplemental Files tab.
 
       scenario "edit a field", js: true do
         visit hyrax_etd_path(etd)
