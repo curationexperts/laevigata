@@ -1,7 +1,4 @@
 Rails.application.configure do
-  config.registrar_data = ::Rails.root.join('spec', 'fixtures', 'registrar_sample.json')
-  # Where to write ProQuest export packages
-  config.proquest_export_directory = ::Rails.root.join('spec', 'fixtures', 'proquest', 'exports')
   # Settings specified here will take precedence over those in config/application.rb.
 
   # The test environment is used exclusively to run your application's

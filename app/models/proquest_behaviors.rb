@@ -12,8 +12,8 @@ module ProquestBehaviors
 
   # Export a zipped directory of an ETD in the format expected by ProQuest
   def export_zipped_proquest_package
-    FileUtils.mkdir_p Rails.configuration.proquest_export_directory
-    output_file = Rails.configuration.proquest_export_directory.join("#{export_id}.zip").to_s
+    FileUtils.mkdir_p export_directory
+    output_file = "#{@export_directory}/#{export_id}.zip"
     Zip::File.open(output_file, Zip::File::CREATE) do |zip|
       zip.dir.mkdir(export_id)
       zip.file.open("#{export_id}/#{export_id}.xml", 'w') { |file| file.write(export_proquest_xml) }
@@ -34,7 +34,7 @@ module ProquestBehaviors
   # @return [Hash]
   def load_registrar_data_for_user(ppid)
     ppid = "P0000001" if Rails.env.development? # Otherwise it will never find registrar data for our fake users
-    registrar_hash = JSON.parse(File.read(Rails.configuration.registrar_data))
+    registrar_hash = JSON.parse(File.read(Rails.application.secrets.registrar_data_path))
     @registrar_data = registrar_hash.select { |p| p.match(ppid) }.values.first
     return @registrar_data if @registrar_data
     Rails.logger.error "FAILURE TO EXPORT PROQUEST PACKAGE: Cannot find registrar data for user #{ppid} etd #{id}"
@@ -54,7 +54,8 @@ module ProquestBehaviors
   end
 
   def make_export_directory
-    dirname = Rails.configuration.proquest_export_directory.join(export_id)
+    config = YAML.safe_load(ERB.new(File.read(Rails.root.join('config', 'proquest.yml'))).result)[Rails.env]
+    dirname = config["proquest_export_directory"]
     FileUtils.mkdir_p dirname
     dirname
   end
