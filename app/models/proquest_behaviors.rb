@@ -8,7 +8,6 @@ require 'zip/filesystem'
 
 module ProquestBehaviors
   attr_accessor :registrar_data
-  attr_accessor :export_directory
 
   # Export a zipped directory of an ETD in the format expected by ProQuest
   def export_zipped_proquest_package
@@ -54,8 +53,7 @@ module ProquestBehaviors
   end
 
   def make_export_directory
-    config = YAML.safe_load(ERB.new(File.read(Rails.root.join('config', 'proquest.yml'))).result)[Rails.env]
-    dirname = config["proquest_export_directory"]
+    dirname = Rails.application.config.proquest_export_directory
     FileUtils.mkdir_p dirname
     dirname
   end

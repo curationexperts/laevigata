@@ -38,3 +38,8 @@ coverage
 
 # Ignore local browse-everything configs
 config/browse_everything_providers.yml
+
+# Ignore dotenv files
+.env.development
+.env.production
+.env
