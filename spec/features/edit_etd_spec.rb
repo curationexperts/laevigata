@@ -4,8 +4,7 @@ require 'rails_helper'
 include Warden::Test::Helpers
 
 RSpec.feature 'Edit an existing ETD' do
-  # using an admin in this test because they will see the edit button in the show view and be allowed to edit
-  let(:admin_superuser) { User.where(uid: "tezprox").first }
+  let(:approver) { User.where(uid: "tezprox").first }
   let(:student) { create :user }
 
   let(:etd) { FactoryGirl.build(:etd, attrs) }
@@ -59,12 +58,15 @@ RSpec.feature 'Edit an existing ETD' do
     attributes_for_actor = { uploaded_files: [upload.id] }
     actor.create(attributes_for_actor)
 
+    # Approver requests changes, so student will be able to edit the ETD
+    change_workflow_status(etd, "request_changes", approver)
+
     # Don't run background jobs during the spec
     allow(ActiveJob::Base).to receive_messages(perform_later: nil, perform_now: nil)
   end
 
-  context 'a logged in admin_superuser' do
-    before { login_as admin_superuser }
+  context 'a logged in student' do
+    before { login_as student }
 
     context "A department without any subfield" do
       let(:dept) { 'African American Studies' }
