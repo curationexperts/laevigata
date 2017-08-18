@@ -32,7 +32,11 @@ RSpec.feature 'Edit an existing ETD' do
       copyright_question_one: false,
       copyright_question_two: true,
       copyright_question_three: false,
-      no_supplemental_files: no_supp_files
+      no_supplemental_files: no_supp_files,
+      files_embargoed: embargo_attrs[:files_embargoed],
+      abstract_embargoed: embargo_attrs[:abstract_embargoed],
+      toc_embargoed: embargo_attrs[:toc_embargoed],
+      embargo_length: embargo_attrs[:embargo_length]
     }
   end
 
@@ -67,10 +71,19 @@ RSpec.feature 'Edit an existing ETD' do
   context 'a logged in student' do
     before { login_as student }
 
-    context "No supplemental files, and a department without any subfield" do
+    context "No supplemental files, no embargo, and a department without any subfield" do
       let(:dept) { 'African American Studies' }
       let(:subfield) { nil }
       let(:no_supp_files) { true }
+
+      let(:embargo_attrs) do
+        {
+          files_embargoed: false,
+          abstract_embargoed: false,
+          toc_embargoed: false,
+          embargo_length: nil
+        }
+      end
 
       scenario "on the edit form", js: true do
         visit hyrax_etd_path(etd)
@@ -84,6 +97,14 @@ RSpec.feature 'Edit an existing ETD' do
         # Verify that 'no supplemental files' is checked
         click_on('Supplemental Files')
         expect(find_field(id: 'etd_no_supplemental_files').checked?).to be true
+
+        # Verify that 'no embargoes' is checked
+        click_on('Embargoes')
+        # TODO:
+        # expect(find_field(id: 'no_embargoes').checked?).to be true
+        # expect(find_field(id: 'embargo_type')).to be_disabled
+        # expect(find_field(id: 'embargo_school')).to be_disabled
+        # expect(find_field(id: 'etd_embargo_length')).to be_disabled
       end
     end
 
@@ -91,6 +112,15 @@ RSpec.feature 'Edit an existing ETD' do
       let(:dept) { 'Biology' }
       let(:subfield) { ['Genetics and Molecular Biology'] }
       let(:no_supp_files) { false }
+
+      let(:embargo_attrs) do
+        {
+          files_embargoed: true,
+          abstract_embargoed: true,
+          toc_embargoed: true,
+          embargo_length: '6 months'
+        }
+      end
 
       # TODO: Attach supplemental files to the ETD in a before block so we can validate that they appear correctly on the Supplemental Files tab.
 
@@ -161,9 +191,22 @@ RSpec.feature 'Edit an existing ETD' do
         expect(find_field(id: 'etd_copyright_question_three_true')).not_to be_disabled
         expect(find_field(id: 'etd_copyright_question_three_false')).not_to be_disabled
 
+        click_on('My PDF')
         # TODO: Verify existing data in My PDF tab
+
+        click_on('Supplemental Files')
         # TODO: Verify existing data in Supplemental Files tab
+
         # TODO: Verify existing data in Embargoes tab
+        click_on('Embargoes')
+        expect(find_field(id: 'no_embargoes').checked?).to be false
+        expect(find_field(id: 'no_embargoes')).not_to be_disabled
+        # TODO: expect(find_field(id: 'embargo_type').value).to eq 'Files, Table of Contents and Abstract'
+        expect(find_field(id: 'embargo_type')).not_to be_disabled
+        # TODO: expect(find_field(id: 'embargo_school').value).to eq 'TBD'
+        expect(find_field(id: 'embargo_school')).not_to be_disabled
+        expect(find_field(id: 'etd_embargo_length').value).to eq embargo_attrs[:embargo_length]
+        expect(find_field(id: 'etd_embargo_length')).not_to be_disabled
 
         # TODO: Verify existing data in Review tab - maybe nothing?
 
