@@ -13,10 +13,15 @@ class EmbargoExpirationService
   # Run the service. By default, it will check expirations against today.
   # You can also pass in a date.
   # @param [Date] date the date by which to measure expirations
-  def self.run(date = Time.zone.today)
-    date = Date.parse(date)
-    Rails.logger.info "Running embargo expiration service for #{date}"
-    EmbargoExpirationService.new(date).run
+  def self.run(date = nil)
+    rundate =
+      if date
+        Date.parse(date)
+      else
+        Time.zone.today
+      end
+    Rails.logger.info "Running embargo expiration service for #{rundate}"
+    EmbargoExpirationService.new(rundate).run
   end
 
   # Format a Date object such that it can be used in a solr query
