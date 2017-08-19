@@ -26,6 +26,21 @@ class EtdPresenter < Hyrax::WorkShowPresenter
     "http://pid.emory.edu/#{identifier.first}"
   end
 
+  # Disabling .ttl, jsonld and nt entirely, because these methods expose embargoed content.
+  # If we need it in the future, go back to using the version of this method
+  # defined in Hyrax.
+  def export_as_ttl
+    'Not implemented at this time.'
+  end
+
+  def export_as_jsonld
+    'Not implemented at this time.'
+  end
+
+  def export_as_nt
+    'Not implemented at this time.'
+  end
+
   def formatted_embargo_release_date
     Date.parse(embargo_release_date).strftime("%d %B %Y")
   end
