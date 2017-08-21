@@ -18,7 +18,7 @@
     <% if ::Flipflop.show_deposit_agreement? %>
       <% if ::Flipflop.active_deposit_agreement_acceptance? %>
       <h2>Submission Agreement</h2>
-      <p id='submission-agreement-copy'>
+      <p id='submission-agreement-copy' class='well'>
         <%= t('hyrax.active_consent_to_agreement') %>
         <label class="submission_agreement">
           <%= check_box_tag 'agreement', 1, f.object.agreement_accepted, required: true %>
