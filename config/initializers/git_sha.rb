@@ -11,7 +11,7 @@ BRANCH =
   if Rails.env.production? && File.exist?('/opt/laevigata/revisions.log')
     `tail -1 /opt/laevigata/revisions.log`.chomp.split(" ")[1]
   elsif Rails.env.development? || Rails.env.test?
-    `git rev-parse HEAD`.chomp
+    `git rev-parse --abbrev-ref HEAD`.chomp
   else
     "Unknown branch"
   end
