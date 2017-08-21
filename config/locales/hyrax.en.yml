@@ -40,3 +40,7 @@ en:
       create:
         header: ""
     share_button:       "Submit My ETD"
+  helpers:
+    action:
+      submit:
+        create: "Submit My ETD"
