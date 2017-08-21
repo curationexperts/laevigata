@@ -150,16 +150,14 @@ describe EtdPresenter do
     end
   end
 
-  # TODO: Ensure this always exists in the future.
-  # Make a new fixture object that always has a future embargo date.
   context "embargoes" do
-    let(:etd) { FactoryGirl.build(:ateer_etd) }
+    let(:etd) { FactoryGirl.build(:sample_data_with_everything_embargoed) }
     let(:ability) { Ability.new(FactoryGirl.build(:user)) }
     let(:presenter) do
       described_class.new(SolrDocument.new(etd.to_solr), ability)
     end
     it "gets the embargo_release_date in a printable form" do
-      expect(presenter.formatted_embargo_release_date).to eq "21 August 2017"
+      expect(presenter.formatted_embargo_release_date).to eq((Time.zone.today + 14.days).strftime("%d %B %Y"))
     end
   end
 
