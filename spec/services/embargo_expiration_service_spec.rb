@@ -7,6 +7,21 @@ describe EmbargoExpirationService do
   before do
     Etd.delete_all
   end
+  context "rake task" do
+    let(:expiration_service_instance) { instance_double(described_class) }
+    it "sets the default date to today if no value is passed" do
+      allow(described_class).to receive(:new).and_return(expiration_service_instance)
+      allow(expiration_service_instance).to receive(:run)
+      described_class.run(nil)
+      expect(described_class).to have_received(:new).with(Time.zone.today)
+    end
+    it "sets the run date if passed" do
+      allow(described_class).to receive(:new).and_return(expiration_service_instance)
+      allow(expiration_service_instance).to receive(:run)
+      described_class.run("2018-01-28")
+      expect(described_class).to have_received(:new).with(Date.parse("2018-01-28"))
+    end
+  end
   context "date formatting" do
     let(:service) { described_class.new(Time.zone.today) }
     it "formats a date so it can be used in a solr query" do
