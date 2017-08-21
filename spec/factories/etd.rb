@@ -51,7 +51,10 @@ FactoryGirl.define do
       graduation_year "2016"
       abstract { [] << FFaker::Lorem.paragraph }
       table_of_contents { [] << FFaker::Lorem.paragraph }
-      embargo_id { FactoryGirl.create(:embargo, embargo_release_date: "2017-08-21").id }
+      # 2017-08-21 is the actual date of this embargo expiration, but now that it
+      # is no longer in the future, it is no longer a valid embargo date. Leaving
+      # it here as a point of discussion for future migration work.
+      # embargo_id { FactoryGirl.create(:embargo, embargo_release_date: "2017-08-21").id }
       files_embargoed true
       abstract_embargoed true
       toc_embargoed true
@@ -112,7 +115,7 @@ FactoryGirl.define do
 
       factory :sample_data_with_everything_embargoed do
         title ["Sample Data With Full Embargo: #{FFaker::Book.title}"]
-        embargo { FactoryGirl.create(:embargo, embargo_release_date: (DateTime.current + 14)) }
+        embargo { FactoryGirl.create(:embargo, embargo_release_date: (Time.zone.today + 14.days)) }
         embargo_length "6 months"
         files_embargoed true
         abstract_embargoed true
