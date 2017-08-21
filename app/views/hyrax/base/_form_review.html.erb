@@ -17,6 +17,7 @@
   <div id='submission-agreement' class="hidden">
     <% if ::Flipflop.show_deposit_agreement? %>
       <% if ::Flipflop.active_deposit_agreement_acceptance? %>
+      <h2>Submission Agreement</h2>
       <p id='submission-agreement-copy'>
         <%= t('hyrax.active_consent_to_agreement') %>
         <label class="submission_agreement">
