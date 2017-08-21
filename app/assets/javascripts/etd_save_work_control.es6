@@ -314,7 +314,11 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     setEmbargoLengths(){
       var form = this;
       $('#embargo_school').on('change', function(){
-        if ($(this).val() === 'Undergraduate Honors, Rollins or Candler') {
+        if ($(this).val() === 'Undergraduate Honors') {
+          form.attachNonLaneyEmbargoDurations();
+        } else if ($(this).val() === 'Rollins School of Public Health') {
+            form.attachNonLaneyEmbargoDurations();
+        } else if ($(this).val() === 'Candler School of Theology') {
           form.attachNonLaneyEmbargoDurations();
         } else if ($(this).val() === 'Laney Graduate School') {
           form.attachLaneyEmbargoDurations();
