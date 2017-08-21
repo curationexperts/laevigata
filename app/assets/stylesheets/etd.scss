@@ -70,6 +70,12 @@ span.disabled_element input[disabled] {
   background-color: #000080;
 }
 
+#submission-agreement {
+  padding-top: 15px;
+  font-size: large;
+  display: block;
+}
+
 // the agency content is hidden until the student selects the Rollins School
 div#rollins_partnering_agencies {
   display: none;
