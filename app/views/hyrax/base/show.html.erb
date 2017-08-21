@@ -5,7 +5,9 @@
       <%= render 'work_title', presenter: @presenter %>
     </header>
 
-    <span class="state state-<%= @presenter.workflow.state %>"><%= @presenter.workflow.state_label %></span>
+    <% unless @presenter.workflow.state_label == 'Approved' %>
+      <span class="state state-<%= @presenter.workflow.state %>"><%= @presenter.workflow.state_label %></span>
+    <% end %>
   </div>
   <div class="col-sm-8">
     <%= render 'abstract', presenter: @presenter %>
