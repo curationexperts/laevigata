@@ -25,19 +25,40 @@ export default class AboutMySupplementalFiles {
     });
   }
 
+  syncMetadataWithFiles(file_rows, metadata_rows){
+    let form = this;
+    //files have been added, add correct number of new rows to metadata table, with filename supplied
+    for (var i = 0; i < file_rows.length; i++){
+      if (i >= metadata_rows.length){
+        var filename = $(file_rows[i]).find('p.name').text().trim();
+        form.populateMetadataTable(filename, metadata_rows.length + 1)
+      }
+    }
+  }
+
   displayMetadata(){
     var form = this
+    // is there metadata already?
+    if($('#supplemental_files_metadata tbody tr').length > 0){
+      // have more files been uploaded?
+      if( $('#supplemental_fileupload tbody.files tr').length > $('#supplemental_files_metadata tbody tr').length ){
+        form.syncMetadataWithFiles($('#supplemental_fileupload tbody.files tr'), $('#supplemental_files_metadata tbody tr'));
+      } else if ( $('#supplemental_fileupload tbody.files tr').length === $('#supplemental_files_metadata tbody tr').length){
+        // do nothing, metadate table is in sync and will be shown
+      }
+    } else {
+      // create new metadata table
+      var table_headings = $('<thead><th>File Name</th><th>Title</th><th>Description</th><th>File Type</th></thead>');
+      var table_body = $('<tbody></tbody>');
 
-    var table_headings = $('<thead><th>File Name</th><th>Title</th><th>Description</th><th>File Type</th></thead>');
-    var table_body = $('<tbody></tbody>');
+      $('#supplemental_files_metadata').append(table_headings);
+      $('#supplemental_files_metadata').append(table_body);
 
-    $('#supplemental_files_metadata').append(table_headings);
-    $('#supplemental_files_metadata').append(table_body);
-
-    $('#supplemental_fileupload tbody.files tr').each(function(ind, el){
-      //get filename from each row of uploaded files table
-      form.populateMetadataTable($(el).find('p.name').text(), ind)
-    });
+      $('#supplemental_fileupload tbody.files tr').each(function(ind, el){
+        //get filename from each row of uploaded files table
+        form.populateMetadataTable($(el).find('p.name').text(), ind)
+      });
+    }
   }
 
   populateMetadataTable(filename, iterator){
@@ -107,7 +128,7 @@ export default class AboutMySupplementalFiles {
     $(file_type_cell).append(file_type_input);
     $(file_type_cell).append(selected_option);
     $(row).append(file_type_cell);
-    
+
     // append the final row to the table
     $('#supplemental_files_metadata tbody').append(row);
   }
@@ -121,27 +142,22 @@ export default class AboutMySupplementalFiles {
 
     $('#additional_metadata').on('show.bs.collapse', function(){
       $('#additional_metadata').prop('display', 'block');
-      $('#additional_metadata_link').text('Hide Additional Metadata');
+      $('#additional_metadata_link').text('Hide Required Metadata');
       form.displayMetadata();
-
       //disable upload of any more files
       $('#supplemental_files span.fileinput-button').addClass('disabled_element');
       $('#supplemental_files .fileupload-buttonbar input').prop('disabled', true);
       $('#supplemental-browse-btn').prop('disabled', true);
     });
 
+
     $('#additional_metadata').on('hide.bs.collapse', function(){
-      $('#additional_metadata_link').text('Show Additional Metadata');
+      $('#additional_metadata_link').text('Add Required Metadata');
 
       //re-enable upload of files
       $('#supplemental_files span.fileinput-button').removeClass('disabled_element');
       $('#supplemental_files .fileupload-buttonbar input').prop('disabled', false);
       $('#supplemental-browse-btn').prop('disabled', false);
-    });
-
-    $('#additional_metadata').on('hidden.bs.collapse', function(){
-      //clear table
-      $('#supplemental_files_metadata').empty();
     });
   }
 }

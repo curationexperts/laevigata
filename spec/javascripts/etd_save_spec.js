@@ -269,10 +269,10 @@ describe("Validate My ETD", function(){
           hasFiles: true
         };
       });
-      it("is valid", function() {
+      it("is not valid without metadata", function() {
         target.validateSupplementalFiles();
-        expect(mockCheckbox.uncheck.calls.count()).toEqual(0);
-        expect(mockCheckbox.check.calls.count()).toEqual(1);
+        expect(mockCheckbox.uncheck.calls.count()).toEqual(1);
+        expect(mockCheckbox.check.calls.count()).toEqual(0);
       });
     });
 
@@ -314,7 +314,7 @@ describe("Validate My ETD", function(){
 
 describe("Add Metadata to Supplemental Files", function(){
   //load the page, activate the form, require the supple js (might not be necessary), spyon the show and hide metadata events and make sure they occur
-  
+
 });
 describe("Validate My Embargoes", function(){
   var mockCheckbox = {

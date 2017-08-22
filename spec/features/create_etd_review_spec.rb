@@ -65,11 +65,12 @@ RSpec.feature 'Create an Etd' do
 
       expect(page).to have_content('Add Supplementary files...')
 
-      page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
+      within('#supplemental_fileupload') do
+        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
+      end
 
-      expect(page).to have_css('li#required-supplemental-files.complete')
-
-      click_on('Show Additional Metadata')
+      sleep(5)
+      click_on('Add Required Metadata')
       # sleep is not ideal for these collapse and show events but the length of wait time is proving difficult to mandate otherwise
       sleep(10)
 
@@ -143,6 +144,7 @@ RSpec.feature 'Create an Etd' do
 
       expect(page).to have_content('Review the information you entered on previous tabs. To edit, use the tabs above to navigate back to that section and correct your information.')
       expect(page).to have_css('#with_files_submit:disabled')
+      logout
     end
 
     scenario "Miranda previews, agrees to Emory submission policy and submits her ETD", js: true do
@@ -208,6 +210,7 @@ RSpec.feature 'Create an Etd' do
 
       expect(page).to have_content 'Middlemarch'
       expect(page).to have_content 'Pending approval'
+      logout
     end
   end
 end
