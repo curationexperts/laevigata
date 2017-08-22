@@ -21,6 +21,8 @@ en:
         required_review: "Review & Submit"
 
     works:
+      progress:
+        header: "Submission Checklist"
       form:
         tab:
           about_me:      "About Me"
