@@ -46,7 +46,7 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name("department", :facetable), label: "Department", limit: 5
     config.add_facet_field solr_name("degree", :facetable), label: "Degree", limit: 5
     config.add_facet_field solr_name("submitting_type", :facetable), label: "Submission Type", limit: 5
-    config.add_facet_field solr_name("subfield", :facetable), label: "Research Field", limit: 5
+    config.add_facet_field solr_name("research_field", :facetable), label: "Research Field", limit: 5
 
     # The generic_type isn't displayed on the facet list
     # It's used to give a label to the filter that comes from the user profile

@@ -9,6 +9,7 @@ RSpec.feature 'Search for an ETD' do
       school: ["Candler School of Theology"],
       department: ["Robotics"],
       subfield: ["Political Robotics"],
+      research_field: ["Artificial Intelligence"],
       date_uploaded: DateTime.current,
       submitting_type: ["Master's Thesis"],
       degree: ["M.S."],
@@ -60,7 +61,7 @@ RSpec.feature 'Search for an ETD' do
       expect(page).to have_xpath("//h3", text: "Submission Type")
       expect(page).to have_link(etd.submitting_type.first, class: "facet_select")
       expect(page).to have_xpath("//h3", text: "Research Field")
-      expect(page).to have_link(etd.subfield.first, class: "facet_select")
+      expect(page).to have_link(etd.research_field.first, class: "facet_select")
       expect(page).to have_xpath("//h3", text: "Committee")
       expect(page).to have_link('Jackson, Henrietta', class: "facet_select")
       expect(page).to have_link('Matsumoto, Yukihiro', class: "facet_select")
