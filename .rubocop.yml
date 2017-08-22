@@ -7,6 +7,7 @@ AllCops:
     - 'script/**/*'
     - 'vendor/**/*'
     - 'tmp/**/*'
+    - 'config/initializers/explain_partials.rb'
 
 Lint/Void:
   Enabled: false
@@ -50,7 +51,7 @@ RSpec/MultipleExpectations:
 Style/CommentAnnotation:
   Enabled: false
 
-# complaining about the Capfile name. Wants it to be snake_case - re-enabling, should be fixed by updated Bixby 
+# complaining about the Capfile name. Wants it to be snake_case - re-enabling, should be fixed by updated Bixby
 Style/FileName:
   Enabled: true
 
