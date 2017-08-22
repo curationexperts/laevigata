@@ -1,15 +1,10 @@
-<% if show_pagination? and @response.total_pages > 1 %>
+<div id="sortAndPerPage" class="clearfix">
+  <%= render :partial => "paginate_compact", :object => @response if show_pagination? %>
+  <%= render_results_collection_tools wrapping_class: "search-widgets pull-right" %>
+</div>
 <div class="alert alert-info">
   During our current ETD migration process, some ETD records may only be
   available on our legacy ETD site. Please visit
   <a href="https://legacy-etd.library.emory.edu">legacy-etd.library.emory.edu</a>
   if you cannot find the ETD you are looking for on this new site.
 </div>
- <div class="row record-padding">
-  <div class="col-md-12">
-    <div class="pagination">
-      <%= paginate @response, :outer_window => 2, :theme => 'blacklight' %>
-    </div>
-  </div>
- </div>
-<% end %>
