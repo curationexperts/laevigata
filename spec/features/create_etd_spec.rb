@@ -21,6 +21,8 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_selector("[data-toggle='tab']", text: "Review & Submit")
       # student users have link to dashboard
       expect(page).to have_link("Dashboard")
+      expect(page).to have_content("Submission Checklist")
+      expect(page).not_to have_content("Save Work")
     end
 
     scenario "Submission Checklist contains all ETD requirement checkboxes" do
