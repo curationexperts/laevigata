@@ -10,4 +10,11 @@ class ApplicationController < ActionController::Base
   with_themed_layout '1_column'
 
   protect_from_forgery with: :exception
+
+  # Override from Hyrax
+  # Provide a place for Devise to send the user to after signing in
+  # Send newly signed in users to the submission form
+  def user_root_path
+    new_hyrax_etd_path
+  end
 end

@@ -157,7 +157,7 @@ RSpec.feature 'Create an Etd' do
       click_link("Submit My ETD")
 
       expect(current_url).not_to start_with new_hyrax_etd_url
-      expect(current_url).to eq(new_user_session_url)
+      expect(current_url.gsub('?locale=en', '')).to eq(new_user_session_url)
     end
 
     scenario "cannot browse to submit page" do
