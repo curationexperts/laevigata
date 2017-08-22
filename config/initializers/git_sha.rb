@@ -1,6 +1,6 @@
 GIT_SHA =
   if Rails.env.production? && File.exist?('/opt/laevigata/revisions.log')
-    `tail -1 /opt/laevigata/revisions.log`.chomp.split(" ")[3]
+    `tail -1 /opt/laevigata/revisions.log`.chomp.split(" ")[3].gsub(/\)$/, '')
   elsif Rails.env.development? || Rails.env.test?
     `git rev-parse HEAD`.chomp
   else
