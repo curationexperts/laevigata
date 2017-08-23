@@ -38,3 +38,4 @@
 
 //= require almond
 //= require dependent_dropdowns
+//= require email_validation
