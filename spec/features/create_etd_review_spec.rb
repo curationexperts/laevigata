@@ -131,7 +131,7 @@ RSpec.feature 'Create an Etd' do
       # My Primary PDF
       expect(page).to have_content('miranda_thesis.pdf')
 
-      # My Supplementary Files
+      # My Supplemental Files
       expect(page).to have_content('magic_warrior_cat.jpg')
       expect(page).to have_content("Super Great Title")
       expect(page).to have_content("Super Great Description")
