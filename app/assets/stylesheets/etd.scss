@@ -113,3 +113,12 @@ table#uploaded_pdf tr.template-download {
 div#supplemental_fileupload table#supplemental_files_metadata input{
   transform: scale(1);
 }
+
+.red_input {
+  border: 1px solid red;
+}
+
+.red_input:focus{
+  border: 1px solid red;
+  shadow: none;
+}

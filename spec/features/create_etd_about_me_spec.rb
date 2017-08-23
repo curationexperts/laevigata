@@ -50,6 +50,18 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_css('li#required-about-me.complete')
     end
 
+    scenario "'about me' has an invalid post graduation email", js: true unless continuous_integration? do
+      fill_in "Post Graduation Email", with: "graduate@done"
+      wait_for_ajax
+      expect(page).to have_css('input#etd_post_graduation_email.red_input')
+    end
+
+    scenario "'about me' has a valid post graduation email", js: true unless continuous_integration? do
+      fill_in "Post Graduation Email", with: "graduate@done.com"
+      wait_for_ajax
+      expect(page).not_to have_css('input#etd_post_graduation_email.red_input')
+    end
+
     scenario "'about me' has no committee affiliation field when affiliation type Emory is selected", js: true unless continuous_integration? do
       select('Non-Emory Committee Chair', from: "Committee Chair/Thesis Advisor's Affiliation")
       affiliation = find_field(id: 'etd[committee_chair_attributes][0]_affiliation')
