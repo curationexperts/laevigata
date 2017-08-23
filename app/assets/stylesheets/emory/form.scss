@@ -24,11 +24,11 @@ form label {
     margin-bottom:0;
 }
 
-#my_embargoes {   
+#my_embargoes, #no_supplemental {   
     .checkbox {
         margin: 2em;
     }
-    .do_not_want_embargo {
+    .agreement_text {
         font-weight:bold;
         margin-left: 1em;
         line-height: 1.7;
@@ -42,14 +42,6 @@ form label {
 
 .question .radio_buttons  {
     margin-left:2em;
-}
-
-#supplemental_fileupload > div.checkbox.well > div > div > label {
-  font-weight: bold;
-}
-
-#supplemental_fileupload input {
-  transform: scale(1.5);
 }
 
 .well {
@@ -71,4 +63,13 @@ max-width:900px;
 #agreement {
  transform: scale(1.5);
  margin-right:.5em;
+#no_supplemental {
+  margin: 2em;
+  input {
+    transform: scale(1.5);	
+  }
+  label {
+    font-weight:bold;
+  }
+}
 }
