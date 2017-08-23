@@ -42,3 +42,11 @@
     @extend .btn-primary;
     background-image:none;
 }
+
+.fileupload-buttonbar {
+    padding:0;
+}
+
+#supplemental_fileupload > table {
+    margin-bottom:0;
+}

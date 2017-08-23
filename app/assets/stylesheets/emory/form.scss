@@ -24,52 +24,35 @@ form label {
     margin-bottom:0;
 }
 
-#my_embargoes, #no_supplemental {   
-    .checkbox {
-        margin: 2em;
-    }
-    .agreement_text {
+.confirm_well {   
+    label {
         font-weight:bold;
         margin-left: 1em;
         line-height: 1.7;
     }
+    .form-group {
+        margin-bottom:0;
+    }
+    .checkbox {
+        margin-top:0;
+        margin-bottom:0;
+    }
 
-}
-
-#no_embargoes {
-    transform: scale(1.5);
 }
 
 .question .radio_buttons  {
     margin-left:2em;
 }
 
-.well {
-  max-height: 80px;	
-  max-width: 556px;	
-}
-
 #submission-agreement .well {
-max-height:900px;
-max-width:900px;
+    max-height:900px;
+    max-width:900px;
 }
 
 .submission_agreement {
- margin-left: 4.5em;
- margin-top: 1.5em;
-
+    margin-top: 1.5em;
 }
 
-#agreement {
- transform: scale(1.5);
- margin-right:.5em;
-#no_supplemental {
-  margin: 2em;
-  input {
-    transform: scale(1.5);	
-  }
-  label {
-    font-weight:bold;
-  }
-}
+input[type="checkbox"] {
+    transform: scale(1.5);
 }

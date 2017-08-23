@@ -20,6 +20,7 @@
       <h2>Submission Agreement</h2>
       <p id='submission-agreement-copy' class='well'>
         <%= t('hyrax.active_consent_to_agreement') %>
+         <br />
         <label class="submission_agreement">
           <%= check_box_tag 'agreement', 1, f.object.agreement_accepted, required: true %>
           I HAVE READ AND AGREE TO THE SUBMISSION AGREEMENT
@@ -39,7 +40,7 @@
     <%# TODO: If we start using ActionCable, we could listen for object updates and
               alert the user that the object has changed by someone else %>
     <%= f.input Hyrax::Actors::OptimisticLockValidator.version_field, as: :hidden if f.object.persisted? %>
-    <%= f.submit class: 'btn btn-primary', onclick: "confirmation_needed = false;", id: "with_files_submit", disabled: true, name: "save_with_files" %>
+    <%= f.submit "Submit My ETD" class: 'btn btn-primary', onclick: "confirmation_needed = false;", id: "with_files_submit", disabled: true, name: "save_with_files" %>
   </div>
 
 </div>
