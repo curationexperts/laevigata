@@ -204,11 +204,14 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       }
     }
 
-
     supplementalFilesListener(){
       let form = this
       $('#etd_no_supplemental_files').on('change', function(){
-        form.validateSupplementalFiles()
+        form.validateSupplementalFiles();
+        if($(this).prop('checked') === false){
+          //only clear the table when someone has interacted with this element - checked and then unchecked it.
+          $('#supplemental_files_metadata').empty();
+        }
       });
     }
 
@@ -390,6 +393,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
    });
    // the 'shown' hook means the dom will now have these elements
    $('#additional_metadata').on('shown.bs.collapse', function(){
+     form.validateSupplementalFiles();
      $("#additional_metadata :input").on('change', function() {
        form.validateSupplementalFiles();
       });
@@ -400,7 +404,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
      form.validateSupplementalFiles();
    });
  }
-
+  //validate needs to be called on clicking show or add
   hasSupplementalMetadata(){
     if ($('#additional_metadata').is(':visible')) {
       var invalidInputs;
@@ -408,8 +412,16 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
         return invalidVal($( this ).val());
       });
       return invalidInputs.length === 0
+    } else if ($("#additional_metadata tr").length === 0) {
+      // are there rows - if not, it's a new table and no data has been added yet
+      return false
     } else {
-      return true
+      var invalidHiddenInputs;
+      // checking the values of hidden existing rows
+      invalidHiddenInputs = $("#additional_metadata :input:hidden").map(function() {
+        return invalidVal($( this ).val());
+      });
+      return invalidHiddenInputs.length === 0
     }
 
     function invalidVal(val){

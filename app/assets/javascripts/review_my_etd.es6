@@ -209,14 +209,14 @@ export default class ReviewMyETD {
     $(this.pdfTableSelector).append($pdf);
 
     // do we have supplemental files but no metadata?
-    if ($('#etd_no_supplemental_files').prop('checked') === false && $('#additional_metadata_link').text() == 'Show Additional Metadata') {
+    if ($('#etd_no_supplemental_files').prop('checked') === false && $('#additional_metadata_link').text() == 'Add Required Metadata') {
       $(this.supplementalFilesTableSelector).append('<tr><th colspan="4">Supplemental Files</th></tr>');
 
       $(this.supplementalFilesTableSelector).append(this.getSupplementalFileList());
 
       //do we have supplemental metadata?
 
-    } else if ($('#new_etd #additional_metadata tr').length > 0 && $('#additional_metadata_link').text() == 'Hide Additional Metadata') {
+    } else if ($('#new_etd #additional_metadata tr').length > 0 && $('#additional_metadata_link').text() == 'Hide Required Metadata') {
       $(this.supplementalFilesTableSelector).append('<tr><th colspan="4">Supplemental Files</th></tr>');
       // switch the value of the input with the html for each td
       var supp_data = $("#additional_metadata").clone();
