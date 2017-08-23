@@ -16,7 +16,7 @@ RSpec.feature 'Supplemental files' do
     scenario "Supplemental Files Content", js: true unless continuous_integration? do
       click_on('Supplemental Files')
       expect(page).to have_content('I have no supplemental files.')
-      expect(page).to have_content('Add Supplementary files...')
+      expect(page).to have_content('Add Supplemental Files')
       # expect(page).to have_content('Browse cloud files')
     end
 
