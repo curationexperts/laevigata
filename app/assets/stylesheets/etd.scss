@@ -122,3 +122,8 @@ div#supplemental_fileupload table#supplemental_files_metadata input{
   border: 1px solid red;
   shadow: none;
 }
+
+// set to thumbnail size
+.img.representative-media.thumbnail {
+    width: 150px;
+}

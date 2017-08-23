@@ -1,5 +1,5 @@
 <% if presenter.files_embargo_check %>
-  <%= image_tag "No_Preview.png", class: "representative-media" %>
+  <%= image_tag "No_Preview.png", class: "representative-media thumbnail" %>
 <% elsif presenter.representative_id.present? && presenter.representative_presenter.present? %>
   <%= media_display presenter.representative_presenter %>
 <% else %>
