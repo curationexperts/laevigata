@@ -24,7 +24,8 @@ form label {
     margin-bottom:0;
 }
 
-.confirm_well {   
+.confirm_well {
+    margin-top: 1em;
     label {
         font-weight:bold;
         margin-left: 1em;
@@ -55,4 +56,8 @@ form label {
 
 input[type="checkbox"] {
     transform: scale(1.5);
+}
+
+.agreement_text {
+    margin-left: 1em;
 }

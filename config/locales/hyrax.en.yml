@@ -19,7 +19,9 @@ en:
         required_supplemental_files: "Supplemental Files"
         required_embargoes: "Embargoes"
         required_review: "Review & Submit"
-
+      form_files:
+        external_upload: "Upload Large Files"
+        local_upload: "Upload Small Files"
     works:
       progress:
         header: "Submission Checklist"
