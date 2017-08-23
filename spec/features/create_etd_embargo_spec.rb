@@ -19,7 +19,6 @@ RSpec.feature 'Create an Etd: My Embargoes' do
       expect(page).to have_content("What do you want to embargo?")
       expect(page).to have_content("Select your school")
       expect(page).to have_content("How long will the embargo last?")
-      expect(page).to have_css('#save_my_embargoes')
     end
 
     scenario "Checking 'No embargoes' makes invalid form valid", js: true unless continuous_integration? do

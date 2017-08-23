@@ -188,7 +188,7 @@ RSpec.feature 'Supplemental files' do
 
     scenario "hiding metadata does not remove it", js: true do
       click_on('Supplemental Files')
-      expect(page).to have_content('Add Supplementary files...')
+      expect(page).to have_content('Add Supplemental Files')
 
       within('#supplemental_fileupload') do
         page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
