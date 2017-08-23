@@ -1,13 +1,14 @@
 <h1><%= t("hyrax.works.form.tab.embargoes", type: curation_concern.human_readable_type) %></h1>
 <div class="form-instructions">You have the option to restrict access to your thesis or dissertation for a limited time. Select which parts of your record to include in the embargo and how long the embargo should last. If you are unsure whether to embargo your ETD, consult with your thesis advisor or committee chair.</div>
 <div id="my_embargoes">
+  <div class="confirm_well">
   <div class="checkbox well">
     <label class="boolean optional" for="etd_no_embargoes">
       <span class="sr-only">Warning:</span>
-      <%= check_box_tag :no_embargoes %> <span class="do_not_want_embargo">I do not want to embargo my thesis or dissertation.</span>
+      <%= check_box_tag :no_embargoes %> <span class="do_not_want_embargo agreement_text">I do not want to embargo my thesis or dissertation.</span>
     </label>
   </div>
-
+</div>
   <h4>What do you want to embargo?</h4>
 
   <p class="help-block">You can choose to embargo only your files or more of your thesis or dissertation record. Select which parts of your record you would like to include in your embargo. If a patent is associated with your thesis or dissertation, consult with the Office of Technology Transfer about your embargo. Contact the Office of Technology Transfer at (404) 727-2211.</p>

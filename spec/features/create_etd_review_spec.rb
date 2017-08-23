@@ -63,7 +63,7 @@ RSpec.feature 'Create an Etd' do
 
       click_on('Supplemental Files')
 
-      expect(page).to have_content('Add Supplementary files...')
+      expect(page).to have_content('Add Supplemental Files')
 
       page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
 
@@ -204,7 +204,7 @@ RSpec.feature 'Create an Etd' do
 
       expect(page).to have_css('li#required-review.complete')
 
-      click_on('Save')
+      click_on('Submit My ETD')
 
       expect(page).to have_content 'Middlemarch'
       expect(page).to have_content 'Pending approval'

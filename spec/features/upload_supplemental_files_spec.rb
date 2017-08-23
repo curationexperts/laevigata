@@ -151,7 +151,7 @@ RSpec.feature 'Supplemental files' do
     scenario "deleting all files removes all metadata content", js: true do
       # if you upload two files and delete them both, expect show metadata link and table not to be there
       click_on('Supplemental Files')
-      expect(page).to have_content('Add Supplementary files...')
+      expect(page).to have_content('Add Supplemental Files')
 
       within('#supplemental_fileupload') do
         page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")

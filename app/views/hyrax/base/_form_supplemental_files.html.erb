@@ -1,13 +1,16 @@
 <h1><%= t("hyrax.works.form.tab.supplemental_files", type: curation_concern.human_readable_type) %></h1>
 <div class="form-instructions">Uploading supplemental files is not required, but it gives you a way to share more of your research. These files could be video, research data, securely zipped software, or other materials. Please group your supplemental files so you can select and upload them all at once. Once uploaded, <strong>you are required to add additional metadata for each</strong>. You may upload as many supplemental files as you like. No single file should exceed 2.5 GB. If you have a file larger than 2.5 GB, contact the ETD team at <a href="mailto:etd-help@LISTSERV.CC.EMORY.EDU">etd-help@LISTSERV.CC.EMORY.EDU</a> for help.</div>
-
+<div id="no_supplemental">
+  <div class="confirm_well">
+<div class="checkbox well supplemental_files">
+    <%= f.input :no_supplemental_files, as: :boolean, label: "I have no supplemental files." %>
+</div>
+</div>
+</div>
 <div id="supplemental_fileupload">
   <h2><%= t('hyrax.base.form_files.local_upload') %></h2>
   <div class="alert alert-info form-instructions">For supplemental files 100MB or smaller, upload from your computer.</div>
   <div id='duplicate-files-error' class='alert alert-warning hidden col-xs-12'>Duplicate found. This file has already been uploaded.</div>
-  <div class="checkbox well">
-    <%= f.input :no_supplemental_files, as: :boolean, label: "I have no supplemental files." %>
-  </div>
    <!-- The table listing the files available for upload/download -->
    <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
 
@@ -28,9 +31,9 @@
    <div class="row fileupload-buttonbar">
        <div class="col-xs-7">
            <!-- The fileinput-button span is used to style the file input field as button -->
-           <span class="btn btn-success fileinput-button">
+           <span class="btn btn-primary fileinput-button">
                <span class="glyphicon glyphicon-plus"></span>
-               <span>Add Supplementary files...</span>
+               <span>Add Supplemental Files</span>
                <input type="file" name="supplemental_files[]" id='supplemental_files_uploader' multiple>
            </span>
 
