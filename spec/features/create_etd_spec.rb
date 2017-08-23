@@ -108,7 +108,7 @@ RSpec.feature 'Create an Etd' do
       find(:css, '#preview_my_etd').click
       check('agreement')
       expect(page).to have_css('li#required-review.complete')
-      save_and_wait = -> { click_button "Save"; wait_for_ajax(10) }
+      save_and_wait = -> { click_button "Submit My ETD"; wait_for_ajax(10) }
       expect(save_and_wait).to change { Etd.count }.by(1)
                            .and change { FileSet.count }.by(0)
 
