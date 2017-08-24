@@ -39,15 +39,16 @@ module Hyrax
     # @param [ActionController::Parameters] params
     # @return [ActionController::Parameters] params
     def apply_supplemental_file_metadata(params)
-      byebug
       no_supplemental_files = params["etd"].delete("no_supplemental_files")
       return if no_supplemental_files == 1
       uploaded_file_ids = params["uploaded_files"]
       return if uploaded_file_ids.nil?
       uploaded_file_ids.each do |uploaded_file_id|
-        uploaded_file = Hyrax::UploadedFile.find(uploaded_file_id)
+        uploaded_file = Hyrax::UploadedFile.find_or_create_by(id: uploaded_file_id)
+        # TODO: browse everything uploaded primary files will not have been marked as primary
         next if uploaded_file.pcdm_use == "primary"
         supplemental_file_metadata = params["etd"]["supplemental_file_metadata"]
+        byebug
         supplemental_file_metadata.keys.each do |key|
           next unless File.basename(uploaded_file.file.file.file) == supplemental_file_metadata[key]["filename"]
           uploaded_file.title = supplemental_file_metadata[key]["title"]
