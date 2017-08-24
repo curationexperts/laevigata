@@ -39,11 +39,11 @@ module Hyrax
     # @param [ActionController::Parameters] params
     # @return [ActionController::Parameters] params
     def apply_supplemental_file_metadata(params)
+      byebug
       no_supplemental_files = params["etd"].delete("no_supplemental_files")
       return if no_supplemental_files == 1
       uploaded_file_ids = params["uploaded_files"]
       return if uploaded_file_ids.nil?
-      byebug
       uploaded_file_ids.each do |uploaded_file_id|
         uploaded_file = Hyrax::UploadedFile.find(uploaded_file_id)
         next if uploaded_file.pcdm_use == "primary"

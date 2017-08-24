@@ -82,4 +82,5 @@ curl https://api.box.com/2.0/folders/0 -H \
   1. `rails g browse_everything:config`
   2. copy the `client_id` and `client_secret` from box into your newly created `config/browse_everything_providers.yml` file and uncomment the `box` section
   3. The generator will try to add the BrowseEverything mount to your `config/routes.rb` file.
-  This already exists in Laevigata, so remove the line it added. 
+  This already exists in Laevigata, so remove the line it added.
+1. Save everything and restart your rails server and you should be good to go!
