@@ -44,22 +44,65 @@ module Hyrax
       uploaded_file_ids = params["uploaded_files"]
       return if uploaded_file_ids.nil?
       uploaded_file_ids.each do |uploaded_file_id|
-        uploaded_file = Hyrax::UploadedFile.find_or_create_by(id: uploaded_file_id)
-        # TODO: browse everything uploaded primary files will not have been marked as primary
+        uploaded_file = find_or_create_uploaded_file(uploaded_file_id)
         next if uploaded_file.pcdm_use == "primary"
-        supplemental_file_metadata = params["etd"]["supplemental_file_metadata"]
-        byebug
-        supplemental_file_metadata.keys.each do |key|
-          next unless File.basename(uploaded_file.file.file.file) == supplemental_file_metadata[key]["filename"]
-          uploaded_file.title = supplemental_file_metadata[key]["title"]
-          uploaded_file.description = supplemental_file_metadata[key]["description"]
-          uploaded_file.file_type = supplemental_file_metadata[key]["file_type"]
-          uploaded_file.save
-          supplemental_file_metadata.delete(key)
-        end
+        apply_supplemental_file_metadata_to_uploaded_file(uploaded_file, params)
+        # TODO: browse everything uploaded primary files will not have been marked as primary
+        # next if uploaded_file.pcdm_use == "primary"
       end
       params["etd"].delete("supplemental_file_metadata")
       params # return the params after processing, for ease of testing
+    end
+
+    def apply_supplemental_file_metadata_to_uploaded_file(uploaded_file, params)
+      filename = get_filename_for_uploaded_file(uploaded_file, params)
+      if filename.nil?
+        uploaded_file.pcdm_use == "primary"
+        uploaded_file.save
+        return true
+      end
+      supplemental_file_metadata = get_supplemental_file_metadata(filename, params)
+      uploaded_file.title = supplemental_file_metadata["title"]
+      uploaded_file.description = supplemental_file_metadata["description"]
+      uploaded_file.file_type = supplemental_file_metadata["file_type"]
+      uploaded_file.pcdm_use == "supplemental"
+      uploaded_file.save
+    end
+
+    # @param [String] filename
+    # @param [Hash] params
+    # @return [Hash]
+    def get_supplemental_file_metadata(filename, params)
+      supplemental_file_metadata = params["etd"]["supplemental_file_metadata"].values
+      supplemental_file_metadata.select { |a| a["filename"] == filename }.first
+    end
+
+    def get_filename_for_uploaded_file(uploaded_file, params)
+      return File.basename(uploaded_file.file.file.file) if uploaded_file.file.file
+      get_file_for_url(uploaded_file.browse_everything_url, params)
+    end
+
+    # Given a browse everything url, return the file name
+    def get_file_for_url(url, params)
+      selected_files = params["selected_files"].values
+      return unless selected_files.map { |a| a["url"] }.include?(url)
+      selected_files.select { |a| a["url"] == url }.first["file_name"]
+    end
+
+    # Given a filename, return the browse everything url
+    def get_url_for_filename(filename, params)
+      selected_files = params["selected_files"].values
+      selected_files.select { |a| a["file_name"] == filename }.first["url"]
+    end
+
+    # Locally uploaded files should already have a Hyrax::UploadedFile object.
+    # If the uploaded_file_id starts with http, then it must be a
+    # BrowseEverything file. Put the id in the browse_everything_url field.
+    # @param [String] uploaded_file_id
+    # @return [::Hyrax::UploadedFile]
+    def find_or_create_uploaded_file(uploaded_file_id)
+      return ::Hyrax::UploadedFile.find(uploaded_file_id) unless uploaded_file_id.starts_with?("http")
+      ::Hyrax::UploadedFile.create(browse_everything_url: uploaded_file_id)
     end
   end
 end
