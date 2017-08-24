@@ -43,6 +43,7 @@ module Hyrax
       return if no_supplemental_files == 1
       uploaded_file_ids = params["uploaded_files"]
       return if uploaded_file_ids.nil?
+      byebug
       uploaded_file_ids.each do |uploaded_file_id|
         uploaded_file = Hyrax::UploadedFile.find(uploaded_file_id)
         next if uploaded_file.pcdm_use == "primary"

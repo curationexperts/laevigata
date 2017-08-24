@@ -15,11 +15,11 @@ export default class ReviewMyETD {
     $('a[href="#review"]').on('click', function(){
       let valid_form = $('li#required-about-me').hasClass('complete') && $('li#required-my-etd').hasClass('complete') &&
       $('li#required-files').hasClass('complete') && $('li#required-supplemental-files').hasClass('complete') && $('li#required-embargoes').hasClass('complete')
-      if(valid_form){
+      // if(valid_form){
       // remove table if it's there
         $(form.previewButtonSelector).prop('disabled', false);
         $(form.previewButtonSelector).removeClass('hidden');
-      }
+      // }
     })
   }
 
