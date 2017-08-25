@@ -12,7 +12,7 @@ module Hyrax
     helper EtdHelper
 
     def create
-      apply_supplemental_file_metadata(params) if params["etd"]["supplemental_file_metadata"]
+      apply_file_metadata(params) # if params["etd"]["supplemental_file_metadata"]
       # TODO: make this a case statement for each tab
       if params.fetch('partial_data', false) == "true"
         @etd_about_me = params.fetch('etd')
@@ -38,26 +38,27 @@ module Hyrax
     # Take supplemental file metadata and write it to the appropriate UploadedFile
     # @param [ActionController::Parameters] params
     # @return [ActionController::Parameters] params
-    def apply_supplemental_file_metadata(params)
-      no_supplemental_files = params["etd"].delete("no_supplemental_files")
-      return if no_supplemental_files == 1
+    def apply_file_metadata(params)
+      params["etd"].delete("no_supplemental_files")
       uploaded_file_ids = params["uploaded_files"]
       return if uploaded_file_ids.nil?
       uploaded_file_ids.each do |uploaded_file_id|
         uploaded_file = find_or_create_uploaded_file(uploaded_file_id)
         next if uploaded_file.pcdm_use == "primary"
-        apply_supplemental_file_metadata_to_uploaded_file(uploaded_file, params)
-        # TODO: browse everything uploaded primary files will not have been marked as primary
-        # next if uploaded_file.pcdm_use == "primary"
+        apply_metadata_to_uploaded_file(uploaded_file, params)
       end
       params["etd"].delete("supplemental_file_metadata")
       params # return the params after processing, for ease of testing
     end
 
-    def apply_supplemental_file_metadata_to_uploaded_file(uploaded_file, params)
+    def apply_metadata_to_uploaded_file(uploaded_file, params)
       filename = get_filename_for_uploaded_file(uploaded_file, params)
-      if filename.nil?
-        uploaded_file.pcdm_use == "primary"
+      # We are relying on the fact that only supplemental_files are showing up in
+      # the selected_files params for browse_everything in order to distinguish
+      # between primary and supplemental browse_everything files. This probably isn't a
+      # safe assumption long-term.
+      if filename.nil? || params["etd"]["supplemental_file_metadata"].nil?
+        uploaded_file.pcdm_use = ::FileSet::PRIMARY
         uploaded_file.save
         return true
       end
@@ -65,7 +66,7 @@ module Hyrax
       uploaded_file.title = supplemental_file_metadata["title"]
       uploaded_file.description = supplemental_file_metadata["description"]
       uploaded_file.file_type = supplemental_file_metadata["file_type"]
-      uploaded_file.pcdm_use == "supplemental"
+      uploaded_file.pcdm_use = ::FileSet::SUPPLEMENTAL
       uploaded_file.save
     end
 

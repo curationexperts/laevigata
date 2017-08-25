@@ -59,7 +59,7 @@ RSpec.describe Hyrax::EtdsController do
       FactoryGirl.create(:uploaded_file, id: 16, file: file3, user_id: user.id)
     end
     it "attaches metadata to uploaded files" do
-      described_class.new.apply_supplemental_file_metadata(params)
+      described_class.new.apply_file_metadata(params)
       file15 = Hyrax::UploadedFile.find(15)
       file16 = Hyrax::UploadedFile.find(16)
       expect(file15.title).to eq("Magic Warrior Cat")
@@ -77,10 +77,16 @@ RSpec.describe Hyrax::EtdsController do
     end
     it "applies metadata to a ::Hyrax::UploadedFile object" do
       uploaded_file = Hyrax::UploadedFile.create(browse_everything_url: params["uploaded_files"].first)
-      described_class.new.apply_supplemental_file_metadata_to_uploaded_file(uploaded_file, params)
+      described_class.new.apply_metadata_to_uploaded_file(uploaded_file, params)
       expect(uploaded_file.title).to eq "River"
       expect(uploaded_file.description).to eq "in the elephant carrier"
       expect(uploaded_file.file_type).to eq "Image"
+      expect(uploaded_file.pcdm_use).to eq FileSet::SUPPLEMENTAL
+    end
+    it "identifies a primary object" do
+      uploaded_file = Hyrax::UploadedFile.create(browse_everything_url: params["uploaded_files"].last)
+      described_class.new.apply_metadata_to_uploaded_file(uploaded_file, params)
+      expect(uploaded_file.pcdm_use).to eq FileSet::PRIMARY
     end
     it "gets the supplemental file metadata for a given filename" do
       filename = "declan_and_giarlo.JPG"
@@ -95,7 +101,7 @@ RSpec.describe Hyrax::EtdsController do
       expect(metadata["file_type"]).to eq "Image"
     end
     it "creates an UploadedFile object for each entry in the uploaded_files array" do
-      described_class.new.apply_supplemental_file_metadata(params)
+      described_class.new.apply_file_metadata(params)
       params["uploaded_files"].each do |be_upload_url|
         expect(::Hyrax::UploadedFile.where(browse_everything_url: be_upload_url).first).to be_instance_of ::Hyrax::UploadedFile
       end
