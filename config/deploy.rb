@@ -26,7 +26,7 @@ append :linked_dirs, "tmp/cache"
 append :linked_dirs, "tmp/sockets"
 
 append :linked_files, "config/blacklight.yml"
-append :linked_files, "config/browse_everything_providers.yml"
+# append :linked_files, "config/browse_everything_providers.yml" # MHB - Removed to disable browse everything functionality
 append :linked_files, "config/database.yml"
 append :linked_files, "config/fedora.yml"
 append :linked_files, "config/redis.yml"
