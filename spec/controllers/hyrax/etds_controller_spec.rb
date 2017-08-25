@@ -73,117 +73,25 @@ RSpec.describe Hyrax::EtdsController do
   end
   context "supplemental file metadata for browse everything files" do
     let(:params) do
-      {
-        "etd" =>  {
-          "title" => "Browse Everything Test",
-          "no_supplemental_files" => "0",
-          "supplemental_file_metadata" => {
-            "0" => {
-              "filename" => "IMG_1372.JPG",
-              "title" => "Giarlo and Declan",
-              "description" => "so funny!",
-              "file_type" => "Image"
-            }
-          }
-        },
-        "uploaded_files" =>
-          [
-            "https://public.boxcloud.com/d/1/7iunLOqXe8wNfrer-fiKFmNL" \
-            "67Rokvce5vpp6aI4-KvOL2YddAu8Zz0TTp5aCF1qcL8mK7GMde8SEF1" \
-            "NZf7kwrogmF3M_Rxh6IVEj4sWxk0uJ3xg-hskwgcWRzyIQV6j3OnXj" \
-            "P80umsx196WCEwTTRkjK0507txBEzsWyRnvl18ndmZGRanVXQA2itQ" \
-            "X9DcWKd8zxazo7AF2ALpJSwMyV9PMeHTpVtuLbGwyoWaaVALxVzhIU" \
-            "lavW97j39FFKAGmQ4MzStu5kkNbk6ZPCSUnfT3X5OAKz3RPO_feRxC" \
-            "jcctOVmGUJVh1vSKfacapNHk3mS-JAE0O8_E9zqxT7I23glB_hM8VGy" \
-            "EwEHBzGkL-NCb1mjrOh6ghumPy9FjIySdYf9yyxX_ArLynsPaBrTHZ4" \
-            "rgTLfMRw42F1cgfb2wObeQMyXPaI8qbffBKLsobZC9WLhIkghfWgi" \
-            "-CZzANYkTu7uJ5_rAcshDC9UfIo5ag4LCYAHsfw2d7iaF0G6G7sXx" \
-            "PfNNSKcEMzOTvzoOYd8TAn67ezda3Ix1H7aV6-xha7wb_0DqlNSh47" \
-            "jQa1qQoFSNB08DEjIjQlVzgFvAuN9x9-TVRlrB2NcGJrgwd0ZttJJRB" \
-            "STgR3Kef01F8Wnt4cvLzuFuumwJ2qw1rXgvhFcxph0fMo5H3vS6j3Si" \
-            "TbpCRNPmgeh5Bi0FWe0BUXi5bUXgaLzvgYJTdwvykuzEu4PJS58_" \
-            "a03v5AZPwCMprDsPxtnJpiM6kCUovOMhLt65943ucc1uvITe2KbNPJS" \
-            "2cCCwtC_6zy186ayXBMSlc_ReLOPZR029N38qDR5P3s5Ez8lv2ABBSo" \
-            "QPGz8xUpWKVnqD4EuS_jg_0OeNrOZ07DC_2S507jt7MQeJ8u65N607h" \
-            "aYRz6Cfa9C8AkBDLkeMQEyR9cwIm0UdznF53CTN_SORoVFFP-6kz6X" \
-            "rz3WxQpO3JsQ-CHaHmdqsZoS2uZvFoLU6O6JHoL7mCp1uvvJUj3ruGM" \
-            "QwqAOVG9UNX2qO5-KcGp0zmVemj2duuWJI74PxDvlb2KpXU7TONKuMLB" \
-            "2xJaQeBTY3Dmsxx05ItHsO2f6xzACU./download",
-            "https://public.boxcloud.com/d/1/B7JZEXeY60ANYjfw0p7NLpy3" \
-            "NHBAx8IZ4awfr5g3seaNRFpZOtWP386VAeYovL03hxnzRdYAruuSjjbXg" \
-            "HiVdYIBIHaPyDeuxw0QhsCcoZpW4SMbQ0aXuN_PKjsJJsbtuwCjTzH8Sk" \
-            "GzJ2Gg2gq8wPQgL29QcYD1FPdjCEisWH7vKEIDyNvJ69Qb-yP5roBst1D" \
-            "sFLLEtiDy7vUZ6ip3o6eey5N-vlpjyIzv6q71B-Ns_dmgWk8UL_B9Kisz" \
-            "wzAC3ifSf1hyR8I-MCLhz_7vJCI9d3DGaMEk0kttv1UE4gyPd2l4bD9HQ" \
-            "il-FKR1OEB5J2uoK0FDRqfVzemHvflqJDO80BPAGtjXfPOhX1HauMHMta6" \
-            "jGWYchET4GXrGJ39xNw3_ox89YbH-1pRJv7orpZd76DQS1WgccAXG0TIU" \
-            "25QaIM3vlq8SqfxoHsNDzS8AIfaBbHQzVkipRCq-etYb-O85R5Oh8leKL" \
-            "TV_l1BUqlmvDmqrAC1EgwyWCUXjg3eJt4UwRRQnNtTzkGPmLebN9m2OoYW" \
-            "imtBq-fQZoLMupq8KUduIwHBa9aB9-979iOisWQXdNnuov-J70bkVuu8qq" \
-            "FySybHgsiCihO1NM98XCuiMfVEcTByi1-vToCGVIcV5QO1AlEw_wi6KMk" \
-            "BtUZo3JZ0Mqvwh8tiw2VqkvxTvfmNG2FOPsAOESrwXNP3Z4rHWV4DIbf-v" \
-            "Xsq9WOs5b8ci4xTq-ofHam3cw-iOKxUGrMQT5dXnS5BPrB_Elzc3EtQJBf" \
-            "bk3_twulZM7Hjmsick1iByLi-BLHTGo_vzmkAe-yxVVAXl9vUAD9ugcadSS" \
-            "WmT_Eh3XD2TBaNBthjFfrBz0Jz6pREblVkX5UoCRMT82tau6q7SehNOb7O" \
-            "N5Kl5OACYCRcN7ghEgkG0hRKwOUJ7uRsR6VLnnfnAb3BUg8UfISLoEpE8Y" \
-            "A4EiYJdG8nwThkYER7MoidDlx2cTQOJDmgECpi-DUm413-Gk-eemv3XPZx" \
-            "-iQUHvtgAL9TclnhvDR_T7cvdTiOEtwBJ3x5FE0hxTX2jN0hI9FD-kA4r" \
-            "r06aquETLdfhKv17tNaSVXQttJgsi3oLxkQ./download"
-          ],
-        "selected_files" =>
-          {
-            "0" =>
-              {
-                "url" =>
-                  "https://public.boxcloud.com/d/1/7iunLOqXe8wNfrer-fiKFmNL" \
-                  "67Rokvce5vpp6aI4-KvOL2YddAu8Zz0TTp5aCF1qcL8mK7GMde8SEF1" \
-                  "NZf7kwrogmF3M_Rxh6IVEj4sWxk0uJ3xg-hskwgcWRzyIQV6j3OnXj" \
-                  "P80umsx196WCEwTTRkjK0507txBEzsWyRnvl18ndmZGRanVXQA2itQ" \
-                  "X9DcWKd8zxazo7AF2ALpJSwMyV9PMeHTpVtuLbGwyoWaaVALxVzhIU" \
-                  "lavW97j39FFKAGmQ4MzStu5kkNbk6ZPCSUnfT3X5OAKz3RPO_feRxC" \
-                  "jcctOVmGUJVh1vSKfacapNHk3mS-JAE0O8_E9zqxT7I23glB_hM8VGy" \
-                  "EwEHBzGkL-NCb1mjrOh6ghumPy9FjIySdYf9yyxX_ArLynsPaBrTHZ4" \
-                  "rgTLfMRw42F1cgfb2wObeQMyXPaI8qbffBKLsobZC9WLhIkghfWgi" \
-                  "-CZzANYkTu7uJ5_rAcshDC9UfIo5ag4LCYAHsfw2d7iaF0G6G7sXx" \
-                  "PfNNSKcEMzOTvzoOYd8TAn67ezda3Ix1H7aV6-xha7wb_0DqlNSh47" \
-                  "jQa1qQoFSNB08DEjIjQlVzgFvAuN9x9-TVRlrB2NcGJrgwd0ZttJJRB" \
-                  "STgR3Kef01F8Wnt4cvLzuFuumwJ2qw1rXgvhFcxph0fMo5H3vS6j3Si" \
-                  "TbpCRNPmgeh5Bi0FWe0BUXi5bUXgaLzvgYJTdwvykuzEu4PJS58_" \
-                  "a03v5AZPwCMprDsPxtnJpiM6kCUovOMhLt65943ucc1uvITe2KbNPJS" \
-                  "2cCCwtC_6zy186ayXBMSlc_ReLOPZR029N38qDR5P3s5Ez8lv2ABBSo" \
-                  "QPGz8xUpWKVnqD4EuS_jg_0OeNrOZ07DC_2S507jt7MQeJ8u65N607h" \
-                  "aYRz6Cfa9C8AkBDLkeMQEyR9cwIm0UdznF53CTN_SORoVFFP-6kz6X" \
-                  "rz3WxQpO3JsQ-CHaHmdqsZoS2uZvFoLU6O6JHoL7mCp1uvvJUj3ruGM" \
-                  "QwqAOVG9UNX2qO5-KcGp0zmVemj2duuWJI74PxDvlb2KpXU7TONKuMLB" \
-                  "2xJaQeBTY3Dmsxx05ItHsO2f6xzACU./download",
-                "auth_header" =>
-                  {
-                    "Authorization" =>
-                      "Bearer {\"token\"=>\"JlyWOq4WKYL5GnF" \
-                      "ex5lrg6ZRs6XfjsB0\", \"refresh_token\"=>\"6sh4f6jSsP" \
-                      "HQ48wO9xugDqvwZaPZJoItqDrJfNe8eTNXj8JfEHK19IdWvvTPDAMM\"," \
-                      " \"expires_at\"=>1503591545}"
-                  },
-                  "expires" => "2017-08-24T16:24:43.209Z",
-                  "file_name" => "IMG_1372.JPG",
-                  "file_size" => "1260434"
-              }
-            },
-        "locale" => "en"
-      }
+      eval(File.read("#{fixture_path}/form_submission_params/files_from_box.rb"))
     end
     it "applies metadata to a ::Hyrax::UploadedFile object" do
       uploaded_file = Hyrax::UploadedFile.create(browse_everything_url: params["uploaded_files"].first)
       described_class.new.apply_supplemental_file_metadata_to_uploaded_file(uploaded_file, params)
-      expect(uploaded_file.title).to eq "Giarlo and Declan"
-      expect(uploaded_file.description).to eq "so funny!"
+      expect(uploaded_file.title).to eq "River"
+      expect(uploaded_file.description).to eq "in the elephant carrier"
       expect(uploaded_file.file_type).to eq "Image"
     end
     it "gets the supplemental file metadata for a given filename" do
-      filename = "IMG_1372.JPG"
+      filename = "declan_and_giarlo.JPG"
       metadata = described_class.new.get_supplemental_file_metadata(filename, params)
-      expect(metadata["title"]).to eq "Giarlo and Declan"
-      expect(metadata["description"]).to eq "so funny!"
+      expect(metadata["title"]).to eq "Declan and Giarlo"
+      expect(metadata["description"]).to eq "DLF 2014"
+      expect(metadata["file_type"]).to eq "Software"
+      filename = "river.JPG"
+      metadata = described_class.new.get_supplemental_file_metadata(filename, params)
+      expect(metadata["title"]).to eq "River"
+      expect(metadata["description"]).to eq "in the elephant carrier"
       expect(metadata["file_type"]).to eq "Image"
     end
     it "creates an UploadedFile object for each entry in the uploaded_files array" do
@@ -194,34 +102,13 @@ RSpec.describe Hyrax::EtdsController do
     end
     it "gets the filename for a browse everything uploaded file" do
       uploaded_file = Hyrax::UploadedFile.create(browse_everything_url: params["uploaded_files"].first)
-      expected_filename = "IMG_1372.JPG"
+      expected_filename = "river.JPG"
       filename = described_class.new.get_filename_for_uploaded_file(uploaded_file, params)
       expect(filename).to eq expected_filename
     end
     it "gets the url for a filename" do
-      expected_url =
-        "https://public.boxcloud.com/d/1/7iunLOqXe8wNfrer-fiKFmNL" \
-      "67Rokvce5vpp6aI4-KvOL2YddAu8Zz0TTp5aCF1qcL8mK7GMde8SEF1" \
-      "NZf7kwrogmF3M_Rxh6IVEj4sWxk0uJ3xg-hskwgcWRzyIQV6j3OnXj" \
-      "P80umsx196WCEwTTRkjK0507txBEzsWyRnvl18ndmZGRanVXQA2itQ" \
-      "X9DcWKd8zxazo7AF2ALpJSwMyV9PMeHTpVtuLbGwyoWaaVALxVzhIU" \
-      "lavW97j39FFKAGmQ4MzStu5kkNbk6ZPCSUnfT3X5OAKz3RPO_feRxC" \
-      "jcctOVmGUJVh1vSKfacapNHk3mS-JAE0O8_E9zqxT7I23glB_hM8VGy" \
-      "EwEHBzGkL-NCb1mjrOh6ghumPy9FjIySdYf9yyxX_ArLynsPaBrTHZ4" \
-      "rgTLfMRw42F1cgfb2wObeQMyXPaI8qbffBKLsobZC9WLhIkghfWgi" \
-      "-CZzANYkTu7uJ5_rAcshDC9UfIo5ag4LCYAHsfw2d7iaF0G6G7sXx" \
-      "PfNNSKcEMzOTvzoOYd8TAn67ezda3Ix1H7aV6-xha7wb_0DqlNSh47" \
-      "jQa1qQoFSNB08DEjIjQlVzgFvAuN9x9-TVRlrB2NcGJrgwd0ZttJJRB" \
-      "STgR3Kef01F8Wnt4cvLzuFuumwJ2qw1rXgvhFcxph0fMo5H3vS6j3Si" \
-      "TbpCRNPmgeh5Bi0FWe0BUXi5bUXgaLzvgYJTdwvykuzEu4PJS58_" \
-      "a03v5AZPwCMprDsPxtnJpiM6kCUovOMhLt65943ucc1uvITe2KbNPJS" \
-      "2cCCwtC_6zy186ayXBMSlc_ReLOPZR029N38qDR5P3s5Ez8lv2ABBSo" \
-      "QPGz8xUpWKVnqD4EuS_jg_0OeNrOZ07DC_2S507jt7MQeJ8u65N607h" \
-      "aYRz6Cfa9C8AkBDLkeMQEyR9cwIm0UdznF53CTN_SORoVFFP-6kz6X" \
-      "rz3WxQpO3JsQ-CHaHmdqsZoS2uZvFoLU6O6JHoL7mCp1uvvJUj3ruGM" \
-      "QwqAOVG9UNX2qO5-KcGp0zmVemj2duuWJI74PxDvlb2KpXU7TONKuMLB" \
-      "2xJaQeBTY3Dmsxx05ItHsO2f6xzACU./download"
-      url = described_class.new.get_url_for_filename("IMG_1372.JPG", params)
+      expected_url = params["uploaded_files"].first
+      url = described_class.new.get_url_for_filename("river.JPG", params)
       expect(url).to eq expected_url
     end
   end
