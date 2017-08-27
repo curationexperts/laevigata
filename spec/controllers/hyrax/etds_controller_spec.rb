@@ -71,33 +71,57 @@ RSpec.describe Hyrax::EtdsController do
       expect(file16.file_type).to eq("Data")
     end
   end
+
   context "supplemental file metadata for browse everything files" do
     let(:params) do
-      eval(File.read("#{fixture_path}/form_submission_params/files_from_box.rb"))
+      eval(File.read("#{fixture_path}/form_submission_params/be_uploaded_pdf_and_supplemental_files.rb")) # rubocop:disable Security/Eval
     end
+    let(:original_params) do
+      eval(File.read("#{fixture_path}/form_submission_params/be_uploaded_pdf_and_supplemental_files.rb")) # rubocop:disable Security/Eval
+    end
+    let(:corrected_selected_files) do
+      eval(File.read("#{fixture_path}/form_submission_params/corrected_selected_files.rb")) # rubocop:disable Security/Eval
+    end
+
+    before do
+      # the create action calls this method first, which changes the params so that its selected_files hash is in the structure the rest of the app requires, so we change our test params as well
+      selected_files = described_class.new.merge_selected_files_hashes(params)
+      params["selected_files"] = selected_files
+    end
+
+    it "adjusts the selected_files params from browse-everything" do
+      expected_selected_files = corrected_selected_files
+      selected_files = described_class.new.merge_selected_files_hashes(original_params)
+
+      expect(selected_files).to eq(expected_selected_files)
+    end
+
     it "applies metadata to a ::Hyrax::UploadedFile object" do
       uploaded_file = Hyrax::UploadedFile.create(browse_everything_url: params["uploaded_files"].first)
+
       described_class.new.apply_metadata_to_uploaded_file(uploaded_file, params)
-      expect(uploaded_file.title).to eq "River"
-      expect(uploaded_file.description).to eq "in the elephant carrier"
+      expect(uploaded_file.title).to eq "Great File"
+      expect(uploaded_file.description).to eq "Super Great"
       expect(uploaded_file.file_type).to eq "Image"
       expect(uploaded_file.pcdm_use).to eq FileSet::SUPPLEMENTAL
     end
+
     it "identifies a primary object" do
       uploaded_file = Hyrax::UploadedFile.create(browse_everything_url: params["uploaded_files"].last)
       described_class.new.apply_metadata_to_uploaded_file(uploaded_file, params)
       expect(uploaded_file.pcdm_use).to eq FileSet::PRIMARY
     end
     it "gets the supplemental file metadata for a given filename" do
-      filename = "declan_and_giarlo.JPG"
+      filename = "new.pdf"
+
       metadata = described_class.new.get_supplemental_file_metadata(filename, params)
-      expect(metadata["title"]).to eq "Declan and Giarlo"
-      expect(metadata["description"]).to eq "DLF 2014"
-      expect(metadata["file_type"]).to eq "Software"
-      filename = "river.JPG"
+      expect(metadata["title"]).to eq "Other File"
+      expect(metadata["description"]).to eq "Also Great"
+      expect(metadata["file_type"]).to eq "Video"
+      filename = "batch_edit.png"
       metadata = described_class.new.get_supplemental_file_metadata(filename, params)
-      expect(metadata["title"]).to eq "River"
-      expect(metadata["description"]).to eq "in the elephant carrier"
+      expect(metadata["title"]).to eq "Great File"
+      expect(metadata["description"]).to eq "Super Great"
       expect(metadata["file_type"]).to eq "Image"
     end
     it "creates an UploadedFile object for each entry in the uploaded_files array" do
@@ -108,13 +132,13 @@ RSpec.describe Hyrax::EtdsController do
     end
     it "gets the filename for a browse everything uploaded file" do
       uploaded_file = Hyrax::UploadedFile.create(browse_everything_url: params["uploaded_files"].first)
-      expected_filename = "river.JPG"
+      expected_filename = "batch_edit.png"
       filename = described_class.new.get_filename_for_uploaded_file(uploaded_file, params)
       expect(filename).to eq expected_filename
     end
     it "gets the url for a filename" do
       expected_url = params["uploaded_files"].first
-      url = described_class.new.get_url_for_filename("river.JPG", params)
+      url = described_class.new.get_url_for_filename("batch_edit.png", params)
       expect(url).to eq expected_url
     end
   end

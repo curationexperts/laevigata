@@ -12,7 +12,8 @@ module Hyrax
     helper EtdHelper
 
     def create
-      apply_file_metadata(params) # if params["etd"]["supplemental_file_metadata"]
+      merge_selected_files_hashes(params) if params["selected_files"]
+      apply_file_metadata(params)
       # TODO: make this a case statement for each tab
       if params.fetch('partial_data', false) == "true"
         @etd_about_me = params.fetch('etd')
@@ -53,11 +54,9 @@ module Hyrax
 
     def apply_metadata_to_uploaded_file(uploaded_file, params)
       filename = get_filename_for_uploaded_file(uploaded_file, params)
-      # We are relying on the fact that only supplemental_files are showing up in
-      # the selected_files params for browse_everything in order to distinguish
-      # between primary and supplemental browse_everything files. This probably isn't a
-      # safe assumption long-term.
-      if filename.nil? || params["etd"]["supplemental_file_metadata"].nil?
+
+      # params['be_pcdm_use_primary'] only gets sent when student uses browse-everything to upload their primary pdf
+      if filename == params.fetch('be_pcdm_use_primary', false)
         uploaded_file.pcdm_use = ::FileSet::PRIMARY
         uploaded_file.save
         return true
@@ -81,6 +80,35 @@ module Hyrax
     def get_filename_for_uploaded_file(uploaded_file, params)
       return File.basename(uploaded_file.file.file.file) if uploaded_file.file.file
       get_file_for_url(uploaded_file.browse_everything_url, params)
+    end
+
+    # We create more than one selected_files* hash on the front end, via two instances of the browse-everything uploader
+    # We need to find them and merge them into one hash in the structure the rest of the application expects
+
+    # @params [Hash] params
+    # @return [Hash] selected_files
+    def merge_selected_files_hashes(params)
+      selected_files = {}
+      be_files = params.fetch('selected_files', false)
+
+      count_of_files = 0
+      index = 0
+
+      # Get count of all browse-everything selected_files
+      be_files[0].keys.each { |k| count_of_files += be_files[0][k].size }
+
+      # Populate the selected_files hash with all of the browse-everything files, with keys in the structure the rest of the application will expect: their indexes converted to strings
+      be_files[0].keys.each do |k|
+        be_files[0][k].each do |ke, va|
+          if index < count_of_files
+            selected_files[index.to_s] = va
+            index += 1
+          end
+        end
+      end
+
+      # Add the full hash under the key the rest of the app expects
+      params[:selected_files] = selected_files
     end
 
     # Given a browse everything url, return the file name

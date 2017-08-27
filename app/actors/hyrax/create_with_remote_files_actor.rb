@@ -11,6 +11,10 @@ module Hyrax
       next_actor.update(attributes) && attach_files(remote_files)
     end
 
+    def self.needs_attr_accessible?
+      true
+    end
+
     protected
 
       # @param [HashWithIndifferentAccess] remote_files
@@ -37,7 +41,7 @@ module Hyrax
           if uri.scheme == 'file'
             IngestLocalFileJob.perform_later(fs, URI.decode(uri.path), user)
           else
-            ImportUrlJob.perform_later(fs, operation_for(user: actor.user))
+            ImportUrlJob.perform_later(fs, operation_for(user: user))
           end
         end
       end
