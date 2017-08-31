@@ -58,3 +58,29 @@ everywhere. To create a new superuser, add the user's email address to the `conf
 
 Note: Do *not* run `bin/setup` except the very first time you setup the application, or if you need to wipe out everything in your development instance. It will wipe your database but leave your AdminSets in place, making a huge mess that you can't easily recover from.
 
+## Local Browse Everything (Box integration)
+
+If you want to be able to test against remote uploads, e.g., with Box, set up Browse everything
+locally:
+
+1. Go to `https://app.box.com/developers/console/newapp` and log in as yourself (this will
+  be your personal developer account credentials)
+1. Select 'custom application' and hit 'next'
+1. Select 'Standard OAuth 2.0 (User Authentication)' and hit 'next'
+1. Give your app a unique name (e.g., "laevigata-bess") and it will give you a url like:
+```
+curl https://api.box.com/2.0/folders/0 -H \
+"Authorization: Bearer lCuEl1KbmQzIQut6HVFR3IlZ4TkAaCMK"
+```
+1. Go to `https://app.box.com/developers/console`
+1. Click on your app name, and then on the 'Configuration' tab on the left.
+1. In a box labeled OAuth 2.0 Credentials you will see your OAuth credentials. You'll need these.
+1. Set the `OAuth 2.0 Redirect URI` value to `http://localhost:3000` (or where ever you run
+  your local development instance)
+1. Save changes
+1. Follow these instructions: https://github.com/samvera/browse-everything/wiki/Configuring-browse-everything
+  1. `rails g browse_everything:config`
+  2. copy the `client_id` and `client_secret` from box into your newly created `config/browse_everything_providers.yml` file and uncomment the `box` section
+  3. The generator will try to add the BrowseEverything mount to your `config/routes.rb` file.
+  This already exists in Laevigata, so remove the line it added.
+1. Save everything and restart your rails server and you should be good to go!

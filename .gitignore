@@ -36,3 +36,5 @@ coverage
 # Ignore redis database saves
 **/dump.rdb
 
+# Ignore local browse-everything configs
+config/browse_everything_providers.yml

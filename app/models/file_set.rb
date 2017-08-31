@@ -4,6 +4,7 @@ class FileSet < ActiveFedora::Base
 
   PRIMARY = 'primary'.freeze
   SUPPLEMENTARY = 'supplementary'.freeze
+  SUPPLEMENTAL = 'supplementary'.freeze
 
   property :embargo_length, predicate: "http://purl.org/spar/fabio/hasEmbargoDuration", multiple: false do |index|
     index.as :displayable

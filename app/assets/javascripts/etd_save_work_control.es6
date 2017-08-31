@@ -154,7 +154,18 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     fileDeleted(){
       let form = this
       let file = ''
+      $('#fileupload').bind('fileuploaddestroy', function (e, data) {
+        // remove inputs named 'selected_files[]' that will interfere with the back end
+        $("input[name='selected_files[]']").remove();
+        $("input[name='sf_ids']").each(function(){
+          $('div.fields-div').find(`input[name^='${$(this).val()}']`).remove();
+        });
+        //then remove yourself?
+      //  $("input[name='sf_ids']").remove();
+      });
       $('#fileupload').bind('fileuploaddestroyed', function (e, data) {
+        // if student deletes uploaded primary file, we need to remove this param because the backend uses it to know when a browse-everything file is primary
+        $('#be_primary_pcdm').remove();
         form.validatePDF()
       });
 
@@ -215,10 +226,12 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       });
     }
 
+    // TODO: confirm this isn't needed
     addSupplementalFilesMetadata(){
-      $('#supplemental_fileupload').bind('fileuploaddone', function (e, data) {
-        $('#additional_metadata_link').show();
-      });
+      // $('#supplemental_fileupload').bind('fileuploaddone', function (e, data) {
+      //   console.log('yet this works');
+      //   $('#additional_metadata_link').show();
+      // });
     }
 
     disableSupplementalUpload(){

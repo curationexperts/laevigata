@@ -9,6 +9,14 @@ AllCops:
     - 'tmp/**/*'
     - 'config/initializers/explain_partials.rb'
 
+Layout/SpaceAroundOperators:
+  Exclude:
+    - 'spec/fixtures/form_submission_params/*'
+
+Layout/SpaceInsideHashLiteralBraces:
+    Exclude:
+      - 'spec/fixtures/form_submission_params/*'
+
 Lint/Void:
   Enabled: false
 
@@ -29,6 +37,10 @@ Metrics/ClassLength:
 
 Metrics/CyclomaticComplexity:
   Enabled: false
+
+Metrics/LineLength:
+  Exclude:
+    - 'spec/fixtures/form_submission_params/*'
 
 Metrics/PerceivedComplexity:
   Enabled: false
