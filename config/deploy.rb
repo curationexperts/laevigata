@@ -24,6 +24,7 @@ append :linked_dirs, "public/assets"
 append :linked_dirs, "tmp/pids"
 append :linked_dirs, "tmp/cache"
 append :linked_dirs, "tmp/sockets"
+append :linked_dirs, "log"
 
 append :linked_files, "config/blacklight.yml"
 append :linked_files, "config/browse_everything_providers.yml"
