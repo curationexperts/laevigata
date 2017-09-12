@@ -33,6 +33,7 @@ append :linked_files, "config/redis.yml"
 append :linked_files, "config/resque-pool.yml"
 append :linked_files, "config/secrets.yml"
 append :linked_files, "config/solr.yml"
+append :linked_files, "config/honeybadger.yml"
 
 # restart resque-pool
 require 'resque'
