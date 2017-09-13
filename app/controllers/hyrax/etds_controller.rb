@@ -1,5 +1,6 @@
 # Generated via
 #  `rails generate hyrax:work Etd`
+require 'input_sanitizer'
 
 module Hyrax
   class EtdsController < ApplicationController
@@ -12,6 +13,7 @@ module Hyrax
     helper EtdHelper
 
     def create
+      sanitize_input(params)
       merge_selected_files_hashes(params) if params["selected_files"]
       apply_file_metadata(params)
       # TODO: make this a case statement for each tab
@@ -34,6 +36,13 @@ module Hyrax
       return doc if current_user && current_user.user_key == doc["depositor_ssim"].first
       raise WorkflowAuthorizationException if doc.suppressed?
       raise CanCan::AccessDenied.new(nil, :show)
+    end
+
+    # Any fields coming in through tinymce are likely to be full of ms word
+    # type markup that we don't want. Sanitize it.
+    def sanitize_input(params)
+      params["etd"]["abstract"] = ::InputSanitizer.sanitize(params["etd"]["abstract"])
+      params["etd"]["table_of_contents"] = ::InputSanitizer.sanitize(params["etd"]["table_of_contents"])
     end
 
     # Take supplemental file metadata and write it to the appropriate UploadedFile
