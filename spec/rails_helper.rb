@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-require 'coveralls'
-Coveralls.wear!('rails')
+unless ENV['NO_COVERAGE'] == 'true'
+  require 'coveralls'
+  Coveralls.wear!('rails')
+end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
