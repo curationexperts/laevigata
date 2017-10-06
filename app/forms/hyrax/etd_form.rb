@@ -51,6 +51,14 @@ module Hyrax
       [:language, :abstract, :table_of_contents, :research_field]
     end
 
+    # Supplemental files aren't required for an ETD, but the
+    # form validation requires the user to explicitly check the
+    # 'No Supplemental Files' checkbox if they don't intend to
+    # add any additional files.
+    def no_supplemental_files
+      model.persisted? && model.supplemental_files_fs.blank?
+    end
+
     # Select the correct affiliation type for committee member
     def cm_affiliation_type(value)
       value = Array(value).first

@@ -32,7 +32,6 @@ RSpec.feature 'Edit an existing ETD' do
       copyright_question_one: false,
       copyright_question_two: true,
       copyright_question_three: false,
-      no_supplemental_files: no_supp_files,
       files_embargoed: embargo_attrs[:files_embargoed],
       abstract_embargoed: embargo_attrs[:abstract_embargoed],
       toc_embargoed: embargo_attrs[:toc_embargoed],
@@ -74,7 +73,6 @@ RSpec.feature 'Edit an existing ETD' do
     context "No supplemental files, no embargo, and a department without any subfield" do
       let(:dept) { 'African American Studies' }
       let(:subfield) { nil }
-      let(:no_supp_files) { true }
 
       let(:embargo_attrs) do
         {
@@ -111,7 +109,6 @@ RSpec.feature 'Edit an existing ETD' do
     context "An existing ETD" do
       let(:dept) { 'Biology' }
       let(:subfield) { ['Genetics and Molecular Biology'] }
-      let(:no_supp_files) { false }
 
       let(:embargo_attrs) do
         {
@@ -215,7 +212,7 @@ RSpec.feature 'Edit an existing ETD' do
         expect(page).to have_css('li#required-about-me.complete')
         # expect(page).to have_css('li#required-my-etd.complete')
         # expect(page).to have_css('li#required-files.complete')
-        # expect(page).to have_css('li#required-supplemental-files.complete')
+        expect(page).to have_css('li#required-supplemental-files.complete')
         # expect(page).to have_css('li#required-embargoes.complete')
         # expect(page).to have_css('li#required-review.complete')
 

@@ -21,6 +21,41 @@ RSpec.describe Hyrax::EtdForm do
     its(:terms) { is_expected.to include(:submitting_type) }
   end
 
+  # Figure out the correct state for the 'No Supplemental Files'
+  # checkbox on the ETD form.
+  describe "#no_supplemental_files" do
+    subject { form.no_supplemental_files }
+
+    context "ETD with no supplemental files attached" do
+      context "a new record" do
+        it { is_expected.to eq false }
+      end
+
+      # If we are rendering the edit form for an existing ETD,
+      # and the ETD doesn't have any supplemental files,
+      # the form should pre-check the 'No Supplemental Files'
+      # checkbox, since that is the current state.
+      context "an existing record" do
+        before { etd.save! }
+        it { is_expected.to eq true }
+      end
+    end
+
+    context "ETD with supplemental files" do
+      let(:etd) { build(:etd, members: [supp_file]) }
+      let(:supp_file) { build(:supplemental_file_set) }
+
+      context "a new record" do
+        it { is_expected.to eq false }
+      end
+
+      context "an existing record" do
+        before { etd.save! }
+        it { is_expected.to eq false }
+      end
+    end
+  end
+
   describe "#cm_affiliation_type" do
     subject { form.cm_affiliation_type(affiliation) }
 

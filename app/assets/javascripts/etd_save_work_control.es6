@@ -16,6 +16,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
         // Check if the form is already valid (e.g. if the user is editing an existing record, the form should be valid immediately).
         this.validateMeAndMyProgram();
+        this.validateSupplementalFiles();
     }
     //  * This seems to occur when focus is on one of the visibility buttons
     //  */
