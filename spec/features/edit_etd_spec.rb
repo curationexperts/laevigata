@@ -212,7 +212,7 @@ RSpec.feature 'Edit an existing ETD' do
 
         # TODO:
         # All tabs in the form should be marked as valid so that the student can edit the fields and save the new data.
-        # expect(page).to have_css('li#required-about-me.complete')
+        expect(page).to have_css('li#required-about-me.complete')
         # expect(page).to have_css('li#required-my-etd.complete')
         # expect(page).to have_css('li#required-files.complete')
         # expect(page).to have_css('li#required-supplemental-files.complete')

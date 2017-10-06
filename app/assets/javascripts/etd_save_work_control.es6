@@ -8,8 +8,14 @@ import SaveWorkControl from 'hyrax/save_work/save_work_control'
 
 export default class EtdSaveWorkControl extends SaveWorkControl {
     constructor(element, adminSetWidget) {
+        if (element.length < 1) {
+          return
+        }
         super(element, adminSetWidget)
         this.supplemental_file_list = [];
+
+        // Check if the form is already valid (e.g. if the user is editing an existing record, the form should be valid immediately).
+        this.validateMeAndMyProgram();
     }
     //  * This seems to occur when focus is on one of the visibility buttons
     //  */
