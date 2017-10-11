@@ -101,6 +101,7 @@ RSpec.feature 'Edit an existing ETD' do
         click_on('Embargoes')
         expect(find_field(id: 'no_embargoes').checked?).to be true
         expect(find_by_id('embargo_type')).to be_disabled
+        expect(find_by_id('embargo_type').value).to eq ''
         expect(find_by_id('embargo_school')).to be_disabled
         expect(find_by_id('etd_embargo_length')).to be_disabled
         expect(page).to have_css('li#required-embargoes.complete')
@@ -199,7 +200,7 @@ RSpec.feature 'Edit an existing ETD' do
         click_on('Embargoes')
         expect(find_field(id: 'no_embargoes').checked?).to be false
         expect(find_field(id: 'no_embargoes')).not_to be_disabled
-        # TODO: expect(find_by_id('embargo_type').value).to eq 'Files, Table of Contents and Abstract'
+        expect(find_by_id('embargo_type').value).to eq '[:files_embargoed, :toc_embargoed, :abstract_embargoed]'
         expect(find_by_id('embargo_type')).not_to be_disabled
         # TODO: expect(find_by_id('embargo_school').value).to eq 'TBD'
         expect(find_by_id('embargo_school')).not_to be_disabled

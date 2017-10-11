@@ -84,6 +84,49 @@ RSpec.describe Hyrax::EtdForm do
     end
   end
 
+  describe "#selected_embargo_type" do
+    subject { form.selected_embargo_type }
+
+    context "a new record" do
+      it { is_expected.to be_nil }
+    end
+
+    context "existing ETD with no embargo" do
+      before { etd.save! }
+      it { is_expected.to be_nil }
+    end
+
+    context "existing ETD with only files embargoed" do
+      let(:etd) { build(:sample_data_with_only_files_embargoed) }
+      before { etd.save! }
+      it { is_expected.to eq '[:files_embargoed]' }
+    end
+
+    context "existing ETD with TOC embargoed" do
+      let(:etd) { build(:etd, toc_embargoed: true, abstract_embargoed: false) }
+      before { etd.save! }
+      it { is_expected.to eq '[:files_embargoed, :toc_embargoed]' }
+    end
+
+    context "existing ETD with Abstract embargoed" do
+      let(:etd) { build(:etd, abstract_embargoed: true) }
+      before { etd.save! }
+      it { is_expected.to eq '[:files_embargoed, :toc_embargoed, :abstract_embargoed]' }
+    end
+
+    # It looks like the embargo fields get stored as strings
+    # instead of booleans if you create an ETD using the UI.
+    # Since this code is already in production, to avoid having
+    # to do a data migration, I don't want to convert these
+    # fields to strictly boolean, so we need to make sure it
+    # works with either strings or booleans.
+    context "existing ETD with TOC embargoed (string values)" do
+      let(:etd) { build(:etd, toc_embargoed: 'true', abstract_embargoed: 'false') }
+      before { etd.save! }
+      it { is_expected.to eq '[:files_embargoed, :toc_embargoed]' }
+    end
+  end
+
   describe "#cm_affiliation_type" do
     subject { form.cm_affiliation_type(affiliation) }
 

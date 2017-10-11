@@ -64,6 +64,17 @@ module Hyrax
       model.persisted? && !model.under_embargo?
     end
 
+    def selected_embargo_type
+      return '[:files_embargoed, :toc_embargoed, :abstract_embargoed]' if true_string?(model.abstract_embargoed)
+      return '[:files_embargoed, :toc_embargoed]' if true_string?(model.toc_embargoed)
+      return '[:files_embargoed]' if true_string?(model.files_embargoed)
+    end
+
+    # Both String and boolean 'true' should count as true.
+    def true_string?(field)
+      field == 'true' || field == true
+    end
+
     # Select the correct affiliation type for committee member
     def cm_affiliation_type(value)
       value = Array(value).first
