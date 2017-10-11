@@ -196,27 +196,26 @@ RSpec.feature 'Edit an existing ETD' do
         click_on('Supplemental Files')
         # TODO: Verify existing data in Supplemental Files tab
 
-        # TODO: Verify existing data in Embargoes tab
+        # Verify existing data in Embargoes tab
         click_on('Embargoes')
-        expect(find_field(id: 'no_embargoes').checked?).to be false
-        expect(find_field(id: 'no_embargoes')).not_to be_disabled
+        expect(find_by_id('no_embargoes').checked?).to be false
+        expect(find_by_id('no_embargoes')).not_to be_disabled
         expect(find_by_id('embargo_type').value).to eq '[:files_embargoed, :toc_embargoed, :abstract_embargoed]'
         expect(find_by_id('embargo_type')).not_to be_disabled
-        # TODO: expect(find_by_id('embargo_school').value).to eq 'TBD'
+        expect(find_by_id('embargo_school').value).to eq 'Emory College'
         expect(find_by_id('embargo_school')).not_to be_disabled
         expect(find_by_id('etd_embargo_length').value).to eq embargo_attrs[:embargo_length]
         expect(find_by_id('etd_embargo_length')).not_to be_disabled
 
         # TODO: Verify existing data in Review tab - maybe nothing?
 
-        # TODO:
         # All tabs in the form should be marked as valid so that the student can edit the fields and save the new data.
         expect(page).to have_css('li#required-about-me.complete')
-        # expect(page).to have_css('li#required-my-etd.complete')
-        # expect(page).to have_css('li#required-files.complete')
+        # TODO: expect(page).to have_css('li#required-my-etd.complete')
+        # TODO: expect(page).to have_css('li#required-files.complete')
         expect(page).to have_css('li#required-supplemental-files.complete')
-        # expect(page).to have_css('li#required-embargoes.complete')
-        # expect(page).to have_css('li#required-review.complete')
+        # TODO: expect(page).to have_css('li#required-embargoes.complete')
+        # TODO: expect(page).to have_css('li#required-review.complete')
 
         # The student edits some data in the form
         click_on('About Me')
