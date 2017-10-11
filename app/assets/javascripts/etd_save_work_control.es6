@@ -17,6 +17,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
         // Check if the form is already valid (e.g. if the user is editing an existing record, the form should be valid immediately).
         this.validateMeAndMyProgram();
         this.validateSupplementalFiles();
+        this.updateEmbargoState('#no_embargoes', this);
     }
     //  * This seems to occur when focus is on one of the visibility buttons
     //  */
@@ -145,8 +146,8 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
         case '#supplemental_fileupload':
 
         case '#my_embargoes':
+          // TODO: Is this dead code? Do we ever hit this branch?
           this.requiredEmbargoFields.reload('#my_embargoes')
-
         default:
           break;
       }
@@ -304,16 +305,20 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       }
     }
 
+    updateEmbargoState(no_embargoes_checkbox, form){
+      if ($(no_embargoes_checkbox).prop('checked')){
+        form.disableEmbargoes();
+        form.requiredEmbargoes.check();
+      } else {
+        form.requiredEmbargoes.uncheck();
+        form.enableEmbargoes();
+      }
+    }
+
     setEmbargoContentListener(){
       var form = this
       $("#no_embargoes").on('change', function(e){
-        if ($(this).prop('checked')){
-          form.disableEmbargoes();
-          form.requiredEmbargoes.check();
-        } else {
-          form.requiredEmbargoes.uncheck();
-          form.enableEmbargoes();
-        }
+        form.updateEmbargoState(this, form);
       });
 
       $('#embargo_type').on('change', function(e){

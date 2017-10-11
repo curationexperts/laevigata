@@ -29,7 +29,6 @@ module Hyrax
     self.terms += [:copyright_question_one]
     self.terms += [:copyright_question_two]
     self.terms += [:copyright_question_three]
-    self.terms += [:no_supplemental_files]
     # my embargo terms
     self.terms += [:embargo_length]
     self.terms += [:embargo_release_date]
@@ -51,12 +50,18 @@ module Hyrax
       [:language, :abstract, :table_of_contents, :research_field]
     end
 
+    # Initial state for the 'No Supplemental Files' checkbox.
     # Supplemental files aren't required for an ETD, but the
     # form validation requires the user to explicitly check the
     # 'No Supplemental Files' checkbox if they don't intend to
     # add any additional files.
     def no_supplemental_files
       model.persisted? && model.supplemental_files_fs.blank?
+    end
+
+    # Initial state for the 'No Embargo' checkbox.
+    def no_embargoes
+      model.persisted? && !model.under_embargo?
     end
 
     # Select the correct affiliation type for committee member

@@ -51,6 +51,15 @@ RSpec.feature 'Create an Etd' do
     end
 
     scenario "Create a new ETD", js: true do
+      # When the form first loads, all the tabs should be
+      # marked as 'incomplete'.
+      expect(page).to have_css('li#required-about-me.incomplete')
+      expect(page).to have_css('li#required-my-etd.incomplete')
+      expect(page).to have_css('li#required-files.incomplete')
+      expect(page).to have_css('li#required-supplemental-files.incomplete')
+      expect(page).to have_css('li#required-embargoes.incomplete')
+      expect(page).to have_css('li#required-review.incomplete')
+
       # expect 'About Me' department and subfield to be disabled, as they are dynamically supplied by student's school choice
       expect(find('#etd_department')).to be_disabled
       expect(find('#etd_subfield')).to be_disabled

@@ -21,8 +21,7 @@ RSpec.describe Hyrax::EtdForm do
     its(:terms) { is_expected.to include(:submitting_type) }
   end
 
-  # Figure out the correct state for the 'No Supplemental Files'
-  # checkbox on the ETD form.
+  # Figure out the correct state for the 'No Supplemental Files' checkbox on the ETD form.
   describe "#no_supplemental_files" do
     subject { form.no_supplemental_files }
 
@@ -44,6 +43,35 @@ RSpec.describe Hyrax::EtdForm do
     context "ETD with supplemental files" do
       let(:etd) { build(:etd, members: [supp_file]) }
       let(:supp_file) { build(:supplemental_file_set) }
+
+      context "a new record" do
+        it { is_expected.to eq false }
+      end
+
+      context "an existing record" do
+        before { etd.save! }
+        it { is_expected.to eq false }
+      end
+    end
+  end
+
+  # Figure out the correct state for the 'No Embargo' checkbox on the ETD form.
+  describe "#no_embargoes" do
+    subject { form.no_embargoes }
+
+    context "ETD with no embargo" do
+      context "a new record" do
+        it { is_expected.to eq false }
+      end
+
+      context "an existing record" do
+        before { etd.save! }
+        it { is_expected.to eq true }
+      end
+    end
+
+    context "ETD with embargo" do
+      let(:etd) { build(:sample_data_with_only_files_embargoed) }
 
       context "a new record" do
         it { is_expected.to eq false }

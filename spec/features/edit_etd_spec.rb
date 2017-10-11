@@ -92,17 +92,18 @@ RSpec.feature 'Edit an existing ETD' do
         expect(find('#etd_department')).not_to be_disabled
         expect(find('#etd_subfield')).to be_disabled
 
-        # Verify that 'no supplemental files' is checked
+        # Verify that 'no supplemental files' is checked and 'supplemental files' tab is marked valid.
         click_on('Supplemental Files')
         expect(find_field(id: 'etd_no_supplemental_files').checked?).to be true
+        expect(page).to have_css('li#required-supplemental-files.complete')
 
-        # Verify that 'no embargoes' is checked
+        # Verify that 'no embargoes' is checked and 'embargoes' tab is marked valid.
         click_on('Embargoes')
-        # TODO:
-        # expect(find_field(id: 'no_embargoes').checked?).to be true
-        # expect(find_field(id: 'embargo_type')).to be_disabled
-        # expect(find_field(id: 'embargo_school')).to be_disabled
-        # expect(find_field(id: 'etd_embargo_length')).to be_disabled
+        expect(find_field(id: 'no_embargoes').checked?).to be true
+        expect(find_by_id('embargo_type')).to be_disabled
+        expect(find_by_id('embargo_school')).to be_disabled
+        expect(find_by_id('etd_embargo_length')).to be_disabled
+        expect(page).to have_css('li#required-embargoes.complete')
       end
     end
 
@@ -198,12 +199,12 @@ RSpec.feature 'Edit an existing ETD' do
         click_on('Embargoes')
         expect(find_field(id: 'no_embargoes').checked?).to be false
         expect(find_field(id: 'no_embargoes')).not_to be_disabled
-        # TODO: expect(find_field(id: 'embargo_type').value).to eq 'Files, Table of Contents and Abstract'
-        expect(find_field(id: 'embargo_type')).not_to be_disabled
-        # TODO: expect(find_field(id: 'embargo_school').value).to eq 'TBD'
-        expect(find_field(id: 'embargo_school')).not_to be_disabled
-        expect(find_field(id: 'etd_embargo_length').value).to eq embargo_attrs[:embargo_length]
-        expect(find_field(id: 'etd_embargo_length')).not_to be_disabled
+        # TODO: expect(find_by_id('embargo_type').value).to eq 'Files, Table of Contents and Abstract'
+        expect(find_by_id('embargo_type')).not_to be_disabled
+        # TODO: expect(find_by_id('embargo_school').value).to eq 'TBD'
+        expect(find_by_id('embargo_school')).not_to be_disabled
+        expect(find_by_id('etd_embargo_length').value).to eq embargo_attrs[:embargo_length]
+        expect(find_by_id('etd_embargo_length')).not_to be_disabled
 
         # TODO: Verify existing data in Review tab - maybe nothing?
 

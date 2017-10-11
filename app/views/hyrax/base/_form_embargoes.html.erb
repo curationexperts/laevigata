@@ -5,7 +5,7 @@
   <div class="checkbox well">
     <label class="boolean optional" for="etd_no_embargoes">
       <span class="sr-only">Warning:</span>
-      <%= check_box_tag :no_embargoes %> <span class="do_not_want_embargo agreement_text">I do not want to embargo my thesis or dissertation.</span>
+      <%= f.input :no_embargoes, as: :boolean, label: "I do not want to embargo my thesis or dissertation.", input_html: { id: 'no_embargoes' } %>
     </label>
   </div>
 </div>
