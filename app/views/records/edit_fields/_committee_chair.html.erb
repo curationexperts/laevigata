@@ -2,18 +2,18 @@
   <div class="committee-chair row">
     <div class="col-sm-6 member">
 
-      <%= cc.input "affiliation_type", required: false,
+      <%= cc.input "affiliation_type", required: true,
         label: "Committee Chair/Thesis Advisor's Affiliation",
         selected: @form.cc_affiliation_type(cc.object.affiliation),
         collection: @form.cc_affiliation_options,
         input_html: { class: 'form-control committee-chair-select' } %>
 
-      <%= cc.input :affiliation, as: :committee_member, disabled: true, required: false, label: false, input_html: { class: 'form-control committee' } %>
+      <%= cc.input :affiliation, as: :committee_member, disabled: true, required: true, label: false, input_html: { class: 'form-control committee' } %>
 
     </div>
 
     <div class="col-sm-6 member-name">
-      <%= cc.input :name, as: :committee_member, label: "Committee Chair/Thesis Advisor", required: false, input_html: { placeholder: 'Last Name, First Name', class: 'form-control committee' } %>
+      <%= cc.input :name, as: :committee_member, label: "Committee Chair/Thesis Advisor", required: true, input_html: { placeholder: 'Last Name, First Name', class: 'form-control committee' } %>
     </div>
 
   </div>
@@ -33,19 +33,19 @@
         options_for_select(@form.cc_affiliation_options, @form.cm_affiliation_options[0]),
         required: false,
         name: "etd[committee_chair_attributes][#{chair_index}][affiliation_type]",
-        class: 'form-control committee-chair-select' %>
+        class: 'form-control committee-chair-select optional' %>
     </div>
 
     <div class="form-group committee_member optional disabled etd_committee_members_affiliation">
     <%= f.text_field_tag "etd[committee_chair_attributes][#{chair_index}][affiliation][]", 'Emory',
-      disabled: true, required: false, label: false, class: 'form-control committee' %>
+      disabled: true, required: false, label: false, class: 'form-control committee optional' %>
     </div>
   </div>
 
   <div class="col-sm-6 member-name">
     <label class="control-label committee_member optional" for="etd_committee_chair_attributes_#{chair_index}_name">Committee Chair/Thesis Advisor</label>
 
-    <%= f.text_field_tag "etd[committee_chair_attributes][#{chair_index}][name][]", '', required: false, placeholder: 'Last Name, First Name', class: 'form-control committee' %>
+    <%= f.text_field_tag "etd[committee_chair_attributes][#{chair_index}][name][]", '', required: false, placeholder: 'Last Name, First Name', class: 'form-control committee optional' %>
 
     <button type="button" class="btn btn-link remove remove-chair"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text">Remove Committee Chair</span></button>
   </div>

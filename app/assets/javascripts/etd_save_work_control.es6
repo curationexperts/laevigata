@@ -11,14 +11,18 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
         if (element.length < 1) {
           return
         }
+
         super(element, adminSetWidget)
         this.supplemental_file_list = [];
 
         // Check if the form is already valid (e.g. if the user is editing an existing record, the form should be valid immediately).
         this.validateMeAndMyProgram();
         this.validateSupplementalFiles();
+
         this.updateEmbargoState('#no_embargoes', this);
+        this.validateMyEmbargo();
     }
+
     //  * This seems to occur when focus is on one of the visibility buttons
     //  */
     preventSubmitUnlessValid() {
@@ -80,7 +84,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       }
       //all fields are required
       this.requiredAboutMeFields = new ETDRequiredFields(this.form, () => this.formStateChanged(".about-me"), ".about-me")
-
       this.requiredAboutMyETDFields = new ETDRequiredFields(this.form, () => this.formStateChanged(".about-my-etd"), ".about-my-etd input:not(:radio)")
 
       this.primary_pdf_upload = new UploadedFiles(this.form, () => this.formStateChanged('#fileupload'), '#fileupload', 'li#required-files')

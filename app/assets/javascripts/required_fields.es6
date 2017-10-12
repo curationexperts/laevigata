@@ -31,11 +31,13 @@ export class ETDRequiredFields extends RequiredFields {
 
   // Reassign requiredFields because fields may have been added or removed.
   reload(selector) {
-    this.requiredFields = []
-    this.requiredFields = $.merge($(selector).find('select').filter(":visible"), $(selector).find('input').filter(":visible"))
+    // All inputs that aren't hidden or optional are required.
+    // ":input" matches all input, select or textarea fields,
+    // but we want to exclude buttons.
+    this.requiredFields = $(selector).find(":input").filter(":not([type=hidden])").filter(":not([class~=optional])").filter(":not(button)")
+
     if(this.callback !== 'none'){
       this.requiredFields.change(this.callback)
     }
-
   }
 }

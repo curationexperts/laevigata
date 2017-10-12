@@ -12,7 +12,7 @@ module EtdHelper
       }, label: 'Department'
     else
       # if you are in an 'edit' state
-      f.input :department, as: :select, collection: departments(curation_concern[:school].first), selected: curation_concern[:department].first, include_blank: true, input_html: {
+      f.input :department, as: :select, collection: departments(curation_concern[:school].first), selected: curation_concern[:department].first, include_blank: true, required: true, input_html: {
         class: 'form-control',
         'data-option-dependent' => true,
         'data-option-observed' => 'etd_school',

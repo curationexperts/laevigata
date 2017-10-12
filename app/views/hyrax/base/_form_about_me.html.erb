@@ -4,7 +4,7 @@
   <p>It's time to submit your thesis or dissertation! Let's begin with some basic information.</p>
 </div>
 <div class="base-terms about-me">
-  <%= f.input :creator, label: "Student Name", required: false, placeholder: "Last Name, First Name", hint: false,
+  <%= f.input :creator, label: "Student Name", required: true, placeholder: "Last Name, First Name", hint: false,
       input_html: { class: 'form-control' } %>
 
   <%= render_edit_field_partial(:graduation_date, f: f) %>

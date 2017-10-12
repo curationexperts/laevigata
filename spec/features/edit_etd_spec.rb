@@ -214,7 +214,7 @@ RSpec.feature 'Edit an existing ETD' do
         # TODO: expect(page).to have_css('li#required-my-etd.complete')
         # TODO: expect(page).to have_css('li#required-files.complete')
         expect(page).to have_css('li#required-supplemental-files.complete')
-        # TODO: expect(page).to have_css('li#required-embargoes.complete')
+        expect(page).to have_css('li#required-embargoes.complete')
         # TODO: expect(page).to have_css('li#required-review.complete')
 
         # The student edits some data in the form

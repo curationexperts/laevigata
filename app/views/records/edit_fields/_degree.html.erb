@@ -1,5 +1,5 @@
 <% degree_service = Hyrax::DegreeService.new %>
 <%= f.input :degree, as: :select,
     collection: degree_service.select_all_options,
-    include_blank: true,
+    include_blank: true, required: true,
     input_html: { class: 'form-control' } %>
