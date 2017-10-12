@@ -33,3 +33,8 @@ end
 every :day, at: '2:20am' do
   rake "emory:embargo_expiration"
 end
+
+# Delete blacklight saved searches
+every :day, at: '11:55pm' do
+  rake "blacklight:delete_old_searches[1]"
+end
