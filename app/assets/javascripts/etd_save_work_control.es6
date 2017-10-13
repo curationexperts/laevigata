@@ -8,19 +8,11 @@ import SaveWorkControl from 'hyrax/save_work/save_work_control'
 
 export default class EtdSaveWorkControl extends SaveWorkControl {
     constructor(element, adminSetWidget) {
-        if (element.length < 1) {
-          return
-        }
-
+//        if (element.length < 1) {
+//          return
+//        }
         super(element, adminSetWidget)
         this.supplemental_file_list = [];
-
-        // Check if the form is already valid (e.g. if the user is editing an existing record, the form should be valid immediately).
-        this.validateMeAndMyProgram();
-        this.validateSupplementalFiles();
-
-        this.updateEmbargoState('#no_embargoes', this);
-        this.validateMyEmbargo();
     }
 
     //  * This seems to occur when focus is on one of the visibility buttons
@@ -76,8 +68,8 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     get isNew() {
     //   return this.form.attr('id').startsWith('new')
      }
-    //  * Call this when the form has been rendered
-    //  */
+
+    /* Call this when the form has been rendered */
     activate() {
       if (!this.form) {
         return
@@ -109,7 +101,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.laneyEmbargoDurations = '<option value=""></option><option value="6 months">6 months</option><option value="1 year">1 year</option><option value="2 years">2 years</option><option value="6 years">6 years</option>';
 
       this.preventSubmit()
-      this.formChanged()
       this.fileDeleted()
       this.supplementalFilesListener()
       this.setEmbargoLengths()
@@ -118,6 +109,15 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.getTinyContent()
       this.addSupplementalFilesMetadata()
       this.supplementalMetadataListener()
+
+      // Check if the form is already valid
+      // (e.g. if the user is editing an existing record, the form should be valid immediately)
+      this.validateMeAndMyProgram();
+      //this.validateMyETD()
+      //this.validatePDF()
+      this.validateSupplementalFiles();
+      this.updateEmbargoState('#no_embargoes', this);
+      this.validateMyEmbargo();
     }
 
     getTinyContent(){
