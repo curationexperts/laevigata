@@ -31,7 +31,7 @@ Hyrax.tinyMCE = function(){
     setup:function(ed) {
       ed.on("init",
          function(ed) {
-           if(tinyMCE.get('etd_abstract') === null)
+           if(tinyMCE.get('#etd_abstract') === null)
            return
            tinyMCE.get('etd_abstract').setContent("<p></p>");
            tinyMCE.get('etd_table_of_contents').setContent("<p></p>");

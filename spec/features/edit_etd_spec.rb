@@ -25,8 +25,8 @@ RSpec.feature 'Edit an existing ETD' do
       committee_chair_attributes: cc_attrs,
       committee_members_attributes: cm_attrs,
       language: ['English'],
-      abstract: ['Literature from the US'],
-      table_of_contents: ['Chapter One'],
+      abstract: ['<p>Literature from the US</p>'],
+      table_of_contents: ['<h1>Chapter One</h1>'],
       research_field: ['Aeronomy'],
       keyword: ['key1'],
       copyright_question_one: false,
@@ -167,8 +167,14 @@ RSpec.feature 'Edit an existing ETD' do
         expect(find_field('Title')).not_to be_disabled
         expect(find_field('Language').value).to eq attrs[:language].first
         expect(find_field('Language')).not_to be_disabled
-        # TODO: abstract - Add some html tags to the data and make sure they appear or don't appear correctly in the edit field
-        # TODO: table_of_contents - Add some html tags to the data and make sure they appear or don't appear correctly in the edit field
+        within_frame('etd_abstract_ifr') do
+          expect(page).to have_content 'Literature from the US'
+        end
+        within_frame('etd_table_of_contents_ifr') do
+          within('h1') do
+            expect(page).to have_content 'Chapter One'
+          end
+        end
         expect(find_field('Research Field').value).to eq attrs[:research_field].first
         expect(find_field('Research Field')).not_to be_disabled
         expect(find_field('Keyword').value).to eq attrs[:keyword].first
