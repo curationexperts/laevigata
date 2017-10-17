@@ -24,17 +24,17 @@ export class ETDRequiredFields extends RequiredFields {
     }
   }
 
-  isValuePresent(elem) {
-    //these things are only a problem if disabled is not set
-    return (($(elem).prop('disabled') === false) && ($(elem).val() === null)) || (($(elem).prop('disabled') === false) && ($(elem).val().length < 1))
-  }
-
   // Reassign requiredFields because fields may have been added or removed.
   reload(selector) {
-    // All inputs that aren't hidden or optional are required.
-    // ":input" matches all input, select or textarea fields,
-    // but we want to exclude buttons.
-    this.requiredFields = $(selector).find(":input").filter(":not([type=hidden])").filter(":not([class~=optional])").filter(":not(button)")
+    // All inputs are required, except inputs that are
+    // hidden, disabled, or optional.
+    // ":input" matches all input, select or textarea
+    // fields, but we want to exclude buttons.
+    this.requiredFields = $(selector).find(":input")
+      .filter(":not([type=hidden])")
+      .filter(":not([disabled])")
+      .filter(":not([class~=optional])")
+      .filter(":not(button)")
 
     if(this.callback !== 'none'){
       this.requiredFields.change(this.callback)
