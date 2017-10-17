@@ -8,9 +8,6 @@ import SaveWorkControl from 'hyrax/save_work/save_work_control'
 
 export default class EtdSaveWorkControl extends SaveWorkControl {
     constructor(element, adminSetWidget) {
-//        if (element.length < 1) {
-//          return
-//        }
         super(element, adminSetWidget)
         this.supplemental_file_list = [];
     }
@@ -18,55 +15,26 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     //  * This seems to occur when focus is on one of the visibility buttons
     //  */
     preventSubmitUnlessValid() {
-    //   this.form.on('submit', (evt) => {
-    //     if (!this.isValid())
-    //       evt.preventDefault();
-    //   })
-    }
-    removeHiddenAboutMeElements(){
-      this.form.on('submit', (evt) => {
-        $("#new_etd").remove("#about_me input:hidden")
-      })
     }
 
-    preventSaveAboutMeUnlessValid() {
-      $("#about_me_and_my_program").on('click', (evt) => {
-        if (!this.isValid())
-          evt.preventDefault();
-      })
-    }
-
-    //
     // /**
     //  * Keep the form from being submitted many times.
     //  *
     //  */
     preventSubmitIfAlreadyInProgress() {
-    //   this.form.on('submit', (evt) => {
-    //     if (this.isValid())
-    //       this.saveButton.prop("disabled", true);
-    //   })
     }
-    //
+
     // /**
     //  * Keep the form from being submitted while uploads are running
     //  *
     //  */
      preventSubmitIfUploading() {
-    //   this.form.on('submit', (evt) => {
-    //     if (this.uploads.inProgress) {
-    //       evt.preventDefault()
-    //     }
-    //   })
     }
 
-
-    //
     // /**
     //  * Is the form for a new object (vs edit an existing object)
     //  */
     get isNew() {
-    //   return this.form.attr('id').startsWith('new')
      }
 
     /* Call this when the form has been rendered */
@@ -107,7 +75,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.setEmbargoContentListener()
       this.setAgreementListener()
       this.getTinyContent()
-      this.addSupplementalFilesMetadata()
       this.supplementalMetadataListener()
 
       // Check if the form is already valid
@@ -235,14 +202,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
           $('#supplemental_files_metadata').empty();
         }
       });
-    }
-
-    // TODO: confirm this isn't needed
-    addSupplementalFilesMetadata(){
-      // $('#supplemental_fileupload').bind('fileuploaddone', function (e, data) {
-      //   console.log('yet this works');
-      //   $('#additional_metadata_link').show();
-      // });
     }
 
     disableSupplementalUpload(){
