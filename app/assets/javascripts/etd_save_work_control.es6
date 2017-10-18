@@ -42,19 +42,22 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       if (!this.form) {
         return
       }
-      //all fields are required
-      this.requiredAboutMeFields = new ETDRequiredFields(this.form, () => this.formStateChanged(".about-me"), ".about-me")
-      this.requiredAboutMyETDFields = new ETDRequiredFields(this.form, () => this.formStateChanged(".about-my-etd"), ".about-my-etd input:not(:radio)")
 
+      // Required fields
+      this.requiredAboutMeFields = new ETDRequiredFields(this.form, () => this.formStateChanged(".about-me"), ".about-me")
+      this.requiredAboutMyETDFields = new ETDRequiredFields(this.form, () => this.formStateChanged(".about-my-etd"), ".about-my-etd")
+      this.requiredEmbargoFields = new ETDRequiredFields(this.form, () => this.formStateChanged('#my_embargoes'), '#my_embargoes')
+
+      // File uploads
       this.primary_pdf_upload = new UploadedFiles(this.form, () => this.formStateChanged('#fileupload'), '#fileupload', 'li#required-files')
 
       this.supplemental_files_upload = new UploadedFiles(this.form, () => this.formStateChanged('#supplemental_fileupload'),'#supplemental_fileupload','li#required-supplemental-files')
 
-      this.requiredEmbargoFields = new ETDRequiredFields(this.form, 'none', '#my_embargoes')
-
     //This needs to be adjusted
       this.saveButton = this.element.find('#about_me_and_my_program')
       this.depositAgreement = new DepositAgreement(this.form, () => this.formStateChanged())
+
+      // Validation checklist items
       this.requiredMeAndMyProgram = new ChecklistItem(this.element.find('#required-about-me'))
       this.requiredMyETD = new ChecklistItem(this.element.find('#required-my-etd'))
       this.requiredMetadata = new ChecklistItem(this.element.find('#required-metadata'))
@@ -106,22 +109,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     }
 
     formStateChanged(selector) {
-      switch (selector) {
-        case '.about-me':
-          this.requiredAboutMeFields.reload(".about-me");
-        case '.about-my-etd':
-          this.requiredAboutMyETDFields.reload('.about-my-etd')
-        case '#fileupload':
-
-        case '#supplemental_fileupload':
-
-        case '#my_embargoes':
-          // TODO: Is this dead code? Do we ever hit this branch?
-          this.requiredEmbargoFields.reload('#my_embargoes')
-        default:
-          break;
-      }
-      this.saveButton.prop("disabled", !this.isValid(selector));
+      this.isValid(selector);
     }
 
     //this empty function overrides the super function, we track when the form has changed more explicitly, per form tab, in this class
@@ -242,7 +230,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     }
 
     setEmbargoContent(el){
-      if($(el).val() === 'files_embargoed'){
+      if($(el).val() === '[:files_embargoed]'){
         $('#etd_files_embargoed').val(true);
 
         //other two are false
@@ -275,6 +263,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
         form.requiredEmbargoes.uncheck();
         form.enableEmbargoes();
       }
+      form.requiredEmbargoFields.reload('#my_embargoes');
     }
 
     setEmbargoContentListener(){

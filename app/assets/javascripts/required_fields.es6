@@ -14,7 +14,7 @@ export class ETDRequiredFields extends RequiredFields {
   get areComplete() {
     // this selector should get changed to '.copyright'
     // because not all radios should be optional, just the copyright ones
-    if (this.selector == ".about-my-etd input:not(:radio)") {
+    if (this.selector == ".about-my-etd") {
       var validFields = this.requiredFields.filter((n, elem) => {
         return this.isValuePresent(elem) } ).length === 0
 
@@ -24,7 +24,7 @@ export class ETDRequiredFields extends RequiredFields {
     }
   }
 
-  // Reassign requiredFields because fields may have been added or removed.
+  /* We need to call this reload method any time we have changed the required fields on the form, for example when we add/remove a field or enable/disable a field. */
   reload(selector) {
     // All inputs are required, except inputs that are
     // hidden, disabled, or optional.
@@ -36,8 +36,6 @@ export class ETDRequiredFields extends RequiredFields {
       .filter(":not([class~=optional])")
       .filter(":not(button)")
 
-    if(this.callback !== 'none'){
-      this.requiredFields.change(this.callback)
-    }
+    this.requiredFields.change(this.callback)
   }
 }

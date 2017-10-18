@@ -57,16 +57,13 @@ describe("EtdSaveWorkControl", function() {
           areComplete: true
         };
         target.requiredAboutMeFields = mockAboutMeFields;
-        spyOn(mockAboutMeFields,'reload');
         spyOn(target, 'isValid').and.callThrough();
         spyOn(target, 'validateMeAndMyProgram');
       });
 
-      it('it reloads the dom elements and re-validates the form', function(){
-
+      it('it re-validates the form', function(){
         target.formStateChanged('.about-me');
 
-        expect(mockAboutMeFields.reload).toHaveBeenCalled();
         expect(target.isValid).toHaveBeenCalled();
         expect(target.validateMeAndMyProgram).toHaveBeenCalled();
       });
