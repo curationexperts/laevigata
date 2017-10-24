@@ -14,7 +14,14 @@ RSpec.describe Hyrax::Workflow::PendingApprovalNotification do
     w.setup
   end
   let(:user) { FactoryGirl.create(:user) }
-  let(:etd) { FactoryGirl.create(:sample_data, depositor: user.user_key, school: ["Candler School of Theology"]) }
+  let(:etd) do
+    FactoryGirl.create(
+      :sample_data,
+      title: ["Grant Proposal for a socio-ecological approach, using community-based engagement principles and green infrastructure, to reduce magnitude and improve quality of storm water runoff entering storm drains in the Sandtown-Winchester/Harlem Park neighborhood, Baltimore City, Maryland"],
+      depositor: user.user_key,
+      school: ["Candler School of Theology"]
+    )
+  end
   let(:ability) { ::Ability.new(user) }
   let(:recipients) do
     { 'to' => [FactoryGirl.create(:user), FactoryGirl.create(:user)] }
