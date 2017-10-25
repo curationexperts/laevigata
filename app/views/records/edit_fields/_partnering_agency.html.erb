@@ -3,7 +3,7 @@
   <% partnering_service = PartnersService.new %>
   <h3>Partnering Agency</h3>
   <div class="form-instructions">Select a maximum of three partnering agencies you worked with or used as a resource. If you used data from an agency, include them in this section. Otherwise, select "Does not apply (no collaborating organization)."</div>
-  <%= f.input :partnering_agency, as: :multi_value_select,
+  <%= f.input :partnering_agency, as: :etd_multi_value_select,
     collection: partnering_service.select_all_options,
     include_blank: true, label: "Partnering Agency",
     input_html: { class: 'form-control' } %>

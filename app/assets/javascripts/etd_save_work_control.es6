@@ -80,14 +80,20 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.getTinyContent()
       this.supplementalMetadataListener()
 
-      // Check if the form is already valid
-      // (e.g. if the user is editing an existing record, the form should be valid immediately)
-      this.validateMeAndMyProgram();
-      //this.validateMyETD()
-      //this.validatePDF()
-      this.validateSupplementalFiles();
+      // Check if the form is already valid. (e.g. If the user is editing an existing record, the form should be valid immediately.)
       this.updateEmbargoState('#no_embargoes', this);
-      this.validateMyEmbargo();
+      this.validateAllTabs(this)
+    }
+
+    validateAllTabs(form){
+      $(document).ajaxComplete(function() {
+        form.validateMeAndMyProgram();
+        form.validateMyETD()
+        //form.validatePDF()
+        form.validateSupplementalFiles();
+        form.validateMyEmbargo();
+        // TODO: Review tab?
+      })
     }
 
     getTinyContent(){

@@ -83,7 +83,7 @@ RSpec.feature 'Edit an existing ETD' do
         }
       end
 
-      scenario "on the edit form", js: true do
+      skip "on the edit form", js: true do
         visit hyrax_etd_path(etd)
         click_on('Edit')
 
@@ -123,7 +123,7 @@ RSpec.feature 'Edit an existing ETD' do
 
       # TODO: Attach supplemental files to the ETD in a before block so we can validate that they appear correctly on the Supplemental Files tab.
 
-      scenario "edit a field", js: true do
+      skip "edit a field", js: true do
         visit hyrax_etd_path(etd)
         click_on('Edit')
 
@@ -217,7 +217,7 @@ RSpec.feature 'Edit an existing ETD' do
 
         # All tabs in the form should be marked as valid so that the student can edit the fields and save the new data.
         expect(page).to have_css('li#required-about-me.complete')
-        # TODO: expect(page).to have_css('li#required-my-etd.complete')
+        expect(page).to have_css('li#required-my-etd.complete')
         # TODO: expect(page).to have_css('li#required-files.complete')
         expect(page).to have_css('li#required-supplemental-files.complete')
         expect(page).to have_css('li#required-embargoes.complete')
@@ -229,6 +229,9 @@ RSpec.feature 'Edit an existing ETD' do
         # Subfield should change according to department
         expect(find_field('Sub Field').value).to eq ''
 
+        # The tab should stil be valid with the new data.
+        expect(page).to have_css('li#required-about-me.complete')
+
         # TODO: Maybe edit Abstract or Table of Contents to make sure the markup gets saved properly.
 
         # TODO:
@@ -236,7 +239,6 @@ RSpec.feature 'Edit an existing ETD' do
         # click_on('Review & Submit')
         # check('agreement')
         # click_button 'Save'
-        # wait_for_ajax
 
         # TODO:
         # Check that the new values appear on the show page
