@@ -1,5 +1,4 @@
 module FieldsWithoutBlank
-
   # This overrides the 'collection' method from MultiValueInput in hydra-editor gem.
   # When you render a multi_value field on the form, hydra-editor helpfully adds an extra blank field.  But that blank field interferes with our form validation for required fields (because the blank field will be marked as required too).
   # So, for example, we require the 'keyword' field, but the user only needs to give one keyword.  If another (blank) keyword field is rendered on the form, then the form validation fails because it thinks that 2 keywords are required.  This problem appears when the user edits an existing ETD where they have already provided a keyword, but then the extra 'required' blank field shows up on the form and causes the form validation to fail.
