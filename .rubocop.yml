@@ -41,6 +41,9 @@ Metrics/CyclomaticComplexity:
 Metrics/LineLength:
   Exclude:
     - 'spec/fixtures/form_submission_params/*'
+    - 'spec/services/hyrax/workflow/pending_approval_notification_spec.rb'
+    - 'spec/features/rollins_workflow_etd_spec.rb'
+
 
 Metrics/PerceivedComplexity:
   Enabled: false

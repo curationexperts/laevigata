@@ -9,7 +9,14 @@ RSpec.feature 'Create a Rollins ETD' do
   let(:depositing_user) { User.where(ppid: etd.depositor).first }
   let(:approving_user) { User.where(uid: "epidemiology_admin").first }
   let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/epidemiology_admin_sets.yml", "/dev/null") }
-  let(:etd) { FactoryGirl.create(:sample_data, school: ["Rollins School of Public Health"], department: ["Epidemiology"]) }
+  let(:etd) do
+    FactoryGirl.create(
+      :sample_data,
+      title: ["Grant Proposal for a socio-ecological approach, using community-based engagement principles and green infrastructure, to reduce magnitude and improve quality of storm water runoff entering storm drains in the Sandtown-Winchester/Harlem Park neighborhood, Baltimore City, Maryland"],
+      school: ["Rollins School of Public Health"],
+      department: ["Epidemiology"]
+    )
+  end
   context 'a logged in user' do
     before do
       allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
@@ -34,13 +41,13 @@ RSpec.feature 'Create a Rollins ETD' do
       # Check notifications for depositing user
       login_as depositing_user
       visit("/notifications?locale=en")
-      expect(page).to have_content "#{etd.title.first} (#{etd.id}) was deposited by #{depositing_user.display_name} and is awaiting approval."
+      expect(page).to have_content "#{truncate_title(etd.title.first)} (#{etd.id}) was deposited by #{depositing_user.display_name} and is awaiting approval."
 
       # Check notifications for approving user
       logout
       login_as approving_user
       visit("/notifications?locale=en")
-      expect(page).to have_content "#{etd.title.first} (#{etd.id}) was deposited by #{depositing_user.display_name} and is awaiting approval."
+      expect(page).to have_content "#{truncate_title(etd.title.first)} (#{etd.id}) was deposited by #{depositing_user.display_name} and is awaiting approval."
 
       # Check workflow permissions for approving user
       available_workflow_actions = Hyrax::Workflow::PermissionQuery.scope_permitted_workflow_actions_available_for_current_state(user: approving_user, entity: etd.to_sipity_entity).pluck(:name)
@@ -69,13 +76,13 @@ RSpec.feature 'Create a Rollins ETD' do
 
       # Check notifications for approving user
       visit("/notifications?locale=en")
-      expect(page).to have_content "#{etd.title.first} (#{etd.id}) has been approved by"
+      expect(page).to have_content "#{truncate_title(etd.title.first)} (#{etd.id}) has been approved by"
 
       # Check notifications for depositor again
       logout
       login_as depositing_user
       visit("/notifications?locale=en")
-      expect(page).to have_content "#{etd.title.first} (#{etd.id}) has been approved by"
+      expect(page).to have_content "#{truncate_title(etd.title.first)} (#{etd.id}) has been approved by"
 
       # Depositing user should be able to see their work, even if it hasn't been approved yet
       visit("/concern/etds/#{etd.id}")
@@ -98,13 +105,17 @@ RSpec.feature 'Create a Rollins ETD' do
       # Check for graduation notifications
       login_as depositing_user
       visit("/notifications?locale=en")
-      expect(page).to have_content "Degree awarded for #{etd.title.first}"
+      expect(page).to have_content "Degree awarded for #{truncate_title(etd.title.first)}"
 
       # Check graduation notifications for approving user
       logout
       login_as approving_user
       visit("/notifications?locale=en")
-      expect(page).to have_content "Degree awarded for #{etd.title.first}"
+      expect(page).to have_content "Degree awarded for #{truncate_title(etd.title.first)}"
     end
+  end
+  def truncate_title(string)
+    max = 140
+    string.length > max ? "#{string[0...max]}..." : string
   end
 end

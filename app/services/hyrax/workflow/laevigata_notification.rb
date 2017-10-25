@@ -7,6 +7,13 @@ module Hyrax
         @recipients = workflow_recipients
       end
 
+      # Truncate titles to 140 characters
+      def title
+        original_title = @entity.proxy_for.title.first
+        max = 140
+        original_title.length > max ? "#{original_title[0...max]}..." : original_title
+      end
+
       def workflow_recipients
         raise NotImplementedError, "Implement workflow_recipients in a child class"
       end
