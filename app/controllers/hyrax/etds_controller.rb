@@ -16,13 +16,7 @@ module Hyrax
       sanitize_input(params)
       merge_selected_files_hashes(params) if params["selected_files"]
       apply_file_metadata(params)
-      # TODO: make this a case statement for each tab
-      if params.fetch('partial_data', false) == "true"
-        @etd_about_me = params.fetch('etd')
-        render json: @etd_about_me, status: 200
-      else
-        super
-      end
+      super
     end
 
     # Override from Hyrax:app/controllers/concerns/hyrax/curation_concern_controller.rb
