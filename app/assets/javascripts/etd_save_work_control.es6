@@ -53,8 +53,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
       this.supplemental_files_upload = new UploadedFiles(this.form, () => this.formStateChanged('#supplemental_fileupload'),'#supplemental_fileupload','li#required-supplemental-files')
 
-    //This needs to be adjusted
-      this.saveButton = this.element.find('#about_me_and_my_program')
       this.depositAgreement = new DepositAgreement(this.form, () => this.formStateChanged())
 
       // Validation checklist items
