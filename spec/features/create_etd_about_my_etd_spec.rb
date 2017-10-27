@@ -38,8 +38,6 @@ RSpec.feature 'Create an Etd: My Etd' do
       tinymce_fill_in('etd_table_of_contents', 'Chapter One')
       select 'Aeronomy', from: 'Research Field'
       fill_in 'Keyword', with: "Courtship"
-
-      click_on('Save My ETD')
       expect(page).to have_css 'li#required-my-etd.complete'
     end
 

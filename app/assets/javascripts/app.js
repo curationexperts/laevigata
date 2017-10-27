@@ -8,9 +8,6 @@ Hyrax.editor = function() {
       var EtdEditor = require('etd_editor')
       new EtdEditor(element)
 
-      var aboutMyETD = require('about_my_etd')
-      new aboutMyETD(".about-my-etd", "#about_my_etd_data")
-
       var aboutMeAndMyProgram = require('about_me_and_my_program')
       new aboutMeAndMyProgram()
 

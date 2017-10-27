@@ -26,7 +26,6 @@
 //= require hyrax
 //= require hyrax/uploader
 //= require required_fields
-//= require about_my_etd
 //= require about_me_and_my_program
 //= require about_my_supplemental_files
 //= require review_my_etd
