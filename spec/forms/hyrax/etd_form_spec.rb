@@ -22,13 +22,14 @@ RSpec.describe Hyrax::EtdForm do
   end
 
   describe "#primary_pdf_name" do
+    subject { form.primary_pdf_name }
+
     let(:depositor) do
       u = User.new(uid: FFaker::Internet.user_name, ppid: ActiveFedora::Noid::Service.new.mint, display_name: 'Joey')
       u.save
       u
     end
     let(:etd) { build(:etd, depositor: depositor.user_key) }
-    subject { form.primary_pdf_name }
 
     before do
       etd_factory = EtdFactory.new
