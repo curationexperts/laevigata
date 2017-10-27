@@ -88,8 +88,8 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     validateAllTabs(form){
       $(document).ajaxComplete(function() {
         form.validateMeAndMyProgram();
-        form.validateMyETD()
-        //form.validatePDF()
+// 999 form.validateMyETD()
+        form.validatePDF()
         form.validateSupplementalFiles();
         form.validateMyEmbargo();
         // TODO: Review tab?
@@ -161,6 +161,11 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
         }
 
       })
+    }
+
+    // If the user is editing an existing ETD record that has a previously-uploaded PDF, then that file will be displayed on the page.  This method determines whether or not that file is present.
+    hasExistingPDF(){
+      return $.find('#primary_file_name').length > 0
     }
 
     // this is not a check of the file type, but given that the app writes the filename to the page, and a student would have to change their Primary PDF file's type while uploading in order to foil this, I feel this is sufficient.
@@ -358,12 +363,16 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
   // sets the file indicators to complete/incomplete
   validatePDF() {
-    if (this.primary_pdf_upload.hasFiles && this.onlyOnePdfAllowed() && this.isAPdf()) {
+    if (this.hasExistingPDF()) {
       this.requiredPDF.check()
       return true
+    } else if (this.primary_pdf_upload.hasFiles && this.onlyOnePdfAllowed() && this.isAPdf()) {
+      this.requiredPDF.check()
+      return true
+    } else {
+      this.requiredPDF.uncheck()
+      return false
     }
-    this.requiredPDF.uncheck()
-    return false
   }
 
  supplementalMetadataListener(){
