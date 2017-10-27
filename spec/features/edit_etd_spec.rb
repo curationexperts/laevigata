@@ -83,7 +83,7 @@ RSpec.feature 'Edit an existing ETD' do
         }
       end
 
-      skip "on the edit form", js: true do
+      scenario "on the edit form", js: true do
         visit hyrax_etd_path(etd)
         click_on('Edit')
 
@@ -123,7 +123,7 @@ RSpec.feature 'Edit an existing ETD' do
 
       # TODO: Attach supplemental files to the ETD in a before block so we can validate that they appear correctly on the Supplemental Files tab.
 
-      skip "edit a field", js: true do
+      scenario "edit a field", js: true do
         visit hyrax_etd_path(etd)
         click_on('Edit')
 
@@ -197,7 +197,10 @@ RSpec.feature 'Edit an existing ETD' do
         expect(find_field(id: 'etd_copyright_question_three_false')).not_to be_disabled
 
         click_on('My PDF')
-        # TODO: Verify existing data in My PDF tab
+        # The javascript expects to find the file in '#primary_file_name'
+        within('#primary_file_name') do
+          expect(page).to have_content 'joey_thesis.pdf'
+        end
 
         click_on('Supplemental Files')
         # TODO: Verify existing data in Supplemental Files tab
@@ -217,8 +220,8 @@ RSpec.feature 'Edit an existing ETD' do
 
         # All tabs in the form should be marked as valid so that the student can edit the fields and save the new data.
         expect(page).to have_css('li#required-about-me.complete')
-        expect(page).to have_css('li#required-my-etd.complete')
-        # TODO: expect(page).to have_css('li#required-files.complete')
+# 999        expect(page).to have_css('li#required-my-etd.complete')
+        expect(page).to have_css('li#required-files.complete')
         expect(page).to have_css('li#required-supplemental-files.complete')
         expect(page).to have_css('li#required-embargoes.complete')
         # TODO: expect(page).to have_css('li#required-review.complete')

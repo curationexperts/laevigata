@@ -50,6 +50,10 @@ module Hyrax
       [:language, :abstract, :table_of_contents, :research_field]
     end
 
+    def primary_pdf_name
+      model.primary_pdf_file_name
+    end
+
     # Initial state for the 'No Supplemental Files' checkbox.
     # Supplemental files aren't required for an ETD, but the
     # form validation requires the user to explicitly check the

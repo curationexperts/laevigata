@@ -21,6 +21,26 @@ RSpec.describe Hyrax::EtdForm do
     its(:terms) { is_expected.to include(:submitting_type) }
   end
 
+  describe "#primary_pdf_name" do
+    let(:depositor) do
+      u = User.new(uid: FFaker::Internet.user_name, ppid: ActiveFedora::Noid::Service.new.mint, display_name: 'Joey')
+      u.save
+      u
+    end
+    let(:etd) { build(:etd, depositor: depositor.user_key) }
+    subject { form.primary_pdf_name }
+
+    before do
+      etd_factory = EtdFactory.new
+      etd_factory.etd = etd
+      etd_factory.primary_pdf_file = "#{fixture_path}/joey/joey_thesis.pdf"
+      etd_factory.attach_primary_pdf_file
+      etd.save
+    end
+
+    it { is_expected.to eq 'joey_thesis.pdf' }
+  end
+
   # Figure out the correct state for the 'No Supplemental Files' checkbox on the ETD form.
   describe "#no_supplemental_files" do
     subject { form.no_supplemental_files }

@@ -97,6 +97,14 @@ input#about_my_etd_data {
   cursor: pointer;
 }
 
+#primary_file_name {
+  background-color: #f9f9f9;
+  margin-top: 20px;
+  border-top: 1px solid #ddd;
+  padding: 8px;
+  font-size: 130%;
+}
+
 table#uploaded_pdf th, table#uploaded_supplemental_files th {
   text-align: center;
   background-color: #fff;
