@@ -90,7 +90,6 @@ RSpec.feature 'Create an Etd' do
       find('#question_1').choose('No')
       find('#question_2').choose('No')
       find('#question_3').choose('No')
-      click_on('Save My ETD')
       expect(page).to have_css('li#required-my-etd.complete')
 
       click_on('My PDF')
