@@ -280,11 +280,9 @@ describe("Validate My ETD", function(){
         spyOn(mockCheckbox, 'check').and.stub();
         spyOn(mockCheckbox, 'uncheck').and.stub();
       });
-      it("is valid and uploading is disabled", function() {
+      it("is valid", function() {
         $('#etd_no_supplemental_files').prop('checked', true)
         target.validateSupplementalFiles();
-        expect($("#supplemental-browse-btn")).toBeDisabled();
-        expect($('#supplemental_fileupload .fileinput-button')).toHaveClass('disabled_element');
         expect(mockCheckbox.uncheck.calls.count()).toEqual(0);
         expect(mockCheckbox.check.calls.count()).toEqual(1);
       });
