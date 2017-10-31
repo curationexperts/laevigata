@@ -193,12 +193,21 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     supplementalFilesListener(){
       let form = this
       $('#etd_no_supplemental_files').on('change', function(){
+        form.toggleSupplementalUpload();
         form.validateSupplementalFiles();
         if($(this).prop('checked') === false){
           //only clear the table when someone has interacted with this element - checked and then unchecked it.
           $('#supplemental_files_metadata').empty();
         }
       });
+    }
+
+    toggleSupplementalUpload(){
+      if ($('#etd_no_supplemental_files').prop('checked')){
+        this.disableSupplementalUpload()
+      } else {
+        this.enableSupplementalUpload()
+      }
     }
 
     disableSupplementalUpload(){
@@ -380,6 +389,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
      //just uncheck
      form.supplementalFiles.uncheck();
    });
+
    // the 'shown' hook means the dom will now have these elements
    $('#additional_metadata').on('shown.bs.collapse', function(){
      form.validateSupplementalFiles();
@@ -389,7 +399,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
    });
 
    $('#additional_metadata').on('hidden.bs.collapse', function(){
-     //validate
+     form.enableSupplementalUpload();
      form.validateSupplementalFiles();
    });
  }
@@ -420,18 +430,12 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     }
   }
 
-
   validateSupplementalFiles() {
     if ($('#etd_no_supplemental_files').prop('checked')){
       this.supplementalFiles.check()
-      this.disableSupplementalUpload()
       return true
     } else {
-      // if metadata form is showing, make sure students can't upload more files, because metadata form will become stale.
 
-      if ($('#additional_metadata').is(':hidden')) {
-        this.enableSupplementalUpload();
-      }
       if (this.supplemental_files_upload.hasFiles && this.hasSupplementalMetadata()) {
         this.supplementalFiles.check()
         return true
