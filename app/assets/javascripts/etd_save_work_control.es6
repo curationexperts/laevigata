@@ -81,6 +81,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
       // Check if the form is already valid. (e.g. If the user is editing an existing record, the form should be valid immediately.)
       this.updateEmbargoState('#no_embargoes', this);
+      this.updateReviewState('#agreement', this);
       this.validateAllTabs(this)
     }
 
@@ -91,7 +92,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
         form.validatePDF();
         form.validateSupplementalFiles();
         form.validateMyEmbargo();
-        // TODO: Review tab?
+        form.validateReview();
       })
     }
 
@@ -111,11 +112,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     setAgreementListener(){
       var form = this
       $('#agreement').on('change', function(){
-        if ($(this).prop('checked')){
-          form.requiredReview.check()
-        } else {
-          form.requiredReview.uncheck()
-        }
+        form.validateReview();
       })
     }
 
@@ -291,6 +288,13 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       form.requiredEmbargoFields.reload('#my_embargoes');
     }
 
+    updateReviewState(agreement_checkbox, form){
+      if ($(agreement_checkbox).prop('checked')){
+        $('#submission-agreement').removeClass('hidden')
+        $('#with_files_submit').prop('disabled', false)
+      }
+    }
+
     setEmbargoContentListener(){
       var form = this
       $("#no_embargoes").on('change', function(e){
@@ -348,6 +352,17 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
         return false
       }
     }
+
+    validateReview() {
+      if ($('#agreement').prop('checked')) {
+        this.requiredReview.check()
+        return true
+      } else {
+        this.requiredReview.uncheck()
+        return false
+      }
+    }
+
     validateMyETD() {
       if (this.requiredAboutMyETDFields.areComplete) {
         this.requiredMyETD.check()
