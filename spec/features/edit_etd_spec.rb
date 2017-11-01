@@ -182,7 +182,8 @@ RSpec.feature 'Edit an existing ETD' do
 
         # Verify copyright questions
         expect(find_field(id: 'etd_copyright_question_one_true').checked?).to be false
-        # TODO: expect(find_field(id: 'etd_copyright_question_one_false').checked?).to be true
+        # TODO: capybara draws these checkboxes differently from Firefox, and doesn't mark them as checked, even though it works properly in the browser.  Is this a bug in capybara?
+        # expect(find_field(id: 'etd_copyright_question_one_false').checked?).to be true
         expect(find_field(id: 'etd_copyright_question_one_true')).not_to be_disabled
         expect(find_field(id: 'etd_copyright_question_one_false')).not_to be_disabled
 
