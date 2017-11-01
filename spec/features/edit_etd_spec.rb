@@ -216,7 +216,12 @@ RSpec.feature 'Edit an existing ETD' do
         expect(find_by_id('etd_embargo_length').value).to eq embargo_attrs[:embargo_length]
         expect(find_by_id('etd_embargo_length')).not_to be_disabled
 
-        # TODO: Verify existing data in Review tab - maybe nothing?
+        # Verify Review tab
+        click_on('Review & Submit')
+        expect(find('#submission-agreement').visible?).to eq true
+        expect(find_field(id: 'agreement').checked?).to be true
+        expect(find('#with_files_submit')).not_to be_disabled
+        expect(page).to have_content 'Generate Preview'
 
         # All tabs in the form should be marked as valid so that the student can edit the fields and save the new data.
         expect(page).to have_css('li#required-about-me.complete')
@@ -224,7 +229,7 @@ RSpec.feature 'Edit an existing ETD' do
         expect(page).to have_css('li#required-files.complete')
         expect(page).to have_css('li#required-supplemental-files.complete')
         expect(page).to have_css('li#required-embargoes.complete')
-        # TODO: expect(page).to have_css('li#required-review.complete')
+        expect(page).to have_css('li#required-review.complete')
 
         # The student edits some data in the form
         click_on('About Me')
@@ -235,12 +240,10 @@ RSpec.feature 'Edit an existing ETD' do
         # The tab should stil be valid with the new data.
         expect(page).to have_css('li#required-about-me.complete')
 
-        # TODO: Maybe edit Abstract or Table of Contents to make sure the markup gets saved properly.
-
         # TODO:
         # Save the form
         # click_on('Review & Submit')
-        # check('agreement')
+        # Re-generate the preview
         # click_button 'Save'
 
         # TODO:
