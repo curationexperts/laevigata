@@ -47,9 +47,9 @@ export default class ReviewMyETD {
     $('#etd_abstract').val(tinyMCE.get('etd_abstract').getContent())
     $('#etd_table_of_contents').val(tinyMCE.get('etd_table_of_contents').getContent())
 
-    let data = $('#new_etd .about-my-etd :input').serializeArray();
+    let data = $('.about-my-etd :input').serializeArray();
 
-    let optional_data = $('#new_etd #about_my_etd :input.copyright').serializeArray();
+    let optional_data = $('#about_my_etd :input.copyright').serializeArray();
 
     let optional_values = ""
 
@@ -65,7 +65,7 @@ export default class ReviewMyETD {
   }
 
   getSupplementalFileList(){
-    var supplemental_files = $("#new_etd #supplemental_fileupload table").clone();
+    var supplemental_files = $("#supplemental_fileupload table").clone();
     $(supplemental_files).find('th').remove();
     $(supplemental_files).find('td').each(function(){
       var data = "";
@@ -82,14 +82,14 @@ export default class ReviewMyETD {
   }
 
   aboutMyPDFData(){
-    let data = [{'name': "My Primary PDF", 'value': $('#new_etd #fileupload p.name span').text()}]
+    let data = [{'name': "My Primary PDF", 'value': $('#fileupload p.name span').text()}]
 
     return data
   }
 
   aboutMySupplementalFilesData(){
     let data = ""
-      if ($('#new_etd #supplemental_fileupload tbody tr').length > 0) {
+      if ($('#supplemental_fileupload tbody tr').length > 0) {
         data = [{'name': "My Supplemental Files", 'value': this.getFileList()}]
         return data
       }
@@ -111,7 +111,7 @@ export default class ReviewMyETD {
 
   aboutMeData(){
     // just the non-committee text inputs
-    let no_committee_data = $('#new_etd #about_me :input').not('.form-control.committee').not('.committee-member-select').not('.committee-chair-select').not(':button').not('[type="hidden"]').serializeArray();
+    let no_committee_data = $('#about_me :input').not('.form-control.committee').not('.committee-member-select').not('.committee-chair-select').not(':button').not('[type="hidden"]').serializeArray();
 
     let committee_member_rows = $('#about_me div.committee-member.row').not('#member-cloning_row');
 
@@ -216,7 +216,7 @@ export default class ReviewMyETD {
 
       //do we have supplemental metadata?
 
-    } else if ($('#new_etd #additional_metadata tr').length > 0 && $('#additional_metadata_link').text() == 'Hide Required Metadata') {
+    } else if ($('#additional_metadata tr').length > 0 && $('#additional_metadata_link').text() == 'Hide Required Metadata') {
       $(this.supplementalFilesTableSelector).append('<tr><th colspan="4">Supplemental Files</th></tr>');
       // switch the value of the input with the html for each td
       var supp_data = $("#additional_metadata").clone();

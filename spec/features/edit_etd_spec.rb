@@ -243,9 +243,11 @@ RSpec.feature 'Edit an existing ETD' do
 
         # TODO:
         # Save the form
-        # click_on('Review & Submit')
-        # Re-generate the preview
-        # click_button 'Save'
+        click_on('Review & Submit')
+        # click_on('Generate Preview')
+        # Student should see new data on the preview
+        # expect(page).to have_content('Department Chemistry')
+        # click_on('Submit My ETD')
 
         # TODO:
         # Check that the new values appear on the show page
