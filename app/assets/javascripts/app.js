@@ -20,7 +20,6 @@ Hyrax.editor = function() {
 }
 
 Hyrax.tinyMCE = function(){
-
   if (typeof tinyMCE === "undefined")
     return
   tinyMCE.init({
@@ -34,11 +33,10 @@ Hyrax.tinyMCE = function(){
            tinyMCE.get('etd_table_of_contents').setContent("<p></p>");
            tinyMCE.execCommand('mceRepaint');
          }
-     );
-      var SaveEtd = require('etd_save_work_control')
-      var etd_save_work_control = new SaveEtd($("#form-progress"), this.adminSetWidget)
+      );
       ed.on('change', function(e) {
-        etd_save_work_control.formStateChanged(".about-my-etd");
+        // console.log("Editor: " + ed.id + " has changed.");
+        $(document).trigger('laevigata:tinymce:change');
       });
     }
   });

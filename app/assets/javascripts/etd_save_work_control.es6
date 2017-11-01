@@ -76,6 +76,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.setEmbargoContentListener()
       this.setAgreementListener()
       this.getTinyContent()
+      this.setTinyListener()
       this.supplementalMetadataListener()
 
       // Check if the form is already valid. (e.g. If the user is editing an existing record, the form should be valid immediately.)
@@ -86,8 +87,8 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     validateAllTabs(form){
       $(document).ajaxComplete(function() {
         form.validateMeAndMyProgram();
-// 999 form.validateMyETD()
-        form.validatePDF()
+        // TODO: form.validateMyETD();
+        form.validatePDF();
         form.validateSupplementalFiles();
         form.validateMyEmbargo();
         // TODO: Review tab?
@@ -99,6 +100,12 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
         $('#etd_abstract').val(this.getTinyContent('etd_abstract'))
         $('#etd_table_of_contents').val(this.getTinyContent('etd_table_of_contents'))
       });
+    }
+
+    // If user edits one of the TinyMCE fields, call formStateChanged for that tab.
+    setTinyListener(){
+      var form = this
+      $(document).bind('laevigata:tinymce:change', null, (e) => form.formStateChanged('.about-my-etd'));
     }
 
     setAgreementListener(){
