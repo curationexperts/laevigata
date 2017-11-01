@@ -9,6 +9,12 @@ RSpec.describe Hyrax::EtdForm do
   let(:request) { nil }
   let(:form)    { described_class.new(etd, ability, request) }
 
+  before do
+    # Don't run jobs during specs. Travis doesn't have fits installed, so these would fail during CI.
+    allow(CharacterizeJob).to receive(:perform_later)
+    allow(CreateDerivativesJob).to receive(:perform_later)
+  end
+
   describe "::terms" do
     subject { described_class }
     its(:terms) { is_expected.to include(:title) }
