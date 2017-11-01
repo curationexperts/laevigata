@@ -150,16 +150,16 @@ RSpec.feature 'Edit an existing ETD' do
         expect(find_field("Committee Chair/Thesis Advisor's Affiliation")).not_to be_disabled
         expect(find_field(id: 'etd[committee_chair_attributes][0]_name').value).to eq cc_attrs.first[:name]
         expect(find_field(id: 'etd[committee_chair_attributes][0]_name')).not_to be_disabled
-        # TODO: expect(find_field(id: 'etd[committee_chair_attributes][0]_affiliation').value).to eq 'Emory'
-        # TODO: expect(find_field(id: 'etd[committee_chair_attributes][0]_affiliation')).to be_disabled
+        expect(find('#etd\[committee_chair_attributes\]\[0\]\_affiliation')).to be_disabled
+        expect(find('#etd\[committee_chair_attributes\]\[0\]\_affiliation').value).to eq 'Emory'
 
         # Check fields for Committee Member
         expect(find_field("Committee Member's Affiliation").value).to eq 'Emory Committee Member'
         expect(find_field("Committee Member's Affiliation")).not_to be_disabled
         expect(find_field(id: 'etd[committee_members_attributes][0]_name').value).to eq cm_attrs.first[:name]
         expect(find_field(id: 'etd[committee_members_attributes][0]_name')).not_to be_disabled
-        # TODO: expect(find_field(id: 'etd[committee_members_attributes][0]_affiliation').value).to eq 'Emory'
-        # TODO: expect(find_field(id: 'etd[committee_members_attributes][0]_affiliation')).to be_disabled
+        expect(find('#etd\[committee_members_attributes\]\[0\]\_affiliation')).to be_disabled
+        expect(find('#etd\[committee_members_attributes\]\[0\]\_affiliation').value).to eq 'Emory'
 
         # Verify existing data in About My ETD tab
         click_on('My ETD')
