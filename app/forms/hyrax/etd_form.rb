@@ -63,6 +63,10 @@ module Hyrax
       model.persisted? && model.supplemental_files_fs.blank?
     end
 
+    def supplemental_files
+      model.supplemental_files_fs
+    end
+
     # Initial state for the 'No Embargo' checkbox.
     def no_embargoes
       model.persisted? && !model.under_embargo?

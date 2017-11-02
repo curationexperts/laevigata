@@ -98,6 +98,7 @@ RSpec.feature 'Create an Etd' do
 
       # TODO: Attach supplementary file(s)
       click_on('Supplemental Files')
+      expect(page).not_to have_link('Add Required Metadata')
       expect(page).to have_css('li#required-supplemental-files.incomplete')
       check 'I have no supplemental files.'
       expect(page).to have_css('li#required-supplemental-files.complete')
