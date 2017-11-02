@@ -10,6 +10,15 @@ RSpec.feature 'Edit an existing ETD' do
   let(:etd) { FactoryBot.build(:etd, attrs) }
   let(:primary_pdf_file) { File.join(fixture_path, "joey/joey_thesis.pdf") }
 
+  let(:attach_supp_files) { false }
+  let(:supplementary_file) { File.join(fixture_path, "nasa.jpeg") }
+  let(:supp_file_attrs) do
+    { user: student,
+      pcdm_use: 'supplementary',
+      description: 'description of supp file',
+      file_type: 'Image' }
+  end
+
   let(:attrs) do
     {
       depositor: student.user_key,
@@ -55,9 +64,16 @@ RSpec.feature 'Edit an existing ETD' do
 
     # Create ETD & attach PDF file
     etd.assign_admin_set
-    upload = File.open(primary_pdf_file) { |file| Hyrax::UploadedFile.create(user: student, file: file, pcdm_use: 'primary') }
+    uploaded_etd = File.open(primary_pdf_file) { |file| Hyrax::UploadedFile.create(user: student, file: file, pcdm_use: 'primary') }
+    file_ids = [uploaded_etd.id]
+
+    if attach_supp_files
+      uploaded_supp = File.open(supplementary_file) { |file| Hyrax::UploadedFile.create(supp_file_attrs.merge(file: file)) }
+      file_ids << uploaded_supp.id
+    end
+
     actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(student))
-    attributes_for_actor = { uploaded_files: [upload.id] }
+    attributes_for_actor = { uploaded_files: file_ids }
     actor.create(attributes_for_actor)
 
     # Approver requests changes, so student will be able to edit the ETD
@@ -97,6 +113,9 @@ RSpec.feature 'Edit an existing ETD' do
         expect(find_field(id: 'etd_no_supplemental_files').checked?).to be true
         expect(page).to have_css('li#required-supplemental-files.complete')
 
+        # The show/hide metadata button should not be visible since there are no files.
+        expect(page).not_to have_link('Add Required Metadata')
+
         # Verify that 'no embargoes' is checked and 'embargoes' tab is marked valid.
         click_on('Embargoes')
         expect(find_field(id: 'no_embargoes').checked?).to be true
@@ -111,6 +130,7 @@ RSpec.feature 'Edit an existing ETD' do
     context "An existing ETD" do
       let(:dept) { 'Biology' }
       let(:subfield) { ['Genetics and Molecular Biology'] }
+      let(:attach_supp_files) { true }
 
       let(:embargo_attrs) do
         {
@@ -120,8 +140,6 @@ RSpec.feature 'Edit an existing ETD' do
           embargo_length: '6 months'
         }
       end
-
-      # TODO: Attach supplemental files to the ETD in a before block so we can validate that they appear correctly on the Supplemental Files tab.
 
       scenario "edit a field", js: true do
         visit hyrax_etd_path(etd)
@@ -203,8 +221,19 @@ RSpec.feature 'Edit an existing ETD' do
           expect(page).to have_content 'joey_thesis.pdf'
         end
 
+        # Verify existing data in Supplemental Files tab
         click_on('Supplemental Files')
-        # TODO: Verify existing data in Supplemental Files tab
+        within('#supplemental_fileupload tbody.files tr') do
+          expect(page).to have_content('nasa.jpeg')
+        end
+        expect(page).to have_link('Add Required Metadata')
+        click_on('Add Required Metadata')
+        within('#supplemental_files_metadata tbody tr') do
+          expect(page).to have_content('nasa.jpeg')
+          # TODO: title
+          # TODO: description
+          # TODO: file type
+        end
 
         # Verify existing data in Embargoes tab
         click_on('Embargoes')
@@ -228,7 +257,7 @@ RSpec.feature 'Edit an existing ETD' do
         expect(page).to have_css('li#required-about-me.complete')
         # TODO: expect(page).to have_css('li#required-my-etd.complete')
         expect(page).to have_css('li#required-files.complete')
-        expect(page).to have_css('li#required-supplemental-files.complete')
+        # TODO: expect(page).to have_css('li#required-supplemental-files.complete')
         expect(page).to have_css('li#required-embargoes.complete')
         expect(page).to have_css('li#required-review.complete')
 

@@ -200,6 +200,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
         form.toggleSupplementalUpload();
         form.validateSupplementalFiles();
         if($(this).prop('checked') === false){
+          console.log('clearing files table');
           //only clear the table when someone has interacted with this element - checked and then unchecked it.
           $('#supplemental_files_metadata').empty();
         }
@@ -207,6 +208,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     }
 
     toggleSupplementalUpload(){
+      console.log('toggle supp checkbox');
       if ($('#etd_no_supplemental_files').prop('checked')){
         this.disableSupplementalUpload()
       } else {
@@ -414,6 +416,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
    // the 'shown' hook means the dom will now have these elements
    $('#additional_metadata').on('shown.bs.collapse', function(){
+     console.log('open the meta fields');
      form.validateSupplementalFiles();
      $("#additional_metadata :input").on('change', function() {
        form.validateSupplementalFiles();
@@ -421,6 +424,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
    });
 
    $('#additional_metadata').on('hidden.bs.collapse', function(){
+     console.log('close the meta fields');
      form.enableSupplementalUpload();
      form.validateSupplementalFiles();
    });
@@ -452,7 +456,9 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     }
   }
 
+  // 999 make it prettier
   validateSupplementalFiles() {
+    console.log('validateSupp');
     if ($('#etd_no_supplemental_files').prop('checked')){
       this.supplementalFiles.check()
       return true
