@@ -111,21 +111,23 @@ export class FieldManager {
         return $newField;
     }
 
+    // If you're in the etd_research_field div AND there are fewer than 3 items selected, add a new entry field
+    // OR
+    // If you're in the keywords div, always make a new entry field
     createNewField($activeField) {
-        // max of 3 research fields allowed
-        if ($activeField.parents('.etd_research_field') && $('select#etd_research_field').length < 3) {
-          let $newField = $activeField.clone();
-          let $newChildren = this.createNewChildren($newField);
-          this.element.trigger("managed_field:add", $newChildren);
+      var inResearchFields = !!$activeField.parents("div.etd_research_field").length
+      var numberOfResearchFieldsLessThanThree = $('select#etd_research_field').length < 3
+      var inKeywords = !!$activeField.parents("div.etd_keyword").length
+      if ((inResearchFields && numberOfResearchFieldsLessThanThree) || inKeywords) {
+        let $newField = $activeField.clone();
+        let $newChildren = this.createNewChildren($newField);
+        this.element.trigger("managed_field:add", $newChildren);
 
-          if ($activeField.parents('.etd_research_field') && $('select#etd_research_field').length === 2) {
-            $('.etd_research_field button.add').remove();
-          }
-
-          return $newField;
+        if (!!$activeField.parents("div.etd_research_field").length && $('select#etd_research_field').length === 2) {
+          $('.etd_research_field button.add').remove();
         }
-
-
+        return $newField;
+      }
     }
 
     clearEmptyWarning() {
