@@ -23,6 +23,7 @@ gem 'jquery-rails'
 # See https://gemnasium.com/gems/mail
 gem 'loofah'
 gem 'mail', '2.6.6.rc1'
+gem 'nokogiri', '>= 1.8.1'
 gem 'omniauth-shibboleth', '~> 1.2', '>= 1.2.1'
 gem 'pg'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
