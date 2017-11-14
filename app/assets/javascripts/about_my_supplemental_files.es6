@@ -50,11 +50,9 @@ export default class AboutMySupplementalFiles {
   }
 
   displayMetadata(){
-    console.log('displayMeta');
     var form = this
     // is there metadata already?
     if($('#supplemental_files_metadata tbody tr').length > 0){
-      console.log('meta already exists');
       // have more files been uploaded?
       if( $('#supplemental_fileupload tbody.files tr').length > $('#supplemental_files_metadata tbody tr').length ){
         form.syncMetadataWithFiles($('#supplemental_fileupload tbody.files tr'), $('#supplemental_files_metadata tbody tr'));
@@ -62,13 +60,6 @@ export default class AboutMySupplementalFiles {
         // do nothing, metadate table is in sync and will be shown
       }
     } else {
-      console.log('meta doesnt exist yet');
-      // create new metadata table
-      var table_headings = $('<thead><th>File Name</th><th>Title</th><th>Description</th><th>File Type</th></thead>');
-      var table_body = $('<tbody></tbody>');
-
-      $('#supplemental_files_metadata').append(table_headings);
-      $('#supplemental_files_metadata').append(table_body);
       $('#supplemental_fileupload tbody.files tr').each(function(ind, el){
         //get filename from each row of uploaded files table
         form.populateMetadataTable($(el).find('p.name').text(), ind)

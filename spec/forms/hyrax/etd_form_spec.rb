@@ -48,6 +48,28 @@ RSpec.describe Hyrax::EtdForm do
     it { is_expected.to eq 'joey_thesis.pdf' }
   end
 
+  describe "#supplemental_files" do
+    subject(:supp_files) { form.supplemental_files }
+
+    context "ETD with supplemental files" do
+      let(:etd) { build(:etd, ordered_members: [supp_file_1, supp_file_2]) }
+      let(:supp_file_1) { build(:supplemental_file_set, title: ['SF1']) }
+      let(:supp_file_2) { build(:supplemental_file_set, title: ['SF2']) }
+
+      context "an existing record" do
+        before { etd.save! }
+
+        it "returns supplemental files in order" do
+          expect(supp_files).to eq [supp_file_1, supp_file_2]
+        end
+      end
+    end
+
+    context "ETD with no supplemental files attached" do
+      it { is_expected.to eq [] }
+    end
+  end
+
   # Figure out the correct state for the 'No Supplemental Files' checkbox on the ETD form.
   describe "#no_supplemental_files" do
     subject { form.no_supplemental_files }
@@ -68,7 +90,7 @@ RSpec.describe Hyrax::EtdForm do
     end
 
     context "ETD with supplemental files" do
-      let(:etd) { build(:etd, members: [supp_file]) }
+      let(:etd) { build(:etd, ordered_members: [supp_file]) }
       let(:supp_file) { build(:supplemental_file_set) }
 
       context "a new record" do
