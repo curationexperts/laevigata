@@ -60,11 +60,11 @@ module Hyrax
     # 'No Supplemental Files' checkbox if they don't intend to
     # add any additional files.
     def no_supplemental_files
-      model.persisted? && model.supplemental_files_fs.blank?
+      model.persisted? && supplemental_files.blank?
     end
 
     def supplemental_files
-      model.supplemental_files_fs
+      model.ordered_members.to_a.select(&:supplementary?)
     end
 
     # Initial state for the 'No Embargo' checkbox.

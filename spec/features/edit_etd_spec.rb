@@ -15,6 +15,7 @@ RSpec.feature 'Edit an existing ETD' do
   let(:supp_file_attrs) do
     { user: student,
       pcdm_use: 'supplementary',
+      title: 'supp file title',
       description: 'description of supp file',
       file_type: 'Image' }
   end
@@ -230,9 +231,9 @@ RSpec.feature 'Edit an existing ETD' do
         click_on('Add Required Metadata')
         within('#supplemental_files_metadata tbody tr') do
           expect(page).to have_content('nasa.jpeg')
-          # TODO: title
-          # TODO: description
-          # TODO: file type
+          expect(page).to have_content('supp file title')
+          expect(page).to have_content('description of supp file')
+          expect(page).to have_content('Image')
         end
 
         # Verify existing data in Embargoes tab
