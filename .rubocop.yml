@@ -54,6 +54,10 @@ Metrics/MethodLength:
 Metrics/ModuleLength:
   Enabled: false
 
+Performance/HashEachMethods:
+  Exclude:
+    - 'app/controllers/hyrax/etds_controller.rb'
+
 Rails/FindBy:
   Enabled: false
 

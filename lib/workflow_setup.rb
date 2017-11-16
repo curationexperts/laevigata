@@ -119,7 +119,7 @@ class WorkflowSetup
   def load_superusers
     admin_role.users = [] # Remove all the admin users every time you reload
     admin_role.save
-    @superusers_config["superusers"].keys.each do |provider|
+    @superusers_config["superusers"].each_key do |provider|
       @superusers_config["superusers"][provider].each do |s|
         make_superuser(s, provider)
       end
