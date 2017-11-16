@@ -4,17 +4,29 @@ require 'rails_helper'
 
 RSpec.describe Hyrax::EtdsController do
   let(:user) { create :user }
+
+  let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
+
   before do
     allow(request.env['warden']).to receive(:authenticate!).and_return(user)
     allow(controller).to receive(:current_user).and_return(user)
     sign_in user
   end
+
   describe "POST create" do
-    xit "creates an etd from a full data set" do
-      post :hyrax_etds, params: { etd: { creator: "Joey" } }
-      assert_redirected_to etd_path(Etd.last)
+    before do
+      ActiveFedora::Cleaner.clean!
+      workflow_setup.setup
+    end
+
+    it "creates an etd" do
+      expect {
+        post :create, params: { etd: { title: 'a title', school: 'Emory College', department: 'Art History' } }
+      }.to change { Etd.count }.by(1)
+      assert_redirected_to main_app.hyrax_etd_path(assigns[:curation_concern], locale: 'en')
     end
   end
+
   describe "supplemental file metadata" do
     let(:params) do
       {
