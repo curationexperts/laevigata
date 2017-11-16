@@ -5,19 +5,25 @@ module Hyrax
     class InterpretVisibilityActor < AbstractActor
       def create(attributes)
         @attributes = attributes
-        save_embargo_length
-        @attributes.delete(:embargo_length)
-        @attributes[:visibility] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
-        apply_pre_graduation_embargo
-        curation_concern.save
+        save_embargo_and_visibility_data
         next_actor.create(@attributes)
       end
 
       def update(attributes)
-        create(attributes)
+        @attributes = attributes
+        save_embargo_and_visibility_data
+        next_actor.update(@attributes)
       end
 
       private
+
+        def save_embargo_and_visibility_data
+          save_embargo_length
+          @attributes.delete(:embargo_length)
+          @attributes[:visibility] = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+          apply_pre_graduation_embargo
+          curation_concern.save
+        end
 
         # Save embargo_length so we can apply it post-graduation
         def save_embargo_length
