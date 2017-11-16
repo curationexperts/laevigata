@@ -1,6 +1,0 @@
-development:
-  proquest_export_directory: <%= ::Rails.root.join('tmp', 'proquest_exports', 'dev') %>
-test:
-  proquest_export_directory: <%= ::Rails.root.join('tmp', 'proquest_exports', 'test') %>
-production:
-  proquest_export_directory: <%= ::Rails.root.join('tmp', 'proquest_exports') %>
