@@ -152,6 +152,7 @@ module Hyrax
       keys = ['committee_chair_attributes', 'committee_members_attributes']
 
       keys.each do |field_name|
+        next if attrs[field_name].blank?
         attrs[field_name].each do |member_key, member_attrs|
           aff_type = attrs[field_name][member_key].delete 'affiliation_type'
 
