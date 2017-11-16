@@ -79,6 +79,7 @@ Layout/MultilineMethodCallIndentation:
 Layout/AlignParameters:
   Exclude:
     - 'app/models/etd.rb'
+    - 'spec/controllers/hyrax/etds_controller_spec.rb'
 
 Layout/ClosingParenthesisIndentation:
   Enabled: false

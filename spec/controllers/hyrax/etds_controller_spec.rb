@@ -5,12 +5,50 @@ require 'rails_helper'
 RSpec.describe Hyrax::EtdsController do
   let(:user) { create :user }
 
+  let(:approver) { User.where(uid: "tezprox").first }
   let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
 
   before do
     allow(request.env['warden']).to receive(:authenticate!).and_return(user)
     allow(controller).to receive(:current_user).and_return(user)
     sign_in user
+  end
+
+  describe "#update" do
+    let(:etd) do
+      FactoryGirl.build(:etd,
+        depositor: user.user_key,
+        title: ['Another great thesis by Frodo'],
+        school: ['Emory College'],
+        department: ['Art History'])
+    end
+
+    before do
+      ActiveFedora::Cleaner.clean!
+      workflow_setup.setup
+
+      # Create the ETD record
+      etd.assign_admin_set
+      actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(user))
+      actor.create({})
+
+      # Approver requests changes, so student will be able to edit the ETD
+      change_workflow_status(etd, "request_changes", approver)
+
+      etd.reload
+    end
+
+    context 'with a new title' do
+      it "updates the ETD" do
+        expect {
+          patch :update, params: { id: etd, etd: { title: 'New Title' } }
+        }.to change { Etd.count }.by(0)
+
+        etd.reload
+        assert_redirected_to main_app.hyrax_etd_path(etd, locale: 'en')
+        expect(etd.title).to eq ['New Title']
+      end
+    end
   end
 
   describe "POST create" do
