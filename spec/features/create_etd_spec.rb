@@ -96,14 +96,17 @@ RSpec.feature 'Create an Etd' do
       page.attach_file('primary_files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
       expect(page).to have_css('li#required-files.complete')
 
-      # TODO: Attach supplementary file(s)
       click_on('Supplemental Files')
+      expect(page).not_to have_link('Add Required Metadata')
       expect(page).to have_css('li#required-supplemental-files.incomplete')
-      check 'I have no supplemental files.'
+      page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
+
+      click_on 'Add Required Metadata'
+      fill_in name: 'etd[supplemental_file_metadata][0]title', with: 'supp file title'
+      fill_in name: 'etd[supplemental_file_metadata][0]description', with: 'supp file desc'
+      select 'Image', from: 'etd[supplemental_file_metadata][0]file_type'
       expect(page).to have_css('li#required-supplemental-files.complete')
 
-      # TODO: Should we create an embargo in this spec, or is
-      # that tested in spec/features/create_etd_embargo_spec.rb?
       click_on('Embargoes')
       expect(page).to have_css('li#required-embargoes.incomplete')
       check 'I do not want to embargo my thesis or dissertation.'
@@ -153,9 +156,8 @@ RSpec.feature 'Create an Etd' do
       expect(etd.copyright_question_two).to eq 'false'
       expect(etd.copyright_question_three).to eq 'false'
 
+      # Verify data from 'My PDF' tab
       # TODO: Test primary PDF
-      # TODO: Test Supplemental files
-      # TODO: Test Embargo (if there is one)
     end
   end
 

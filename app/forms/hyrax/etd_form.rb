@@ -60,7 +60,11 @@ module Hyrax
     # 'No Supplemental Files' checkbox if they don't intend to
     # add any additional files.
     def no_supplemental_files
-      model.persisted? && model.supplemental_files_fs.blank?
+      model.persisted? && supplemental_files.blank?
+    end
+
+    def supplemental_files
+      model.ordered_members.to_a.select(&:supplementary?)
     end
 
     # Initial state for the 'No Embargo' checkbox.
@@ -148,6 +152,7 @@ module Hyrax
       keys = ['committee_chair_attributes', 'committee_members_attributes']
 
       keys.each do |field_name|
+        next if attrs[field_name].blank?
         attrs[field_name].each do |member_key, member_attrs|
           aff_type = attrs[field_name][member_key].delete 'affiliation_type'
 

@@ -1,7 +1,19 @@
 export default class AboutMySupplementalFiles {
   constructor() {
+    this.updateMetadataButtonState()
     this.attachMetadataListeners()
     this.uniqueSupplementalFiles()
+  }
+
+  // If there are existing supplemental files, display the button to show/hide the metadata section.
+  updateMetadataButtonState(){
+    if ($('#supplemental_fileupload tbody.files tr').length === 0){
+      console.log('hiding meta button');
+      $('#additional_metadata_link').css('display', 'none');
+    } else {
+      console.log('showing meta button');
+      $('#additional_metadata_link').css('display', 'block');
+    }
   }
 
   uniqueSupplementalFiles(){
@@ -26,6 +38,7 @@ export default class AboutMySupplementalFiles {
   }
 
   syncMetadataWithFiles(file_rows, metadata_rows){
+    console.log('sync meta w files');
     let form = this;
     //files have been added, add correct number of new rows to metadata table, with filename supplied
     for (var i = 0; i < file_rows.length; i++){
@@ -47,13 +60,6 @@ export default class AboutMySupplementalFiles {
         // do nothing, metadate table is in sync and will be shown
       }
     } else {
-      // create new metadata table
-      var table_headings = $('<thead><th>File Name</th><th>Title</th><th>Description</th><th>File Type</th></thead>');
-      var table_body = $('<tbody></tbody>');
-
-      $('#supplemental_files_metadata').append(table_headings);
-      $('#supplemental_files_metadata').append(table_body);
-
       $('#supplemental_fileupload tbody.files tr').each(function(ind, el){
         //get filename from each row of uploaded files table
         form.populateMetadataTable($(el).find('p.name').text(), ind)
@@ -62,6 +68,7 @@ export default class AboutMySupplementalFiles {
   }
 
   populateMetadataTable(filename, iterator){
+    console.log('populateMetadataTable');
     var formatted_filename = filename.replace(/(\r\n|\n|\r)/gm,"");
     var final_filename = formatted_filename.trim();
 

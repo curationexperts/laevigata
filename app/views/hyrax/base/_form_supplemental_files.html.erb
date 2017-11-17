@@ -13,8 +13,24 @@
   <h2><%= t('hyrax.base.form_files.local_upload') %></h2>
   <div class="alert alert-info form-instructions">For supplemental files 100MB or smaller, upload from your computer.</div>
   <div id='duplicate-files-error' class='alert alert-warning hidden col-xs-12'>Duplicate found. This file has already been uploaded.</div>
-   <!-- The table listing the files available for upload/download -->
-   <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+
+  <!-- The table listing the files available for upload/download -->
+  <table role="presentation" class="table table-striped">
+    <tbody class="files">
+      <% f.object.supplemental_files.each do |sf| %>
+        <tr>
+          <td><span class="preview"></span></td>
+          <td>
+            <p class="name">
+              <span><%= sf.label %></span>
+            </p>
+          </td>
+          <td><span class="size"></span></td>
+          <td><span></span></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
    <%= link_to "Add Required Metadata",
                '#additional_metadata',
@@ -25,10 +41,8 @@
                'aria-expanded'=> "false",
                'aria-controls'=> "additional_metadata" %>
 
-   <div id="additional_metadata" class='collapse'>
-     <table class='table table-striped metadata' id='supplemental_files_metadata'>
-     </table>
-   </div>
+  <%= render 'form_supplemental_files_metadata', f: f %>
+
    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
    <div class="row fileupload-buttonbar">
        <div class="col-xs-7">
