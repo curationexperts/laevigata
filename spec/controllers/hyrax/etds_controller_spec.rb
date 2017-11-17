@@ -8,19 +8,29 @@ RSpec.describe Hyrax::EtdsController do
   let(:approver) { User.where(uid: "tezprox").first }
   let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
 
+  let(:file1) { File.open("#{fixture_path}/miranda/miranda_thesis.pdf") }
+  let(:file2) { File.open("#{fixture_path}/magic_warrior_cat.jpg") }
+  let(:file3) { File.open("#{fixture_path}/miranda/rural_clinics.zip") }
+
   before do
+    # Don't characterize the file during specs
+    allow(CharacterizeJob).to receive_messages(perform_later: nil, perform_now: nil)
+
     allow(request.env['warden']).to receive(:authenticate!).and_return(user)
     allow(controller).to receive(:current_user).and_return(user)
     sign_in user
   end
 
   describe "#update" do
-    let(:etd) do
-      FactoryGirl.build(:etd,
-        depositor: user.user_key,
+    let(:default_attrs) do
+      { depositor: user.user_key,
         title: ['Another great thesis by Frodo'],
         school: ['Emory College'],
-        department: ['Art History'])
+        department: ['Art History'] }
+    end
+
+    let(:etd) do
+      FactoryGirl.build(:etd, default_attrs)
     end
 
     before do
@@ -47,6 +57,61 @@ RSpec.describe Hyrax::EtdsController do
         etd.reload
         assert_redirected_to main_app.hyrax_etd_path(etd, locale: 'en')
         expect(etd.title).to eq ['New Title']
+      end
+    end
+
+    context 'with no pre-existing supplemental files' do
+      context 'student checks "no supplemental files" checkbox' do
+        before do
+          patch :update, params: { id: etd, etd: { title: 'New Title', no_supplemental_files: '1' } }
+          etd.reload
+        end
+
+        it 'successfully updates the ETD' do
+          assert_redirected_to main_app.hyrax_etd_path(etd, locale: 'en')
+          expect(etd.title).to eq ['New Title']
+        end
+      end
+
+      context 'student adds supplemental files' do
+        let(:new_attrs) do
+          {
+            title: 'New Title',
+            "no_supplemental_files" => "0",
+            "supplemental_file_metadata" =>
+              { "0" => { filename: "magic_warrior_cat.jpg",
+                         title: "Magic Cat",
+                         description: "Cat desc",
+                         file_type: "Image" },
+                "1" => { filename: "rural_clinics.zip",
+                         title: "Rural Clinics",
+                         description: "Clinic desc",
+                         file_type: "Data" } }
+          }
+        end
+
+        before do
+          Hyrax::UploadedFile.delete_all
+          FactoryGirl.create(:uploaded_file, id: 15, file: file2, user_id: user.id)
+          FactoryGirl.create(:uploaded_file, id: 16, file: file3, user_id: user.id)
+        end
+
+        it 'adds the new supplemental files' do
+          expect {
+            patch :update,
+                  params: { id: etd,
+                            uploaded_files: ["15", "16"],
+                            etd: new_attrs }
+          }.to change { FileSet.count }.by(2)
+
+          etd.reload
+          assert_redirected_to main_app.hyrax_etd_path(etd, locale: 'en')
+          expect(etd.title).to eq ['New Title']
+
+          expect(etd.supplemental_files_fs.map(&:title)).to contain_exactly(["Magic Cat"], ["Rural Clinics"])
+          expect(etd.supplemental_files_fs.map(&:description)).to contain_exactly(["Cat desc"], ["Clinic desc"])
+          expect(etd.supplemental_files_fs.map(&:file_type)).to contain_exactly('Image', 'Data')
+        end
       end
     end
   end
@@ -91,9 +156,6 @@ RSpec.describe Hyrax::EtdsController do
         "locale" => "en"
       }
     end
-    let(:file1) { File.open("#{fixture_path}/miranda/miranda_thesis.pdf") }
-    let(:file2) { File.open("#{fixture_path}/magic_warrior_cat.jpg") }
-    let(:file3) { File.open("#{fixture_path}/miranda/rural_clinics.zip") }
     before do
       Hyrax::UploadedFile.delete_all
       FactoryBot.create(:uploaded_file, id: 14, file: file1, user_id: user.id, pcdm_use: "primary")

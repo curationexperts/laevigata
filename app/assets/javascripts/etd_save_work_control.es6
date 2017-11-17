@@ -148,21 +148,24 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       });
 
       $('#supplemental_fileupload').bind('fileuploaddestroyed', function (e, data) {
+        $('#supplemental_files_metadata tr').each(function(){
+          if ($(this).find('td').first().text() === file) {
+            $(this).remove();
+          }
+        });
         form.validateSupplementalFiles()
 
-        //if user is deleting the last file, empty the metadata table and hide the show metadata link
+        // If user is deleting the last file, hide the show metadata link.
         if ($('#supplemental_fileupload tbody.files tr').length === 0){
-          $('#supplemental_files_metadata').empty();
           $('#additional_metadata_link').css('display', 'none');
-        } else {
-          $('#supplemental_files_metadata tr').each(function(){
-            if ($(this).find('td').first().text() === file) {
-              $(this).remove();
-            }
-          });
         }
-
       })
+    }
+
+    clear_supplemental_files_metadata_table(){
+      $('#supplemental_files_metadata tbody tr').each(function(){
+        $(this).remove();
+      });
     }
 
     // If the user is editing an existing ETD record that has a previously-uploaded PDF, then that file will be displayed on the page.  This method determines whether or not that file is present.
@@ -202,7 +205,7 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
         if($(this).prop('checked') === false){
           console.log('clearing files table');
           //only clear the table when someone has interacted with this element - checked and then unchecked it.
-          $('#supplemental_files_metadata').empty();
+          form.clear_supplemental_files_metadata_table;
         }
       });
     }
