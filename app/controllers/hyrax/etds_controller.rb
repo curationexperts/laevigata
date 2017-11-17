@@ -19,6 +19,13 @@ module Hyrax
       super
     end
 
+    def update
+      sanitize_input(params)
+      merge_selected_files_hashes(params) if params["selected_files"]
+      apply_file_metadata(params)
+      super
+    end
+
     # Override from Hyrax:app/controllers/concerns/hyrax/curation_concern_controller.rb
     # Hyrax default behavior is that a user cannot see their own work if the document
     # is "suppressed", which means Hyrax::Workflow::ActivateObject has not been called.

@@ -149,7 +149,7 @@ RSpec.feature 'Supplemental files' do
     end
 
     scenario "deleting all files removes all metadata content", js: true do
-      # if you upload two files and delete them both, expect show metadata link and table not to be there
+      # if you upload two files and delete them both, expect show metadata link and metadata not to be there
       click_on('Supplemental Files')
       expect(page).to have_content('Add Supplemental Files')
 
@@ -177,11 +177,9 @@ RSpec.feature 'Supplemental files' do
 
       find('button.delete').click
 
-      # metadata table gone
-      expect(page).not_to have_content('File Name')
-      expect(page).not_to have_content('Title')
-      expect(page).not_to have_content('Description')
-      expect(page).not_to have_content('File Type')
+      # metadata table has no rows left
+      expect(page).to     have_css('#supplemental_files_metadata tbody')
+      expect(page).not_to have_css('#supplemental_files_metadata tbody tr')
       expect(page).not_to have_content('Hide Required Metadata')
       expect(page).not_to have_content('nasa.jpeg')
     end
