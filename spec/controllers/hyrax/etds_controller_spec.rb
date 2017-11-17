@@ -54,9 +54,9 @@ RSpec.describe Hyrax::EtdsController do
     let(:file3) { File.open("#{fixture_path}/miranda/rural_clinics.zip") }
     before do
       Hyrax::UploadedFile.delete_all
-      FactoryGirl.create(:uploaded_file, id: 14, file: file1, user_id: user.id, pcdm_use: "primary")
-      FactoryGirl.create(:uploaded_file, id: 15, file: file2, user_id: user.id)
-      FactoryGirl.create(:uploaded_file, id: 16, file: file3, user_id: user.id)
+      FactoryBot.create(:uploaded_file, id: 14, file: file1, user_id: user.id, pcdm_use: "primary")
+      FactoryBot.create(:uploaded_file, id: 15, file: file2, user_id: user.id)
+      FactoryBot.create(:uploaded_file, id: 16, file: file3, user_id: user.id)
     end
     it "attaches metadata to uploaded files" do
       described_class.new.apply_file_metadata(params)

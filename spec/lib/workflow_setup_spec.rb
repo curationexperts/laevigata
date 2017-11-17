@@ -198,7 +198,7 @@ RSpec.describe WorkflowSetup do
       workflow = AdminSet.where(title: ["Laney Graduate School"]).first.active_workflow
 
       # Newly created users should be able to deposit, but nothing else
-      depositor = FactoryGirl.create(:user, groups: "registered")
+      depositor = FactoryBot.create(:user, groups: "registered")
       roles = Hyrax::Workflow::PermissionQuery.scope_processing_workflow_roles_for_user_and_workflow(user: depositor, workflow: workflow).pluck(:role_id)
       depositor_role_names = roles.map { |r| Sipity::Role.where(id: r).first.name }
       expect(depositor_role_names.include?("depositing")).to eq true

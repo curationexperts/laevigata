@@ -9,7 +9,7 @@ RSpec.feature 'Emory College approval workflow' do
   let(:depositing_user) { User.where(ppid: etd.depositor).first }
   let(:approving_user) { User.where(uid: "ecadmin").first }
   let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
-  let(:etd) { FactoryGirl.create(:sample_data, school: ["Emory College"]) }
+  let(:etd) { FactoryBot.create(:sample_data, school: ["Emory College"]) }
   context 'a logged in user' do
     before do
       allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci

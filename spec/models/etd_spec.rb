@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Etd do
   context "#hidden?" do
-    let(:etd) { FactoryGirl.build(:etd) }
+    let(:etd) { FactoryBot.build(:etd) }
     context "with a new ETD" do
       it "is not hidden when it is first created" do
         expect(etd.hidden?).to eq false
@@ -17,8 +17,8 @@ RSpec.describe Etd do
   end
 
   context "determining admin set" do
-    let(:etd) { FactoryGirl.build(:etd) }
-    let(:epidemiology_admin_set) { FactoryGirl.create(:admin_set, title: ["Epidemiology"]) }
+    let(:etd) { FactoryBot.build(:etd) }
+    let(:epidemiology_admin_set) { FactoryBot.create(:admin_set, title: ["Epidemiology"]) }
     it "assigns the laney admin set when the school is laney" do
       etd.school = ["Laney Graduate School"]
       expect(etd.determine_admin_set).to eq "Laney Graduate School"
@@ -49,7 +49,7 @@ RSpec.describe Etd do
   end
 
   context "three kinds of embargo" do
-    let(:etd) { FactoryGirl.build(:etd) }
+    let(:etd) { FactoryBot.build(:etd) }
     it "#files_embargoed" do
       expect(etd.files_embargoed).to eq nil
       etd.files_embargoed = true
@@ -68,7 +68,7 @@ RSpec.describe Etd do
   end
 
   context "embargo length" do
-    let(:etd) { FactoryGirl.build(:etd) }
+    let(:etd) { FactoryBot.build(:etd) }
     it "has an embargo length" do
       etd.embargo_length = "6 months"
       expect(etd.resource.dump(:ttl)).to match(/purl.org\/spar\/fabio\/hasEmbargoDuration/)
@@ -77,7 +77,7 @@ RSpec.describe Etd do
   end
 
   context "abstract" do
-    let(:etd) { FactoryGirl.build(:etd) }
+    let(:etd) { FactoryBot.build(:etd) }
     it "has an abstract" do
       etd.abstract = ["Mlkshk mixtape aesthetic artisan scenester wolf 8-bit Four Loko."]
       expect(etd.resource.dump(:ttl)).to match(/purl.org\/dc\/terms\/abstract/)
@@ -86,7 +86,7 @@ RSpec.describe Etd do
   end
 
   context "table of contents" do
-    let(:etd) { FactoryGirl.build(:etd) }
+    let(:etd) { FactoryBot.build(:etd) }
     it "has a table_of_contents" do
       etd.table_of_contents = ["Irony Austin seitan vegan skateboard +1 sartorial wolf McSweeney's."]
       expect(etd.resource.dump(:ttl)).to match(/purl.org\/dc\/terms\/tableOfContents/)
@@ -95,7 +95,7 @@ RSpec.describe Etd do
   end
 
   context "keyword" do
-    let(:etd) { FactoryGirl.build(:etd) }
+    let(:etd) { FactoryBot.build(:etd) }
     it "has keywords" do
       etd.keyword = ["Irony", "Austin", "seitan"]
       expect(etd.resource.dump(:ttl)).to match(/schema.org\/keywords/)
@@ -104,7 +104,7 @@ RSpec.describe Etd do
   end
 
   context "legacy_id" do
-    let(:etd) { FactoryGirl.build(:etd) }
+    let(:etd) { FactoryBot.build(:etd) }
     it "has several legacy ids" do
       etd.legacy_id = ["emory:rpj8w", "emory:rpj91"]
       expect(etd.resource.dump(:ttl)).to match(/id.loc.gov\/vocabulary\/identifiers\/local/)
@@ -113,7 +113,7 @@ RSpec.describe Etd do
   end
 
   context "graduation_year" do
-    let(:etd) { FactoryGirl.build(:etd) }
+    let(:etd) { FactoryBot.build(:etd) }
     it "has graduation_year" do
       etd.graduation_year = "2007"
       expect(etd.resource.dump(:ttl)).to match(/purl.org\/dc\/terms\/issued/)
@@ -130,7 +130,7 @@ RSpec.describe Etd do
   end
 
   context "committee members" do
-    let(:etd) { FactoryGirl.create(:ateer_etd) }
+    let(:etd) { FactoryBot.create(:ateer_etd) }
     it "has a committee_chair which is a CommitteeMember object" do
       expect(etd.committee_chair.first).to be_instance_of CommitteeMember
     end
@@ -226,7 +226,7 @@ RSpec.describe Etd do
   end
 
   context "author name" do
-    let(:etd) { FactoryGirl.build(:etd) }
+    let(:etd) { FactoryBot.build(:etd) }
     it "has a creator with the expected predicate" do
       etd.creator = ["Wayne, John"]
       expect(etd.resource.dump(:ttl)).to match(/id.loc.gov\/vocabulary\/relators\/aut/)
@@ -234,7 +234,7 @@ RSpec.describe Etd do
   end
 
   context "submitting_type" do
-    let(:etd) { FactoryGirl.build(:etd) }
+    let(:etd) { FactoryBot.build(:etd) }
     it "has a submitting_type with the expected predicate" do
       etd.submitting_type = ["Master's Thesis"]
       expect(etd.submitting_type.first).to eq "Master's Thesis"
@@ -242,7 +242,7 @@ RSpec.describe Etd do
   end
 
   context "emails" do
-    let(:etd) { FactoryGirl.build(:etd) }
+    let(:etd) { FactoryBot.build(:etd) }
     it "has a primary email with the expected predicate" do
       etd.email = ['lonnie@mcdermott.ca']
       expect(etd.resource.dump(:ttl)).to match(/www.ebu.ch\/metadata\/ontologies\/ebucore\/ebucore\#officeEmailAddress/)
@@ -254,7 +254,7 @@ RSpec.describe Etd do
   end
 
   context "graduation_date" do
-    let(:etd) { FactoryGirl.build(:etd) }
+    let(:etd) { FactoryBot.build(:etd) }
     it "has a semester and year" do
       etd.graduation_date = ["Spring 2019"]
       expect(etd.resource.dump(:ttl)).to match(/purl.org\/dc\/terms\/issued/)
@@ -263,7 +263,7 @@ RSpec.describe Etd do
   end
 
   context "degree_awarded" do
-    let(:etd) { FactoryGirl.build(:etd) }
+    let(:etd) { FactoryBot.build(:etd) }
     it "says when it was awarded" do
       etd.degree_awarded = "10 July 2017"
       expect(etd.resource.dump(:ttl)).to match(/dublincore.org\/documents\/dcmi-terms\/#terms-dateAccepted/)
@@ -277,7 +277,7 @@ RSpec.describe Etd do
   end
 
   context "the three intellectual property questions" do
-    let(:etd) { FactoryGirl.build(:etd) }
+    let(:etd) { FactoryBot.build(:etd) }
     it "has an answer about permissions" do
       etd.copyright_question_one = true
       expect(etd.resource.dump(:ttl)).to match(/www.w3.org\/2004\/02\/skos\/core\#note_permissions/)

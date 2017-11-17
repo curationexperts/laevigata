@@ -1,7 +1,7 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :committee_member do
     initialize_with { etd.committee_members.build }
-    transient { etd { FactoryGirl.build(:etd) } }
+    transient { etd { FactoryBot.build(:etd) } }
 
     name ["Lastname, Firstname"]
     affiliation ['Emory University']

@@ -18,7 +18,7 @@ RSpec.describe Hyrax::EtdsController do
         allow(request.env['warden']).to receive(:authenticate!).and_return(user)
         allow(controller).to receive(:current_user).and_return(user)
         sign_in user
-        FactoryGirl.create(:uploaded_file, id: 221, file: file1, user_id: user.id, pcdm_use: "primary")
+        FactoryBot.create(:uploaded_file, id: 221, file: file1, user_id: user.id, pcdm_use: "primary")
         post :create, params: params
         assert_response :redirect
       end

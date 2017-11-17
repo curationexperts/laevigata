@@ -13,13 +13,13 @@ RSpec.describe Hyrax::Workflow::ReviewedNotification do
     w = WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/laney_admin_sets.yml", "/dev/null")
     w.setup
   end
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
   let(:etd) do
-    FactoryGirl.create(:sample_data, depositor: user.user_key, school: ["Laney Graduate School"])
+    FactoryBot.create(:sample_data, depositor: user.user_key, school: ["Laney Graduate School"])
   end
   let(:ability) { ::Ability.new(user) }
   let(:recipients) do
-    { 'to' => [FactoryGirl.create(:user), FactoryGirl.create(:user)] }
+    { 'to' => [FactoryBot.create(:user), FactoryBot.create(:user)] }
   end
   let(:notification) do
     attributes_for_actor = {}

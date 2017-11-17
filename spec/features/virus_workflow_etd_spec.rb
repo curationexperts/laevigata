@@ -16,7 +16,7 @@ RSpec.feature 'Virus checking' do
     end
   end
   let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null") }
-  let(:etd) { FactoryGirl.create(:sample_data, school: ["Candler School of Theology"]) }
+  let(:etd) { FactoryBot.create(:sample_data, school: ["Candler School of Theology"]) }
   context 'a logged in user' do
     before do
       allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci

@@ -34,7 +34,7 @@ describe EmbargoExpirationService do
     end
   end
   context "#send_sixty_day_notifications" do
-    let(:etd) { FactoryGirl.create(:sixty_day_expiration) }
+    let(:etd) { FactoryBot.create(:sixty_day_expiration) }
     let(:service) { described_class.new(Time.zone.today) }
     it "finds all ETDs whose embargo will expire in 60 days" do
       expect(etd.embargo_release_date).to eq(Time.zone.today + 60.days)
@@ -48,7 +48,7 @@ describe EmbargoExpirationService do
     end
   end
   context "#send_seven_day_notifications" do
-    let(:etd) { FactoryGirl.create(:seven_day_expiration) }
+    let(:etd) { FactoryBot.create(:seven_day_expiration) }
     let(:service) { described_class.new(Time.zone.today) }
     it "finds all ETDs whose embargo will expire in 7 days" do
       expect(etd.embargo_release_date).to eq(Time.zone.today + 7.days)
@@ -66,7 +66,7 @@ describe EmbargoExpirationService do
   # so both the test embargoes and the expiration service are invoked
   # for "tomorrow"
   context "#send_today_notifications" do
-    let(:etd) { FactoryGirl.create(:tomorrow_expiration) }
+    let(:etd) { FactoryBot.create(:tomorrow_expiration) }
     let(:service) { described_class.new(Time.zone.tomorrow) }
     it "finds all ETDs whose embargo will expire the same day as the service's invocation date" do
       expect(etd.embargo_release_date).to eq(Time.zone.tomorrow)
@@ -81,7 +81,7 @@ describe EmbargoExpirationService do
   end
 
   context "#expire_embargoes" do
-    let(:etd) { FactoryGirl.create(:tomorrow_expiration) }
+    let(:etd) { FactoryBot.create(:tomorrow_expiration) }
     let(:service) { described_class.new(Time.zone.tomorrow) }
     it "removes the embargo for each object whose expiration date has been reached" do
       expect(etd.embargo_release_date).to eq(Time.zone.tomorrow)
@@ -102,19 +102,19 @@ describe EmbargoExpirationService do
   # for "tomorrow"
   context "#send_summary_report" do
     let(:etd1) do
-      FactoryGirl.create(
+      FactoryBot.create(
         :sixty_day_expiration,
-        embargo: FactoryGirl.create(:embargo, embargo_release_date: (Time.zone.tomorrow + 60.days))
+        embargo: FactoryBot.create(:embargo, embargo_release_date: (Time.zone.tomorrow + 60.days))
       )
     end
     let(:etd2) do
-      FactoryGirl.create(
+      FactoryBot.create(
         :seven_day_expiration,
-        embargo: FactoryGirl.create(:embargo, embargo_release_date: (Time.zone.tomorrow + 7.days))
+        embargo: FactoryBot.create(:embargo, embargo_release_date: (Time.zone.tomorrow + 7.days))
       )
     end
     let(:etd3) do
-      FactoryGirl.create(:tomorrow_expiration)
+      FactoryBot.create(:tomorrow_expiration)
     end
     let(:service) { described_class.new(Time.zone.tomorrow) }
     before do

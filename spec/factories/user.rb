@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :user do
     ppid { ActiveFedora::Noid::Service.new.mint }
     uid { FFaker::Internet.user_name }
@@ -6,7 +6,7 @@ FactoryGirl.define do
 
     transient do
       # Allow for custom groups when a user is instantiated.
-      # @example FactoryGirl.create(:user, groups: 'admin')
+      # @example FactoryBot.create(:user, groups: 'admin')
       groups []
     end
 

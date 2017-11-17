@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :etd do
     id { ActiveFedora::Noid::Service.new.mint }
     title { [] << FFaker::Book.title }
@@ -24,8 +24,8 @@ FactoryGirl.define do
       research_field ['Religion, General']
 
       after(:build) do |etd, evaluator|
-        etd.committee_chair.build(FactoryGirl.attributes_for(:committee_member))
-        etd.committee_members.build(FactoryGirl.attributes_for_list(:committee_member, 3))
+        etd.committee_chair.build(FactoryBot.attributes_for(:committee_member))
+        etd.committee_members.build(FactoryBot.attributes_for_list(:committee_member, 3))
       end
     end
 
@@ -54,7 +54,7 @@ FactoryGirl.define do
       # 2017-08-21 is the actual date of this embargo expiration, but now that it
       # is no longer in the future, it is no longer a valid embargo date. Leaving
       # it here as a point of discussion for future migration work.
-      # embargo_id { FactoryGirl.create(:embargo, embargo_release_date: "2017-08-21").id }
+      # embargo_id { FactoryBot.create(:embargo, embargo_release_date: "2017-08-21").id }
       files_embargoed true
       abstract_embargoed true
       toc_embargoed true
@@ -65,9 +65,9 @@ FactoryGirl.define do
       # permanent_address ['123 Sesame St, Atlanta, GA 30306, UNITED STATES']
 
       after(:build) do |etd, evaluator|
-        etd.committee_chair.build(FactoryGirl.attributes_for(:committee_member, name: ['Treadway, Michael T']))
-        etd.committee_members.build(FactoryGirl.attributes_for(:committee_member, name: ['Craighead, W Edward']))
-        etd.committee_members.build(FactoryGirl.attributes_for(:committee_member, name: ['Manns, Joseph']))
+        etd.committee_chair.build(FactoryBot.attributes_for(:committee_member, name: ['Treadway, Michael T']))
+        etd.committee_members.build(FactoryBot.attributes_for(:committee_member, name: ['Craighead, W Edward']))
+        etd.committee_members.build(FactoryBot.attributes_for(:committee_member, name: ['Manns, Joseph']))
       end
     end
 
@@ -115,7 +115,7 @@ FactoryGirl.define do
 
       factory :sample_data_with_everything_embargoed do
         title ["Sample Data With Full Embargo: #{FFaker::Book.title}"]
-        embargo { FactoryGirl.create(:embargo, embargo_release_date: (Time.zone.today + 14.days)) }
+        embargo { FactoryBot.create(:embargo, embargo_release_date: (Time.zone.today + 14.days)) }
         embargo_length "6 months"
         files_embargoed true
         abstract_embargoed true
@@ -123,17 +123,17 @@ FactoryGirl.define do
 
         factory :sixty_day_expiration do
           degree_awarded { Time.zone.today - 2.years }
-          embargo { FactoryGirl.create(:embargo, embargo_release_date: (Time.zone.today + 60.days)) }
+          embargo { FactoryBot.create(:embargo, embargo_release_date: (Time.zone.today + 60.days)) }
         end
 
         factory :seven_day_expiration do
           degree_awarded { Time.zone.today - 2.years }
-          embargo { FactoryGirl.create(:embargo, embargo_release_date: (Time.zone.today + 7.days)) }
+          embargo { FactoryBot.create(:embargo, embargo_release_date: (Time.zone.today + 7.days)) }
         end
 
         factory :tomorrow_expiration do
           degree_awarded { Time.zone.today - 2.years }
-          embargo { FactoryGirl.create(:embargo, embargo_release_date: Time.zone.tomorrow) }
+          embargo { FactoryBot.create(:embargo, embargo_release_date: Time.zone.tomorrow) }
         end
 
         factory :sample_data_with_only_files_embargoed do

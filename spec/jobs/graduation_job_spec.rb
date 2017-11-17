@@ -11,7 +11,7 @@ describe GraduationJob do
     end
   end
   context "when a student graduates" do
-    let(:etd) { FactoryGirl.create(:sample_data, school: ["Candler School of Theology"]) }
+    let(:etd) { FactoryBot.create(:sample_data, school: ["Candler School of Theology"]) }
     let(:depositing_user) { User.where(ppid: etd.depositor).first }
     let(:six_years_from_today) { Time.zone.today + 6.years }
     before do

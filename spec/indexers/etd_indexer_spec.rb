@@ -5,7 +5,7 @@ RSpec.describe EtdIndexer do
   let(:solr_doc) { indexer.generate_solr_document }
 
   let(:etd) do
-    FactoryGirl.build(
+    FactoryBot.build(
       :etd,
       committee_members_attributes: cm_attrs,
       committee_chair_attributes: cc_attrs

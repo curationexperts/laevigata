@@ -4,8 +4,8 @@ require 'rails_helper'
 describe EtdPresenter do
   context "table of contents" do
     context "without a table of contents" do
-      let(:etd) { FactoryGirl.build(:etd) }
-      let(:ability) { Ability.new(FactoryGirl.build(:user)) }
+      let(:etd) { FactoryBot.build(:etd) }
+      let(:ability) { Ability.new(FactoryBot.build(:user)) }
       let(:presenter) do
         described_class.new(SolrDocument.new(etd.to_solr), ability)
       end
@@ -15,9 +15,9 @@ describe EtdPresenter do
       end
     end
     context "with a table of contents" do
-      let(:etd) { FactoryGirl.build(:etd_with_toc) }
+      let(:etd) { FactoryBot.build(:etd_with_toc) }
       context "with a public user" do
-        let(:ability) { Ability.new(FactoryGirl.build(:user)) }
+        let(:ability) { Ability.new(FactoryBot.build(:user)) }
         let(:presenter) do
           described_class.new(SolrDocument.new(etd.to_solr), ability)
         end
@@ -29,7 +29,7 @@ describe EtdPresenter do
         context "with a toc embargo" do
           context "with a public user" do
             it "provides a toc unavailable message if the toc is under embargo" do
-              etd.embargo_id = FactoryGirl.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
+              etd.embargo_id = FactoryBot.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
               etd.toc_embargoed = true
               etd.save
               presenter = described_class.new(SolrDocument.new(etd.to_solr), ability)
@@ -39,7 +39,7 @@ describe EtdPresenter do
           end
         end
         context "with an admin user" do
-          let(:ability) { Ability.new(FactoryGirl.build(:admin)) }
+          let(:ability) { Ability.new(FactoryBot.build(:admin)) }
           let(:presenter) do
             described_class.new(SolrDocument.new(etd.to_solr), ability)
           end
@@ -51,7 +51,7 @@ describe EtdPresenter do
             it "displays the table_of_contents with embargo_length" do
               etd.embargo_length = "6 months"
               etd.degree_awarded = nil
-              etd.embargo_id = FactoryGirl.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
+              etd.embargo_id = FactoryBot.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
               etd.toc_embargoed = true
               presenter = described_class.new(SolrDocument.new(etd.to_solr), ability)
               expect(presenter.toc_with_embargo_check).to eq "[Table of contents embargoed until #{etd.embargo_length} post-graduation] #{presenter.table_of_contents.first}"
@@ -61,7 +61,7 @@ describe EtdPresenter do
             it "displays the table_of_contents with the embargo release date" do
               etd.embargo_length = "6 months"
               etd.degree_awarded = Date.parse("17-05-17").strftime("%d %B %Y")
-              etd.embargo_id = FactoryGirl.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
+              etd.embargo_id = FactoryBot.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
               etd.toc_embargoed = true
               presenter = described_class.new(SolrDocument.new(etd.to_solr), ability)
               expect(presenter.toc_with_embargo_check).to eq "[Table of contents embargoed until #{presenter.formatted_embargo_release_date}] #{presenter.table_of_contents.first}"
@@ -74,8 +74,8 @@ describe EtdPresenter do
 
   context "abstract" do
     context "without an abstract" do
-      let(:etd) { FactoryGirl.build(:etd) }
-      let(:ability) { Ability.new(FactoryGirl.build(:user)) }
+      let(:etd) { FactoryBot.build(:etd) }
+      let(:ability) { Ability.new(FactoryBot.build(:user)) }
       let(:presenter) do
         described_class.new(SolrDocument.new(etd.to_solr), ability)
       end
@@ -85,9 +85,9 @@ describe EtdPresenter do
       end
     end
     context "with an abstract" do
-      let(:etd) { FactoryGirl.build(:etd_with_abstract) }
+      let(:etd) { FactoryBot.build(:etd_with_abstract) }
       context "with a public user" do
-        let(:ability) { Ability.new(FactoryGirl.build(:user)) }
+        let(:ability) { Ability.new(FactoryBot.build(:user)) }
         let(:presenter) do
           described_class.new(SolrDocument.new(etd.to_solr), ability)
         end
@@ -98,7 +98,7 @@ describe EtdPresenter do
         end
         context "with an abstract embargo pre-graduation" do
           it "provides an abstract unavailable message with embargo_length" do
-            etd.embargo_id = FactoryGirl.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
+            etd.embargo_id = FactoryBot.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
             etd.abstract_embargoed = true
             etd.save
             presenter = described_class.new(SolrDocument.new(etd.to_solr), ability)
@@ -108,7 +108,7 @@ describe EtdPresenter do
         end
         context "with an abstract embargo post-graduation" do
           it "provides an abstract unavailable message with embargo_release_date" do
-            etd.embargo_id = FactoryGirl.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
+            etd.embargo_id = FactoryBot.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
             etd.abstract_embargoed = true
             etd.save
             presenter = described_class.new(SolrDocument.new(etd.to_solr), ability)
@@ -118,7 +118,7 @@ describe EtdPresenter do
         end
       end
       context "with an admin user" do
-        let(:ability) { Ability.new(FactoryGirl.build(:admin)) }
+        let(:ability) { Ability.new(FactoryBot.build(:admin)) }
         let(:presenter) do
           described_class.new(SolrDocument.new(etd.to_solr), ability)
         end
@@ -130,7 +130,7 @@ describe EtdPresenter do
           it "displays the abstract with embargo_length" do
             etd.embargo_length = "6 months"
             etd.degree_awarded = nil
-            etd.embargo_id = FactoryGirl.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
+            etd.embargo_id = FactoryBot.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
             etd.abstract_embargoed = true
             presenter = described_class.new(SolrDocument.new(etd.to_solr), ability)
             expect(presenter.abstract_with_embargo_check).to eq "[Abstract embargoed until #{etd.embargo_length} post-graduation] #{presenter.abstract.first}"
@@ -140,7 +140,7 @@ describe EtdPresenter do
           it "displays the abstract with the embargo release date" do
             etd.embargo_length = "6 months"
             etd.degree_awarded = Date.parse("17-05-17").strftime("%d %B %Y")
-            etd.embargo_id = FactoryGirl.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
+            etd.embargo_id = FactoryBot.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
             etd.abstract_embargoed = true
             presenter = described_class.new(SolrDocument.new(etd.to_solr), ability)
             expect(presenter.abstract_with_embargo_check).to eq "[Abstract embargoed until #{presenter.formatted_embargo_release_date}] #{presenter.abstract.first}"
@@ -151,8 +151,8 @@ describe EtdPresenter do
   end
 
   context "embargoes" do
-    let(:etd) { FactoryGirl.build(:sample_data_with_everything_embargoed) }
-    let(:ability) { Ability.new(FactoryGirl.build(:user)) }
+    let(:etd) { FactoryBot.build(:sample_data_with_everything_embargoed) }
+    let(:ability) { Ability.new(FactoryBot.build(:user)) }
     let(:presenter) do
       described_class.new(SolrDocument.new(etd.to_solr), ability)
     end

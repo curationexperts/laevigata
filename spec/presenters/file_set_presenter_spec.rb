@@ -5,10 +5,10 @@ describe FileSetPresenter do
   context "delegate_methods" do
     subject { presenter }
     let :etd do
-      FactoryGirl.build(:etd)
+      FactoryBot.build(:etd)
     end
 
-    let(:ability) { Ability.new(FactoryGirl.build(:user)) }
+    let(:ability) { Ability.new(FactoryBot.build(:user)) }
 
     let(:presenter) do
       described_class.new(SolrDocument.new(etd.to_solr), ability)
