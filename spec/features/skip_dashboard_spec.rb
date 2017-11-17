@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Skip the dashboard' do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
 
   context 'an unauthenticated user' do
     scenario "gets a button to submit a new ETD" do

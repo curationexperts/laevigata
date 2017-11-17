@@ -4,12 +4,12 @@ require 'workflow_setup'
 include Warden::Test::Helpers
 
 describe GraduationService do
-  let(:graduated_user) { FactoryGirl.create(:graduated_user) }
-  let(:nongraduated_user) { FactoryGirl.create(:nongraduated_user) }
+  let(:graduated_user) { FactoryBot.create(:graduated_user) }
+  let(:nongraduated_user) { FactoryBot.create(:nongraduated_user) }
   let(:approving_user) { User.where(uid: "candleradmin").first }
   let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null") }
-  let(:graduated_etd) { FactoryGirl.create(:sample_data) }
-  let(:nongraduated_etd) { FactoryGirl.create(:sample_data) }
+  let(:graduated_etd) { FactoryBot.create(:sample_data) }
+  let(:nongraduated_etd) { FactoryBot.create(:sample_data) }
   before do
     ActiveFedora::Cleaner.clean!
     w.setup

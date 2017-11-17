@@ -62,14 +62,14 @@ RSpec.describe User do
   end
   context "user factories" do
     it "makes a user with expected shibboleth fields" do
-      user = FactoryGirl.create(:user)
+      user = FactoryBot.create(:user)
       expect(user.ppid).to be_instance_of String
       expect(user.user_key).to eq user.ppid
       expect(user.display_name).to be_instance_of String
       expect(user.uid).to be_instance_of String
     end
     it "makes an admin user" do
-      admin = FactoryGirl.create(:admin)
+      admin = FactoryBot.create(:admin)
       expect(admin.groups.first).to eq "admin"
     end
   end

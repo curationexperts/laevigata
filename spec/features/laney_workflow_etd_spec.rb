@@ -9,7 +9,7 @@ RSpec.feature 'Laney Graduate School two step approval workflow' do
   let(:depositing_user) { User.where(ppid: etd.depositor).first }
   let(:approving_user) { User.where(uid: "laneyadmin").first }
   let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/laney_admin_sets.yml", "/dev/null") }
-  let(:etd) { FactoryGirl.create(:sample_data, school: ["Laney Graduate School"]) }
+  let(:etd) { FactoryBot.create(:sample_data, school: ["Laney Graduate School"]) }
   context 'a logged in user' do
     before do
       allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci

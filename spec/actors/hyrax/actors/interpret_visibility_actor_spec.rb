@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 require 'rails_helper'
 describe Hyrax::Actors::InterpretVisibilityActor do
   let(:user) { create(:user) }
-  let(:etd) { FactoryGirl.create(:etd) }
+  let(:etd) { FactoryBot.create(:etd) }
   let(:actor) do
     Hyrax::Actors::ActorStack.new(etd,
                                   ::Ability.new(user),

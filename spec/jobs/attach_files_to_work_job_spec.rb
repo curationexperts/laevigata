@@ -1,7 +1,7 @@
 require 'rails_helper'
 describe AttachFilesToWorkJob do
   let(:depositing_user) { User.where(ppid: etd.depositor).first }
-  let(:etd) { FactoryGirl.create(:sample_data) }
+  let(:etd) { FactoryBot.create(:sample_data) }
   context 'virus checking' do
     before do
       # Comment out these Clamby lines, and the ones in rails_helper.rb to really test virus scanning

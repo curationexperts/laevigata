@@ -13,9 +13,9 @@ RSpec.describe Hyrax::Workflow::PendingApprovalNotification do
     w = WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null")
     w.setup
   end
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
   let(:etd) do
-    FactoryGirl.create(
+    FactoryBot.create(
       :sample_data,
       title: ["Grant Proposal for a socio-ecological approach, using community-based engagement principles and green infrastructure, to reduce magnitude and improve quality of storm water runoff entering storm drains in the Sandtown-Winchester/Harlem Park neighborhood, Baltimore City, Maryland"],
       depositor: user.user_key,
@@ -24,7 +24,7 @@ RSpec.describe Hyrax::Workflow::PendingApprovalNotification do
   end
   let(:ability) { ::Ability.new(user) }
   let(:recipients) do
-    { 'to' => [FactoryGirl.create(:user), FactoryGirl.create(:user)] }
+    { 'to' => [FactoryBot.create(:user), FactoryBot.create(:user)] }
   end
   let(:notification) do
     attributes_for_actor = {}

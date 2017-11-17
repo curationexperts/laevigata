@@ -13,11 +13,11 @@ RSpec.describe Hyrax::Workflow::ChangesRequiredNotification do
     w = WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null")
     w.setup
   end
-  let(:user) { FactoryGirl.create(:user) }
-  let(:etd) { FactoryGirl.create(:sample_data, depositor: user.user_key, school: ["Candler School of Theology"]) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:etd) { FactoryBot.create(:sample_data, depositor: user.user_key, school: ["Candler School of Theology"]) }
   let(:ability) { ::Ability.new(user) }
   let(:recipients) do
-    { 'to' => [FactoryGirl.create(:user), FactoryGirl.create(:user)] }
+    { 'to' => [FactoryBot.create(:user), FactoryBot.create(:user)] }
   end
   let(:notification) do
     attributes_for_actor = { admin_set_id: etd.admin_set.id }

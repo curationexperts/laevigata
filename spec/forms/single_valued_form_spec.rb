@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SingleValuedForm do
   subject(:etd) { TestForm.new(work, nil, nil) }
-  let(:work) { FactoryGirl.build :etd }
+  let(:work) { FactoryBot.build :etd }
 
   before do
     class TestForm < Hyrax::Forms::WorkForm
