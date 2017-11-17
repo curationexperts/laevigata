@@ -12,6 +12,14 @@ RSpec.describe Hyrax::EtdsController do
   let(:file2) { File.open("#{fixture_path}/magic_warrior_cat.jpg") }
   let(:file3) { File.open("#{fixture_path}/miranda/rural_clinics.zip") }
 
+  let(:supp_file_attrs) do
+    { user: user,
+      pcdm_use: 'supplementary',
+      title: 'supp file title',
+      description: 'supp file desc',
+      file_type: 'Image' }
+  end
+
   before do
     # Don't characterize the file during specs
     allow(CharacterizeJob).to receive_messages(perform_later: nil, perform_now: nil)
@@ -28,6 +36,7 @@ RSpec.describe Hyrax::EtdsController do
         school: ['Emory College'],
         department: ['Art History'] }
     end
+    let(:attach_supp_files) { false }
 
     let(:etd) do
       FactoryGirl.build(:etd, default_attrs)
@@ -36,11 +45,18 @@ RSpec.describe Hyrax::EtdsController do
     before do
       ActiveFedora::Cleaner.clean!
       workflow_setup.setup
+      etd.assign_admin_set
+
+      # Add supplemental files if the test needs them
+      if attach_supp_files
+        supp_file = File.open("#{fixture_path}/magic_warrior_cat.jpg") { |file| Hyrax::UploadedFile.create(supp_file_attrs.merge(file: file)) }
+        attributes_for_actor = { uploaded_files: [supp_file.id] }
+      end
 
       # Create the ETD record
-      etd.assign_admin_set
       actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(user))
-      actor.create({})
+      attributes_for_actor ||= {}
+      actor.create(attributes_for_actor)
 
       # Approver requests changes, so student will be able to edit the ETD
       change_workflow_status(etd, "request_changes", approver)
@@ -111,6 +127,44 @@ RSpec.describe Hyrax::EtdsController do
           expect(etd.supplemental_files_fs.map(&:title)).to contain_exactly(["Magic Cat"], ["Rural Clinics"])
           expect(etd.supplemental_files_fs.map(&:description)).to contain_exactly(["Cat desc"], ["Clinic desc"])
           expect(etd.supplemental_files_fs.map(&:file_type)).to contain_exactly('Image', 'Data')
+        end
+      end
+    end
+
+    context 'with supplemental files' do
+      let(:attach_supp_files) { true }
+
+      context 'student checks "no supplemental files" checkbox' do
+        let(:new_attrs) do
+          {
+            title: 'New Title',
+            "no_supplemental_files" => "1",
+            "supplemental_file_metadata" =>
+              { "0" => { filename: "magic_warrior_cat.jpg",
+                         title: "Magic Cat",
+                         description: "Cat desc",
+                         file_type: "Image" } }
+          }
+        end
+
+        before do
+          Hyrax::UploadedFile.delete_all
+          FactoryGirl.create(:supplementary_uploaded_file, id: 16, file: file3, user_id: user.id)
+        end
+
+        # Even though the new_attrs contains 'supplemental_file_metadata' and params contains 'uploaded_files', those fields should get ignored because 'no_supplemental_files' should win.
+        it 'deletes the existing supplemental files' do
+          expect {
+            patch :update, params: {
+              id: etd,
+              uploaded_files: ["16"],
+              etd: new_attrs }
+          }.to change { FileSet.count }.by(-1)
+
+          assert_redirected_to main_app.hyrax_etd_path(etd, locale: 'en')
+          etd.reload
+          expect(etd.title).to eq ['New Title']
+          expect(etd.supplemental_files_fs).to eq []
         end
       end
     end
