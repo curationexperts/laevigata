@@ -14,7 +14,7 @@ module Hyrax
       def message
         "Dear #{user.display_name},\n\n" \
         "The embargo on your dissertation or thesis, #{title}, will expire in sixty days.\n" \
-        "Your dissertation or thesis can be accessed in the Emory University ETD Repository at: (#{link_to document_path, document_path}) \n\n" \
+        "Your dissertation or thesis can be accessed in the Emory University ETD Repository at: #{link_to document_url, document_url} \n\n" \
         "If you need your record to remain restricted/embargoed, please contact etd-help@listserv.cc.emory.edu<mailto:etd-help@listserv.cc.emory.edu> with your request. \n\n" \
         "Please do not reply directy to this email.\n\n" \
 

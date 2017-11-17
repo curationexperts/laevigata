@@ -75,14 +75,14 @@ RSpec.feature 'Candler approval workflow' do
       # Check notifications for approving user
       visit("/notifications?locale=en")
       expect(page).to have_content "Deposit #{etd.title.first} has been approved"
-      expect(page).to have_content "#{etd.title.first} (#{etd.id}) has been approved by"
+      expect(page).to have_content "#{etd.title.first}\" has been approved by"
 
       # Check notifications for depositor again
       logout
       login_as depositing_user
       visit("/notifications?locale=en")
       expect(page).to have_content "Deposit #{etd.title.first} has been approved"
-      expect(page).to have_content "#{etd.title.first} (#{etd.id}) has been approved by"
+      expect(page).to have_content "#{etd.title.first}\" has been approved by"
 
       # Depositing user should be able to see their work, even if it hasn't been approved yet
       visit("/concern/etds/#{etd.id}")

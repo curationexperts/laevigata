@@ -17,7 +17,7 @@ module Hyrax
         "The access restriction on your disseration or thesis, #{title}, expires today." \
         "We have not been informed that you wish to extend your access restriction period " \
         "and therefore your dissertation or thesis is now available in full text form in our repository.\n\n" \
-        "Your dissertation or thesis can be accessed in the Emory University ETD Repository at: (#{link_to document_path, document_path}) \n\n" \
+        "Your dissertation or thesis can be accessed in the Emory University ETD Repository at: #{link_to document_url, document_url} \n\n" \
         "If you need your record to remain restricted/embargoed, please contact etd-help@listserv.cc.emory.edu<mailto:etd-help@listserv.cc.emory.edu> with your request. \n\n" \
         "Please do not reply directy to this email.\n\n" \
 

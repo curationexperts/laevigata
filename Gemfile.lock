@@ -210,6 +210,10 @@ GEM
       devise
     diff-lcs (1.3)
     docile (1.1.5)
+    dotenv (2.2.1)
+    dotenv-rails (2.2.1)
+      dotenv (= 2.2.1)
+      railties (>= 3.2, < 5.2)
     dropbox-sdk (1.6.5)
       json
     dry-configurable (0.7.0)
@@ -902,6 +906,8 @@ DEPENDENCIES
   database_cleaner
   devise
   devise-guests (~> 0.5)
+  dotenv
+  dotenv-rails
   factory_girl_rails
   fcrepo_wrapper
   ffaker

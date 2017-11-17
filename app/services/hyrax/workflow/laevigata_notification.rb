@@ -14,6 +14,13 @@ module Hyrax
         original_title.length > max ? "#{original_title[0...max]}..." : original_title
       end
 
+      # Get the full URL for email notifications
+      # This should get pushed upstream to Hyrax
+      def document_url
+        key = document.model_name.singular_route_key
+        Rails.application.routes.url_helpers.send(key + "_url", document.id)
+      end
+
       def workflow_recipients
         raise NotImplementedError, "Implement workflow_recipients in a child class"
       end

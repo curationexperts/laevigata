@@ -7,15 +7,13 @@ module Hyrax
         { "to" => (approvers << depositor) }
       end
 
-      private
+      def subject
+        "Degree awarded for #{title}"
+      end
 
-        def subject
-          "Degree awarded for #{title}"
-        end
-
-        def message
-          "The degree associated with #{title} (#{link_to work_id, document_path}) has been awarded."
-        end
+      def message
+        "The degree associated with #{title} (#{link_to work_id, document_url}) has been awarded."
+      end
     end
   end
 end

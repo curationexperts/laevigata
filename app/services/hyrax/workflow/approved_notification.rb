@@ -7,15 +7,20 @@ module Hyrax
         { "to" => (approvers << depositor) }
       end
 
-      private
+      def subject
+        "Deposit #{title} has been approved"
+      end
 
-        def subject
-          "Deposit #{title} has been approved"
-        end
+      def message
+        "The work titled \"#{title}\" has been approved by #{user.display_name}.
 
-        def message
-          "#{title} (#{link_to work_id, document_path}) has been approved by #{user.display_name}  #{comment}"
-        end
+        Comments (if any):
+         #{comment}
+
+         You can view the work in the Emory Electronic Thesis and Dissertation system at
+         #{link_to document_url, document_url}
+      "
+      end
     end
   end
 end

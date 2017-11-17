@@ -38,3 +38,7 @@ coverage
 
 # Ignore local browse-everything configs
 config/browse_everything_providers.yml
+
+
+# Don't check dotenv files into github
+.env

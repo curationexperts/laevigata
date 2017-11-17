@@ -7,15 +7,13 @@ module Hyrax
         { "to" => (approvers << depositor) }
       end
 
-      protected
+      def subject
+        "Deposit #{title} requires changes"
+      end
 
-        def subject
-          "Deposit #{title} requires changes"
-        end
-
-        def message
-          "#{title} (#{link_to work_id, document_path}) requires additional changes before approval.\n\n '#{comment}'"
-        end
+      def message
+        "#{title} (#{link_to work_id, document_url}) requires additional changes before approval.\n\n '#{comment}'"
+      end
     end
   end
 end

@@ -5,10 +5,9 @@ require 'rails/all'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
-
 module Laevigata
   class Application < Rails::Application
-    config.action_mailer.default_url_options = { host: ENV["ACTION_MAILER_HOST"] }
+    config.action_mailer.default_url_options = { host: ENV["HYRAX_HOST"] }
     # The compile method (default in tinymce-rails 4.5.2) doesn't work when also
     # using tinymce-rails-imageupload, so revert to the :copy method
     # https://github.com/spohlenz/tinymce-rails/issues/183
@@ -24,3 +23,4 @@ module Laevigata
     # -- all .rb files in that directory are automatically loaded.
   end
 end
+Rails.application.routes.default_url_options[:host] = ENV["HYRAX_HOST"]

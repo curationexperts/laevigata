@@ -30,6 +30,9 @@ RSpec.describe Hyrax::Workflow::CommentNotification do
   it "can instantiate" do
     expect(notification).to be_instance_of(described_class)
   end
+  it "has the full url in the message" do
+    expect(notification.message).to match(/http/)
+  end
   it "can find depositor" do
     expect(notification.depositor).to be_instance_of(::User)
     expect(notification.depositor.uid).to eq user.uid

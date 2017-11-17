@@ -7,16 +7,14 @@ module Hyrax
         { "to" => (approvers << depositor) }
       end
 
-      private
+      def subject
+        "Virus encountered in #{title}"
+      end
 
-        def subject
-          "Virus encountered in #{title}"
-        end
-
-        def message
-          "A virus has been detected in the work #{title} (#{link_to work_id, document_path}). " \
-          "The infected file has been deleted and a clean version will need to be resubmitted."
-        end
+      def message
+        "A virus has been detected in the work #{title} (#{link_to work_id, document_url}). " \
+        "The infected file has been deleted and a clean version will need to be resubmitted."
+      end
     end
   end
 end

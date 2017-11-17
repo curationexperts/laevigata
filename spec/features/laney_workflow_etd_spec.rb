@@ -94,7 +94,7 @@ RSpec.feature 'Laney Graduate School two step approval workflow' do
 
       # Check notifications for approving user
       visit("/notifications?locale=en")
-      expect(page).to have_content "#{etd.title.first} (#{etd.id}) has been approved by"
+      expect(page).to have_content "#{etd.title.first}\" has been approved by"
       expect(page).to have_content "#{etd.title.first} (#{etd.id}) was hidden by"
       expect(page).to have_content "hiding for reasons"
       expect(page).to have_content "#{etd.title.first} (#{etd.id}) was unhidden by"
@@ -105,7 +105,7 @@ RSpec.feature 'Laney Graduate School two step approval workflow' do
       login_as depositing_user
       visit("/notifications?locale=en")
       expect(page).to have_content "#{etd.title.first} (#{etd.id}) has completed initial review and is awaiting final approval."
-      expect(page).to have_content "#{etd.title.first} (#{etd.id}) has been approved by"
+      expect(page).to have_content "#{etd.title.first}\" has been approved by"
 
       # Depositing user should be able to see their work, even if it hasn't been approved yet
       visit("/concern/etds/#{etd.id}")
