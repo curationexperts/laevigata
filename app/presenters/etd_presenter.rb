@@ -37,6 +37,10 @@ class EtdPresenter < Hyrax::WorkShowPresenter
     'Not implemented at this time.'
   end
 
+  def export_as_json
+    'Not implemented at this time.'
+  end
+
   def export_as_nt
     'Not implemented at this time.'
   end
