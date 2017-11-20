@@ -6,7 +6,7 @@ include Warden::Test::Helpers
 
 RSpec.feature 'Display an ETD with embargoed content' do
   let(:etd) do
-    etd = FactoryGirl.create(:sample_data_with_everything_embargoed, school: ["Candler School of Theology"])
+    etd = FactoryBot.create(:sample_data_with_everything_embargoed, school: ["Candler School of Theology"])
     etd_factory = EtdFactory.new
     primary_pdf_file = "#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf"
     etd_factory.etd = etd

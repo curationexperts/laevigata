@@ -5,7 +5,7 @@ require 'active_fedora/cleaner'
 require 'workflow_setup'
 include Warden::Test::Helpers
 RSpec.describe Etd do
-  let(:etd) { FactoryGirl.create(:ready_for_proquest_submission_phd) }
+  let(:etd) { FactoryBot.create(:ready_for_proquest_submission_phd) }
   context "ProQuest submission" do
     let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/laney_admin_sets.yml", "/dev/null") }
     let(:proquest_dtd) { "#{fixture_path}/proquest/Dissertations_metadata48.dtd" }

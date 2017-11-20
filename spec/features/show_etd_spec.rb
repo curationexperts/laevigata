@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Display ETD metadata' do
-  let(:etd) { FactoryGirl.create(:sample_data, partnering_agency: ["CDC"]) }
+  let(:etd) { FactoryBot.create(:sample_data, partnering_agency: ["CDC"]) }
   # These are all the fields listed on our show wireframes
   let(:required_fields) do
     [

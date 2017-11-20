@@ -6,7 +6,7 @@ describe CommitteeMember do
   let(:name)  { "Smith, Jane" }
   let(:netid) { "jsmith" }
   let(:affiliation) { "Emory University" }
-  let(:etd) { FactoryGirl.build(:etd) }
+  let(:etd) { FactoryBot.build(:etd) }
 
   context "a new committee member" do
     let(:committee_member) { etd.committee_members.build }

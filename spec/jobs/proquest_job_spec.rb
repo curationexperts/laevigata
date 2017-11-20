@@ -6,7 +6,7 @@ include Warden::Test::Helpers
 describe ProquestJob do
   context "Laney PhD" do
     let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/laney_admin_sets.yml", "/dev/null") }
-    let(:etd) { FactoryGirl.create(:ready_for_proquest_submission_phd) }
+    let(:etd) { FactoryBot.create(:ready_for_proquest_submission_phd) }
     let(:user) { User.where(ppid: etd.depositor).first }
     let(:ability) { ::Ability.new(user) }
     let(:file1_path) { "#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf" }

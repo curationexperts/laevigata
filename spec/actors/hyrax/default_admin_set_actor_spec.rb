@@ -21,8 +21,8 @@ RSpec.describe Hyrax::DefaultAdminSetActor do
   end
   let(:depositor) { create(:user) }
   let(:depositor_ability) { ::Ability.new(depositor) }
-  let(:etd) { FactoryGirl.create(:sample_data, admin_set: nil, school: ["Laney Graduate School"]) }
-  let(:admin_set) { FactoryGirl.create(:admin_set, title: ["Laney Graduate School"], id: "f1881k888") }
+  let(:etd) { FactoryBot.create(:sample_data, admin_set: nil, school: ["Laney Graduate School"]) }
+  let(:admin_set) { FactoryBot.create(:admin_set, title: ["Laney Graduate School"], id: "f1881k888") }
 
   describe "create" do
     before do

@@ -7,7 +7,7 @@ RSpec.feature 'Edit an existing ETD' do
   let(:approver) { User.where(uid: "tezprox").first }
   let(:student) { create :user }
 
-  let(:etd) { FactoryGirl.build(:etd, attrs) }
+  let(:etd) { FactoryBot.build(:etd, attrs) }
   let(:primary_pdf_file) { File.join(fixture_path, "joey/joey_thesis.pdf") }
 
   let(:attrs) do

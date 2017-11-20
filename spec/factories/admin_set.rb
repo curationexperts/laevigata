@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :admin_set do
     id { ActiveFedora::Noid::Service.new.mint }
     title { [] << FFaker::Book.title }

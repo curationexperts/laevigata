@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'Search for an ETD' do
   let(:etd) do
-    FactoryGirl.create(
+    FactoryBot.create(
       :etd,
       creator: ["Janakiramen, Helen"],
       graduation_year: '2017',

@@ -6,7 +6,7 @@ namespace :sample_data do
     sample_data = [:sample_data, :sample_data_with_everything_embargoed, :sample_data_with_only_files_embargoed, :ateer_etd]
     sample_data.each do |s|
       etd_factory = EtdFactory.new
-      etd = FactoryGirl.create(
+      etd = FactoryBot.create(
         s,
         submitting_type: ["Master's Thesis"],
         school: ["Rollins School of Public Health"],
@@ -34,7 +34,7 @@ namespace :sample_data do
       :sample_data_with_only_files_embargoed
     ]
     sample_data.each do |s|
-      etd = FactoryGirl.create(s)
+      etd = FactoryBot.create(s)
       uploaded_files = []
       primary_pdf_file = "#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf"
       supplementary_file_one = "#{::Rails.root}/spec/fixtures/miranda/rural_clinics.zip"
@@ -69,7 +69,7 @@ namespace :sample_data do
     admin_sets.each do |as|
       puts "Making sample data for #{as}"
       sample_data.each do |s|
-        etd = FactoryGirl.build(s, submitting_type: ["Master's Thesis"], degree: ["M.S."])
+        etd = FactoryBot.build(s, submitting_type: ["Master's Thesis"], degree: ["M.S."])
         if school_based_admin_sets.include?(as)
           etd.school = [as]
         else
@@ -97,7 +97,7 @@ namespace :sample_data do
   end
 
   task :embargo_demo do
-    etd = FactoryGirl.create(
+    etd = FactoryBot.create(
       :sample_data_with_everything_embargoed,
       title: ["Embargo Demo: #{FFaker::Book.title}"],
       school: ["Candler School of Theology"]
@@ -116,7 +116,7 @@ namespace :sample_data do
   desc "Build sample data to demo daily jobs (graduation and embargo expiration)"
   task :daily_jobs_demo do
     puts "Making preapproved embargo data"
-    etd = FactoryGirl.create(
+    etd = FactoryBot.create(
       :sample_data_with_everything_embargoed,
       title: ["Daily Jobs Demo: #{FFaker::Book.title}"],
       submitting_type: ["Master's Thesis"],
@@ -141,7 +141,7 @@ namespace :sample_data do
   end
 
   def proquest_demo
-    etd = FactoryGirl.create(:ready_for_proquest_submission_phd)
+    etd = FactoryBot.create(:ready_for_proquest_submission_phd)
     etd.assign_admin_set
     user = User.where(ppid: etd.depositor).first
     ability = ::Ability.new(user)
@@ -188,7 +188,7 @@ namespace :sample_data do
   end
 
   def virus_demo
-    etd = FactoryGirl.create(:sample_data)
+    etd = FactoryBot.create(:sample_data)
     etd.assign_admin_set
     user = User.where(ppid: etd.depositor).first
     ability = ::Ability.new(user)
@@ -224,7 +224,7 @@ namespace :sample_data do
   task :embargo_expiration do
     approving_user = User.where(ppid: 'candleradmin').first
     [:sixty_day_expiration, :seven_day_expiration, :tomorrow_expiration].each do |e|
-      etd = FactoryGirl.create(
+      etd = FactoryBot.create(
         e,
         title: ["Embargo Expiration Demo: #{FFaker::Book.title}"],
         school: ['Candler School of Theology']
