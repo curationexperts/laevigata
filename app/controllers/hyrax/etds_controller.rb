@@ -104,11 +104,11 @@ module Hyrax
       index = 0
 
       # Get count of all browse-everything selected_files
-      be_files[0].keys.each { |k| count_of_files += be_files[0][k].size }
+      be_files[0].each_key { |k| count_of_files += be_files[0][k].size }
 
       # Populate the selected_files hash with all of the browse-everything files, with keys in the structure the rest of the application will expect: their indexes converted to strings
-      be_files[0].keys.each do |k|
-        be_files[0][k].each do |ke, va|
+      be_files[0].each_key do |k|
+        be_files[0][k].each do |ke, va| # rubocop:disable HashEachMethods
           if index < count_of_files
             selected_files[index.to_s] = va
             index += 1
