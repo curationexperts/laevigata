@@ -914,11 +914,8 @@ DEPENDENCIES
   database_cleaner
   devise
   devise-guests (~> 0.5)
-<<<<<<< HEAD
   dotenv
   dotenv-rails
-=======
->>>>>>> 16b36481b29a61835e02be90dd6212e73489bae2
   factory_bot_rails
   fcrepo_wrapper
   ffaker
