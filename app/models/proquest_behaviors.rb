@@ -7,9 +7,6 @@ require 'zip'
 require 'zip/filesystem'
 
 module ProquestBehaviors
-  attr_accessor :registrar_data
-  attr_accessor :export_directory
-
   # Export a zipped directory of an ETD in the format expected by ProQuest
   def export_zipped_proquest_package
     FileUtils.mkdir_p export_directory

@@ -57,21 +57,21 @@ RSpec.configure do |config|
     ActiveFedora::Cleaner.clean!
   end
 
-  config.before :each do
+  config.before do
     DatabaseCleaner.strategy = :transaction
   end
 
-  config.before :each, js: true do
+  config.before js: true do
     DatabaseCleaner.strategy = :truncation
   end
 
-  config.before :each do
+  config.before do
     DatabaseCleaner.start
     class_double("Clamby").as_stubbed_const
     allow(Clamby).to receive(:virus?).and_return(false)
   end
 
-  config.append_after :each do
+  config.append_after do
     DatabaseCleaner.clean
   end
 
@@ -88,7 +88,7 @@ RSpec.configure do |config|
   #   describe "problem test", verify_partial_doubles: false do
   #     ...
   #   end
-  config.before :each do |example|
+  config.before do |example|
     config.mock_with :rspec do |mocks|
       mocks.verify_partial_doubles = example.metadata.fetch(:verify_partial_doubles, true)
     end
