@@ -82,10 +82,11 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       // Check if the form is already valid. (e.g. If the user is editing an existing record, the form should be valid immediately.)
       this.updateEmbargoState('#no_embargoes', this);
       this.updateReviewState('#agreement', this);
-      this.validateAllTabs(this)
+      this.validateAllTabs()
     }
 
-    validateAllTabs(form){
+    validateAllTabs() {
+      let form = this;
       $(document).ajaxComplete(function() {
         form.validateMeAndMyProgram();
         // TODO: form.validateMyETD();
