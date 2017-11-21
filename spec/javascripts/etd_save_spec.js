@@ -97,23 +97,6 @@ describe("EtdSaveWorkControl", function() {
 
 });
 
-
-describe("Submit My ETD", function(){
-  var target;
-
-  beforeEach(function() {
-      loadFixtures('work_form.html');
-      target = new EtdSaveWorkControl($('#form-progress'));
-      target.activate();
-      spyOn(target, 'getTinyContent');
-  });
-
-  it('needs to submit tinyMCE content', function(){
-    target.form.submit();
-    expect(target.getTinyContent).toHaveBeenCalled();
-  });
-});
-
 describe("Validate My ETD", function(){
   var target;
   var mockCheckbox = {

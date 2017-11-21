@@ -75,7 +75,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.setEmbargoLengths()
       this.setEmbargoContentListener()
       this.setAgreementListener()
-      this.getTinyContent()
       this.setTinyListener()
       this.supplementalMetadataListener()
 
@@ -95,13 +94,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
         form.validateMyEmbargo();
         form.validateReview();
       })
-    }
-
-    getTinyContent(){
-      this.form.on('submit', (evt) => {
-        $('#etd_abstract').val(this.getTinyContent('etd_abstract'))
-        $('#etd_table_of_contents').val(this.getTinyContent('etd_table_of_contents'))
-      });
     }
 
     // If user edits one of the TinyMCE fields, call formStateChanged for that tab.
