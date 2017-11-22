@@ -18,7 +18,7 @@ export class ETDRequiredFields extends RequiredFields {
       var validFields = this.requiredFields.filter((n, elem) => {
         return this.isValuePresent(elem) } ).length === 0
 
-      return validFields && tinyMCE.get('etd_abstract').getContent().length > 0 && tinyMCE.get('etd_table_of_contents').getContent().length > 0
+      return validFields && laevigata_data.etd_abstract.length > 0 && laevigata_data.etd_table_of_contents.length > 0
     } else {
       return this.requiredFields.filter((n, elem) => { return this.isValuePresent(elem) } ).length === 0
     }

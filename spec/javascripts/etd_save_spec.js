@@ -130,17 +130,6 @@ describe("Validate My ETD", function(){
       loadFixtures('work_form.html');
       var SaveEtd = require('etd_save_work_control')
       var etd_save_work_control = new SaveEtd($("#form-progress"), this.adminSetWidget)
-      tinyEditor = {
-        getContent: function(){}
-      }
-      mockMCE = {
-        get: function(value) {}
-      };
-      tinyMCE = mockMCE;
-      spyOn(tinyMCE, 'get').and.callFake(function(id) {
-        return tinyEditor;
-       });
-      spyOn(tinyEditor, 'getContent').and.returnValue("dhsjkfds");
     });
 
     it("areComplete is true", function(){
@@ -151,11 +140,7 @@ describe("Validate My ETD", function(){
       $('#etd_research_field').val("Aeronomy");
       $("#etd_keyword").val("something");
 
-     target.validateMyETD();
-
-      expect(mockMCE.get).toHaveBeenCalledWith('etd_abstract');
-      expect(tinyEditor.getContent).toHaveBeenCalled();
-      expect(mockMCE.get).toHaveBeenCalledWith('etd_table_of_contents');
+      expect(target.validateMyETD()).toEqual(true);
       expect(mockCheckbox.uncheck.calls.count()).toEqual(0);
       expect(mockCheckbox.check.calls.count()).toEqual(1);
       });

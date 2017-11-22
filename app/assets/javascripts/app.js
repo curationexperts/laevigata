@@ -1,3 +1,9 @@
+var laevigata_data = {
+  // Store values from TinyMCE fields for form validation.
+  etd_abstract: '',
+  etd_table_of_contents: ''
+};
+
 Hyrax.editor = function() {
   var element = $("[data-behavior='work-form']")
   if (element.length > 0) {
@@ -25,17 +31,9 @@ Hyrax.tinyMCE = function(){
   tinyMCE.init({
     selector: 'textarea.tinymce',
     setup:function(ed) {
-      ed.on("init",
-         function(ed) {
-           if(tinyMCE.get('#etd_abstract') === null)
-           return
-           tinyMCE.get('etd_abstract').setContent("<p></p>");
-           tinyMCE.get('etd_table_of_contents').setContent("<p></p>");
-           tinyMCE.execCommand('mceRepaint');
-         }
-      );
       ed.on('change', function(e) {
         // console.log("Editor: " + ed.id + " has changed.");
+        laevigata_data[ed.id] = ed.getContent();
         $(document).trigger('laevigata:tinymce:change');
       });
     }
