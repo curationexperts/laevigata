@@ -48,6 +48,7 @@ RSpec.feature 'Display ETD metadata' do
     allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
     AttachFilesToWorkJob.perform_now(etd, uploaded_files)
   end
+
   scenario "Show all expected ETD fields" do
     visit("/concern/etds/#{etd.id}")
     required_fields.each do |field|
@@ -57,5 +58,12 @@ RSpec.feature 'Display ETD metadata' do
     end
     expect(page).to have_content "Rural Clinics in Georgia (GIS shapefile showing rural clinics)"
     expect(page).to have_content "Photographer (a portrait of the artist)"
+  end
+
+  scenario "confirm pdf show view contains thumbnail class" do
+    visit("/concern/etds/#{etd.id}")
+    click_on(etd.title.first.to_s)
+
+    expect(page).to have_css(".thumbnail")
   end
 end
