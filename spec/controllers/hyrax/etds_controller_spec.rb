@@ -134,6 +134,42 @@ RSpec.describe Hyrax::EtdsController do
     context 'with supplemental files' do
       let(:attach_supp_files) { true }
 
+      context 'student adds another supplemental file' do
+        let(:new_attrs) do
+          {
+            title: 'New Title',
+            "no_supplemental_files" => "0",
+            "supplemental_file_metadata" =>
+              { "1" => { "filename" => "rural_clinics.zip",
+                         "title" => "Rural Clinics Shapefile",
+                         "description" => "rural clinics in Georgia",
+                         "file_type" => "Data" } }
+          }
+        end
+
+        before do
+          Hyrax::UploadedFile.delete_all
+          FactoryGirl.create(:supplementary_uploaded_file, id: 16, file: file3, user_id: user.id)
+        end
+
+        it 'keeps existing files and adds new file' do
+          expect {
+            patch :update, params: {
+              id: etd,
+              uploaded_files: ["16"],
+              etd: new_attrs }
+          }.to change { FileSet.count }.by(1)
+
+          assert_redirected_to main_app.hyrax_etd_path(etd, locale: 'en')
+          etd.reload
+          expect(etd.title).to eq ['New Title']
+
+          expect(etd.supplemental_files_fs.map(&:title)).to contain_exactly(["supp file title"], ["Rural Clinics Shapefile"])
+          expect(etd.supplemental_files_fs.map(&:description)).to contain_exactly(["supp file desc"], ["rural clinics in Georgia"])
+          expect(etd.supplemental_files_fs.map(&:file_type)).to contain_exactly('Image', 'Data')
+        end
+      end
+
       context 'student checks "no supplemental files" checkbox' do
         let(:new_attrs) do
           {
