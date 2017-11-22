@@ -48,6 +48,7 @@ RSpec.feature 'Display ETD metadata' do
     allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
     AttachFilesToWorkJob.perform_now(etd, uploaded_files)
   end
+
   scenario "Show all expected ETD fields" do
     visit("/concern/etds/#{etd.id}")
     required_fields.each do |field|
