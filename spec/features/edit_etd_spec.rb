@@ -271,12 +271,22 @@ RSpec.feature 'Edit an existing ETD' do
         # The tab should stil be valid with the new data.
         expect(page).to have_css('li#required-about-me.complete')
 
+        # Preview
+        click_on('Review & Submit')
+        expect(page).not_to have_content('Chemistry')
+
+        # TODO:
+        # click_on 'Generate Preview'
+        # expect(page).to have_content('Department Chemistry')
+
+        # Check supplemental files table is correct
+        # expect(page).to have_content('nasa.jpeg')
+        # expect(page).to have_content('supp file title')
+        # expect(page).to have_content('description of supp file')
+        # expect(page).to have_content('Image')
+
         # TODO:
         # Save the form
-        click_on('Review & Submit')
-        # click_on('Generate Preview')
-        # Student should see new data on the preview
-        # expect(page).to have_content('Department Chemistry')
         # click_on('Submit My ETD')
 
         # TODO:

@@ -112,11 +112,17 @@ RSpec.feature 'Create an Etd' do
       check 'I do not want to embargo my thesis or dissertation.'
       expect(page).to have_css('li#required-embargoes.complete')
 
-      # Save the form
+      # Preview
       click_on('Review & Submit')
-      expect(page).to have_css('li#required-review.incomplete')
-      expect(page).to have_css '#preview_my_etd'
+      expect(page).not_to have_content('magic_warrior_cat.jpg')
       find(:css, '#preview_my_etd').click
+      expect(page).to have_content('magic_warrior_cat.jpg')
+      expect(page).to have_content('supp file title')
+      expect(page).to have_content('supp file desc')
+      expect(page).to have_content('Image')
+
+      # Save the form
+      expect(page).to have_css('li#required-review.incomplete')
       check('agreement')
       expect(page).to have_css('li#required-review.complete')
       save_and_wait = -> { click_button "Submit My ETD"; wait_for_ajax(10) }
