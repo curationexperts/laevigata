@@ -64,23 +64,6 @@ export default class ReviewMyETD {
     return data
   }
 
-  getSupplementalFileList(){
-    var supplemental_files = $("#supplemental_fileupload table").clone();
-    $(supplemental_files).find('th').remove();
-    $(supplemental_files).find('td').each(function(){
-      var data = "";
-      // skip the delete button that is in the table
-      if($(this).find('button').length > 0){
-        data = "";
-      } else {
-        data = $(this).text();
-      }
-      $(this).html(data);
-    });
-
-    return supplemental_files;
-  }
-
   aboutMyPDFData(){
     let data = [{'name': "My Primary PDF", 'value': $('#fileupload p.name span').text()}]
 
@@ -201,42 +184,36 @@ export default class ReviewMyETD {
   }
 
   showUploadedFilesTables(){
+    // Primary PDF file
     $(this.pdfTableSelector).append('<tr><th colspan="4">Primary PDF</th></tr>');
-
     let $pdf = $('#fileupload tbody.files tr');
     $pdf.find('td:last-child').remove();
-
     $(this.pdfTableSelector).append($pdf);
 
-    // do we have supplemental files but no metadata?
-    if ($('#etd_no_supplemental_files').prop('checked') === false && $('#additional_metadata_link').text() == 'Add Required Metadata') {
-      $(this.supplementalFilesTableSelector).append('<tr><th colspan="4">Supplemental Files</th></tr>');
+    // Supplemental files
+    $(this.supplementalFilesTableSelector).append('<tr><th colspan="4">Supplemental Files</th></tr>');
+    var supp_data = $("#additional_metadata").clone();
+    supp_data.collapse('show'); // Make sure its visible
+    $(supp_data).find('th').remove();
 
-      $(this.supplementalFilesTableSelector).append(this.getSupplementalFileList());
+    // switch the value of the input with the html for each td
+    $(supp_data).find('td').each(function(){
+      //find input and selects
+      var data = "";
+      if($(this).find('input').length > 0){
+        data = $(this).find('input').val();
+      } else if ($(this).find('select').length > 0) {
+        // was unable to get selected option value from select so it is stored in a hidden element in the td
+        data = $(this).find('input["type=hidden"]').val();
+      } else {
+        data = $(this).text();
+      }
+      $(this).html(data);
+    });
+    $(this.supplementalFilesTableSelector).append(supp_data);
 
-      //do we have supplemental metadata?
-
-    } else if ($('#additional_metadata tr').length > 0 && $('#additional_metadata_link').text() == 'Hide Required Metadata') {
-      $(this.supplementalFilesTableSelector).append('<tr><th colspan="4">Supplemental Files</th></tr>');
-      // switch the value of the input with the html for each td
-      var supp_data = $("#additional_metadata").clone();
-      $(supp_data).find('th').remove();
-      $(supp_data).find('td').each(function(){
-        //find input and selects
-        var data = "";
-        if($(this).find('input').length > 0){
-          data = $(this).find('input').val();
-        } else if ($(this).find('select').length > 0) {
-          // was unable to get selected option value from select so it is stored in a hidden element in the td
-          data = $(this).find('input["type=hidden"]').val();
-        } else {
-          //nothing else
-        }
-        $(this).html(data);
-      });
-      $(this.supplementalFilesTableSelector).append(supp_data);
     //no supplemental files at all
-    } else {
+    if(supp_data.find('td').length == 0) {
       $(this.supplementalFilesTableSelector).append('<tr><td colspan="4">No Supplemental Files</td></tr>');
     }
   }
