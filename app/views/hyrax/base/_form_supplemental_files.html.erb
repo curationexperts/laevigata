@@ -32,15 +32,6 @@
     </tbody>
   </table>
 
-   <%= link_to "Add Required Metadata",
-               '#additional_metadata',
-               id: 'additional_metadata_link',
-               class: 'btn btn-default additional-fields',
-               data: { toggle: 'collapse' },
-               role: "button",
-               'aria-expanded'=> "false",
-               'aria-controls'=> "additional_metadata" %>
-
   <%= render 'form_supplemental_files_metadata', f: f %>
 
    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->

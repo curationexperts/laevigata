@@ -1,19 +1,7 @@
 export default class AboutMySupplementalFiles {
   constructor() {
-    this.updateMetadataButtonState()
     this.attachMetadataListeners()
     this.uniqueSupplementalFiles()
-  }
-
-  // If there are existing supplemental files, display the button to show/hide the metadata section.
-  updateMetadataButtonState(){
-    if ($('#supplemental_fileupload tbody.files tr').length === 0){
-      console.log('hiding meta button');
-      $('#additional_metadata_link').css('display', 'none');
-    } else {
-      console.log('showing meta button');
-      $('#additional_metadata_link').css('display', 'block');
-    }
   }
 
   uniqueSupplementalFiles(){
@@ -46,24 +34,6 @@ export default class AboutMySupplementalFiles {
         var filename = $(file_rows[i]).find('p.name').text().trim();
         form.populateMetadataTable(filename, metadata_rows.length + 1)
       }
-    }
-  }
-
-  displayMetadata(){
-    var form = this
-    // is there metadata already?
-    if($('#supplemental_files_metadata tbody tr').length > 0){
-      // have more files been uploaded?
-      if( $('#supplemental_fileupload tbody.files tr').length > $('#supplemental_files_metadata tbody tr').length ){
-        form.syncMetadataWithFiles($('#supplemental_fileupload tbody.files tr'), $('#supplemental_files_metadata tbody tr'));
-      } else if ( $('#supplemental_fileupload tbody.files tr').length === $('#supplemental_files_metadata tbody tr').length){
-        // do nothing, metadate table is in sync and will be shown
-      }
-    } else {
-      $('#supplemental_fileupload tbody.files tr').each(function(ind, el){
-        //get filename from each row of uploaded files table
-        form.populateMetadataTable($(el).find('p.name').text(), ind)
-      });
     }
   }
 
@@ -142,29 +112,10 @@ export default class AboutMySupplementalFiles {
 
   attachMetadataListeners(){
     var form = this
-
     $('#supplemental_fileupload').bind('fileuploadfinished', function (e, data) {
-      $('#additional_metadata_link').css('display', 'block');
-    });
-
-    $('#additional_metadata').on('show.bs.collapse', function(){
-      $('#additional_metadata').prop('display', 'block');
-      $('#additional_metadata_link').text('Hide Required Metadata');
-      form.displayMetadata();
-      //disable upload of any more files
-      $('#supplemental_files span.fileinput-button').addClass('disabled_element');
-      $('#supplemental_files .fileupload-buttonbar input').prop('disabled', true);
-      $('#supplemental-browse-btn').prop('disabled', true);
-    });
-
-
-    $('#additional_metadata').on('hide.bs.collapse', function(){
-      $('#additional_metadata_link').text('Add Required Metadata');
-
-      //re-enable upload of files
-      $('#supplemental_files span.fileinput-button').removeClass('disabled_element');
-      $('#supplemental_files .fileupload-buttonbar input').prop('disabled', false);
-      $('#supplemental-browse-btn').prop('disabled', false);
+      console.log('file uploaded');
+      $('#additional_metadata').collapse('show');
+      form.syncMetadataWithFiles($('#supplemental_fileupload tbody.files tr'), $('#supplemental_files_metadata tbody tr'));
     });
   }
 }

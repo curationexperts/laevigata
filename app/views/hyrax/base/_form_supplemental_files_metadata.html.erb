@@ -1,4 +1,8 @@
-<div id="additional_metadata" class='collapse'>
+<%# If there are supplemental files, display the table, else collapse it %>
+<% klass = f.object.supplemental_files.count > 0 ? 'collapse in' : 'collapse' %>
+
+<div id="additional_metadata" class='<%= klass %>'>
+  <h2> Required Metadata </h2>
   <table class='table table-striped metadata' id='supplemental_files_metadata'>
     <thead>
       <tr>

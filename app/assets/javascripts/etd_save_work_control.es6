@@ -147,24 +147,22 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       });
 
       $('#supplemental_fileupload').bind('fileuploaddestroyed', function (e, data) {
+        console.log('deleted file');
         $('#supplemental_files_metadata tr').each(function(){
           if ($(this).find('td').first().text() === file) {
             $(this).remove();
           }
         });
         form.validateSupplementalFiles()
-
-        // If user is deleting the last file, hide the show metadata link.
-        if ($('#supplemental_fileupload tbody.files tr').length === 0){
-          $('#additional_metadata_link').css('display', 'none');
-        }
       })
     }
 
-    clear_supplemental_files_metadata_table(){
+    clearSupplementalMetadataTable(){
+      console.log('clearing meta table');
       $('#supplemental_files_metadata tbody tr').each(function(){
         $(this).remove();
       });
+      $('#additional_metadata').collapse('hide');
     }
 
     // If the user is editing an existing ETD record that has a previously-uploaded PDF, then that file will be displayed on the page.  This method determines whether or not that file is present.
@@ -201,11 +199,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       $('#etd_no_supplemental_files').on('change', function(){
         form.toggleSupplementalUpload();
         form.validateSupplementalFiles();
-        if($(this).prop('checked') === false){
-          console.log('clearing files table');
-          //only clear the table when someone has interacted with this element - checked and then unchecked it.
-          form.clear_supplemental_files_metadata_table;
-        }
       });
     }
 
@@ -220,13 +213,8 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
     disableSupplementalUpload(){
       $('#supplemental_files .fileupload-buttonbar input').prop('disabled', true)
-      //remove showMetadata link and metadata form if visible
-      $('#additional_metadata_link').hide();
-      if($('#additional_metadata').is(':visible')){
-        $('#additional_metadata').collapse('hide');
-      }
-
       $('#supplemental_files tbody.files').empty();
+      this.clearSupplementalMetadataTable();
       $('#supplemental_files span.fileinput-button').addClass('disabled_element');
       $('#supplemental-browse-btn').prop('disabled', true)
     }
@@ -411,26 +399,11 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
  supplementalMetadataListener(){
   var form = this
 
-   $('#additional_metadata').on('show.bs.collapse', function(){
-     //just uncheck
-     form.supplementalFiles.uncheck();
-   });
-
-   // the 'shown' hook means the dom will now have these elements
-   $('#additional_metadata').on('shown.bs.collapse', function(){
-     console.log('open the meta fields');
-     form.validateSupplementalFiles();
-     $("#additional_metadata :input").on('change', function() {
-       form.validateSupplementalFiles();
-      });
-   });
-
-   $('#additional_metadata').on('hidden.bs.collapse', function(){
-     console.log('close the meta fields');
-     form.enableSupplementalUpload();
-     form.validateSupplementalFiles();
-   });
+  $("#additional_metadata :input").on('change', function() {
+    form.validateSupplementalFiles();
+  });
  }
+
   //validate needs to be called on clicking show or add
   hasSupplementalMetadata(){
     if ($('#additional_metadata').is(':visible')) {
