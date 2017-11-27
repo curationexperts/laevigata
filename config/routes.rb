@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   mount Blacklight::Engine => '/'
 
@@ -20,7 +22,6 @@ Rails.application.routes.draw do
   end
 
   mount BrowseEverything::Engine => '/browse'
-  mount ResqueWeb::Engine => '/resque'
   mount Hydra::RoleManagement::Engine => '/'
   mount Qa::Engine => '/authorities'
   mount Hyrax::Engine, at: '/'
@@ -51,4 +52,10 @@ Rails.application.routes.draw do
   patch '/uploads', to: 'hyrax/uploads#create'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  # Mount sidekiq web ui and require authentication by an admin user
+
+  authenticate :user, ->(u) { u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 end

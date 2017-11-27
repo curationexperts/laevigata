@@ -38,6 +38,7 @@ gem 'sanitize'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Need to constrain the version of Sinatra for resque-web, see https://github.com/sinatra/sinatra/issues/1055
+gem 'sidekiq'
 gem 'sinatra', '2.0.0.rc2'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
@@ -85,6 +86,7 @@ group :development do
   gem 'capistrano-bundler'
   gem 'capistrano-passenger'
   gem 'capistrano-rails'
+  gem 'capistrano-sidekiq', '~> 0.20.0'
   gem 'listen', '~> 3.0.5'
   # Spring speeds up development by keeping your application running in the
   # background. Read more: https://github.com/rails/spring
