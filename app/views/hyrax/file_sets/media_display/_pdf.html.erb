@@ -1,0 +1,24 @@
+<% if Hyrax.config.display_media_download_link? %>
+    <div class="thumbnail">
+      <h2 class="sr-only"><%= t('hyrax.file_set.show.downloadable_content.heading') %></h2>
+      <%= image_tag thumbnail_url(file_set),
+                    class: "representative-media",
+                    alt: "",
+                    role: "presentation" %>
+      <%= link_to hyrax.download_path(file_set),
+                  data: { turbolinks: false },
+                  target: :_blank,
+                  id: "file_download",
+                  data: { label: file_set.id },
+                  class: "btn btn-default" do %>
+          <%= t('hyrax.file_set.show.downloadable_content.pdf_link') %>
+      <% end %>
+    </div>
+<% else %>
+    <div class="thumbnail">
+      <%= image_tag thumbnail_url(file_set),
+                    class: "representative-media",
+                    alt: "",
+                    role: "presentation" %>
+    </div>
+<% end %>
