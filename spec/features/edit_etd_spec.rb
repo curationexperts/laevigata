@@ -114,8 +114,8 @@ RSpec.feature 'Edit an existing ETD' do
         expect(find_field(id: 'etd_no_supplemental_files').checked?).to be true
         expect(page).to have_css('li#required-supplemental-files.complete')
 
-        # The show/hide metadata button should not be visible since there are no files.
-        expect(page).not_to have_link('Add Required Metadata')
+        # The metadata fields should not be visible since there are no files.
+        expect(page).not_to have_content('Required Metadata')
 
         # Verify that 'no embargoes' is checked and 'embargoes' tab is marked valid.
         click_on('Embargoes')
@@ -227,8 +227,7 @@ RSpec.feature 'Edit an existing ETD' do
         within('#supplemental_fileupload tbody.files tr') do
           expect(page).to have_content('nasa.jpeg')
         end
-        expect(page).to have_link('Add Required Metadata')
-        click_on('Add Required Metadata')
+        expect(page).to have_content('Required Metadata')
         within('#supplemental_files_metadata tbody tr') do
           expect(page).to have_content('nasa.jpeg')
           expect(page).to have_content('supp file title')

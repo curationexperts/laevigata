@@ -97,14 +97,13 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_css('li#required-files.complete')
 
       click_on('Supplemental Files')
-      expect(page).not_to have_link('Add Required Metadata')
       expect(page).to have_css('li#required-supplemental-files.incomplete')
+      expect(page).not_to have_content('Required Metadata')
       page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
-
-      click_on 'Add Required Metadata'
-      fill_in name: 'etd[supplemental_file_metadata][0]title', with: 'supp file title'
-      fill_in name: 'etd[supplemental_file_metadata][0]description', with: 'supp file desc'
-      select 'Image', from: 'etd[supplemental_file_metadata][0]file_type'
+      expect(page).to have_content('Required Metadata')
+      fill_in name: 'etd[supplemental_file_metadata][1]title', with: 'supp file title'
+      fill_in name: 'etd[supplemental_file_metadata][1]description', with: 'supp file desc'
+      select 'Image', from: 'etd[supplemental_file_metadata][1]file_type'
       expect(page).to have_css('li#required-supplemental-files.complete')
 
       click_on('Embargoes')
