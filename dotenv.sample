@@ -1,6 +1,6 @@
 # Copy this file to .env.development or .env.production and populate with appropriate values
 export ACTION_MAILER_HOST=localhost
-export HYRAX_HOST=**YOUR DATA HERE**
+export RAILS_HOST=**YOUR DATA HERE**
 export ACTION_MAILER_SMTP_ADDRESS=**YOUR DATA HERE**
 export ACTION_MAILER_PORT=**YOUR DATA HERE**
 export ACTION_MAILER_USER_NAME=**YOUR DATA HERE**
