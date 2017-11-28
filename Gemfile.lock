@@ -920,7 +920,7 @@ DEPENDENCIES
   ffaker
   honeybadger (~> 3.1)
   hydra-role-management
-  hyrax (~> 1.0)
+  hyrax (= 1.0.5)
   jasmine
   jbuilder
   jquery-rails
