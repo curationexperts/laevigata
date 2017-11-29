@@ -31,12 +31,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
      preventSubmitIfUploading() {
     }
 
-    // /**
-    //  * Is the form for a new object (vs edit an existing object)
-    //  */
-    get isNew() {
-     }
-
     /* Call this when the form has been rendered */
     activate() {
       if (!this.form) {
@@ -92,14 +86,12 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
     validateAllTabs() {
       let form = this;
-      $(document).ajaxComplete(function() {
-        form.validateMeAndMyProgram();
-        form.validateMyETD();
-        form.validatePDF();
-        form.validateSupplementalFiles();
-        form.validateMyEmbargo();
-        form.validateReview();
-      })
+      form.validateMeAndMyProgram();
+      form.validateMyETD();
+      form.validatePDF();
+      form.validateSupplementalFiles();
+      form.validateMyEmbargo();
+      form.validateReview();
     }
 
     // If user edits one of the TinyMCE fields, call formStateChanged for that tab.
@@ -147,7 +139,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       });
 
       $('#supplemental_fileupload').bind('fileuploaddestroyed', function (e, data) {
-        console.log('deleted file');
         $('#supplemental_files_metadata tr').each(function(){
           if ($(this).find('td').first().text() === file) {
             $(this).remove();
@@ -158,7 +149,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     }
 
     clearSupplementalMetadataTable(){
-      console.log('clearing meta table');
       $('#supplemental_files_metadata tbody tr').each(function(){
         $(this).remove();
       });
@@ -203,7 +193,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     }
 
     toggleSupplementalUpload(){
-      console.log('toggle supp checkbox');
       if ($('#etd_no_supplemental_files').prop('checked')){
         this.disableSupplementalUpload()
       } else {
@@ -399,53 +388,39 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
  supplementalMetadataListener(){
   var form = this
 
-  $("#additional_metadata :input").on('change', function() {
+  $("#additional_metadata").on('change', function() {
+    form.validateSupplementalFiles();
+  });
+
+  $(document).on('laevigata:supp:meta:change', function() {
     form.validateSupplementalFiles();
   });
  }
 
-  //validate needs to be called on clicking show or add
+  // Check if all the metadata fields for supplemental files have values filled in.
   hasSupplementalMetadata(){
-    if ($('#additional_metadata').is(':visible')) {
-      var invalidInputs;
-      invalidInputs = $("#additional_metadata :input").map(function() {
-        return invalidVal($( this ).val());
-      });
-      return invalidInputs.length === 0
-    } else if ($("#additional_metadata tr").length === 0) {
-      // are there rows - if not, it's a new table and no data has been added yet
-      return false
-    } else {
-      var invalidHiddenInputs;
-      // checking the values of hidden existing rows
-      invalidHiddenInputs = $("#additional_metadata :input:hidden").map(function() {
-        return invalidVal($( this ).val());
-      });
-      return invalidHiddenInputs.length === 0
-    }
-
-    function invalidVal(val){
-      if ((val === undefined) || (val === "")){
-        return val
+    var invalidInputs;
+    invalidInputs = $("#additional_metadata :input:visible").map(function() {
+      if (this.value === undefined || this.value.length === 0) {
+        return 'invalid'
       }
-    }
+    })
+    return invalidInputs.length === 0
   }
 
-  // 999 make it prettier
   validateSupplementalFiles() {
-    console.log('validateSupp');
     if ($('#etd_no_supplemental_files').prop('checked')){
       this.supplementalFiles.check()
       return true
+    } else if (!this.isNew && this.hasSupplementalMetadata()) {
+      this.supplementalFiles.check()
+      return true
+    } else if (this.supplemental_files_upload.hasFiles && this.hasSupplementalMetadata()) {
+      this.supplementalFiles.check()
+      return true
     } else {
-
-      if (this.supplemental_files_upload.hasFiles && this.hasSupplementalMetadata()) {
-        this.supplementalFiles.check()
-        return true
-      } else {
-        this.supplementalFiles.uncheck()
-        return false
-     }
-   }
+      this.supplementalFiles.uncheck()
+      return false
+    }
   }
 }
