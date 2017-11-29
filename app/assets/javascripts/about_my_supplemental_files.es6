@@ -116,6 +116,7 @@ export default class AboutMySupplementalFiles {
       console.log('file uploaded');
       $('#additional_metadata').collapse('show');
       form.syncMetadataWithFiles($('#supplemental_fileupload tbody.files tr'), $('#supplemental_files_metadata tbody tr'));
+      $(document).trigger('laevigata:supp:meta:change');
     });
   }
 }

@@ -224,23 +224,6 @@ describe("Validate My ETD", function(){
       });
     });
 
-    describe("when a supplemental file is present", function() {
-      beforeEach(function() {
-        target.supplementalFiles = mockCheckbox;
-        spyOn(mockCheckbox, 'check').and.stub();
-        spyOn(mockCheckbox, 'uncheck').and.stub();
-
-        target.supplemental_files_upload = {
-          hasFiles: true
-        };
-      });
-      it("is not valid without metadata", function() {
-        target.validateSupplementalFiles();
-        expect(mockCheckbox.uncheck.calls.count()).toEqual(1);
-        expect(mockCheckbox.check.calls.count()).toEqual(0);
-      });
-    });
-
     describe("when No Supplemental Files is checked", function() {
       beforeEach(function() {
         loadFixtures('work_form.html');
@@ -253,24 +236,6 @@ describe("Validate My ETD", function(){
         target.validateSupplementalFiles();
         expect(mockCheckbox.uncheck.calls.count()).toEqual(0);
         expect(mockCheckbox.check.calls.count()).toEqual(1);
-      });
-    });
-
-    describe("when No Supplemental Files is not checked", function() {
-      beforeEach(function() {
-        loadFixtures('work_form.html');
-        target.supplemental_files_upload = {
-          hasFiles: false
-        };
-        target.supplementalFiles = mockCheckbox;
-        spyOn(mockCheckbox, 'check').and.stub();
-        spyOn(mockCheckbox, 'uncheck').and.stub();
-      });
-      it("requires at least one supplemental file", function() {
-        $('#etd_no_supplemental_files').prop('checked', false)
-        target.validateSupplementalFiles();
-        expect(mockCheckbox.uncheck.calls.count()).toEqual(1);
-        expect(mockCheckbox.check.calls.count()).toEqual(0);
       });
     });
   });

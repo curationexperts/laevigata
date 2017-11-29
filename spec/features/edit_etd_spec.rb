@@ -257,7 +257,7 @@ RSpec.feature 'Edit an existing ETD' do
         expect(page).to have_css('li#required-about-me.complete')
         expect(page).to have_css('li#required-my-etd.complete')
         expect(page).to have_css('li#required-files.complete')
-        # TODO: expect(page).to have_css('li#required-supplemental-files.complete')
+        expect(page).to have_css('li#required-supplemental-files.complete')
         expect(page).to have_css('li#required-embargoes.complete')
         expect(page).to have_css('li#required-review.complete')
 
@@ -270,28 +270,27 @@ RSpec.feature 'Edit an existing ETD' do
         # The tab should stil be valid with the new data.
         expect(page).to have_css('li#required-about-me.complete')
 
-        # Preview
+        # The student previews their changes
         click_on('Review & Submit')
         expect(page).not_to have_content('Chemistry')
+        find("#preview_my_etd").click
+        expect(page).to have_content('Chemistry')
 
-        # TODO:
-        # click_on 'Generate Preview'
-        # expect(page).to have_content('Department Chemistry')
+        # Make sure supplemental files table is correct
+        within('#review') do
+          expect(page).to have_content('nasa.jpeg')
+          expect(page).to have_content('supp file title')
+          expect(page).to have_content('description of supp file')
+          expect(page).to have_content('Image')
+        end
 
-        # Check supplemental files table is correct
-        # expect(page).to have_content('nasa.jpeg')
-        # expect(page).to have_content('supp file title')
-        # expect(page).to have_content('description of supp file')
-        # expect(page).to have_content('Image')
-
-        # TODO:
         # Save the form
-        # click_on('Submit My ETD')
+        click_on('Submit My ETD')
 
-        # TODO:
-        # Check that the new values appear on the show page
-        # expect(page).to have_content 'Department Chemistry'
-        # expect(page).not_to have_content 'Subfield'
+        # Make sure that new data appears on ETD show page
+        expect(current_path.gsub('?locale=en', '')).to eq hyrax_etd_path(etd)
+        expect(page).to have_content 'Department Chemistry'
+        expect(page).not_to have_content 'Subfield'
       end
     end
   end
