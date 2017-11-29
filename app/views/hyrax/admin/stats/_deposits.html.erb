@@ -1,0 +1,14 @@
+<h3>Deposits By Users (<%= @presenter.date_filter_string %>)</h3>
+<ul>
+  <% @presenter.depositors.each do |usr| %>
+    <li>
+      <% if usr[:user] %>
+        <a href="<%= hyrax.profile_path(usr[:key]) %>" title="View user's profile"><%= usr[:user].name %></a>
+        deposited <%= pluralize(usr[:deposits], "file") %>
+      <% else %>
+        <%= "Unknown User ID #{usr[:key]}" %>
+        deposited <%= pluralize(usr[:deposits], "file") %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
