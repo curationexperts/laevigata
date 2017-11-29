@@ -55,3 +55,12 @@ class User < ApplicationRecord
     email
   end
 end
+
+# Override a Hyrax class that expects to create system users with passwords
+module Hyrax::User
+  module ClassMethods
+    def find_or_create_system_user(user_key)
+      User.find_by_user_key(user_key) || User.create!(ppid: user_key, uid: user_key)
+    end
+  end
+end
