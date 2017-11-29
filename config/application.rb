@@ -9,6 +9,8 @@ module Laevigata
   class Application < Rails::Application
     config.action_mailer.default_url_options = { host: ENV["RAILS_HOST"] }
     config.action_mailer.raise_delivery_errors = false
+    config.i18n.default_locale = :en
+    config.i18n.enforce_available_locales = false
     # The compile method (default in tinymce-rails 4.5.2) doesn't work when also
     # using tinymce-rails-imageupload, so revert to the :copy method
     # https://github.com/spohlenz/tinymce-rails/issues/183
