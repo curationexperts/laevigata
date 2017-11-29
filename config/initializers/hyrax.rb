@@ -49,7 +49,7 @@ Hyrax.config do |config|
   # config.persistent_hostpath = 'http://localhost/files/'
 
   # If you have ffmpeg installed and want to transcode audio and video uncomment this line
-  # config.enable_ffmpeg = true
+  config.enable_ffmpeg = true
 
   # Hyrax uses NOIDs for files and collections instead of Fedora UUIDs
   # where NOID = 10-character string and UUID = 32-character string w/ hyphens
@@ -59,19 +59,21 @@ Hyrax.config do |config|
   # config.noid_template = ".reeddeeddk"
 
   # Use the database-backed minter class
-  # config.noid_minter_class = ActiveFedora::Noid::Minter::Db
+  config.noid_minter_class = ActiveFedora::Noid::Minter::Db
 
   # Store identifier minter's state in a file for later replayability
   # config.minter_statefile = '/tmp/minter-state'
 
   # Prefix for Redis keys
+  #
   # config.redis_namespace = "hyrax"
+  config.redis_namespace = "laevigata_#{Rails.env}"
 
   # Path to the file characterization tool
-  config.fits_path = "fits"
+  config.fits_path = ENV['FITS_PATH']
 
   # Path to the file derivatives creation tool
-  config.libreoffice_path = "soffice"
+  config.libreoffice_path = ENV['LIBREOFFICE_PATH']
 
   # How many seconds back from the current time that we should show by default of the user's activity on the user's dashboard
   # config.activity_to_show_default_seconds_since_now = 24*60*60
@@ -101,19 +103,29 @@ Hyrax.config do |config|
   # config.batch_user_key = 'batchuser@example.com'
 
   # The user who runs audit jobs. Update this if you aren't using emails
-  # config.audit_user_key = 'audituser@example.com'
-  #
+  config.audit_user_key = 'audituser'
+
   # The banner image. Should be 5000px wide by 1000px tall
-  # config.banner_image = 'https://cloud.githubusercontent.com/assets/92044/18370978/88ecac20-75f6-11e6-8399-6536640ef695.jpg'
+  config.banner_image = 'https://curationexperts.files.wordpress.com/2016/08/cropped-dce-bookshelf.jpg'
 
   # Temporary paths to hold uploads before they are ingested into FCrepo
   # These must be lambdas that return a Pathname. Can be configured separately
   #  config.upload_path = ->() { Rails.root + 'tmp' + 'uploads' }
   #  config.cache_path = ->() { Rails.root + 'tmp' + 'uploads' + 'cache' }
+  # these error out, see https://gist.github.com/acozine/8c5efcb3deeeb57fe27bdd2e03ef522c
+  # config.upload_path = '/opt/uploads'
+  # config.cache_path = '/opt/uploads/cache'
+  # these don't error out, but they also don't affect the paths
+  # config.upload_path = ->() { 'opt' + 'uploads' }
+  # config.cache_path = ->() { 'opt' + 'uploads' + 'cache' }
+  # config.upload_path = -> () { "/opt/uploads" }
+  # config.cache_path = -> () { "/opt/uploads/cache" }
+  config.upload_path = ->() { Pathname.new(ENV['UPLOAD_PATH']) }
+  config.cache_path = ->() { Pathname.new(ENV['CACHE_PATH']) }
 
   # Location on local file system where derivatives will be stored
   # If you use a multi-server architecture, this MUST be a shared volume
-  # config.derivatives_path = Rails.root.join('tmp', 'derivatives')
+  config.derivatives_path = ENV['DERIVATIVES_PATH']
 
   # Should schema.org microdata be displayed?
   # config.display_microdata = true
@@ -125,9 +137,12 @@ Hyrax.config do |config|
   # Location on local file system where uploaded files will be staged
   # prior to being ingested into the repository or having derivatives generated.
   # If you use a multi-server architecture, this MUST be a shared volume.
+  #
   # config.working_path = Rails.root.join( 'tmp', 'uploads')
+  config.working_path = ENV['WORKING_PATH']
 
   # Should the media display partial render a download link?
+  # prevents downloading of embargoed files:
   config.display_media_download_link = false
 
   # A configuration point for changing the behavior of the license service
@@ -145,13 +160,13 @@ Hyrax.config do |config|
   # config.model_to_create = ->(_attributes) { Hyrax.primary_work_type.model_name.name }
 
   # Path to the ffmpeg tool
-  # config.ffmpeg_path = 'ffmpeg'
+  config.ffmpeg_path = ENV['FFMPEG_PATH']
 
   # Max length of FITS messages to display in UI
   # config.fits_message_length = 5
 
   # ActiveJob queue to handle ingest-like jobs
-  # config.ingest_queue_name = :default
+  config.ingest_queue_name = :default
 
   ## Attributes for the lock manager which ensures a single process/thread is mutating a ore:Aggregation at once.
   # How many times to retry to acquire the lock before raising UnableToAcquireLockError

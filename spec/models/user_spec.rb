@@ -72,5 +72,11 @@ RSpec.describe User do
       admin = FactoryBot.create(:admin)
       expect(admin.groups.first).to eq "admin"
     end
+    it "makes a system user" do
+      user_key = "fake_user_key"
+      u = ::User.find_or_create_system_user(user_key)
+      expect(u.uid).to eq(user_key)
+      expect(u.ppid).to eq(user_key)
+    end
   end
 end
