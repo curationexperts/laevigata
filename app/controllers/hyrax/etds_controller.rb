@@ -48,7 +48,11 @@ module Hyrax
 
     def update_supplemental_files
       no_supp = params["etd"].delete("no_supplemental_files")
-      # If user checked the 'no supplemental files' checkbox, remove any supplemental files from the uploaded_files param, and delete any existing supplemental files that are already attached to the ETD.
+      # If user checked the 'no supplemental files'
+      # checkbox, remove any supplemental files from
+      # the uploaded_files param, and delete any
+      # existing supplemental files that are already
+      # attached to the ETD.
       if no_supp == "1"
         if params['uploaded_files']
           supp_file_ids = []
