@@ -50,13 +50,21 @@ module Hyrax
       [:language, :abstract, :table_of_contents, :research_field]
     end
 
+    def primary_pdf_name
+      model.primary_pdf_file_name
+    end
+
     # Initial state for the 'No Supplemental Files' checkbox.
     # Supplemental files aren't required for an ETD, but the
     # form validation requires the user to explicitly check the
     # 'No Supplemental Files' checkbox if they don't intend to
     # add any additional files.
     def no_supplemental_files
-      model.persisted? && model.supplemental_files_fs.blank?
+      model.persisted? && supplemental_files.blank?
+    end
+
+    def supplemental_files
+      model.ordered_members.to_a.select(&:supplementary?)
     end
 
     # Initial state for the 'No Embargo' checkbox.
@@ -144,6 +152,7 @@ module Hyrax
       keys = ['committee_chair_attributes', 'committee_members_attributes']
 
       keys.each do |field_name|
+        next if attrs[field_name].blank?
         attrs[field_name].each do |member_key, member_attrs|
           aff_type = attrs[field_name][member_key].delete 'affiliation_type'
 

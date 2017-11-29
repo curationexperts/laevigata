@@ -1,0 +1,38 @@
+<%# If there are supplemental files, display the table, else collapse it %>
+<% klass = f.object.supplemental_files.count > 0 ? 'collapse in' : 'collapse' %>
+
+<div id="additional_metadata" class='<%= klass %>'>
+  <h2> Required Metadata </h2>
+  <table class='table table-striped metadata' id='supplemental_files_metadata'>
+    <thead>
+      <tr>
+        <th>File Name</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>File Type</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% f.object.supplemental_files.each_with_index do |sf, i| %>
+        <% id_prefix = "etd[supplemental_file_metadata][#{i}]" %>
+        <tr>
+
+          <td> <%= sf.label %> </td>
+
+          <td>
+            <%= content_tag :p, sf.title.to_a.first, { id: "#{id_prefix}title" } %>
+          </td>
+
+          <td>
+            <%= content_tag :p, sf.description.to_a.first, { id: "#{id_prefix}description" } %>
+          </td>
+
+          <td>
+            <%= content_tag :p, sf.file_type, { id: "#{id_prefix}file_type" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

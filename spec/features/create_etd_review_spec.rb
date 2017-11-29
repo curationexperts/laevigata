@@ -47,7 +47,7 @@ RSpec.feature 'Create an Etd' do
       tinymce_fill_in('etd_table_of_contents', 'Chapter One')
       select 'Aeronomy', from: 'Research Field'
       fill_in 'Keyword', with: "Courtship"
-      click_on('about_my_etd_data')
+      find('#question_1').choose('No')
 
       expect(page).to have_css 'li#required-my-etd.complete'
 
@@ -69,22 +69,15 @@ RSpec.feature 'Create an Etd' do
         page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
       end
 
-      sleep(5)
-      click_on('Add Required Metadata')
-      # sleep is not ideal for these collapse and show events but the length of wait time is proving difficult to mandate otherwise
-      sleep(10)
-
       expect(page).to have_css('li#required-supplemental-files.incomplete')
 
       expect(page).to have_content('File Name')
       expect(page).to have_content('Title')
       expect(page).to have_content('Description')
 
-      fill_in 'etd[supplemental_file_metadata][0]title', with: "Super Great Title"
-      fill_in 'etd[supplemental_file_metadata][0]description', with: "Super Great Description"
-      select('Sound', from: 'etd[supplemental_file_metadata][0]file_type')
-
-      sleep(10)
+      fill_in 'etd[supplemental_file_metadata][1]title', with: "Super Great Title"
+      fill_in 'etd[supplemental_file_metadata][1]description', with: "Super Great Description"
+      select('Sound', from: 'etd[supplemental_file_metadata][1]file_type')
 
       expect(page).to have_css('li#required-supplemental-files.complete')
 
@@ -168,7 +161,7 @@ RSpec.feature 'Create an Etd' do
       tinymce_fill_in('etd_table_of_contents', 'Chapter One')
       select 'Aeronomy', from: 'Research Field'
       fill_in 'Keyword', with: "Courtship"
-      click_on('about_my_etd_data')
+      find('#question_1').choose('No')
 
       expect(page).to have_css 'li#required-my-etd.complete'
 
