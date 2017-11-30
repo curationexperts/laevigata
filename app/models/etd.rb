@@ -190,11 +190,17 @@ class Etd < ActiveFedora::Base
   end
 
   # About My Etd Questionaire questions
-  property :copyright_question_one, predicate: "http://www.w3.org/2004/02/skos/core#note_permissions", multiple: false
+  property :copyright_question_one, predicate: "http://www.w3.org/2004/02/skos/core#note_permissions", multiple: false do |index|
+    index.as :stored_searchable
+  end
 
-  property :copyright_question_two, predicate: "http://www.w3.org/2004/02/skos/core#note_copyrights", multiple: false
+  property :copyright_question_two, predicate: "http://www.w3.org/2004/02/skos/core#note_copyrights", multiple: false do |index|
+    index.as :stored_searchable
+  end
 
-  property :copyright_question_three, predicate: "http://www.w3.org/2004/02/skos/core#note_patents", multiple: false
+  property :copyright_question_three, predicate: "http://www.w3.org/2004/02/skos/core#note_patents", multiple: false do |index|
+    index.as :stored_searchable
+  end
 
   # accepts_nested_attributes_for can not be called until all
   # the properties are declared because it calls resource_class,

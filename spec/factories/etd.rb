@@ -113,6 +113,15 @@ FactoryBot.define do
         )
       end
 
+      # this factory returns string values for booleans
+      # because the solr_document methods return strings in the feature tests, although not from the application.
+      factory :sample_data_with_copyright_questions do
+        title ["Sample Data With Copyrights: #{FFaker::Book.title}"]
+        copyright_question_one "true"
+        copyright_question_two "false"
+        copyright_question_three "true"
+      end
+
       factory :sample_data_with_everything_embargoed do
         title ["Sample Data With Full Embargo: #{FFaker::Book.title}"]
         embargo { FactoryBot.create(:embargo, embargo_release_date: (Time.zone.today + 14.days)) }
