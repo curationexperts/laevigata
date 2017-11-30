@@ -66,7 +66,7 @@ GEM
       activemodel (= 5.0.6)
       activesupport (= 5.0.6)
       arel (~> 7.0)
-    activerecord-import (0.20.2)
+    activerecord-import (0.21.0)
       activerecord (>= 3.2)
     activesupport (5.0.6)
       concurrent-ruby (~> 1.0, >= 1.0.2)
@@ -85,15 +85,15 @@ GEM
       execjs
     awesome_nested_set (3.1.3)
       activerecord (>= 4.0.0, < 5.2)
-    aws-partitions (1.36.0)
-    aws-sdk-core (3.8.0)
+    aws-partitions (1.43.0)
+    aws-sdk-core (3.11.0)
       aws-partitions (~> 1.0)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
     aws-sdk-kms (1.3.0)
       aws-sdk-core (~> 3)
       aws-sigv4 (~> 1.0)
-    aws-sdk-s3 (1.7.0)
+    aws-sdk-s3 (1.8.0)
       aws-sdk-core (~> 3)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.0)
@@ -123,7 +123,7 @@ GEM
       blacklight (~> 6.0)
       cancancan (~> 1.8)
       deprecation (~> 1.0)
-    blacklight-gallery (0.8.0)
+    blacklight-gallery (0.9.0)
       blacklight (~> 6.3)
       bootstrap-sass (~> 3.0)
       openseadragon (>= 0.2.0)
@@ -159,7 +159,7 @@ GEM
       sshkit (~> 1.2)
     capistrano-passenger (0.2.0)
       capistrano (~> 3.0)
-    capistrano-rails (1.3.0)
+    capistrano-rails (1.3.1)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
     capybara (2.13.0)
@@ -308,7 +308,7 @@ GEM
       concurrent-ruby (~> 1.0)
     hashie (3.5.6)
     hiredis (0.6.1)
-    honeybadger (3.1.2)
+    honeybadger (3.2.0)
     htmlentities (4.3.4)
     http_logger (0.5.1)
     httparty (0.15.6)
@@ -357,8 +357,8 @@ GEM
       hydra-file_characterization (~> 0.3, >= 0.3.3)
       hydra-pcdm (>= 0.9)
       om (~> 3.1)
-    hyrax (1.0.5)
-      active-fedora (~> 11.3, >= 11.3.1)
+    hyrax (1.0.3)
+      active-fedora (>= 11.3.1)
       active_attr (~> 0.9)
       active_fedora-noid (~> 2.0, >= 2.0.2)
       almond-rails (~> 0.1)
@@ -366,7 +366,7 @@ GEM
       blacklight (~> 6.9)
       blacklight-gallery (~> 0.7)
       breadcrumbs_on_rails (~> 3.0)
-      browse-everything (~> 0.10, >= 0.10.5)
+      browse-everything (>= 0.10.5)
       carrierwave (~> 1.0)
       clipboard-rails (~> 1.5)
       dry-equalizer (~> 0.2)
@@ -377,9 +377,9 @@ GEM
       font-awesome-rails (~> 4.2)
       hydra-derivatives (~> 3.3)
       hydra-editor (~> 3.2)
-      hydra-head (~> 10.4, >= 10.4.0)
+      hydra-head (>= 10.4.0)
       hydra-works (~> 0.16)
-      jquery-datatables-rails (~> 3.4, >= 3.4.0)
+      jquery-datatables-rails (~> 3.4.0)
       jquery-ui-rails (~> 5.0)
       json-schema
       kaminari_route_prefix (~> 0.1.1)
@@ -395,10 +395,10 @@ GEM
       rails_autolink (~> 1.1)
       railties (~> 5.0)
       rdf-rdfxml
-      redis-namespace (~> 1.5, >= 1.5.2)
+      redis-namespace (~> 1.5.2)
       redlock (~> 0.1.2)
       retriable (>= 2.9, < 4.0)
-      select2-rails (~> 3.5, >= 3.5.9)
+      select2-rails (~> 3.5.9)
       signet
       tinymce-rails (~> 4.1)
       tinymce-rails-imageupload (~> 4.0.17.beta)
@@ -678,8 +678,8 @@ GEM
     redic (1.5.0)
       hiredis
     redis (3.3.5)
-    redis-namespace (1.6.0)
-      redis (>= 3.0.4)
+    redis-namespace (1.5.3)
+      redis (~> 3.0, >= 3.0.4)
     redlock (0.1.8)
       redis (~> 3, >= 3.0.0)
     ref (2.0.0)
@@ -795,7 +795,7 @@ GEM
       rack (~> 2.0)
       rack-protection (= 2.0.0.rc2)
       tilt (~> 2.0)
-    slop (4.6.0)
+    slop (4.6.1)
     solr_wrapper (1.2.0)
       faraday
       retriable
@@ -850,8 +850,8 @@ GEM
     thor (0.19.4)
     thread_safe (0.3.6)
     tilt (2.0.8)
-    tins (1.15.1)
-    tinymce-rails (4.7.2)
+    tins (1.16.0)
+    tinymce-rails (4.7.3)
       railties (>= 3.1.1)
     tinymce-rails-imageupload (4.0.17.beta.3)
       railties (>= 3.2, < 6)
@@ -893,7 +893,7 @@ GEM
       nokogiri (~> 1.3)
     xray-rails (0.3.1)
       rails (>= 3.1.0)
-    yard (0.9.10)
+    yard (0.9.12)
 
 PLATFORMS
   ruby
@@ -920,7 +920,7 @@ DEPENDENCIES
   ffaker
   honeybadger (~> 3.1)
   hydra-role-management
-  hyrax (~> 1.0)
+  hyrax (= 1.0.3)
   jasmine
   jbuilder
   jquery-rails
