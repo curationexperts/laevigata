@@ -60,7 +60,11 @@ end
 module Hyrax::User
   module ClassMethods
     def find_or_create_system_user(user_key)
-      User.find_by_user_key(user_key) || User.create!(ppid: user_key, uid: user_key)
+      u = ::User.find_or_create_by(uid: user_key)
+      u.ppid = user_key
+      u.display_name = user_key
+      u.save
+      u
     end
   end
 end
