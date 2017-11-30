@@ -221,6 +221,9 @@ RSpec.feature 'Edit an existing ETD' do
         within('#primary_file_name') do
           expect(page).to have_content 'joey_thesis.pdf'
         end
+        # The file upload buttons should be hidden
+        expect(page).to have_css('#fileupload', visible: :hidden)
+        expect(page).to have_css('#fileupload-browse-everything', visible: :hidden)
 
         # Verify existing data in Supplemental Files tab
         click_on('Supplemental Files')

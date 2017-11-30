@@ -9,8 +9,9 @@
     <%= f.object.primary_pdf_name %>
   </div>
 <% end %>
+<% file_uploader_class = hide_file_uploader ? 'hidden' : '' %>
 
-<div id="fileupload" class="<%= hide_file_uploader ? 'hidden' : '' %>">
+<div id="fileupload" class="<%= file_uploader_class %>">
    <!-- Redirect browsers with JavaScript disabled to the origin page -->
    <noscript><input type="hidden" name="redirect" value="<%= main_app.root_path %>"></noscript>
    <!-- The table listing the files available for upload/download -->
@@ -53,7 +54,10 @@
 </div>
 
 <%= render 'hyrax/uploads/js_templates' %>
-<% if Hyrax.config.browse_everything? %>
-<h2>Upload Large Files</h2>
-<%= render 'browse_everything', f: f %>
-<% end %>
+
+<div id='fileupload-browse-everything' class="<%= file_uploader_class %>">
+  <% if Hyrax.config.browse_everything? %>
+    <h2>Upload Large Files</h2>
+    <%= render 'browse_everything', f: f %>
+  <% end %>
+</div>
