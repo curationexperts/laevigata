@@ -85,7 +85,7 @@ GEM
       execjs
     awesome_nested_set (3.1.3)
       activerecord (>= 4.0.0, < 5.2)
-    aws-partitions (1.43.0)
+    aws-partitions (1.44.0)
     aws-sdk-core (3.11.0)
       aws-partitions (~> 1.0)
       aws-sigv4 (~> 1.0)
@@ -357,8 +357,8 @@ GEM
       hydra-file_characterization (~> 0.3, >= 0.3.3)
       hydra-pcdm (>= 0.9)
       om (~> 3.1)
-    hyrax (1.0.3)
-      active-fedora (>= 11.3.1)
+    hyrax (1.0.5)
+      active-fedora (~> 11.3, >= 11.3.1)
       active_attr (~> 0.9)
       active_fedora-noid (~> 2.0, >= 2.0.2)
       almond-rails (~> 0.1)
@@ -366,7 +366,7 @@ GEM
       blacklight (~> 6.9)
       blacklight-gallery (~> 0.7)
       breadcrumbs_on_rails (~> 3.0)
-      browse-everything (>= 0.10.5)
+      browse-everything (~> 0.10, >= 0.10.5)
       carrierwave (~> 1.0)
       clipboard-rails (~> 1.5)
       dry-equalizer (~> 0.2)
@@ -377,9 +377,9 @@ GEM
       font-awesome-rails (~> 4.2)
       hydra-derivatives (~> 3.3)
       hydra-editor (~> 3.2)
-      hydra-head (>= 10.4.0)
+      hydra-head (~> 10.4, >= 10.4.0)
       hydra-works (~> 0.16)
-      jquery-datatables-rails (~> 3.4.0)
+      jquery-datatables-rails (~> 3.4, >= 3.4.0)
       jquery-ui-rails (~> 5.0)
       json-schema
       kaminari_route_prefix (~> 0.1.1)
@@ -395,10 +395,10 @@ GEM
       rails_autolink (~> 1.1)
       railties (~> 5.0)
       rdf-rdfxml
-      redis-namespace (~> 1.5.2)
+      redis-namespace (~> 1.5, >= 1.5.2)
       redlock (~> 0.1.2)
       retriable (>= 2.9, < 4.0)
-      select2-rails (~> 3.5.9)
+      select2-rails (~> 3.5, >= 3.5.9)
       signet
       tinymce-rails (~> 4.1)
       tinymce-rails-imageupload (~> 4.0.17.beta)
@@ -920,7 +920,7 @@ DEPENDENCIES
   ffaker
   honeybadger (~> 3.1)
   hydra-role-management
-  hyrax (= 1.0.3)
+  hyrax (= 1.0.5)
   jasmine
   jbuilder
   jquery-rails
