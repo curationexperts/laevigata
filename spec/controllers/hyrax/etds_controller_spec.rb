@@ -4,25 +4,222 @@ require 'rails_helper'
 
 RSpec.describe Hyrax::EtdsController do
   let(:user) { create :user }
+
+  let(:approver) { User.where(uid: "tezprox").first }
+  let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
+
+  let(:file1) { File.open("#{fixture_path}/miranda/miranda_thesis.pdf") }
+  let(:file2) { File.open("#{fixture_path}/magic_warrior_cat.jpg") }
+  let(:file3) { File.open("#{fixture_path}/miranda/rural_clinics.zip") }
+
+  let(:supp_file_attrs) do
+    { user: user,
+      pcdm_use: 'supplementary',
+      title: 'supp file title',
+      description: 'supp file desc',
+      file_type: 'Image' }
+  end
+
   before do
+    # Don't characterize the file during specs
+    allow(CharacterizeJob).to receive_messages(perform_later: nil, perform_now: nil)
+
     allow(request.env['warden']).to receive(:authenticate!).and_return(user)
     allow(controller).to receive(:current_user).and_return(user)
     sign_in user
   end
-  describe "POST create" do
-    it "responds to partial data in 'create'" do
-      post :create, params: { partial_data: "true", etd: { creator: "Joey", title: "Very Good Thesis" } }
-      assert_response :success
-      etd = JSON.parse(@response.body)
-      assert_equal "Joey", etd['creator']
-      assert_equal "Very Good Thesis", etd['title']
+
+  describe "#update" do
+    let(:default_attrs) do
+      { depositor: user.user_key,
+        title: ['Another great thesis by Frodo'],
+        school: ['Emory College'],
+        department: ['Art History'] }
+    end
+    let(:attach_supp_files) { false }
+
+    let(:etd) do
+      FactoryBot.build(:etd, default_attrs)
     end
 
-    xit "creates an etd from a full data set" do
-      post :hyrax_etds, params: { partial_data: false, etd: { creator: "Joey" } }
-      assert_redirected_to etd_path(Etd.last)
+    before do
+      ActiveFedora::Cleaner.clean!
+      workflow_setup.setup
+      etd.assign_admin_set
+
+      # Add supplemental files if the test needs them
+      if attach_supp_files
+        supp_file = File.open("#{fixture_path}/magic_warrior_cat.jpg") { |file| Hyrax::UploadedFile.create(supp_file_attrs.merge(file: file)) }
+        attributes_for_actor = { uploaded_files: [supp_file.id] }
+      end
+
+      # Create the ETD record
+      actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(user))
+      attributes_for_actor ||= {}
+      actor.create(attributes_for_actor)
+
+      # Approver requests changes, so student will be able to edit the ETD
+      change_workflow_status(etd, "request_changes", approver)
+
+      etd.reload
+    end
+
+    context 'with a new title' do
+      it "updates the ETD" do
+        expect {
+          patch :update, params: { id: etd, etd: { title: 'New Title' } }
+        }.to change { Etd.count }.by(0)
+
+        etd.reload
+        assert_redirected_to main_app.hyrax_etd_path(etd, locale: 'en')
+        expect(etd.title).to eq ['New Title']
+      end
+    end
+
+    context 'with no pre-existing supplemental files' do
+      context 'student checks "no supplemental files" checkbox' do
+        before do
+          patch :update, params: { id: etd, etd: { title: 'New Title', no_supplemental_files: '1' } }
+          etd.reload
+        end
+
+        it 'successfully updates the ETD' do
+          assert_redirected_to main_app.hyrax_etd_path(etd, locale: 'en')
+          expect(etd.title).to eq ['New Title']
+        end
+      end
+
+      context 'student adds supplemental files' do
+        let(:new_attrs) do
+          {
+            title: 'New Title',
+            "no_supplemental_files" => "0",
+            "supplemental_file_metadata" =>
+              { "0" => { filename: "magic_warrior_cat.jpg",
+                         title: "Magic Cat",
+                         description: "Cat desc",
+                         file_type: "Image" },
+                "1" => { filename: "rural_clinics.zip",
+                         title: "Rural Clinics",
+                         description: "Clinic desc",
+                         file_type: "Data" } }
+          }
+        end
+
+        before do
+          Hyrax::UploadedFile.delete_all
+          FactoryBot.create(:uploaded_file, id: 15, file: file2, user_id: user.id)
+          FactoryBot.create(:uploaded_file, id: 16, file: file3, user_id: user.id)
+        end
+
+        it 'adds the new supplemental files' do
+          expect {
+            patch :update,
+                  params: { id: etd,
+                            uploaded_files: ["15", "16"],
+                            etd: new_attrs }
+          }.to change { FileSet.count }.by(2)
+
+          etd.reload
+          assert_redirected_to main_app.hyrax_etd_path(etd, locale: 'en')
+          expect(etd.title).to eq ['New Title']
+
+          expect(etd.supplemental_files_fs.map(&:title)).to contain_exactly(["Magic Cat"], ["Rural Clinics"])
+          expect(etd.supplemental_files_fs.map(&:description)).to contain_exactly(["Cat desc"], ["Clinic desc"])
+          expect(etd.supplemental_files_fs.map(&:file_type)).to contain_exactly('Image', 'Data')
+        end
+      end
+    end
+
+    context 'with supplemental files' do
+      let(:attach_supp_files) { true }
+
+      context 'student adds another supplemental file' do
+        let(:new_attrs) do
+          {
+            title: 'New Title',
+            "no_supplemental_files" => "0",
+            "supplemental_file_metadata" =>
+              { "1" => { "filename" => "rural_clinics.zip",
+                         "title" => "Rural Clinics Shapefile",
+                         "description" => "rural clinics in Georgia",
+                         "file_type" => "Data" } }
+          }
+        end
+
+        before do
+          Hyrax::UploadedFile.delete_all
+          FactoryBot.create(:supplementary_uploaded_file, id: 16, file: file3, user_id: user.id)
+        end
+
+        it 'keeps existing files and adds new file' do
+          expect {
+            patch :update, params: {
+              id: etd,
+              uploaded_files: ["16"],
+              etd: new_attrs }
+          }.to change { FileSet.count }.by(1)
+
+          assert_redirected_to main_app.hyrax_etd_path(etd, locale: 'en')
+          etd.reload
+          expect(etd.title).to eq ['New Title']
+
+          expect(etd.supplemental_files_fs.map(&:title)).to contain_exactly(["supp file title"], ["Rural Clinics Shapefile"])
+          expect(etd.supplemental_files_fs.map(&:description)).to contain_exactly(["supp file desc"], ["rural clinics in Georgia"])
+          expect(etd.supplemental_files_fs.map(&:file_type)).to contain_exactly('Image', 'Data')
+        end
+      end
+
+      context 'student checks "no supplemental files" checkbox' do
+        let(:new_attrs) do
+          {
+            title: 'New Title',
+            "no_supplemental_files" => "1",
+            "supplemental_file_metadata" =>
+              { "0" => { filename: "magic_warrior_cat.jpg",
+                         title: "Magic Cat",
+                         description: "Cat desc",
+                         file_type: "Image" } }
+          }
+        end
+
+        before do
+          Hyrax::UploadedFile.delete_all
+          FactoryBot.create(:supplementary_uploaded_file, id: 16, file: file3, user_id: user.id)
+        end
+
+        # Even though the new_attrs contains 'supplemental_file_metadata' and params contains 'uploaded_files', those fields should get ignored because 'no_supplemental_files' should win.
+        it 'deletes the existing supplemental files' do
+          expect {
+            patch :update, params: {
+              id: etd,
+              uploaded_files: ["16"],
+              etd: new_attrs }
+          }.to change { FileSet.count }.by(-1)
+
+          assert_redirected_to main_app.hyrax_etd_path(etd, locale: 'en')
+          etd.reload
+          expect(etd.title).to eq ['New Title']
+          expect(etd.supplemental_files_fs).to eq []
+        end
+      end
     end
   end
+
+  describe "POST create" do
+    before do
+      ActiveFedora::Cleaner.clean!
+      workflow_setup.setup
+    end
+
+    it "creates an etd" do
+      expect {
+        post :create, params: { etd: { title: 'a title', school: 'Emory College', department: 'Art History' } }
+      }.to change { Etd.count }.by(1)
+      assert_redirected_to main_app.hyrax_etd_path(assigns[:curation_concern], locale: 'en')
+    end
+  end
+
   describe "supplemental file metadata" do
     let(:params) do
       {
@@ -49,9 +246,6 @@ RSpec.describe Hyrax::EtdsController do
         "locale" => "en"
       }
     end
-    let(:file1) { File.open("#{fixture_path}/miranda/miranda_thesis.pdf") }
-    let(:file2) { File.open("#{fixture_path}/magic_warrior_cat.jpg") }
-    let(:file3) { File.open("#{fixture_path}/miranda/rural_clinics.zip") }
     before do
       Hyrax::UploadedFile.delete_all
       FactoryBot.create(:uploaded_file, id: 14, file: file1, user_id: user.id, pcdm_use: "primary")

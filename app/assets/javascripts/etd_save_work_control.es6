@@ -31,12 +31,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
      preventSubmitIfUploading() {
     }
 
-    // /**
-    //  * Is the form for a new object (vs edit an existing object)
-    //  */
-    get isNew() {
-     }
-
     /* Call this when the form has been rendered */
     activate() {
       if (!this.form) {
@@ -53,8 +47,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
       this.supplemental_files_upload = new UploadedFiles(this.form, () => this.formStateChanged('#supplemental_fileupload'),'#supplemental_fileupload','li#required-supplemental-files')
 
-    //This needs to be adjusted
-      this.saveButton = this.element.find('#about_me_and_my_program')
       this.depositAgreement = new DepositAgreement(this.form, () => this.formStateChanged())
 
       // Validation checklist items
@@ -77,40 +69,41 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.setEmbargoLengths()
       this.setEmbargoContentListener()
       this.setAgreementListener()
-      this.getTinyContent()
+      this.setTinyListener()
       this.supplementalMetadataListener()
 
       // Check if the form is already valid. (e.g. If the user is editing an existing record, the form should be valid immediately.)
       this.updateEmbargoState('#no_embargoes', this);
-      this.validateAllTabs(this)
+      this.updateReviewState('#agreement', this);
+      this.updateTinyMceState()
+      this.validateAllTabs()
     }
 
-    validateAllTabs(form){
-      $(document).ajaxComplete(function() {
-        form.validateMeAndMyProgram();
-        form.validateMyETD()
-        //form.validatePDF()
-        form.validateSupplementalFiles();
-        form.validateMyEmbargo();
-        // TODO: Review tab?
-      })
+    updateTinyMceState() {
+      laevigata_data.etd_abstract = $('#etd_abstract').text();
+      laevigata_data.etd_table_of_contents =  $('#etd_table_of_contents').text();
     }
 
-    getTinyContent(){
-      this.form.on('submit', (evt) => {
-        $('#etd_abstract').val(this.getTinyContent('etd_abstract'))
-        $('#etd_table_of_contents').val(this.getTinyContent('etd_table_of_contents'))
-      });
+    validateAllTabs() {
+      let form = this;
+      form.validateMeAndMyProgram();
+      form.validateMyETD();
+      form.validatePDF();
+      form.validateSupplementalFiles();
+      form.validateMyEmbargo();
+      form.validateReview();
+    }
+
+    // If user edits one of the TinyMCE fields, call formStateChanged for that tab.
+    setTinyListener(){
+      var form = this
+      $(document).bind('laevigata:tinymce:change', null, (e) => form.formStateChanged('.about-my-etd'));
     }
 
     setAgreementListener(){
       var form = this
       $('#agreement').on('change', function(){
-        if ($(this).prop('checked')){
-          form.requiredReview.check()
-        } else {
-          form.requiredReview.uncheck()
-        }
+        form.validateReview();
       })
     }
 
@@ -146,21 +139,25 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       });
 
       $('#supplemental_fileupload').bind('fileuploaddestroyed', function (e, data) {
+        $('#supplemental_files_metadata tr').each(function(){
+          if ($(this).find('td').first().text() === file) {
+            $(this).remove();
+          }
+        });
         form.validateSupplementalFiles()
-
-        //if user is deleting the last file, empty the metadata table and hide the show metadata link
-        if ($('#supplemental_fileupload tbody.files tr').length === 0){
-          $('#supplemental_files_metadata').empty();
-          $('#additional_metadata_link').css('display', 'none');
-        } else {
-          $('#supplemental_files_metadata tr').each(function(){
-            if ($(this).find('td').first().text() === file) {
-              $(this).remove();
-            }
-          });
-        }
-
       })
+    }
+
+    clearSupplementalMetadataTable(){
+      $('#supplemental_files_metadata tbody tr').each(function(){
+        $(this).remove();
+      });
+      $('#additional_metadata').collapse('hide');
+    }
+
+    // If the user is editing an existing ETD record that has a previously-uploaded PDF, then that file will be displayed on the page.  This method determines whether or not that file is present.
+    hasExistingPDF(){
+      return $.find('#primary_file_name').length > 0
     }
 
     // this is not a check of the file type, but given that the app writes the filename to the page, and a student would have to change their Primary PDF file's type while uploading in order to foil this, I feel this is sufficient.
@@ -190,23 +187,23 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     supplementalFilesListener(){
       let form = this
       $('#etd_no_supplemental_files').on('change', function(){
+        form.toggleSupplementalUpload();
         form.validateSupplementalFiles();
-        if($(this).prop('checked') === false){
-          //only clear the table when someone has interacted with this element - checked and then unchecked it.
-          $('#supplemental_files_metadata').empty();
-        }
       });
+    }
+
+    toggleSupplementalUpload(){
+      if ($('#etd_no_supplemental_files').prop('checked')){
+        this.disableSupplementalUpload()
+      } else {
+        this.enableSupplementalUpload()
+      }
     }
 
     disableSupplementalUpload(){
       $('#supplemental_files .fileupload-buttonbar input').prop('disabled', true)
-      //remove showMetadata link and metadata form if visible
-      $('#additional_metadata_link').hide();
-      if($('#additional_metadata').is(':visible')){
-        $('#additional_metadata').collapse('hide');
-      }
-
       $('#supplemental_files tbody.files').empty();
+      this.clearSupplementalMetadataTable();
       $('#supplemental_files span.fileinput-button').addClass('disabled_element');
       $('#supplemental-browse-btn').prop('disabled', true)
     }
@@ -272,6 +269,13 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       form.requiredEmbargoFields.reload('#my_embargoes');
     }
 
+    updateReviewState(agreement_checkbox, form){
+      if ($(agreement_checkbox).prop('checked')){
+        $('#submission-agreement').removeClass('hidden')
+        $('#with_files_submit').prop('disabled', false)
+      }
+    }
+
     setEmbargoContentListener(){
       var form = this
       $("#no_embargoes").on('change', function(e){
@@ -329,6 +333,17 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
         return false
       }
     }
+
+    validateReview() {
+      if ($('#agreement').prop('checked')) {
+        this.requiredReview.check()
+        return true
+      } else {
+        this.requiredReview.uncheck()
+        return false
+      }
+    }
+
     validateMyETD() {
       if (this.requiredAboutMyETDFields.areComplete) {
         this.requiredMyETD.check()
@@ -358,80 +373,54 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
   // sets the file indicators to complete/incomplete
   validatePDF() {
-    if (this.primary_pdf_upload.hasFiles && this.onlyOnePdfAllowed() && this.isAPdf()) {
+    if (this.hasExistingPDF()) {
       this.requiredPDF.check()
       return true
+    } else if (this.primary_pdf_upload.hasFiles && this.onlyOnePdfAllowed() && this.isAPdf()) {
+      this.requiredPDF.check()
+      return true
+    } else {
+      this.requiredPDF.uncheck()
+      return false
     }
-    this.requiredPDF.uncheck()
-    return false
   }
 
  supplementalMetadataListener(){
   var form = this
 
-   $('#additional_metadata').on('show.bs.collapse', function(){
-     //just uncheck
-     form.supplementalFiles.uncheck();
-   });
-   // the 'shown' hook means the dom will now have these elements
-   $('#additional_metadata').on('shown.bs.collapse', function(){
-     form.validateSupplementalFiles();
-     $("#additional_metadata :input").on('change', function() {
-       form.validateSupplementalFiles();
-      });
-   });
+  $("#additional_metadata").on('change', function() {
+    form.validateSupplementalFiles();
+  });
 
-   $('#additional_metadata').on('hidden.bs.collapse', function(){
-     //validate
-     form.validateSupplementalFiles();
-   });
+  $(document).on('laevigata:supp:meta:change', function() {
+    form.validateSupplementalFiles();
+  });
  }
-  //validate needs to be called on clicking show or add
+
+  // Check if all the metadata fields for supplemental files have values filled in.
   hasSupplementalMetadata(){
-    if ($('#additional_metadata').is(':visible')) {
-      var invalidInputs;
-      invalidInputs = $("#additional_metadata :input").map(function() {
-        return invalidVal($( this ).val());
-      });
-      return invalidInputs.length === 0
-    } else if ($("#additional_metadata tr").length === 0) {
-      // are there rows - if not, it's a new table and no data has been added yet
-      return false
-    } else {
-      var invalidHiddenInputs;
-      // checking the values of hidden existing rows
-      invalidHiddenInputs = $("#additional_metadata :input:hidden").map(function() {
-        return invalidVal($( this ).val());
-      });
-      return invalidHiddenInputs.length === 0
-    }
-
-    function invalidVal(val){
-      if ((val === undefined) || (val === "")){
-        return val
+    var invalidInputs;
+    invalidInputs = $("#additional_metadata :input:visible").map(function() {
+      if (this.value === undefined || this.value.length === 0) {
+        return 'invalid'
       }
-    }
+    })
+    return invalidInputs.length === 0
   }
-
 
   validateSupplementalFiles() {
     if ($('#etd_no_supplemental_files').prop('checked')){
       this.supplementalFiles.check()
-      this.disableSupplementalUpload()
+      return true
+    } else if (!this.isNew && this.hasSupplementalMetadata()) {
+      this.supplementalFiles.check()
+      return true
+    } else if (this.supplemental_files_upload.hasFiles && this.hasSupplementalMetadata()) {
+      this.supplementalFiles.check()
       return true
     } else {
-      // if metadata form is showing, make sure students can't upload more files, because metadata form will become stale.
-
-      if ($('#additional_metadata').is(':hidden')) {
-        this.enableSupplementalUpload();
-      }
-      if (this.supplemental_files_upload.hasFiles && this.hasSupplementalMetadata()) {
-        this.supplementalFiles.check()
-        return true
-      } else {
-        this.supplementalFiles.uncheck()
-        return false
-     }
-   }
+      this.supplementalFiles.uncheck()
+      return false
+    }
   }
 }

@@ -17,6 +17,10 @@ Layout/SpaceInsideHashLiteralBraces:
     Exclude:
       - 'spec/fixtures/form_submission_params/*'
 
+Layout/MultilineHashBraceLayout:
+  Exclude:
+    - 'spec/controllers/hyrax/etds_controller_spec.rb'
+
 Lint/Void:
   Enabled: false
 
@@ -79,6 +83,7 @@ Layout/MultilineMethodCallIndentation:
 Layout/AlignParameters:
   Exclude:
     - 'app/models/etd.rb'
+    - 'spec/controllers/hyrax/etds_controller_spec.rb'
 
 Layout/ClosingParenthesisIndentation:
   Enabled: false

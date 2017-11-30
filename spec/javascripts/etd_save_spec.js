@@ -97,23 +97,6 @@ describe("EtdSaveWorkControl", function() {
 
 });
 
-
-describe("Submit My ETD", function(){
-  var target;
-
-  beforeEach(function() {
-      loadFixtures('work_form.html');
-      target = new EtdSaveWorkControl($('#form-progress'));
-      target.activate();
-      spyOn(target, 'getTinyContent');
-  });
-
-  it('needs to submit tinyMCE content', function(){
-    target.form.submit();
-    expect(target.getTinyContent).toHaveBeenCalled();
-  });
-});
-
 describe("Validate My ETD", function(){
   var target;
   var mockCheckbox = {
@@ -147,17 +130,6 @@ describe("Validate My ETD", function(){
       loadFixtures('work_form.html');
       var SaveEtd = require('etd_save_work_control')
       var etd_save_work_control = new SaveEtd($("#form-progress"), this.adminSetWidget)
-      tinyEditor = {
-        getContent: function(){}
-      }
-      mockMCE = {
-        get: function(value) {}
-      };
-      tinyMCE = mockMCE;
-      spyOn(tinyMCE, 'get').and.callFake(function(id) {
-        return tinyEditor;
-       });
-      spyOn(tinyEditor, 'getContent').and.returnValue("dhsjkfds");
     });
 
     it("areComplete is true", function(){
@@ -168,11 +140,7 @@ describe("Validate My ETD", function(){
       $('#etd_research_field').val("Aeronomy");
       $("#etd_keyword").val("something");
 
-     target.validateMyETD();
-
-      expect(mockMCE.get).toHaveBeenCalledWith('etd_abstract');
-      expect(tinyEditor.getContent).toHaveBeenCalled();
-      expect(mockMCE.get).toHaveBeenCalledWith('etd_table_of_contents');
+      expect(target.validateMyETD()).toEqual(true);
       expect(mockCheckbox.uncheck.calls.count()).toEqual(0);
       expect(mockCheckbox.check.calls.count()).toEqual(1);
       });
@@ -256,23 +224,6 @@ describe("Validate My ETD", function(){
       });
     });
 
-    describe("when a supplemental file is present", function() {
-      beforeEach(function() {
-        target.supplementalFiles = mockCheckbox;
-        spyOn(mockCheckbox, 'check').and.stub();
-        spyOn(mockCheckbox, 'uncheck').and.stub();
-
-        target.supplemental_files_upload = {
-          hasFiles: true
-        };
-      });
-      it("is not valid without metadata", function() {
-        target.validateSupplementalFiles();
-        expect(mockCheckbox.uncheck.calls.count()).toEqual(1);
-        expect(mockCheckbox.check.calls.count()).toEqual(0);
-      });
-    });
-
     describe("when No Supplemental Files is checked", function() {
       beforeEach(function() {
         loadFixtures('work_form.html');
@@ -280,31 +231,11 @@ describe("Validate My ETD", function(){
         spyOn(mockCheckbox, 'check').and.stub();
         spyOn(mockCheckbox, 'uncheck').and.stub();
       });
-      it("is valid and uploading is disabled", function() {
+      it("is valid", function() {
         $('#etd_no_supplemental_files').prop('checked', true)
         target.validateSupplementalFiles();
-        expect($("#supplemental-browse-btn")).toBeDisabled();
-        expect($('#supplemental_fileupload .fileinput-button')).toHaveClass('disabled_element');
         expect(mockCheckbox.uncheck.calls.count()).toEqual(0);
         expect(mockCheckbox.check.calls.count()).toEqual(1);
-      });
-    });
-
-    describe("when No Supplemental Files is not checked", function() {
-      beforeEach(function() {
-        loadFixtures('work_form.html');
-        target.supplemental_files_upload = {
-          hasFiles: false
-        };
-        target.supplementalFiles = mockCheckbox;
-        spyOn(mockCheckbox, 'check').and.stub();
-        spyOn(mockCheckbox, 'uncheck').and.stub();
-      });
-      it("requires at least one supplemental file", function() {
-        $('#etd_no_supplemental_files').prop('checked', false)
-        target.validateSupplementalFiles();
-        expect(mockCheckbox.uncheck.calls.count()).toEqual(1);
-        expect(mockCheckbox.check.calls.count()).toEqual(0);
       });
     });
   });

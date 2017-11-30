@@ -47,9 +47,9 @@ export default class ReviewMyETD {
     $('#etd_abstract').val(tinyMCE.get('etd_abstract').getContent())
     $('#etd_table_of_contents').val(tinyMCE.get('etd_table_of_contents').getContent())
 
-    let data = $('#new_etd .about-my-etd :input').serializeArray();
+    let data = $('.about-my-etd :input').serializeArray();
 
-    let optional_data = $('#new_etd #about_my_etd :input.copyright').serializeArray();
+    let optional_data = $('#about_my_etd :input.copyright').serializeArray();
 
     let optional_values = ""
 
@@ -64,32 +64,15 @@ export default class ReviewMyETD {
     return data
   }
 
-  getSupplementalFileList(){
-    var supplemental_files = $("#new_etd #supplemental_fileupload table").clone();
-    $(supplemental_files).find('th').remove();
-    $(supplemental_files).find('td').each(function(){
-      var data = "";
-      // skip the delete button that is in the table
-      if($(this).find('button').length > 0){
-        data = "";
-      } else {
-        data = $(this).text();
-      }
-      $(this).html(data);
-    });
-
-    return supplemental_files;
-  }
-
   aboutMyPDFData(){
-    let data = [{'name': "My Primary PDF", 'value': $('#new_etd #fileupload p.name span').text()}]
+    let data = [{'name': "My Primary PDF", 'value': $('#fileupload p.name span').text()}]
 
     return data
   }
 
   aboutMySupplementalFilesData(){
     let data = ""
-      if ($('#new_etd #supplemental_fileupload tbody tr').length > 0) {
+      if ($('#supplemental_fileupload tbody tr').length > 0) {
         data = [{'name': "My Supplemental Files", 'value': this.getFileList()}]
         return data
       }
@@ -111,7 +94,7 @@ export default class ReviewMyETD {
 
   aboutMeData(){
     // just the non-committee text inputs
-    let no_committee_data = $('#new_etd #about_me :input').not('.form-control.committee').not('.committee-member-select').not('.committee-chair-select').not(':button').not('[type="hidden"]').serializeArray();
+    let no_committee_data = $('#about_me :input').not('.form-control.committee').not('.committee-member-select').not('.committee-chair-select').not(':button').not('[type="hidden"]').serializeArray();
 
     let committee_member_rows = $('#about_me div.committee-member.row').not('#member-cloning_row');
 
@@ -201,42 +184,36 @@ export default class ReviewMyETD {
   }
 
   showUploadedFilesTables(){
+    // Primary PDF file
     $(this.pdfTableSelector).append('<tr><th colspan="4">Primary PDF</th></tr>');
-
     let $pdf = $('#fileupload tbody.files tr');
     $pdf.find('td:last-child').remove();
-
     $(this.pdfTableSelector).append($pdf);
 
-    // do we have supplemental files but no metadata?
-    if ($('#etd_no_supplemental_files').prop('checked') === false && $('#additional_metadata_link').text() == 'Add Required Metadata') {
-      $(this.supplementalFilesTableSelector).append('<tr><th colspan="4">Supplemental Files</th></tr>');
+    // Supplemental files
+    $(this.supplementalFilesTableSelector).append('<tr><th colspan="4">Supplemental Files</th></tr>');
+    var supp_data = $("#additional_metadata").clone();
+    supp_data.collapse('show'); // Make sure its visible
+    $(supp_data).find('th').remove();
 
-      $(this.supplementalFilesTableSelector).append(this.getSupplementalFileList());
+    // switch the value of the input with the html for each td
+    $(supp_data).find('td').each(function(){
+      //find input and selects
+      var data = "";
+      if($(this).find('input').length > 0){
+        data = $(this).find('input').val();
+      } else if ($(this).find('select').length > 0) {
+        // was unable to get selected option value from select so it is stored in a hidden element in the td
+        data = $(this).find('input["type=hidden"]').val();
+      } else {
+        data = $(this).text();
+      }
+      $(this).html(data);
+    });
+    $(this.supplementalFilesTableSelector).append(supp_data);
 
-      //do we have supplemental metadata?
-
-    } else if ($('#new_etd #additional_metadata tr').length > 0 && $('#additional_metadata_link').text() == 'Hide Required Metadata') {
-      $(this.supplementalFilesTableSelector).append('<tr><th colspan="4">Supplemental Files</th></tr>');
-      // switch the value of the input with the html for each td
-      var supp_data = $("#additional_metadata").clone();
-      $(supp_data).find('th').remove();
-      $(supp_data).find('td').each(function(){
-        //find input and selects
-        var data = "";
-        if($(this).find('input').length > 0){
-          data = $(this).find('input').val();
-        } else if ($(this).find('select').length > 0) {
-          // was unable to get selected option value from select so it is stored in a hidden element in the td
-          data = $(this).find('input["type=hidden"]').val();
-        } else {
-          //nothing else
-        }
-        $(this).html(data);
-      });
-      $(this.supplementalFilesTableSelector).append(supp_data);
     //no supplemental files at all
-    } else {
+    if(supp_data.find('td').length == 0) {
       $(this.supplementalFilesTableSelector).append('<tr><td colspan="4">No Supplemental Files</td></tr>');
     }
   }

@@ -104,4 +104,16 @@ class SolrDocument
   def rights_statement
     self[Solrizer.solr_name('rights_statement')]
   end
+
+  def copyright_question_one
+    self[Solrizer.solr_name('copyright_question_one')]
+  end
+
+  def copyright_question_two
+    self[Solrizer.solr_name('copyright_question_two')]
+  end
+
+  def copyright_question_three
+    self[Solrizer.solr_name('copyright_question_three')]
+  end
 end

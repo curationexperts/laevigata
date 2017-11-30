@@ -43,6 +43,9 @@ en:
 
       create:
         header: ""
+      copyright_question_one_label: "Copyright Question One: ETD Requires Permission"
+      copyright_question_two_label: "Copyright Question Two: ETD Contains Copyrighted Material"
+      copyright_question_three_label: "Copyright Question Three: ETD Might be Eligible for Patent"
     share_button:       "Submit My ETD"
     upload:
       browse_everything:

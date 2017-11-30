@@ -15,14 +15,15 @@ module Hyrax
     def create
       sanitize_input(params)
       merge_selected_files_hashes(params) if params["selected_files"]
-      apply_file_metadata(params)
-      # TODO: make this a case statement for each tab
-      if params.fetch('partial_data', false) == "true"
-        @etd_about_me = params.fetch('etd')
-        render json: @etd_about_me, status: 200
-      else
-        super
-      end
+      update_supplemental_files
+      super
+    end
+
+    def update
+      sanitize_input(params)
+      merge_selected_files_hashes(params) if params["selected_files"]
+      update_supplemental_files
+      super
     end
 
     # Override from Hyrax:app/controllers/concerns/hyrax/curation_concern_controller.rb
@@ -45,11 +46,37 @@ module Hyrax
       params["etd"]["table_of_contents"] = ::InputSanitizer.sanitize(params["etd"]["table_of_contents"])
     end
 
+    def update_supplemental_files
+      no_supp = params["etd"].delete("no_supplemental_files")
+      # If user checked the 'no supplemental files'
+      # checkbox, remove any supplemental files from
+      # the uploaded_files param, and delete any
+      # existing supplemental files that are already
+      # attached to the ETD.
+      if no_supp == "1"
+        if params['uploaded_files']
+          supp_file_ids = []
+          params['uploaded_files'].each do |id|
+            up_file = Hyrax::UploadedFile.find(id)
+            next unless up_file
+            supp_file_ids << id if up_file.pcdm_use == ::FileSet::SUPPLEMENTARY
+          end
+          params['uploaded_files'] = params['uploaded_files'] - supp_file_ids
+        end
+
+        curation_concern.supplemental_files_fs.each do |supp_file|
+          fs_actor = Hyrax::Actors::FileSetActor.new(supp_file, current_user)
+          fs_actor.destroy
+        end
+      else
+        apply_file_metadata(params)
+      end
+    end
+
     # Take supplemental file metadata and write it to the appropriate UploadedFile
     # @param [ActionController::Parameters] params
     # @return [ActionController::Parameters] params
     def apply_file_metadata(params)
-      params["etd"].delete("no_supplemental_files")
       uploaded_file_ids = params["uploaded_files"]
       return if uploaded_file_ids.nil?
       uploaded_file_ids.each do |uploaded_file_id|

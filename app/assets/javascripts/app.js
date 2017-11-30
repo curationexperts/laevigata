@@ -1,3 +1,9 @@
+var laevigata_data = {
+  // Store values from TinyMCE fields for form validation.
+  etd_abstract: '',
+  etd_table_of_contents: ''
+};
+
 Hyrax.editor = function() {
   var element = $("[data-behavior='work-form']")
   if (element.length > 0) {
@@ -7,9 +13,6 @@ Hyrax.editor = function() {
 
       var EtdEditor = require('etd_editor')
       new EtdEditor(element)
-
-      var aboutMyETD = require('about_my_etd')
-      new aboutMyETD(".about-my-etd", "#about_my_etd_data")
 
       var aboutMeAndMyProgram = require('about_me_and_my_program')
       new aboutMeAndMyProgram()
@@ -23,25 +26,15 @@ Hyrax.editor = function() {
 }
 
 Hyrax.tinyMCE = function(){
-
   if (typeof tinyMCE === "undefined")
     return
   tinyMCE.init({
     selector: 'textarea.tinymce',
     setup:function(ed) {
-      ed.on("init",
-         function(ed) {
-           if(tinyMCE.get('#etd_abstract') === null)
-           return
-           tinyMCE.get('etd_abstract').setContent("<p></p>");
-           tinyMCE.get('etd_table_of_contents').setContent("<p></p>");
-           tinyMCE.execCommand('mceRepaint');
-         }
-     );
-      var SaveEtd = require('etd_save_work_control')
-      var etd_save_work_control = new SaveEtd($("#form-progress"), this.adminSetWidget)
       ed.on('change', function(e) {
-        etd_save_work_control.formStateChanged(".about-my-etd");
+        // console.log("Editor: " + ed.id + " has changed.");
+        laevigata_data[ed.id] = ed.getContent();
+        $(document).trigger('laevigata:tinymce:change');
       });
     }
   });

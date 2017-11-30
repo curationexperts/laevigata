@@ -1,4 +1,6 @@
 require 'rails_helper'
+require 'workflow_setup'
+include Warden::Test::Helpers
 
 RSpec.feature 'Display ETD metadata' do
   let(:etd) { FactoryBot.create(:sample_data, partnering_agency: ["CDC"]) }
@@ -49,6 +51,30 @@ RSpec.feature 'Display ETD metadata' do
     AttachFilesToWorkJob.perform_now(etd, uploaded_files)
   end
 
+  context "Approver view of ETD" do
+    let(:depositing_user) { User.where(ppid: etd.depositor).first }
+    let(:approving_user) { User.where(uid: "candleradmin").first }
+    let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null") }
+    let(:etd) { FactoryBot.create(:sample_data_with_copyright_questions, school: ["Candler School of Theology"]) }
+
+    before do
+      w.setup
+      actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(depositing_user))
+      actor.create({})
+    end
+
+    scenario "Approvers can see copyright information" do
+      login_as approving_user
+      visit("/concern/etds/#{etd.id}")
+      # if the fields have no values (the depositor didn't answer the optional copyright questions), their labels will not be displayed
+      expect(page).to have_content I18n.t("hyrax.works.copyright_question_one_label")
+      expect(page).to have_content I18n.t("hyrax.works.copyright_question_two_label")
+      expect(page).to have_content I18n.t("hyrax.works.copyright_question_three_label")
+
+      logout
+    end
+  end
+
   scenario "Show all expected ETD fields" do
     visit("/concern/etds/#{etd.id}")
     required_fields.each do |field|
@@ -58,5 +84,6 @@ RSpec.feature 'Display ETD metadata' do
     end
     expect(page).to have_content "Rural Clinics in Georgia (GIS shapefile showing rural clinics)"
     expect(page).to have_content "Photographer (a portrait of the artist)"
+    # expect(page).not_to have_content("Copyright question one")
   end
 end

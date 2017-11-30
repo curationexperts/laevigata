@@ -11,5 +11,5 @@ module Workflow
 end
 
 RSpec.configure do |config|
-  config.include Workflow, type: :feature
+  config.include Workflow
 end

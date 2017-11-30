@@ -10,6 +10,16 @@ RSpec.feature 'Edit an existing ETD' do
   let(:etd) { FactoryBot.build(:etd, attrs) }
   let(:primary_pdf_file) { File.join(fixture_path, "joey/joey_thesis.pdf") }
 
+  let(:attach_supp_files) { false }
+  let(:supplementary_file) { File.join(fixture_path, "nasa.jpeg") }
+  let(:supp_file_attrs) do
+    { user: student,
+      pcdm_use: 'supplementary',
+      title: 'supp file title',
+      description: 'description of supp file',
+      file_type: 'Image' }
+  end
+
   let(:attrs) do
     {
       depositor: student.user_key,
@@ -55,9 +65,16 @@ RSpec.feature 'Edit an existing ETD' do
 
     # Create ETD & attach PDF file
     etd.assign_admin_set
-    upload = File.open(primary_pdf_file) { |file| Hyrax::UploadedFile.create(user: student, file: file, pcdm_use: 'primary') }
+    uploaded_etd = File.open(primary_pdf_file) { |file| Hyrax::UploadedFile.create(user: student, file: file, pcdm_use: 'primary') }
+    file_ids = [uploaded_etd.id]
+
+    if attach_supp_files
+      uploaded_supp = File.open(supplementary_file) { |file| Hyrax::UploadedFile.create(supp_file_attrs.merge(file: file)) }
+      file_ids << uploaded_supp.id
+    end
+
     actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(student))
-    attributes_for_actor = { uploaded_files: [upload.id] }
+    attributes_for_actor = { uploaded_files: file_ids }
     actor.create(attributes_for_actor)
 
     # Approver requests changes, so student will be able to edit the ETD
@@ -83,7 +100,7 @@ RSpec.feature 'Edit an existing ETD' do
         }
       end
 
-      skip "on the edit form", js: true do
+      scenario "on the edit form", js: true do
         visit hyrax_etd_path(etd)
         click_on('Edit')
 
@@ -96,6 +113,9 @@ RSpec.feature 'Edit an existing ETD' do
         click_on('Supplemental Files')
         expect(find_field(id: 'etd_no_supplemental_files').checked?).to be true
         expect(page).to have_css('li#required-supplemental-files.complete')
+
+        # The metadata fields should not be visible since there are no files.
+        expect(page).not_to have_content('Required Metadata')
 
         # Verify that 'no embargoes' is checked and 'embargoes' tab is marked valid.
         click_on('Embargoes')
@@ -111,6 +131,7 @@ RSpec.feature 'Edit an existing ETD' do
     context "An existing ETD" do
       let(:dept) { 'Biology' }
       let(:subfield) { ['Genetics and Molecular Biology'] }
+      let(:attach_supp_files) { true }
 
       let(:embargo_attrs) do
         {
@@ -121,9 +142,7 @@ RSpec.feature 'Edit an existing ETD' do
         }
       end
 
-      # TODO: Attach supplemental files to the ETD in a before block so we can validate that they appear correctly on the Supplemental Files tab.
-
-      skip "edit a field", js: true do
+      scenario "edit a field", js: true do
         visit hyrax_etd_path(etd)
         click_on('Edit')
 
@@ -150,16 +169,16 @@ RSpec.feature 'Edit an existing ETD' do
         expect(find_field("Committee Chair/Thesis Advisor's Affiliation")).not_to be_disabled
         expect(find_field(id: 'etd[committee_chair_attributes][0]_name').value).to eq cc_attrs.first[:name]
         expect(find_field(id: 'etd[committee_chair_attributes][0]_name')).not_to be_disabled
-        # TODO: expect(find_field(id: 'etd[committee_chair_attributes][0]_affiliation').value).to eq 'Emory'
-        # TODO: expect(find_field(id: 'etd[committee_chair_attributes][0]_affiliation')).to be_disabled
+        expect(find('#etd\[committee_chair_attributes\]\[0\]\_affiliation')).to be_disabled
+        expect(find('#etd\[committee_chair_attributes\]\[0\]\_affiliation').value).to eq 'Emory'
 
         # Check fields for Committee Member
         expect(find_field("Committee Member's Affiliation").value).to eq 'Emory Committee Member'
         expect(find_field("Committee Member's Affiliation")).not_to be_disabled
         expect(find_field(id: 'etd[committee_members_attributes][0]_name').value).to eq cm_attrs.first[:name]
         expect(find_field(id: 'etd[committee_members_attributes][0]_name')).not_to be_disabled
-        # TODO: expect(find_field(id: 'etd[committee_members_attributes][0]_affiliation').value).to eq 'Emory'
-        # TODO: expect(find_field(id: 'etd[committee_members_attributes][0]_affiliation')).to be_disabled
+        expect(find('#etd\[committee_members_attributes\]\[0\]\_affiliation')).to be_disabled
+        expect(find('#etd\[committee_members_attributes\]\[0\]\_affiliation').value).to eq 'Emory'
 
         # Verify existing data in About My ETD tab
         click_on('My ETD')
@@ -182,7 +201,8 @@ RSpec.feature 'Edit an existing ETD' do
 
         # Verify copyright questions
         expect(find_field(id: 'etd_copyright_question_one_true').checked?).to be false
-        # TODO: expect(find_field(id: 'etd_copyright_question_one_false').checked?).to be true
+        # TODO: capybara draws these checkboxes differently from Firefox, and doesn't mark them as checked, even though it works properly in the browser.  Is this a bug in capybara?
+        # expect(find_field(id: 'etd_copyright_question_one_false').checked?).to be true
         expect(find_field(id: 'etd_copyright_question_one_true')).not_to be_disabled
         expect(find_field(id: 'etd_copyright_question_one_false')).not_to be_disabled
 
@@ -197,10 +217,23 @@ RSpec.feature 'Edit an existing ETD' do
         expect(find_field(id: 'etd_copyright_question_three_false')).not_to be_disabled
 
         click_on('My PDF')
-        # TODO: Verify existing data in My PDF tab
+        # The javascript expects to find the file in '#primary_file_name'
+        within('#primary_file_name') do
+          expect(page).to have_content 'joey_thesis.pdf'
+        end
 
+        # Verify existing data in Supplemental Files tab
         click_on('Supplemental Files')
-        # TODO: Verify existing data in Supplemental Files tab
+        within('#supplemental_fileupload tbody.files tr') do
+          expect(page).to have_content('nasa.jpeg')
+        end
+        expect(page).to have_content('Required Metadata')
+        within('#supplemental_files_metadata tbody tr') do
+          expect(page).to have_content('nasa.jpeg')
+          expect(page).to have_content('supp file title')
+          expect(page).to have_content('description of supp file')
+          expect(page).to have_content('Image')
+        end
 
         # Verify existing data in Embargoes tab
         click_on('Embargoes')
@@ -213,15 +246,20 @@ RSpec.feature 'Edit an existing ETD' do
         expect(find_by_id('etd_embargo_length').value).to eq embargo_attrs[:embargo_length]
         expect(find_by_id('etd_embargo_length')).not_to be_disabled
 
-        # TODO: Verify existing data in Review tab - maybe nothing?
+        # Verify Review tab
+        click_on('Review & Submit')
+        expect(find('#submission-agreement').visible?).to eq true
+        expect(find_field(id: 'agreement').checked?).to be true
+        expect(find('#with_files_submit')).not_to be_disabled
+        expect(page).to have_content 'Generate Preview'
 
         # All tabs in the form should be marked as valid so that the student can edit the fields and save the new data.
         expect(page).to have_css('li#required-about-me.complete')
         expect(page).to have_css('li#required-my-etd.complete')
-        # TODO: expect(page).to have_css('li#required-files.complete')
+        expect(page).to have_css('li#required-files.complete')
         expect(page).to have_css('li#required-supplemental-files.complete')
         expect(page).to have_css('li#required-embargoes.complete')
-        # TODO: expect(page).to have_css('li#required-review.complete')
+        expect(page).to have_css('li#required-review.complete')
 
         # The student edits some data in the form
         click_on('About Me')
@@ -232,18 +270,27 @@ RSpec.feature 'Edit an existing ETD' do
         # The tab should stil be valid with the new data.
         expect(page).to have_css('li#required-about-me.complete')
 
-        # TODO: Maybe edit Abstract or Table of Contents to make sure the markup gets saved properly.
+        # The student previews their changes
+        click_on('Review & Submit')
+        expect(page).not_to have_content('Chemistry')
+        find("#preview_my_etd").click
+        expect(page).to have_content('Chemistry')
 
-        # TODO:
+        # Make sure supplemental files table is correct
+        within('#review') do
+          expect(page).to have_content('nasa.jpeg')
+          expect(page).to have_content('supp file title')
+          expect(page).to have_content('description of supp file')
+          expect(page).to have_content('Image')
+        end
+
         # Save the form
-        # click_on('Review & Submit')
-        # check('agreement')
-        # click_button 'Save'
+        click_on('Submit My ETD')
 
-        # TODO:
-        # Check that the new values appear on the show page
-        # expect(page).to have_content 'Department Chemistry'
-        # expect(page).not_to have_content 'Subfield'
+        # Make sure that new data appears on ETD show page
+        expect(current_path.gsub('?locale=en', '')).to eq hyrax_etd_path(etd)
+        expect(page).to have_content 'Department Chemistry'
+        expect(page).not_to have_content 'Subfield'
       end
     end
   end
