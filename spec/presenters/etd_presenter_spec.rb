@@ -174,11 +174,12 @@ describe EtdPresenter do
     let(:partnering_agency) { ["Does not apply (no collaborating organization)"] }
     let(:submitting_type) { ["Honors Thesis"] }
     let(:research_field) { ['Toxicology'] }
+    let(:copyright_question_one) { true }
     let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
     let :etd do
       Etd.new(title: title, creator: creator, keyword: keyword, degree: degree, department: department,
               school: school, subfield: subfield, partnering_agency: partnering_agency, submitting_type: submitting_type,
-              research_field: research_field, visibility: visibility)
+              research_field: research_field, visibility: visibility, copyright_question_one: copyright_question_one)
     end
 
     let(:ability) { Ability.new(user) }
@@ -196,5 +197,8 @@ describe EtdPresenter do
     it { is_expected.to delegate_method(:partnering_agency).to(:solr_document) }
     it { is_expected.to delegate_method(:submitting_type).to(:solr_document) }
     it { is_expected.to delegate_method(:research_field).to(:solr_document) }
+    it { is_expected.to delegate_method(:copyright_question_one).to(:solr_document) }
+    it { is_expected.to delegate_method(:copyright_question_two).to(:solr_document) }
+    it { is_expected.to delegate_method(:copyright_question_three).to(:solr_document) }        
   end
 end
