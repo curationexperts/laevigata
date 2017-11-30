@@ -270,6 +270,9 @@ RSpec.feature 'Edit an existing ETD' do
         # Subfield should change according to department
         expect(find_field('Sub Field').value).to eq ''
 
+        # Edit a committee member
+        fill_in 'etd[committee_members_attributes][0]_name', with: 'Betty'
+
         # The tab should stil be valid with the new data.
         expect(page).to have_css('li#required-about-me.complete')
 
@@ -294,6 +297,7 @@ RSpec.feature 'Edit an existing ETD' do
         expect(current_path.gsub('?locale=en', '')).to eq hyrax_etd_path(etd)
         expect(page).to have_content 'Department Chemistry'
         expect(page).not_to have_content 'Subfield'
+        expect(page).to have_content 'Committee Members Betty'
       end
     end
   end
