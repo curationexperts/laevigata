@@ -59,4 +59,13 @@ RSpec.feature 'Display ETD metadata' do
     expect(page).to have_content "Rural Clinics in Georgia (GIS shapefile showing rural clinics)"
     expect(page).to have_content "Photographer (a portrait of the artist)"
   end
+
+  scenario "Render PDF file as primary PDF" do
+    visit("/concern/etds/#{etd.id}")
+
+    # The primary pdf gets its name changed to the title of the ETD. This test relies on the html structure that the first link in a td.filename is the pdf's title.
+    # The Primary pdf fileset table of links appears above the supplemental files table of linked fileset information.
+
+    expect(find("td.attribute.filename a", match: :first)).to have_content etd.title.first.to_s
+  end
 end

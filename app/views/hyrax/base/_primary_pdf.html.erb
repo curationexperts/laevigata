@@ -10,7 +10,31 @@
       </tr>
     </thead>
     <tbody>
-      <%= render partial: 'member', collection: presenter.member_presenters, locals: { use: "primary" }  %>
+      <% member = @presenter.member_presenters.select { |mp| mp.solr_document["pcdm_use_tesim"] == ["primary"]}.first %>
+
+      <tr class="<%= dom_class(member) %> attributes">
+        <td class="thumbnail">
+          <% if @presenter.files_embargo_check %>
+            <%= image_tag "No_Preview.png" %>
+          <% else %>
+            <%= render_thumbnail_tag member.solr_document %>
+          <% end %>
+        </td>
+        <td class="attribute filename">
+          <% if @presenter.files_embargo_check %>
+            <%= @presenter.files_embargo_check %>
+          <% else %>
+            <%= link_to(member.link_name, contextual_path(member, @presenter)) %>
+            <% if member.description %>
+              <%= " (#{member.description.first})" %>
+            <% end %>
+          <% end %>
+        </td>
+        <td class="attribute date_uploaded"><%= member.try(:date_uploaded) %></td>
+        <td>
+          <%= render 'actions', member: member %>
+        </td>
+      </tr>
     </tbody>
   </table>
 <% elsif can? :edit, presenter.id %>

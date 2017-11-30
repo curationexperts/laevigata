@@ -1,4 +1,5 @@
-<% if (use == "primary" && member.solr_document["pcdm_use_tesim"] == ["primary"]) || (use == "supplementary_files" && member.solr_document["pcdm_use_tesim"] == ["supplementary"]) %>
+<% if member.solr_document["pcdm_use_tesim"] == ["supplementary"] %>
+
   <tr class="<%= dom_class(member) %> attributes">
     <td class="thumbnail">
       <% if @presenter.files_embargo_check %>

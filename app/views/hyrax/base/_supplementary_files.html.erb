@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <%= render partial: 'member', collection: presenter.member_presenters, locals: { use: "supplementary_files" } %>
+      <%= render partial: 'member', collection: presenter.member_presenters %>
     </tbody>
   </table>
 <% elsif can? :edit, presenter.id %>
