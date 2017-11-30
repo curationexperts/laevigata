@@ -18,6 +18,9 @@ class EtdPresenter < Hyrax::WorkShowPresenter
            :submitting_type,
            :table_of_contents,
            :toc_embargoed,
+           :copyright_question_one,
+           :copyright_question_two,
+           :copyright_question_three,
            to: :solr_document
 
   # Given an ARK in the identifier field, return an Emory permanent_url

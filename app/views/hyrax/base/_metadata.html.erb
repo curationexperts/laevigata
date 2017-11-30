@@ -20,5 +20,10 @@
     <%= presenter.attribute_to_html(:partnering_agency, label: "Partnering Agencies", render_as: :faceted) %>
     <%= presenter.attribute_to_html(:permanent_url, label: "Permanent URL") %>
     <%= presenter.attribute_to_html(:rights_statement, render_as: :rights) %>
+    <% if presenter.current_ability_is_approver? %>
+      <%= presenter.attribute_to_html(:copyright_question_one)%>
+      <%= presenter.attribute_to_html(:copyright_question_two)%>
+      <%= presenter.attribute_to_html(:copyright_question_three)%>
+    <% end %>
   </tbody>
 </table>
