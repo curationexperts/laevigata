@@ -11,7 +11,6 @@ set :bundle_flags, '--deployment'
 set :bundle_env_variables, nokogiri_use_system_libraries: 1
 
 set :keep_releases, 5
-set :passenger_restart_with_touch, true
 set :assets_prefix, "#{shared_path}/public/assets"
 
 SSHKit.config.command_map[:rake] = 'bundle exec rake'
