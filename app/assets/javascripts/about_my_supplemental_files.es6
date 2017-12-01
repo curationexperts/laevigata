@@ -28,10 +28,13 @@ export default class AboutMySupplementalFiles {
   syncMetadataWithFiles(file_rows, metadata_rows){
     let form = this;
     //files have been added, add correct number of new rows to metadata table, with filename supplied
+    console.log('syncMetadataWithFiles file rows: ', file_rows.length);
+    console.log('syncMetadataWithFiles meta rows: ', metadata_rows.length);
     for (var i = 0; i < file_rows.length; i++){
+      console.log('i: ', i);
       if (i >= metadata_rows.length){
         var filename = $(file_rows[i]).find('p.name').text().trim();
-        form.populateMetadataTable(filename, metadata_rows.length + 1)
+        form.populateMetadataTable(filename, i)
       }
     }
   }
@@ -111,6 +114,7 @@ export default class AboutMySupplementalFiles {
   attachMetadataListeners(){
     var form = this
     $('#supplemental_fileupload').bind('fileuploadfinished', function (e, data) {
+      console.log('file uploaded: ', e);
       $('#additional_metadata').collapse('show');
       form.syncMetadataWithFiles($('#supplemental_fileupload tbody.files tr'), $('#supplemental_files_metadata tbody tr'));
       $(document).trigger('laevigata:supp:meta:change');
