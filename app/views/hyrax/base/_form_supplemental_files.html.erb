@@ -1,32 +1,39 @@
 <h1><%= t("hyrax.works.form.tab.supplemental_files", type: curation_concern.human_readable_type) %></h1>
 <div class="form-instructions">Uploading supplemental files is not required, but it gives you a way to share more of your research. These files could be video, research data, securely zipped software, or other materials. Please group your supplemental files so you can select and upload them all at once. Once uploaded, <strong>you are required to add additional metadata for each</strong>. You may upload as many supplemental files as you like. No single file should exceed 2.5 GB. If you have a file larger than 2.5 GB, contact the ETD team at <a href="mailto:etd-help@LISTSERV.CC.EMORY.EDU">etd-help@LISTSERV.CC.EMORY.EDU</a> for help.</div>
+
 <div id="no_supplemental">
   <div class="confirm_well">
-<div class="checkbox well supplemental_files">
-    <%= f.input :no_supplemental_files, as: :boolean, label: "I have no supplemental files." %>
+    <div class="checkbox well supplemental_files">
+      <%= f.input :no_supplemental_files, as: :boolean, label: "I have no supplemental files." %>
+    </div>
+  </div>
 </div>
-</div>
-</div>
+
 <div id="supplemental_fileupload">
   <h2><%= t('hyrax.base.form_files.local_upload') %></h2>
   <div class="alert alert-info form-instructions">For supplemental files 100MB or smaller, upload from your computer.</div>
   <div id='duplicate-files-error' class='alert alert-warning hidden col-xs-12'>Duplicate found. This file has already been uploaded.</div>
-   <!-- The table listing the files available for upload/download -->
-   <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
 
-   <%= link_to "Add Required Metadata",
-               '#additional_metadata',
-               id: 'additional_metadata_link',
-               class: 'btn btn-default additional-fields',
-               data: { toggle: 'collapse' },
-               role: "button",
-               'aria-expanded'=> "false",
-               'aria-controls'=> "additional_metadata" %>
+  <!-- The table listing the files available for upload/download -->
+  <table role="presentation" class="table table-striped">
+    <tbody class="files">
+      <% f.object.supplemental_files.each do |sf| %>
+        <tr>
+          <td><span class="preview"></span></td>
+          <td>
+            <p class="name">
+              <span><%= sf.label %></span>
+            </p>
+          </td>
+          <td><span class="size"></span></td>
+          <td><span></span></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-   <div id="additional_metadata" class='collapse'>
-     <table class='table table-striped metadata' id='supplemental_files_metadata'>
-     </table>
-   </div>
+  <%= render 'form_supplemental_files_metadata', f: f %>
+
    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
    <div class="row fileupload-buttonbar">
        <div class="col-xs-7">
@@ -58,6 +65,6 @@
 
 <%= render 'hyrax/uploads/js_templates' %>
 <% if Hyrax.config.browse_everything? %>
-<h2><%= t('hyrax.base.form_files.external_upload') %></h2>
-<%= render 'browse_everything_supplemental', f: f %>
+  <h2><%= t('hyrax.base.form_files.external_upload') %></h2>
+  <%= render 'browse_everything_supplemental', f: f %>
 <% end %>

@@ -90,31 +90,38 @@ RSpec.feature 'Create an Etd' do
       find('#question_1').choose('No')
       find('#question_2').choose('No')
       find('#question_3').choose('No')
-      click_on('Save My ETD')
       expect(page).to have_css('li#required-my-etd.complete')
 
       click_on('My PDF')
       page.attach_file('primary_files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
       expect(page).to have_css('li#required-files.complete')
 
-      # TODO: Attach supplementary file(s)
       click_on('Supplemental Files')
       expect(page).to have_css('li#required-supplemental-files.incomplete')
-      check 'I have no supplemental files.'
+      expect(page).not_to have_content('Required Metadata')
+      page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
+      expect(page).to have_content('Required Metadata')
+      fill_in name: 'etd[supplemental_file_metadata][1]title', with: 'supp file title'
+      fill_in name: 'etd[supplemental_file_metadata][1]description', with: 'supp file desc'
+      select 'Image', from: 'etd[supplemental_file_metadata][1]file_type'
       expect(page).to have_css('li#required-supplemental-files.complete')
 
-      # TODO: Should we create an embargo in this spec, or is
-      # that tested in spec/features/create_etd_embargo_spec.rb?
       click_on('Embargoes')
       expect(page).to have_css('li#required-embargoes.incomplete')
       check 'I do not want to embargo my thesis or dissertation.'
       expect(page).to have_css('li#required-embargoes.complete')
 
-      # Save the form
+      # Preview
       click_on('Review & Submit')
-      expect(page).to have_css('li#required-review.incomplete')
-      expect(page).to have_css '#preview_my_etd'
+      expect(page).not_to have_content('magic_warrior_cat.jpg')
       find(:css, '#preview_my_etd').click
+      expect(page).to have_content('magic_warrior_cat.jpg')
+      expect(page).to have_content('supp file title')
+      expect(page).to have_content('supp file desc')
+      expect(page).to have_content('Image')
+
+      # Save the form
+      expect(page).to have_css('li#required-review.incomplete')
       check('agreement')
       expect(page).to have_css('li#required-review.complete')
       save_and_wait = -> { click_button "Submit My ETD"; wait_for_ajax(10) }
@@ -154,9 +161,8 @@ RSpec.feature 'Create an Etd' do
       expect(etd.copyright_question_two).to eq 'false'
       expect(etd.copyright_question_three).to eq 'false'
 
+      # Verify data from 'My PDF' tab
       # TODO: Test primary PDF
-      # TODO: Test Supplemental files
-      # TODO: Test Embargo (if there is one)
     end
   end
 

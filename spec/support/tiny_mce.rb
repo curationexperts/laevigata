@@ -8,6 +8,10 @@ module TinyMce
 
     js = "tinyMCE.get('#{id}').setContent('#{val}')"
     page.execute_script(js)
+
+    # Trigger the change event
+    js = "tinyMCE.get('#{id}').fire('change')"
+    page.execute_script(js)
   end
 end
 

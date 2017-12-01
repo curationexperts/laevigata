@@ -97,3 +97,8 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 end
+
+# Helper method to find local app routes instead of hyrax engine routes.
+def main_app
+  Rails.application.class.routes.url_helpers
+end

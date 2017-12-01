@@ -21,8 +21,6 @@ Blacklight.onLoad( function() {
     $('#new_etd').append("<input type='hidden' name='sf_ids' value='"+data[0]['id']+"' />");
     var files = $.map(data, function(d) { return { name: d.file_name, size: d.file_size, id: d.url, pcdm_use: 'supplemental' } });
     $.blueimp.fileupload.prototype.options.done.call($('#supplemental_fileupload').fileupload(), evt, { result: { files: files }});
-    // There's another uploader, used for local files, and in its 'done' callback we also show the following metadata link. See etd_save_work_control.es6.
-    $('#additional_metadata_link').show();
 
     var seen = {};
     var dup = false;

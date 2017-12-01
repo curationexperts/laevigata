@@ -91,6 +91,7 @@ module ProquestBehaviors
 
   def primary_pdf_file_name
     primary_pdf_fs = members.select { |a| a.pcdm_use == "primary" }.first
+    return nil unless primary_pdf_fs
     primary_pdf_fs.label
   end
 

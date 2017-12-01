@@ -78,23 +78,21 @@ ul.admin-sidebar {
   }
 }
 
-#additional_metadata_link {
-  display: none;
-}
-
 #supplemental_files_metadata {
   height: inherit;
 }
 
-input#about_my_etd_data {
-  color: #fff;
-  background-color: #fff;
-  border-color: #fff;
-  height: 1px;
-  width: 1px;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
+#primary_file_name {
+  background-color: #f9f9f9;
+  margin-top: 20px;
+  border-top: 1px solid #ddd;
+  padding: 8px;
+  font-size: 130%;
+}
+
+#previously_uploaded_files {
+  margin-top: 20px;
+  text-align: center;
 }
 
 table#uploaded_pdf th, table#uploaded_supplemental_files th {
