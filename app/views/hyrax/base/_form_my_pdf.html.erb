@@ -5,6 +5,14 @@
 <% hide_file_uploader = false %>
 <% if f.object.primary_pdf_name.present? %>
   <% hide_file_uploader = true %>
+
+  <p>
+    All metadata updates can be completed, reviewed and resubmitted within this application.
+    If you need to update or remove your Primary PDF, please contact your School Reviewer or submit your request through the
+    <a href='http://sco.library.emory.edu/etds/help-form.html'>Help Form</a>
+    to complete this action.
+  </p>
+
   <div id='primary_file_name'>
     <%= f.object.primary_pdf_name %>
   </div>
