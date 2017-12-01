@@ -75,9 +75,9 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_content('Title')
       expect(page).to have_content('Description')
 
-      fill_in 'etd[supplemental_file_metadata][1]title', with: "Super Great Title"
-      fill_in 'etd[supplemental_file_metadata][1]description', with: "Super Great Description"
-      select('Sound', from: 'etd[supplemental_file_metadata][1]file_type')
+      fill_in 'etd[supplemental_file_metadata][0]title', with: "Super Great Title"
+      fill_in 'etd[supplemental_file_metadata][0]description', with: "Super Great Description"
+      select('Sound', from: 'etd[supplemental_file_metadata][0]file_type')
 
       expect(page).to have_css('li#required-supplemental-files.complete')
 

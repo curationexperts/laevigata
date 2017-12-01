@@ -31,7 +31,7 @@ export default class AboutMySupplementalFiles {
     for (var i = 0; i < file_rows.length; i++){
       if (i >= metadata_rows.length){
         var filename = $(file_rows[i]).find('p.name').text().trim();
-        form.populateMetadataTable(filename, metadata_rows.length + 1)
+        form.populateMetadataTable(filename, i)
       }
     }
   }

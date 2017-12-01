@@ -248,11 +248,10 @@ $ ->
       # because we create unique sets of hidden inputs for each file, we give them unique ids and put them under a class name we can search on later
     .done (data) ->
       data[0]['id'] = "selected_files[]_#{mils}"
-      if ctx.opts.target?
-        fields = toHiddenFields({"selected_files[]_#{mils}": data})
-        fields_div = $("<div class='fields-div'></div>")
-        $(fields_div).append($(fields))
-        $(ctx.opts.target).append($(fields_div))
+      fields = toHiddenFields({"selected_files[]_#{mils}": data})
+      fields_div = $("<div class='fields-div'></div>")
+      $(fields_div).append($(fields))
+      $('#supplemental_files').append($(fields_div))
       ctx.callbacks.done.fire(data)
     .fail (xhr,status,error) ->
       ctx.callbacks.fail.fire(status, error, xhr.responseText)
