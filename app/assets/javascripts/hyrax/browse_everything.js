@@ -7,8 +7,8 @@ Blacklight.onLoad( function() {
   .done(function(data) {
     var evt = { isDefaultPrevented: function() { return false; } };
     // append inputs that will help us on the back end - finding the files we have uploaded with be, to remove their corresponding hidden inputs when we delete themselves, and storing our be-uploaded primary pdf's filename under an input that can only be created by be's primary uploader.
-    $('#new_etd').append("<input type='hidden' id='be_primary_pcdm' name='be_pcdm_use_primary' value='"+data[0]['file_name']+"' />");
-    $('#new_etd').append("<input type='hidden' name='sf_ids' value='"+data[0]['id']+"' />");
+    $('#supplemental_files').append("<input type='hidden' id='be_primary_pcdm' name='be_pcdm_use_primary' value='"+data[0]['file_name']+"' />");
+    $('#supplemental_files').append("<input type='hidden' name='sf_ids' value='"+data[0]['id']+"' />");
     var files = $.map(data, function(d) { return { name: d.file_name, size: d.file_size, id: d.url } });
 
     $.blueimp.fileupload.prototype.options.done.call($('#fileupload').fileupload(), evt, { result: { files: files }});
@@ -18,7 +18,7 @@ Blacklight.onLoad( function() {
   .done(function(data) {
     var evt = { isDefaultPrevented: function() { return false; } };
     // append inputs that will help us on the back end - finding the files we have uploaded with be, to remove their corresponding hidden inputs when we delete themselves
-    $('#new_etd').append("<input type='hidden' name='sf_ids' value='"+data[0]['id']+"' />");
+    $('#supplemental_files').append("<input type='hidden' name='sf_ids' value='"+data[0]['id']+"' />");
     var files = $.map(data, function(d) { return { name: d.file_name, size: d.file_size, id: d.url, pcdm_use: 'supplemental' } });
     $.blueimp.fileupload.prototype.options.done.call($('#supplemental_fileupload').fileupload(), evt, { result: { files: files }});
 

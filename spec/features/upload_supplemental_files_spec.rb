@@ -35,7 +35,7 @@ RSpec.feature 'Supplemental files' do
       expect(page).to have_content('Title')
       expect(page).to have_content('Description')
 
-      expect(page).to have_select('etd[supplemental_file_metadata][1]file_type')
+      expect(page).to have_select('etd[supplemental_file_metadata][0]file_type')
     end
 
     scenario "Students can't upload duplicate supplemental files", js: true do
@@ -76,16 +76,16 @@ RSpec.feature 'Supplemental files' do
       within('#supplemental_fileupload') do
         page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
       end
-      expect(page).to have_select('etd[supplemental_file_metadata][1]file_type')
+      expect(page).to have_select('etd[supplemental_file_metadata][0]file_type')
 
       within('#supplemental_fileupload') do
         page.attach_file('supplemental_files[]', "#{fixture_path}/nasa.jpeg")
       end
-      expect(page).to have_select('etd[supplemental_file_metadata][2]file_type')
+      expect(page).to have_select('etd[supplemental_file_metadata][1]file_type')
 
       find('button.delete', match: :first).click
-      expect(page).not_to have_select('etd[supplemental_file_metadata][1]file_type')
-      expect(page).to     have_select('etd[supplemental_file_metadata][2]file_type')
+      expect(page).not_to have_select('etd[supplemental_file_metadata][0]file_type')
+      expect(page).to     have_select('etd[supplemental_file_metadata][1]file_type')
 
       expect(page).to have_content('File Name')
       expect(page).to have_content('Title')
@@ -104,18 +104,18 @@ RSpec.feature 'Supplemental files' do
       within('#supplemental_fileupload') do
         page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
       end
-      expect(page).to have_select('etd[supplemental_file_metadata][1]file_type')
+      expect(page).to have_select('etd[supplemental_file_metadata][0]file_type')
 
       within('#supplemental_fileupload') do
         page.attach_file('supplemental_files[]', "#{fixture_path}/nasa.jpeg")
       end
-      expect(page).to have_select('etd[supplemental_file_metadata][2]file_type')
+      expect(page).to have_select('etd[supplemental_file_metadata][1]file_type')
 
       find('button.delete', match: :first).click
 
       # Metadata fields for the first file have been removed
-      expect(page).not_to have_select('etd[supplemental_file_metadata][1]file_type')
-      expect(page).to     have_select('etd[supplemental_file_metadata][2]file_type')
+      expect(page).not_to have_select('etd[supplemental_file_metadata][0]file_type')
+      expect(page).to     have_select('etd[supplemental_file_metadata][1]file_type')
 
       # First file has been removed
       expect(page).not_to have_content('magic_warrior_cat.jpg')
@@ -127,7 +127,7 @@ RSpec.feature 'Supplemental files' do
       expect(page).to     have_css('#supplemental_files_metadata tbody')
       expect(page).not_to have_css('#supplemental_files_metadata tbody tr')
       expect(page).not_to have_content('nasa.jpeg')
-      expect(page).not_to have_select('etd[supplemental_file_metadata][2]file_type')
+      expect(page).not_to have_select('etd[supplemental_file_metadata][1]file_type')
     end
   end
 end
