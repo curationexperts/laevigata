@@ -39,7 +39,7 @@ RSpec.describe Hyrax::EtdsController do
     let(:attach_supp_files) { false }
 
     let(:etd) do
-      FactoryGirl.build(:etd, default_attrs)
+      FactoryBot.build(:etd, default_attrs)
     end
 
     before do
@@ -108,8 +108,8 @@ RSpec.describe Hyrax::EtdsController do
 
         before do
           Hyrax::UploadedFile.delete_all
-          FactoryGirl.create(:uploaded_file, id: 15, file: file2, user_id: user.id)
-          FactoryGirl.create(:uploaded_file, id: 16, file: file3, user_id: user.id)
+          FactoryBot.create(:uploaded_file, id: 15, file: file2, user_id: user.id)
+          FactoryBot.create(:uploaded_file, id: 16, file: file3, user_id: user.id)
         end
 
         it 'adds the new supplemental files' do
@@ -149,7 +149,7 @@ RSpec.describe Hyrax::EtdsController do
 
         before do
           Hyrax::UploadedFile.delete_all
-          FactoryGirl.create(:supplementary_uploaded_file, id: 16, file: file3, user_id: user.id)
+          FactoryBot.create(:supplementary_uploaded_file, id: 16, file: file3, user_id: user.id)
         end
 
         it 'keeps existing files and adds new file' do
@@ -185,7 +185,7 @@ RSpec.describe Hyrax::EtdsController do
 
         before do
           Hyrax::UploadedFile.delete_all
-          FactoryGirl.create(:supplementary_uploaded_file, id: 16, file: file3, user_id: user.id)
+          FactoryBot.create(:supplementary_uploaded_file, id: 16, file: file3, user_id: user.id)
         end
 
         # Even though the new_attrs contains 'supplemental_file_metadata' and params contains 'uploaded_files', those fields should get ignored because 'no_supplemental_files' should win.
