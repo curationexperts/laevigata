@@ -106,7 +106,22 @@ export default class ReviewMyETD {
 
     var partial_data = $.merge(no_committee_data, committee_chair_data);
     var data = $.merge(partial_data, committee_member_data)
-    return data;
+
+    var final_data = this.suppressPartneringAgency(data);
+    return final_data;
+  }
+
+  suppressPartneringAgency(data){
+    let partnering_agency = 0;
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].name === "etd[partnering_agency][]" && data[i].value === ""){
+        partnering_agency = i;
+      }
+    }
+    if (partnering_agency > 0){
+      data.splice(partnering_agency, 1)
+    }
+    return data
   }
 
   name_and_affiliation(member_inputs){
@@ -180,7 +195,8 @@ export default class ReviewMyETD {
       label_class = label_class_0.replace("]", "")
     }
 
-    return $('.form-group.'+ label_class +' label').text()
+    let final_label = $('.form-group.'+ label_class +' label').text().replace('required','');
+    return final_label
   }
 
   showUploadedFilesTables(){

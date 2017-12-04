@@ -140,6 +140,133 @@ RSpec.feature 'Create an Etd' do
       logout
     end
 
+    # Only Rollins previews display Partnering Agency
+    scenario "Miranda's preview will not contain row for 'Partnering Agency' or 'required' in labels ", js: true do
+      fill_in 'Student Name', with: 'Park, Miranda'
+      select 'Spring 2018', from: 'Graduation Date'
+      fill_in 'Post Graduation Email', with: 'frodo@example.com'
+      select("Emory College")
+      select("Chemistry", from: "Department")
+
+      expect(page).not_to have_select('Partnering Agency')
+
+      select 'PhD', from: 'Degree'
+      select 'Dissertation', from: 'Submission Type'
+
+      fill_in "etd[committee_chair_attributes][0][name][]", with: "Diane Arbus"
+      select 'Non-Emory Committee Member', from: "etd_committee_members_attributes_0_affiliation_type"
+      fill_in "etd[committee_members_attributes][0]_affiliation", with: "NASA"
+      fill_in "etd[committee_members_attributes][0][name][]", with: "Joan Didion"
+
+      click_on("My ETD")
+      fill_in 'Title', with: 'Middlemarch'
+      select("French", from: "Language")
+      tinymce_fill_in('etd_abstract', 'Literature from the US')
+      tinymce_fill_in('etd_table_of_contents', 'Chapter One')
+      select 'Aeronomy', from: 'Research Field'
+      fill_in 'Keyword', with: "Courtship"
+      find('#question_1').choose('No')
+
+      expect(page).to have_css 'li#required-my-etd.complete'
+
+      click_on('My PDF')
+
+      expect(page).to have_content('Add Primary PDF')
+
+      within('#fileupload') do
+        page.attach_file('primary_files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
+      end
+
+      expect(page).to have_css('li#required-files.complete')
+
+      click_on('Supplemental Files')
+
+      expect(page).to have_content('Add Supplemental Files')
+
+      within('#supplemental_fileupload') do
+        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
+      end
+
+      expect(page).to have_css('li#required-supplemental-files.incomplete')
+
+      expect(page).to have_content('File Name')
+      expect(page).to have_content('Title')
+      expect(page).to have_content('Description')
+
+      fill_in 'etd[supplemental_file_metadata][0]title', with: "Super Great Title"
+      fill_in 'etd[supplemental_file_metadata][0]description', with: "Super Great Description"
+      select('Sound', from: 'etd[supplemental_file_metadata][0]file_type')
+
+      expect(page).to have_css('li#required-supplemental-files.complete')
+
+      click_on("Embargoes")
+
+      expect(page).to have_content('What do you want to embargo?')
+
+      select('Files and Table of Contents', from: 'embargo_type')
+
+      select('Laney Graduate School', from: 'embargo_school')
+
+      select('6 months', from: 'etd_embargo_length')
+
+      expect(page).to have_css('li#required-embargoes.complete')
+
+      expect(page).to have_css('li#required-embargoes.complete')
+
+      click_on('Review')
+
+      expect(page).to have_css('#preview_my_etd')
+
+      find("#preview_my_etd").click
+
+      # About Me
+      expect(page).to have_content("Park, Miranda")
+      expect(page).not_to have_content('Student Name required')
+      expect(page).to have_content('frodo@example.com')
+      expect(page).not_to have_content('Post Graduation Email required')
+      expect(page).to have_content("Emory College")
+      expect(page).not_to have_content('School required')
+      expect(page).to have_content('Chemistry')
+      expect(page).not_to have_content('Partnering Agency')
+      expect(page).to have_content('Spring 2018')
+      expect(page).not_to have_content('Graduation Date required')
+      expect(page).to have_content('Ph.D.')
+      expect(page).not_to have_content('Degree required')
+      expect(page).to have_content('Dissertation')
+      expect(page).not_to have_content('Submission Type required')
+      expect(page).to have_content('Diane Arbus, Emory')
+      expect(page).to have_content('Joan Didion, NASA')
+
+      # About My Etd
+      expect(page).to have_content('Middlemarch')
+      expect(page).not_to have_content('Title required')
+      expect(page).to have_content('French')
+      expect(page).not_to have_content('Language required')
+      expect(page).to have_content('Literature from the US')
+      expect(page).to have_content('Chapter One')
+      expect(page).to have_content('Aeronomy')
+      expect(page).not_to have_content('Research Field required')
+      expect(page).to have_content('Courtship')
+      expect(page).not_to have_content('Keyword required')
+
+      # My Primary PDF
+      expect(page).to have_content('miranda_thesis.pdf')
+
+      # My Supplemental Files
+      expect(page).to have_content('magic_warrior_cat.jpg')
+      expect(page).to have_content("Super Great Title")
+      expect(page).to have_content("Super Great Description")
+      expect(page).to have_content("Sound")
+
+      # My Embargoes
+      expect(page).to have_content('Files and Table of Contents')
+      expect(page).to have_content('6 months')
+
+      expect(page).to have_content('Review the information you entered on previous tabs. To edit, use the tabs above to navigate back to that section and correct your information.')
+      expect(page).to have_css('#with_files_submit:disabled')
+      logout
+    end
+
     scenario "Miranda previews, agrees to Emory submission policy and submits her ETD", js: true do
       fill_in 'Student Name', with: 'Park, Miranda'
       select 'Spring 2018', from: 'Graduation Date'
