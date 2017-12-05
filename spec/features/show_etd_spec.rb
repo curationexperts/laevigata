@@ -1,7 +1,15 @@
 require 'rails_helper'
+require 'active_fedora/cleaner'
+require 'workflow_setup'
+include Warden::Test::Helpers
 
 RSpec.feature 'Display ETD metadata' do
-  let(:etd) { FactoryBot.create(:sample_data, partnering_agency: ["CDC"]) }
+  let(:etd) { FactoryBot.create(:sample_data_with_copyright_questions, partnering_agency: ["CDC"], school: ["Candler School of Theology"]) }
+  let(:approving_user) { User.where(uid: "candleradmin").first }
+
+  # set up the creation of an approving user
+  let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null") }
+
   # These are all the fields listed on our show wireframes
   let(:required_fields) do
     [
@@ -46,6 +54,9 @@ RSpec.feature 'Display ETD metadata' do
       file_type: "Image"
     )
     allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
+    # prepare db and create approving_user
+    ActiveFedora::Cleaner.clean!
+    w.setup
     AttachFilesToWorkJob.perform_now(etd, uploaded_files)
   end
 
@@ -58,6 +69,21 @@ RSpec.feature 'Display ETD metadata' do
     end
     expect(page).to have_content "Rural Clinics in Georgia (GIS shapefile showing rural clinics)"
     expect(page).to have_content "Photographer (a portrait of the artist)"
+
+    expect(page).not_to have_content I18n.t("hyrax.works.copyright_question_one_label")
+    expect(page).not_to have_content I18n.t("hyrax.works.copyright_question_two_label")
+    expect(page).not_to have_content I18n.t("hyrax.works.copyright_question_three_label")
+  end
+
+  scenario 'logged in approver sees copyright info' do
+    login_as approving_user
+    visit("/concern/etds/#{etd.id}")
+
+    expect(page).to have_content I18n.t("hyrax.works.copyright_question_one_label")
+    expect(page).to have_content I18n.t("hyrax.works.copyright_question_two_label")
+    expect(page).to have_content I18n.t("hyrax.works.copyright_question_three_label")
+
+    logout
   end
 
   scenario "Render PDF file as primary PDF" do
