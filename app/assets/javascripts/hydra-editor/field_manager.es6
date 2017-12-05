@@ -146,19 +146,14 @@ export class FieldManager {
         event.preventDefault();
         var $field = $(event.target).parents(this.fieldWrapperClass).remove();
         this.element.trigger("managed_field:remove", $field);
-        // max of 3 research fields allowed; if user removes
-        // all, must replace add link
-        if ($('select#etd_research_field').length === 1) {
+        // max of 3 research fields allowed; if user removes one or two, must replace add link
+        if ($('select#etd_research_field').length <=2) {
           this._createAddControl();
         }
         this._manageFocus();
     }
 
     destroy() {
-
-
-      //if ($activeField.parents('.etd_research_field') && $('select#etd_research_field').length < 3)
-
 
         $(this.fieldWrapperClass, this.element).removeClass("input-append");
         this.element.removeClass("managed");
