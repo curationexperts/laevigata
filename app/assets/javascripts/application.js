@@ -30,6 +30,7 @@
 //= require about_my_supplemental_files
 //= require review_my_etd
 //= require hydra-editor/manage_repeating_fields
+//= require hydra-editor/field_manager
 //= require etd_editor
 //= require etd_save_work_control
 //= require tinymce-jquery
