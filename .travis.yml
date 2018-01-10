@@ -5,6 +5,11 @@ cache: bundler
 sudo: false
 services:
   - redis-server
+notifications:
+  email: false
+  slack:
+    on_success: never
+    on_failure: always
 jdk:
   - oraclejdk8
 rvm:
