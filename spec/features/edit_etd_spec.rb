@@ -27,7 +27,7 @@ RSpec.feature 'Edit an existing ETD' do
       creator: ['Johnson, Frodo'],
       graduation_date: ['Spring 2018'],
       post_graduation_email: ['frodo@example.com'],
-      school: ['Emory College'],
+      school: ['Laney Graduate School'],
       department: [dept],
       subfield: subfield,
       degree: ['Ph.D.'],
@@ -52,7 +52,7 @@ RSpec.feature 'Edit an existing ETD' do
   let(:cc_attrs) { [{ name: 'Fred' }] }
   let(:cm_attrs) { [{ name: 'Barney' }] }
 
-  let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
+  let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/laney_admin_sets.yml", "/dev/null") }
 
   before do
     ActiveFedora::Cleaner.clean!
@@ -88,7 +88,7 @@ RSpec.feature 'Edit an existing ETD' do
     before { login_as student }
 
     context "No supplemental files, no embargo, and a department without any subfield" do
-      let(:dept) { 'African American Studies' }
+      let(:dept) { 'Hispanic Studies' }
       let(:subfield) { nil }
 
       let(:embargo_attrs) do
@@ -129,7 +129,7 @@ RSpec.feature 'Edit an existing ETD' do
     end
 
     context "An existing ETD" do
-      let(:dept) { 'Biology' }
+      let(:dept) { 'Biological and Biomedical Sciences' }
       let(:subfield) { ['Genetics and Molecular Biology'] }
       let(:attach_supp_files) { true }
 
@@ -244,7 +244,7 @@ RSpec.feature 'Edit an existing ETD' do
         expect(find_by_id('no_embargoes')).not_to be_disabled
         expect(find_by_id('embargo_type').value).to eq '[:files_embargoed, :toc_embargoed, :abstract_embargoed]'
         expect(find_by_id('embargo_type')).not_to be_disabled
-        expect(find_by_id('embargo_school').value).to eq 'Emory College'
+        expect(find_by_id('embargo_school').value).to eq 'Laney Graduate School'
         expect(find_by_id('embargo_school')).not_to be_disabled
         expect(find_by_id('etd_embargo_length').value).to eq embargo_attrs[:embargo_length]
         expect(find_by_id('etd_embargo_length')).not_to be_disabled

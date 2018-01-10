@@ -17,18 +17,24 @@ terms:
       term: Business
     - id: Chemistry
       term: Chemistry
-    - id: Clinical Research Curriculum Program
-      term: Clinical Research Curriculum Program
+    - id: Clinical Research
+      term: Clinical Research
     - id: Comparative Literature
       term: Comparative Literature
     - id: Computer Science and Informatics
       term: Computer Science and Informatics
+    - id: Development Practice
+      term: Development Practice
     - id: Economics
       term: Economics
     - id: Educational Studies
       term: Educational Studies
     - id: English
       term: English
+    - id: Environmental Health Sciences
+      term: Environmental Health Sciences
+    - id: Environmental Sciences
+      term: Environmental Sciences
     - id: Epidemiology
       term: Epidemiology
     - id: Film and Media Studies
@@ -39,8 +45,12 @@ terms:
       term: Graduate Institute of the Liberal Arts
     - id: Health Services and Research Health Policy
       term: Health Services and Research Health Policy
+    - id: Hispanic Studies
+      term: Hispanic Studies
     - id: History
       term: History
+    - id: Islamic Civilizations Studies
+      term: Islamic Civilizations Studies
     - id: Jewish Studies
       term: Jewish Studies
     - id: Mathematics
@@ -49,6 +59,8 @@ terms:
       term: Music
     - id: Nursing
       term: Nursing
+    - id: Nutrition and Health Sciences
+      term: Nutrition and Health Sciences
     - id: Philosophy
       term: Philosophy
     - id: Physics
@@ -63,6 +75,5 @@ terms:
       term: Sociology
     - id: Spanish
       term: Spanish
-    - id: Women's, Gender and Sexuality Studies
-      term: Women's, Gender and Sexuality Studies
-    
+    - id: Women's, Gender, and Sexuality Studies
+      term: Women's, Gender, and Sexuality Studies
