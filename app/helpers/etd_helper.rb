@@ -78,8 +78,10 @@ module EtdHelper
       end
 
       def subfields(department)
-        if department == 'Biology'
+        if department == 'Biological and Biomedical Sciences'
           Hyrax::BiomedService.new.select_all_options
+        elsif department == 'Business'
+          Hyrax::BusinessService.new.select_all_options
         elsif department == 'Psychology'
           Hyrax::PsychologyService.new.select_all_options
         elsif department.include? 'Religion'
