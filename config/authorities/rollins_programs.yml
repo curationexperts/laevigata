@@ -1,34 +1,15 @@
 terms:
-    - id: Applied Epidemiology
-      term: Applied Epidemiology
-    - id: Applied Public Health Informatics
-      term: Applied Public Health Informatics
-    - id: Behavioral Sciences and Health Education
-      term: Behavioral Sciences and Health Education
-    - id: Biostatistics
-      term: Biostatistics
-    - id: Environmental Health - MPH
-      term: Environmental Health - MPH
-    - id: Environmental Health Epidemiology - MPH & MSPH
-      term: Environmental Health Epidemiology - MPH & MSPH
+    - id: Behavioral Sciences & Health Education - MPH
+      term: Behavioral Sciences & Health Education - MPH
+    - id: Biostatistics and Bioinformatics
+      term: Biostatistics and Bioinformatics
+    - id: Environmental Health
+      term: Environmental Health
     - id: Epidemiology
       term: Epidemiology
-    - id: Global Environmental Health - MPH
-      term: Global Environmental Health - MPH
-    - id: Global Epidemiology
-      term: Global Epidemiology
-    - id: Health Care Outcomes Management
-      term: Health Care Outcomes Management
-    - id: Health Policy and Management
-      term: Health Policy and Management
-    - id: Hubert Department of Global Health
-      term: Hubert Department of Global Health
-    - id: Management Science
-      term: Management Science
-    - id: Maternal and Child Health Epidemiology
-      term: Maternal and Child Health Epidemiology
-    - id: Prevention Science
-      term: Prevention Science
-    - id: Public Health Informatics
-      term: Public Health Informatics
-    
+    - id: Executive Masters of Public Health - MPH
+      term: Executive Masters of Public Health - MPH
+    - id: Health Policy and Management - MSPH
+      term: Health Policy and Management - MSPH
+    - id: Hubert Department of Global Health - MPH
+      term: Hubert Department of Global Health - MPH 
