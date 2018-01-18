@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Hyrax::RollinsService do
+RSpec.describe Hyrax::EmphService do
   before do
     # Configure QA to use fixtures
     qa_fixtures = { local_path: File.expand_path('config/authorities') }
@@ -11,7 +11,7 @@ RSpec.describe Hyrax::RollinsService do
 
   describe "#select_all_options" do
     it "has a select list" do
-      expect(service.select_all_options).to include(["Epidemiology", "Epidemiology"])
+      expect(service.select_all_options).to include(["Prevention Science", "Prevention Science"])
     end
   end
 end

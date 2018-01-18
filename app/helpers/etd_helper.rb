@@ -82,6 +82,14 @@ module EtdHelper
           Hyrax::BiomedService.new.select_all_options
         elsif department == 'Business'
           Hyrax::BusinessService.new.select_all_options
+        elsif department == 'Executive Masters of Public Health - MPH'
+          Hyrax::EmphService.new.select_all_options
+        elsif department == 'Biostatistics and Bioinformatics'
+          Hyrax::BiostatisticsService.new.select_all_options
+        elsif department == 'Environmental Health'
+          Hyrax::EnvironmentService.new.select_all_options
+        elsif department == 'Epidemiology'
+          Hyrax::EpidemiologyService.new.select_all_options
         elsif department == 'Psychology'
           Hyrax::PsychologyService.new.select_all_options
         elsif department.include? 'Religion'

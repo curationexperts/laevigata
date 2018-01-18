@@ -18,34 +18,40 @@ Applied Epidemiology:
 Applied Public Health Informatics:
   approving:
    - applied_public_health_informatics_admin
-Behavioral Sciences and Health Education:
+Behavioral Sciences & Health Education - MPH:
   approving:
    - behavioral_sciences_and_health_education_admin
-Biostatistics:
+Biostatistics - MPH & MSPH:
   approving:
    - biostatistics_admin
-Environmental Health - MPH:
+Biostatistics and Bioinformatics:
   approving:
-   - environmental_health_mph_admin
-Environmental Health Epidemiology - MPH & MSPH:
+   - biostatistics_and_bioinformatics_admin
+Environmental Health:
+  approving:
+   - environmental_health_admin
+Environmental Health Epidemiology - MSPH:
   approving:
    - environmental_health_epidemiology_admin
 Epidemiology:
   approving:
    - epidemiology_admin
+Executive Masters of Public Health - MPH:
+  approving:
+   - executive_masters_public_health_admin
 Global Environmental Health - MPH:
   approving:
    - global_environmental_health_admin
-Global Epidemiology:
+Global Epidemiology - MPH & MSPH:
   approving:
    - global_epidemiology_admin
 Health Care Outcomes Management:
   approving:
    - health_care_outcomes_management_admin
-Health Policy and Management:
+Health Policy and Management - MSPH:
   approving:
    - health_policy_and_management
-Hubert Department of Global Health:
+Hubert Department of Global Health - MPH:
   approving:
    - hubert_department_of_global_health_admin
 Management Science:
@@ -57,6 +63,6 @@ Maternal and Child Health Epidemiology:
 Prevention Science:
   approving:
    - prevention_science_admin
-Public Health Informatics:
+Public Health Informatics - MSPH:
   approving:
    - public_health_informatics_admin
