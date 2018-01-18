@@ -9,32 +9,36 @@ terms:
       term: Ancient Mediterranean Studies
     - id: Anthropology
       term: Anthropology
+    - id: Anthropology and Religion
+      term: Anthropology and Religion
     - id: Art History
       term: Art History
-    - id: Art History and Visual Arts
-      term: Art History and Visual Arts
+    - id: Art History and History
+      term: Art History and History
     - id: Asian and Asian American Studies
       term: Asian and Asian American Studies
     - id: Biology
       term: Biology
     - id: Chemistry
       term: Chemistry
-    - id: Chinese Language and Literature
-      term: Chinese Language and Literature
+    - id: Chinese Studies
+      term: Chinese Studies
     - id: Classics
       term: Classics
-    - id: Classical Civilizations, Greek, and Latin
-      term: Classical Civilizations, Greek, and Latin
     - id: Classics and History
       term: Classics and History
     - id: Classics and Philosophy
       term: Classics and Philosophy
+    - id: Classics and Religion
+      term: Classics and Religion
     - id: Comparative Literature
       term: Comparative Literature
     - id: Computer Science
       term: Computer Science
     - id: Dance and Movement Studies
       term: Dance and Movement Studies
+    - id: East Asian Studies
+      term: East Asian Studies
     - id: Economics
       term: Economics
     - id: Economics and History
@@ -63,6 +67,8 @@ terms:
       term: History and Art History
     - id: Human Health
       term: Human Health
+    - id: Integrated Visual Arts
+      term: Integrated Visual Arts
     - id: Interdisciplinary Studies in Society and Culture
       term: Interdisciplinary Studies in Society and Culture
     - id: International Studies
@@ -79,12 +85,18 @@ terms:
       term: Latin American and Caribbean Studies
     - id: Linguistics
       term: Linguistics
+    - id: Linguistics and Psychology
+      term: Linguistics and Psychology
     - id: Mathematics
       term: Mathematics
     - id: Mathematics and Computer Science
       term: Mathematics and Computer Science
+    - id: Mathematics and Economics
+      term: Mathematics and Economics
     - id: Mathematics and Political Science
       term: Mathematics and Political Science
+    - id: Middle Eastern and South Asian Studies
+      term: Middle Eastern and South Asian Studies
     - id: Middle Eastern Studies
       term: Middle Eastern Studies
     - id: Music
@@ -103,6 +115,8 @@ terms:
       term: Playwriting
     - id: Political Science
       term: Political Science
+    - id: Political Science and Mathematics
+      term: Political Science and Mathematics
     - id: Psychology
       term: Psychology
     - id: Psychology and Linguistics
@@ -119,11 +133,21 @@ terms:
       term: Religion and Sociology
     - id: Russian
       term: Russian
+    - id: Russian and East European Studies
+      term: Russian and East European Studies
     - id: Sociology
       term: Sociology
+    - id: Sociology and Religion
+      term: Sociology and Religion
     - id: Spanish
       term: Spanish
+    - id: Spanish and Linguistics
+      term: Spanish and Linguistics
+    - id: Spanish and Portuguese
+      term: Spanish and Portuguese
     - id: Theater Studies
       term: Theater Studies
-    - id: Women's Studies
-      term: Women's Studies
+    - id: Quantitative Science
+      term: Quantitative Science
+    - id: Women's, Gender, and Sexuality Studies
+      term: Women's, Gender, and Sexuality Studies
