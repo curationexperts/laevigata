@@ -27,7 +27,7 @@ RSpec.feature 'Supplemental files' do
       expect(page).not_to have_content('File Name')
 
       within('#supplemental_fileupload') do
-        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
+        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg", visible: false, wait: 10)
       end
 
       expect(page).to have_content('Required Metadata')
@@ -42,12 +42,12 @@ RSpec.feature 'Supplemental files' do
       click_on('Supplemental Files')
 
       within('#supplemental_fileupload') do
-        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
+        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg", visible: false, wait: 10)
       end
       wait_for_ajax
 
       within('#supplemental_fileupload') do
-        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
+        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg", visible: false, wait: 10)
       end
       wait_for_ajax
       expect(page).to have_content('Duplicate found. This file has already been uploaded.')
@@ -57,7 +57,7 @@ RSpec.feature 'Supplemental files' do
       click_on('Supplemental Files')
 
       within('#supplemental_fileupload') do
-        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
+        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg", visible: false, wait: 10)
       end
 
       expect(page).to have_content('magic_warrior_cat.jpg')
@@ -74,12 +74,12 @@ RSpec.feature 'Supplemental files' do
       click_on('Supplemental Files')
 
       within('#supplemental_fileupload') do
-        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
+        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg", visible: false, wait: 10)
       end
       expect(page).to have_select('etd[supplemental_file_metadata][0]file_type')
 
       within('#supplemental_fileupload') do
-        page.attach_file('supplemental_files[]', "#{fixture_path}/nasa.jpeg")
+        page.attach_file('supplemental_files[]', "#{fixture_path}/nasa.jpeg", visible: false, wait: 10)
       end
       expect(page).to have_select('etd[supplemental_file_metadata][1]file_type')
 
@@ -102,12 +102,12 @@ RSpec.feature 'Supplemental files' do
       expect(page).to have_content('Add Supplemental Files')
 
       within('#supplemental_fileupload') do
-        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
+        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg", visible: false, wait: 10)
       end
       expect(page).to have_select('etd[supplemental_file_metadata][0]file_type')
 
       within('#supplemental_fileupload') do
-        page.attach_file('supplemental_files[]', "#{fixture_path}/nasa.jpeg")
+        page.attach_file('supplemental_files[]', "#{fixture_path}/nasa.jpeg", visible: false, wait: 10)
       end
       expect(page).to have_select('etd[supplemental_file_metadata][1]file_type')
 
