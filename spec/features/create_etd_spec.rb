@@ -93,13 +93,17 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_css('li#required-my-etd.complete')
 
       click_on('My PDF')
-      page.attach_file('primary_files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
+      within('#fileupload') do
+        page.attach_file('primary_files[]', "#{fixture_path}/miranda/miranda_thesis.pdf", visible: false, wait: 10)
+      end
       expect(page).to have_css('li#required-files.complete')
 
       click_on('Supplemental Files')
       expect(page).to have_css('li#required-supplemental-files.incomplete')
       expect(page).not_to have_content('Required Metadata')
-      page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
+      within('#supplemental_fileupload') do
+        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg", visible: false, wait: 10)
+      end
       expect(page).to have_content('Required Metadata')
       fill_in name: 'etd[supplemental_file_metadata][0]title', with: 'supp file title'
       fill_in name: 'etd[supplemental_file_metadata][0]description', with: 'supp file desc'
