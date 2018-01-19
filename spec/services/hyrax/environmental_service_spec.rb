@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Hyrax::EnvironmentService do
+RSpec.describe Hyrax::EnvironmentalService do
   before do
     # Configure QA to use fixtures
     qa_fixtures = { local_path: File.expand_path('config/authorities') }

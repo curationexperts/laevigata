@@ -121,6 +121,8 @@ terms:
       term: Psychology
     - id: Psychology and Linguistics
       term: Psychology and Linguistics
+    - id: Quantitative Science
+      term: Quantitative Science
     - id: Religion
       term: Religion
     - id: Religion and Anthropology
@@ -147,7 +149,5 @@ terms:
       term: Spanish and Portuguese
     - id: Theater Studies
       term: Theater Studies
-    - id: Quantitative Science
-      term: Quantitative Science
     - id: Women's, Gender, and Sexuality Studies
       term: Women's, Gender, and Sexuality Studies
