@@ -16,7 +16,9 @@ RSpec.feature 'Form Validation: "Supplemental Files" tab' do
       expect(page).to have_css('li#required-supplemental-files.incomplete')
 
       # Student uploads a file and fills in some of the metadata fields
-      page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
+      within('#supplemental_fileupload') do
+        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg", visible: false, wait: 10)
+      end
       expect(page).to have_css("input[name='etd[supplemental_file_metadata][0]title']")
       fill_in name: 'etd[supplemental_file_metadata][0]title', with: 'supp title'
       fill_in name: 'etd[supplemental_file_metadata][0]description', with: 'supp desc'

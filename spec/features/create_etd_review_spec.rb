@@ -56,7 +56,7 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_content('Add Primary PDF')
 
       within('#fileupload') do
-        page.attach_file('primary_files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
+        page.attach_file('primary_files[]', "#{fixture_path}/miranda/miranda_thesis.pdf", visible: false, wait: 10)
       end
 
       expect(page).to have_css('li#required-files.complete')
@@ -66,7 +66,7 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_content('Add Supplemental Files')
 
       within('#supplemental_fileupload') do
-        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
+        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg", visible: false, wait: 10)
       end
 
       expect(page).to have_css('li#required-supplemental-files.incomplete')
@@ -174,7 +174,7 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_content('Add Primary PDF')
 
       within('#fileupload') do
-        page.attach_file('primary_files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
+        page.attach_file('primary_files[]', "#{fixture_path}/miranda/miranda_thesis.pdf", visible: false, wait: 10)
       end
 
       expect(page).to have_css('li#required-files.complete')
@@ -184,7 +184,7 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_content('Add Supplemental Files')
 
       within('#supplemental_fileupload') do
-        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg")
+        page.attach_file('supplemental_files[]', "#{fixture_path}/magic_warrior_cat.jpg", visible: false, wait: 10)
       end
 
       expect(page).to have_css('li#required-supplemental-files.incomplete')
@@ -295,7 +295,7 @@ RSpec.feature 'Create an Etd' do
       click_on('My PDF')
 
       within('#fileupload') do
-        page.attach_file('primary_files[]', "#{fixture_path}/miranda/miranda_thesis.pdf")
+        page.attach_file('primary_files[]', "#{fixture_path}/miranda/miranda_thesis.pdf", visible: false, wait: 10)
       end
 
       expect(page).to have_css('li#required-files.complete')
