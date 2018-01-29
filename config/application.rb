@@ -18,7 +18,6 @@ module Laevigata
     config.generators do |g|
       g.test_framework :rspec, spec: true
     end
-    # Run jobs inline
     config.active_job.queue_adapter = :sidekiq
     config.autoload_paths += %W[#{config.root}/lib]
     # Settings in config/environments/* take precedence over those specified here.

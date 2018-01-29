@@ -70,14 +70,46 @@ RSpec.describe Etd do
     it "gets the primary pdf filename" do
       expect(etd.primary_pdf_file_name).to eq "joey_thesis.pdf"
     end
+    it "starts export package with upload_" do
+      expect(etd.upload_file_id).to match(/^upload_/)
+    end
+    it "names data file according to ProQuest specs" do
+      expect(etd.xml_filename).to match(/_DATA.xml/)
+    end
+    it "names the supplemental files dir as directed" do
+      expect(etd.supplemental_files_directory).to match(/_Media/)
+    end
     context "exporting packages" do
       it "zips the exported directory" do
         allow(etd).to receive(:depositor).and_return("P0000002")
         etd.export_zipped_proquest_package
-        export_file = "#{etd.export_directory}/#{etd.export_id}.zip"
+        export_file = "#{etd.export_directory}/#{etd.upload_file_id}.zip"
         expect(File.exist?(export_file)).to eq true
         File.delete(export_file)
       end
+    end
+  end
+
+  context "proquest embargo codes" do
+    it "no embargo" do
+      etd.embargo_length = nil
+      expect(etd.embargo_code).to eq 0
+    end
+    it "6 months" do
+      etd.embargo_length = "6 months"
+      expect(etd.embargo_code).to eq 1
+    end
+    it "1 year" do
+      etd.embargo_length = "1 year"
+      expect(etd.embargo_code).to eq 2
+    end
+    it "2 years" do
+      etd.embargo_length = "2 years"
+      expect(etd.embargo_code).to eq 3
+    end
+    it "6 years" do
+      etd.embargo_length = "6 years"
+      expect(etd.embargo_code).to eq 4
     end
   end
 
@@ -123,7 +155,7 @@ RSpec.describe Etd do
 
   context "DISS_accept_date" do
     it "formats the degree awarded date as expected" do
-      expect(etd.proquest_diss_accept_date).to eq etd.degree_awarded.strftime("%d/%m/%Y")
+      expect(etd.proquest_diss_accept_date).to eq etd.degree_awarded.strftime("%m/%d/%Y")
     end
   end
 
