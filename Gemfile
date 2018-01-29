@@ -26,7 +26,7 @@ gem 'mail', '2.6.6.rc1'
 gem 'nokogiri', '>= 1.8.1'
 gem 'okcomputer'
 gem 'omniauth-shibboleth', '~> 1.2', '>= 1.2.1'
-gem 'pg'
+gem 'pg', '~> 0.21'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.2'
 # use resque-pool for background jobs
