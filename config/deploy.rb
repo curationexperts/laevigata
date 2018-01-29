@@ -31,18 +31,10 @@ append :linked_files, "config/browse_everything_providers.yml"
 append :linked_files, "config/database.yml"
 append :linked_files, "config/fedora.yml"
 append :linked_files, "config/redis.yml"
-append :linked_files, "config/resque-pool.yml"
 append :linked_files, "config/secrets.yml"
 append :linked_files, "config/solr.yml"
 
-# restart resque-pool
-require 'resque'
-
-set :resque_kill_signal, 'QUIT'
-
 namespace :deploy do
-  before :restart, 'resque:pool:stop'
-
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
       # Here we can do anything such as:
@@ -51,6 +43,4 @@ namespace :deploy do
       # end
     end
   end
-
-  after :clear_cache, 'resque:pool:start'
 end
