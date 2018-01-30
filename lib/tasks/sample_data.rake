@@ -1,4 +1,5 @@
 require 'etd_factory'
+Rails.application.config.active_job.queue_adapter = :inline
 
 namespace :sample_data do
   desc "Build basic sample data"
@@ -183,7 +184,7 @@ namespace :sample_data do
     puts "Exporting sample ProQuest package"
     etd = proquest_demo
     ProquestJob.perform_now(etd)
-    export_location = Rails.configuration.proquest_export_directory.join("#{etd.export_id}.zip").to_s
+    export_location = "#{etd.export_directory}/#{etd.upload_file_id}.zip"
     puts "ProQuest sample exported to #{export_location}"
   end
 

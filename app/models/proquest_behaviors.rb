@@ -10,12 +10,22 @@ module ProquestBehaviors
   # Export a zipped directory of an ETD in the format expected by ProQuest
   def export_zipped_proquest_package
     FileUtils.mkdir_p export_directory
-    output_file = "#{@export_directory}/#{export_id}.zip"
+    output_file = "#{@export_directory}/#{upload_file_id}.zip"
     Zip::File.open(output_file, Zip::File::CREATE) do |zip|
-      zip.dir.mkdir(export_id)
-      zip.file.open("#{export_id}/#{export_id}.xml", 'w') { |file| file.write(export_proquest_xml) }
-      members.each do |fs|
-        zip.file.open("#{export_id}/#{fs.label}", "wb") do |saved_file|
+      zip.dir.mkdir(upload_file_id)
+      zip.file.open("#{upload_file_id}/#{xml_filename}", 'w') { |file| file.write(export_proquest_xml) }
+      # The primary thesis file goes in the main directory
+      primary_file_fs.each do |fs|
+        zip.file.open("#{upload_file_id}/#{fs.label}", "wb") do |saved_file|
+          open(fs.files.first.uri, "rb") do |read_file|
+            saved_file.write(read_file.read)
+          end
+        end
+      end
+      # Any supplemental files go into a subdirectory called lastname_firstname_Media
+      zip.dir.mkdir("#{upload_file_id}/#{supplemental_files_directory}")
+      supplemental_files_fs.each do |fs|
+        zip.file.open("#{upload_file_id}/#{supplemental_files_directory}/#{fs.label}", "wb") do |saved_file|
           open(fs.files.first.uri, "rb") do |read_file|
             saved_file.write(read_file.read)
           end
@@ -46,6 +56,24 @@ module ProquestBehaviors
     @export_directory ||= make_export_directory
   end
 
+  # any supplemental files added to the ZIP files
+  # must be in their own directory, named
+  # author_lastname_author_firstname_Media
+  def supplemental_files_directory
+    creator.first.split(",").map(&:strip).map(&:downcase).join("_") + "_Media"
+  end
+
+  # The actual zip file sent to Proquest must be named
+  # upload_lastname_firstname_id.zip
+  def upload_file_id
+    "upload_" + export_id
+  end
+
+  # The XML file must be named *_DATA.xml
+  def xml_filename
+    export_id + "_DATA.xml"
+  end
+
   def export_id
     creator.first.downcase.tr(',', '_').tr(' ', '').strip + '_' + id
   end
@@ -68,15 +96,31 @@ module ProquestBehaviors
     return "doctoral" if submitting_type.first == "Dissertation"
   end
 
+  # ProQuest processing code for submissions
+  # doctoral = F
+  # masters = O (capital o)
+  def proquest_processing_code
+    case submitting_type.first
+    when "Dissertation"
+      "F"
+    when "Master's Thesis"
+      "O"
+    else
+      "F"
+    end
+  end
+
+  # Try to determine page count. If page count can't be determined,
+  # default to "1" per request from ProQuest
   def page_count
     primary_pdf_fs = members.select { |a| a.pcdm_use == "primary" }.first
     primary_pdf_fs.files.first.metadata.attributes["http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#pageCount"].first
   rescue
-    "unknown"
+    "1"
   end
 
   def proquest_diss_accept_date
-    degree_awarded.strftime("%d/%m/%Y")
+    degree_awarded.strftime("%m/%d/%Y")
   end
 
   def proquest_diss_comp_date
@@ -115,11 +159,33 @@ module ProquestBehaviors
     CGI.unescapeHTML(doc.to_s)
   end
 
+  # Determine ProQuest embargo code
+  # 0 = no embargo
+  # 1 = 6 month embargo
+  # 2 = 1 year embargo
+  # 3 = 2 year embargo
+  def embargo_code
+    case embargo_length
+    when nil
+      0
+    when "6 months"
+      1
+    when "1 year"
+      2
+    when "2 years"
+      3
+    when "6 years"
+      4
+    else
+      4
+    end
+  end
+
   def export_proquest_xml
     @registrar_data = registrar_data
     lastname, firstname = creator.first.split(", ")
     builder = Nokogiri::XML::Builder.new do |xml|
-      xml.DISS_submission {
+      xml.DISS_submission(publishing_option: "0", embargo_code: embargo_code) {
         xml.DISS_authorship {
           xml.DISS_author(type: 'primary') {
             xml.DISS_name {
@@ -134,7 +200,8 @@ module ProquestBehaviors
                 xml.DISS_city @registrar_data["home address city"]
                 xml.DISS_st @registrar_data["home address state"]
                 xml.DISS_pcode @registrar_data["home address postal code"]
-                xml.DISS_country @registrar_data["home address country descr"]
+                # Only provide the first two letters of the country code
+                xml.DISS_country @registrar_data["home address country code"][0..1]
               }
               xml.DISS_email post_graduation_email.first
             }
@@ -151,6 +218,7 @@ module ProquestBehaviors
             xml.DISS_inst_code "0665"
             xml.DISS_inst_name "Emory University"
             xml.DISS_inst_contact department.first
+            xml.DISS_processing_code proquest_processing_code
           }
           xml.DISS_advisor {
             xml.DISS_name {
@@ -193,6 +261,11 @@ module ProquestBehaviors
             }
           end
         }
+        if embargo_code == 4
+          xml.DISS_restriction {
+            xml.DISS_sales_restriction(code: 1, remove: (Time.zone.today + 6.years).strftime("%m/%d/%Y"))
+          }
+        end
       }
     end
     CGI.unescapeHTML(builder.to_xml)
