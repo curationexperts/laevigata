@@ -1,7 +1,7 @@
 sudo: required
 dist: trusty
 language: ruby
-cache: bundler
+# cache: bundler
 sudo: false
 services:
   - redis-server
