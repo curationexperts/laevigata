@@ -33,7 +33,7 @@
 //= require hydra-editor/field_manager
 //= require etd_editor
 //= require etd_save_work_control
-//= require tinymce-jquery
+//= require tinymce
 //= require app
 
 //= require almond
