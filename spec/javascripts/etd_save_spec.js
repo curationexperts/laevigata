@@ -1,5 +1,4 @@
 //= require tinymce
-//= require tinymce-jquery
 
 describe("EtdSaveWorkControl", function() {
   var EtdSaveWorkControl = require('etd_save_work_control');
