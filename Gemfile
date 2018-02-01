@@ -44,6 +44,7 @@ gem 'sinatra', '2.0.0.rc2'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 gem 'therubyracer'
+gem 'tinymce-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -71,7 +72,7 @@ group :development, :test do
   # gem 'factory_girl_rails'
   gem 'fcrepo_wrapper'
   # gem 'ffaker'
-  gem 'jasmine', '~> 2.8.0' # Needed for testing forms
+  gem 'jasmine' # Needed for testing forms
   gem 'launchy'
   gem 'rails-controller-testing'
   gem 'rspec', "~> 3.5"
