@@ -29,24 +29,19 @@ gem 'omniauth-shibboleth', '~> 1.2', '>= 1.2.1'
 gem 'pg', '~> 0.21'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.2'
-# use resque-pool for background jobs
-# need master from github to get hot-swap functionality
-gem 'resque-pool', github: 'nevans/resque-pool'
-gem 'resque-web', require: 'resque_web'
 gem 'rsolr', '~> 1.0'
 gem 'rubyzip'
 gem 'sanitize'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
-# Need to constrain the version of Sinatra for resque-web, see https://github.com/sinatra/sinatra/issues/1055
 gem 'sidekiq'
-gem 'sinatra', '2.0.0.rc2'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 gem 'therubyracer'
 gem 'tinymce-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
+gem 'twitter-bootstrap-rails'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # Use Uglifier as compressor for JavaScript assets
