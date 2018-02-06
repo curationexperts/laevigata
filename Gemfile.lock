@@ -474,7 +474,6 @@ GEM
       less (~> 2.6.0)
       sprockets (> 2, < 4)
       tilt
-    libv8 (3.16.14.19)
     link_header (0.0.8)
     linkeddata (2.2.4)
       equivalent-xml (~> 0.6)
@@ -677,7 +676,6 @@ GEM
       redis (>= 3.0.4)
     redlock (0.1.8)
       redis (~> 3, >= 3.0.0)
-    ref (2.0.0)
     representable (3.0.4)
       declarative (< 0.1.0)
       declarative-option (< 0.2.0)
@@ -826,9 +824,6 @@ GEM
     temple (0.8.0)
     term-ansicolor (1.6.0)
       tins (~> 1.0)
-    therubyracer (0.12.3)
-      libv8 (~> 3.16.14.15)
-      ref
     thor (0.19.4)
     thread_safe (0.3.6)
     tilt (2.0.8)
@@ -929,7 +924,6 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   sqlite3
-  therubyracer
   tinymce-rails
   turbolinks (~> 5)
   twitter-bootstrap-rails

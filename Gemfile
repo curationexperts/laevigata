@@ -37,7 +37,6 @@ gem 'sass-rails', '~> 5.0'
 gem 'sidekiq'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
-gem 'therubyracer'
 gem 'tinymce-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
