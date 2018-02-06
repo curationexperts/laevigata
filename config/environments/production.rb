@@ -52,7 +52,6 @@ Rails.application.configure do
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
-  config.active_job.queue_name_prefix = "laevigata_#{Rails.env}"
   config.action_mailer.perform_caching = false
 
   config.action_mailer.delivery_method = :smtp

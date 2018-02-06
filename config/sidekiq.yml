@@ -1,0 +1,14 @@
+---
+:queues:
+  - [ingest, 4]
+  - [batch, 2]
+  - [default, 1]
+
+test:
+  :concurrency: 5
+
+development:
+  :concurrency: 5
+
+production:
+  :concurrency: 5
