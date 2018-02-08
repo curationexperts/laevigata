@@ -110,12 +110,12 @@ RSpec.feature 'Laney Graduate School two step approval workflow' do
       # Depositing user should be able to see their work, even if it hasn't been approved yet
       visit("/concern/etds/#{etd.id}")
       expect(page).to have_content(etd.abstract.first)
-      expect(page).not_to have_content("The work is not currently available")
+      expect(page).not_to have_content("The work is not currently available because it has not yet completed the publishing process")
 
       # Visit the ETD as a public user. It should not be visible.
       logout
       visit("/concern/etds/#{etd.id}")
-      expect(page).to have_content "The work is not currently available"
+      expect(page).to have_content "The work is not currently available because it has not yet completed the publishing process"
 
       # Run the graduation service
       allow(GraduationService).to receive(:check_degree_status).and_return(Time.zone.today)
@@ -123,7 +123,7 @@ RSpec.feature 'Laney Graduate School two step approval workflow' do
 
       # Now the work should be publicly visible
       visit("/concern/etds/#{etd.id}")
-      expect(page).not_to have_content "The work is not currently available"
+      expect(page).not_to have_content "The work is not currently available because it has not yet completed the publishing process"
 
       # Check for graduation notifications
       login_as depositing_user
