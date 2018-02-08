@@ -163,7 +163,7 @@ namespace :sample_data do
     actor = Hyrax::CurationConcern.actor(etd, ability)
     attributes_for_actor = { uploaded_files: [upload1.id, upload2.id] }
     actor.create(attributes_for_actor)
-    approving_user = User.where(ppid: 'laneyadmin').first
+    approving_user = User.where(ppid: 'tezprox').first
     subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
     sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
     Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "Preapproved")
@@ -179,11 +179,11 @@ namespace :sample_data do
     puts "Created #{etd.id}"
   end
 
-  desc "Export sample ProQuest package"
+  desc "Export sample ProQuest package, upload it via sftp"
   task :proquest_export do
     puts "Exporting sample ProQuest package"
     etd = proquest_demo
-    ProquestJob.perform_now(etd)
+    ProquestJob.perform_now(etd.id)
     export_location = "#{etd.export_directory}/#{etd.upload_file_id}.zip"
     puts "ProQuest sample exported to #{export_location}"
   end

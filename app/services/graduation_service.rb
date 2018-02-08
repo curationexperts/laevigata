@@ -10,7 +10,7 @@ class GraduationService
     GraduationService.load_data(path_to_data)
     GraduationService.graduation_eligible_works.each do |work|
       degree_awarded_date = GraduationService.check_degree_status(work)
-      GraduationJob.perform_later(work, degree_awarded_date.to_s) if degree_awarded_date
+      GraduationJob.perform_later(work.id, degree_awarded_date.to_s) if degree_awarded_date
     end
     remove_instance_variable(:@registrar_data)
   end

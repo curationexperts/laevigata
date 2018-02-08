@@ -49,6 +49,7 @@ end
 
 RSpec.configure do |config|
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  ENV['REGISTRAR_DATA_PATH'] = "#{::Rails.root}/spec/fixtures/registrar_sample.json"
   config.use_transactional_fixtures = false
   config.infer_spec_type_from_file_location!
 

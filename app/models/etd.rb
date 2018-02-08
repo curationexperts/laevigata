@@ -202,6 +202,16 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable
   end
 
+  # If this user can choose whether to submit to ProQuest or not, what was their choice?
+  property :choose_proquest_submission, predicate: "http://example.com/choose_proquest_submission" do |index|
+    index.as :stored_searchable
+  end
+
+  # What date (if any) was this ETD submitted to ProQuest?
+  property :proquest_submission_date, predicate: "http://example.com/proquest_submission_date" do |index|
+    index.as :stored_searchable
+  end
+
   # accepts_nested_attributes_for can not be called until all
   # the properties are declared because it calls resource_class,
   # which finalizes the propery declarations.

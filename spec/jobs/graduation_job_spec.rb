@@ -28,7 +28,7 @@ describe GraduationJob do
       expect(etd.degree_awarded).to eq nil
       expect(etd.embargo.embargo_release_date).to eq six_years_from_today
       expect(etd.embargo_length).to eq "6 months"
-      described_class.perform_now(etd, Time.zone.tomorrow)
+      described_class.perform_now(etd.id, Time.zone.tomorrow)
       etd.reload
     end
     it "records the graduation date" do

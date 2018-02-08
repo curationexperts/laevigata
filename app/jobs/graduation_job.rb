@@ -10,14 +10,14 @@ require 'workflow_setup'
 class GraduationJob < ActiveJob::Base
   queue_as Hyrax.config.ingest_queue_name
 
-  # @param [ActiveFedora::Base] work - the work object
+  # @param [String] work_id - the id of the work object
   # @param [Date] the student's graduation date
-  def perform(work, graduation_date = Time.zone.today.to_s)
-    @work = work
+  def perform(work_id, graduation_date = Time.zone.today.to_s)
+    @work = Etd.find(work_id)
     record_degree_awarded_date(graduation_date)
     update_embargo_release_date
     activate_object
-    # TODO: submit to ProQuest
+    ProquestJob.perform_later(@work.id)
     send_notifications
     @work.save
   end
