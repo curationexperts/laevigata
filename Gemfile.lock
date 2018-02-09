@@ -904,7 +904,7 @@ DEPENDENCIES
   listen (~> 3.0.5)
   loofah
   mail (= 2.6.6.rc1)
-  nokogiri (>= 1.8.1)
+  nokogiri (>= 1.8.2)
   okcomputer
   omniauth-shibboleth (~> 1.2, >= 1.2.1)
   pg (~> 0.21)
