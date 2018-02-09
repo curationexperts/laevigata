@@ -116,4 +116,12 @@ class SolrDocument
   def copyright_question_three
     self[Solrizer.solr_name('copyright_question_three')]
   end
+
+  def choose_proquest_submission
+    self[Solrizer.solr_name('choose_proquest_submission')]
+  end
+
+  def proquest_submission_date
+    self[Solrizer.solr_name('proquest_submission_date')]
+  end
 end

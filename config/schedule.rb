@@ -22,8 +22,16 @@
 # Email output to Bess, for now
 env 'MAILTO', 'bess@curationexperts.com'
 
+# Weekly, check whether students have graduated and kick off
+# graduation jobs if so
 every :monday, at: '12:20am' do
   rake "emory:graduation"
+end
+
+# Daily, check whether we sent anything to ProQuest and deliver
+# notifications if so
+every :day, at: '11:55pm' do
+  rake "emory:proquest_notifications"
 end
 
 every :saturday, at: '1:20am' do

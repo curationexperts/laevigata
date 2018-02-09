@@ -23,6 +23,7 @@ gem 'jquery-rails'
 # See https://gemnasium.com/gems/mail
 gem 'loofah'
 gem 'mail', '2.6.6.rc1'
+gem 'net-sftp'
 gem 'nokogiri', '>= 1.8.2'
 gem 'okcomputer'
 gem 'omniauth-shibboleth', '~> 1.2', '>= 1.2.1'

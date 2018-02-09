@@ -173,4 +173,19 @@ RSpec.describe Etd do
       expect(registrar_data["home address 1"]).to eq "123 Fake St"
     end
   end
+
+  context "proquest submission" do
+    it "allows the student to choose whether to submit" do
+      expect(etd.choose_proquest_submission).to be_empty
+      etd.choose_proquest_submission = [true]
+      expect(etd.choose_proquest_submission.first).to eq(true)
+    end
+    it "records the date the etd was submitted to proquest" do
+      expect(etd.proquest_submission_date).to be_empty
+      expect(etd.proquest_submission_date.first.instance_of?(Date)).to eq(false)
+      etd.proquest_submission_date = [Time.zone.today]
+      expect(etd.proquest_submission_date.first).to eq(Time.zone.today)
+      expect(etd.proquest_submission_date.first.instance_of?(Date)).to eq(true)
+    end
+  end
 end
