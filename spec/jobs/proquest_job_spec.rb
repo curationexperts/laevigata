@@ -48,5 +48,11 @@ describe ProquestJob do
       expect(etd.degree_awarded).to be_instance_of(Date)
       expect(described_class.submit_to_proquest?(etd)).to eq true
     end
+    it "does not submit a hidden work" do
+      etd.hidden = true
+      etd.save
+      expect(etd.hidden).to eq true
+      expect(described_class.submit_to_proquest?(etd)).to eq false
+    end
   end
 end

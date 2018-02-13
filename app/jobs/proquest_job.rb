@@ -31,6 +31,8 @@ class ProquestJob < ActiveJob::Base
   # @param [ActiveFedora::Base] work - the work object
   # @return [Boolean]
   def self.submit_to_proquest?(work)
+    # Do not submit hidden works
+    return false if work.hidden
     # Condition 0: Has is already been submitted to ProQuest?
     return false if work.proquest_submission_date.first.instance_of?(Date)
     # Condition 1: Is it from Laney Graduate School?
