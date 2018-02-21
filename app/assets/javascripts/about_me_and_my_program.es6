@@ -26,8 +26,20 @@ export default class AboutMeAndMyProgram {
         //needs to be pulled, ajax autocomplete faculty list
         $(this).parent().next('div').find($('input')).val("Emory")
         $(this).parent().next('div').find($('input')).prop('disabled', true);
+        $(this).parent().parent().next('div').find($('input')).prop('disabled', false).val('');
+        $('#add-another-member').prop("disabled",false);
+        $(this).parent().parent().next('div').find($('input')).val('').prop("disabled",false);
+      } else if($(this).val() == "No Committee Members"){
+      $(this).parent().parent().next('div').find($('input')).val('N/A');
+      $(this).parent().next('div').find($('input')).prop("disabled",true).val('N/A');
+      $(this).parent().parent().next('div').find($('input')).val('N/A').prop("disabled",true).trigger('change');
+      $('#add-another-member').prop("disabled",true);
       } else {
         $(this).parent().next('div').find($('input')).prop('disabled', false);
+        $(this).parent().parent().next('div').find($('input')).prop('disabled', false).val('');
+        $(this).parent().next('div').find($('input')).val("Emory")
+        $('#add-another-member').prop("disabled",false);
+        $(this).parent().parent().next('div').find($('input')).val('').prop("disabled",false);
       }
     });
   }

@@ -88,6 +88,8 @@ module Hyrax
       value = Array(value).first
       if value.blank? || value == 'Emory University'
         cm_affiliation_options[0]
+      elsif value == 'N/A'
+        cm_affiliation_options[2]
       else
         cm_affiliation_options[1]
       end
@@ -104,7 +106,7 @@ module Hyrax
     end
 
     def cm_affiliation_options
-      ["Emory Committee Member", "Non-Emory Committee Member"]
+      ["Emory Committee Member", "Non-Emory Committee Member", "No Committee Members"]
     end
 
     def cc_affiliation_options
