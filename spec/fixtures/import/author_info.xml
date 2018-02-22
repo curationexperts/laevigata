@@ -1,0 +1,488 @@
+<foxml:digitalObject xmlns:foxml="info:fedora/fedora-system:def/foxml#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" VERSION="1.1" PID="emory:194h4" xsi:schemaLocation="info:fedora/fedora-system:def/foxml# http://www.fedora.info/definitions/1/0/foxml1-1.xsd">
+<foxml:objectProperties>
+<foxml:property NAME="info:fedora/fedora-system:def/model#state" VALUE="Active"/>
+<foxml:property NAME="info:fedora/fedora-system:def/model#label" VALUE="Moomin"/>
+<foxml:property NAME="info:fedora/fedora-system:def/model#ownerId" VALUE="moomin"/>
+<foxml:property NAME="info:fedora/fedora-system:def/model#createdDate" VALUE="2009-03-17T15:24:17.930Z"/>
+<foxml:property NAME="info:fedora/fedora-system:def/view#lastModifiedDate" VALUE="2018-02-13T09:34:11.767Z"/>
+</foxml:objectProperties>
+<foxml:datastream ID="AUDIT" STATE="A" CONTROL_GROUP="X" VERSIONABLE="false">
+<foxml:datastreamVersion ID="AUDIT.0" LABEL="Audit Trail for this object" CREATED="2009-03-17T15:24:17.930Z" MIMETYPE="text/xml" FORMAT_URI="info:fedora/fedora-system:format/xml.fedora.audit">
+<foxml:xmlContent>
+<audit:auditTrail xmlns:audit="info:fedora/fedora-system:def/audit#">
+<audit:record ID="AUDREC1">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByValue</audit:action>
+<audit:componentID>MADS</audit:componentID>
+<audit:responsibility>moomin</audit:responsibility>
+<audit:date>2009-03-17T15:25:21.714Z</audit:date>
+<audit:justification>edited user information</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC2">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByValue</audit:action>
+<audit:componentID>MADS</audit:componentID>
+<audit:responsibility>moomin</audit:responsibility>
+<audit:date>2009-03-17T15:30:31.181Z</audit:date>
+<audit:justification>edited user information</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC3">
+<audit:process type="Fedora API-M"/>
+<audit:action>setDatastreamVersionable</audit:action>
+<audit:componentID>DC</audit:componentID>
+<audit:responsibility>etdmaint</audit:responsibility>
+<audit:date>2009-10-06T18:15:16.868Z</audit:date>
+<audit:justification>setting DC to unversioned</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC4">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByValue</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>etdmaint</audit:responsibility>
+<audit:date>2009-10-06T18:33:55.367Z</audit:date>
+<audit:justification>correct rdf:Description in rels-ext</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC5">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamControlGroup</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2011-02-23T22:50:42.172Z</audit:date>
+<audit:justification>
+Modified datastream control group for emory:194h4 RELS-EXT from X to M
+</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC6">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamControlGroup</audit:action>
+<audit:componentID>MADS</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2011-02-23T22:50:42.172Z</audit:date>
+<audit:justification>
+Modified datastream control group for emory:194h4 MADS from X to M
+</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC7">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>MADS</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2012-01-12T16:09:20.292Z</audit:date>
+<audit:justification>updating missing checksum</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC8">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2014-05-25T07:39:00.385Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC9">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2014-06-25T07:47:56.565Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC10">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2014-07-26T09:42:47.155Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC11">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2014-08-30T07:18:00.982Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC12">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2014-10-01T06:33:20.973Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC13">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2014-11-01T06:56:19.249Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC14">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2014-12-03T10:43:06.791Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC15">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2015-01-03T10:41:43.830Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC16">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2015-02-04T07:47:27.162Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC17">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2015-03-07T08:04:55.429Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC18">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2015-04-07T06:53:22.666Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC19">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2015-05-08T07:13:11.829Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC20">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2015-06-09T07:07:01.566Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC21">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2015-08-05T09:43:52.212Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC22">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2015-08-19T21:17:14.682Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC23">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2015-08-31T16:25:16.654Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC24">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2015-10-02T10:14:29.086Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC25">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2016-01-19T06:04:02.855Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC26">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2016-05-08T05:06:36.887Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC27">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2016-07-03T10:34:59.335Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC28">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2016-10-09T07:06:43.554Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC29">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2017-02-11T10:12:29.011Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC30">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2017-06-28T09:02:52.007Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+<audit:record ID="AUDREC31">
+<audit:process type="Fedora API-M"/>
+<audit:action>modifyDatastreamByReference</audit:action>
+<audit:componentID>RELS-EXT</audit:componentID>
+<audit:responsibility>fedoraAdmin</audit:responsibility>
+<audit:date>2018-02-13T09:34:11.767Z</audit:date>
+<audit:justification>datastream fixity check</audit:justification>
+</audit:record>
+</audit:auditTrail>
+</foxml:xmlContent>
+</foxml:datastreamVersion>
+</foxml:datastream>
+<foxml:datastream ID="DC" STATE="A" CONTROL_GROUP="X" VERSIONABLE="false">
+<foxml:datastreamVersion ID="DC.0" LABEL="Dublin Core Metadata" CREATED="2009-03-17T15:24:17.930Z" MIMETYPE="text/xml" FORMAT_URI="http://www.openarchives.org/OAI/2.0/oai_dc/" SIZE="629">
+<foxml:contentDigest TYPE="MD5" DIGEST="981ec5674f8d45d43cfa95b5b9ff406a"/>
+<foxml:xmlContent>
+<oai_dc:dc xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/">
+<dc:title>Moomin</dc:title>
+<dc:creator/>
+<dc:subject/>
+<dc:description/>
+<dc:contributor/>
+<dc:date/>
+<dc:type/>
+<dc:format/>
+<dc:identifier/>
+<dc:identifier>http://pid.emory.edu/ark:/25593/194h4</dc:identifier>
+<dc:identifier>emory:194h4</dc:identifier>
+<dc:source/>
+<dc:source/>
+<dc:language/>
+<dc:coverage/>
+</oai_dc:dc>
+</foxml:xmlContent>
+</foxml:datastreamVersion>
+</foxml:datastream>
+<foxml:datastream ID="MADS" STATE="A" CONTROL_GROUP="M" VERSIONABLE="true">
+<foxml:datastreamVersion ID="MADS.3" LABEL="Agent Information" CREATED="2012-01-12T16:09:20.292Z" MIMETYPE="text/xml" SIZE="1505">
+<foxml:contentDigest TYPE="MD5" DIGEST="5849d57ff2b80834fb7bea3982e8cdee"/>
+<foxml:binaryContent>
+PG1hZHM6bWFkcyB4bWxuczptYWRzPSJodHRwOi8vd3d3LmxvYy5nb3YvbWFkcy8iIHhtbG5zOm1v
+ZHM9Imh0dHA6Ly93d3cubG9jLmdvdi9tb2RzL3YzIj4KICA8bWFkczphdXRob3JpdHk+CiAgICA8
+bWFkczpuYW1lPgogICAgICA8bWFkczpuYW1lUGFydCB0eXBlPSJmYW1pbHkiPlBhcGE8L21hZHM6
+bmFtZVBhcnQ+CiAgICAgIDxtYWRzOm5hbWVQYXJ0IHR5cGU9ImdpdmVuIj5Nb29taW48L21hZHM6
+bmFtZVBhcnQ+CiAgICAgIDxtYWRzOm5hbWVQYXJ0IHR5cGU9ImRhdGUiPjwvbWFkczpuYW1lUGFy
+dD4KICAgIDwvbWFkczpuYW1lPgogIDwvbWFkczphdXRob3JpdHk+CiAgPG1hZHM6YWZmaWxpYXRp
+b24+CiAgICA8bWFkczpwb3NpdGlvbj5kZWdyZWUgY2FuZGlkYXRlPC9tYWRzOnBvc2l0aW9uPgog
+ICAgPG1hZHM6b3JnYW5pemF0aW9uPjwvbWFkczpvcmdhbml6YXRpb24+CiAgICA8bWFkczphZGRy
+ZXNzPgogICAgICA8bWFkczpzdHJlZXQ+MTIzNCBGQUtFIEJMVkQgTkU8L21hZHM6c3RyZWV0Pgog
+ICAgICA8bWFkczpzdHJlZXQ+QXB0LjEyMzQ8L21hZHM6c3RyZWV0PgogICAgICA8bWFkczpjaXR5
+PlBPUlRMQU5EPC9tYWRzOmNpdHk+CiAgICAgIDxtYWRzOnN0YXRlPk9SPC9tYWRzOnN0YXRlPgog
+ICAgICA8bWFkczpjb3VudHJ5PlVOSVRFRCBTVEFURVM8L21hZHM6Y291bnRyeT4KICAgICAgPG1h
+ZHM6cG9zdGNvZGU+NTU1NTUtNTU1NTwvbWFkczpwb3N0Y29kZT4KICAgIDwvbWFkczphZGRyZXNz
+PgogICAgPG1hZHM6ZW1haWw+dG90YWxseV9mYWtlQGVtb3J5LmVkdTwvbWFkczplbWFpbD4KICAg
+IDxtYWRzOnBob25lPjwvbWFkczpwaG9uZT4KICAgIDxtYWRzOmRhdGVWYWxpZD4yMDA5LTAzLTE3
+PC9tYWRzOmRhdGVWYWxpZD4KICA8L21hZHM6YWZmaWxpYXRpb24+CiAgPG1hZHM6YWZmaWxpYXRp
+b24+CiAgICA8bWFkczpwb3NpdGlvbj5wZXJtYW5lbnQgcmVzaWRlbnQ8L21hZHM6cG9zaXRpb24+
+CiAgICA8bWFkczphZGRyZXNzPgogICAgICA8bWFkczpzdHJlZXQ+MTIzNCBGQUtFIEJMVkQgTkU8
+L21hZHM6c3RyZWV0PgogICAgICA8bWFkczpzdHJlZXQ+QXB0LjEyMzQ8L21hZHM6c3RyZWV0Pgog
+ICAgICA8bWFkczpjaXR5PlBPUlRMQU5EPC9tYWRzOmNpdHk+CiAgICAgIDxtYWRzOnN0YXRlPk9S
+PC9tYWRzOnN0YXRlPgogICAgICA8bWFkczpjb3VudHJ5PlVOSVRFRCBTVEFURVM8L21hZHM6Y291
+bnRyeT4KICAgICAgPG1hZHM6cG9zdGNvZGU+NTU1NTU8L21hZHM6cG9zdGNvZGU+CiAgICA8L21h
+ZHM6YWRkcmVzcz4KICAgIDxtYWRzOmVtYWlsPmV4dHJhX2Zha2VAZXhhbXBsZS5jb208L21hZHM6
+ZW1haWw+CiAgICA8bWFkczpwaG9uZT41NTUtNTU1LTU1NTU8L21hZHM6cGhvbmU+CiAgICA8bWFk
+czpkYXRlVmFsaWQ+MjAwOS0wNS0wMTwvbWFkczpkYXRlVmFsaWQ+CiAgPC9tYWRzOmFmZmlsaWF0
+aW9uPgogIDxtYWRzOmlkZW50aWZpZXIgdHlwZT0ibmV0aWQiPndob2FmYWtlPC9tYWRzOmlkZW50
+aWZpZXI+CjwvbWFkczptYWRzPg==
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MADS.2" LABEL="Agent Information" CREATED="2009-03-17T15:30:31.181Z" MIMETYPE="text/xml" SIZE="1505">
+<foxml:contentDigest TYPE="MD5" DIGEST="5849d57ff2b80834fb7bea3982e8cdee"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MADS.1" LABEL="Agent Information" CREATED="2009-03-17T15:25:21.714Z" MIMETYPE="text/xml" SIZE="1471">
+<foxml:contentDigest TYPE="MD5" DIGEST="00481b8d9e6e94d0a41ff4b3e04f9ecc"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="MADS.0" LABEL="Agent Information" CREATED="2009-03-17T15:24:17.930Z" MIMETYPE="text/xml" SIZE="1400">
+<foxml:contentDigest TYPE="MD5" DIGEST="188a6b333f86338b981e07c49429f975"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+</foxml:datastream>
+<foxml:datastream ID="RELS-EXT" STATE="A" CONTROL_GROUP="M" VERSIONABLE="true">
+<foxml:datastreamVersion ID="RELS-EXT.1" LABEL="Relationships to other objects" CREATED="2009-10-06T18:33:55.367Z" MIMETYPE="text/xml" SIZE="506">
+<foxml:contentDigest TYPE="MD5" DIGEST="f325f4932c52b27a3c86736d2abb7d94"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.0" LABEL="Relationships to other objects" CREATED="2009-03-17T15:24:17.930Z" MIMETYPE="application/rdf+xml" FORMAT_URI="info:fedora/fedora-system:FedoraRELSExt-1.0" SIZE="488">
+<foxml:contentDigest TYPE="MD5" DIGEST="18d85fa7ae86d78ef2a622c0ac65428c"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.2" LABEL="Relationships to other objects" CREATED="2014-05-25T07:39:00.385Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="546aa600cf25d74709ae101cc2a5cd24"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.3" LABEL="Relationships to other objects" CREATED="2014-06-25T07:47:56.565Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="3c4aa5559166c7b02f56c00f68de7d48"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.4" LABEL="Relationships to other objects" CREATED="2014-07-26T09:42:47.155Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="97026c56239806e79453a5a534365f30"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.5" LABEL="Relationships to other objects" CREATED="2014-08-30T07:18:00.982Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="4e12c78e1fa26150b4f2ea7acc930aca"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.6" LABEL="Relationships to other objects" CREATED="2014-10-01T06:33:20.973Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="69ce8be62f63297a9185bbec2f61065b"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.7" LABEL="Relationships to other objects" CREATED="2014-11-01T06:56:19.249Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="c23573b51f62bb7842949f78cee68629"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.8" LABEL="Relationships to other objects" CREATED="2014-12-03T10:43:06.791Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="dd40fe496bfe67da454340e36c74c425"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.9" LABEL="Relationships to other objects" CREATED="2015-01-03T10:41:43.830Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="a02ef728145db43fe7ebc1043f839202"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.10" LABEL="Relationships to other objects" CREATED="2015-02-04T07:47:27.162Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="bc1674f80ed0f819a9498689f3deaaf3"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.11" LABEL="Relationships to other objects" CREATED="2015-03-07T08:04:55.429Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="62672a3b418771dd529fb92c9159916f"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.12" LABEL="Relationships to other objects" CREATED="2015-04-07T06:53:22.666Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="3538db8eba12b898e36d4746b61cc75a"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.13" LABEL="Relationships to other objects" CREATED="2015-05-08T07:13:11.829Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="b5a605930c90af0ab752668d8f6726b0"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.14" LABEL="Relationships to other objects" CREATED="2015-06-09T07:07:01.566Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="d1bf1e7258078791b7177d1adaf45183"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.15" LABEL="Relationships to other objects" CREATED="2015-08-05T09:43:52.212Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="0c5d27be5afb9c71de32724183e04a96"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.16" LABEL="Relationships to other objects" CREATED="2015-08-19T21:17:14.682Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="2ff9d6fdd331ee12095dae7d03126eab"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.17" LABEL="Relationships to other objects" CREATED="2015-08-31T16:25:16.654Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="38e923333d66e54e551ce856b7147721"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.18" LABEL="Relationships to other objects" CREATED="2015-10-02T10:14:29.086Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="d04bf9a9090238906afc3d96bbfb0e65"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.19" LABEL="Relationships to other objects" CREATED="2016-01-19T06:04:02.855Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="eb535eabc6c9e82cb9175b76ccfbd8f1"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.20" LABEL="Relationships to other objects" CREATED="2016-05-08T05:06:36.887Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="a476abb5e869fd63cfa8a04f0862cb96"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.21" LABEL="Relationships to other objects" CREATED="2016-07-03T10:34:59.335Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="392ea236bf90ee8f8c3b1ea21a52b515"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.22" LABEL="Relationships to other objects" CREATED="2016-10-09T07:06:43.554Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="dfe50b119650ea5700ca8d2d157e4232"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.23" LABEL="Relationships to other objects" CREATED="2017-02-11T10:12:29.011Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="cf05ae1c14fdab3a2bb5578d0f8ee5cd"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.24" LABEL="Relationships to other objects" CREATED="2017-06-28T09:02:52.007Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="35be76016997d9858b7ee96f5b458d45"/>
+<foxml:binaryContent>
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+<foxml:datastreamVersion ID="RELS-EXT.25" LABEL="Relationships to other objects" CREATED="2018-02-13T09:34:11.767Z" MIMETYPE="text/xml" SIZE="775">
+<foxml:contentDigest TYPE="MD5" DIGEST="bbb0969c85dc553c45c1b357adb5a783"/>
+<foxml:binaryContent>
+PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJkZjpSREYKICAgeG1sbnM6
+ZXVsLXJlcG9tZ210PSJodHRwOi8vcGlkLmVtb3J5LmVkdS9ucy8yMDExL3JlcG8tbWFuYWdlbWVu
+dC8jIgogICB4bWxuczpmZWRvcmEtbW9kZWw9ImluZm86ZmVkb3JhL2ZlZG9yYS1zeXN0ZW06ZGVm
+L21vZGVsIyIKICAgeG1sbnM6ZmVkb3JhLXJlbHMtZXh0PSJpbmZvOmZlZG9yYS9mZWRvcmEtc3lz
+dGVtOmRlZi9yZWxhdGlvbnMtZXh0ZXJuYWwjIgogICB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMu
+b3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiCj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjph
+Ym91dD0iaW5mbzpmZWRvcmEvZW1vcnk6MTk0aDQiPgogICAgPGZlZG9yYS1tb2RlbDpoYXNNb2Rl
+bCByZGY6cmVzb3VyY2U9ImluZm86ZmVkb3JhL2Vtb3J5LWNvbnRyb2w6QXV0aG9ySW5mb3JtYXRp
+b24tMS4wIi8+CiAgICA8ZmVkb3JhLXJlbHMtZXh0OmF1dGhvcj5tb29taW48L2ZlZG9yYS1yZWxz
+LWV4dDphdXRob3I+CiAgICA8ZmVkb3JhLXJlbHMtZXh0OmF1dGhvckluZm9Gb3IgcmRmOnJlc291
+cmNlPSJpbmZvOmZlZG9yYS9lbW9yeToxOTRmdiIvPgogICAgPGV1bC1yZXBvbWdtdDpsYXN0Rml4
+aXR5Q2hlY2sgcmRmOmRhdGF0eXBlPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYSNk
+YXRlVGltZSI+MjAxOC0wMi0xM1QwNDozNDoxMTwvZXVsLXJlcG9tZ210Omxhc3RGaXhpdHlDaGVj
+az4KICA8L3JkZjpEZXNjcmlwdGlvbj4KPC9yZGY6UkRGPgo=
+</foxml:binaryContent>
+</foxml:datastreamVersion>
+</foxml:datastream>
+</foxml:digitalObject>

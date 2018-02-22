@@ -25,7 +25,10 @@ require 'capybara-screenshot/rspec'
 require 'capybara/webkit'
 require 'database_cleaner'
 require 'ffaker'
+require 'webmock/rspec'
 require 'vcr'
+
+WebMock.allow_net_connect!
 
 VCR.configure do |config|
   config.cassette_library_dir = "#{::Rails.root}/spec/fixtures/vcr_cassettes"
