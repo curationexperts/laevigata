@@ -36,6 +36,12 @@ RSpec.describe Etd do
       etd.department = ["Epidemiology"]
       expect(etd.determine_admin_set).to eq "Epidemiology"
     end
+    it "assigns according to subfield for Rollins when necessary" do
+      etd.school = ["Rollins School of Public Health"]
+      etd.department = ["Environmental Health"]
+      etd.subfield = ["Environmental Health - MPH"]
+      expect(etd.determine_admin_set).to eq "Environmental Health - MPH"
+    end
     it "raises an error if it can't find the admin set in the config" do
       etd.school = ["Fake School"]
       expect { etd.determine_admin_set }.to raise_error(RuntimeError, /Cannot find admin set config/)
