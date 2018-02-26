@@ -63,9 +63,7 @@ class ProquestNotificationService
   def send_user_notifications
     return unless notification_list.count > 0
     notification_list.each do |etd|
-      subject = "Your work has been submitted to ProQuest"
-      message = "Your work, #{etd.title.first}, has been submitted to ProQuest."
-      Hyrax::Workflow::ProquestIndividualNotification.send_notification(etd.id, subject, message)
+      Hyrax::Workflow::ProquestIndividualNotification.send_notification(etd.id)
     end
   end
 
