@@ -26,6 +26,7 @@ append :linked_dirs, "tmp/sockets"
 append :linked_dirs, "log"
 
 append :linked_files, ".env.production"
+append :linked_files, "config/initializers/hyrax.rb"
 append :linked_files, "config/blacklight.yml"
 append :linked_files, "config/browse_everything_providers.yml"
 append :linked_files, "config/fedora.yml"
