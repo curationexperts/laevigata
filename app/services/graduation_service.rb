@@ -2,12 +2,14 @@
 # 1. Checks the repository for works in the `approved` workflow state but which have no `degree_awarded` value
 # 2. For each of these works, query the registrar data to see if the student has graduated
 # 3. If so, call GraduationJob for the given work and the graduation_date returned by registrar data
-# @param [String] The path to the data JSON file. Defaults to the location given in config/secrets.yml
+# @param [String] The path to the data JSON file. Expects location of registrar data to be set in REGISTRAR_DATA_PATH, e.g., in .env.production
 # @example How to call this service
-#  GraduationService.run('./sample/data.json')
+#  GraduationService.run
 class GraduationService
-  def self.run(path_to_data = Rails.application.secrets.registrar_data_path)
-    GraduationService.load_data(path_to_data)
+  def self.run(registrar_data_path = ENV['REGISTRAR_DATA_PATH'])
+    raise "Cannot find registrar data" unless registrar_data_path && File.file?(registrar_data_path)
+    Rails.logger.info("Running graduation service with file #{registrar_data_path}")
+    GraduationService.load_data(registrar_data_path)
     GraduationService.graduation_eligible_works.each do |work|
       degree_awarded_date = GraduationService.check_degree_status(work)
       GraduationJob.perform_later(work.id, degree_awarded_date.to_s) if degree_awarded_date
