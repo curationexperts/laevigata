@@ -45,7 +45,8 @@ describe ProquestJob do
       expect(etd.school).to contain_exactly("Laney Graduate School")
       expect(etd.degree).to contain_exactly("PhD")
       expect(etd.to_sipity_entity.workflow_state_name).to eq "approved"
-      expect(etd.degree_awarded).to be_instance_of(Date)
+      expect(etd.proquest_submission_date).to be_empty
+      expect(etd.degree_awarded).not_to be_empty
       expect(described_class.submit_to_proquest?(etd)).to eq true
     end
     it "does not submit a hidden work" do

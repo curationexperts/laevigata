@@ -155,7 +155,7 @@ RSpec.describe Etd do
 
   context "DISS_accept_date" do
     it "formats the degree awarded date as expected" do
-      expect(etd.proquest_diss_accept_date).to eq etd.degree_awarded.strftime("%m/%d/%Y")
+      expect(etd.proquest_diss_accept_date).to eq Date.parse(etd.degree_awarded.to_s).strftime("%m/%d/%Y")
     end
   end
 

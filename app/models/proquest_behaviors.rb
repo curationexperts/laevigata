@@ -122,11 +122,11 @@ module ProquestBehaviors
   end
 
   def proquest_diss_accept_date
-    degree_awarded.strftime("%m/%d/%Y")
+    Date.parse(degree_awarded.to_s).strftime("%m/%d/%Y")
   end
 
   def proquest_diss_comp_date
-    degree_awarded.strftime("%Y")
+    Date.parse(degree_awarded.to_s).strftime("%Y")
   end
 
   def proquest_code(field_name)
