@@ -126,9 +126,9 @@ FactoryBot.define do
         title ["Sample Data With Full Embargo: #{FFaker::Book.title}"]
         embargo { FactoryBot.create(:embargo, embargo_release_date: (Time.zone.today + 14.days)) }
         embargo_length "6 months"
-        files_embargoed true
-        abstract_embargoed true
-        toc_embargoed true
+        files_embargoed "true"
+        abstract_embargoed "true"
+        toc_embargoed "true"
 
         factory :sixty_day_expiration do
           degree_awarded { Time.zone.today - 2.years }
