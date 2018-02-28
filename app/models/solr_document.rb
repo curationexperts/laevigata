@@ -29,16 +29,31 @@ class SolrDocument
     self[Solrizer.solr_name('abstract')]
   end
 
+  # If this is a boolean, return the boolean value
+  # If this is a string, transform it into a boolean
+  # If the value is nil or can't be determined, assume it is embargoed
   def abstract_embargoed
-    self['abstract_embargoed_bsi']
+    return self['abstract_embargoed_bsi'] if self['abstract_embargoed_bsi']
+    return self['abstract_embargoed_tesim'].first.to_s == "true" if self['abstract_embargoed_tesim']
+    true
   end
 
+  # If this is a boolean, return the boolean value
+  # If this is a string, transform it into a boolean
+  # If the value is nil or can't be determined, assume it is embargoed
   def toc_embargoed
-    self['toc_embargoed_bsi']
+    return self['toc_embargoed_bsi'] if self['toc_embargoed_bsi']
+    return self['toc_embargoed_tesim'].first.to_s == "true" if self['toc_embargoed_tesim']
+    true
   end
 
+  # If this is a boolean, return the boolean value
+  # If this is a string, transform it into a boolean
+  # If the value is nil or can't be determined, assume it is embargoed
   def files_embargoed
-    self['files_embargoed_bsi']
+    return self['files_embargoed_bsi'] if self['files_embargoed_bsi']
+    return self['files_embargoed_tesim'].first.to_s == "true" if self['files_embargoed_tesim']
+    true
   end
 
   def table_of_contents
