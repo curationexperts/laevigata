@@ -52,6 +52,32 @@ RSpec.describe Etd do
       etd.assign_admin_set
       expect(etd.admin_set.title).to contain_exactly("Epidemiology")
     end
+    # NOTE: These tests are here so that no one can change the name
+    # of a program or subfield in the authorities file and accidentally
+    # break the assignment of admin sets after ETD submission. If we change
+    # anything about the program names, or add a new one, we must ensure
+    # a corresponding admin set exists where that content will be routed.
+    it "can assign an admin set for every Rollins department except Environmental Health" do
+      # Get all options for Rollins departments
+      config = YAML.safe_load(File.read(Rails.root.join('config', 'authorities', 'rollins_programs.yml')))
+      rollins_programs = config["terms"].map { |a| a["id"] }
+      rollins_programs.each do |department|
+        next if department == "Environmental Health"
+        etd.school = ["Rollins School of Public Health"]
+        etd.department = [] << department
+        expect(etd.determine_admin_set).to eq department
+      end
+    end
+    it "can assign an admin set for every subfield in the department of Environmental Health" do
+      config = YAML.safe_load(File.read(Rails.root.join('config', 'authorities', 'environmental_programs.yml')))
+      environmental_programs = config["terms"].map { |a| a["id"] }
+      environmental_programs.each do |subfield|
+        etd.school = ["Rollins School of Public Health"]
+        etd.department = ["Environmental Health"]
+        etd.subfield = [] << subfield
+        expect(etd.determine_admin_set).to eq subfield
+      end
+    end
   end
 
   context "three kinds of embargo" do

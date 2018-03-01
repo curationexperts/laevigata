@@ -81,8 +81,10 @@ RSpec.describe WorkflowSetup do
   context "admin_set config" do
     it "has an array of all the admin_sets" do
       expect(w.admin_sets).to include("Laney Graduate School", "Emory College", "Candler School of Theology")
-      rollins_programs = YAML.safe_load(File.read("#{::Rails.root}/config/authorities/rollins_programs.yml"))
-      rollins_programs["terms"].map { |p| p["id"] }.each do |program_name|
+      config = YAML.safe_load(File.read(Rails.root.join('config', 'authorities', 'rollins_programs.yml')))
+      rollins_programs = config["terms"].map { |a| a["id"] }
+      rollins_programs.each do |program_name|
+        next if program_name == "Environmental Health"
         expect(w.admin_sets).to include(program_name)
       end
     end
