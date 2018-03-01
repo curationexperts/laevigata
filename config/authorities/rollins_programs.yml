@@ -1,7 +1,12 @@
+# NOTE: If you want to change the name of a program, change the term value, 
+# but NOT the id value. Id values must match the admin sets that are expected.
+# If you are adding a new option, you must also ensure it is added to 
+# `config/emory/admin_sets.yml`, both in this code base and on every server
+# where this code is deployed.
 terms:
-    - id: Behavioral Sciences & Health Education - MPH
+    - id: Behavioral Sciences and Health Education
       term: Behavioral Sciences & Health Education - MPH
-    - id: Biostatistics and Bioinformatics
+    - id: Biostatistics
       term: Biostatistics and Bioinformatics
     - id: Environmental Health
       term: Environmental Health
@@ -9,7 +14,7 @@ terms:
       term: Epidemiology
     - id: Executive Masters of Public Health - MPH
       term: Executive Masters of Public Health - MPH
-    - id: Health Policy and Management - MSPH
+    - id: Health Policy and Management
       term: Health Policy and Management - MSPH
-    - id: Hubert Department of Global Health - MPH
+    - id: Hubert Department of Global Health
       term: Hubert Department of Global Health - MPH 
