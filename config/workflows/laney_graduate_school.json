@@ -86,6 +86,13 @@
                       "Hyrax::Workflow::DeactivateObject"
                     ]
                 }, {
+                    "name": "publish",
+                    "from_states": [{"names": ["approved"], "roles": []}],
+                    "transition_to": "published",
+                    "methods": [
+                      "Hyrax::Workflow::ActivateObject"
+                    ]
+                }, {
                     "name": "comment_only",
                     "from_states": [
                         { "names": ["pending_review", "pending_approval", "approved"], "roles": ["reviewing", "approving"] },

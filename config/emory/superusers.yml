@@ -1,6 +1,5 @@
 superusers:
   database:
    - bess
-   - alicia
   shibboleth:
    - tezprox # tezprox

@@ -17,7 +17,8 @@ class GraduationJob < ActiveJob::Base
     @work = Etd.find(work_id)
     record_degree_awarded_date(graduation_date)
     update_embargo_release_date
-    activate_object
+    update_depositor_email
+    publish_object
     ProquestJob.perform_later(@work.id)
     send_notifications
     @work.save
@@ -31,29 +32,38 @@ class GraduationJob < ActiveJob::Base
     graduation_date + Integer(number).send(units.to_sym)
   end
 
-  protected
+  # @param [Date] graduation_date
+  def record_degree_awarded_date(graduation_date)
+    @work.degree_awarded = graduation_date
+  end
 
-    # TODO: Check for formatting and whether we need String to Date conversion
-    # @param [Date] graduation_date
-    def record_degree_awarded_date(graduation_date)
-      @work.degree_awarded = graduation_date
-    end
+  # Update the email address of the depositor with their post-graduation email,
+  # so that we use that for all future notifications
+  def update_depositor_email
+    depositor = ::User.find_by_user_key(@work.depositor)
+    depositor.email = @work.post_graduation_email.first
+    depositor.save
+  end
 
-    def update_embargo_release_date
-      return unless @work.embargo_length
-      @work.embargo.embargo_release_date = GraduationJob.embargo_length_to_embargo_release_date(@work.degree_awarded, @work.embargo_length)
-      @work.embargo.save
-      Rails.logger.info "Work #{@work.id} embargo release date set to #{@work.embargo.embargo_release_date}"
-    end
+  def update_embargo_release_date
+    return unless @work.embargo_length
+    @work.embargo.embargo_release_date = GraduationJob.embargo_length_to_embargo_release_date(@work.degree_awarded, @work.embargo_length)
+    @work.embargo.save
+    Rails.logger.info "Work #{@work.id} embargo release date set to #{@work.embargo.embargo_release_date}"
+  end
 
-    def send_notifications
-      work_global_id = @work.to_global_id.to_s
-      entity = Sipity::Entity.where(proxy_for_global_id: work_global_id).first
-      Hyrax::Workflow::DegreeAwardedNotification.send_notification(entity: entity, comment: '', user: ::User.where(ppid: WorkflowSetup::NOTIFICATION_OWNER).first, recipients: nil)
-    end
+  def send_notifications
+    work_global_id = @work.to_global_id.to_s
+    entity = Sipity::Entity.where(proxy_for_global_id: work_global_id).first
+    Hyrax::Workflow::DegreeAwardedNotification.send_notification(entity: entity, comment: '', user: ::User.where(ppid: WorkflowSetup::NOTIFICATION_OWNER).first, recipients: nil)
+  end
 
-    # Replicating behavior of Hyrax::Workflow::ActivateObject
-    def activate_object
-      @work.state = Vocab::FedoraResourceStatus.active
-    end
+  # Transition the workflow of this object to the "published" workflow state
+  # This should also mark it as active.
+  def publish_object
+    approving_user = ::User.find_by_uid(WorkflowSetup::ADMIN_SET_OWNER)
+    subject = Hyrax::WorkflowActionInfo.new(@work, approving_user)
+    sipity_workflow_action = PowerConverter.convert_to_sipity_action("publish", scope: subject.entity.workflow) { nil }
+    Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "Published by graduation job #{Time.zone.today}")
+  end
 end

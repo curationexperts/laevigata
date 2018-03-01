@@ -46,7 +46,6 @@ RSpec.feature 'Candler approval workflow' do
       visit("/notifications?locale=en")
 
       expect(page).to have_content "#{etd.title.first} (#{etd.id}) was deposited by #{depositing_user.display_name} and is awaiting approval."
-
       # Check workflow permissions for approving user
       available_workflow_actions = Hyrax::Workflow::PermissionQuery.scope_permitted_workflow_actions_available_for_current_state(user: approving_user, entity: etd.to_sipity_entity).pluck(:name)
       expect(available_workflow_actions.include?("mark_as_reviewed")).to eq false # this workflow step should only exist for Laney
@@ -71,6 +70,11 @@ RSpec.feature 'Candler approval workflow' do
       sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
       Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: nil)
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "approved"
+
+      # once the work is approved, only the admin set owner should be able to publish
+      # Approvers should *not* have a publish option
+      available_workflow_actions = Hyrax::Workflow::PermissionQuery.scope_permitted_workflow_actions_available_for_current_state(user: approving_user, entity: etd.to_sipity_entity).pluck(:name)
+      expect(available_workflow_actions.include?("publish")).to eq false
 
       # Check notifications for approving user
       visit("/notifications?locale=en")
