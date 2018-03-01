@@ -153,7 +153,7 @@ FactoryBot.define do
       end
       factory :ready_for_proquest_submission_phd do
         title ["ProQuest PhD: #{FFaker::Book.title}"]
-        degree_awarded { Time.zone.today - 1.week }
+        degree_awarded { (Time.zone.today - 1.week).strftime('%Y-%m-%d') }
         submitting_type { [] << "Dissertation" }
         school ["Laney Graduate School"]
         admin_set do
