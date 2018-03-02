@@ -63,6 +63,10 @@ Rails/FindBy:
 
 RSpec/ExampleLength:
   Enabled: false
+  
+RSpec/MessageSpies:
+  Exclude:
+    - 'spec/controllers/hyrax/admin/workflows_controller_spec.rb'
 
 RSpec/MultipleExpectations:
   Enabled: false
