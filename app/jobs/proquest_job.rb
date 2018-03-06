@@ -37,12 +37,12 @@ class ProquestJob < ActiveJob::Base
     return false unless work.proquest_submission_date.empty?
     # Condition 1: Is it from Laney Graduate School?
     return false unless work.school.first == "Laney Graduate School"
-    # Condition 2: Has it been approved?
-    return false unless work.to_sipity_entity.workflow_state_name == 'approved'
+    # Condition 2: Has the student graduated?
+    return false unless work.to_sipity_entity.workflow_state_name == 'published'
     # Condition 3: Has the degree been awarded?
     return false unless work.degree_awarded
     # Condition 4: Is this a PhD?
-    return true if work.degree.first == "PhD"
+    return true if work.degree.first.downcase.tr('.', '') == "phd"
     # Condition 5: Or is this a Master's student who has chosen to submit?
     return true if work.choose_proquest_submission.first == true
     false

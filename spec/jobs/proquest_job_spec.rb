@@ -38,13 +38,15 @@ describe ProquestJob do
       subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
       sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
       Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "Preapproved")
+      sipity_workflow_action = PowerConverter.convert_to_sipity_action("publish", scope: subject.entity.workflow) { nil }
+      Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "Graduated")
       etd.state = Vocab::FedoraResourceStatus.active # simulates GraduationJob
       etd.save
     end
     it "checks that this work meets the criteria for ProQuest PhD submission" do
       expect(etd.school).to contain_exactly("Laney Graduate School")
       expect(etd.degree).to contain_exactly("PhD")
-      expect(etd.to_sipity_entity.workflow_state_name).to eq "approved"
+      expect(etd.to_sipity_entity.workflow_state_name).to eq "published"
       expect(etd.proquest_submission_date).to be_empty
       expect(etd.degree_awarded).not_to be_empty
       expect(described_class.submit_to_proquest?(etd)).to eq true
