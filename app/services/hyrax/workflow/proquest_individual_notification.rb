@@ -5,8 +5,8 @@ module Hyrax
     # Notification to an individual that their ETD has been submitted to ProQuest.
     # Should notify work depositor only.
     class ProquestIndividualNotification
-      def self.send_notification(work_id, subject, message)
-        ProquestIndividualNotification.new(work_id, subject, message).call
+      def self.send_notification(work_id)
+        ProquestIndividualNotification.new(work_id).call
       end
 
       def initialize(work_id)
