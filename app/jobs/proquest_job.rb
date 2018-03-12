@@ -13,28 +13,27 @@ class ProquestJob < ActiveJob::Base
   queue_as Hyrax.config.ingest_queue_name
 
   # @param [String] work_id - the id of the work object
-  def perform(work_id)
+  def perform(work_id, transmit: true, cleanup: true, retransmit: false)
     @work = Etd.find(work_id)
-    return unless ProquestJob.submit_to_proquest?(@work)
+    return unless ProquestJob.submit_to_proquest?(@work, retransmit)
+    Rails.logger.info "Submitting #{work_id} to ProQuest"
     # 1. Create a directory. Done. See config/environments
     # 2. Write XML file there Done.
     # 3. Write PDF and supplementary files there. Done.
     # 4. Zip the directory. Done. Tasks 1 - 4 encapsulated in export_zipped_proquest_package
     @upload_file = @work.export_zipped_proquest_package
     # 5. Transmit the zip to ProQuest
-    transmit_file
-    cleanup_file
+    transmit_file if transmit
+    cleanup_file if cleanup
     ProquestCompletionJob.perform_later(work_id)
   end
 
   # Does this work meet the criteria required for ProQuest submission?
   # @param [ActiveFedora::Base] work - the work object
   # @return [Boolean]
-  def self.submit_to_proquest?(work)
+  def self.submit_to_proquest?(work, retransmit = false)
     # Do not submit hidden works
     return false if work.hidden
-    # Condition 0: Has is already been submitted to ProQuest?
-    return false unless work.proquest_submission_date.empty?
     # Condition 1: Is it from Laney Graduate School?
     return false unless work.school.first == "Laney Graduate School"
     # Condition 2: Has the student graduated?
@@ -43,8 +42,9 @@ class ProquestJob < ActiveJob::Base
     return false unless work.degree_awarded
     # Condition 4: Is this a PhD?
     return true if work.degree.first.downcase.tr('.', '') == "phd"
-    # Condition 5: Or is this a Master's student who has chosen to submit?
-    return true if work.choose_proquest_submission.first == true
+    # Has is already been submitted to ProQuest, or is this a re-submission?
+    return true if retransmit
+    return false unless work.proquest_submission_date.empty?
     false
   end
 
