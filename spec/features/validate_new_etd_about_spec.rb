@@ -18,6 +18,13 @@ RSpec.feature 'Validate an Etd: About Me' do
       expect(find_field("etd[committee_members_attributes][0]_affiliation").value).to eq("MOMA")
     end
 
+    scenario "'about me' committee affiliation accepts user input when No Committee Members is selected", js: true unless continuous_integration? do
+      select('No Committee Members', from: 'etd_committee_members_attributes_0_affiliation_type')
+      wait_for_ajax
+      expect(find_field("etd[committee_members_attributes][0]_affiliation").value).to eq("N/A")
+      expect(find_field("etd[committee_members_attributes][0][name][]").value).to eq("N/A")
+    end
+
     scenario "'about me' adds and removes committee members", js: true unless continuous_integration? do
       click_on("Add another Committee Member")
       wait_for_ajax
