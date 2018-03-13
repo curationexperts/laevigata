@@ -9,7 +9,7 @@
 #  # Process all requests for today's date
 #  ProquestNotificationService.run
 #  # Process all requests for 8 Feb 2018
-#  EmbargoExpirationService.run(2018-02-08)
+#  ProquestNotificationService.run("2018-03-06")
 class ProquestNotificationService
   # Run the service. By default, it will process today.
   # You can also pass in a date in the form YYYY-MM-DD
@@ -33,7 +33,7 @@ class ProquestNotificationService
   end
 
   def initialize(date)
-    @date = date
+    @date = Date.parse(date.to_s)
   end
 
   # Given a work, format it for inclusion in the proquest email
