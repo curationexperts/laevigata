@@ -94,7 +94,7 @@ export default class ReviewMyETD {
 
   aboutMeData(){
     // just the non-committee text inputs
-    let no_committee_data = $('#about_me :input').not('.form-control.committee').not('.committee-member-select').not('.committee-chair-select').not(':button').not('[type="hidden"]').serializeArray();
+    let no_committee_data = $('#about_me :input').not('.form-control.committee').not('.committee-member-select').not('.committee-chair-select').not(':button').not('[type="hidden"]').not('#no_committee_members').serializeArray();
 
     let committee_member_rows = $('#about_me div.committee-member.row').not('#member-cloning_row');
 
@@ -105,8 +105,12 @@ export default class ReviewMyETD {
     let committee_chair_data = this.getCommitteeRow(committee_chair_rows);
 
     var partial_data = $.merge(no_committee_data, committee_chair_data);
-    var data = $.merge(partial_data, committee_member_data)
-
+    if($('#no_committee_members').prop('checked')){
+      var data = partial_data
+    }else{
+      var data = $.merge(partial_data, committee_member_data)
+    }
+    
     var final_data = this.suppressPartneringAgency(data);
     return final_data;
   }
@@ -144,6 +148,15 @@ export default class ReviewMyETD {
       }
     });
 
+    // if no committee member re-disable fields
+    if($('#no_committee_members').prop('checked')){
+      $('.committee-member-name').prop('disabled', true);
+      $('.committee-member-school').prop('disabled', true);
+      $('.committee-member-select').prop('disabled', true);
+      $('#add-another-member').prop('disabled', true);
+
+    }
+
     return member_string.join(', ');
   }
 
@@ -152,7 +165,7 @@ export default class ReviewMyETD {
     let name = "";
 
     for (var i = 0; i < rows.length; i++){
-      var row_inputs = $(rows[i]).find('input').not('select');
+      var row_inputs = $(rows[i]).find('input').not('select').not('input[name="etd[no_committee_members]"]');
         committee += `${this.name_and_affiliation(row_inputs)}`;
         if (i !== (rows.length - 1)) {
           committee += '<br/>'

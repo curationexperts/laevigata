@@ -223,4 +223,33 @@ RSpec.describe Hyrax::EtdForm do
       it { is_expected.to eq 'Non-Emory Committee Chair' }
     end
   end
+
+  # Figure out the correct state for the 'no committee members' checkbox on the ETD form.
+  describe "#no_committee_members" do
+    subject { form.no_committee_members }
+
+    context "ETD with no committee members" do
+      context "a new record" do
+        it { is_expected.to eq false }
+      end
+
+      context "an existing record" do
+        before { etd.save! }
+        it { is_expected.to eq true }
+      end
+    end
+
+    context "ETD with committee members" do
+      # let(:no_committee_members) {true}
+      let(:etd) { build(:ateer_etd) }
+      context "a new record" do
+        it { is_expected.to eq false }
+      end
+
+      context "an existing record" do
+        before { etd.save! }
+        it { is_expected.to eq false }
+      end
+    end
+  end
 end

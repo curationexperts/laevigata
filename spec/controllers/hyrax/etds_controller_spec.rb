@@ -204,6 +204,32 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs do
         end
       end
     end
+
+    context 'no committee members' do
+      let(:no_committee_members) { true }
+      context 'student checks "no committee members" checkbox' do
+        let(:new_attrs) do
+          {
+            "no_committee_members" => "1"
+          }
+        end
+        before do
+          etd.committee_members.build
+        end
+        it 'deletes the existing committee members' do
+          expect {
+            patch :update, params: {
+              id: etd,
+              etd: new_attrs }
+          }.to change { etd.committee_members_names.count }.by(0)
+
+          assert_redirected_to main_app.hyrax_etd_path(etd, locale: 'en')
+          etd.reload
+          expect(etd.committee_members).to eq []
+          expect(etd.committee_members_names).to eq []
+        end
+      end
+    end
   end
 
   describe "POST create" do

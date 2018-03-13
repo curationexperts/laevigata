@@ -68,12 +68,14 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.supplementalFilesListener()
       this.setEmbargoLengths()
       this.setEmbargoContentListener()
+      this.setCommitteeMembersContentListener()
       this.setAgreementListener()
       this.setTinyListener()
       this.supplementalMetadataListener()
 
       // Check if the form is already valid. (e.g. If the user is editing an existing record, the form should be valid immediately.)
       this.updateEmbargoState('#no_embargoes', this);
+      this.updateCommitteeMembersState('#no_committee_members', this);
       this.updateReviewState('#agreement', this);
       this.updateTinyMceState()
       this.validateAllTabs()
@@ -227,7 +229,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
         case '#my_embargoes':
           return this.validateMyEmbargo()
         default:
-          //console.log('nothing is valid');
           break;
       }
     }
@@ -363,6 +364,12 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       } else {
         this.requiredAboutMeFields.requiredFields = $(this.requiredAboutMeFields.requiredFields).add($("#etd_partnering_agency"))
       }
+
+      // If no committee members is checked then fields not required
+      if ($('#no_committee_members').is(':checked')){
+        this.requiredAboutMeFields.requiredFields = $(this.requiredAboutMeFields.requiredFields).not(".committee-member-select, .committee-member-name, .committee-member-school")
+      }
+
       if (this.requiredAboutMeFields.areComplete) {
         this.requiredMeAndMyProgram.check()
         return true
@@ -422,5 +429,42 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.supplementalFiles.uncheck()
       return false
     }
+  }
+
+  // Making committee members optional
+
+  disableCommitteeMembers(){
+      $('.etd_committee_members_affiliation_type select').val("")
+      $('.etd_committee_members_affiliation_type select').prop('disabled', true);
+      $('.etd_committee_members_affiliation input').val("")
+      $('.etd_committee_members_affiliation input').prop('disabled', true);
+      $('.etd_committee_members_name input').val("")
+      $('.etd_committee_members_name input').prop('disabled', true);
+      $('#add-another-member').prop('disabled', true);
+  }
+
+  enableCommitteeMembers(){
+      $('#add-another-member').prop('disabled', false);
+      $('.etd_committee_members_name input').prop('disabled', false);
+      $('.etd_committee_members_affiliation_type select').prop('disabled', false);
+      $('.etd_committee_members_affiliation input').prop('disabled', false);
+
+  }
+
+  updateCommitteeMembersState(no_committee_members_checkbox, form){
+      if ($(no_committee_members_checkbox).prop('checked')){
+        form.disableCommitteeMembers();
+      } else {
+        form.enableCommitteeMembers();
+      }
+      form.requiredAboutMeFields.reload('.about-me');
+      form.validateMeAndMyProgram()
+  }
+
+  setCommitteeMembersContentListener(){
+      var form = this
+      $("#no_committee_members").on('change', function(e){
+        form.updateCommitteeMembersState(this, form);
+      });
   }
 }
