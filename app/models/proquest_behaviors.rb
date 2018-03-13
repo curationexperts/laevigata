@@ -12,6 +12,7 @@ module ProquestBehaviors
   def export_zipped_proquest_package
     FileUtils.mkdir_p export_directory
     output_file = "#{@export_directory}/#{upload_file_id}.zip"
+    File.delete(output_file) if File.file? output_file
     Zip::File.open(output_file, Zip::File::CREATE) do |zip|
       zip.dir.mkdir(upload_file_id)
       zip.file.open("#{upload_file_id}/#{xml_filename}", 'w') { |file| file.write(export_proquest_xml) }
@@ -21,6 +22,7 @@ module ProquestBehaviors
           open(fs.files.first.uri, "rb") do |read_file|
             saved_file.write(read_file.read)
           end
+          raise "Primary file not exported" unless File.file? saved_file
         end
       end
       # Any supplemental files go into a subdirectory called lastname_firstname_Media
@@ -30,6 +32,7 @@ module ProquestBehaviors
           open(fs.files.first.uri, "rb") do |read_file|
             saved_file.write(read_file.read)
           end
+          raise "Supplemental file not exported" unless File.file? saved_file
         end
       end
     end
