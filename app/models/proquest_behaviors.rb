@@ -17,13 +17,11 @@ module ProquestBehaviors
       zip.dir.mkdir(upload_file_id)
       zip.file.open("#{upload_file_id}/#{xml_filename}", 'w') { |file| file.write(export_proquest_xml) }
       # The primary thesis file goes in the main directory
-      primary_file_fs.each do |fs|
-        zip.file.open("#{upload_file_id}/#{fs.label}", "wb") do |saved_file|
-          open(fs.files.first.uri, "rb") do |read_file|
-            saved_file.write(read_file.read)
-          end
-          raise "Primary file not exported" unless File.file? saved_file
+      zip.file.open("#{upload_file_id}/#{primary_file_fs.first.label}", "wb") do |saved_file|
+        open(primary_pdf_file.uri, "rb") do |read_file|
+          saved_file.write(read_file.read)
         end
+        raise "Primary file not exported" unless File.file? saved_file
       end
       # Any supplemental files go into a subdirectory called lastname_firstname_Media
       zip.dir.mkdir("#{upload_file_id}/#{supplemental_files_directory}")

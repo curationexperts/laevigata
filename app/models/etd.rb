@@ -82,6 +82,11 @@ class Etd < ActiveFedora::Base
     members.select(&:primary?)
   end
 
+  # Get primary pdf file
+  def primary_pdf_file
+    members.select(&:primary?).first.files.select { |a| a.mime_type == "application/pdf" }.first
+  end
+
   # Get all attached file sets that are not "primary"
   def supplemental_files_fs
     members.reject(&:primary?)
