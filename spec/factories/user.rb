@@ -3,6 +3,7 @@ FactoryBot.define do
     ppid { ActiveFedora::Noid::Service.new.mint }
     uid { FFaker::Internet.user_name }
     display_name { FFaker::Name.name }
+    email { FFaker::Internet.email }
 
     transient do
       # Allow for custom groups when a user is instantiated.
