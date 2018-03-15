@@ -368,6 +368,8 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       // If no committee members is checked then fields not required
       if ($('#no_committee_members').is(':checked')){
         this.requiredAboutMeFields.requiredFields = $(this.requiredAboutMeFields.requiredFields).not(".committee-member-select, .committee-member-name, .committee-member-school")
+        $('.cloning').not('.hidden').remove();
+
       }
 
       if (this.requiredAboutMeFields.areComplete) {
@@ -434,21 +436,22 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
   // Making committee members optional
 
   disableCommitteeMembers(){
-      $('.etd_committee_members_affiliation_type select').val("")
-      $('.etd_committee_members_affiliation_type select').prop('disabled', true);
-      $('.etd_committee_members_affiliation input').val("")
-      $('.etd_committee_members_affiliation input').prop('disabled', true);
-      $('.etd_committee_members_name input').val("")
-      $('.etd_committee_members_name input').prop('disabled', true);
+      $('.committee-member .etd_committee_members_affiliation_type select').val("")
+      $('.committee-member .etd_committee_members_affiliation_type select').prop('disabled', true);
+      $('.committee-member .etd_committee_members_affiliation input').val("")
+      $('.committee-member .etd_committee_members_affiliation input').prop('disabled', true);
+      $('.committee-member .etd_committee_members_name input').val("")
+      $('.committee-member .etd_committee_members_name input').prop('disabled', true);
       $('#add-another-member').prop('disabled', true);
   }
 
   enableCommitteeMembers(){
       $('#add-another-member').prop('disabled', false);
-      $('.etd_committee_members_name input').prop('disabled', false);
-      $('.etd_committee_members_affiliation_type select').prop('disabled', false);
-      $('.etd_committee_members_affiliation input').prop('disabled', false);
-
+      $('.committee-member .etd_committee_members_name input').prop('disabled', false);
+      $('.committee-member .etd_committee_members_affiliation_type select').prop('disabled', false);
+      if($('.committee-member .etd_committee_members_affiliation_type select').val() != "Emory Committee Member"){
+      $('.committee-member .etd_committee_members_affiliation input').prop('disabled', false);
+      }
   }
 
   updateCommitteeMembersState(no_committee_members_checkbox, form){

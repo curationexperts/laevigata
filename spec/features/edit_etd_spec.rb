@@ -178,7 +178,7 @@ RSpec.feature 'Edit an existing ETD', :perform_jobs do
         expect(find_field("Committee Member's Affiliation")).not_to be_disabled
         expect(find_field(id: 'etd[committee_members_attributes][0]_name').value).to eq cm_attrs.first[:name]
         expect(find_field(id: 'etd[committee_members_attributes][0]_name')).not_to be_disabled
-        expect(find('#etd\[committee_members_attributes\]\[0\]\_affiliation')).not_to be_disabled
+        expect(find('#etd\[committee_members_attributes\]\[0\]\_affiliation')).to be_disabled
         expect(find('#etd\[committee_members_attributes\]\[0\]\_affiliation').value).to eq 'Emory'
 
         # Verify existing data in About My ETD tab

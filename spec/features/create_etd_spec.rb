@@ -151,7 +151,7 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_content 'Submission Dissertation'
       expect(page).to have_content 'Committee Chair / Thesis Advisor Fred'
       expect(page).to have_content 'Committee Members Barney'
-      expect(etd.committee_chair.map(&:affiliation)).to include ["Emory"]
+      expect(etd.committee_chair.map(&:affiliation)).to include ["Emory University"]
       expect(etd.committee_members.map(&:affiliation)).to include ['Emory University']
 
       # Verify metadata from 'My ETD' tab
