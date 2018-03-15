@@ -2,12 +2,24 @@ inherit_gem:
   bixby: bixby_default.yml
 
 AllCops:
+  TargetRubyVersion: 2.3
   Exclude:
     - 'db/**/*'
     - 'script/**/*'
     - 'vendor/**/*'
     - 'tmp/**/*'
     - 'config/initializers/explain_partials.rb'
+
+# BEGIN; Disabled in move to 2.3 sytax linter
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false
+
+Style/SafeNavigation:
+  Enabled: false
+# END; Disabled in move to 2.3 sytax linter
 
 Layout/SpaceAroundOperators:
   Exclude:
