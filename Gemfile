@@ -76,6 +76,8 @@ group :development, :test do
   gem 'rspec-rails', "~> 3.5"
   gem 'shoulda-matchers'
   gem 'solr_wrapper', '>= 0.3'
+  gem 'vcr'
+  gem 'webmock'
 end
 
 group :development do

@@ -1,0 +1,1415 @@
+---
+http_interactions:
+- request:
+    method: head
+    uri: http://127.0.0.1:8986/rest/test/tq/57/nr/00/tq57nr00k
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic ZmVkb3JhQWRtaW46ZmVkb3JhQWRtaW4=
+      User-Agent:
+      - Faraday v0.12.2
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Fri, 16 Mar 2018 16:38:36 GMT
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Cache-Control:
+      - must-revalidate,no-cache,no-store
+      Content-Length:
+      - '315'
+      Server:
+      - Jetty(9.2.3.v20140905)
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 16:38:36 GMT
+- request:
+    method: head
+    uri: http://127.0.0.1:8986/rest/test/tq/57/nr/00/tq57nr00k
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic ZmVkb3JhQWRtaW46ZmVkb3JhQWRtaW4=
+      User-Agent:
+      - Faraday v0.12.2
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Fri, 16 Mar 2018 16:38:36 GMT
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Cache-Control:
+      - must-revalidate,no-cache,no-store
+      Content-Length:
+      - '315'
+      Server:
+      - Jetty(9.2.3.v20140905)
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 16:38:36 GMT
+- request:
+    method: head
+    uri: https://staging-etd.library.emory.edu/downloads/5h73pw048
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 16 Mar 2018 16:38:37 GMT
+      Server:
+      - Apache/2.4.18 (Ubuntu)
+      Cache-Control:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Request-Id:
+      - e790a02b-0ed3-4ff3-bf79-516073bd0c9f
+      Accept-Ranges:
+      - bytes
+      X-Runtime:
+      - '0.078472'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      X-Powered-By:
+      - Phusion Passenger 5.1.6
+      Content-Length:
+      - '1864'
+      Status:
+      - 200 OK
+      Content-Type:
+      - text/html
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 16:38:37 GMT
+- request:
+    method: get
+    uri: https://staging-etd.library.emory.edu/downloads/5h73pw048
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 16 Mar 2018 16:38:37 GMT
+      Server:
+      - Apache/2.4.18 (Ubuntu)
+      Cache-Control:
+      - private
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Request-Id:
+      - 29f91994-3b76-4ce3-8c59-ff414421f097
+      Content-Disposition:
+      - inline; filename="box_error.html"
+      Accept-Ranges:
+      - bytes
+      Content-Transfer-Encoding:
+      - binary
+      X-Runtime:
+      - '0.081616'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      X-Powered-By:
+      - Phusion Passenger 5.1.6
+      Last-Modified:
+      - Fri, 16 Mar 2018 16:08:48 GMT
+      Content-Length:
+      - '1864'
+      Status:
+      - 200 OK
+      Vary:
+      - Accept-Encoding
+      Content-Type:
+      - text/html
+    body:
+      encoding: UTF-8
+      string: "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n<!--
+        saved from url=(0049)https://etd.library.emory.edu/downloads/7m01bk68h -->\n<html
+        xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\"><head><meta
+        http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1252\">\n
+        \ <title>Box - Free Online File Storage, Internet File Sharing, RSS Sharing,
+        Access Documents &amp; Files Anywhere, Backup Data, Share Files</title>\n
+        \ <style type=\"text/css\">\n\tbody, html {height: 100%;}\n\n\tbody\n\t{\n\t\tmargin:
+        0;\n\t\tpadding: 0;\n\t\tbackground: #F8FEFE url(https://static.box.com/bc/error/img/linear_g.gif)
+        left top repeat-x;\n\t\tfont-family: Arial;\n\t}\n\n\tdiv.outer\n\t{\n\t\theight:
+        100%;\n\t\toverflow: visible;\n\t}\n\n\tdiv.content\n\t{\n\t\ttop: 40%;\n\t\tposition:
+        relative;\n\t}\n\n\tdiv.error_box\n\t{\n\t\ttop: -80px;\n\t\tposition: relative;\n\t\t/*width:
+        510px;*/\n\t\tmargin: auto;\n\t\ttext-align: center;\n\t}\n\n\tdiv.error_box
+        img\n\t{\n\t\tborder: 0;\n\t}\n\n\tdiv.error_box div.message\n\t{\n\t\tmargin:
+        50px auto 0 auto;\n\t\tpadding-top: 10px;\n\t\tfont-size: 12px;\n\t\tcolor:
+        #489BD9;\n\t\twidth: 510px;\n\t\tline-height: 20px;\n\t\ttext-align: center;\n\t}\n\n\tdiv.error_box
+        div.message a\n\t{\n\t\ttext-decoration: none;\n\t\tcolor: #489BD9;\n\t\tbackground:
+        url(https://static.box.com/bc/error/img/blue3_1px.gif) left bottom repeat-x;\n\t}\n\n
+        \ </style>\n</head>\n\n<body>\n  <div class=\"outer\">\n\n    <div class=\"content\">\n
+        \     <div class=\"error_box\">\n        <a href=\"http://www.box.com/\" onmousedown=\"return
+        false;\"><img src=\"./box_error_files/logo150.png\" alt=\"Box.com\"></a>\n
+        \       <div class=\"message\">\n\t\t\tThe link you're trying to access can't
+        be used to share files. Please ask the file owner to provide you with a shared
+        link instead.\n\t\t\t<a href=\"http://www.box.com/help\"> Contact Box Support
+        if you need help. </a>\n        </div>\n\t</div>\n    </div>\n  </div>\n\n
+        \n\n\n</body></html>"
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 16:38:37 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:8985/solr/hydra-test/select?q=%7B!join%20from=proxy_in_ssi%20to=id%7Dordered_targets_ssim:9593tv123&qt=standard&rows=10000&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Last-Modified:
+      - Fri, 16 Mar 2018 16:38:36 GMT
+      Etag:
+      - '"MmQyMDAwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Content-Length:
+      - '1068'
+    body:
+      encoding: UTF-8
+      string: "{'responseHeader'=>{'status'=>0,'QTime'=>3,'params'=>{'q'=>'{!join
+        from=proxy_in_ssi to=id}ordered_targets_ssim:9593tv123','qt'=>'standard','rows'=>'10000','wt'=>'ruby'}},'response'=>{'numFound'=>1,'start'=>0,'docs'=>[{'system_create_dtsi'=>'2018-03-16T16:38:27Z','system_modified_dtsi'=>'2018-03-16T16:38:36Z','has_model_ssim'=>['Etd'],'id'=>'jq085j963','accessControl_ssim'=>['c95824e7-3517-40e5-a354-5d9fed24d6cf'],'title_tesim'=>['The
+        Bloody Woman'],'rights_statement_tesim'=>['Permission granted by the author
+        to include this thesis or dissertation in this repository. All rights reserved
+        by the author. Please contact the author for information regarding the reproduction
+        and use of this thesis or dissertation.'],'thumbnail_path_ss'=>'/assets/work-ff055336041c3f7d310ad69109eda4a887b16ec501f35afc0a547c4adb97ee72.png','suppressed_bsi'=>false,'member_ids_ssim'=>['9593tv123'],'file_set_ids_ssim'=>['9593tv123'],'human_readable_type_tesim'=>['ETD'],'read_access_group_ssim'=>['public'],'_version_'=>1595113017562890240,'timestamp'=>'2018-03-16T16:38:36.613Z'}]}}\n"
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 16:38:37 GMT
+- request:
+    method: head
+    uri: http://127.0.0.1:8986/rest/test/jq/08/5j/96/jq085j963
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic ZmVkb3JhQWRtaW46ZmVkb3JhQWRtaW4=
+      User-Agent:
+      - Faraday v0.12.2
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 16 Mar 2018 16:38:37 GMT
+      Etag:
+      - W/"6f3ed7801bdf3db353f679a93579108ad570bc1c"
+      Last-Modified:
+      - Fri, 16 Mar 2018 16:38:36 GMT
+      Link:
+      - <http://www.w3.org/ns/ldp#BasicContainer>;rel="type"
+      - <http://www.w3.org/ns/ldp#Container>;rel="type"
+      - <http://www.w3.org/ns/ldp#Resource>;rel="type"
+      Accept-Patch:
+      - application/sparql-update
+      Accept-Post:
+      - text/turtle,text/rdf+n3,text/n3,application/rdf+xml,application/n-triples,application/ld+json,multipart/form-data,application/sparql-update
+      Allow:
+      - MOVE,COPY,DELETE,POST,HEAD,GET,PUT,PATCH,OPTIONS
+      Content-Type:
+      - application/ld+json
+      Content-Length:
+      - '0'
+      Server:
+      - Jetty(9.2.3.v20140905)
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 16:38:37 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:8986/rest/test/jq/08/5j/96/jq085j963
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic ZmVkb3JhQWRtaW46ZmVkb3JhQWRtaW4=
+      User-Agent:
+      - Faraday v0.12.2
+      Prefer:
+      - return=representation
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 16 Mar 2018 16:38:37 GMT
+      Etag:
+      - W/"6f3ed7801bdf3db353f679a93579108ad570bc1c"
+      Last-Modified:
+      - Fri, 16 Mar 2018 16:38:36 GMT
+      Link:
+      - <http://www.w3.org/ns/ldp#BasicContainer>;rel="type"
+      - <http://www.w3.org/ns/ldp#Container>;rel="type"
+      - <http://www.w3.org/ns/ldp#Resource>;rel="type"
+      Accept-Patch:
+      - application/sparql-update
+      Accept-Post:
+      - text/turtle,text/rdf+n3,text/n3,application/rdf+xml,application/n-triples,application/ld+json,multipart/form-data,application/sparql-update
+      Allow:
+      - MOVE,COPY,DELETE,POST,HEAD,GET,PUT,PATCH,OPTIONS
+      Preference-Applied:
+      - return=representation
+      Vary:
+      - Accept, Range, Accept-Encoding, Accept-Language
+      - Prefer
+      Content-Type:
+      - text/turtle;charset=utf-8
+      Content-Length:
+      - '4531'
+      Server:
+      - Jetty(9.2.3.v20140905)
+    body:
+      encoding: UTF-8
+      string: |
+        @prefix premis:  <http://www.loc.gov/premis/rdf/v1#> .
+        @prefix ns022:  <http://purl.org/spar/pso/embargoed#> .
+        @prefix ns021:  <http://pcdm.org/> .
+        @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+        @prefix ns020:  <http://www.iana.org/assignments/relation/> .
+        @prefix ns026:  <http://scholarsphere.psu.edu/ns#> .
+        @prefix ns004:  <https://schema.org/> .
+        @prefix ns025:  <http://id.loc.gov/vocabulary/identifiers/> .
+        @prefix ns003:  <http://open.vocab.org/terms/> .
+        @prefix ns024:  <http://www.w3.org/2004/02/skos/core#> .
+        @prefix ns002:  <http://vivoweb.org/ontology/core#> .
+        @prefix ns023:  <http://emory.edu/local/> .
+        @prefix ns001:  <info:fedora/fedora-system:def/model#> .
+        @prefix xsi:  <http://www.w3.org/2001/XMLSchema-instance> .
+        @prefix ns008:  <http://id.loc.gov/vocabulary/relators/> .
+        @prefix ns029:  <http://projecthydra.org/ns/fits/> .
+        @prefix ns007:  <http://projecthydra.org/works/models#> .
+        @prefix xmlns:  <http://www.w3.org/2000/xmlns/> .
+        @prefix ns028:  <http://www.w3.org/2003/12/exif/ns#> .
+        @prefix ns006:  <http://www.europeana.eu/schemas/edm/> .
+        @prefix ns027:  <http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#> .
+        @prefix ns005:  <http://pcdm.org/models#> .
+        @prefix xml:  <http://www.w3.org/XML/1998/namespace> .
+        @prefix ns009:  <http://schema.org/> .
+        @prefix fedoraconfig:  <http://fedora.info/definitions/v4/config#> .
+        @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+        @prefix test:  <info:fedora/test/> .
+        @prefix ns011:  <http://purl.org/dc/terms/> .
+        @prefix ns010:  <http://example.com/> .
+        @prefix ns030:  <http://www.w3.org/2011/content#> .
+        @prefix ns015:  <http://purl.org/spar/fabio/> .
+        @prefix ns014:  <http://projecthydra.org/ns/auth/acl#> .
+        @prefix ns013:  <http://mappings.dbpedia.org/server/ontology/classes/> .
+        @prefix ns012:  <http://www.w3.org/ns/auth/acl#> .
+        @prefix ns019:  <http://www.openarchives.org/ore/terms/> .
+        @prefix ns018:  <http://pcdm.org/use#> .
+        @prefix ns017:  <http://fedora.info/definitions/1/0/access/ObjState#> .
+        @prefix ns016:  <http://dublincore.org/documents/dcmi-terms/#> .
+        @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+        @prefix fedora:  <http://fedora.info/definitions/v4/repository#> .
+        @prefix ebucore:  <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+        @prefix ldp:  <http://www.w3.org/ns/ldp#> .
+        @prefix xs:  <http://www.w3.org/2001/XMLSchema> .
+        @prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+        <http://127.0.0.1:8986/rest/test/jq/08/5j/96/jq085j963>
+                rdf:type               fedora:Container ;
+                rdf:type               ns007:Work ;
+                rdf:type               fedora:Resource ;
+                rdf:type               ns005:Object ;
+                fedora:lastModifiedBy  "bypassAdmin"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns020:last             <http://127.0.0.1:8986/rest/test/jq/08/5j/96/jq085j963/list_source#g70134877643540> ;
+                ns001:hasModel         "Etd"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                fedora:createdBy       "bypassAdmin"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                fedora:created         "2018-03-16T16:38:27.191Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+                fedora:lastModified    "2018-03-16T16:38:36.481Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+                ns008:dgg              "http://id.loc.gov/vocabulary/organizations/geu"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns012:accessControl    <http://127.0.0.1:8986/rest/test/c9/58/24/e7/c95824e7-3517-40e5-a354-5d9fed24d6cf> ;
+                ns006:rights           "Permission granted by the author to include this thesis or dissertation in this repository. All rights reserved by the author. Please contact the author for information regarding the reproduction and use of this thesis or dissertation."^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns011:title            "The Bloody Woman"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns020:first            <http://127.0.0.1:8986/rest/test/jq/08/5j/96/jq085j963/list_source#g70134877643540> ;
+                rdf:type               ldp:RDFSource ;
+                rdf:type               ldp:Container ;
+                fedora:writable        "true"^^<http://www.w3.org/2001/XMLSchema#boolean> ;
+                fedora:hasParent       <http://127.0.0.1:8986/rest/test> ;
+                ldp:contains           <http://127.0.0.1:8986/rest/test/jq/08/5j/96/jq085j963/members> ;
+                ldp:contains           <http://127.0.0.1:8986/rest/test/jq/08/5j/96/jq085j963/list_source> ;
+                ns005:hasMember        <http://127.0.0.1:8986/rest/test/95/93/tv/12/9593tv123> .
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 16:38:37 GMT
+- request:
+    method: head
+    uri: http://127.0.0.1:8986/rest/test/jq/08/5j/96/jq085j963
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic ZmVkb3JhQWRtaW46ZmVkb3JhQWRtaW4=
+      User-Agent:
+      - Faraday v0.12.2
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 16 Mar 2018 16:38:38 GMT
+      Etag:
+      - W/"6f3ed7801bdf3db353f679a93579108ad570bc1c"
+      Last-Modified:
+      - Fri, 16 Mar 2018 16:38:36 GMT
+      Link:
+      - <http://www.w3.org/ns/ldp#BasicContainer>;rel="type"
+      - <http://www.w3.org/ns/ldp#Container>;rel="type"
+      - <http://www.w3.org/ns/ldp#Resource>;rel="type"
+      Accept-Patch:
+      - application/sparql-update
+      Accept-Post:
+      - text/turtle,text/rdf+n3,text/n3,application/rdf+xml,application/n-triples,application/ld+json,multipart/form-data,application/sparql-update
+      Allow:
+      - MOVE,COPY,DELETE,POST,HEAD,GET,PUT,PATCH,OPTIONS
+      Content-Type:
+      - application/ld+json
+      Content-Length:
+      - '0'
+      Server:
+      - Jetty(9.2.3.v20140905)
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 16:38:38 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:8986/rest/test/jq/08/5j/96/jq085j963
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic ZmVkb3JhQWRtaW46ZmVkb3JhQWRtaW4=
+      User-Agent:
+      - Faraday v0.12.2
+      Prefer:
+      - return=representation
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 16 Mar 2018 16:38:38 GMT
+      Etag:
+      - W/"6f3ed7801bdf3db353f679a93579108ad570bc1c"
+      Last-Modified:
+      - Fri, 16 Mar 2018 16:38:36 GMT
+      Link:
+      - <http://www.w3.org/ns/ldp#BasicContainer>;rel="type"
+      - <http://www.w3.org/ns/ldp#Container>;rel="type"
+      - <http://www.w3.org/ns/ldp#Resource>;rel="type"
+      Accept-Patch:
+      - application/sparql-update
+      Accept-Post:
+      - text/turtle,text/rdf+n3,text/n3,application/rdf+xml,application/n-triples,application/ld+json,multipart/form-data,application/sparql-update
+      Allow:
+      - MOVE,COPY,DELETE,POST,HEAD,GET,PUT,PATCH,OPTIONS
+      Preference-Applied:
+      - return=representation
+      Vary:
+      - Accept, Range, Accept-Encoding, Accept-Language
+      - Prefer
+      Content-Type:
+      - text/turtle;charset=utf-8
+      Content-Length:
+      - '4531'
+      Server:
+      - Jetty(9.2.3.v20140905)
+    body:
+      encoding: UTF-8
+      string: |
+        @prefix premis:  <http://www.loc.gov/premis/rdf/v1#> .
+        @prefix ns022:  <http://purl.org/spar/pso/embargoed#> .
+        @prefix ns021:  <http://pcdm.org/> .
+        @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+        @prefix ns020:  <http://www.iana.org/assignments/relation/> .
+        @prefix ns026:  <http://scholarsphere.psu.edu/ns#> .
+        @prefix ns004:  <https://schema.org/> .
+        @prefix ns025:  <http://id.loc.gov/vocabulary/identifiers/> .
+        @prefix ns003:  <http://open.vocab.org/terms/> .
+        @prefix ns024:  <http://www.w3.org/2004/02/skos/core#> .
+        @prefix ns002:  <http://vivoweb.org/ontology/core#> .
+        @prefix ns023:  <http://emory.edu/local/> .
+        @prefix ns001:  <info:fedora/fedora-system:def/model#> .
+        @prefix xsi:  <http://www.w3.org/2001/XMLSchema-instance> .
+        @prefix ns008:  <http://id.loc.gov/vocabulary/relators/> .
+        @prefix ns029:  <http://projecthydra.org/ns/fits/> .
+        @prefix ns007:  <http://projecthydra.org/works/models#> .
+        @prefix xmlns:  <http://www.w3.org/2000/xmlns/> .
+        @prefix ns028:  <http://www.w3.org/2003/12/exif/ns#> .
+        @prefix ns006:  <http://www.europeana.eu/schemas/edm/> .
+        @prefix ns027:  <http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#> .
+        @prefix ns005:  <http://pcdm.org/models#> .
+        @prefix xml:  <http://www.w3.org/XML/1998/namespace> .
+        @prefix ns009:  <http://schema.org/> .
+        @prefix fedoraconfig:  <http://fedora.info/definitions/v4/config#> .
+        @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+        @prefix test:  <info:fedora/test/> .
+        @prefix ns011:  <http://purl.org/dc/terms/> .
+        @prefix ns010:  <http://example.com/> .
+        @prefix ns030:  <http://www.w3.org/2011/content#> .
+        @prefix ns015:  <http://purl.org/spar/fabio/> .
+        @prefix ns014:  <http://projecthydra.org/ns/auth/acl#> .
+        @prefix ns013:  <http://mappings.dbpedia.org/server/ontology/classes/> .
+        @prefix ns012:  <http://www.w3.org/ns/auth/acl#> .
+        @prefix ns019:  <http://www.openarchives.org/ore/terms/> .
+        @prefix ns018:  <http://pcdm.org/use#> .
+        @prefix ns017:  <http://fedora.info/definitions/1/0/access/ObjState#> .
+        @prefix ns016:  <http://dublincore.org/documents/dcmi-terms/#> .
+        @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+        @prefix fedora:  <http://fedora.info/definitions/v4/repository#> .
+        @prefix ebucore:  <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+        @prefix ldp:  <http://www.w3.org/ns/ldp#> .
+        @prefix xs:  <http://www.w3.org/2001/XMLSchema> .
+        @prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+        <http://127.0.0.1:8986/rest/test/jq/08/5j/96/jq085j963>
+                rdf:type               fedora:Container ;
+                rdf:type               ns007:Work ;
+                rdf:type               fedora:Resource ;
+                rdf:type               ns005:Object ;
+                fedora:lastModifiedBy  "bypassAdmin"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns020:last             <http://127.0.0.1:8986/rest/test/jq/08/5j/96/jq085j963/list_source#g70134877643540> ;
+                ns001:hasModel         "Etd"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                fedora:createdBy       "bypassAdmin"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                fedora:created         "2018-03-16T16:38:27.191Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+                fedora:lastModified    "2018-03-16T16:38:36.481Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+                ns008:dgg              "http://id.loc.gov/vocabulary/organizations/geu"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns012:accessControl    <http://127.0.0.1:8986/rest/test/c9/58/24/e7/c95824e7-3517-40e5-a354-5d9fed24d6cf> ;
+                ns006:rights           "Permission granted by the author to include this thesis or dissertation in this repository. All rights reserved by the author. Please contact the author for information regarding the reproduction and use of this thesis or dissertation."^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns011:title            "The Bloody Woman"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns020:first            <http://127.0.0.1:8986/rest/test/jq/08/5j/96/jq085j963/list_source#g70134877643540> ;
+                rdf:type               ldp:RDFSource ;
+                rdf:type               ldp:Container ;
+                fedora:writable        "true"^^<http://www.w3.org/2001/XMLSchema#boolean> ;
+                fedora:hasParent       <http://127.0.0.1:8986/rest/test> ;
+                ldp:contains           <http://127.0.0.1:8986/rest/test/jq/08/5j/96/jq085j963/members> ;
+                ldp:contains           <http://127.0.0.1:8986/rest/test/jq/08/5j/96/jq085j963/list_source> ;
+                ns005:hasMember        <http://127.0.0.1:8986/rest/test/95/93/tv/12/9593tv123> .
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 16:38:38 GMT
+- request:
+    method: head
+    uri: http://127.0.0.1:8986/rest/test/b2/77/3v/68/b2773v68h
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic ZmVkb3JhQWRtaW46ZmVkb3JhQWRtaW4=
+      User-Agent:
+      - Faraday v0.12.2
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Fri, 16 Mar 2018 18:12:31 GMT
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Cache-Control:
+      - must-revalidate,no-cache,no-store
+      Content-Length:
+      - '315'
+      Server:
+      - Jetty(9.2.3.v20140905)
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 18:12:31 GMT
+- request:
+    method: head
+    uri: http://127.0.0.1:8986/rest/test/b2/77/3v/68/b2773v68h
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic ZmVkb3JhQWRtaW46ZmVkb3JhQWRtaW4=
+      User-Agent:
+      - Faraday v0.12.2
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Fri, 16 Mar 2018 18:12:31 GMT
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Cache-Control:
+      - must-revalidate,no-cache,no-store
+      Content-Length:
+      - '315'
+      Server:
+      - Jetty(9.2.3.v20140905)
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 18:12:31 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:8985/solr/hydra-test/select?q=%7B!join%20from=proxy_in_ssi%20to=id%7Dordered_targets_ssim:7w62f8209&qt=standard&rows=10000&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Last-Modified:
+      - Fri, 16 Mar 2018 18:12:30 GMT
+      Etag:
+      - '"NGEwMDAwMDAwMDAwMDAwU29scg=="'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Content-Length:
+      - '1065'
+    body:
+      encoding: UTF-8
+      string: "{'responseHeader'=>{'status'=>0,'QTime'=>3,'params'=>{'q'=>'{!join
+        from=proxy_in_ssi to=id}ordered_targets_ssim:7w62f8209','qt'=>'standard','rows'=>'10000','wt'=>'ruby'}},'response'=>{'numFound'=>1,'start'=>0,'docs'=>[{'system_create_dtsi'=>'2018-03-16T18:12:21Z','system_modified_dtsi'=>'2018-03-16T18:12:30Z','has_model_ssim'=>['Etd'],'id'=>'5425k968s','accessControl_ssim'=>['79496daf-debf-4153-a379-6deab53d72ed'],'title_tesim'=>['Electric
+        Rain'],'rights_statement_tesim'=>['Permission granted by the author to include
+        this thesis or dissertation in this repository. All rights reserved by the
+        author. Please contact the author for information regarding the reproduction
+        and use of this thesis or dissertation.'],'thumbnail_path_ss'=>'/assets/work-ff055336041c3f7d310ad69109eda4a887b16ec501f35afc0a547c4adb97ee72.png','suppressed_bsi'=>false,'member_ids_ssim'=>['7w62f8209'],'file_set_ids_ssim'=>['7w62f8209'],'human_readable_type_tesim'=>['ETD'],'read_access_group_ssim'=>['public'],'_version_'=>1595118925535772672,'timestamp'=>'2018-03-16T18:12:30.897Z'}]}}\n"
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 18:12:31 GMT
+- request:
+    method: head
+    uri: http://127.0.0.1:8986/rest/test/54/25/k9/68/5425k968s
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic ZmVkb3JhQWRtaW46ZmVkb3JhQWRtaW4=
+      User-Agent:
+      - Faraday v0.12.2
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 16 Mar 2018 18:12:31 GMT
+      Etag:
+      - W/"d2b19318d9a8e82f25f4be5796703f77b0778757"
+      Last-Modified:
+      - Fri, 16 Mar 2018 18:12:30 GMT
+      Link:
+      - <http://www.w3.org/ns/ldp#BasicContainer>;rel="type"
+      - <http://www.w3.org/ns/ldp#Container>;rel="type"
+      - <http://www.w3.org/ns/ldp#Resource>;rel="type"
+      Accept-Patch:
+      - application/sparql-update
+      Accept-Post:
+      - text/turtle,text/rdf+n3,text/n3,application/rdf+xml,application/n-triples,application/ld+json,multipart/form-data,application/sparql-update
+      Allow:
+      - MOVE,COPY,DELETE,POST,HEAD,GET,PUT,PATCH,OPTIONS
+      Content-Type:
+      - application/ld+json
+      Content-Length:
+      - '0'
+      Server:
+      - Jetty(9.2.3.v20140905)
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 18:12:31 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:8986/rest/test/54/25/k9/68/5425k968s
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic ZmVkb3JhQWRtaW46ZmVkb3JhQWRtaW4=
+      User-Agent:
+      - Faraday v0.12.2
+      Prefer:
+      - return=representation
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 16 Mar 2018 18:12:31 GMT
+      Etag:
+      - W/"d2b19318d9a8e82f25f4be5796703f77b0778757"
+      Last-Modified:
+      - Fri, 16 Mar 2018 18:12:30 GMT
+      Link:
+      - <http://www.w3.org/ns/ldp#BasicContainer>;rel="type"
+      - <http://www.w3.org/ns/ldp#Container>;rel="type"
+      - <http://www.w3.org/ns/ldp#Resource>;rel="type"
+      Accept-Patch:
+      - application/sparql-update
+      Accept-Post:
+      - text/turtle,text/rdf+n3,text/n3,application/rdf+xml,application/n-triples,application/ld+json,multipart/form-data,application/sparql-update
+      Allow:
+      - MOVE,COPY,DELETE,POST,HEAD,GET,PUT,PATCH,OPTIONS
+      Preference-Applied:
+      - return=representation
+      Vary:
+      - Accept, Range, Accept-Encoding, Accept-Language
+      - Prefer
+      Content-Type:
+      - text/turtle;charset=utf-8
+      Content-Length:
+      - '4528'
+      Server:
+      - Jetty(9.2.3.v20140905)
+    body:
+      encoding: UTF-8
+      string: |
+        @prefix premis:  <http://www.loc.gov/premis/rdf/v1#> .
+        @prefix ns022:  <http://purl.org/spar/pso/embargoed#> .
+        @prefix ns021:  <http://pcdm.org/> .
+        @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+        @prefix ns020:  <http://www.iana.org/assignments/relation/> .
+        @prefix ns026:  <http://scholarsphere.psu.edu/ns#> .
+        @prefix ns004:  <https://schema.org/> .
+        @prefix ns025:  <http://id.loc.gov/vocabulary/identifiers/> .
+        @prefix ns003:  <http://open.vocab.org/terms/> .
+        @prefix ns024:  <http://www.w3.org/2004/02/skos/core#> .
+        @prefix ns002:  <http://vivoweb.org/ontology/core#> .
+        @prefix ns023:  <http://emory.edu/local/> .
+        @prefix ns001:  <info:fedora/fedora-system:def/model#> .
+        @prefix xsi:  <http://www.w3.org/2001/XMLSchema-instance> .
+        @prefix ns008:  <http://id.loc.gov/vocabulary/relators/> .
+        @prefix ns029:  <http://projecthydra.org/ns/fits/> .
+        @prefix ns007:  <http://projecthydra.org/works/models#> .
+        @prefix xmlns:  <http://www.w3.org/2000/xmlns/> .
+        @prefix ns028:  <http://www.w3.org/2003/12/exif/ns#> .
+        @prefix ns006:  <http://www.europeana.eu/schemas/edm/> .
+        @prefix ns027:  <http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#> .
+        @prefix ns005:  <http://pcdm.org/models#> .
+        @prefix xml:  <http://www.w3.org/XML/1998/namespace> .
+        @prefix ns009:  <http://schema.org/> .
+        @prefix fedoraconfig:  <http://fedora.info/definitions/v4/config#> .
+        @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+        @prefix test:  <info:fedora/test/> .
+        @prefix ns011:  <http://purl.org/dc/terms/> .
+        @prefix ns010:  <http://example.com/> .
+        @prefix ns030:  <http://www.w3.org/2011/content#> .
+        @prefix ns015:  <http://purl.org/spar/fabio/> .
+        @prefix ns014:  <http://projecthydra.org/ns/auth/acl#> .
+        @prefix ns013:  <http://mappings.dbpedia.org/server/ontology/classes/> .
+        @prefix ns012:  <http://www.w3.org/ns/auth/acl#> .
+        @prefix ns019:  <http://www.openarchives.org/ore/terms/> .
+        @prefix ns018:  <http://pcdm.org/use#> .
+        @prefix ns017:  <http://fedora.info/definitions/1/0/access/ObjState#> .
+        @prefix ns016:  <http://dublincore.org/documents/dcmi-terms/#> .
+        @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+        @prefix fedora:  <http://fedora.info/definitions/v4/repository#> .
+        @prefix ebucore:  <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+        @prefix ldp:  <http://www.w3.org/ns/ldp#> .
+        @prefix xs:  <http://www.w3.org/2001/XMLSchema> .
+        @prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+        <http://127.0.0.1:8986/rest/test/54/25/k9/68/5425k968s>
+                rdf:type               fedora:Container ;
+                rdf:type               ns007:Work ;
+                rdf:type               fedora:Resource ;
+                rdf:type               ns005:Object ;
+                fedora:lastModifiedBy  "bypassAdmin"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns020:last             <http://127.0.0.1:8986/rest/test/54/25/k9/68/5425k968s/list_source#g70280770971680> ;
+                ns001:hasModel         "Etd"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                fedora:createdBy       "bypassAdmin"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                fedora:created         "2018-03-16T18:12:21.707Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+                fedora:lastModified    "2018-03-16T18:12:30.841Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+                ns008:dgg              "http://id.loc.gov/vocabulary/organizations/geu"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns012:accessControl    <http://127.0.0.1:8986/rest/test/79/49/6d/af/79496daf-debf-4153-a379-6deab53d72ed> ;
+                ns006:rights           "Permission granted by the author to include this thesis or dissertation in this repository. All rights reserved by the author. Please contact the author for information regarding the reproduction and use of this thesis or dissertation."^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns011:title            "Electric Rain"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns020:first            <http://127.0.0.1:8986/rest/test/54/25/k9/68/5425k968s/list_source#g70280770971680> ;
+                rdf:type               ldp:RDFSource ;
+                rdf:type               ldp:Container ;
+                fedora:writable        "true"^^<http://www.w3.org/2001/XMLSchema#boolean> ;
+                fedora:hasParent       <http://127.0.0.1:8986/rest/test> ;
+                ldp:contains           <http://127.0.0.1:8986/rest/test/54/25/k9/68/5425k968s/members> ;
+                ldp:contains           <http://127.0.0.1:8986/rest/test/54/25/k9/68/5425k968s/list_source> ;
+                ns005:hasMember        <http://127.0.0.1:8986/rest/test/7w/62/f8/20/7w62f8209> .
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 18:12:31 GMT
+- request:
+    method: head
+    uri: http://127.0.0.1:8986/rest/test/54/25/k9/68/5425k968s
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic ZmVkb3JhQWRtaW46ZmVkb3JhQWRtaW4=
+      User-Agent:
+      - Faraday v0.12.2
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 16 Mar 2018 18:12:31 GMT
+      Etag:
+      - W/"d2b19318d9a8e82f25f4be5796703f77b0778757"
+      Last-Modified:
+      - Fri, 16 Mar 2018 18:12:30 GMT
+      Link:
+      - <http://www.w3.org/ns/ldp#BasicContainer>;rel="type"
+      - <http://www.w3.org/ns/ldp#Container>;rel="type"
+      - <http://www.w3.org/ns/ldp#Resource>;rel="type"
+      Accept-Patch:
+      - application/sparql-update
+      Accept-Post:
+      - text/turtle,text/rdf+n3,text/n3,application/rdf+xml,application/n-triples,application/ld+json,multipart/form-data,application/sparql-update
+      Allow:
+      - MOVE,COPY,DELETE,POST,HEAD,GET,PUT,PATCH,OPTIONS
+      Content-Type:
+      - application/ld+json
+      Content-Length:
+      - '0'
+      Server:
+      - Jetty(9.2.3.v20140905)
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 18:12:31 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:8986/rest/test/54/25/k9/68/5425k968s
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic ZmVkb3JhQWRtaW46ZmVkb3JhQWRtaW4=
+      User-Agent:
+      - Faraday v0.12.2
+      Prefer:
+      - return=representation
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 16 Mar 2018 18:12:31 GMT
+      Etag:
+      - W/"d2b19318d9a8e82f25f4be5796703f77b0778757"
+      Last-Modified:
+      - Fri, 16 Mar 2018 18:12:30 GMT
+      Link:
+      - <http://www.w3.org/ns/ldp#BasicContainer>;rel="type"
+      - <http://www.w3.org/ns/ldp#Container>;rel="type"
+      - <http://www.w3.org/ns/ldp#Resource>;rel="type"
+      Accept-Patch:
+      - application/sparql-update
+      Accept-Post:
+      - text/turtle,text/rdf+n3,text/n3,application/rdf+xml,application/n-triples,application/ld+json,multipart/form-data,application/sparql-update
+      Allow:
+      - MOVE,COPY,DELETE,POST,HEAD,GET,PUT,PATCH,OPTIONS
+      Preference-Applied:
+      - return=representation
+      Vary:
+      - Accept, Range, Accept-Encoding, Accept-Language
+      - Prefer
+      Content-Type:
+      - text/turtle;charset=utf-8
+      Content-Length:
+      - '4528'
+      Server:
+      - Jetty(9.2.3.v20140905)
+    body:
+      encoding: UTF-8
+      string: |
+        @prefix premis:  <http://www.loc.gov/premis/rdf/v1#> .
+        @prefix ns022:  <http://purl.org/spar/pso/embargoed#> .
+        @prefix ns021:  <http://pcdm.org/> .
+        @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+        @prefix ns020:  <http://www.iana.org/assignments/relation/> .
+        @prefix ns026:  <http://scholarsphere.psu.edu/ns#> .
+        @prefix ns004:  <https://schema.org/> .
+        @prefix ns025:  <http://id.loc.gov/vocabulary/identifiers/> .
+        @prefix ns003:  <http://open.vocab.org/terms/> .
+        @prefix ns024:  <http://www.w3.org/2004/02/skos/core#> .
+        @prefix ns002:  <http://vivoweb.org/ontology/core#> .
+        @prefix ns023:  <http://emory.edu/local/> .
+        @prefix ns001:  <info:fedora/fedora-system:def/model#> .
+        @prefix xsi:  <http://www.w3.org/2001/XMLSchema-instance> .
+        @prefix ns008:  <http://id.loc.gov/vocabulary/relators/> .
+        @prefix ns029:  <http://projecthydra.org/ns/fits/> .
+        @prefix ns007:  <http://projecthydra.org/works/models#> .
+        @prefix xmlns:  <http://www.w3.org/2000/xmlns/> .
+        @prefix ns028:  <http://www.w3.org/2003/12/exif/ns#> .
+        @prefix ns006:  <http://www.europeana.eu/schemas/edm/> .
+        @prefix ns027:  <http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#> .
+        @prefix ns005:  <http://pcdm.org/models#> .
+        @prefix xml:  <http://www.w3.org/XML/1998/namespace> .
+        @prefix ns009:  <http://schema.org/> .
+        @prefix fedoraconfig:  <http://fedora.info/definitions/v4/config#> .
+        @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+        @prefix test:  <info:fedora/test/> .
+        @prefix ns011:  <http://purl.org/dc/terms/> .
+        @prefix ns010:  <http://example.com/> .
+        @prefix ns030:  <http://www.w3.org/2011/content#> .
+        @prefix ns015:  <http://purl.org/spar/fabio/> .
+        @prefix ns014:  <http://projecthydra.org/ns/auth/acl#> .
+        @prefix ns013:  <http://mappings.dbpedia.org/server/ontology/classes/> .
+        @prefix ns012:  <http://www.w3.org/ns/auth/acl#> .
+        @prefix ns019:  <http://www.openarchives.org/ore/terms/> .
+        @prefix ns018:  <http://pcdm.org/use#> .
+        @prefix ns017:  <http://fedora.info/definitions/1/0/access/ObjState#> .
+        @prefix ns016:  <http://dublincore.org/documents/dcmi-terms/#> .
+        @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+        @prefix fedora:  <http://fedora.info/definitions/v4/repository#> .
+        @prefix ebucore:  <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+        @prefix ldp:  <http://www.w3.org/ns/ldp#> .
+        @prefix xs:  <http://www.w3.org/2001/XMLSchema> .
+        @prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+        <http://127.0.0.1:8986/rest/test/54/25/k9/68/5425k968s>
+                rdf:type               fedora:Container ;
+                rdf:type               ns007:Work ;
+                rdf:type               fedora:Resource ;
+                rdf:type               ns005:Object ;
+                fedora:lastModifiedBy  "bypassAdmin"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns020:last             <http://127.0.0.1:8986/rest/test/54/25/k9/68/5425k968s/list_source#g70280770971680> ;
+                ns001:hasModel         "Etd"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                fedora:createdBy       "bypassAdmin"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                fedora:created         "2018-03-16T18:12:21.707Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+                fedora:lastModified    "2018-03-16T18:12:30.841Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+                ns008:dgg              "http://id.loc.gov/vocabulary/organizations/geu"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns012:accessControl    <http://127.0.0.1:8986/rest/test/79/49/6d/af/79496daf-debf-4153-a379-6deab53d72ed> ;
+                ns006:rights           "Permission granted by the author to include this thesis or dissertation in this repository. All rights reserved by the author. Please contact the author for information regarding the reproduction and use of this thesis or dissertation."^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns011:title            "Electric Rain"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns020:first            <http://127.0.0.1:8986/rest/test/54/25/k9/68/5425k968s/list_source#g70280770971680> ;
+                rdf:type               ldp:RDFSource ;
+                rdf:type               ldp:Container ;
+                fedora:writable        "true"^^<http://www.w3.org/2001/XMLSchema#boolean> ;
+                fedora:hasParent       <http://127.0.0.1:8986/rest/test> ;
+                ldp:contains           <http://127.0.0.1:8986/rest/test/54/25/k9/68/5425k968s/members> ;
+                ldp:contains           <http://127.0.0.1:8986/rest/test/54/25/k9/68/5425k968s/list_source> ;
+                ns005:hasMember        <http://127.0.0.1:8986/rest/test/7w/62/f8/20/7w62f8209> .
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 18:12:31 GMT
+- request:
+    method: head
+    uri: http://127.0.0.1:8986/rest/test/mc/87/pq/24/mc87pq24j
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic ZmVkb3JhQWRtaW46ZmVkb3JhQWRtaW4=
+      User-Agent:
+      - Faraday v0.12.2
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Fri, 16 Mar 2018 18:13:06 GMT
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Cache-Control:
+      - must-revalidate,no-cache,no-store
+      Content-Length:
+      - '315'
+      Server:
+      - Jetty(9.2.3.v20140905)
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 18:13:06 GMT
+- request:
+    method: head
+    uri: http://127.0.0.1:8986/rest/test/mc/87/pq/24/mc87pq24j
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic ZmVkb3JhQWRtaW46ZmVkb3JhQWRtaW4=
+      User-Agent:
+      - Faraday v0.12.2
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Fri, 16 Mar 2018 18:13:06 GMT
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Cache-Control:
+      - must-revalidate,no-cache,no-store
+      Content-Length:
+      - '315'
+      Server:
+      - Jetty(9.2.3.v20140905)
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 18:13:06 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:8985/solr/hydra-test/select?q=%7B!join%20from=proxy_in_ssi%20to=id%7Dordered_targets_ssim:zw12z528p&qt=standard&rows=10000&wt=ruby
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Last-Modified:
+      - Fri, 16 Mar 2018 18:13:06 GMT
+      Etag:
+      - '"NmFhMDAwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - text/plain;charset=utf-8
+      Content-Length:
+      - '1063'
+    body:
+      encoding: UTF-8
+      string: "{'responseHeader'=>{'status'=>0,'QTime'=>2,'params'=>{'q'=>'{!join
+        from=proxy_in_ssi to=id}ordered_targets_ssim:zw12z528p','qt'=>'standard','rows'=>'10000','wt'=>'ruby'}},'response'=>{'numFound'=>1,'start'=>0,'docs'=>[{'system_create_dtsi'=>'2018-03-16T18:12:59Z','system_modified_dtsi'=>'2018-03-16T18:13:05Z','has_model_ssim'=>['Etd'],'id'=>'js956f80d','accessControl_ssim'=>['1e92b46a-e5da-4f00-bf03-013b53a1d9ea'],'title_tesim'=>['Fake
+        Brains'],'rights_statement_tesim'=>['Permission granted by the author to include
+        this thesis or dissertation in this repository. All rights reserved by the
+        author. Please contact the author for information regarding the reproduction
+        and use of this thesis or dissertation.'],'thumbnail_path_ss'=>'/assets/work-ff055336041c3f7d310ad69109eda4a887b16ec501f35afc0a547c4adb97ee72.png','suppressed_bsi'=>false,'member_ids_ssim'=>['zw12z528p'],'file_set_ids_ssim'=>['zw12z528p'],'human_readable_type_tesim'=>['ETD'],'read_access_group_ssim'=>['public'],'_version_'=>1595118962390073344,'timestamp'=>'2018-03-16T18:13:06.044Z'}]}}\n"
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 18:13:06 GMT
+- request:
+    method: head
+    uri: http://127.0.0.1:8986/rest/test/js/95/6f/80/js956f80d
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic ZmVkb3JhQWRtaW46ZmVkb3JhQWRtaW4=
+      User-Agent:
+      - Faraday v0.12.2
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 16 Mar 2018 18:13:06 GMT
+      Etag:
+      - W/"b39065152accd898b3d3ebcc6ffac8332ee86c28"
+      Last-Modified:
+      - Fri, 16 Mar 2018 18:13:05 GMT
+      Link:
+      - <http://www.w3.org/ns/ldp#BasicContainer>;rel="type"
+      - <http://www.w3.org/ns/ldp#Container>;rel="type"
+      - <http://www.w3.org/ns/ldp#Resource>;rel="type"
+      Accept-Patch:
+      - application/sparql-update
+      Accept-Post:
+      - text/turtle,text/rdf+n3,text/n3,application/rdf+xml,application/n-triples,application/ld+json,multipart/form-data,application/sparql-update
+      Allow:
+      - MOVE,COPY,DELETE,POST,HEAD,GET,PUT,PATCH,OPTIONS
+      Content-Type:
+      - application/ld+json
+      Content-Length:
+      - '0'
+      Server:
+      - Jetty(9.2.3.v20140905)
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 18:13:06 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:8986/rest/test/js/95/6f/80/js956f80d
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic ZmVkb3JhQWRtaW46ZmVkb3JhQWRtaW4=
+      User-Agent:
+      - Faraday v0.12.2
+      Prefer:
+      - return=representation
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 16 Mar 2018 18:13:06 GMT
+      Etag:
+      - W/"b39065152accd898b3d3ebcc6ffac8332ee86c28"
+      Last-Modified:
+      - Fri, 16 Mar 2018 18:13:05 GMT
+      Link:
+      - <http://www.w3.org/ns/ldp#BasicContainer>;rel="type"
+      - <http://www.w3.org/ns/ldp#Container>;rel="type"
+      - <http://www.w3.org/ns/ldp#Resource>;rel="type"
+      Accept-Patch:
+      - application/sparql-update
+      Accept-Post:
+      - text/turtle,text/rdf+n3,text/n3,application/rdf+xml,application/n-triples,application/ld+json,multipart/form-data,application/sparql-update
+      Allow:
+      - MOVE,COPY,DELETE,POST,HEAD,GET,PUT,PATCH,OPTIONS
+      Preference-Applied:
+      - return=representation
+      Vary:
+      - Accept, Range, Accept-Encoding, Accept-Language
+      - Prefer
+      Content-Type:
+      - text/turtle;charset=utf-8
+      Content-Length:
+      - '4526'
+      Server:
+      - Jetty(9.2.3.v20140905)
+    body:
+      encoding: UTF-8
+      string: |
+        @prefix premis:  <http://www.loc.gov/premis/rdf/v1#> .
+        @prefix ns022:  <http://purl.org/spar/pso/embargoed#> .
+        @prefix ns021:  <http://pcdm.org/> .
+        @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+        @prefix ns020:  <http://www.iana.org/assignments/relation/> .
+        @prefix ns026:  <http://scholarsphere.psu.edu/ns#> .
+        @prefix ns004:  <https://schema.org/> .
+        @prefix ns025:  <http://id.loc.gov/vocabulary/identifiers/> .
+        @prefix ns003:  <http://open.vocab.org/terms/> .
+        @prefix ns024:  <http://www.w3.org/2004/02/skos/core#> .
+        @prefix ns002:  <http://vivoweb.org/ontology/core#> .
+        @prefix ns023:  <http://emory.edu/local/> .
+        @prefix ns001:  <info:fedora/fedora-system:def/model#> .
+        @prefix xsi:  <http://www.w3.org/2001/XMLSchema-instance> .
+        @prefix ns008:  <http://id.loc.gov/vocabulary/relators/> .
+        @prefix ns029:  <http://projecthydra.org/ns/fits/> .
+        @prefix ns007:  <http://projecthydra.org/works/models#> .
+        @prefix xmlns:  <http://www.w3.org/2000/xmlns/> .
+        @prefix ns028:  <http://www.w3.org/2003/12/exif/ns#> .
+        @prefix ns006:  <http://www.europeana.eu/schemas/edm/> .
+        @prefix ns027:  <http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#> .
+        @prefix ns005:  <http://pcdm.org/models#> .
+        @prefix xml:  <http://www.w3.org/XML/1998/namespace> .
+        @prefix ns009:  <http://schema.org/> .
+        @prefix fedoraconfig:  <http://fedora.info/definitions/v4/config#> .
+        @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+        @prefix test:  <info:fedora/test/> .
+        @prefix ns011:  <http://purl.org/dc/terms/> .
+        @prefix ns010:  <http://example.com/> .
+        @prefix ns030:  <http://www.w3.org/2011/content#> .
+        @prefix ns015:  <http://purl.org/spar/fabio/> .
+        @prefix ns014:  <http://projecthydra.org/ns/auth/acl#> .
+        @prefix ns013:  <http://mappings.dbpedia.org/server/ontology/classes/> .
+        @prefix ns012:  <http://www.w3.org/ns/auth/acl#> .
+        @prefix ns019:  <http://www.openarchives.org/ore/terms/> .
+        @prefix ns018:  <http://pcdm.org/use#> .
+        @prefix ns017:  <http://fedora.info/definitions/1/0/access/ObjState#> .
+        @prefix ns016:  <http://dublincore.org/documents/dcmi-terms/#> .
+        @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+        @prefix fedora:  <http://fedora.info/definitions/v4/repository#> .
+        @prefix ebucore:  <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+        @prefix ldp:  <http://www.w3.org/ns/ldp#> .
+        @prefix xs:  <http://www.w3.org/2001/XMLSchema> .
+        @prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+        <http://127.0.0.1:8986/rest/test/js/95/6f/80/js956f80d>
+                rdf:type               fedora:Container ;
+                rdf:type               ns007:Work ;
+                rdf:type               fedora:Resource ;
+                rdf:type               ns005:Object ;
+                fedora:lastModifiedBy  "bypassAdmin"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns020:last             <http://127.0.0.1:8986/rest/test/js/95/6f/80/js956f80d/list_source#g70150048565780> ;
+                ns001:hasModel         "Etd"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                fedora:createdBy       "bypassAdmin"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                fedora:lastModified    "2018-03-16T18:13:05.991Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+                fedora:created         "2018-03-16T18:12:59.722Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+                ns008:dgg              "http://id.loc.gov/vocabulary/organizations/geu"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns012:accessControl    <http://127.0.0.1:8986/rest/test/1e/92/b4/6a/1e92b46a-e5da-4f00-bf03-013b53a1d9ea> ;
+                ns006:rights           "Permission granted by the author to include this thesis or dissertation in this repository. All rights reserved by the author. Please contact the author for information regarding the reproduction and use of this thesis or dissertation."^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns011:title            "Fake Brains"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns020:first            <http://127.0.0.1:8986/rest/test/js/95/6f/80/js956f80d/list_source#g70150048565780> ;
+                rdf:type               ldp:RDFSource ;
+                rdf:type               ldp:Container ;
+                fedora:writable        "true"^^<http://www.w3.org/2001/XMLSchema#boolean> ;
+                fedora:hasParent       <http://127.0.0.1:8986/rest/test> ;
+                ldp:contains           <http://127.0.0.1:8986/rest/test/js/95/6f/80/js956f80d/members> ;
+                ldp:contains           <http://127.0.0.1:8986/rest/test/js/95/6f/80/js956f80d/list_source> ;
+                ns005:hasMember        <http://127.0.0.1:8986/rest/test/zw/12/z5/28/zw12z528p> .
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 18:13:06 GMT
+- request:
+    method: head
+    uri: http://127.0.0.1:8986/rest/test/js/95/6f/80/js956f80d
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic ZmVkb3JhQWRtaW46ZmVkb3JhQWRtaW4=
+      User-Agent:
+      - Faraday v0.12.2
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 16 Mar 2018 18:13:06 GMT
+      Etag:
+      - W/"b39065152accd898b3d3ebcc6ffac8332ee86c28"
+      Last-Modified:
+      - Fri, 16 Mar 2018 18:13:05 GMT
+      Link:
+      - <http://www.w3.org/ns/ldp#BasicContainer>;rel="type"
+      - <http://www.w3.org/ns/ldp#Container>;rel="type"
+      - <http://www.w3.org/ns/ldp#Resource>;rel="type"
+      Accept-Patch:
+      - application/sparql-update
+      Accept-Post:
+      - text/turtle,text/rdf+n3,text/n3,application/rdf+xml,application/n-triples,application/ld+json,multipart/form-data,application/sparql-update
+      Allow:
+      - MOVE,COPY,DELETE,POST,HEAD,GET,PUT,PATCH,OPTIONS
+      Content-Type:
+      - application/ld+json
+      Content-Length:
+      - '0'
+      Server:
+      - Jetty(9.2.3.v20140905)
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 18:13:06 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:8986/rest/test/js/95/6f/80/js956f80d
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic ZmVkb3JhQWRtaW46ZmVkb3JhQWRtaW4=
+      User-Agent:
+      - Faraday v0.12.2
+      Prefer:
+      - return=representation
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 16 Mar 2018 18:13:06 GMT
+      Etag:
+      - W/"b39065152accd898b3d3ebcc6ffac8332ee86c28"
+      Last-Modified:
+      - Fri, 16 Mar 2018 18:13:05 GMT
+      Link:
+      - <http://www.w3.org/ns/ldp#BasicContainer>;rel="type"
+      - <http://www.w3.org/ns/ldp#Container>;rel="type"
+      - <http://www.w3.org/ns/ldp#Resource>;rel="type"
+      Accept-Patch:
+      - application/sparql-update
+      Accept-Post:
+      - text/turtle,text/rdf+n3,text/n3,application/rdf+xml,application/n-triples,application/ld+json,multipart/form-data,application/sparql-update
+      Allow:
+      - MOVE,COPY,DELETE,POST,HEAD,GET,PUT,PATCH,OPTIONS
+      Preference-Applied:
+      - return=representation
+      Vary:
+      - Accept, Range, Accept-Encoding, Accept-Language
+      - Prefer
+      Content-Type:
+      - text/turtle;charset=utf-8
+      Content-Length:
+      - '4526'
+      Server:
+      - Jetty(9.2.3.v20140905)
+    body:
+      encoding: UTF-8
+      string: |
+        @prefix premis:  <http://www.loc.gov/premis/rdf/v1#> .
+        @prefix ns022:  <http://purl.org/spar/pso/embargoed#> .
+        @prefix ns021:  <http://pcdm.org/> .
+        @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+        @prefix ns020:  <http://www.iana.org/assignments/relation/> .
+        @prefix ns026:  <http://scholarsphere.psu.edu/ns#> .
+        @prefix ns004:  <https://schema.org/> .
+        @prefix ns025:  <http://id.loc.gov/vocabulary/identifiers/> .
+        @prefix ns003:  <http://open.vocab.org/terms/> .
+        @prefix ns024:  <http://www.w3.org/2004/02/skos/core#> .
+        @prefix ns002:  <http://vivoweb.org/ontology/core#> .
+        @prefix ns023:  <http://emory.edu/local/> .
+        @prefix ns001:  <info:fedora/fedora-system:def/model#> .
+        @prefix xsi:  <http://www.w3.org/2001/XMLSchema-instance> .
+        @prefix ns008:  <http://id.loc.gov/vocabulary/relators/> .
+        @prefix ns029:  <http://projecthydra.org/ns/fits/> .
+        @prefix ns007:  <http://projecthydra.org/works/models#> .
+        @prefix xmlns:  <http://www.w3.org/2000/xmlns/> .
+        @prefix ns028:  <http://www.w3.org/2003/12/exif/ns#> .
+        @prefix ns006:  <http://www.europeana.eu/schemas/edm/> .
+        @prefix ns027:  <http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#> .
+        @prefix ns005:  <http://pcdm.org/models#> .
+        @prefix xml:  <http://www.w3.org/XML/1998/namespace> .
+        @prefix ns009:  <http://schema.org/> .
+        @prefix fedoraconfig:  <http://fedora.info/definitions/v4/config#> .
+        @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+        @prefix test:  <info:fedora/test/> .
+        @prefix ns011:  <http://purl.org/dc/terms/> .
+        @prefix ns010:  <http://example.com/> .
+        @prefix ns030:  <http://www.w3.org/2011/content#> .
+        @prefix ns015:  <http://purl.org/spar/fabio/> .
+        @prefix ns014:  <http://projecthydra.org/ns/auth/acl#> .
+        @prefix ns013:  <http://mappings.dbpedia.org/server/ontology/classes/> .
+        @prefix ns012:  <http://www.w3.org/ns/auth/acl#> .
+        @prefix ns019:  <http://www.openarchives.org/ore/terms/> .
+        @prefix ns018:  <http://pcdm.org/use#> .
+        @prefix ns017:  <http://fedora.info/definitions/1/0/access/ObjState#> .
+        @prefix ns016:  <http://dublincore.org/documents/dcmi-terms/#> .
+        @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+        @prefix fedora:  <http://fedora.info/definitions/v4/repository#> .
+        @prefix ebucore:  <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#> .
+        @prefix ldp:  <http://www.w3.org/ns/ldp#> .
+        @prefix xs:  <http://www.w3.org/2001/XMLSchema> .
+        @prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+        <http://127.0.0.1:8986/rest/test/js/95/6f/80/js956f80d>
+                rdf:type               fedora:Container ;
+                rdf:type               ns007:Work ;
+                rdf:type               fedora:Resource ;
+                rdf:type               ns005:Object ;
+                fedora:lastModifiedBy  "bypassAdmin"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns020:last             <http://127.0.0.1:8986/rest/test/js/95/6f/80/js956f80d/list_source#g70150048565780> ;
+                ns001:hasModel         "Etd"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                fedora:createdBy       "bypassAdmin"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                fedora:lastModified    "2018-03-16T18:13:05.991Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+                fedora:created         "2018-03-16T18:12:59.722Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+                ns008:dgg              "http://id.loc.gov/vocabulary/organizations/geu"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns012:accessControl    <http://127.0.0.1:8986/rest/test/1e/92/b4/6a/1e92b46a-e5da-4f00-bf03-013b53a1d9ea> ;
+                ns006:rights           "Permission granted by the author to include this thesis or dissertation in this repository. All rights reserved by the author. Please contact the author for information regarding the reproduction and use of this thesis or dissertation."^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns011:title            "Fake Brains"^^<http://www.w3.org/2001/XMLSchema#string> ;
+                ns020:first            <http://127.0.0.1:8986/rest/test/js/95/6f/80/js956f80d/list_source#g70150048565780> ;
+                rdf:type               ldp:RDFSource ;
+                rdf:type               ldp:Container ;
+                fedora:writable        "true"^^<http://www.w3.org/2001/XMLSchema#boolean> ;
+                fedora:hasParent       <http://127.0.0.1:8986/rest/test> ;
+                ldp:contains           <http://127.0.0.1:8986/rest/test/js/95/6f/80/js956f80d/members> ;
+                ldp:contains           <http://127.0.0.1:8986/rest/test/js/95/6f/80/js956f80d/list_source> ;
+                ns005:hasMember        <http://127.0.0.1:8986/rest/test/zw/12/z5/28/zw12z528p> .
+    http_version: 
+  recorded_at: Fri, 16 Mar 2018 18:13:06 GMT
+recorded_with: VCR 4.0.0

@@ -25,6 +25,13 @@ require 'capybara-screenshot/rspec'
 require 'capybara/webkit'
 require 'database_cleaner'
 require 'ffaker'
+require 'vcr'
+
+VCR.configure do |config|
+  config.cassette_library_dir = "#{::Rails.root}/spec/fixtures/vcr_cassettes"
+  config.hook_into :webmock
+  config.allow_http_connections_when_no_cassette = true
+end
 
 # capybara testing
 Capybara.javascript_driver = :webkit
