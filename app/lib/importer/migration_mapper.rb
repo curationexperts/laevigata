@@ -79,7 +79,7 @@ module Importer
                           .xhtml.as_xml
                           .xpath('./html/div[@id="abstract"]')
                           .children.to_s
-      Array.wrap(InputSanitizer.sanitize(abstract_string))
+      Array.wrap(HtmlSanitizer.sanitize(abstract_string))
     end
 
     def committee_chair_attributes
@@ -214,7 +214,7 @@ module Importer
                    .xpath('./html/div[@id="contents"]')
                    .children.to_s
 
-      Array.wrap(InputSanitizer.sanitize(contents))
+      Array.wrap(HtmlSanitizer.sanitize(contents))
     end
 
     class RepositoryObject
@@ -352,6 +352,43 @@ module Importer
 
       def to_s
         content
+      end
+    end
+
+    class HtmlSanitizer
+      # Remove any markup except the elements explicitly allowed here
+      def self.sanitize(raw_input)
+        clean_html = Sanitize.clean(
+          raw_input,
+          elements: [
+            'b',
+            'blockquote',
+            'br',
+            'code',
+            'em',
+            'i',
+            'p',
+            'span',
+            'strong',
+            'style',
+            'sup'
+          ],
+          attributes: {
+            'p' => ['style'],
+            'span' => ['style']
+          },
+          css: {
+            properties: [
+              'font-family',
+              'margin',
+              'padding',
+              'text-align',
+              'text-decoration',
+              'width'
+            ]
+          }
+        )
+        CGI.unescapeHTML(clean_html.to_s)
       end
     end
 
