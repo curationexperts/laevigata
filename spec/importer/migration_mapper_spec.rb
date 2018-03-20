@@ -2,14 +2,16 @@ require 'rails_helper'
 require 'darlingtonia/spec'
 
 RSpec.describe Importer::MigrationMapper do
-  subject(:mapper)   { described_class.new(source_host: source_host) }
-  let(:foxml)        { File.read("#{fixture_path}/import/digital_object.xml") }
-  let(:metadata)     { 'emory:194fv' }
-  let(:author_id)    { 'emory:194h4' }
-  let(:author_foxml) { File.read("#{fixture_path}/import/author_info.xml") }
-  let(:file_id)      { 'emory:194kd' }
-  let(:file_foxml)   { File.read("#{fixture_path}/import/original_file.xml") }
-  let(:source_host)  { 'http://test-repo.library.emory.edu/fedora/objects/' }
+  subject(:mapper)          { described_class.new(source_host: source_host) }
+  let(:foxml)               { File.read("#{fixture_path}/import/digital_object.xml") }
+  let(:metadata)            { 'emory:194fv' }
+  let(:author_id)           { 'emory:194h4' }
+  let(:author_foxml)        { File.read("#{fixture_path}/import/author_info.xml") }
+  let(:file_id)             { 'emory:194j8' }
+  let(:file_foxml)          { File.read("#{fixture_path}/import/original_file.xml") }
+  let(:original_file_id)    { 'emory:194kd' }
+  let(:original_file_foxml) { File.read("#{fixture_path}/import/original_file.xml") }
+  let(:source_host)         { 'http://test-repo.library.emory.edu/fedora/objects/' }
 
   it_behaves_like 'a Darlingtonia::Mapper' do
     let(:expected_fields) do
@@ -33,6 +35,10 @@ RSpec.describe Importer::MigrationMapper do
 
     stub_request(:get,
                  "#{source_host}#{file_id}#{described_class::EXPORT_REQUEST}")
+      .to_return(status: 200, body: file_foxml)
+
+    stub_request(:get,
+                 "#{source_host}#{original_file_id}#{described_class::EXPORT_REQUEST}")
       .to_return(status: 200, body: file_foxml)
 
     stub_request(:get,
@@ -195,7 +201,7 @@ RSpec.describe Importer::MigrationMapper do
 
   describe '#supplementary_files' do
     it 'does not have any supplementary files' do
-      expect(mapper.supplementary_files.to_a).to be_empty
+      expect(mapper.supplementary_files.to_a).not_to be_empty
     end
   end
 end

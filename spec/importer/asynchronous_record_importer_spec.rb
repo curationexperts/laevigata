@@ -30,13 +30,15 @@ RSpec.describe Importer::AsynchronousRecordImporter do
     end
 
     context 'when jobs are run' do
-      let(:mapper)       { Importer::MigrationMapper.new(source_host: stubbed_host) }
-      let(:foxml)        { File.read("#{fixture_path}/import/digital_object.xml") }
-      let(:author_id)    { 'emory:194h4' }
-      let(:author_foxml) { File.read("#{fixture_path}/import/author_info.xml") }
-      let(:file_id)      { 'emory:194kd' }
-      let(:file_foxml)   { File.read("#{fixture_path}/import/original_file.xml") }
-      let(:stubbed_host) { 'http://example.com/stubbed/' }
+      let(:mapper)           { Importer::MigrationMapper.new(source_host: stubbed_host) }
+      let(:foxml)            { File.read("#{fixture_path}/import/digital_object.xml") }
+      let(:author_id)        { 'emory:194h4' }
+      let(:author_foxml)     { File.read("#{fixture_path}/import/author_info.xml") }
+      let(:file_id)          { 'emory:194j8' }
+      let(:file_foxml)       { File.read("#{fixture_path}/import/original_file.xml") }
+      let(:original_file_id) { 'emory:194kd' }
+      let(:file_foxml)       { File.read("#{fixture_path}/import/original_file.xml") }
+      let(:stubbed_host)     { 'http://example.com/stubbed/' }
 
       before do
         WebMock.disable_net_connect!(allow_localhost: true)
@@ -51,8 +53,12 @@ RSpec.describe Importer::AsynchronousRecordImporter do
           .to_return(status: 200, body: foxml)
         stub_request(:get, "#{stubbed_host}#{file_id}#{request}")
           .to_return(status: 200, body: file_foxml)
+        stub_request(:get, "#{stubbed_host}#{original_file_id}#{request}")
+          .to_return(status: 200, body: file_foxml)
         stub_request(:get, "#{stubbed_host}#{author_id}#{request}")
           .to_return(status: 200, body: author_foxml)
+
+
 
         ActiveFedora::Cleaner.clean!
         WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml",
@@ -81,6 +87,13 @@ RSpec.describe Importer::AsynchronousRecordImporter do
         importer.import(record: record)
 
         expect(Etd.last.representative).to be_primary
+      end
+
+      it 'has a supplementary (original) file' do
+        importer.import(record: record)
+
+        expect(Etd.last.supplemental_files_fs.first)
+          .not_to be_primary
       end
     end
   end
