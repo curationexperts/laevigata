@@ -116,10 +116,15 @@ class EtdPresenter < Hyrax::WorkShowPresenter
 
   def toc_for_admin
     admin_return_message = ""
-    if embargo_release_date && toc_embargoed && degree_awarded
-      admin_return_message += "[Table of contents embargoed until #{formatted_embargo_release_date}] "
-    elsif embargo_release_date && toc_embargoed
-      admin_return_message += "[Table of contents embargoed until #{embargo_length.first} post-graduation] "
+    if embargo_release_date && toc_embargoed
+      admin_return_message +=
+        if embargo_length && !degree_awarded
+          "[Table of contents embargoed until #{embargo_length.first} post-graduation] "
+        elsif embargo_release_date
+          "[Table of contents embargoed until #{formatted_embargo_release_date}] "
+        else
+          "[Table of contents embargoed until post-graduation] "
+        end
     end
     admin_return_message + table_of_contents.first
   end
