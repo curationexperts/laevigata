@@ -54,7 +54,7 @@ module Importer
     end
 
     def primary_file
-      BinaryFile.new(repository_object.original_file)
+      BinaryFile.new(repository_object.pdf_file)
     end
 
     def embargo_lift_date
@@ -260,6 +260,18 @@ module Importer
         "#{source_host}#{pid}#{EXPORT_REQUEST}"
       end
 
+      def pdf_file
+        @pdf_file ||=
+          begin
+            pdf_file_id =
+              rels.as_xml
+                .xpath('.//rel:hasPDF', NAMESPACES).first
+                .attributes['resource'].value.split('/').last
+
+            RepositoryObject.new(pid: pdf_file_id, source_host: source_host)
+          end
+      end
+
       def original_file
         @original_file ||=
           begin
@@ -274,6 +286,8 @@ module Importer
 
       def supplementary_files
         return enum_for(:supplementary_files) unless block_given?
+
+        yield original_file if original_file
 
         rels.as_xml.xpath('.//rel:hasSupplement', NAMESPACES).each do |node|
           file_id = node.attributes['resource'].value.split('/').last
