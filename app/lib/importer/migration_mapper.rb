@@ -39,10 +39,11 @@ module Importer
     def fields
       [:pid, :title, :embargo_lift_date, :abstract, :committee_chair_attributes,
        :committee_members_attributes, :creator, :degree, :degree_awarded,
-       :degree_granting_institution, :department, :email, :graduation_year,
-       :legacy_id, :keyword, :partnering_agency, :post_graduation_email,
+       :degree_granting_institution, :department, :email, :legacy_id,
+       :graduation_year, :keyword, :partnering_agency, :post_graduation_email,
        :research_field, :research_field_id, :school, :subfield,
-       :submitting_type, :table_of_contents]
+       :submitting_type, :table_of_contents, :abstract_embargoed,
+       :files_embargoed, :toc_embargoed]
     end
 
     def supplementary_files
@@ -66,6 +67,24 @@ module Importer
       date_str.present? && Date.parse(date_str)
     rescue StandardError => e
       raise(MappingError, e)
+    end
+
+    def abstract_embargoed
+      mods_node
+        .xpath('./mods:note[@ID="embargo"]', NAMESPACES)
+        .any? { |node| node.content.downcase.include? 'abstract' }
+    end
+
+    def files_embargoed
+      mods_node
+        .xpath('./mods:note[@ID="embargo"]', NAMESPACES)
+        .any? { |node| node.content.downcase.include? 'file' }
+    end
+
+    def toc_embargoed
+      mods_node
+        .xpath('./mods:note[@ID="embargo"]', NAMESPACES)
+        .any? { |node| node.content.downcase.include? 'toc' }
     end
 
     def title

@@ -97,18 +97,14 @@ module Importer
       ##
       # @see Hyrax::AbstractActor#create
       def create(attributes)
-        set_embargo(attributes.delete(:embargo_lift_date), attributes)
+        apply_embargo(date: attributes.delete(:embargo_lift_date))
         next_actor.create(attributes)
       end
 
       private
 
-        def set_embargo(date, attributes)
+        def apply_embargo(date:)
           return unless date && date >= Time.zone.today
-
-          attributes[:abstract_embargoed] = true
-          attributes[:files_embargoed]    = true
-          attributes[:toc_embargoed]      = true
 
           curation_concern.apply_embargo(
             date,

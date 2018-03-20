@@ -20,7 +20,8 @@ RSpec.describe Importer::MigrationMapper do
        :degree_granting_institution, :department, :email, :legacy_id,
        :graduation_year, :keyword, :partnering_agency, :post_graduation_email,
        :research_field, :research_field_id, :school, :subfield,
-       :submitting_type, :table_of_contents]
+       :submitting_type, :table_of_contents, :abstract_embargoed,
+       :files_embargoed, :toc_embargoed]
     end
   end
 
@@ -71,6 +72,10 @@ RSpec.describe Importer::MigrationMapper do
     it 'has a lift date' do
       expect(mapper.embargo_lift_date).to eq Date.parse('2011-05-24')
     end
+  end
+
+  describe '#toc_embargoed' do
+    it { expect(mapper.toc_embargoed).to be_falsey }
   end
 
   describe '#abstract' do
