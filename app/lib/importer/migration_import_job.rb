@@ -39,7 +39,10 @@ module Importer
         file = File.open(tmp_path(supplementary_file.name), 'w', encoding: 'ascii-8bit')
         file.write(supplementary_file.content)
 
-        files << Hyrax::UploadedFile.create(user: depositor, file: file, pcdm_use: FileSet::SUPPLEMENTARY).id
+        files << Hyrax::UploadedFile.create(user:     depositor,
+                                            file:     file,
+                                            pcdm_use: FileSet::SUPPLEMENTARY,
+                                            title:    supplementary_file.name).id
 
         file.close
         File.unlink(file)
