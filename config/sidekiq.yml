@@ -1,7 +1,8 @@
 ---
 :queues:
-  - [ingest, 4]
+  - [ingest, 6]
   - [batch, 2]
+  - [derivative, 1]
   - [default, 1]
 
 test:
