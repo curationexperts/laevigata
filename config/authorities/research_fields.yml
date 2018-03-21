@@ -819,3 +819,33 @@ terms:
       term: "0646"
     - id: "Women's Studies"
       term: "0453"
+    - id: "Education, History of"
+      term: "0337"
+      active: false
+    - id: "History, Church"
+      term: "0330"
+      active: false
+    - id: "Chemistry, Pharmaceutical"
+      term: "0491"
+      active: false
+    - id: "Health Sciences, Hygiene"
+      term: "0568"
+      active: false
+    - id: "Health Sciences, Education"
+      term: "0350"
+      active: false
+    - id: "Biology, Animal Physiology"
+      term: "0433"
+      active: false
+    - id: "Biology, Plant Physiology"
+      term: "0817"
+      active: false
+    - id: "Chemistry, Radiation"
+      term: "0754"
+      active: false
+    - id: "Biology, Radiation"
+      term: "0821"
+      active: false
+    - id: "Biophysics, Medical"
+      term: "0760"
+      active: false
