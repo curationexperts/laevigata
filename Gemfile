@@ -21,7 +21,7 @@ gem 'jbuilder'
 gem 'jquery-rails'
 # mail pinned to specific version to address "SMTP INJECTION VIA TO/FROM ADDRESSES" vulnerability
 # See https://gemnasium.com/gems/mail
-gem 'loofah'
+gem 'loofah', '~> 2.2', '>= 2.2.1'
 gem 'mail', '2.6.6.rc1'
 gem 'net-sftp'
 gem 'nokogiri', '>= 1.8.2'
@@ -32,7 +32,7 @@ gem 'pg', '~> 0.21'
 gem 'rails', '~> 5.0.2'
 gem 'rsolr', '~> 1.0'
 gem 'rubyzip'
-gem 'sanitize'
+gem 'sanitize', '~> 4.6', '>= 4.6.3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 gem 'sidekiq'
