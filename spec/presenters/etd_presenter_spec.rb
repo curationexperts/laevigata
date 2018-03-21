@@ -26,15 +26,50 @@ describe EtdPresenter do
           expect(etd.toc_embargoed).to eq nil
           expect(presenter.toc_with_embargo_check).to eq etd.table_of_contents.first
         end
+
         context "with a toc embargo" do
+          let(:etd) do
+            FactoryBot.build(:etd_with_toc, embargo_id: embargo.id, toc_embargoed: true)
+          end
+
+          let(:embargo) do
+            FactoryBot.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s)
+          end
+
           context "with a public user" do
             it "provides a toc unavailable message if the toc is under embargo" do
-              etd.embargo_id = FactoryBot.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
-              etd.toc_embargoed = true
-              etd.save
               presenter = described_class.new(SolrDocument.new(etd.to_solr), ability)
               allow(presenter).to receive(:current_ability_is_approver?).and_return(false)
               expect(presenter.toc_with_embargo_check).to eq "This table of contents is under embargo until #{presenter.formatted_embargo_release_date}"
+            end
+          end
+
+          describe '#toc_for_admin' do
+            it 'gives the table of contents' do
+              expect(presenter.toc_for_admin).to include(etd.table_of_contents.first)
+            end
+
+            it 'lists the embargo length' do
+              expect(presenter.toc_for_admin)
+                .to include(presenter.formatted_embargo_release_date)
+            end
+
+            context 'when the degree is awarded' do
+              let(:etd) do
+                FactoryBot.build(:etd_with_toc,
+                                 embargo_id:     embargo.id,
+                                 toc_embargoed:  true,
+                                 degree_awarded: true)
+              end
+
+              it 'lists the embargo' do
+                expect(presenter.toc_for_admin).to include(etd.table_of_contents.first)
+              end
+
+              it 'lists the embargo release date' do
+                expect(presenter.toc_for_admin)
+                  .to include(presenter.formatted_embargo_release_date)
+              end
             end
           end
         end
