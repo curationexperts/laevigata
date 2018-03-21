@@ -509,7 +509,7 @@ GEM
     logging (2.2.2)
       little-plugger (~> 1.1)
       multi_json (~> 1.10)
-    loofah (2.1.1)
+    loofah (2.2.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.6.6.rc1)
@@ -737,7 +737,7 @@ GEM
     ruby-progressbar (1.9.0)
     rubyzip (1.2.1)
     safe_yaml (1.0.4)
-    sanitize (4.6.0)
+    sanitize (4.6.4)
       crass (~> 1.0.2)
       nokogiri (>= 1.4.4)
       nokogumbo (~> 1.4)
@@ -914,7 +914,7 @@ DEPENDENCIES
   jquery-rails
   launchy
   listen (~> 3.0.5)
-  loofah
+  loofah (~> 2.2, >= 2.2.1)
   mail (= 2.6.6.rc1)
   net-sftp
   nokogiri (>= 1.8.2)
@@ -929,7 +929,7 @@ DEPENDENCIES
   rspec-its
   rspec-rails (~> 3.5)
   rubyzip
-  sanitize
+  sanitize (~> 4.6, >= 4.6.3)
   sass-rails (~> 5.0)
   shoulda-matchers
   sidekiq
