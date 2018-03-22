@@ -16,7 +16,7 @@ RSpec.describe Importer::MigrationMapper do
   it_behaves_like 'a Darlingtonia::Mapper' do
     let(:expected_fields) do
       [:pid, :title, :embargo_lift_date, :abstract, :committee_chair_attributes,
-       :committee_members_attributes, :creator, :degree, :degree_awarded,
+       :committee_members_attributes, :creator, :date_created, :degree, :degree_awarded,
        :degree_granting_institution, :department, :email, :legacy_id,
        :graduation_year, :keyword, :partnering_agency, :post_graduation_email,
        :research_field, :research_field_id, :school, :subfield,
