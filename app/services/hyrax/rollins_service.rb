@@ -1,6 +1,6 @@
 # services/rollins_service.rb
 module Hyrax
-  class RollinsService < Hyrax::QaSelectService
+  class RollinsService < LaevigataAuthorityService
     def initialize
       super('rollins_programs')
     end

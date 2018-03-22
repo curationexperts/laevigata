@@ -1,5 +1,5 @@
 # services/partners_service.rb
-class PartnersService < Hyrax::QaSelectService
+class PartnersService < Hyrax::LaevigataAuthorityService
   def initialize
     super('partnering_agencies')
   end

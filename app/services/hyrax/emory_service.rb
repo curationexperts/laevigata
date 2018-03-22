@@ -1,6 +1,6 @@
 # services/emory_service.rb
 module Hyrax
-  class EmoryService < Hyrax::QaSelectService
+  class EmoryService < LaevigataAuthorityService
     def initialize
       super('emory_programs')
     end

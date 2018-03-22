@@ -1,5 +1,5 @@
 module Hyrax
-  class BusinessService < Hyrax::QaSelectService
+  class BusinessService < LaevigataAuthorityService
     def initialize
       super('business_programs')
     end

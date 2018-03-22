@@ -1,6 +1,6 @@
 # services/submitting_service.rb
 module Hyrax
-  class SchoolService < Hyrax::QaSelectService
+  class SchoolService < LaevigataAuthorityService
     def initialize
       super('school')
     end
