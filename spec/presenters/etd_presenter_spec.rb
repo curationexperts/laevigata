@@ -161,24 +161,43 @@ describe EtdPresenter do
           expect(etd.abstract_embargoed).to eq nil
           expect(presenter.abstract_with_embargo_check).to eq etd.abstract.first
         end
-        context "with an abstract embargo pre-graduation" do
-          it "displays the abstract with embargo_length" do
-            etd.embargo_length = "6 months"
-            etd.degree_awarded = nil
-            etd.embargo_id = FactoryBot.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
+
+        context 'with an abstract embargo' do
+          let(:degree_awarded) { nil }
+          let(:embargo_length) { '6 months' }
+
+          before do
+            etd.embargo_length     = embargo_length
             etd.abstract_embargoed = true
-            presenter = described_class.new(SolrDocument.new(etd.to_solr), ability)
-            expect(presenter.abstract_with_embargo_check).to eq "[Abstract embargoed until #{etd.embargo_length} post-graduation] #{presenter.abstract.first}"
+            etd.degree_awarded     = degree_awarded
+
+            etd.embargo_id =
+              FactoryBot.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
           end
-        end
-        context "with an abstract embargo post-graduation" do
-          it "displays the abstract with the embargo release date" do
-            etd.embargo_length = "6 months"
-            etd.degree_awarded = Date.parse("17-05-17").strftime("%d %B %Y")
-            etd.embargo_id = FactoryBot.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s).id
-            etd.abstract_embargoed = true
-            presenter = described_class.new(SolrDocument.new(etd.to_solr), ability)
-            expect(presenter.abstract_with_embargo_check).to eq "[Abstract embargoed until #{presenter.formatted_embargo_release_date}] #{presenter.abstract.first}"
+
+          context "pre-graduation" do
+            it "displays the abstract with embargo_length" do
+              expect(presenter.abstract_with_embargo_check)
+                .to eq "[Abstract embargoed until #{etd.embargo_length} post-graduation] #{presenter.abstract.first}"
+            end
+          end
+
+          context "post-graduation" do
+            let(:degree_awarded) { Date.parse("17-05-17").strftime("%d %B %Y") }
+
+            it "displays the abstract with the embargo release date" do
+              expect(presenter.abstract_with_embargo_check)
+                .to eq "[Abstract embargoed until #{presenter.formatted_embargo_release_date}] #{presenter.abstract.first}"
+            end
+          end
+
+          context "but no #embargo_length" do
+            let(:embargo_length) { nil }
+
+            it "displays the abstract with embargo_length" do
+              expect(presenter.abstract_with_embargo_check)
+                .to eq "[Abstract embargoed until post-graduation] #{presenter.abstract.first}"
+            end
           end
         end
       end
