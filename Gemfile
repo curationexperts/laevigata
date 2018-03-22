@@ -8,6 +8,7 @@ end
 gem 'clamby', '>= 1.2.5'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails'
+gem 'darlingtonia', github: 'curationexperts/darlingtonia', branch: 'master'
 gem 'devise'
 gem 'devise-guests', '~> 0.5'
 gem 'dotenv-rails'
@@ -77,7 +78,7 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'solr_wrapper', '>= 0.3'
   gem 'vcr'
-  gem 'webmock'
+  gem 'webmock', '~> 3.3'
 end
 
 group :development do
