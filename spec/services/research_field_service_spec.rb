@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe ResearchFieldService do
   let(:research_field_service) { described_class.new }
