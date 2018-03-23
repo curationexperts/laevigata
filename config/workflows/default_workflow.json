@@ -9,7 +9,7 @@
                 {
                     "name": "deposit",
                     "from_states": [],
-                    "transition_to": "deposited",
+                    "transition_to": "published",
                     "methods": [
                         "Hyrax::Workflow::GrantEditToDepositor",
                         "Hyrax::Workflow::ActivateObject"
