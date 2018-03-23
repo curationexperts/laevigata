@@ -2,7 +2,7 @@
 #  `rails generate hyrax:work Etd`
 require 'rails_helper'
 
-RSpec.describe Hyrax::EtdsController do
+RSpec.describe Hyrax::EtdsController, :perform_jobs do
   let(:user) { create :user }
 
   let(:approver) { User.where(uid: "tezprox").first }

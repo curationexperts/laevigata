@@ -18,8 +18,6 @@ RSpec.describe Importer::AsynchronousRecordImporter do
   end
 
   describe '#import' do
-    before { ActiveJob::Base.queue_adapter = :test }
-
     it 'serializes streams successfully for queue' do
       expect { importer.import(record: record) }
         .to have_enqueued_job(Importer::MigrationImportJob)
@@ -29,7 +27,7 @@ RSpec.describe Importer::AsynchronousRecordImporter do
                     an_instance_of(importer.info_stream.class))
     end
 
-    context 'when jobs are run' do
+    context 'when jobs are run', :perform_jobs do
       let(:mapper)           { Importer::MigrationMapper.new(source_host: stubbed_host) }
       let(:foxml)            { File.read("#{fixture_path}/import/digital_object.xml") }
       let(:author_id)        { 'emory:194h4' }
@@ -43,7 +41,6 @@ RSpec.describe Importer::AsynchronousRecordImporter do
       before do
         WebMock.disable_net_connect!(allow_localhost: true)
 
-        ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
         ActiveJob::Base.queue_adapter.filter = [Importer::MigrationImportJob,
                                                 AttachFilesToWorkJob]
 

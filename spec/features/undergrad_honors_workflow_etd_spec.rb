@@ -5,7 +5,7 @@ require 'active_fedora/cleaner'
 require 'workflow_setup'
 include Warden::Test::Helpers
 
-RSpec.feature 'Emory College approval workflow' do
+RSpec.feature 'Emory College approval workflow', :perform_jobs do
   let(:depositing_user) { User.where(ppid: etd.depositor).first }
   let(:approving_user) { User.where(uid: "ecadmin").first }
   let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }

@@ -76,6 +76,15 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :truncation
   end
 
+  config.before perform_jobs: true do
+    ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
+  end
+
+  config.after perform_jobs: true do
+    ActiveJob::Base.queue_adapter.filter                = nil
+    ActiveJob::Base.queue_adapter.perform_enqueued_jobs = false
+  end
+
   config.before do
     DatabaseCleaner.start
     class_double("Clamby").as_stubbed_const

@@ -2,7 +2,7 @@
 #  `rails generate hyrax:work Etd`
 require 'rails_helper'
 
-RSpec.describe Hyrax::EtdsController do
+RSpec.describe Hyrax::EtdsController, :perform_jobs do
   let(:params) do
     eval(File.read("#{fixture_path}/form_submission_params/office_document_bug.rb")) # rubocop:disable Security/Eval
   end
