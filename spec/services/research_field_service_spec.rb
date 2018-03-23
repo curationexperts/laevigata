@@ -15,7 +15,7 @@ describe ResearchFieldService do
       expect(research_field_options).to include ['0287', 'Biology, Anatomy']
       expect(research_field_options).to include ['0452', 'Social Work']
       expect(research_field_options).to include ['0778', 'Biology, Veterinary Science']
-      expect(research_field_options.size).to eq 410
+      expect(research_field_options.size).to be >= 410
     end
   end
 
