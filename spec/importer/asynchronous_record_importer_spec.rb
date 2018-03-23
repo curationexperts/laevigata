@@ -93,6 +93,12 @@ RSpec.describe Importer::AsynchronousRecordImporter do
         expect(Etd.last.supplemental_files_fs.first)
           .not_to be_primary
       end
+
+      it 'has a premis file' do
+        importer.import(record: record)
+
+        expect(Etd.last.premis_files_fs.first).to be_premis
+      end
     end
   end
 end

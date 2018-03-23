@@ -48,6 +48,15 @@ module Importer
         File.unlink(file)
       end
 
+      premis_file = Tempfile.new(['premis', '.xml'])
+      premis_file.write(record.mapper.premis_content)
+      attributes[:uploaded_files] << Hyrax::UploadedFile.create(user:     depositor,
+                                                                file:     premis_file,
+                                                                pcdm_use: FileSet::PREMIS,
+                                                                title:    'premis.xml').id
+      premis_file.close
+      premis_file.unlink
+
       actor = Hyrax::Actors::ActorStack.new(Etd.new, ::Ability.new(depositor), stack_actors)
       actor.create(attributes)
 

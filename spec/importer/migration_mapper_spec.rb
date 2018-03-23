@@ -198,6 +198,12 @@ RSpec.describe Importer::MigrationMapper do
     end
   end
 
+  describe '#premis_content' do
+    it 'has premis file content' do
+      expect(mapper.premis_content).not_to be_empty
+    end
+  end
+
   describe '#primary_file' do
     it 'has primary file content' do
       expect(mapper.primary_file.content).not_to be_empty

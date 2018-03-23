@@ -58,6 +58,10 @@ module Importer
       BinaryFile.new(repository_object.pdf_file)
     end
 
+    def premis_content
+      repository_object.premis.content
+    end
+
     def embargo_lift_date
       date_str =
         mods_node
@@ -273,6 +277,10 @@ module Importer
 
       def mods
         datastream(dsid: 'MODS')
+      end
+
+      def premis
+        datastream(dsid: 'PREMIS')
       end
 
       def xhtml
