@@ -411,11 +411,14 @@ module Importer
             'code',
             'em',
             'i',
+            'li',
+            'ol',
             'p',
             'span',
             'strong',
             'style',
-            'sup'
+            'sup',
+            'ul'
           ],
           attributes: {
             'p' => ['style'],
