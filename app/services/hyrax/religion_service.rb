@@ -1,5 +1,5 @@
 module Hyrax
-  class ReligionService < Hyrax::QaSelectService
+  class ReligionService < LaevigataAuthorityService
     def initialize
       super('religion_programs')
     end

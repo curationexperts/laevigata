@@ -1,5 +1,5 @@
 module Hyrax
-  class PsychologyService < Hyrax::QaSelectService
+  class PsychologyService < LaevigataAuthorityService
     def initialize
       super('psychology_programs')
     end

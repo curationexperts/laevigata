@@ -1,5 +1,5 @@
 module Hyrax
-  class EnvironmentalService < Hyrax::QaSelectService
+  class EnvironmentalService < LaevigataAuthorityService
     def initialize
       super('environmental_programs')
     end

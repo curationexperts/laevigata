@@ -1,5 +1,5 @@
 module Hyrax
-  class BiostatisticsService < Hyrax::QaSelectService
+  class BiostatisticsService < LaevigataAuthorityService
     def initialize
       super('biostatistics_programs')
     end

@@ -1,5 +1,5 @@
 module Hyrax
-  class ExecutiveService < Hyrax::QaSelectService
+  class ExecutiveService < LaevigataAuthorityService
     def initialize
       super('executive_programs')
     end

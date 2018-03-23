@@ -1,5 +1,5 @@
 module Hyrax
-  class EpidemiologyService < Hyrax::QaSelectService
+  class EpidemiologyService < LaevigataAuthorityService
     def initialize
       super('epidemiology_programs')
     end

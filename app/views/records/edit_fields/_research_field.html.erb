@@ -1,6 +1,6 @@
 <% research_field_service = ResearchFieldService.new %>
 <%= f.input :research_field, as: :etd_multi_value_select,
-    collection: research_field_service.select_all_ids,
+    collection: research_field_service.select_active_ids,
     label: 'Research Field', hint: 'Select at least one, but no more than three, research fields that best describe your work. List your primary field first. If you do not see your exact field, pick the closest option.',
     input_html: { class: 'form-control' },
     include_blank: true, required: true

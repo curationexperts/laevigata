@@ -1,6 +1,6 @@
 # services/degree_service.rb
 module Hyrax
-  class DegreeService < Hyrax::QaSelectService
+  class DegreeService < LaevigataAuthorityService
     def initialize
       super('degree')
     end

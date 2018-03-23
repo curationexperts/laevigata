@@ -19,6 +19,12 @@ describe ResearchFieldService do
     end
   end
 
+  describe "select_active_ids" do
+    it { expect(research_field_service.select_active_ids).to include ['Aeronomy', 'Aeronomy'] }
+    it { expect(research_field_service.select_active_ids).to include ['Social Work', 'Social Work'] }
+    it { expect(research_field_service.select_active_ids).not_to include ['Biology, Radiation', 'Biology, Radiation'] }
+  end
+
   describe "label" do
     subject { research_field_service.label('Art Criticism') }
 

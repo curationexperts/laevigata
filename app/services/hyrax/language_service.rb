@@ -1,5 +1,5 @@
 module Hyrax
-  class LanguageService < Hyrax::QaSelectService
+  class LanguageService < LaevigataAuthorityService
     def initialize
       super('languages_list')
     end
