@@ -84,11 +84,11 @@ RSpec.describe Importer::AsynchronousRecordImporter do
         expect(Etd.last.representative).to be_primary
       end
 
-      it 'has a supplementary (original) file' do
+      it 'has an original file' do
         importer.import(record: record)
 
-        expect(Etd.last.supplemental_files_fs.first)
-          .not_to be_primary
+        expect(Etd.last.file_sets.find(&:original?).label)
+          .to eq 'MoominDissertation.pdf'
       end
 
       it 'has a premis file' do

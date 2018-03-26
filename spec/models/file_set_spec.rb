@@ -12,6 +12,17 @@ RSpec.describe FileSet do
     its(:file_type) { is_expected.to be_nil }
   end
 
+  context 'when original' do
+    subject(:file_set) { described_class.new(pcdm_use: described_class::ORIGINAL) }
+
+    its(:pcdm_use) { is_expected.to eq described_class::ORIGINAL }
+
+    it { is_expected.not_to be_premis }
+    it { is_expected.not_to be_primary }
+    it { is_expected.not_to be_supplementary }
+    it { is_expected.to be_original }
+  end
+
   context 'when premis' do
     subject(:file_set) { described_class.new(pcdm_use: described_class::PREMIS) }
 
@@ -20,6 +31,7 @@ RSpec.describe FileSet do
     it { is_expected.to be_premis }
     it { is_expected.not_to be_primary }
     it { is_expected.not_to be_supplementary }
+    it { is_expected.not_to be_original }
   end
 
   context 'when primary' do
@@ -30,6 +42,7 @@ RSpec.describe FileSet do
     it { is_expected.not_to be_premis }
     it { is_expected.to be_primary }
     it { is_expected.not_to be_supplementary }
+    it { is_expected.not_to be_original }
   end
 
   context 'when supplementary' do
@@ -40,5 +53,6 @@ RSpec.describe FileSet do
     it { is_expected.not_to be_premis }
     it { is_expected.not_to be_primary }
     it { is_expected.to be_supplementary }
+    it { is_expected.not_to be_original }
   end
 end
