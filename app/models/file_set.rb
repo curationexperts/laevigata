@@ -2,7 +2,6 @@
 class FileSet < ActiveFedora::Base
   include ::Hyrax::FileSetBehavior
 
-  ORIGINAL      = 'original'.freeze
   PREMIS        = 'premis'.freeze
   PRIMARY       = 'primary'.freeze
   SUPPLEMENTARY = 'supplementary'.freeze
@@ -20,10 +19,6 @@ class FileSet < ActiveFedora::Base
     index.as :facetable
   end
 
-  def original?
-    pcdm_use == ORIGINAL
-  end
-
   def premis?
     pcdm_use == PREMIS
   end
@@ -33,6 +28,6 @@ class FileSet < ActiveFedora::Base
   end
 
   def supplementary?
-    !primary? && !premis? && !original?
+    !primary? && !premis?
   end
 end

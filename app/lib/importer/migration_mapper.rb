@@ -62,10 +62,6 @@ module Importer
       repository_object.premis.content
     end
 
-    def original_file
-      BinaryFile.new(repository_object.original_file)
-    end
-
     def embargo_lift_date
       date_str =
         mods_node
@@ -317,13 +313,10 @@ module Importer
       def original_file
         @original_file ||=
           begin
-            original_file_nodes = rels.as_xml.xpath('.//rel:hasOriginal', NAMESPACES)
-
-            raise "OMG I HAVE MORE THAN ONE ORIGINAL FILE. CRASH HARD." unless
-              original_file_nodes.count == 1
-
             original_file_id =
-              original_file_nodes.first.attributes['resource'].value.split('/').last
+              rels.as_xml
+                .xpath('.//rel:hasOriginal', NAMESPACES).first
+                .attributes['resource'].value.split('/').last
 
             RepositoryObject.new(pid: original_file_id, source_host: source_host)
           end
@@ -331,6 +324,8 @@ module Importer
 
       def supplementary_files
         return enum_for(:supplementary_files) unless block_given?
+
+        yield original_file if original_file
 
         rels.as_xml.xpath('.//rel:hasSupplement', NAMESPACES).each do |node|
           file_id = node.attributes['resource'].value.split('/').last
