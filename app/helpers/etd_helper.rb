@@ -73,7 +73,7 @@ module EtdHelper
         elsif school.include? 'Rollins'
           Hyrax::RollinsService.new.select_active_options
         else
-          ''
+          []
         end
       end
 
@@ -95,7 +95,7 @@ module EtdHelper
         elsif department.include? 'Religion'
           Hyrax::ReligionService.new.select_active_options
         else
-          ''
+          []
         end
       end
 end

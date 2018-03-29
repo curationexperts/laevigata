@@ -89,10 +89,19 @@ class EtdPresenter < Hyrax::WorkShowPresenter
 
   def abstract_for_admin
     admin_return_message = ""
+    if embargo_release_date && abstract_embargoed
+      admin_return_message +=
+        if degree_awarded
+          "[Abstract embargoed until #{formatted_embargo_release_date}] "
+        elsif embargo_length
+          "[Abstract embargoed until #{embargo_length.first} post-graduation] "
+        else
+          "[Abstract embargoed until post-graduation] "
+        end
+    end
+
     if embargo_release_date && abstract_embargoed && degree_awarded
-      admin_return_message += "[Abstract embargoed until #{formatted_embargo_release_date}] "
     elsif embargo_release_date && abstract_embargoed
-      admin_return_message += "[Abstract embargoed until #{embargo_length.first} post-graduation] "
     end
     admin_return_message + abstract.first
   end

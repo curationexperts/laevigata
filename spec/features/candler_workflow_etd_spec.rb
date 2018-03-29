@@ -5,7 +5,7 @@ require 'active_fedora/cleaner'
 require 'workflow_setup'
 include Warden::Test::Helpers
 
-RSpec.feature 'Candler approval workflow' do
+RSpec.feature 'Candler approval workflow', :perform_jobs do
   let(:depositing_user) { User.where(ppid: etd.depositor).first }
   let(:approving_user) { User.where(uid: "candleradmin").first }
   let(:admin_superuser) { User.where(uid: "tezprox").first } # uid from superuser.yml

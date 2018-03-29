@@ -2,9 +2,10 @@
 class FileSet < ActiveFedora::Base
   include ::Hyrax::FileSetBehavior
 
-  PRIMARY = 'primary'.freeze
+  PREMIS        = 'premis'.freeze
+  PRIMARY       = 'primary'.freeze
   SUPPLEMENTARY = 'supplementary'.freeze
-  SUPPLEMENTAL = 'supplementary'.freeze
+  SUPPLEMENTAL  = 'supplementary'.freeze
 
   property :embargo_length, predicate: "http://purl.org/spar/fabio/hasEmbargoDuration", multiple: false do |index|
     index.as :displayable
@@ -18,11 +19,15 @@ class FileSet < ActiveFedora::Base
     index.as :facetable
   end
 
+  def premis?
+    pcdm_use == PREMIS
+  end
+
   def primary?
     pcdm_use == PRIMARY
   end
 
   def supplementary?
-    !primary?
+    !primary? && !premis?
   end
 end

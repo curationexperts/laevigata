@@ -87,9 +87,16 @@ class Etd < ActiveFedora::Base
     members.select(&:primary?).first.files.select { |a| a.mime_type == "application/pdf" }.first
   end
 
-  # Get all attached file sets that are not "primary"
+  ##
+  # @return [Enumerable<FileSet>] attached premis file(s), if any
+  def premis_files_fs
+    members.select(&:premis?)
+  end
+
+  ##
+  # Get all attached file sets that are "supplementary"
   def supplemental_files_fs
-    members.reject(&:primary?)
+    members.select(&:supplementary?)
   end
 
   property :abstract, predicate: "http://purl.org/dc/terms/abstract" do |index|

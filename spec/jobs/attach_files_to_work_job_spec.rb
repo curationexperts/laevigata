@@ -2,7 +2,7 @@ require 'rails_helper'
 describe AttachFilesToWorkJob do
   let(:depositing_user) { User.where(ppid: etd.depositor).first }
   let(:etd) { FactoryBot.create(:sample_data) }
-  context 'virus checking' do
+  context 'virus checking', :perform_jobs do
     before do
       # Comment out these Clamby lines, and the ones in rails_helper.rb to really test virus scanning
       class_double("Clamby").as_stubbed_const

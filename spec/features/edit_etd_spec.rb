@@ -3,7 +3,7 @@ require 'rails_helper'
 
 include Warden::Test::Helpers
 
-RSpec.feature 'Edit an existing ETD' do
+RSpec.feature 'Edit an existing ETD', :perform_jobs do
   let(:approver) { User.where(uid: "tezprox").first }
   let(:student) { create :user }
 
