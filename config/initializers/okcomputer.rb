@@ -14,4 +14,15 @@ class SmtpCheck < OkComputer::Check
   end
 end
 
-OkComputer::Registry.register "smtp", SmtpCheck.new
+class EtdLoadCheck < OkComputer::Check
+  def check
+    raise "We can't find an Etd object in the repository" if Etd.first.nil?
+  rescue => exception
+    Honeybadger.notify(exception)
+    mark_failure
+    mark_message exception.message
+  end
+end
+
+OkComputer::Registry.register "etd_load", EtdLoadCheck.new
+OkComputer::Registry.register "smtp",     SmtpCheck.new
