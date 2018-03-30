@@ -63,7 +63,15 @@ module Importer
     end
 
     def original_file
-      BinaryFile.new(repository_object.original_file)
+      original_files.first
+    end
+
+    def original_files
+      return enum_for(:original_files) unless block_given?
+
+      repository_object.original_files.each do |file|
+        yield BinaryFile.new(file)
+      end
     end
 
     def embargo_lift_date
@@ -314,19 +322,18 @@ module Importer
           end
       end
 
+      def original_files
+        return enum_for(:original_files) unless block_given?
+
+        rels.as_xml.xpath('.//rel:hasOriginal', NAMESPACES).each do |node|
+          file_id = node.attributes['resource'].value.split('/').last
+
+          yield RepositoryObject.new(pid: file_id, source_host: source_host)
+        end
+      end
+
       def original_file
-        @original_file ||=
-          begin
-            original_file_nodes = rels.as_xml.xpath('.//rel:hasOriginal', NAMESPACES)
-
-            raise "OMG I HAVE MORE THAN ONE ORIGINAL FILE. CRASH HARD." unless
-              original_file_nodes.count == 1
-
-            original_file_id =
-              original_file_nodes.first.attributes['resource'].value.split('/').last
-
-            RepositoryObject.new(pid: original_file_id, source_host: source_host)
-          end
+        @original_file ||= original_files.first
       end
 
       def supplementary_files
