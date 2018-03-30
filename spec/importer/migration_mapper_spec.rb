@@ -210,9 +210,21 @@ RSpec.describe Importer::MigrationMapper do
     end
   end
 
+  describe '#original_file' do
+    it 'has an original file' do
+      expect(mapper.original_file.content).not_to be_empty
+    end
+  end
+
+  describe '#original_files' do
+    it 'has an original file' do
+      expect(mapper.original_files.to_a).not_to be_empty
+    end
+  end
+
   describe '#supplementary_files' do
     it 'does not have any supplementary files' do
-      expect(mapper.supplementary_files.to_a).not_to be_empty
+      expect(mapper.supplementary_files.to_a).to be_empty
     end
   end
 end

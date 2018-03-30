@@ -33,6 +33,18 @@ module Importer
       primary_file.close
       File.unlink(primary_file)
 
+      record.mapper.original_files
+        .each_with_object(attributes[:uploaded_files]) do |original_binary, files|
+        file = File.open(tmp_path(original_binary.name), 'w', encoding: 'ascii-8bit')
+        file.write(original_binary.content)
+
+        files <<
+          Hyrax::UploadedFile.create(user: depositor, file: file, pcdm_use: FileSet::ORIGINAL).id
+
+        file.close
+        File.unlink(file)
+      end
+
       record.mapper
         .supplementary_files
         .each_with_object(attributes[:uploaded_files]) do |supplementary_file, files|
@@ -54,6 +66,7 @@ module Importer
                                                                 file:     premis_file,
                                                                 pcdm_use: FileSet::PREMIS,
                                                                 title:    'premis.xml').id
+
       premis_file.close
       premis_file.unlink
 
