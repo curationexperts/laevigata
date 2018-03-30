@@ -284,6 +284,7 @@
       -->
   </searchComponent>
 
+  <!-- Removed by DCE to improve performance
   <searchComponent name="suggest" class="solr.SuggestComponent">
     <lst name="suggester">
       <str name="name">mySuggester</str>
@@ -293,7 +294,9 @@
       <str name="field">suggest</str>
     </lst>
   </searchComponent>
+  -->
 
+  <!-- Removed by DCE to improve performance
   <requestHandler name="/suggest" class="solr.SearchHandler" startup="lazy">
     <lst name="defaults">
       <str name="suggest">true</str>
@@ -304,6 +307,7 @@
       <str>suggest</str>
     </arr>
   </requestHandler>
+  --> 
 
   <requestHandler name="/update/extract" class="org.apache.solr.handler.extraction.ExtractingRequestHandler">
     <lst name="defaults">
@@ -319,4 +323,3 @@
     <!-- </lst> -->
   </requestHandler>
 </config>
-
