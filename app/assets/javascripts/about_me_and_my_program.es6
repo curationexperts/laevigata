@@ -66,18 +66,19 @@ export default class AboutMeAndMyProgram {
 
       // we are adding the index to the element's name, which the back end will use to keep track of each member.
       $affiliation_input.prop('name', new_affiliation_name);
+      $affiliation_input.val('Emory').prop('disabled', true);
       $affiliation_type_input.prop('name', new_affiliation_type_name);
 
       var $name_input = $new_row.find('div.member-name input');
 
       var name_name = $name_input.prop('name');
+
       var new_name = name_name.replace(/\d/, current_index);
 
       $name_input.prop('name', new_name)
 
       $new_row.removeClass('hidden');
       $(`div.about-me.${selector}`).append($new_row);
-
        $removeMember.on('click', function(){
          // get current_index again and store it in local variable, decrement it and store it
          var current_index = $(`#index-${selector}`).val();

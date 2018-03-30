@@ -78,6 +78,22 @@ RSpec.feature 'Create an Etd' do
       expect(find_field("etd[committee_members_attributes][0]_affiliation").value).to eq("MOMA")
     end
 
+    scenario "'about me' no committee members selected", js: true unless continuous_integration? do
+      page.check('#no_committee_members')
+      wait_for_ajax
+      affiliation_type = find_field(id: 'etd_committee_members_attributes_0_affiliation_type')
+      affiliation = find_field(id: 'etd[committee_chair_attributes][0]_affiliation')
+      member_name = find_field(id: 'etd[committee_members_attributes][0]_name')
+      add_member = find_field(id: 'add-another-member')
+      expect(affiliation_type).to be_disabled
+      expect(affiliation).to be_disabled
+      expect(member_name).to be_disabled
+      expect(add_member).to be_disabled
+      expect(affiliation.value).to eq ''
+      expect(affiliation_type.value).to eq ''
+      expect(member_name.value).to eq ''
+    end
+
     scenario "'about me' adds and removes committee members", js: true unless continuous_integration? do
       click_on("Add another Committee Member")
       wait_for_ajax

@@ -1,21 +1,34 @@
+<div class="confirm_well col-sm-12 no-committee-members">
+  <div class="checkbox well">
+    <label class="boolean optional" for="etd_no_committee_members">
+      <span class="sr-only">Warning:</span>
+      <%= f.input :no_committee_members, as: :boolean, label: "I do not have committee members.", input_html: { id: 'no_committee_members' } %>
+    </label>
+  </div>
+</div>
 <%= f.fields_for :committee_members, @form.committee_members do |cm| %>
   <div class="committee-member row">
+  
     <div class="col-sm-6 member">
 
       <%= cm.input "affiliation_type", required: true,
         label: "Committee Member's Affiliation",
         selected: @form.cm_affiliation_type(cm.object.affiliation),
         collection: @form.cm_affiliation_options,
-        input_html: { class: 'form-control committee-member-select' } %>
+        input_html: { class: 'form-control committee-member-select' }
+         %>
 
-      <%= cm.input :affiliation, as: :committee_member, disabled: true, required: true, label: false, input_html: { class: 'form-control committee' } %>
+      <%= cm.input :affiliation, as: :committee_member, disabled: @form.cm_affiliation_type(cm.object.affiliation) != 'Non-Emory Committee Member', required: true, label: false, input_html: { class: 'form-control committee committee-member-school' } %>
 
     </div>
 
     <div class="col-sm-6 member-name">
-      <%= cm.input :name, as: :committee_member, label: "Committee Member", required: true, input_html: { placeholder: 'Last Name, First Name', class: 'form-control committee' } %>
+      <%= cm.input :name, as: :committee_member, label: "Committee Member", required: true, input_html: { placeholder: 'Last Name, First Name', class: 'form-control committee committee-member-name' }, disabled: @form.cm_affiliation_type(cm.object.affiliation) == 'No Committee Members' %>
+    
+    <% if cm.index > 0 %>
+    <button type="button" class="btn btn-link remove remove-current-member"><span class="glyphicon glyphicon-remove"></span> <span class="controls-remove-text">Remove Committee Member</span></button>
+    <% end %>
     </div>
-
   </div>
 <% end %>
 
@@ -23,7 +36,7 @@
   <!-- this hidden element keeps track of the member count for an about_me_and_my_program.es6 function -->
   <input type='hidden' name='index-member' id='index-member' value="<%= member_index %>" />
 
-  <div class="committee-member row hidden" id='member-cloning_row'>
+  <div class="committee-member row cloning hidden" id='member-cloning_row'>
     <div class="col-sm-6 member">
 
       <div class="form-group select optional etd_committee_members_affiliation_type">
