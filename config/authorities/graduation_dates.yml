@@ -19,3 +19,54 @@ terms:
       term: 'Summer 2020'
     - id: 'Fall 2020'
       term: 'Fall 2020'
+    - id: '2000'
+      term: '2000'
+      active: false
+    - id: '2001'
+      term: '2001'
+      active: false
+    - id: '2002'
+      term: '2002'
+      active: false
+    - id: '2003'
+      term: '2003'
+      active: false
+    - id: '2004'
+      term: '2004'
+      active: false
+    - id: '2005'
+      term: '2005'
+      active: false
+    - id: '2006'
+      term: '2006'
+      active: false
+    - id: '2007'
+      term: '2007'
+      active: false
+    - id: '2008'
+      term: '2008'
+      active: false
+    - id: '2009'
+      term: '2009'
+      active: false
+    - id: '2010'
+      term: '2010'
+      active: false
+    - id: '2011'
+      term: '2011'
+      active: false
+    - id: '2012'
+      term: '2012'
+      active: false
+    - id: '2013'
+      term: '2013'
+      active: false
+    - id: '2014'
+      term: '2014'
+      active: false
+    - id: '2015'
+      term: '2015'
+      active: false
+    - id: '2016'
+      term: '2016'
+      active: false
