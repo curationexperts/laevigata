@@ -4,7 +4,16 @@ require 'workflow_setup'
 include Warden::Test::Helpers
 
 RSpec.feature 'Display ETD metadata' do
-  let(:etd) { FactoryBot.create(:sample_data_with_copyright_questions, partnering_agency: ["CDC"], school: ["Candler School of Theology"], embargo_length: "6 months") }
+  let(:etd) do
+    FactoryBot.create(:sample_data_with_copyright_questions,
+                      partnering_agency: ["CDC"],
+                      school: ["Candler School of Theology"],
+                      embargo_length: "6 months",
+                      files_embargoed: false,
+                      toc_embargoed: nil,
+                      abstract_embargoed: '')
+  end
+
   let(:approving_user) { User.where(uid: "candleradmin").first }
 
   # set up the creation of an approving user
@@ -85,9 +94,9 @@ RSpec.feature 'Display ETD metadata' do
     expect(page).to have_content I18n.t("hyrax.works.copyright_question_three_label")
 
     # Embargo questions
-    expect(page).to have_content "Files Under Embargo"
-    expect(page).to have_content "Abstract Under Embargo"
-    expect(page).to have_content "Table of Contents Under Embargo"
+    expect(find('li.files_embargoed')).to have_content false
+    expect(find('li.toc_embargoed')).to have_content false
+    expect(find('li.abstract_embargoed')).to have_content false
     expect(page).to have_content "Length of Embargo"
     logout
   end
