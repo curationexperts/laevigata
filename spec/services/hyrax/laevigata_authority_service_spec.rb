@@ -41,7 +41,7 @@ RSpec.describe Hyrax::LaevigataAuthorityService do
 
     describe 'regression tests' do
       it 'has an enviornmental service' do
-        expect(described_class.for(department: 'Environmental Health'))
+        expect(described_class.for(department: 'Environmental Studies'))
           .to be_a Hyrax::EnvironmentalService
       end
 

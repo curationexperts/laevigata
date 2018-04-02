@@ -29,6 +29,8 @@ RSpec.feature 'Create an Etd' do
       fill_in 'Post Graduation Email', with: 'frodo@example.com'
       select("Rollins School of Public Health", from: "School")
       select("Epidemiology", from: "Department")
+      # corrected laevigata program names means a subfield is required with Epidemiology
+      select("Epidemiology - MPH & MSPH", from: "Sub Field")
 
       expect(page).to have_select('Partnering Agency')
       select('CDC', from: 'Partnering Agency')
@@ -273,6 +275,8 @@ RSpec.feature 'Create an Etd' do
       fill_in 'Post Graduation Email', with: 'frodo@example.com'
       select("Rollins School of Public Health", from: "School")
       select("Epidemiology", from: "Department")
+      # corrected laevigata program names means a subfield is required with Epidemiology
+      select("Epidemiology - MPH & MSPH", from: "Sub Field")
 
       select('CDC', from: 'Partnering Agency')
       select 'PhD', from: 'Degree'

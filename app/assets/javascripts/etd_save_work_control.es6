@@ -63,6 +63,9 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
 
       this.laneyEmbargoDurations = '<option value=""></option><option value="6 months">6 months</option><option value="1 year">1 year</option><option value="2 years">2 years</option><option value="6 years">6 years</option>';
 
+      this.departments_with_subfields = ['Business', 'Executive Masters of Public Health - MPH', 'Biostatistics and Bioinformatics', 'Biostatistics', 'Biological and Biomedical Sciences', 'Environmental Studies', 'Epidemiology', 'Psychology', 'Religion', 'Religion and Anthropology', 'Religion and Classical Civilization', 'Religion and History', 'Religion and Sociology']
+
+
       this.preventSubmit()
       this.fileDeleted()
       this.supplementalFilesListener()
@@ -71,6 +74,10 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
       this.setCommitteeMembersContentListener()
       this.setAgreementListener()
       this.setTinyListener()
+      this.setPartneringAgencyListener()
+      this.setSchoolListener()
+      this.setDepartmentListener()
+      this.setSubfieldListener()
       this.supplementalMetadataListener()
 
       // Check if the form is already valid. (e.g. If the user is editing an existing record, the form should be valid immediately.)
@@ -100,6 +107,46 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     setTinyListener(){
       var form = this
       $(document).bind('laevigata:tinymce:change', null, (e) => form.formStateChanged('.about-my-etd'));
+    }
+    // dynamically added fields need to explicitly trigger validation
+    setPartneringAgencyListener(){
+      var form = this
+      $('#etd_partnering_agency').on('change', function(){
+        // if we should add subfield for validating, do so
+        if (form.departments_with_subfields.includes($('#etd_department').val())){
+          form.requiredAboutMeFields.reload('.about-me', true)
+        } else {
+          form.requiredAboutMeFields.reload('.about-me')
+        }
+        form.formStateChanged('.about-me');
+      });
+    }
+
+    setSchoolListener(){
+      var form = this
+      $('#etd_school').on('change', function(){
+        $("#etd_subfield").val("").change().prop('disabled', true)
+        form.requiredAboutMeFields.reload('.about-me')
+      });
+    }
+
+    setDepartmentListener(){
+      var form = this
+      $('#etd_department').on('change', function(){
+        // call reload if subfield has content, based upon array of department names that contain subfields
+          if (form.departments_with_subfields.includes($(this).val())){
+            form.requiredAboutMeFields.reload('.about-me', true)
+          } else {
+            form.requiredAboutMeFields.reload('.about-me')
+          }
+      });
+    }
+
+    setSubfieldListener(){
+      var form = this
+      $('#etd_subfield').on('change', function(){
+        form.requiredAboutMeFields.reload('.about-me', true)
+      });
     }
 
     setAgreementListener(){
@@ -355,9 +402,6 @@ export default class EtdSaveWorkControl extends SaveWorkControl {
     }
 
     validateMeAndMyProgram() {
-      // TODO: make sure email format is valid
-      // red border around input might suffice for invalid
-
       // if Rollins is school, partnering agency is required, otherwise not
       if ($('#etd_school').val() != "Rollins School of Public Health"){
         this.requiredAboutMeFields.requiredFields = $(this.requiredAboutMeFields.requiredFields).not("#etd_partnering_agency")

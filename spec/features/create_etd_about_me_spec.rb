@@ -34,7 +34,7 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_css('#about_me select#etd_partnering_agency')
     end
 
-    scenario "validates 'about me and my program'", js: true unless continuous_integration? do
+    scenario "validates 'about me and my program'", js: true do
       fill_in 'Student Name', with: 'Eun, Dongwon'
       select("Spring 2018", from: "Graduation Date")
       fill_in "Post Graduation Email", with: "graduate@done.com"
@@ -42,11 +42,11 @@ RSpec.feature 'Create an Etd' do
       select("Religion", from: "Department")
       select("Ethics and Society", from: "Sub Field")
       select('MS', from: "Degree")
-      select("Honors Thesis", from: "Submission Type")
-      fill_in "Committee Chair/Thesis Advisor", with: "Diane Arbus"
+
+      fill_in "etd[committee_chair_attributes][0][name][]", with: "Diane Arbus"
 
       fill_in "etd[committee_members_attributes][0][name][]", with: "Joan Didion"
-
+      select("Honors Thesis", from: "Submission Type")
       expect(page).to have_css('li#required-about-me.complete')
     end
 
@@ -142,6 +142,46 @@ RSpec.feature 'Create an Etd' do
       fill_in "etd[committee_members_attributes][0][name][]", with: "Joan Didion"
 
       expect(page).not_to have_css('li#required-about-me.complete')
+    end
+
+    scenario "requires departments", js: true do
+      visit("/concern/etds/new")
+
+      fill_in 'Student Name', with: 'Eun, Dongwon'
+      select("Spring 2018", from: "Graduation Date")
+      fill_in "Post Graduation Email", with: "graduate@done.com"
+      select("Emory College", from: "School")
+
+      select('MS', from: "Degree")
+      select("Honors Thesis", from: "Submission Type")
+      fill_in "etd[committee_chair_attributes][0][name][]", with: "Diane Arbus"
+
+      fill_in "etd[committee_members_attributes][0][name][]", with: "Joan Didion"
+      expect(page).not_to have_css('li#required-about-me.complete')
+
+      select("English and History", from: "Department")
+
+      expect(page).to have_css('li#required-about-me.complete')
+    end
+
+    scenario "departments with subfields require them", js: true do
+      visit("/concern/etds/new")
+
+      fill_in 'Student Name', with: 'Eun, Dongwon'
+      select("Spring 2018", from: "Graduation Date")
+      fill_in "Post Graduation Email", with: "graduate@done.com"
+      select("Emory College", from: "School")
+      select("Environmental Studies", from: "Department")
+      select('MS', from: "Degree")
+      select("Honors Thesis", from: "Submission Type")
+      fill_in "etd[committee_chair_attributes][0][name][]", with: "Diane Arbus"
+
+      fill_in "etd[committee_members_attributes][0][name][]", with: "Joan Didion"
+
+      expect(page).not_to have_css('li#required-about-me.complete')
+      select("Environmental Health - MPH", from: "Sub Field")
+
+      expect(page).to have_css('li#required-about-me.complete')
     end
   end
 end

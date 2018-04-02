@@ -2,7 +2,7 @@ module EtdHelper
   def school_determined_departments(f)
     # if you are in a 'new' state, collection will be supplied by js so disable field, nothing selected
     if curation_concern.id.nil?
-      f.input :department, as: :select, include_blank: true, input_html: {
+      f.input :department, as: :select, include_blank: true, required: true, input_html: {
         class: 'form-control',
         'data-option-dependent' => true,
         'data-option-observed' => 'etd_school',
@@ -48,7 +48,7 @@ module EtdHelper
         disabled: true
       }, label: "Sub Field"
     else
-      f.input :subfield, as: :select, collection: subfields(curation_concern[:department].first), selected: curation_concern[:subfield].first, include_blank: true, input_html: {
+      f.input :subfield, as: :select, collection: subfields(curation_concern[:department].first), selected: curation_concern[:subfield].first, include_blank: true, required: true, input_html: {
         class: 'form-control',
         "data-option-dependent" => true,
         "data-option-observed" => "etd_department",
@@ -70,7 +70,6 @@ module EtdHelper
 
       def subfields(department)
         service = Hyrax::LaevigataAuthorityService.for(department: department)
-
         service&.select_active_options || []
       end
 end

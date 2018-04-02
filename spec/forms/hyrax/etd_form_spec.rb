@@ -27,6 +27,20 @@ RSpec.describe Hyrax::EtdForm do
     its(:terms) { is_expected.to include(:submitting_type) }
   end
 
+  describe "editing an ETD" do
+    context 'when removing a subfield' do
+      let(:form_params) { { "creator" => ['Joey'] } }
+      let(:sanitized_params) { { "creator" => ['Joey'], "subfield" => nil } }
+      it "gives Hyrax what it needs to execute the removal" do
+        allow(Hyrax::Forms::WorkForm).to receive(:sanitize_params).with(form_params)
+
+        described_class.sanitize_params(form_params)
+
+        expect(form_params).to eq(sanitized_params)
+      end
+    end
+  end
+
   describe "#primary_pdf_name" do
     subject { form.primary_pdf_name }
 

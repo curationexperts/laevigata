@@ -57,10 +57,18 @@ module Hyrax
           Hyrax::BusinessService.new
         when 'Executive Masters of Public Health - MPH'
           Hyrax::ExecutiveService.new
+
+        # both Biostatistics programs have same sub-fields,
+        # returned by the same service
+        when 'Biostatistics'
+          Hyrax::BiostatisticsService.new
         when 'Biostatistics and Bioinformatics'
           Hyrax::BiostatisticsService.new
-        when 'Environmental Health'
+        when 'Biological and Biomedical Sciences'
+          Hyrax::BiologicalService.new
+        when 'Environmental Studies'
           Hyrax::EnvironmentalService.new
+        # both Laney and Rollins have Epidemiology departments with same set of sub-fields, returned by the service
         when 'Epidemiology'
           Hyrax::EpidemiologyService.new
         when 'Psychology'

@@ -25,16 +25,27 @@ export class ETDRequiredFields extends RequiredFields {
   }
 
   /* We need to call this reload method any time we have changed the required fields on the form, for example when we add/remove a field or enable/disable a field. */
-  reload(selector) {
+  reload(selector, subfields_enabled) {
     // All inputs are required, except inputs that are
     // hidden, disabled, or optional.
     // ":input" matches all input, select or textarea
     // fields, but we want to exclude buttons.
+
+    // if selector == ".about-me", add department, which is disabled when this function is called by the change of school that enables it; in the situation where a specific value for department means a subdepartment is required, handle that case as well.
+
     this.requiredFields = $(selector).find(":input")
-      .filter(":not([type=hidden])")
-      .filter(":not([disabled])")
-      .filter(":not([class~=optional])")
-      .filter(":not(button)")
+     .filter(":not([type=hidden])")
+     .filter(":not([disabled])")
+     .filter(":not([class~=optional])")
+     .filter(":not(button)")
+
+    if (selector === '.about-me'){
+      this.requiredFields = $(this.requiredFields).add($("#etd_department"));
+    }
+
+    if (subfields_enabled != undefined){
+      this.requiredFields = $(this.requiredFields).add($("#etd_subfield"));
+    }
 
     this.requiredFields.change(this.callback)
   }
