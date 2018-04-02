@@ -24,9 +24,9 @@
       <%= presenter.attribute_to_html(:copyright_question_one, label: t("hyrax.works.copyright_question_one_label"))%>
       <%= presenter.attribute_to_html(:copyright_question_two, label: t("hyrax.works.copyright_question_two_label"))%>
       <%= presenter.attribute_to_html(:copyright_question_three, label: t("hyrax.works.copyright_question_three_label"))%>
-      <%= presenter.attribute_to_html(:files_embargoed, label: "Files Under Embargo")%>
-      <%= presenter.attribute_to_html(:abstract_embargoed, label: "Abstract Under Embargo")%>
-      <%= presenter.attribute_to_html(:toc_embargoed, label: "Table of Contents Under Embargo")%>
+      <%= presenter.attribute_to_html(:files_embargoed, label: "Files Under Embargo", include_empty: true)%>
+      <%= presenter.attribute_to_html(:abstract_embargoed, label: "Abstract Under Embargo", include_empty: true)%>
+      <%= presenter.attribute_to_html(:toc_embargoed, label: "Table of Contents Under Embargo", include_empty: true)%>
       <%= presenter.attribute_to_html(:embargo_length, label: "Length of Embargo")%>
     <% end %>
   </tbody>

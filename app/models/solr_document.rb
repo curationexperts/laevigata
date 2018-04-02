@@ -31,29 +31,29 @@ class SolrDocument
 
   # If this is a boolean, return the boolean value
   # If this is a string, transform it into a boolean
-  # If the value is nil or can't be determined, assume it is embargoed
+  # If the value is nil or can't be determined, assume it is NOT embargoed
   def abstract_embargoed
     return self['abstract_embargoed_bsi'] unless self['abstract_embargoed_bsi'].nil?
     return self['abstract_embargoed_tesim'].first.to_s == "true" if self['abstract_embargoed_tesim']
-    true
+    false
   end
 
   # If this is a boolean, return the boolean value
   # If this is a string, transform it into a boolean
-  # If the value is nil or can't be determined, assume it is embargoed
+  # If the value is nil or can't be determined, assume it is NOT embargoed
   def toc_embargoed
     return self['toc_embargoed_bsi'] unless self['toc_embargoed_bsi'].nil?
     return self['toc_embargoed_tesim'].first.to_s == "true" if self['toc_embargoed_tesim']
-    true
+    false
   end
 
   # If this is a boolean, return the boolean value
   # If this is a string, transform it into a boolean
-  # If the value is nil or can't be determined, assume it is embargoed
+  # If the value is nil or can't be determined, assume it is NOT embargoed
   def files_embargoed
     return self['files_embargoed_bsi'] unless self['files_embargoed_bsi'].nil?
     return self['files_embargoed_tesim'].first.to_s == "true" if self['files_embargoed_tesim']
-    true
+    false
   end
 
   def table_of_contents
