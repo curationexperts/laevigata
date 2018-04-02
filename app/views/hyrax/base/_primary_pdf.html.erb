@@ -9,9 +9,8 @@
         <th><%= t('.actions') %></th>
       </tr>
     </thead>
+    <% if member = @presenter.member_presenters.select { |mp| mp.solr_document["pcdm_use_tesim"].include?("primary")}.first %>
     <tbody>
-      <% member = @presenter.member_presenters.select { |mp| mp.solr_document["pcdm_use_tesim"] == ["primary"]}.first %>
-
       <tr class="<%= dom_class(member) %> attributes">
         <td class="thumbnail">
           <% if @presenter.files_embargo_check %>
@@ -36,6 +35,7 @@
         </td>
       </tr>
     </tbody>
+    <% end %>
   </table>
 <% elsif can? :edit, presenter.id %>
     <div class="alert alert-warning" role="alert"><%= t('.empty', type: presenter.human_readable_type) %></div>

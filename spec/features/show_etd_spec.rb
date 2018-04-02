@@ -30,30 +30,32 @@ RSpec.feature 'Display ETD metadata' do
       "partnering_agency"
     ]
   end
+
+  let(:primary_pdf_file) { "#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf" }
+  let(:supplementary_file_one) { "#{::Rails.root}/spec/fixtures/miranda/rural_clinics.zip" }
+  let(:supplementary_file_two) { "#{::Rails.root}/spec/fixtures/miranda/image.tif" }
+
+  let(:uploaded_files) do
+    [Hyrax::UploadedFile.create(file: File.open(primary_pdf_file), pcdm_use: FileSet::PRIMARY)] +
+      secondary_files
+  end
+
+  let(:secondary_files) do
+    [Hyrax::UploadedFile.create(file:        File.open(supplementary_file_one),
+                                pcdm_use:    FileSet::SUPPLEMENTARY,
+                                title:       "Rural Clinics in Georgia",
+                                description: "GIS shapefile showing rural clinics",
+                                file_type:   "Dataset"),
+     Hyrax::UploadedFile.create(file:        File.open(supplementary_file_two),
+                                pcdm_use:    FileSet::SUPPLEMENTARY,
+                                title:       "Photographer",
+                                description: "a portrait of the artist",
+                                file_type:   "Image")]
+  end
+
   before do
-    uploaded_files = []
-    primary_pdf_file = "#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf"
-    supplementary_file_one = "#{::Rails.root}/spec/fixtures/miranda/rural_clinics.zip"
-    supplementary_file_two = "#{::Rails.root}/spec/fixtures/miranda/image.tif"
-    uploaded_files << Hyrax::UploadedFile.create(
-      file: File.open(primary_pdf_file),
-      pcdm_use: FileSet::PRIMARY
-    )
-    uploaded_files << Hyrax::UploadedFile.create(
-      file: File.open(supplementary_file_one),
-      pcdm_use: FileSet::SUPPLEMENTARY,
-      title: "Rural Clinics in Georgia",
-      description: "GIS shapefile showing rural clinics",
-      file_type: "Dataset"
-    )
-    uploaded_files << Hyrax::UploadedFile.create(
-      file: File.open(supplementary_file_two),
-      pcdm_use: FileSet::SUPPLEMENTARY,
-      title: "Photographer",
-      description: "a portrait of the artist",
-      file_type: "Image"
-    )
-    allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
+    # There is no fits installed on travis-ci
+    allow(CharacterizeJob).to receive(:perform_later)
     # prepare db and create approving_user
     ActiveFedora::Cleaner.clean!
     w.setup
@@ -99,5 +101,15 @@ RSpec.feature 'Display ETD metadata' do
     # The Primary pdf fileset table of links appears above the supplemental files table of linked fileset information.
 
     expect(find("td.attribute.filename a", match: :first)).to have_content etd.title.first.to_s
+  end
+
+  context 'with no primary files' do
+    let(:uploaded_files) { secondary_files }
+
+    scenario 'Render supplementary files' do
+      visit("/concern/etds/#{etd.id}")
+      expect(page).to have_content "Rural Clinics in Georgia (GIS shapefile showing rural clinics)"
+      expect(page).to have_content "Photographer (a portrait of the artist)"
+    end
   end
 end
