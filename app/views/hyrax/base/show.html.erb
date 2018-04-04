@@ -5,7 +5,9 @@
       <%= render 'work_title', presenter: @presenter %>
     </header>
 
+    <span>Permanent URL: <%= main_app.hyrax_etd_url(@presenter.id) %></span>
     <% unless @presenter.workflow.state_label == 'Approved' %>
+      <br />
       <span class="state state-<%= @presenter.workflow.state %>"><%= @presenter.workflow.state_label %></span>
     <% end %>
   </div>
