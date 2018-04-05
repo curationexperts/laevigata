@@ -7,9 +7,12 @@ namespace :sidekiq do
   desc "Sidekiq stop"
   task :stop do
     puts "--- Trying to stop Sidekiq Now ---"
-    if File.exist?(sidekiq_pid_file)
+    if Rails.env == 'development' && File.exist?(sidekiq_pid_file)
       puts "Stopping sidekiq now #PID-#{File.readlines(sidekiq_pid_file).first}..."
       system "sidekiqctl stop #{sidekiq_pid_file}" # stops sidekiq process here
+    elsif Rails.env == 'production'
+      system "sudo /bin/systemctl stop sidekiq" # stops sidekiq process here
+      puts "--- Stopping sidekiq with systemctl ---"
     else
       puts "--- Sidekiq Not Running ---"
     end
@@ -18,9 +21,14 @@ namespace :sidekiq do
   desc "Sidekiq start"
   task :start do
     puts "Starting Sidekiq..."
-    system "bundle exec sidekiq -e#{Rails.env} -C config/sidekiq.yml -P #{sidekiq_pid_file} -d -L #{sidekiq_log_file}" # starts sidekiq process here
-    sleep(2)
-    puts "Sidekiq started #PID-#{File.readlines(sidekiq_pid_file).first}."
+    if Rails.env == 'development'
+      system "bundle exec sidekiq -e#{Rails.env} -C config/sidekiq.yml -P #{sidekiq_pid_file} -d -L #{sidekiq_log_file}" # starts sidekiq process here
+      sleep(2)
+      puts "Sidekiq started #PID-#{File.readlines(sidekiq_pid_file).first}."
+    elsif Rails.env == 'production'
+      system "sudo /bin/systemctl stop sidekiq" # stops sidekiq process here
+      puts "--- Starting sidekiq with systemctl ---"
+    end
   end
 
   desc "Sidekiq restart"
