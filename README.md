@@ -19,6 +19,33 @@ or cherokee rose is the <a href="https://georgia.gov/georgia-facts-and-symbols">
 </td></tr>
 </table>
 
+## Environment variables in production
+Laevigata depends on certain environment variables being set. In development mode, these can be set via a `.env` file. You can see an example in `.env.test`. See also [the dotenv project](https://github.com/bkeepers/dotenv) for more details about how this works.  In production, values are set in a file called `.env.production`. Expected values include:
+* `BOX_EXPIRY_TIME_IN_MINTUTES` - minutes before box upload links will expire
+* `RAILS_HOST` - used to generate urls in notification emails
+* `ACTION_MAILER_SMTP_ADDRESS`
+* `ACTION_MAILER_PORT`
+* `ACTION_MAILER_USER_NAME`
+* `ACTION_MAILER_PASSWORD`
+* `HONEYBADGER_API_KEY`
+* `BOX_OAUTH_CLIENT_ID`
+* `BOX_OAUTH_CLIENT_SECRET`
+* `FITS_PATH`
+* `LIBREOFFICE_PATH`
+* `UPLOAD_PATH`
+* `CACHE_PATH`
+* `DERIVATIVES_PATH`
+* `WORKING_PATH`
+* `FFMPEG_PATH`
+* `DATABASE_NAME`
+* `DATABASE_USERNAME`
+* `DATABASE_PASSWORD`
+* `PROQUEST_SFTP_HOST`
+* `PROQUEST_SFTP_USER`
+* `PROQUEST_SFTP_PASSWORD`
+* `PROQUEST_NOTIFICATION_EMAIL`
+* `REGISTRAR_DATA_PATH` - the file from which to load registrar data (e.g., for graduation status and dates)
+
 ## Developer Setup
 
 1. Change to your working directory for new development projects   
