@@ -7,13 +7,13 @@ include Warden::Test::Helpers
 RSpec.feature 'Create an Etd' do
   let(:user) { create :user }
 
-  context 'a logged in user' do
+  context 'a logged in user fills in their About Me and My Program data' do
     before do
       login_as user
       visit("/concern/etds/new")
     end
 
-    scenario "'about me and my program' has all its inputs" do
+    scenario "'about me' loads with all its inputs" do
       # expect(current_path).to include(new_hyrax_etd_url)
       expect(page).to have_css('#about_me input#etd_creator')
       expect(page).to have_css('#about_me select#etd_graduation_date')
@@ -34,7 +34,7 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_css('#about_me select#etd_partnering_agency')
     end
 
-    scenario "validates 'about me and my program'", js: true do
+    scenario "'about me and my program' is validated", js: true unless continuous_integration? do
       fill_in 'Student Name', with: 'Eun, Dongwon'
       select("Spring 2018", from: "Graduation Date")
       fill_in "Post Graduation Email", with: "graduate@done.com"
@@ -50,19 +50,19 @@ RSpec.feature 'Create an Etd' do
       expect(page).to have_css('li#required-about-me.complete')
     end
 
-    scenario "'about me' has an invalid post graduation email", js: true unless continuous_integration? do
+    scenario "invalid post graduation email shows immediate error cue to student", js: true unless continuous_integration? do
       fill_in "Post Graduation Email", with: "graduate@done"
       wait_for_ajax
       expect(page).to have_css('input#etd_post_graduation_email.red_input')
     end
 
-    scenario "'about me' has a valid post graduation email", js: true unless continuous_integration? do
+    scenario "valid post graduation email does not show error cue", js: true unless continuous_integration? do
       fill_in "Post Graduation Email", with: "graduate@done.com"
       wait_for_ajax
       expect(page).not_to have_css('input#etd_post_graduation_email.red_input')
     end
 
-    scenario "'about me' has no committee affiliation field when affiliation type Emory is selected", js: true unless continuous_integration? do
+    scenario "there is no committee affiliation field when affiliation type Emory is selected", js: true unless continuous_integration? do
       select('Non-Emory Committee Chair', from: "Committee Chair/Thesis Advisor's Affiliation")
       affiliation = find_field(id: 'etd[committee_chair_attributes][0]_affiliation')
       expect(affiliation).not_to be_disabled
@@ -71,14 +71,14 @@ RSpec.feature 'Create an Etd' do
       expect(affiliation.value).to eq 'Emory'
     end
 
-    scenario "'about me' committee affiliation accepts user input when Non-Emory is selected", js: true unless continuous_integration? do
+    scenario "the committee affiliation accepts user input when Non-Emory is selected", js: true unless continuous_integration? do
       select('Non-Emory Committee Member', from: "Committee Member's Affiliation")
       wait_for_ajax
       fill_in "etd[committee_members_attributes][0]_affiliation", with: "MOMA"
       expect(find_field("etd[committee_members_attributes][0]_affiliation").value).to eq("MOMA")
     end
 
-    scenario "'about me' no committee members selected", js: true unless continuous_integration? do
+    scenario "when no committee members is checked, committee input fields are disabled and do not contain values", js: true unless continuous_integration? do
       page.check('#no_committee_members')
       wait_for_ajax
       affiliation_type = find_field(id: 'etd_committee_members_attributes_0_affiliation_type')
@@ -94,7 +94,7 @@ RSpec.feature 'Create an Etd' do
       expect(member_name.value).to eq ''
     end
 
-    scenario "'about me' adds and removes committee members", js: true unless continuous_integration? do
+    scenario "users can add and remove committee members", js: true unless continuous_integration? do
       click_on("Add another Committee Member")
       wait_for_ajax
 
@@ -114,34 +114,24 @@ RSpec.feature 'Create an Etd' do
     end
     # the add code works only for committee members right now
 
-    scenario "'about me' hides partnering agencies unless the Rollins school is selected", js: true unless continuous_integration? do
+    scenario "Partnering Agency is not displayed unless the Rollins school is selected", js: true unless continuous_integration? do
       select("Laney Graduate School", from: "School")
 
       expect(page).not_to have_css('div#rollins_partnering_agencies')
     end
 
-    scenario "'about me' select a graduation date from the dropdown", js: true do
-      select("Summer 2018", from: "Graduation Date")
-
-      expect(page).to have_select('etd_graduation_date', selected: 'Summer 2018')
-    end
-
-    scenario "'about me' displays partnering agencies when Rollins is the selected school", js: true do
+    scenario "Partnering Agency is displayed when Rollins is the selected school", js: true do
       select("Rollins School of Public Health", from: "School")
       wait_for_ajax
+
       expect(page).to have_css('div#rollins_partnering_agencies')
     end
 
-    scenario "display indicates incomplete 'about me and my program' data", js: true unless continuous_integration? do
+    scenario "incomplete data is indicated to student", js: true unless continuous_integration? do
       visit("/concern/etds/new")
 
-      select('Emory Committee Chair', from: "Committee Chair/Thesis Advisor's Affiliation")
-      fill_in 'etd[committee_chair_attributes][0]_name', with: "Diane Arbus"
-      select('Non-Emory Committee Member', from: "Committee Member's Affiliation")
-      expect(page).to have_content('Committee Member')
-      fill_in "etd[committee_members_attributes][0][name][]", with: "Joan Didion"
-
       expect(page).not_to have_css('li#required-about-me.complete')
+      expect(page).to have_css('li#required-about-me.incomplete')
     end
 
     scenario "requires departments", js: true do
