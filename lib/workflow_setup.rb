@@ -11,6 +11,7 @@ class WorkflowSetup
   NOTIFICATION_OWNER = "notification_owner".freeze
   DEFAULT_SUPERUSERS_CONFIG = "#{::Rails.root}/config/emory/superusers.yml".freeze
   DEFAULT_ADMIN_SETS_CONFIG = "#{::Rails.root}/config/emory/admin_sets.yml".freeze
+  ONE_STEP_DEPOSIT          = 'emory_one_step_approval'.freeze
 
   # Set up the parameters for
   # @param [String] superusers_config a file containing the email addresses of the application's superusers
@@ -40,8 +41,18 @@ class WorkflowSetup
       @logger.debug "Attempting to make admin set for #{as}"
       make_admin_set_from_config(as)
     end
+    make_fallback_admin_set
     everyone_can_deposit_everywhere
     give_superusers_superpowers
+  end
+
+  def make_fallback_admin_set(id: Etd::FALLBACK_ADMIN_SET_ID.to_s, workflow_name: ONE_STEP_DEPOSIT)
+    return true if AdminSet.exists?(id)
+
+    fallback = AdminSet.new(id: id, title: [id.humanize])
+    Hyrax::AdminSetCreateService
+      .call(admin_set: fallback, creating_user: @admin_set_owner)
+    activate_mediated_deposit(fallback, workflow_name)
   end
 
   # A ::User to own notifications
@@ -55,7 +66,7 @@ class WorkflowSetup
   # Make an AdminSet and assign it a one step mediated deposit workflow
   # @param [String] admin_set_title The title of the admin set to create
   # @param [String] workflow_name The name of the mediated deposit workflow to enable
-  def make_mediated_deposit_admin_set(admin_set_title, workflow_name = "emory_one_step_approval")
+  def make_mediated_deposit_admin_set(admin_set_title, workflow_name = ONE_STEP_DEPOSIT)
     a = make_admin_set(admin_set_title)
     activate_mediated_deposit(a, workflow_name)
     a

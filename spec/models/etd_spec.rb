@@ -42,10 +42,6 @@ RSpec.describe Etd do
       etd.subfield = ["Environmental Health - MPH"]
       expect(etd.determine_admin_set).to eq "Environmental Health - MPH"
     end
-    it "raises an error if it can't find the admin set in the config" do
-      etd.school = ["Fake School"]
-      expect { etd.determine_admin_set }.to raise_error(RuntimeError, /Cannot find admin set config/)
-    end
     it "assigns the admin set" do
       expect(epidemiology_admin_set.title).to contain_exactly("Epidemiology")
       etd.department = ["Epidemiology"]
@@ -76,6 +72,28 @@ RSpec.describe Etd do
         etd.department = ["Environmental Health"]
         etd.subfield = [] << subfield
         expect(etd.determine_admin_set).to eq subfield
+      end
+    end
+
+    context 'when there is no matching admin_set' do
+      let(:fallback_set) do
+        FactoryBot.create(:admin_set, id: described_class::FALLBACK_ADMIN_SET_ID)
+      end
+
+      before { etd.school = ["Fake School"] }
+
+      it 'requests a fallback admin set' do
+        expect(etd.determine_admin_set).to eq described_class::FALLBACK_ADMIN_SET_ID
+      end
+
+      it 'raises an error when the fallback admin set does not exist' do
+        expect { etd.assign_admin_set }.to raise_error ActiveFedora::ObjectNotFoundError
+      end
+
+      it 'assigns the fallback admin set' do
+        expect { etd.assign_admin_set }
+          .to change { etd.admin_set }
+          .to eq fallback_set
       end
     end
   end

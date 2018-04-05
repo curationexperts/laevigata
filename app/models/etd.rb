@@ -6,6 +6,8 @@ class Etd < ActiveFedora::Base
   include ::Hyrax::BasicMetadata
   include ::ProquestBehaviors
 
+  FALLBACK_ADMIN_SET_ID = :unassigned_admin_set
+
   # Change this to restrict which works can be added as a child.
   # self.valid_child_concerns = []
 
@@ -61,18 +63,25 @@ class Etd < ActiveFedora::Base
   def determine_admin_set(school = self.school, department = self.department, subfield = self.subfield)
     valid_admin_sets = YAML.safe_load(File.read(WorkflowSetup::DEFAULT_ADMIN_SETS_CONFIG)).keys
     admin_set_determined_by_school = ["Laney Graduate School", "Candler School of Theology", "Emory College"]
+
     return school.first if admin_set_determined_by_school.include?(school.first) && valid_admin_sets.include?(school.first)
     return department.first if valid_admin_sets.include?(department.first)
     return subfield.first if valid_admin_sets.include?(subfield.first)
-    raise "Cannot find admin set config where school = #{school.first} and department = #{department.first} and subfield = #{subfield.first}"
+
+    FALLBACK_ADMIN_SET_ID
   end
 
   # Assign an admin_set based on what is returned by #determine_admin_set
   # @return [AdminSet]
   def assign_admin_set(school = self.school, department = self.department)
-    as = AdminSet.where(title_sim: determine_admin_set(school, department)).first
-    self.admin_set = as
-    as
+    admin_set_name = determine_admin_set(school, department)
+
+    self.admin_set =
+      if admin_set_name == FALLBACK_ADMIN_SET_ID
+        AdminSet.find(FALLBACK_ADMIN_SET_ID.to_s)
+      else
+        AdminSet.where(title_sim: admin_set_name).first
+      end
   end
 
   property :legacy_id, predicate: "http://id.loc.gov/vocabulary/identifiers/local"
