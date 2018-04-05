@@ -7,7 +7,7 @@ require 'browse_everything/retriever'
 # Called by AttachFilesToWorkJob (when files are uploaded to s3)
 # and CreateWithRemoteFilesActor when files are located in some other service.
 class ImportUrlJob < ActiveJob::Base
-  queue_as Hyrax.config.ingest_queue_name
+  queue_as :ingest
 
   before_enqueue do |job|
     operation = job.arguments.last
