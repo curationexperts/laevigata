@@ -34,6 +34,26 @@ append :linked_files, "config/redis.yml"
 append :linked_files, "config/secrets.yml"
 append :linked_files, "config/solr.yml"
 
+# We have to re-define capistrano-sidekiq's tasks to work with
+# systemctl in production
+namespace :sidekiq do
+  task :stop do
+    on roles(:app) do
+      execute :sudo, :systemctl, :stop, :sidekiq
+    end
+  end
+  task :stop do
+    on roles(:app) do
+      execute :sudo, :systemctl, :start, :sidekiq
+    end
+  end
+  task :restart do
+    on roles(:app) do
+      execute :sudo, :systemctl, :restart, :sidekiq
+    end
+  end
+end
+
 namespace :deploy do
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
