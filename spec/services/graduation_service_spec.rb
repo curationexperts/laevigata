@@ -3,7 +3,7 @@ require 'active_fedora/cleaner'
 require 'workflow_setup'
 include Warden::Test::Helpers
 
-describe GraduationService do
+describe GraduationService, :clean do
   let(:graduated_user) { FactoryBot.create(:graduated_user) }
   let(:nongraduated_user) { FactoryBot.create(:nongraduated_user) }
   let(:approving_user) { User.where(uid: "candleradmin").first }
@@ -11,7 +11,6 @@ describe GraduationService do
   let(:graduated_etd) { FactoryBot.create(:sample_data) }
   let(:nongraduated_etd) { FactoryBot.create(:sample_data) }
   before do
-    ActiveFedora::Cleaner.clean!
     w.setup
     # Create and approve the graduated ETD
     actor = Hyrax::CurationConcern.actor(graduated_etd, ::Ability.new(graduated_user))

@@ -3,11 +3,7 @@ require 'workflow_setup'
 require 'active_fedora/cleaner'
 include Warden::Test::Helpers
 
-RSpec.describe WorkflowSetup do
-  before do
-    ActiveFedora::Cleaner.clean!
-    User.delete_all
-  end
+RSpec.describe WorkflowSetup, :clean do
   # Change "/dev/null" to STDOUT to see all logging output
   let(:w) { described_class.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/admin_sets.yml", "/dev/null") }
   let(:superuser_uid) { "superuser001" }
@@ -233,12 +229,10 @@ RSpec.describe WorkflowSetup do
       end
     end
   end
-  context "creating all the admin sets" do
-    before do
-      ActiveFedora::Cleaner.clean!
-      User.delete_all
-    end
+  context "creating all the admin sets", :clean do
     let(:w) { described_class.new("#{fixture_path}/config/emory/superusers.yml", Rails.root.join('config', 'emory', 'admin_sets.yml'), "/dev/null") }
+    let(:expected_sets) { w.admin_sets_config.keys + [Etd::FALLBACK_ADMIN_SET_ID.to_s.humanize] }
+
     it "doesn't miss any" do
       allow(w).to receive(:load_workflows)
       allow(w).to receive(:load_superusers)
@@ -246,9 +240,8 @@ RSpec.describe WorkflowSetup do
       allow(w).to receive(:give_superusers_superpowers)
       allow(w).to receive(:activate_mediated_deposit)
       w.setup
-      expected = w.admin_sets_config.keys
       found = AdminSet.all.map(&:title).map(&:first)
-      expect(found).to match_array(expected)
+      expect(found).to match_array(expected_sets)
     end
   end
 end
