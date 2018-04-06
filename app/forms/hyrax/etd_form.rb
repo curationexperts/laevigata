@@ -4,7 +4,7 @@ module Hyrax
   class EtdForm < Hyrax::Forms::WorkForm
     include SingleValuedForm
     self.model_class = ::Etd
-    # placeholder about me terms
+    # about me terms
     self.terms += [:graduation_date]
     self.terms += [:post_graduation_email]
     self.terms += [:resource_type]
@@ -14,10 +14,10 @@ module Hyrax
     self.terms += [:degree]
     self.terms += [:partnering_agency]
     self.terms += [:submitting_type]
-    # placeholder about my program fields
+
     self.terms += [:committee_chair]
     self.terms += [:committee_members]
-    # removing these for About me demo
+
     self.terms -= [:rights]
 
     # about my etd terms
@@ -81,6 +81,13 @@ module Hyrax
     # Both String and boolean 'true' should count as true.
     def true_string?(field)
       field == 'true' || field == true
+    end
+
+    # we need to pass a nil to Hyrax in order to remove a subfield
+    # from an existing ETD, because the absence of the parameter won't
+    def self.sanitize_params(form_params)
+      form_params["subfield"] = nil unless form_params.include?("subfield")
+      super
     end
 
     # Select the correct affiliation type for committee member

@@ -132,7 +132,6 @@ RSpec.feature 'Edit an existing ETD', :perform_jobs do
       let(:dept) { 'Biological and Biomedical Sciences' }
       let(:subfield) { ['Genetics and Molecular Biology'] }
       let(:attach_supp_files) { true }
-
       let(:embargo_attrs) do
         {
           files_embargoed: true,
@@ -145,7 +144,7 @@ RSpec.feature 'Edit an existing ETD', :perform_jobs do
       scenario "edit a field", js: true do
         visit hyrax_etd_path(etd)
         click_on('Edit')
-
+        sleep(5)
         # Verify existing data in About Me tab
         expect(find_field('Student Name').value).to eq attrs[:creator].first
         expect(find_field('Student Name')).not_to be_disabled
@@ -157,6 +156,7 @@ RSpec.feature 'Edit an existing ETD', :perform_jobs do
         expect(find_field('School')).not_to be_disabled
         expect(find_field('Department').value).to eq attrs[:department].first
         expect(find_field('Department')).not_to be_disabled
+
         expect(find_field('Sub Field').value).to eq attrs[:subfield].first
         expect(find_field('Sub Field')).not_to be_disabled
         expect(find_field('Degree').value).to eq attrs[:degree].first
@@ -269,7 +269,7 @@ RSpec.feature 'Edit an existing ETD', :perform_jobs do
         click_on('About Me')
         select 'Chemistry', from: 'Department'
         # Subfield should change according to department
-        expect(find_field('Sub Field').value).to eq ''
+        expect(find_field('Sub Field', disabled: true)).to be_disabled
 
         # Edit a committee member
         fill_in 'etd[committee_members_attributes][0]_name', with: 'Betty'

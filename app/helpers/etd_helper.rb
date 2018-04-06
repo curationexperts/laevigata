@@ -2,7 +2,7 @@ module EtdHelper
   def school_determined_departments(f)
     # if you are in a 'new' state, collection will be supplied by js so disable field, nothing selected
     if curation_concern.id.nil?
-      f.input :department, as: :select, include_blank: true, input_html: {
+      f.input :department, as: :select, include_blank: true, required: true, input_html: {
         class: 'form-control',
         'data-option-dependent' => true,
         'data-option-observed' => 'etd_school',
@@ -48,7 +48,7 @@ module EtdHelper
         disabled: true
       }, label: "Sub Field"
     else
-      f.input :subfield, as: :select, collection: subfields(curation_concern[:department].first), selected: curation_concern[:subfield].first, include_blank: true, input_html: {
+      f.input :subfield, as: :select, collection: subfields(curation_concern[:department].first), selected: curation_concern[:subfield].first, include_blank: true, required: true, input_html: {
         class: 'form-control',
         "data-option-dependent" => true,
         "data-option-observed" => "etd_department",
@@ -63,39 +63,13 @@ module EtdHelper
     private
 
       def departments(school)
-        return unless school
-        if school.include? 'Emory'
-          Hyrax::EmoryService.new.select_active_options
-        elsif school.include? 'Laney'
-          Hyrax::LaneyService.new.select_active_options
-        elsif school.include? 'Candler'
-          Hyrax::CandlerService.new.select_active_options
-        elsif school.include? 'Rollins'
-          Hyrax::RollinsService.new.select_active_options
-        else
-          []
-        end
+        service = Hyrax::LaevigataAuthorityService.for(school: school)
+
+        service&.select_active_options || []
       end
 
       def subfields(department)
-        if department == 'Biological and Biomedical Sciences'
-          Hyrax::BiologicalService.new.select_active_options
-        elsif department == 'Business'
-          Hyrax::BusinessService.new.select_active_options
-        elsif department == 'Executive Masters of Public Health - MPH'
-          Hyrax::EmphService.new.select_active_options
-        elsif department == 'Biostatistics and Bioinformatics'
-          Hyrax::BiostatisticsService.new.select_active_options
-        elsif department == 'Environmental Health'
-          Hyrax::EnvironmentService.new.select_active_options
-        elsif department == 'Epidemiology'
-          Hyrax::EpidemiologyService.new.select_active_options
-        elsif department == 'Psychology'
-          Hyrax::PsychologyService.new.select_active_options
-        elsif department.include? 'Religion'
-          Hyrax::ReligionService.new.select_active_options
-        else
-          []
-        end
+        service = Hyrax::LaevigataAuthorityService.for(department: department)
+        service&.select_active_options || []
       end
 end

@@ -1,6 +1,6 @@
 Blacklight.onLoad(function() {
 	$('select[data-option-dependent=true]').each(function (i) {
-		var observer_dom_id = $(this).attr('id');
+		var observer_dom_id = $(this).prop('id');
 		var observed_dom_id = $(this).data('option-observed');
 		var url_mask = $(this).data('option-url');
 		var key_method = $(this).data('option-key-method');
@@ -12,7 +12,7 @@ Blacklight.onLoad(function() {
 		var observed = $('#' + observed_dom_id);
 
 		if (!observer.val() && observed.size() > 1) {
-			observer.attr('disabled', true);
+			observer.prop('disabled', true);
 		}
 		observed.on('change', function () {
 			observer.empty().append(prompt);
@@ -24,9 +24,13 @@ Blacklight.onLoad(function() {
 				$.getJSON(url, function (data) {
 					$.each(data, function (i, object) {
 						observer.append($('<option>').attr('value', object.id).text(object.label));
-						observer.attr('disabled', false);
+						observer.prop('disabled', false);
 					});
 				});
+			}
+			// if there are no options after the change event, disable the component
+			if ($(observer).options === undefined){
+				observer.prop('disabled', true);
 			}
 		});
 	});
