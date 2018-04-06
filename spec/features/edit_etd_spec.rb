@@ -103,7 +103,7 @@ RSpec.feature 'Edit an existing ETD', :perform_jobs do
       scenario "on the edit form", js: true do
         visit hyrax_etd_path(etd)
         click_on('Edit')
-
+        sleep(5)
         # Verify correct Department is selected and not disabled, Sub Fields is disabled
         expect(find('#etd_department').value).to eq dept
         expect(find('#etd_department')).not_to be_disabled
@@ -125,6 +125,10 @@ RSpec.feature 'Edit an existing ETD', :perform_jobs do
         expect(find_by_id('embargo_school')).to be_disabled
         expect(find_by_id('etd_embargo_length')).to be_disabled
         expect(page).to have_css('li#required-embargoes.complete')
+
+        # A Laney student should not see the Partnering Agency content
+        expect(page).not_to have_content('Partnering Agency')
+        expect(page).not_to have_css('#etd_partnering_agency')
       end
     end
 
