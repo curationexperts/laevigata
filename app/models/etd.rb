@@ -68,6 +68,10 @@ class Etd < ActiveFedora::Base
     return department.first if valid_admin_sets.include?(department.first)
     return subfield.first if valid_admin_sets.include?(subfield.first)
 
+    Honeybadger.notify("No AdminSet was found for school: #{school}; " \
+                       "department: #{department}; subfield: #{subfield}.\n" \
+                       "Assigned to #{FALLBACK_ADMIN_SET_ID}.\n#{inspect}")
+
     FALLBACK_ADMIN_SET_ID
   end
 
