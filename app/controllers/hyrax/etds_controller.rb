@@ -114,7 +114,14 @@ module Hyrax
         uploaded_file.save
         return true
       end
+
       supplemental_file_metadata = get_supplemental_file_metadata(filename, params)
+
+      if supplemental_file_metadata.empty?
+        Honeybadger.notify "No metadata was assigned for #{filename} on #{params['etd']['title']}\n" \
+                           "The uploaded file was: #{uploaded_file.id};\nThe params were: #{params}."
+      end
+
       uploaded_file.title = supplemental_file_metadata["title"]
       uploaded_file.description = supplemental_file_metadata["description"]
       uploaded_file.file_type = supplemental_file_metadata["file_type"]
@@ -126,8 +133,8 @@ module Hyrax
     # @param [Hash] params
     # @return [Hash]
     def get_supplemental_file_metadata(filename, params)
-      supplemental_file_metadata = params["etd"]["supplemental_file_metadata"].values
-      supplemental_file_metadata.select { |a| a["filename"] == filename }.first
+      supplemental_file_metadata = params["etd"]["supplemental_file_metadata"]&.values || {}
+      supplemental_file_metadata.find { |a| a["filename"] == filename } || {}
     end
 
     def get_filename_for_uploaded_file(uploaded_file, params)
