@@ -103,6 +103,18 @@ RSpec.feature 'Display ETD metadata' do
     logout
   end
 
+  scenario "Etds show permission badges but FileSets don't" do
+    visit("/concern/etds/#{etd.id}")
+
+    expect(page).to have_css("h1 span")
+    expect(page).to have_content("Open Access")
+
+    click_on(etd.title.first.to_s)
+
+    expect(page).not_to have_css("h1 span")
+    expect(page).not_to have_content("Open Access")
+  end
+
   scenario "Render PDF file as primary PDF" do
     visit("/concern/etds/#{etd.id}")
 

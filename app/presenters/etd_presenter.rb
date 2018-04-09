@@ -23,6 +23,14 @@ class EtdPresenter < Hyrax::WorkShowPresenter
            :copyright_question_three,
            to: :solr_document
 
+  # we want to override the permission_badge method in the FileSetPresenter class, because we handle embargos differently than Hyrax does.
+  # Therefore we create an EtdFileSetPresenter that overwrites the permission_badge method,
+  # and ensure the views get it by setting it as the file_presenter_class in the EtdMemberPresenterFactory, and creating an Etd member factory here.
+
+  def member_presenter_factory
+    Hyrax::EtdMemberPresenterFactory.new(solr_document, current_ability, request)
+  end
+
   # Given an ARK in the identifier field, return an Emory permanent_url
   def permanent_url
     return nil unless identifier && identifier.first && identifier.first.match(/^ark/)
