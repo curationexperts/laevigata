@@ -12,4 +12,13 @@ class FileSetPresenter < Hyrax::FileSetPresenter
     return true if solr_document["pcdm_use_tesim"] == "supplementary"
     false
   end
+
+  ##
+  # @note we never display permission badges for `FileSet` objects, embargo
+  #   status depends on the parent `Etd`
+  #
+  # @return [String] sanitized HTML for the permission badge
+  def permission_badge
+    ''
+  end
 end

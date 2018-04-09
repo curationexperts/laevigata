@@ -17,5 +17,11 @@ describe FileSetPresenter do
     # If the fields require no addition logic for display, you can simply delegate
     # them to the solr document
     it { is_expected.to delegate_method(:pcdm_use).to(:solr_document) }
+
+    describe '#permission_badge' do
+      it 'has no permission badge' do
+        expect(presenter.permission_badge).to eq ''
+      end
+    end
   end
 end
