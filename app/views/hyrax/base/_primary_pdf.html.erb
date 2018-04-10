@@ -9,7 +9,8 @@
         <th><%= t('.actions') %></th>
       </tr>
     </thead>
-    <% if member = @presenter.member_presenters.select { |mp| mp.solr_document["pcdm_use_tesim"].include?("primary")}.first %>
+    <% if member = @presenter.member_presenters.select { |mp| mp.primary? }.first
+     %>
     <tbody>
       <tr class="<%= dom_class(member) %> attributes">
         <td class="thumbnail">
