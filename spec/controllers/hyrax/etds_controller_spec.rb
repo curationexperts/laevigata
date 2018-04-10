@@ -344,6 +344,12 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs do
       expect(metadata["description"]).to eq "Super Great"
       expect(metadata["file_type"]).to eq "Image"
     end
+    it "gets supplemental file metadata for fake filename" do
+      metadata = described_class.new.get_supplemental_file_metadata("nil.png", params)
+      expect(metadata["title"]).to be_nil
+      expect(metadata["description"]).to be_nil
+      expect(metadata["file_type"]).to be_nil
+    end
     it "creates an UploadedFile object for each entry in the uploaded_files array" do
       described_class.new.apply_file_metadata(params)
       params["uploaded_files"].each do |be_upload_url|
