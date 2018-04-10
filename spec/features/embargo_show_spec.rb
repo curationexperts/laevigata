@@ -4,7 +4,7 @@ require 'workflow_setup'
 require 'etd_factory'
 include Warden::Test::Helpers
 
-RSpec.feature 'Display an ETD with embargoed content' do
+RSpec.feature 'Display an ETD with embargoed content', :clean do
   let(:etd) do
     etd = FactoryBot.create(:sample_data_with_everything_embargoed, school: ["Candler School of Theology"])
     etd_factory = EtdFactory.new
@@ -19,7 +19,6 @@ RSpec.feature 'Display an ETD with embargoed content' do
   let(:depositor) { User.where(ppid: etd.depositor).first }
   let(:approver) { User.where(ppid: 'candleradmin').first }
   before do
-    ActiveFedora::Cleaner.clean!
     w.setup
     allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
   end

@@ -3,7 +3,7 @@ require 'active_fedora/cleaner'
 require 'workflow_setup'
 include Warden::Test::Helpers
 
-RSpec.feature 'Display ETD metadata' do
+RSpec.feature 'Display ETD metadata', :clean do
   let(:etd) do
     FactoryBot.create(:sample_data_with_copyright_questions,
                       partnering_agency: ["CDC"],
@@ -66,7 +66,6 @@ RSpec.feature 'Display ETD metadata' do
     # There is no fits installed on travis-ci
     allow(CharacterizeJob).to receive(:perform_later)
     # prepare db and create approving_user
-    ActiveFedora::Cleaner.clean!
     w.setup
     AttachFilesToWorkJob.perform_now(etd, uploaded_files)
   end

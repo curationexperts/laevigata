@@ -5,7 +5,7 @@ require 'active_fedora/cleaner'
 require 'workflow_setup'
 include Warden::Test::Helpers
 
-RSpec.feature 'Virus checking', :perform_jobs do
+RSpec.feature 'Virus checking', :perform_jobs, :clean do
   let(:depositing_user) { User.where(ppid: etd.depositor).first }
   let(:approving_user) { User.where(uid: "candleradmin").first }
   let(:admin_superuser) { User.where(uid: "tezprox").first } # uid from superuser.yml
@@ -22,7 +22,6 @@ RSpec.feature 'Virus checking', :perform_jobs do
       allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
       class_double("Clamby").as_stubbed_const
       allow(Clamby).to receive(:virus?).and_return(true)
-      ActiveFedora::Cleaner.clean!
       w.setup
       actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(depositing_user))
       attributes_for_actor = { uploaded_files: [upload1.id] }

@@ -3,7 +3,7 @@ require 'rails_helper'
 
 include Warden::Test::Helpers
 
-RSpec.feature 'Create an Etd' do
+RSpec.feature 'Create an Etd', :clean do
   let(:student) { create :user }
 
   context 'a logged in user' do
@@ -43,7 +43,6 @@ RSpec.feature 'Create an Etd' do
       allow(ActiveJob::Base).to receive_messages(perform_later: nil, perform_now: nil)
 
       # Create AdminSet and Workflow
-      ActiveFedora::Cleaner.clean!
       workflow_setup.setup
 
       login_as student
