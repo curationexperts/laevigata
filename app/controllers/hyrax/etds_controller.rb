@@ -134,7 +134,7 @@ module Hyrax
     # @return [Hash]
     def get_supplemental_file_metadata(filename, params)
       supplemental_file_metadata = params["etd"]["supplemental_file_metadata"]&.values || {}
-      supplemental_file_metadata.find { |a| a["filename"] == filename } || {}
+      supplemental_file_metadata.find { |a| a["filename"].tr(' ', '_') == filename.tr(' ', '_') } || {}
     end
 
     def get_filename_for_uploaded_file(uploaded_file, params)
