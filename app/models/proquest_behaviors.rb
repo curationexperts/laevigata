@@ -17,7 +17,7 @@ module ProquestBehaviors
       zip.dir.mkdir(upload_file_id)
       zip.file.open("#{upload_file_id}/#{xml_filename}", 'w') { |file| file.write(export_proquest_xml) }
       # The primary thesis file goes in the main directory
-      zip.file.open("#{upload_file_id}/#{primary_file_fs.first.label}", "wb") do |saved_file|
+      zip.file.open("#{upload_file_id}/#{export_id}.pdf", "wb") do |saved_file|
         open(primary_pdf_file.uri, "rb") do |read_file|
           saved_file.write(read_file.read)
         end
