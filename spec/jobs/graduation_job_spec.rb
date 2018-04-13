@@ -1,6 +1,6 @@
 require 'rails_helper'
 describe GraduationJob do
-  context "calculating embargo_release_date" do
+  context "calculating embargo_release_date", :clean do
     it "can interpret a length of '6 months'" do
       e = described_class.embargo_length_to_embargo_release_date(Time.zone.today, "6 months")
       expect(e).to eq Time.zone.today + 6.months
@@ -57,7 +57,6 @@ describe GraduationJob do
     let(:approving_user) { User.where(uid: "ecadmin").first }
     before do
       allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
-      ActiveFedora::Cleaner.clean!
       w.setup
       actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(depositing_user))
       actor.create({})

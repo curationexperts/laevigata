@@ -3,7 +3,7 @@ require 'active_fedora/cleaner'
 require 'workflow_setup'
 include Warden::Test::Helpers
 
-describe ProquestJob do
+describe ProquestJob, :clean do
   context "Laney PhD" do
     let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/laney_admin_sets.yml", "/dev/null") }
     let(:etd) { FactoryBot.create(:ready_for_proquest_submission_phd) }
@@ -32,7 +32,6 @@ describe ProquestJob do
     let(:approving_user) { User.where(ppid: 'laneyadmin').first }
     before do
       allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
-      ActiveFedora::Cleaner.clean!
       w.setup
       actor.create(attributes_for_actor)
       subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)

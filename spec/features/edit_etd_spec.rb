@@ -3,7 +3,7 @@ require 'rails_helper'
 
 include Warden::Test::Helpers
 
-RSpec.feature 'Edit an existing ETD', :perform_jobs do
+RSpec.feature 'Edit an existing ETD', :perform_jobs, :clean do
   let(:approver) { User.where(uid: "tezprox").first }
   let(:student) { create :user }
 
@@ -55,8 +55,6 @@ RSpec.feature 'Edit an existing ETD', :perform_jobs do
   let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/laney_admin_sets.yml", "/dev/null") }
 
   before do
-    ActiveFedora::Cleaner.clean!
-
     # Create AdminSet and Workflow
     workflow_setup.setup
 

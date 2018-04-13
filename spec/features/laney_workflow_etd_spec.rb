@@ -5,7 +5,7 @@ require 'active_fedora/cleaner'
 require 'workflow_setup'
 include Warden::Test::Helpers
 
-RSpec.feature 'Laney Graduate School two step approval workflow', :perform_jobs do
+RSpec.feature 'Laney Graduate School two step approval workflow', :perform_jobs, :clean do
   let(:depositing_user) { User.where(ppid: etd.depositor).first }
   let(:approving_user) { User.where(uid: "laneyadmin").first }
   let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/laney_admin_sets.yml", "/dev/null") }
@@ -13,7 +13,6 @@ RSpec.feature 'Laney Graduate School two step approval workflow', :perform_jobs 
   context 'a logged in user' do
     before do
       allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
-      ActiveFedora::Cleaner.clean!
       w.setup
       actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(depositing_user))
       actor.create({})
