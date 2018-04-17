@@ -1,5 +1,5 @@
 require 'rails_helper'
-describe GraduationJob do
+describe GraduationJob, :clean do
   context "calculating embargo_release_date", :clean do
     it "can interpret a length of '6 months'" do
       e = described_class.embargo_length_to_embargo_release_date(Time.zone.today, "6 months")
