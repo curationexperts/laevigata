@@ -7,6 +7,8 @@ require 'browse_everything/retriever'
 # Called by AttachFilesToWorkJob (when files are uploaded to s3)
 # and CreateWithRemoteFilesActor when files are located in some other service.
 class ImportUrlJob < ActiveJob::Base
+  class RetrievalError < RuntimeError; end
+
   queue_as :ingest
 
   before_enqueue do |job|
@@ -14,9 +16,17 @@ class ImportUrlJob < ActiveJob::Base
     operation.pending_job(job)
   end
 
+  # If we encounter a retrieval error, don't keep re-trying.
+  # Just log an error message that includes the ETD id.
+  rescue_from(RetrievalError) do |exception|
+    Honeybadger.notify("ETD #{@file_set.parent.id} failed to attach a file from box.")
+    Rails.logger.error "ETD #{@file_set.parent.id} failed to attach a file from box."
+  end
+
   # @param [FileSet] file_set
   # @param [Hyrax::BatchCreateOperation] operation
   def perform(file_set, operation)
+    @file_set = file_set
     operation.performing!
     user = User.find_by_user_key(file_set.depositor)
 
@@ -40,8 +50,6 @@ class ImportUrlJob < ActiveJob::Base
       end
     end
   end
-
-  class RetrievalError < RuntimeError; end
 
   protected
 
