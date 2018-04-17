@@ -73,6 +73,11 @@ RSpec.configure do |config|
     ActiveFedora::Cleaner.clean!
   end
 
+  config.after clean: true do
+    DatabaseCleaner.clean
+    ActiveFedora::Cleaner.clean!
+  end
+
   config.before do
     DatabaseCleaner.strategy = :transaction
   end
