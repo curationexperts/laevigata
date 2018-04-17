@@ -34,4 +34,8 @@ class ApplicationController < ActionController::Base
   def user_root_path
     new_hyrax_etd_path
   end
+
+  rescue_from ActionController::RoutingError do |exception|
+    render plain: '404 Not found', status: 404
+  end
 end

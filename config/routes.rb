@@ -58,4 +58,6 @@ Rails.application.routes.draw do
   authenticate :user, ->(u) { u.admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
+
+  match "*path", to: "catalog#catch_404", via: :all
 end
