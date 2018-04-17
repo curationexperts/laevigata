@@ -37,12 +37,18 @@ class GraduationJob < ActiveJob::Base
     @work.degree_awarded = graduation_date
   end
 
+  class UserNotFoundError < RuntimeError; end
+
   # Update the email address of the depositor with their post-graduation email,
   # so that we use that for all future notifications
   def update_depositor_email
     depositor = ::User.find_by_user_key(@work.depositor)
+    raise UserNotFoundError if depositor.nil?
     depositor.email = @work.post_graduation_email.first
     depositor.save
+  rescue UserNotFoundError
+    Honeybadger.notify("ETD #{@work.id}: Could not update post-graduation email address because could not find user with id #{@work.depositor}")
+    Rails.logger.error "ETD #{@work.id}: Could not update post-graduation email address because could not find user with id #{@work.depositor}"
   end
 
   def update_embargo_release_date
