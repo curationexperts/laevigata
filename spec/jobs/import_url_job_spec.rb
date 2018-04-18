@@ -17,7 +17,7 @@ describe ImportUrlJob do
     it 'raises an exception when it encounters a box error message' do
       VCR.use_cassette("box_error", record: :new_episodes) do
         operation = Hyrax::Operation.create!(user: admin, operation_type: "Attach Remote File")
-        expect { described_class.perform_now(fileset, operation) }.to raise_exception(ImportUrlJob::RetrievalError)
+        expect { described_class.perform_now(fileset, operation) }.not_to raise_exception
       end
     end
   end
