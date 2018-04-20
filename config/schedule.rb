@@ -19,9 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-# Email output to Bess, for now
-env 'MAILTO', 'bess@curationexperts.com'
-
 # Weekly, check whether students have graduated and kick off
 # graduation jobs if so
 every :monday, at: '12:20am' do
