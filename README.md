@@ -46,6 +46,22 @@ Laevigata depends on certain environment variables being set. In development mod
 * `PROQUEST_NOTIFICATION_EMAIL`
 * `REGISTRAR_DATA_PATH` - the file from which to load registrar data (e.g., for graduation status and dates)
 
+## Cron jobs in production 
+
+There are certain cron jobs that are expected to run in production. These include graduation job, 
+fixity audit, embargo expiration, and others. We use the `whenever` gem to manage these.
+If you need to make changes to the scheduled jobs, please update `config/schedule.rb` and the new crontab should be installed via capistrano when the code is deployed.
+
+Please note that in order to run as expected, the PATH must be defined: run `crontab -e` as the `deploy` user and
+ensure these lines are at the top of your cron file:
+```
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+```
+
+**Please ensure that any scheduled jobs write to the rails log file so we can track whether they are
+running as expected.**
+
 ## Developer Setup
 
 1. Change to your working directory for new development projects   
