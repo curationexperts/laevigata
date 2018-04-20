@@ -59,16 +59,7 @@ class EmbargoExpirationService
     @summary_report << "\n\nETD embargoes expiring in 60 days\n"
     expirations = find_expirations(60)
     expirations.each do |expiration|
-      work_global_id = expiration.to_global_id.to_s
-      entity = Sipity::Entity.where(proxy_for_global_id: work_global_id).first
-      user = ::User.where(ppid: expiration.depositor).first
-      recipients = { 'to' => [user] }
-      Hyrax::Workflow::SixtyDayEmbargoNotification.send_notification(
-        entity: entity,
-        comment: '',
-        user: user,
-        recipients: recipients
-      )
+      Hyrax::Workflow::SixtyDayEmbargoNotification.send_notification(expiration.id)
       @summary_report << format_for_summary_report(expiration)
     end
   end
@@ -77,16 +68,7 @@ class EmbargoExpirationService
     @summary_report << "\n\nETD embargoes expiring in 7 days\n"
     expirations = find_expirations(7)
     expirations.each do |expiration|
-      work_global_id = expiration.to_global_id.to_s
-      entity = Sipity::Entity.where(proxy_for_global_id: work_global_id).first
-      user = ::User.where(ppid: expiration.depositor).first
-      recipients = { 'to' => [user] }
-      Hyrax::Workflow::SevenDayEmbargoNotification.send_notification(
-        entity: entity,
-        comment: '',
-        user: user,
-        recipients: recipients
-      )
+      Hyrax::Workflow::SevenDayEmbargoNotification.send_notification(expiration.id)
       @summary_report << format_for_summary_report(expiration)
     end
   end
@@ -95,16 +77,7 @@ class EmbargoExpirationService
     @summary_report << "\n\nETD embargoes expiring today (#{@date})\n"
     expirations = find_expirations(0)
     expirations.each do |expiration|
-      work_global_id = expiration.to_global_id.to_s
-      entity = Sipity::Entity.where(proxy_for_global_id: work_global_id).first
-      user = ::User.where(ppid: expiration.depositor).first
-      recipients = { 'to' => [user] }
-      Hyrax::Workflow::TodayEmbargoNotification.send_notification(
-        entity: entity,
-        comment: '',
-        user: user,
-        recipients: recipients
-      )
+      Hyrax::Workflow::TodayEmbargoNotification.send_notification(expiration.id)
       @summary_report << format_for_summary_report(expiration)
     end
   end
