@@ -31,10 +31,6 @@ every :day, at: '11:55pm' do
   rake "emory:proquest_notifications"
 end
 
-every :saturday, at: '1:20am' do
-  rake "emory:fixity"
-end
-
 every :day, at: '2:20am' do
   rake "emory:embargo_expiration"
 end
