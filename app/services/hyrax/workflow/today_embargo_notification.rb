@@ -45,6 +45,7 @@ module Hyrax
 
       def call
         user = ::User.find_or_create_by(uid: WorkflowSetup::NOTIFICATION_OWNER)
+        Rails.logger.warn "ETD #{@work.id}: embargo expiration today notification sent to #{@user.email}"
         recipients.each do |recipient|
           user.send_message(recipient, @message, @subject)
         end
