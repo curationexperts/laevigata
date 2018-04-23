@@ -5,11 +5,8 @@ require 'active_fedora/cleaner'
 require 'workflow_setup'
 require 'database_cleaner'
 
-RSpec.describe Hyrax::Workflow::EmbargoSummaryReportNotification do
+RSpec.describe Hyrax::Workflow::EmbargoSummaryReportNotification, :clean do
   before :all do
-    ActiveFedora::Cleaner.clean!
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.clean
     w = WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null")
     w.setup
   end
