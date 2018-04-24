@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'active_fedora/cleaner'
 require 'workflow_setup'
 require 'etd_factory'
 include Warden::Test::Helpers

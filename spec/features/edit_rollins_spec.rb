@@ -1,6 +1,5 @@
 # Generated via `rails generate hyrax:work Etd`
 require 'rails_helper'
-require 'active_fedora/cleaner'
 require 'workflow_setup'
 include Warden::Test::Helpers
 

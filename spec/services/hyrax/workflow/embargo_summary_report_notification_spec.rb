@@ -1,12 +1,10 @@
 libdir = File.expand_path('../../../../', __FILE__)
 $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 require 'rails_helper'
-require 'active_fedora/cleaner'
 require 'workflow_setup'
-require 'database_cleaner'
 
 RSpec.describe Hyrax::Workflow::EmbargoSummaryReportNotification, :clean do
-  before :all do
+  before do
     w = WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null")
     w.setup
   end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Importer::AsynchronousRecordImporter do
+RSpec.describe Importer::AsynchronousRecordImporter, :clean do
   subject(:importer) do
     described_class.new(error_stream: error_stream, info_stream: info_stream)
   end
@@ -55,7 +55,6 @@ RSpec.describe Importer::AsynchronousRecordImporter do
         stub_request(:get, "#{stubbed_host}#{author_id}#{request}")
           .to_return(status: 200, body: author_foxml)
 
-        ActiveFedora::Cleaner.clean!
         WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml",
                           "#{fixture_path}/config/emory/candler_admin_sets.yml",
                           "/dev/null").setup

@@ -1,15 +1,10 @@
 libdir = File.expand_path('../../../../', __FILE__)
 $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 require 'rails_helper'
-require 'active_fedora/cleaner'
 require 'workflow_setup'
-require 'database_cleaner'
 
-RSpec.describe Hyrax::Workflow::PendingReviewNotification do
-  before :all do
-    ActiveFedora::Cleaner.clean!
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.clean
+RSpec.describe Hyrax::Workflow::PendingReviewNotification, :clean do
+  before do
     w = WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/laney_admin_sets.yml", "/dev/null")
     w.setup
   end
