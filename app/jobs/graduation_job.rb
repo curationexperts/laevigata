@@ -13,7 +13,7 @@ class GraduationJob < ActiveJob::Base
   # @param [String] work_id - the id of the work object
   # @param [Date] the student's graduation date
   def perform(work_id, graduation_date = Time.zone.today.to_s)
-    Rails.logger.info "Work #{work_id} graduation recorded as #{graduation_date}"
+    Rails.logger.warn "Graduation Job: ETD #{work_id} graduation recorded as #{graduation_date}"
     @work = Etd.find(work_id)
     record_degree_awarded_date(graduation_date)
     update_embargo_release_date
@@ -55,7 +55,7 @@ class GraduationJob < ActiveJob::Base
     return unless @work.embargo_length
     @work.embargo.embargo_release_date = GraduationJob.embargo_length_to_embargo_release_date(@work.degree_awarded, @work.embargo_length)
     @work.embargo.save
-    Rails.logger.info "Work #{@work.id} embargo release date set to #{@work.embargo.embargo_release_date}"
+    Rails.logger.warn "Graduation Job: ETD #{@work.id} embargo release date set to #{@work.embargo.embargo_release_date}"
   end
 
   def send_notifications
@@ -67,6 +67,7 @@ class GraduationJob < ActiveJob::Base
   # Transition the workflow of this object to the "published" workflow state
   # This should also mark it as active.
   def publish_object
+    Rails.logger.warn "Graduation Job: Publishing ETD #{@work.id}"
     approving_user = ::User.find_by_uid(WorkflowSetup::ADMIN_SET_OWNER)
     subject = Hyrax::WorkflowActionInfo.new(@work, approving_user)
     sipity_workflow_action = PowerConverter.convert_to_sipity_action("publish", scope: subject.entity.workflow) { nil }

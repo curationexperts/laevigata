@@ -15,8 +15,10 @@ module Hyrax
       end
 
       def call
+        Rails.logger.warn "EmbargoSummaryReportNotification sent: #{@message}"
         user = ::User.find_or_create_by(uid: WorkflowSetup::NOTIFICATION_OWNER)
         recipients.each do |recipient|
+          Rails.logger.warn "EmbargoSummaryReportNotification sent to #{recipient.email}"
           user.send_message(recipient, @message, @subject)
         end
       end

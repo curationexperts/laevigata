@@ -7,12 +7,16 @@
 #  GraduationService.run
 class GraduationService
   def self.run(registrar_data_path = ENV['REGISTRAR_DATA_PATH'])
+    Rails.logger.warn("Graduation service: Running graduation service with file #{registrar_data_path}")
     raise "Cannot find registrar data" unless registrar_data_path && File.file?(registrar_data_path)
-    Rails.logger.info("Running graduation service with file #{registrar_data_path}")
+    Rails.logger.warn("Graduation service: found registrar data")
     GraduationService.load_data(registrar_data_path)
     GraduationService.graduation_eligible_works.each do |work|
       degree_awarded_date = GraduationService.check_degree_status(work)
-      GraduationJob.perform_later(work.id, degree_awarded_date.to_s) if degree_awarded_date
+      if degree_awarded_date
+        Rails.logger.warn "Graduation service: Awarding degree for ETD #{work.id} as of #{degree_awarded_date}"
+        GraduationJob.perform_later(work.id, degree_awarded_date.to_s)
+      end
     end
     remove_instance_variable(:@registrar_data)
   end
@@ -36,7 +40,7 @@ class GraduationService
         problem_works << etd.id
       end
     end
-    Rails.logger.error "Could not query workflow status for these works: #{problem_works.inspect}"
+    Rails.logger.error "Graduation service: Could not query workflow status for these works: #{problem_works.inspect}"
     eligible_works
   end
 
@@ -54,7 +58,7 @@ class GraduationService
       end
     elsif records.count.zero?
       # If no records are found, log an error.
-      Rails.logger.error "Could not find a Registrar record for person #{work.depositor} from ETD #{work.id}"
+      Rails.logger.error "Graduation service: Could not find a Registrar record for person #{work.depositor} from ETD #{work.id}"
     else
       # Multiple records
       status = Set.new(records.map { |_k, v| v['degree status descr'] })
