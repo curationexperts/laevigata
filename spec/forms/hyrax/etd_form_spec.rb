@@ -39,6 +39,24 @@ RSpec.describe Hyrax::EtdForm do
         expect(form_params).to eq(sanitized_params)
       end
     end
+
+    context 'when selecting no embargoes' do
+      let(:params) do
+        {
+          "no_embargoes" => "1",
+          "toc_embargoed" => "",
+          "abstract_embargoed" => "",
+          "files_embargoed" => ""
+        }
+      end
+      it "sets other embargo fields false" do
+        allow(Hyrax::Forms::WorkForm).to receive(:sanitize_params).with(params)
+        described_class.sanitize_params(params)
+        expect(params["files_embargoed"]).to eq "false"
+        expect(params["abstract_embargoed"]).to eq "false"
+        expect(params["toc_embargoed"]).to eq "false"
+      end
+    end
   end
 
   describe "#primary_pdf_name" do
