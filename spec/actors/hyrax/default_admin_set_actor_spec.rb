@@ -1,15 +1,8 @@
 libdir = File.expand_path('../../../../', __FILE__)
 $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 require 'rails_helper'
-require 'active_fedora/cleaner'
-require 'database_cleaner'
 
-RSpec.describe Hyrax::DefaultAdminSetActor do
-  before :all do
-    ActiveFedora::Cleaner.clean!
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.clean
-  end
+RSpec.describe Hyrax::DefaultAdminSetActor, :clean do
   let(:next_actor) do
     double('next actor', create: true,
                          curation_concern: etd,

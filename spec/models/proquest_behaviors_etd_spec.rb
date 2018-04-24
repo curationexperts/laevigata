@@ -1,10 +1,9 @@
 # Generated via
 #  `rails generate hyrax:work Etd`
 require 'rails_helper'
-require 'active_fedora/cleaner'
 require 'workflow_setup'
 include Warden::Test::Helpers
-RSpec.describe Etd, :perform_jobs do
+RSpec.describe Etd, :perform_jobs, :clean do
   let(:etd) { FactoryBot.create(:ready_for_proquest_submission_phd) }
   context "ProQuest submission" do
     let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/laney_admin_sets.yml", "/dev/null") }
@@ -35,7 +34,6 @@ RSpec.describe Etd, :perform_jobs do
     let(:approving_user) { User.where(ppid: 'laneyadmin').first }
     before do
       allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
-      ActiveFedora::Cleaner.clean!
       w.setup
       actor.create(attributes_for_actor)
       subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)

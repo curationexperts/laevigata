@@ -1,16 +1,12 @@
 require 'rails_helper'
 require 'etd_factory'
 require 'workflow_setup'
-require 'active_fedora/cleaner'
 include Warden::Test::Helpers
 
-RSpec.describe EtdFactory do
-  before :all do
-    ActiveFedora::Cleaner.clean!
+RSpec.describe EtdFactory, :clean do
+  before do
     wf = WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/laney_admin_sets.yml", "/dev/null")
     wf.setup
-  end
-  before do
     allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
     allow(CreateDerivativesJob).to receive(:perform_later)
   end

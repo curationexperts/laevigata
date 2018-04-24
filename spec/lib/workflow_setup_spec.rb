@@ -1,13 +1,8 @@
 require 'rails_helper'
 require 'workflow_setup'
-require 'active_fedora/cleaner'
 include Warden::Test::Helpers
 
-RSpec.describe WorkflowSetup do
-  before do
-    ActiveFedora::Cleaner.clean!
-    User.delete_all
-  end
+RSpec.describe WorkflowSetup, :clean do
   # Change "/dev/null" to STDOUT to see all logging output
   let(:w) { described_class.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/admin_sets.yml", "/dev/null") }
   let(:superuser_uid) { "superuser001" }
@@ -155,8 +150,6 @@ RSpec.describe WorkflowSetup do
   end
 
   it "allows any registered user to deposit anywhere" do
-    ActiveFedora::Cleaner.clean!
-    User.delete_all
     expect(User.count).to eq 0
     w.load_superusers
     admin_set = w.make_mediated_deposit_admin_set("Frog and Toad")
@@ -174,10 +167,6 @@ RSpec.describe WorkflowSetup do
   end
 
   context "Laney Graduate School workflow" do
-    before do
-      ActiveFedora::Cleaner.clean!
-      User.delete_all
-    end
     let(:w) { described_class.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/laney_admin_sets.yml", "/dev/null") }
     let(:etd) { build :etd }
     let(:user) { create :user }
@@ -234,10 +223,6 @@ RSpec.describe WorkflowSetup do
     end
   end
   context "creating all the admin sets" do
-    before do
-      ActiveFedora::Cleaner.clean!
-      User.delete_all
-    end
     let(:w) { described_class.new("#{fixture_path}/config/emory/superusers.yml", Rails.root.join('config', 'emory', 'admin_sets.yml'), "/dev/null") }
     it "doesn't miss any" do
       allow(w).to receive(:load_workflows)
