@@ -13,6 +13,7 @@ module Hyrax
     helper EtdHelper
 
     def create
+      check_for_no_embargoes(params)
       sanitize_input(params)
       merge_selected_files_hashes(params) if params["selected_files"]
       update_supplemental_files
@@ -21,6 +22,7 @@ module Hyrax
     end
 
     def update
+      check_for_no_embargoes(params)
       sanitize_input(params)
       merge_selected_files_hashes(params) if params["selected_files"]
       update_supplemental_files
@@ -46,6 +48,14 @@ module Hyrax
     def sanitize_input(params)
       params["etd"]["abstract"] = ::InputSanitizer.sanitize(params["etd"]["abstract"])
       params["etd"]["table_of_contents"] = ::InputSanitizer.sanitize(params["etd"]["table_of_contents"])
+    end
+
+    # If no_embargoes is set, set all embargo fields to false
+    def check_for_no_embargoes(params)
+      return unless params["etd"]["no_embargoes"] == "1"
+      params["etd"]["files_embargoed"] = "false"
+      params["etd"]["abstract_embargoed"] = "false"
+      params["etd"]["toc_embargoed"] = "false"
     end
 
     def update_committee_members

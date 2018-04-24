@@ -2,7 +2,7 @@
 #  `rails generate hyrax:work Etd`
 require 'rails_helper'
 
-RSpec.describe Hyrax::EtdsController, :perform_jobs do
+RSpec.describe Hyrax::EtdsController, :perform_jobs, :clean do
   let(:params) do
     eval(File.read("#{fixture_path}/form_submission_params/office_document_bug.rb")) # rubocop:disable Security/Eval
   end
@@ -13,7 +13,6 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs do
     describe "POST create" do
       it "doesn't crash when it receives massive office document input" do
         allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
-        ActiveFedora::Cleaner.clean!
         w.setup
         allow(request.env['warden']).to receive(:authenticate!).and_return(user)
         allow(controller).to receive(:current_user).and_return(user)
