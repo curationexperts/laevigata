@@ -87,7 +87,16 @@ module Hyrax
     # from an existing ETD, because the absence of the parameter won't
     def self.sanitize_params(form_params)
       form_params["subfield"] = nil unless form_params.include?("subfield")
+      check_for_no_embargoes(form_params)
       super
+    end
+
+    # If no_embargoes is set, set all embargo fields to false
+    def self.check_for_no_embargoes(params)
+      return unless params["no_embargoes"] == "1"
+      params["files_embargoed"] = "false"
+      params["abstract_embargoed"] = "false"
+      params["toc_embargoed"] = "false"
     end
 
     # Select the correct affiliation type for committee member
