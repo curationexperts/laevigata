@@ -2,7 +2,7 @@
 #  `rails generate hyrax:work Etd`
 require 'rails_helper'
 
-RSpec.describe Hyrax::EtdsController, :perform_jobs do
+RSpec.describe Hyrax::EtdsController, :perform_jobs, :clean do
   let(:user) { create :user }
 
   let(:approver) { User.where(uid: "tezprox").first }
@@ -43,7 +43,6 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs do
     end
 
     before do
-      ActiveFedora::Cleaner.clean!
       workflow_setup.setup
       etd.assign_admin_set
 
@@ -234,7 +233,6 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs do
 
   describe "POST create" do
     before do
-      ActiveFedora::Cleaner.clean!
       workflow_setup.setup
     end
 
