@@ -62,6 +62,11 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 **Please ensure that any scheduled jobs write to the rails log file so we can track whether they are
 running as expected.**
 
+## Suppressing email for bouncing addresses
+
+If an email address is bouncing, or if someone prefers not to receive email notifications,
+add the email address to the list in `app/lib/email_intercept.rb`
+
 ## Developer Setup
 
 1. Change to your working directory for new development projects   
