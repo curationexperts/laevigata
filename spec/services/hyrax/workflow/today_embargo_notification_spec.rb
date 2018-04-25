@@ -3,6 +3,9 @@ $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 require 'rails_helper'
 
 RSpec.describe Hyrax::Workflow::TodayEmbargoNotification, :clean do
+  before do
+    ActionMailer::Base.deliveries.clear
+  end
   let(:user) { FactoryBot.create(:user) }
   let(:etd) { FactoryBot.create(:etd, depositor: user.user_key, post_graduation_email: ["post@graduation.email"]) }
   let(:notification) { described_class.new(etd.id) }
