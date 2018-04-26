@@ -40,7 +40,9 @@ class GraduationService
         problem_works << etd.id
       end
     end
-    Rails.logger.error "Graduation service: Could not query workflow status for these works: #{problem_works.inspect}"
+    Rails.logger.warn "Graduation service: There were #{eligible_works.count} ETDs eligible for graduation"
+    Rails.logger.warn "Graduation service: There were #{problem_works.count} where the workflow status could not be queried."
+    Rails.logger.error "Graduation service: Could not query workflow status for these works: #{problem_works.inspect}" if problem_works.count > 0
     eligible_works
   end
 
@@ -57,8 +59,8 @@ class GraduationService
         return Date.strptime(records.values[0]['degree status date'], '%Y-%m-%d')
       end
     elsif records.count.zero?
-      # If no records are found, log an error.
-      Rails.logger.error "Graduation service: Could not find a Registrar record for person #{work.depositor} from ETD #{work.id}"
+      # If no records are found, the student hasn't graduated yet.
+      Rails.logger.warn "Graduation service: ETD #{work.id} from depositor #{work.depositor} is eligible for graduation but has not appeared in registrar graduation data."
     else
       # Multiple records
       status = Set.new(records.map { |_k, v| v['degree status descr'] })
