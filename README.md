@@ -65,7 +65,7 @@ running as expected.**
 ## Suppressing email for bouncing addresses
 
 If an email address is bouncing, or if someone prefers not to receive email notifications,
-add the email address to the list in `app/lib/email_intercept.rb`
+add the email address to the list in `config/emory/do_not_send.yml`
 
 ## Developer Setup
 
