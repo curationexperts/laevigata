@@ -3,6 +3,8 @@ terms:
       term: 'Th.D.'
     - id: 'Ph.D.'
       term: 'PhD'
+    - id: 'DMin'
+      term: 'DMin'
     - id: 'D.N.P.'
       term: 'DNP'
     - id: 'M.A.'
