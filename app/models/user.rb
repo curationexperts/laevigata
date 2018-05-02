@@ -37,7 +37,8 @@ class User < ApplicationRecord
     user.display_name = auth.info.display_name
     user.uid = auth.info.uid
     user.ppid = auth.uid
-    user.email = auth.info.uid + '@emory.edu'
+    # tezprox@emory.edu isn't a real email address
+    user.email = auth.info.uid + '@emory.edu' unless auth.info.uid == 'tezprox'
     user.save
     user
   end
