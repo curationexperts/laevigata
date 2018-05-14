@@ -16,7 +16,7 @@ describe Hyrax::Actors::InterpretVisibilityActor do
   describe 'the next actor' do
     let(:root_actor) { double }
     before do
-      allow(Hyrax::Actors::RootActor).to receive(:new).and_return(root_actor)
+      allow(Hyrax::Actors::Terminator).to receive(:new).and_return(root_actor)
       allow(etd).to receive(:save).and_return(true)
     end
 
@@ -27,9 +27,15 @@ describe Hyrax::Actors::InterpretVisibilityActor do
       end
 
       it 'removes embargo_release_date from attributes' do
-        allow(root_actor).to receive(:create).with(visibility: 'open')
+        allow(root_actor)
+          .to receive(:create)
+          .with(an_instance_of(Hyrax::Actors::Environment))
+
         actor.create(attributes)
-        expect(root_actor).to have_received(:create).with(visibility: 'open')
+
+        expect(root_actor)
+          .to have_received(:create)
+          .with(an_instance_of(Hyrax::Actors::Environment))
       end
     end
   end
