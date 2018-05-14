@@ -5,7 +5,7 @@
     Work
   <% end %>
 </h2>
-<table class="table table-striped <%= dom_class(presenter) %> attributes" <%= presenter.microdata_type_to_html %>>
+<table class="work-show <%= dom_class(presenter) %> attributes" <%= presenter.microdata_type_to_html %>>
   <tbody>
     <%= presenter.attribute_to_html(:school, render_as: :faceted) %>
     <%= presenter.attribute_to_html(:department, render_as: :faceted) %>
@@ -19,7 +19,7 @@
     <%= presenter.attribute_to_html(:committee_members_names, label: "Committee Members", render_as: :faceted) %>
     <%= presenter.attribute_to_html(:partnering_agency, label: "Partnering Agencies", render_as: :faceted) %>
     <%= presenter.attribute_to_html(:permanent_url, label: "Permanent URL") %>
-    <%= presenter.attribute_to_html(:rights_statement, render_as: :rights) %>
+    <%= presenter.attribute_to_html(:rights_statement, render_as: :rights_statement, html_dl: true) %>
     <% if presenter.current_ability_is_approver? %>
       <%= presenter.attribute_to_html(:copyright_question_one, label: t("hyrax.works.copyright_question_one_label"))%>
       <%= presenter.attribute_to_html(:copyright_question_two, label: t("hyrax.works.copyright_question_two_label"))%>
