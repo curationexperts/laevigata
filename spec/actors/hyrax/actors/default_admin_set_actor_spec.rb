@@ -2,13 +2,13 @@ libdir = File.expand_path('../../../../', __FILE__)
 $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 require 'rails_helper'
 
-RSpec.describe Hyrax::DefaultAdminSetActor, :clean do
-  let(:next_actor) do
-    double('next actor', create: true,
-                         curation_concern: etd,
-                         update: true,
-                         user: depositor)
+RSpec.describe Hyrax::Actors::DefaultAdminSetActor do
+  before :all do
+    ActiveFedora::Cleaner.clean!
+    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.clean
   end
+  let(:next_actor) { double('next actor', create: true) }
   let(:actor) do
     Hyrax::Actors::ActorStack.new(etd, depositor_ability, [described_class])
   end
@@ -19,7 +19,7 @@ RSpec.describe Hyrax::DefaultAdminSetActor, :clean do
 
   describe "create" do
     before do
-      allow(Hyrax::Actors::RootActor).to receive(:new).and_return(next_actor)
+      allow(Hyrax::Actors::Terminator).to receive(:new).and_return(next_actor)
       allow(next_actor).to receive(:create).with(admin_set_id: admin_set.id).and_return(true)
     end
 
@@ -27,7 +27,9 @@ RSpec.describe Hyrax::DefaultAdminSetActor, :clean do
       let(:attributes) { { admin_set_id: '' } }
       it "assigns the admin_set and admin_set id" do
         actor.create(attributes)
-        expect(next_actor).to have_received(:create).with(admin_set_id: admin_set.id)
+        expect(next_actor)
+          .to have_received(:create)
+          .with(have_attributes(attributes: { admin_set_id: admin_set.id }))
       end
     end
 
@@ -36,7 +38,9 @@ RSpec.describe Hyrax::DefaultAdminSetActor, :clean do
 
       it "keeps the admin_set id" do
         actor.create(attributes)
-        expect(next_actor).to have_received(:create).with(admin_set_id: admin_set.id)
+        expect(next_actor)
+          .to have_received(:create)
+          .with(have_attributes(attributes: attributes))
       end
     end
   end
