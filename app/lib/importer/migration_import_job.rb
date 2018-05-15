@@ -87,7 +87,7 @@ module Importer
     def stack_actors
       [Hyrax::Actors::TransactionalRequest,
        Hyrax::Actors::OptimisticLockValidator,
-       Hyrax::CreateWithFilesActor,
+       Hyrax::Actors::CreateWithFilesActor,
        Hyrax::Actors::AddAsMemberOfCollectionsActor,
        Hyrax::Actors::AddToWorkActor,
        Hyrax::Actors::AssignRepresentativeActor,
