@@ -5,9 +5,12 @@ require 'workflow_setup'
 
 RSpec.describe Hyrax::Workflow::ApprovedNotification, :clean do
   before do
-    w = WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null")
+    w = WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml",
+                          "#{fixture_path}/config/emory/candler_admin_sets.yml",
+                          "/dev/null")
     w.setup
   end
+
   let(:user) { FactoryBot.create(:user) }
   let(:etd) { FactoryBot.create(:sample_data, depositor: user.user_key, school: ["Candler School of Theology"]) }
   let(:ability) { ::Ability.new(user) }

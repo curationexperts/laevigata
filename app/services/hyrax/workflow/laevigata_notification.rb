@@ -28,25 +28,13 @@ module Hyrax
       # The Users who have an approving role for the relevant workflow
       # @return [<Array>::User] an Array of Hyrax::User objects
       def approvers
-        approvers = []
-        approving_role = Sipity::Role.find_by!(name: "approving")
-        wf_role = Sipity::WorkflowRole.find_by(workflow: document.active_workflow, role_id: approving_role)
-        wf_role.workflow_responsibilities.pluck(:agent_id).each do |agent_id|
-          approvers << Sipity::Agent.where(id: agent_id).pluck(:proxy_for_id).map { |proxy_for_id| ::User.find(proxy_for_id) }.first
-        end
-        approvers
+        users_for(role: Sipity::Role.find_by!(name: "approving"))
       end
 
       # The Users who have a reviewing role for the relevant workflow
       # @return [<Array>::User] an Array of Hyrax::User objects
       def reviewers
-        reviewers = []
-        reviewing_role = Sipity::Role.find_by!(name: "reviewing")
-        wf_role = Sipity::WorkflowRole.find_by(workflow: document.active_workflow, role_id: reviewing_role)
-        wf_role.workflow_responsibilities.pluck(:agent_id).each do |agent_id|
-          reviewers << Sipity::Agent.where(id: agent_id).pluck(:proxy_for_id).map { |proxy_for_id| ::User.find(proxy_for_id) }.first
-        end
-        reviewers
+        users_for(role: Sipity::Role.find_by!(name: "reviewing"))
       end
 
       # The Hyrax::User who desposited the work
@@ -54,6 +42,16 @@ module Hyrax
       def depositor
         ::User.where(ppid: document.depositor).first
       end
+
+      private
+
+        def users_for(role:)
+          wf_role = Sipity::WorkflowRole.find_by(workflow: document.active_workflow, role_id: role)
+          agents  = Sipity::Agent.where(id: wf_role.workflow_responsibilities.pluck(:agent_id))
+          users   = agents.select { |agent| agent.proxy_for_type == 'User' }.pluck(:proxy_for_id)
+
+          ::User.find(users)
+        end
     end
   end
 end
