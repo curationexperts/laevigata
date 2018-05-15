@@ -1,3 +1,4 @@
+# coding: utf-8
 Hyrax.config do |config|
   # Injected via `rails g hyrax:work Etd`
   config.register_curation_concern :etd
@@ -49,7 +50,7 @@ Hyrax.config do |config|
   # config.persistent_hostpath = 'http://localhost/files/'
 
   # If you have ffmpeg installed and want to transcode audio and video uncomment this line
-  # config.enable_ffmpeg = true
+  config.enable_ffmpeg = true
 
   # Hyrax uses NOIDs for files and collections instead of Fedora UUIDs
   # where NOID = 10-character string and UUID = 32-character string w/ hyphens
@@ -59,13 +60,13 @@ Hyrax.config do |config|
   # config.noid_template = ".reeddeeddk"
 
   # Use the database-backed minter class
-  # config.noid_minter_class = ActiveFedora::Noid::Minter::Db
+  config.noid_minter_class = ActiveFedora::Noid::Minter::Db
 
   # Store identifier minter's state in a file for later replayability
   # config.minter_statefile = '/tmp/minter-state'
 
   # Prefix for Redis keys
-  # config.redis_namespace = "hyrax"
+  config.redis_namespace = "laevigata_#{Rails.env}"
 
   # Path to the file characterization tool
   config.fits_path = "fits"
@@ -112,12 +113,12 @@ Hyrax.config do |config|
 
   # Temporary paths to hold uploads before they are ingested into FCrepo
   # These must be lambdas that return a Pathname. Can be configured separately
-  #  config.upload_path = ->() { Rails.root + 'tmp' + 'uploads' }
-  #  config.cache_path = ->() { Rails.root + 'tmp' + 'uploads' + 'cache' }
+  config.upload_path = ->() { Pathname.new(ENV['UPLOAD_PATH'] || '/opt/uploads') }
+  config.cache_path = ->() { Pathname.new(ENV['CACHE_PATH'] || '/opt/uploads/cache') }
 
   # Location on local file system where derivatives will be stored
   # If you use a multi-server architecture, this MUST be a shared volume
-  # config.derivatives_path = Rails.root.join('tmp', 'derivatives')
+  config.derivatives_path = ENV['DERIVATIVES_PATH'] || '/opt/derivatives'
 
   # Should schema.org microdata be displayed?
   # config.display_microdata = true
@@ -129,7 +130,7 @@ Hyrax.config do |config|
   # Location on local file system where uploaded files will be staged
   # prior to being ingested into the repository or having derivatives generated.
   # If you use a multi-server architecture, this MUST be a shared volume.
-  # config.working_path = Rails.root.join( 'tmp', 'uploads')
+  config.working_path = ENV['WORKING_PATH'] || '/opt/uploads'
 
   # Should the media display partial render a download link?
   config.display_media_download_link = false
@@ -149,13 +150,13 @@ Hyrax.config do |config|
   # config.model_to_create = ->(_attributes) { Hyrax.primary_work_type.model_name.name }
 
   # Path to the ffmpeg tool
-  # config.ffmpeg_path = 'ffmpeg'
+  config.ffmpeg_path = 'ffmpeg'
 
   # Max length of FITS messages to display in UI
   # config.fits_message_length = 5
 
   # ActiveJob queue to handle ingest-like jobs
-  # config.ingest_queue_name = :default
+  config.ingest_queue_name = :default
 
   ## Attributes for the lock manager which ensures a single process/thread is mutating a ore:Aggregation at once.
   # How many times to retry to acquire the lock before raising UnableToAcquireLockError
