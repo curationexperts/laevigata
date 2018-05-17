@@ -26,13 +26,7 @@ append :linked_dirs, "tmp/sockets"
 append :linked_dirs, "log"
 
 append :linked_files, ".env.production"
-append :linked_files, "config/initializers/hyrax.rb"
-append :linked_files, "config/blacklight.yml"
-append :linked_files, "config/browse_everything_providers.yml"
-append :linked_files, "config/fedora.yml"
-append :linked_files, "config/redis.yml"
 append :linked_files, "config/secrets.yml"
-append :linked_files, "config/solr.yml"
 
 # We have to re-define capistrano-sidekiq's tasks to work with
 # systemctl in production
