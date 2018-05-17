@@ -16,7 +16,7 @@ set :assets_prefix, "#{shared_path}/public/assets"
 SSHKit.config.command_map[:rake] = 'bundle exec rake'
 
 # Default branch is :master
-set :branch, ENV['REVISION'] || ENV['BRANCH_NAME'] || 'master'
+set :branch, ENV['REVISION'] || ENV['BRANCH_NAME'] || ENV['BRANCH'] || 'master'
 
 append :linked_dirs, "config/emory"
 append :linked_dirs, "public/assets"
