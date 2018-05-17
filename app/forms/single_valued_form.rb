@@ -19,6 +19,7 @@ module SingleValuedForm
 
     def initialize_field(key)
       return if single_valued_fields.include?(key.to_sym)
+      return if [:committee_members, :committee_chair].include?(key.to_sym)
       super
     end
   end
