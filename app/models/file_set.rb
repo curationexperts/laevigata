@@ -39,4 +39,6 @@ class FileSet < ActiveFedora::Base
   #
   # @todo switch to schema application approach
   include ::Hyrax::FileSetBehavior
+
+  self.indexer = FileSetUseIndexer
 end
