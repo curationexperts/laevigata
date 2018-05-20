@@ -1,12 +1,11 @@
 <% if user_signed_in? %>
   <ul class="nav navbar-nav navbar-right">
-    <%= render 'hyrax/admin/menu' if can? :read, :admin_dashboard %>
     <li class="dropdown">
-      <%= link_to hyrax.dashboard_index_path, role: 'button', data: { toggle: 'dropdown' }, aria: { haspopup: true, expanded: false } do %>
+      <%= link_to hyrax.dashboard_path, role: 'button', data: { toggle: 'dropdown' }, aria: { haspopup: true, expanded: false } do %>
         <span class="fa fa-tachometer"></span> <%= t("hyrax.toolbar.dashboard.menu") %> <span class="caret"></span>
       <% end %>
       <ul class="dropdown-menu dropdown-menu-right">
-        <li><%= link_to t("hyrax.toolbar.dashboard.my"), hyrax.dashboard_index_path %></li>
+        <li><%= link_to t("hyrax.toolbar.dashboard.my"), hyrax.dashboard_path %></li>
         <li class="divider"></li>
         <li><%= link_to t("hyrax.toolbar.dashboard.transfers"), hyrax.transfers_path %></li>
         <li class="divider"></li>
