@@ -2,8 +2,8 @@ require 'workflow_setup'
 # Generated via
 #  `rails generate hyrax:work Etd`
 class Etd < ActiveFedora::Base
-  include ::Hyrax::WorkBehavior
   include ::ProquestBehaviors
+  include ::Hyrax::WorkBehavior
 
   # Change this to restrict which works can be added as a child.
   # self.valid_child_concerns = []
@@ -16,8 +16,6 @@ class Etd < ActiveFedora::Base
 
   after_initialize :set_defaults, unless: :persisted?
   before_save :set_research_field_ids, :index_committee_chair_name, :index_committee_members_names
-
-  property :legacy_id, predicate: "http://id.loc.gov/vocabulary/identifiers/local"
 
   # Get all attached file sets that are "primary"
   def primary_file_fs
@@ -39,18 +37,6 @@ class Etd < ActiveFedora::Base
   # Get all attached file sets that are "supplementary"
   def supplemental_files_fs
     members.select(&:supplementary?)
-  end
-
-  property :abstract, predicate: "http://purl.org/dc/terms/abstract" do |index|
-    index.as :stored_searchable
-  end
-
-  property :table_of_contents, predicate: "http://purl.org/dc/terms/tableOfContents" do |index|
-    index.as :stored_searchable
-  end
-
-  property :creator, predicate: "http://id.loc.gov/vocabulary/relators/aut" do |index|
-    index.as :stored_searchable, :facetable
   end
 
   property :graduation_year, predicate: "http://purl.org/dc/terms/issued", multiple: false do |index|
@@ -168,6 +154,7 @@ class Etd < ActiveFedora::Base
   end
 
   include ::Hyrax::BasicMetadata
+  apply_schema Schemas::EmoryEtdSchema, Schemas::GeneratedResourceSchemaStrategy.new
 
   # accepts_nested_attributes_for can not be called until all
   # the properties are declared because it calls resource_class,
