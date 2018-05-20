@@ -2,12 +2,13 @@ export class UploadedFiles {
   // Monitors the form and runs the callback when files are added
   constructor(form, callback, selector, checklist_selector) {
     this.form = form
+    this.checklist_selector = checklist_selector
     this.element = $(selector)
     this.element.bind('fileuploadcompleted', callback)
   }
 
   get hasFileRequirement() {
-    let fileRequirement = this.form.find(checklist_selector)
+    let fileRequirement = this.form.find(this.checklist_selector)
     return fileRequirement.length > 0
   }
 
