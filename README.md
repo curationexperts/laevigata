@@ -74,8 +74,8 @@ add the email address to the list in `config/emory/do_not_send.yml`
     `git clone https://github.com/curationexperts/laevigata.git`
 1. Change to the application directory
     `cd laevigata`
-1. Use set your ruby version to **2.3.4** and the gemset of your choice
-    eg. `rvm use --create 2.3.4@laevigata`
+1. Use set your ruby version to **2.4.2** and the gemset of your choice
+    eg. `rvm use --create 2.4.2@laevigata`
 1. Install gem dependencies
     `bundle install`
 1. Start redis
