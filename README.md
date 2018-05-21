@@ -10,10 +10,10 @@ Electronic Theses and Dissertations (ETDs).
 or cherokee rose is the <a href="https://georgia.gov/georgia-facts-and-symbols">state flower of Georgia</a>.
 <br/><br/>
 
-[![Build Status](https://travis-ci.org/curationexperts/laevigata.svg?branch=master)](https://travis-ci.org/curationexperts/laevigata)         
-[![Coverage Status](https://coveralls.io/repos/github/curationexperts/laevigata/badge.svg?branch=master)](https://coveralls.io/github/curationexperts/laevigata?branch=master)    
-[![Inline docs](http://inch-ci.org/github/curationexperts/laevigata.svg?branch=master)](http://inch-ci.org/github/curationexperts/laevigata)     
-[![Stories in Ready](https://badge.waffle.io/curationexperts/laevigata.png?label=ready&title=Ready)](https://waffle.io/curationexperts/laevigata)  
+[![Build Status](https://travis-ci.org/curationexperts/laevigata.svg?branch=master)](https://travis-ci.org/curationexperts/laevigata)
+[![Coverage Status](https://coveralls.io/repos/github/curationexperts/laevigata/badge.svg?branch=master)](https://coveralls.io/github/curationexperts/laevigata?branch=master)
+[![Inline docs](http://inch-ci.org/github/curationexperts/laevigata.svg?branch=master)](http://inch-ci.org/github/curationexperts/laevigata)
+[![Stories in Ready](https://badge.waffle.io/curationexperts/laevigata.png?label=ready&title=Ready)](https://waffle.io/curationexperts/laevigata)
 
 </td></tr>
 </table>
@@ -45,9 +45,9 @@ Laevigata depends on certain environment variables being set. In development mod
 * `PROQUEST_NOTIFICATION_EMAIL`
 * `REGISTRAR_DATA_PATH` - the file from which to load registrar data (e.g., for graduation status and dates)
 
-## Cron jobs in production 
+## Cron jobs in production
 
-There are certain cron jobs that are expected to run in production. These include graduation job, 
+There are certain cron jobs that are expected to run in production. These include graduation job,
 fixity audit, embargo expiration, and others. We use the `whenever` gem to manage these.
 If you need to make changes to the scheduled jobs, please update `config/schedule.rb` and the new crontab should be installed via capistrano when the code is deployed.
 
@@ -68,25 +68,25 @@ add the email address to the list in `config/emory/do_not_send.yml`
 
 ## Developer Setup
 
-1. Change to your working directory for new development projects   
+1. Change to your working directory for new development projects
     `cd .`
-1. Clone this repo   
+1. Clone this repo
     `git clone https://github.com/curationexperts/laevigata.git`
-1. Change to the application directory  
+1. Change to the application directory
     `cd laevigata`
-1. Use set your ruby version to **2.3.4** and the gemset of your choice  
+1. Use set your ruby version to **2.3.4** and the gemset of your choice
     eg. `rvm use --create 2.3.4@laevigata`
-1. Install gem dependencies  
+1. Install gem dependencies
     `bundle install`
-1. Start redis  
-    `redis-server &`  
-    *note:* use ` &` to start in the background, or run redis in a new terminal session  
+1. Start redis
+    `redis-server &`
+    *note:* use ` &` to start in the background, or run redis in a new terminal session
 1. Read the section on 'Database Authentication' below and decide if you want to set up your environment for database authentication.
 1. Start the demo server in its own terminal session
     `bin/rails hydra:server`
-1. Run the first time setup script  
+1. Run the first time setup script
     `bin/setup`
-1. Run the test suite  
+1. Run the test suite
     `bin/rails ci`
 
 ## Database Authentication
