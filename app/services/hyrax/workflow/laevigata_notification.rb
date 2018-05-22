@@ -8,6 +8,10 @@ module Hyrax
         @recipients = workflow_recipients
       end
 
+      def self.send_notification(entity:, comment:, user:, recipients: {})
+        super
+      end
+
       # Truncate titles to 140 characters
       def title
         original_title = @entity.proxy_for.title.first
