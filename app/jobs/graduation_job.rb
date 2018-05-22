@@ -61,7 +61,7 @@ class GraduationJob < ActiveJob::Base
   def send_notifications
     work_global_id = @work.to_global_id.to_s
     entity = Sipity::Entity.where(proxy_for_global_id: work_global_id).first
-    Hyrax::Workflow::DegreeAwardedNotification.send_notification(entity: entity, comment: '', user: ::User.where(ppid: WorkflowSetup::NOTIFICATION_OWNER).first, recipients: {})
+    Hyrax::Workflow::DegreeAwardedNotification.send_notification(entity: entity, comment: '', user: ::User.where(ppid: WorkflowSetup::NOTIFICATION_OWNER).first)
   end
 
   # Transition the workflow of this object to the "published" workflow state

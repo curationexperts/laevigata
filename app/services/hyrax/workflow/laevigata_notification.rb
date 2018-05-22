@@ -2,7 +2,8 @@ module Hyrax
   module Workflow
     class LaevigataNotification < AbstractNotification
       # regardless of what is passed in, set the recipients according to this notification's requirements
-      def initialize(entity, comment, user, recipients)
+      def initialize(entity, comment, user, recipients = {})
+        recipients ||= {} # provide default value when `nil` is explictly passed
         super
         @recipients = workflow_recipients
       end

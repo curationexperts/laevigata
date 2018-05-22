@@ -36,8 +36,7 @@ class AttachFilesToWorkJob < Hyrax::ApplicationJob
     Hyrax::Workflow::VirusEncounteredNotification
       .send_notification(entity:     entity,
                          comment:    '',
-                         user:       ::User.find_by(ppid: WorkflowSetup::NOTIFICATION_OWNER),
-                         recipients: {})
+                         user:       ::User.find_by(ppid: WorkflowSetup::NOTIFICATION_OWNER))
   end
 
   class VirusDetectedError < RuntimeError; end
