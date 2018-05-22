@@ -74,9 +74,8 @@ class WorkflowSetup
     wf_role  = Sipity::WorkflowRole.find_by(workflow: workflow, role_id: role)
     return [] unless wf_role
 
-    wf_role.workflow_responsibilities.pluck(:agent_id).map do |agent_id|
-      Sipity::Agent.find(agent_id)
-    end
+    Sipity::Agent.where(id: wf_role.workflow_responsibilities.pluck(:agent_id),
+                        proxy_for_type: 'User').to_a
   end
 
   # Read a config file to figure out what workflow to enable and how to grant approving_role
