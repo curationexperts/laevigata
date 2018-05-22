@@ -155,15 +155,22 @@ RSpec.describe WorkflowSetup, :clean do
     admin_set = w.make_mediated_deposit_admin_set("Frog and Toad")
     workflow = admin_set.permission_template.available_workflows.where(active: true).first
     expect(workflow).to be_instance_of Sipity::Workflow
-    depositing_role = Sipity::Role.where(name: "depositing").first
-    wf_role = Sipity::WorkflowRole.find_by(workflow: workflow, role_id: depositing_role)
-    depositing_agents = wf_role.workflow_responsibilities.pluck(:agent_id)
-    expect(depositing_agents.count).to eq 1 # The only depositing user should be the one who created the admin set
-    w.everyone_can_deposit_everywhere
-    depositing_agents = wf_role.workflow_responsibilities.pluck(:agent_id)
-    expect(depositing_agents.count).to eq 2 # Now there are 2 depositing_agents...
-    # and the second depositing agent is a Group consisting of all registered users
-    expect(Sipity::Agent.where(proxy_for_type: "Hyrax::Group").first.proxy_for_id).to eq "registered"
+
+    depositing_role      = Sipity::Role.where(name: "depositing").first
+    wf_role              = Sipity::WorkflowRole.find_by(workflow: workflow, role_id: depositing_role)
+    depositing_agent_ids = wf_role.workflow_responsibilities.pluck(:agent_id)
+    depositing_users     = Sipity::Agent.where(id: depositing_agent_ids, proxy_for_type: 'User')
+
+    # The only depositing user should be the one who created the admin set
+    expect(depositing_users.count).to eq 1
+
+    # Now there are 3 depositing_agents...
+    expect { w.everyone_can_deposit_everywhere }
+      .to change { wf_role.workflow_responsibilities.count }.by(1)
+
+    # and the depositing agents include a Group consisting of all registered users
+    expect(Sipity::Agent.where(proxy_for_type: "Hyrax::Group").pluck(:proxy_for_id))
+      .to contain_exactly 'admin', 'registered'
   end
 
   context "Laney Graduate School workflow" do
