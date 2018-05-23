@@ -116,32 +116,22 @@ RSpec.feature 'Candler approval workflow', :perform_jobs, :clean do
       expect(page).to have_content "Degree awarded for #{etd.title.first}"
     end
 
-    scenario "Approving Users have links to their dashboards but not the admin panel", js: true do
+    scenario "Approving Users do not have admin content on their dashboards" do
       logout
       login_as approving_user
-      visit("/notifications?locale=en")
+      visit("/dashboard?locale=en")
 
-      expect(page).not_to have_link("Administration")
-      expect(page).to have_link("Dashboard")
+      expect(page).not_to have_content("Administrative Sets")
+      expect(page).not_to have_content("Workflow Roles")
     end
 
-    scenario "Superusers always have links to the Admin Panel and their dashboards" do
+    scenario "Superusers can see admin content on the dashboard" do
       logout
       login_as admin_superuser
-      visit("/notifications?locale=en")
-
-      expect(page).to have_link("Administration")
-      expect(page).to have_link("Dashboard")
-    end
-
-    scenario "Superusers can see the admin panel" do
-      logout
-      login_as admin_superuser
-      visit("/notifications?locale=en")
-      click_on("Administration")
+      visit("/dashboard?locale=en")
 
       expect(page).to have_content("Administrative Sets")
-      expect(page).to have_content("Workflows")
+      expect(page).to have_content("Workflow Roles")
     end
   end
 end
