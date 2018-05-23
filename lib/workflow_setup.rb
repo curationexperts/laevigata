@@ -156,6 +156,12 @@ class WorkflowSetup
   # Allow anyone with a registered account to deposit into any of the AdminSets
   def everyone_can_deposit_everywhere
     AdminSet.all.each do |admin_set|
+      next if Hyrax::PermissionTemplateAccess
+                .find_by(permission_template_id: admin_set.permission_template.id,
+                         agent_id:   'registered',
+                         access:     'deposit',
+                         agent_type: 'group')
+
       admin_set.permission_template.access_grants.create(agent_type: 'group', agent_id: 'registered', access: 'deposit')
       deposit = Sipity::Role.find_by!(name: 'depositing')
       admin_set.permission_template.available_workflows.each do |workflow|
