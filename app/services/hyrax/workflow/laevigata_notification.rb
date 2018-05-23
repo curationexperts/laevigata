@@ -5,7 +5,7 @@ module Hyrax
       def initialize(entity, comment, user, recipients = {})
         recipients ||= {} # provide default value when `nil` is explictly passed
         super
-        @recipients = workflow_recipients
+        @recipients = workflow_recipients.with_indifferent_access
       end
 
       def self.send_notification(entity:, comment:, user:, recipients: {})

@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'workflow_setup'
 include Warden::Test::Helpers
 
-RSpec.feature 'Virus checking', :perform_jobs, :clean do
+RSpec.feature 'Virus checking', :perform_jobs, :clean, :js do
   let(:depositing_user) { User.where(ppid: etd.depositor).first }
   let(:approving_user) { User.where(uid: "candleradmin").first }
   let(:admin_superuser) { User.where(uid: "tezprox").first } # uid from superuser.yml
