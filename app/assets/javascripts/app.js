@@ -4,7 +4,7 @@ var laevigata_data = {
   etd_table_of_contents: ''
 };
 
-Hyrax.editor = function() {
+Hyrax.workEditor = function() {
   var element = $("[data-behavior='work-form']")
   if (element.length > 0) {
       var Editor = require('hyrax/editor')
