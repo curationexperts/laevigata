@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :user do
-    ppid { ActiveFedora::Noid::Service.new.mint }
+    ppid { Noid::Rails::Service.new.mint }
     uid { FFaker::Internet.user_name }
     display_name { FFaker::Name.name }
     email { FFaker::Internet.email }
