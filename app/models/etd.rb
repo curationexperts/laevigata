@@ -2,9 +2,8 @@ require 'workflow_setup'
 # Generated via
 #  `rails generate hyrax:work Etd`
 class Etd < ActiveFedora::Base
-  include ::Hyrax::WorkBehavior
-  include ::Hyrax::BasicMetadata
   include ::ProquestBehaviors
+  include ::Hyrax::WorkBehavior
 
   # Change this to restrict which works can be added as a child.
   # self.valid_child_concerns = []
@@ -17,65 +16,6 @@ class Etd < ActiveFedora::Base
 
   after_initialize :set_defaults, unless: :persisted?
   before_save :set_research_field_ids, :index_committee_chair_name, :index_committee_members_names
-
-  def set_defaults
-    self.degree_granting_institution = "http://id.loc.gov/vocabulary/organizations/geu"
-    self.rights_statement =
-      ["Permission granted by the author to include this "                      \
-      "thesis or dissertation in this repository. All rights reserved by the " \
-      "author. Please contact the author for information regarding the "       \
-      "reproduction and use of this thesis or dissertation."]
-  end
-
-  def set_research_field_ids
-    research_field_service = ResearchFieldService.new
-    self.research_field_id = research_field.each.map { |f| research_field_service.label(f) }
-  rescue KeyError
-    Rails.logger.error "Couldn't find research_field_id for #{research_field.inspect}"
-  end
-
-  def index_committee_chair_name
-    return unless committee_chair && committee_chair.first
-    self.committee_chair_name = committee_chair.map { |cc| cc.name.first }
-  end
-
-  def index_committee_members_names
-    return unless committee_members && committee_members.first
-    self.committee_members_names = committee_members.map { |cm| cm.name.first }
-  end
-
-  def hidden?
-    return false unless hidden
-    true
-  end
-
-  # Return false until a value is set for degree_awarded, then return true
-  def post_graduation?
-    return false unless degree_awarded
-    true
-  end
-
-  # Determine what admin set an ETD should belong to, based on what school and
-  # department it belongs to
-  # @return [String] the name of an admin set
-  def determine_admin_set(school = self.school, department = self.department, subfield = self.subfield)
-    valid_admin_sets = YAML.safe_load(File.read(WorkflowSetup::DEFAULT_ADMIN_SETS_CONFIG)).keys
-    admin_set_determined_by_school = ["Laney Graduate School", "Candler School of Theology", "Emory College"]
-    return school.first if admin_set_determined_by_school.include?(school.first) && valid_admin_sets.include?(school.first)
-    return department.first if valid_admin_sets.include?(department.first)
-    return subfield.first if valid_admin_sets.include?(subfield.first)
-    raise "Cannot find admin set config where school = #{school.first} and department = #{department.first} and subfield = #{subfield.first}"
-  end
-
-  # Assign an admin_set based on what is returned by #determine_admin_set
-  # @return [AdminSet]
-  def assign_admin_set(school = self.school, department = self.department)
-    as = AdminSet.where(title_sim: determine_admin_set(school, department)).first
-    self.admin_set = as
-    as
-  end
-
-  property :legacy_id, predicate: "http://id.loc.gov/vocabulary/identifiers/local"
 
   # Get all attached file sets that are "primary"
   def primary_file_fs
@@ -97,18 +37,6 @@ class Etd < ActiveFedora::Base
   # Get all attached file sets that are "supplementary"
   def supplemental_files_fs
     members.select(&:supplementary?)
-  end
-
-  property :abstract, predicate: "http://purl.org/dc/terms/abstract" do |index|
-    index.as :stored_searchable
-  end
-
-  property :table_of_contents, predicate: "http://purl.org/dc/terms/tableOfContents" do |index|
-    index.as :stored_searchable
-  end
-
-  property :creator, predicate: "http://id.loc.gov/vocabulary/relators/aut" do |index|
-    index.as :stored_searchable, :facetable
   end
 
   property :graduation_year, predicate: "http://purl.org/dc/terms/issued", multiple: false do |index|
@@ -225,6 +153,9 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable
   end
 
+  include ::Hyrax::BasicMetadata
+  apply_schema Schemas::EmoryEtdSchema, Schemas::GeneratedResourceSchemaStrategy.new
+
   # accepts_nested_attributes_for can not be called until all
   # the properties are declared because it calls resource_class,
   # which finalizes the propery declarations.
@@ -244,4 +175,61 @@ class Etd < ActiveFedora::Base
         Array(attrs[key]).all?(&:blank?)
       end
     }
+
+  def set_defaults
+    self.degree_granting_institution = "http://id.loc.gov/vocabulary/organizations/geu"
+    self.rights_statement =
+      ["Permission granted by the author to include this "                      \
+      "thesis or dissertation in this repository. All rights reserved by the " \
+      "author. Please contact the author for information regarding the "       \
+      "reproduction and use of this thesis or dissertation."]
+  end
+
+  def set_research_field_ids
+    research_field_service = ResearchFieldService.new
+    self.research_field_id = research_field.each.map { |f| research_field_service.label(f) }
+  rescue KeyError
+    Rails.logger.error "Couldn't find research_field_id for #{research_field.inspect}"
+  end
+
+  def index_committee_chair_name
+    return unless committee_chair && committee_chair.first
+    self.committee_chair_name = committee_chair.map { |cc| cc.name.first }
+  end
+
+  def index_committee_members_names
+    return unless committee_members && committee_members.first
+    self.committee_members_names = committee_members.map { |cm| cm.name.first }
+  end
+
+  def hidden?
+    return false unless hidden
+    true
+  end
+
+  # Return false until a value is set for degree_awarded, then return true
+  def post_graduation?
+    return false unless degree_awarded
+    true
+  end
+
+  # Determine what admin set an ETD should belong to, based on what school and
+  # department it belongs to
+  # @return [String] the name of an admin set
+  def determine_admin_set(school = self.school, department = self.department, subfield = self.subfield)
+    valid_admin_sets = YAML.safe_load(File.read(WorkflowSetup::DEFAULT_ADMIN_SETS_CONFIG)).keys
+    admin_set_determined_by_school = ["Laney Graduate School", "Candler School of Theology", "Emory College"]
+    return school.first if admin_set_determined_by_school.include?(school.first) && valid_admin_sets.include?(school.first)
+    return department.first if valid_admin_sets.include?(department.first)
+    return subfield.first if valid_admin_sets.include?(subfield.first)
+    raise "Cannot find admin set config where school = #{school.first} and department = #{department.first} and subfield = #{subfield.first}"
+  end
+
+  # Assign an admin_set based on what is returned by #determine_admin_set
+  # @return [AdminSet]
+  def assign_admin_set(school = self.school, department = self.department)
+    as = AdminSet.where(title_sim: determine_admin_set(school, department)).first
+    self.admin_set = as
+    as
+  end
 end

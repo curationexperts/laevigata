@@ -3,16 +3,30 @@
 module Hyrax
   module Actors
     class InterpretVisibilityActor < AbstractActor
+      attr_accessor :curation_concern
+
       def create(attributes)
+        if attributes.is_a? Hyrax::Actors::Environment
+          env                   = attributes
+          attributes            = env.attributes
+          self.curation_concern = env.curation_concern
+        end
+
         @attributes = attributes
         save_embargo_and_visibility_data
-        next_actor.create(@attributes)
+        next_actor.create(env)
       end
 
       def update(attributes)
+        if attributes.is_a? Hyrax::Actors::Environment
+          env                   = attributes
+          attributes            = env.attributes
+          self.curation_concern = env.curation_concern
+        end
+
         @attributes = attributes
         save_embargo_and_visibility_data
-        next_actor.update(@attributes)
+        next_actor.update(env)
       end
 
       private

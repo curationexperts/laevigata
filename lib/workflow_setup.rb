@@ -67,20 +67,15 @@ class WorkflowSetup
   # @param [String|Sipity::Role] role e.g., "approving" "depositing" "managing"
   # @return [Array<Sipity::Agent>] An array of Sipity::Agent objects
   def users_in_role(admin_set, role)
-    return [] unless admin_set.permission_template.available_workflows.where(active: true).count > 0
-    users_in_role = []
-    sipity_role = if role.is_a?(Sipity::Role)
-                    role
-                  else
-                    Sipity::Role.find_by!(name: role)
-                  end
-    workflow = admin_set.permission_template.available_workflows.where(active: true).first
-    wf_role = Sipity::WorkflowRole.find_by(workflow: workflow, role_id: sipity_role)
+    return [] unless admin_set.permission_template.available_workflows.exists?(active: true)
+
+    role     = Sipity::Role.find_by!(name: role) unless role.is_a?(Sipity::Role)
+    workflow = admin_set.permission_template.available_workflows.find_by(active: true)
+    wf_role  = Sipity::WorkflowRole.find_by(workflow: workflow, role_id: role)
     return [] unless wf_role
-    wf_role.workflow_responsibilities.pluck(:agent_id).each do |agent_id|
-      users_in_role << Sipity::Agent.where(id: agent_id).first
-    end
-    users_in_role
+
+    Sipity::Agent.where(id: wf_role.workflow_responsibilities.pluck(:agent_id),
+                        proxy_for_type: 'User').to_a
   end
 
   # Read a config file to figure out what workflow to enable and how to grant approving_role

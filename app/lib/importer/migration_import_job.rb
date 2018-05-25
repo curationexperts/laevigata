@@ -85,19 +85,16 @@ module Importer
     end
 
     def stack_actors
-      [Hyrax::Actors::TransactionalRequest,
-       Hyrax::Actors::OptimisticLockValidator,
-       Hyrax::CreateWithFilesActor,
-       Hyrax::Actors::AddAsMemberOfCollectionsActor,
+      [Hyrax::Actors::CreateWithFilesActor,
+       Hyrax::Actors::CollectionsMembershipActor,
        Hyrax::Actors::AddToWorkActor,
-       Hyrax::Actors::AssignRepresentativeActor,
-       Hyrax::Actors::AttachFilesActor,
        Hyrax::Actors::AttachMembersActor,
        Hyrax::Actors::ApplyOrderActor,
        Hyrax::Actors::InterpretVisibilityActor,
        SetEmbargoActor,
        ImportAdminSetActor,
-       Hyrax::ApplyPermissionTemplateActor,
+       Hyrax::Actors::ApplyPermissionTemplateActor,
+       CleanAttributesActor,
        Hyrax::Actors::EtdActor,
        Hyrax::Actors::InitializeWorkflowActor]
     end
@@ -106,21 +103,53 @@ module Importer
       Pathname.new(Dir.tmpdir).join(name)
     end
 
+    ##
+    # Hyrax 2.0 wants to enqueue work attributes into jobs, but we don't
+    # actually want or need that in the importer. Since some attributes can't
+    # be serialized, it's better just to clean thtem out
+    class CleanAttributesActor < Hyrax::Actors::AbstractActor
+      attr_accessor :curation_concern
+
+      def create(env)
+        next_actor.create(env) && clean_attributes!(env.attributes)
+      end
+
+      def clean_attributes!(attributes)
+        attributes.clear
+      end
+    end
+
     class ImportAdminSetActor < Hyrax::Actors::AbstractActor
+      attr_accessor :curation_concern
+
       ##
       # @see Hyrax::AbstractActor#create
       def create(attributes)
+        if attributes.is_a? Hyrax::Actors::Environment
+          env                   = attributes
+          attributes            = env.attributes
+          self.curation_concern = env.curation_concern
+        end
+
         attributes[:admin_set_id] = AdminSet.find_or_create_default_admin_set_id
-        next_actor.create(attributes)
+        next_actor.create(env)
       end
     end
 
     class SetEmbargoActor < Hyrax::Actors::AbstractActor
+      attr_accessor :curation_concern
+
       ##
       # @see Hyrax::AbstractActor#create
       def create(attributes)
+        if attributes.is_a? Hyrax::Actors::Environment
+          env                   = attributes
+          attributes            = env.attributes
+          self.curation_concern = env.curation_concern
+        end
+
         apply_embargo(date: attributes.delete(:embargo_lift_date))
-        next_actor.create(attributes)
+        next_actor.create(env)
       end
 
       private

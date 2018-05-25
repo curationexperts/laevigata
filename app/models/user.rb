@@ -13,7 +13,7 @@ class User < ApplicationRecord
   end
 
   # this is fixing a strange bug, we never store anyone's shibboleth password
-  if Hyrax::CreateWithRemoteFilesActor.needs_attr_accessible?
+  if Hyrax::Actors::CreateWithRemoteFilesActor.needs_attr_accessible?
     attr_reader :password
   end
 

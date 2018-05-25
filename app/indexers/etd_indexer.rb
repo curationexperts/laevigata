@@ -9,4 +9,17 @@ class EtdIndexer < Hyrax::WorkIndexer
     object.committee_members.map(&:name).map(&:to_a).flatten +
       object.committee_chair.map(&:name).map(&:to_a).flatten
   end
+
+  def rdf_service
+    IndexingService
+  end
+
+  class IndexingService < Hyrax::BasicMetadataIndexer
+    self.stored_fields +=
+      [:abstract, :email, :post_graduation_email]
+
+    self.stored_and_facetable_fields +=
+      [:creator, :graduation_year, :table_of_contents, :files_embargoed,
+       :abstract_embargoed, :toc_embargoed]
+  end
 end

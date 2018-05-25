@@ -1,11 +1,9 @@
-<% if @presenter.display_share_button? %>
-  <div class="home_share_work row">
-    <div class="col-sm-12 text-center">
-      <%= link_to new_polymorphic_path([main_app, Etd]),
-            class: 'btn btn-primary' do %>
-        <i class="glyphicon glyphicon-upload"></i> <%= t('hyrax.share_button') %>
-      <% end %>
-      <p><%= link_to t(:'hyrax.pages.tabs.terms_page'), hyrax.terms_path %></p>
-    </div>
+<div class="home_share_work row">
+  <div class="col-sm-12 text-center">
+    <%= link_to new_polymorphic_path([main_app, Etd]),
+        class: 'btn btn-primary' do %>
+    <i class="glyphicon glyphicon-upload"></i> <%= t('hyrax.share_button') %>
+    <% end %>
+    <p><%= link_to t(:'hyrax.pages.tabs.terms_page'), hyrax.terms_path %></p>
   </div>
-<% end %>
+</div>

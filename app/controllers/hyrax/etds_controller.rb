@@ -12,6 +12,10 @@ module Hyrax
 
     helper EtdHelper
 
+    # Overriding `Hyrax::WorksControllerBehavior`, which wants to use the
+    # 'dashboard' theme for all but the show view. Always use the theme instead.
+    with_themed_layout nil
+
     def create
       sanitize_input(params)
       merge_selected_files_hashes(params) if params["selected_files"]

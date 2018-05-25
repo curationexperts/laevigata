@@ -57,7 +57,7 @@ class EtdPresenter < Hyrax::WorkShowPresenter
   end
 
   def formatted_embargo_release_date
-    Date.parse(embargo_release_date).strftime("%d %B %Y")
+    embargo_release_date.strftime("%d %B %Y")
   end
 
   def current_user_roles

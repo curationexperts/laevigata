@@ -5,9 +5,12 @@ require 'workflow_setup'
 
 RSpec.describe Hyrax::Workflow::ApprovedNotification, :clean do
   before do
-    w = WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null")
+    w = WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml",
+                          "#{fixture_path}/config/emory/candler_admin_sets.yml",
+                          "/dev/null")
     w.setup
   end
+
   let(:user) { FactoryBot.create(:user) }
   let(:etd) { FactoryBot.create(:sample_data, depositor: user.user_key, school: ["Candler School of Theology"]) }
   let(:ability) { ::Ability.new(user) }
@@ -15,9 +18,8 @@ RSpec.describe Hyrax::Workflow::ApprovedNotification, :clean do
     { 'to' => [FactoryBot.create(:user), FactoryBot.create(:user)] }
   end
   let(:notification) do
-    attributes_for_actor = { admin_set_id: etd.admin_set.id }
-    actor = Hyrax::CurationConcern.actor(etd, ability)
-    actor.create(attributes_for_actor)
+    env = Hyrax::Actors::Environment.new(etd, ability, admin_set_id: etd.admin_set.id)
+    Hyrax::CurationConcern.actor.create(env)
     work_global_id = etd.to_global_id.to_s
     entity = Sipity::Entity.where(proxy_for_global_id: work_global_id).first
     described_class.new(entity, '', user, recipients)
