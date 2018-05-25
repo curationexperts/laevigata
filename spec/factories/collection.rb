@@ -3,7 +3,8 @@ FactoryBot.define do
     transient do
       user { FactoryBot.create(:user) }
     end
-    sequence(:title) { |n| ["Title #{n}"] }
+    sequence(:title)    { |n| ["Title #{n}"] }
+    collection_type_gid { FactoryBot.create(:collection_type).gid }
 
     after(:build) do |work, evaluator|
       work.apply_depositor_metadata(evaluator.user.user_key)
