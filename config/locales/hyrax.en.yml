@@ -44,6 +44,7 @@ en:
           review: "Review Your Submission"
 
       create:
+        after_create_html: "Thank you for submitting your Thesis or Dissertation. The system will process your files and your school will be notified."
         header: ""
       copyright_question_one_label: "Copyright Question One: ETD Requires Permission"
       copyright_question_two_label: "Copyright Question Two: ETD Contains Copyrighted Material"
