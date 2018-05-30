@@ -12,7 +12,7 @@ Hyrax.workEditor = function() {
       var SaveWorkControl = require('hyrax/save_work/save_work_control')
 
       var EtdEditor = require('etd_editor')
-      new EtdEditor(element)
+      new EtdEditor(element).init();
 
       var aboutMeAndMyProgram = require('about_me_and_my_program')
       new aboutMeAndMyProgram()
