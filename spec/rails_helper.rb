@@ -30,6 +30,7 @@ require 'vcr'
 WebMock.allow_net_connect!
 
 VCR.configure do |config|
+  config.ignore_hosts '127.0.0.1', 'localhost'
   config.cassette_library_dir = "#{::Rails.root}/spec/fixtures/vcr_cassettes"
   config.hook_into :webmock
   config.allow_http_connections_when_no_cassette = true
