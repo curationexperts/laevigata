@@ -94,9 +94,9 @@ RSpec.feature 'Display ETD metadata', :clean do
     expect(page).to have_content I18n.t("hyrax.works.copyright_question_three_label")
 
     # Embargo questions
-    expect(find('li.files_embargoed')).to have_content false
-    expect(find('li.toc_embargoed')).to have_content false
-    expect(find('li.abstract_embargoed')).to have_content false
+    expect(find('li.attribute-files_embargoed')).to have_content false
+    expect(find('li.attribute-toc_embargoed')).to have_content false
+    expect(find('li.attribute-abstract_embargoed')).to have_content false
     expect(page).to have_content "Length of Embargo"
     logout
   end
