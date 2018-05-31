@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :etd do
-    id { ActiveFedora::Noid::Service.new.mint }
+    id { Noid::Rails::Service.new.mint }
     title { [] << FFaker::Book.title }
     visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
 
@@ -32,7 +32,7 @@ FactoryBot.define do
     factory :ateer_etd do
       creator ['Teer, Drew']
       depositor do
-        u = User.new(uid: FFaker::Internet.user_name, ppid: ActiveFedora::Noid::Service.new.mint, display_name: creator.first)
+        u = User.new(uid: FFaker::Internet.user_name, ppid: Noid::Rails::Service.new.mint, display_name: creator.first)
         u.save
         u.user_key
       end
@@ -80,7 +80,7 @@ FactoryBot.define do
         AdminSet.where(title: "Candler School of Theology").first
       end
       depositor do
-        u = User.new(uid: FFaker::Internet.user_name, ppid: ActiveFedora::Noid::Service.new.mint, display_name: creator.first)
+        u = User.new(uid: FFaker::Internet.user_name, ppid: Noid::Rails::Service.new.mint, display_name: creator.first)
         u.save
         u.user_key
       end
