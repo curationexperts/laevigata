@@ -89,9 +89,11 @@ namespace :sample_data do
         upload2 = File.open(file2_path) do |file2|
           Hyrax::UploadedFile.create(user: user, file: file2, pcdm_use: 'supplementary')
         end
-        actor = Hyrax::CurationConcern.actor(etd, ability)
-        attributes_for_actor = { uploaded_files: [upload1.id, upload2.id] }
-        actor.create(attributes_for_actor)
+
+        attributes = { uploaded_files: [upload1.id, upload2.id] }
+        env        = Hyrax::Actors::Environment.new(etd, ability, attributes)
+
+        Hyrax::CurationConcern.actor.create(env)
         puts "Created #{etd.id}"
       end
     end
@@ -131,9 +133,11 @@ namespace :sample_data do
     file2 = File.open("#{::Rails.root}/spec/fixtures/miranda/image.tif")
     upload1 = Hyrax::UploadedFile.create(user: user, file: file1, pcdm_use: 'primary')
     upload2 = Hyrax::UploadedFile.create(user: user, file: file2, pcdm_use: 'supplementary')
-    actor = Hyrax::CurationConcern.actor(etd, ability)
-    attributes_for_actor = { embargo_length: etd.embargo_length, uploaded_files: [upload1.id, upload2.id] }
-    actor.create(attributes_for_actor)
+
+    attributes = { embargo_length: etd.embargo_length, uploaded_files: [upload1.id, upload2.id] }
+    env        = Hyrax::Actors::Environment.new(etd, ability, attributes)
+    Hyrax::CurationConcern.actor.create(env)
+
     approving_user = User.where(ppid: 'candleradmin').first
     subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
     sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
@@ -160,9 +164,11 @@ namespace :sample_data do
         file_type: 'Image'
       )
     }
-    actor = Hyrax::CurationConcern.actor(etd, ability)
-    attributes_for_actor = { uploaded_files: [upload1.id, upload2.id] }
-    actor.create(attributes_for_actor)
+
+    attributes = { uploaded_files: [upload1.id, upload2.id] }
+    env        = Hyrax::Actors::Environment.new(etd, ability, attributes)
+    Hyrax::CurationConcern.actor.create(env)
+
     approving_user = User.where(ppid: 'tezprox').first
     subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
     sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
@@ -208,9 +214,11 @@ namespace :sample_data do
         file_type: 'Software'
       )
     }
-    actor = Hyrax::CurationConcern.actor(etd, ability)
-    attributes_for_actor = { uploaded_files: [upload1.id, upload2.id] }
-    actor.create(attributes_for_actor)
+
+    attributes = { uploaded_files: [upload1.id, upload2.id] }
+    env        = Hyrax::Actors::Environment.new(etd, ability, attributes)
+    Hyrax::CurationConcern.actor.create(env)
+
     etd
   end
 
@@ -236,9 +244,11 @@ namespace :sample_data do
       file2 = File.open("#{::Rails.root}/spec/fixtures/miranda/image.tif")
       upload1 = Hyrax::UploadedFile.create(user: user, file: file1, pcdm_use: 'primary')
       upload2 = Hyrax::UploadedFile.create(user: user, file: file2, pcdm_use: 'supplementary')
-      actor = Hyrax::CurationConcern.actor(etd, ability)
-      attributes_for_actor = { uploaded_files: [upload1.id, upload2.id] }
-      actor.create(attributes_for_actor)
+
+      attributes = { uploaded_files: [upload1.id, upload2.id] }
+      env        = Hyrax::Actors::Environment.new(etd, ability, attributes)
+      Hyrax::CurationConcern.actor.create(env)
+
       subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
       sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
       Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "Preapproved")

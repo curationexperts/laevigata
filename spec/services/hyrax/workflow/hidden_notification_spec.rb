@@ -15,9 +15,9 @@ RSpec.describe Hyrax::Workflow::HiddenNotification, :clean do
     { 'to' => [FactoryBot.create(:user), FactoryBot.create(:user)] }
   end
   let(:notification) do
-    attributes_for_actor = {}
-    actor = Hyrax::CurationConcern.actor(etd, ability)
-    actor.create(attributes_for_actor)
+    env = Hyrax::Actors::Environment.new(etd, ability, {})
+    Hyrax::CurationConcern.actor.create(env)
+
     work_global_id = etd.to_global_id.to_s
     entity = Sipity::Entity.where(proxy_for_global_id: work_global_id).first
     described_class.new(entity, '', user, recipients)

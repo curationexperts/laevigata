@@ -22,9 +22,10 @@ RSpec.feature 'Virus checking', :perform_jobs, :clean, :js do
       class_double("Clamby").as_stubbed_const
       allow(Clamby).to receive(:virus?).and_return(true)
       w.setup
-      actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(depositing_user))
-      attributes_for_actor = { uploaded_files: [upload1.id] }
-      actor.create(attributes_for_actor)
+
+      attributes = { uploaded_files: [upload1.id] }
+      env        = Hyrax::Actors::Environment.new(etd, ::Ability.new(depositing_user), attributes)
+      Hyrax::CurationConcern.actor.create(env)
     end
     scenario "supplemental file with virus" do
       # Check the ETD was assigned the right workflow

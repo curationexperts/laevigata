@@ -20,8 +20,9 @@ RSpec.feature 'Create a Rollins ETD', :perform_jobs, :clean, :js do
     before do
       allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
       w.setup
-      actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(depositing_user))
-      actor.create({})
+
+      env = Hyrax::Actors::Environment.new(etd, ::Ability.new(depositing_user), {})
+      Hyrax::CurationConcern.actor.create(env)
     end
     scenario "Miranda submits a thesis and an approver approves it", js: true do
       expect(etd.active_workflow.name).to eq "emory_one_step_approval"

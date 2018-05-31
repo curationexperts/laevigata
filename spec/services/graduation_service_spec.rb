@@ -11,16 +11,20 @@ describe GraduationService, :clean do
   let(:nongraduated_etd) { FactoryBot.create(:sample_data) }
   before do
     w.setup
+
     # Create and approve the graduated ETD
-    actor = Hyrax::CurationConcern.actor(graduated_etd, ::Ability.new(graduated_user))
-    actor.create({})
+    env = Hyrax::Actors::Environment.new(graduated_etd, ::Ability.new(graduated_user), {})
+    Hyrax::CurationConcern.actor.create(env)
+
     subject = Hyrax::WorkflowActionInfo.new(graduated_etd, approving_user)
     sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
     Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: nil)
     expect(graduated_etd.to_sipity_entity.reload.workflow_state_name).to eq "approved"
+
     # Create and approve the nongraduated ETD
-    actor = Hyrax::CurationConcern.actor(nongraduated_etd, ::Ability.new(nongraduated_user))
-    actor.create({})
+    env = Hyrax::Actors::Environment.new(nongraduated_etd, ::Ability.new(nongraduated_user), {})
+    Hyrax::CurationConcern.actor.create(env)
+
     subject = Hyrax::WorkflowActionInfo.new(nongraduated_etd, approving_user)
     sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
     Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: nil)

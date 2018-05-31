@@ -18,7 +18,8 @@ RSpec.feature 'Dashboard workflow', :clean do
 
   scenario 'approver can approve submitted etd', :perform_jobs do
     allow(CharacterizeJob).to receive(:perform_later) # don't run fits
-    Hyrax::CurationConcern.actor(etd, ::Ability.new(depositing_user)).create({})
+    env = Hyrax::Actors::Environment.new(etd, Ability.new(depositing_user), {})
+    Hyrax::CurationConcern.actor.create(env)
 
     expect(etd.active_workflow.name).to eq 'emory_one_step_approval'
     expect(etd.to_sipity_entity.reload.workflow_state_name).to eq 'pending_approval'

@@ -29,13 +29,15 @@ RSpec.describe Etd, :perform_jobs, :clean do
         )
       end
     end
-    let(:actor) { Hyrax::CurationConcern.actor(etd, ability) }
+    let(:actor) { Hyrax::CurationConcern.actor }
     let(:attributes_for_actor) { { uploaded_files: [upload1.id, upload2.id] } }
     let(:approving_user) { User.where(ppid: 'laneyadmin').first }
+    let(:env) { Hyrax::Actors::Environment.new(etd, ability, attributes_for_actor) }
+
     before do
       allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
       w.setup
-      actor.create(attributes_for_actor)
+      actor.create(env)
       subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
       sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
       Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "Preapproved")
