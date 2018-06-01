@@ -201,21 +201,6 @@ Qa::Authorities::Local.register_subauthority('subjects', 'Qa::Authorities::Local
 Qa::Authorities::Local.register_subauthority('languages', 'Qa::Authorities::Local::TableBasedAuthority')
 Qa::Authorities::Local.register_subauthority('genres', 'Qa::Authorities::Local::TableBasedAuthority')
 
-Hyrax::CurationConcern.class_eval do
-  def self.actor(*args)
-    @work_middleware_stack ||= actor_factory.build(Hyrax::Actors::Terminator.new)
-    return @work_middleware_stack if args.empty?
-
-    warn "[DEPRECATION] calling `CurationConcern.actor` with arguments is " \
-         "deprecated and removed from Hyrax 2.0.0. Pass a " \
-         "`Hyrax::Actors::Environment` to `#create`, `#update` or `#delete` " \
-         "instead.\nCalled from #{Gem.location_of_caller.join(':')}"
-
-    concern, ability = args.take(2)
-    Hyrax::Actors::ActorStack.new(concern, ability, @work_middleware_stack)
-  end
-end
-
 module Hyrax
   module Actors
     class ActorStack
