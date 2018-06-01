@@ -12,7 +12,6 @@ class Etd < ActiveFedora::Base
 
   validates :title, presence: { message: 'Your work must have a title.' }
   validates :research_field, length: { maximum: 3 }
-  self.human_readable_type = 'ETD'
 
   after_initialize :set_defaults, unless: :persisted?
   before_save :set_research_field_ids, :index_committee_chair_name, :index_committee_members_names
