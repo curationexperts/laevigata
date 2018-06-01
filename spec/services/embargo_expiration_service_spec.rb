@@ -2,10 +2,7 @@ require 'rails_helper'
 require 'workflow_setup'
 include Warden::Test::Helpers
 
-describe EmbargoExpirationService do
-  before do
-    Etd.delete_all
-  end
+describe EmbargoExpirationService, :clean do
   context "rake task" do
     let(:expiration_service_instance) { instance_double(described_class) }
     it "sets the default date to today if no value is passed" do
