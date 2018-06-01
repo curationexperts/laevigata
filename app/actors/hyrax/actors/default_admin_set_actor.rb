@@ -10,25 +10,13 @@ module Hyrax
     class DefaultAdminSetActor < Hyrax::Actors::AbstractActor
       attr_accessor :curation_concern
 
-      def create(attributes)
-        if attributes.is_a? Hyrax::Actors::Environment
-          env                   = attributes
-          attributes            = env.attributes
-          self.curation_concern = env.curation_concern
-        end
-
-        ensure_admin_set_attribute!(attributes)
+      def create(env)
+        ensure_admin_set_attribute!(env.attributes)
         next_actor.create(env)
       end
 
-      def update(attributes)
-        if attributes.is_a? Hyrax::Actors::Environment
-          env                   = attributes
-          attributes            = env.attributes
-          self.curation_concern = env.curation_concern
-        end
-
-        ensure_admin_set_attribute!(attributes)
+      def update(env)
+        ensure_admin_set_attribute!(env.attributes)
         next_actor.update(env)
       end
 
