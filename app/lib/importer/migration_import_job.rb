@@ -70,8 +70,9 @@ module Importer
       premis_file.close
       premis_file.unlink
 
-      actor = Hyrax::Actors::ActorStack.new(Etd.new, ::Ability.new(depositor), stack_actors)
-      actor.create(attributes)
+      env   = Hyrax::Actors::Environment.new(Etd.new, ::Ability.new(depositor), attributes)
+      actor = ActorStack.build_stack.build(Hyrax::Actors::Terminator.new)
+      actor.create(env)
 
       info_stream << "INFO: [#{pid}] created."
     rescue Ldp::Error, Faraday::ConnectionFailed => e
@@ -82,21 +83,6 @@ module Importer
     rescue => e
       error_stream << "ERROR: [#{pid}] soft failed, requeueing.\n#{e.class}:\n\t#{e.message}"
       raise e
-    end
-
-    def stack_actors
-      [Hyrax::Actors::CreateWithFilesActor,
-       Hyrax::Actors::CollectionsMembershipActor,
-       Hyrax::Actors::AddToWorkActor,
-       Hyrax::Actors::AttachMembersActor,
-       Hyrax::Actors::ApplyOrderActor,
-       Hyrax::Actors::InterpretVisibilityActor,
-       SetEmbargoActor,
-       ImportAdminSetActor,
-       Hyrax::Actors::ApplyPermissionTemplateActor,
-       CleanAttributesActor,
-       Hyrax::Actors::EtdActor,
-       Hyrax::Actors::InitializeWorkflowActor]
     end
 
     def tmp_path(name)
@@ -166,6 +152,27 @@ module Importer
           return unless curation_concern.embargo
           curation_concern.embargo.save
         end
+    end
+
+    class ActorStack
+      ACTORS = [Hyrax::Actors::CreateWithFilesActor,
+                Hyrax::Actors::CollectionsMembershipActor,
+                Hyrax::Actors::AddToWorkActor,
+                Hyrax::Actors::AttachMembersActor,
+                Hyrax::Actors::ApplyOrderActor,
+                Hyrax::Actors::InterpretVisibilityActor,
+                SetEmbargoActor,
+                ImportAdminSetActor,
+                Hyrax::Actors::ApplyPermissionTemplateActor,
+                CleanAttributesActor,
+                Hyrax::Actors::EtdActor,
+                Hyrax::Actors::InitializeWorkflowActor].freeze
+
+      def self.build_stack
+        ActionDispatch::MiddlewareStack.new.tap do |middleware|
+          ACTORS.each { |actor| middleware.use actor }
+        end
+      end
     end
   end
 end
