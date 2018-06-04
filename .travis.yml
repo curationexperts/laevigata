@@ -1,7 +1,7 @@
 sudo: required
 dist: trusty
 language: ruby
-# cache: bundler
+
 sudo: false
 services:
   - redis-server
@@ -16,11 +16,16 @@ rvm:
   - 2.4.2
 before_script:
   - bundle exec rake db:create
+  - bundle exec rake db:migrate
 script:
   - bundle exec rubocop
   - xvfb-run -a bundle exec rake ci
 env:
-  - QMAKE=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
+  global:
+    - QMAKE=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
+  matrix:
+    - NEW_UI_ENABLED=false
+    - NEW_UI_ENABLED=true
 addons:
   apt:
     packages:
