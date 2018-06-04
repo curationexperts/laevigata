@@ -20,7 +20,9 @@ script:
   - bundle exec rubocop
   - xvfb-run -a bundle exec rake ci
 env:
-  - QMAKE=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
+  global:
+   - NEW_UI_ENABLED=false
+   - QMAKE=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
 addons:
   apt:
     packages:
