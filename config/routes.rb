@@ -28,12 +28,11 @@ Rails.application.routes.draw do
   resources :welcome, only: 'index'
   root 'hyrax/homepage#index'
   # While we work on different UI architecture, keep it in a separate controller, accessible only when the new_ui flip is true (see config/new_ui.yml).
-  if Flipflop.new_ui?
-    get '/concern/etds/new', to: 'hyrax/new_ui#new'
-  else
-    curation_concerns_basic_routes
-  end
-
+  # if Flipflop.new_ui?
+  #   get '/concern/etds/new', to: 'hyrax/new_ui#new'
+  # else
+  #   curation_concerns_basic_routes
+  # end
 
   curation_concerns_embargo_management
   concern :exportable, Blacklight::Routes::Exportable.new
