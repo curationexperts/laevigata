@@ -27,7 +27,13 @@ Rails.application.routes.draw do
   mount Hyrax::Engine, at: '/'
   resources :welcome, only: 'index'
   root 'hyrax/homepage#index'
-  curation_concerns_basic_routes
+  # While we work on different UI architecture, keep it in a separate controller, accessible only when the new_ui flip is true (see config/new_ui.yml).
+  if Flipflop.new_ui?
+    get '/concern/etds/new', to: 'hyrax/new_ui#new'
+  else
+    curation_concerns_basic_routes
+  end
+
   curation_concerns_embargo_management
   concern :exportable, Blacklight::Routes::Exportable.new
 
