@@ -16,6 +16,7 @@ rvm:
   - 2.4.2
 before_script:
   - bundle exec rake db:create
+  - bundle exec rake db:migrate
 script:
   - bundle exec rubocop
   - xvfb-run -a bundle exec rake ci
