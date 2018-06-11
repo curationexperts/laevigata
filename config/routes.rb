@@ -27,7 +27,22 @@ Rails.application.routes.draw do
   mount Hyrax::Engine, at: '/'
   resources :welcome, only: 'index'
   root 'hyrax/homepage#index'
+  # While we work on different UI architecture, keep it in a separate controller, accessible only when the new_ui flip is
+  # true (see config/new_ui.yml).
+
+  # Before db creation during setup of project, we can't check FlipFlop because its tables do not yet exist,
+  # and rake tasks require loading the application, including this file - so rake db:create will fail here. Skip the FlipFlop check # unless the tables it relies on are present.
+
+  if ActiveRecord::Base.connection.data_source_exists? 'hyrax_features'
+    if Flipflop.new_ui?
+      get '/concern/etds/new', to: 'in_progress_etds#new'
+      resources :in_progress_etds
+    else
+      get '/concern/etds/new', to: 'hyrax/etds#new'
+    end
+  end
   curation_concerns_basic_routes
+
   curation_concerns_embargo_management
   concern :exportable, Blacklight::Routes::Exportable.new
 
