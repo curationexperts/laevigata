@@ -30,6 +30,6 @@ class InProgressEtdsController < ApplicationController
   private
 
     def in_progress_etd_params
-      params.require(:in_progress_etd).permit(:name, :email, :graduation_date, :submission_type)
+      params.require(:in_progress_etd).permit(:name, :email, :graduation_date, :submission_type, :department)
     end
 end

@@ -15,7 +15,7 @@ RSpec.feature 'Find or Create an In-progress ETD' do
     fill_in 'Email', with: 'graduate@done.com'
     fill_in 'Graduation date', with: 'Summer 2020'
     fill_in 'Submission type', with: 'Honors Thesis'
-    click_on 'Save'
+    find('input[name="commit"]', match: :first).click
 
     expect(page).to have_content('Your In-Progress ETD')
   end
@@ -27,7 +27,7 @@ RSpec.feature 'Find or Create an In-progress ETD' do
       fill_in 'Email', with: 'graduate@super-done.com'
       fill_in 'Graduation date', with: 'Summer 2022'
       fill_in 'Submission type', with: 'Master Thesis'
-      click_on 'Save'
+      find('input[name="commit"]', match: :first).click
       expect(page).to have_content('Miranda')
 
       visit("/concern/etds/new")
