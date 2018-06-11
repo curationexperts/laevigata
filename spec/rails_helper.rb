@@ -118,6 +118,10 @@ RSpec.configure do |config|
   #   describe "problem test", verify_partial_doubles: false do
   #     ...
   #   end
+  config.around(:each, type: :feature) do
+    ENV["NEW_UI_ENABLED"] = 'false'
+  end
+
   config.before do |example|
     config.mock_with :rspec do |mocks|
       mocks.verify_partial_doubles = example.metadata.fetch(:verify_partial_doubles, true)

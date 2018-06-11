@@ -1,0 +1,24 @@
+<%= form_for @in_progress_etd do |form| %>
+  <ul class='basic_list'>
+    <li>
+      <%= form.label(:name) %>
+      <%= form.text_field(:name) %>
+    </li>
+    <li>
+      <%= form.label(:email) %>
+      <%= form.text_field(:email) %>
+    </li>
+    <li>
+      <!-- TODO: capitalize appropriately -->
+      <%= form.label(:graduation_date) %>
+      <%= form.text_field(:graduation_date) %>
+    </li>
+    <li>
+      <%= form.label(:submission_type) %>
+      <%= form.text_field(:submission_type) %>
+    </li>
+    <li>
+      <%= form.submit('Save') %>
+    </li>
+  </ul>
+<% end %>
