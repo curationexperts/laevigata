@@ -27,7 +27,14 @@ Rails.application.routes.draw do
   mount Hyrax::Engine, at: '/'
   resources :welcome, only: 'index'
   root 'hyrax/homepage#index'
+  # While we work on new UI architecture, keep it accessible only when new_ui is true (see config/new_ui.yml).
+
+  if Rails.application.config_for('new_ui').fetch('enabled', false)
+    resources :in_progress_etds
+  end
+
   curation_concerns_basic_routes
+
   curation_concerns_embargo_management
   concern :exportable, Blacklight::Routes::Exportable.new
 

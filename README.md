@@ -44,6 +44,7 @@ Laevigata depends on certain environment variables being set. In development mod
 * `PROQUEST_SFTP_PASSWORD`
 * `PROQUEST_NOTIFICATION_EMAIL`
 * `REGISTRAR_DATA_PATH` - the file from which to load registrar data (e.g., for graduation status and dates)
+* `NEW_UI_ENABLED` (should be set to default to false in all .env files)
 
 ## Cron jobs in production
 
