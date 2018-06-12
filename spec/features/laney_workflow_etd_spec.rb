@@ -13,9 +13,12 @@ RSpec.feature 'Laney Graduate School two step approval workflow', :perform_jobs,
     before do
       allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
       w.setup
-      actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(depositing_user))
-      actor.create({})
+
+      Hyrax::CurationConcern
+        .actor
+        .create(Hyrax::Actors::Environment.new(etd, ::Ability.new(depositing_user), {}))
     end
+
     scenario "an approver reviews and approves a work" do
       expect(etd.active_workflow.name).to eq "laney_graduate_school"
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "pending_review"

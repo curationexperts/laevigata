@@ -16,8 +16,8 @@ RSpec.feature 'Candler approval workflow', :perform_jobs, :clean do
     before do
       allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
       w.setup
-      actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(depositing_user))
-      actor.create({})
+      env = Hyrax::Actors::Environment.new(etd, Ability.new(depositing_user), {})
+      Hyrax::CurationConcern.actor.create(env)
     end
     scenario "a school approver approves a work" do
       # Check the ETD was assigned the right workflow

@@ -66,9 +66,10 @@ RSpec.feature 'Edit an existing ETD', :perform_jobs, :clean do
     uploaded_etd = File.open(primary_pdf_file) { |file| Hyrax::UploadedFile.create(user: student, file: file, pcdm_use: 'primary') }
     file_ids = [uploaded_etd.id]
 
-    actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(student))
-    attributes_for_actor = { uploaded_files: file_ids }
-    actor.create(attributes_for_actor)
+    attributes = { uploaded_files: file_ids }
+    env        = Hyrax::Actors::Environment.new(etd, ::Ability.new(student), attributes)
+
+    Hyrax::CurationConcern.actor.create(env)
 
     # Approver requests changes, so student will be able to edit the ETD
     change_workflow_status(etd, "request_changes", approver)

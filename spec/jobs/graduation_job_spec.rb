@@ -58,8 +58,9 @@ describe GraduationJob, :clean do
     before do
       allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
       w.setup
-      actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(depositing_user))
-      actor.create({})
+
+      env = Hyrax::Actors::Environment.new(etd, ::Ability.new(depositing_user), {})
+      Hyrax::CurationConcern.actor.create(env)
 
       # The approving user approves the ETD before graduation
       subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)

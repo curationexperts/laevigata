@@ -19,6 +19,7 @@ RSpec.describe Hyrax::Workflow::ReviewedNotification, :clean do
   let(:notification) do
     env = Hyrax::Actors::Environment.new(etd, ability, {})
     Hyrax::CurationConcern.actor.create(env)
+
     work_global_id = etd.to_global_id.to_s
     entity = Sipity::Entity.where(proxy_for_global_id: work_global_id).first
     described_class.new(entity, '', user, recipients)
