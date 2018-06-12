@@ -1,0 +1,21 @@
+<html>
+  <head></head>
+  <body>
+    <h1>Review Your In-Progress ETD</h1>
+    <ul class='basic_list'>
+      <li>
+        Name <%= @in_progress_etd.name %>
+      </li>
+      <li>
+        Email <%= @in_progress_etd.email %>
+      </li>
+      <li>
+        Graduation Date <%= @in_progress_etd.graduation_date %>
+      </li>
+      <li>
+        Submission Type <%= @in_progress_etd.submission_type %>
+      </li>
+    </ul>
+    <%= link_to('Edit', edit_in_progress_etd_path(@in_progress_etd.id)) %>
+  </body>
+</html>
