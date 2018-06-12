@@ -1,7 +1,7 @@
 sudo: required
 dist: trusty
 language: ruby
-# cache: bundler
+
 sudo: false
 services:
   - redis-server
@@ -20,7 +20,11 @@ script:
   - bundle exec rubocop
   - xvfb-run -a bundle exec rake ci
 env:
-  - QMAKE=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
+  global:
+    - QMAKE=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
+  matrix:
+    - NEW_UI_ENABLED=false
+    - NEW_UI_ENABLED=true
 addons:
   apt:
     packages:
