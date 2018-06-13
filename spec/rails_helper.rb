@@ -23,6 +23,7 @@ require 'capybara/rails'
 require 'capybara-screenshot/rspec'
 require 'capybara/webkit'
 require 'database_cleaner'
+require 'noid/rails/rspec'
 require 'ffaker'
 require 'webmock/rspec'
 require 'vcr'
@@ -58,14 +59,21 @@ Shoulda::Matchers.configure do |config|
 end
 
 RSpec.configure do |config|
+  include Noid::Rails::RSpec
+
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   ENV['REGISTRAR_DATA_PATH'] = "#{::Rails.root}/spec/fixtures/registrar_sample.json"
   config.use_transactional_fixtures = false
   config.infer_spec_type_from_file_location!
 
   config.before :suite do
+    disable_production_minter!
     DatabaseCleaner.clean_with(:truncation)
     ActiveFedora::Cleaner.clean!
+  end
+
+  config.after :suite do
+    enable_production_minter!
   end
 
   config.before clean: true do
