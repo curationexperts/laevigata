@@ -18,6 +18,10 @@ or cherokee rose is the <a href="https://georgia.gov/georgia-facts-and-symbols">
 </td></tr>
 </table>
 
+## Environment variables in development
+
+See the [dotenv sample file](dotenv.sample) for environment variables you may need to set in your development environment.
+
 ## Environment variables in production
 Laevigata depends on certain environment variables being set. In development mode, these can be set via a `.env` file. You can see an example in `dotenv.sample`. See also [the dotenv project](https://github.com/bkeepers/dotenv) for more details about how this works.  In production, values are set in a file called `.env.production`. Expected values include:
 * `BOX_EXPIRY_TIME_IN_MINTUTES` - minutes before box upload links will expire, defaults to 360
