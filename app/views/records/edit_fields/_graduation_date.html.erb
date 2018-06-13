@@ -1,5 +1,6 @@
-<% graduationdate_service = GraduationdateService.new %>
+<% graduation_date_service = GraduationdateService.new %>
 <%= f.input :graduation_date, label: "Graduation Date",
   as: :select, required: true,
-  collection: graduationdate_service.select_all_options,
+  collection: graduation_date_service.select_active_options,
+  item_helper: graduation_date_service.method(:include_current_value),
   input_html: { class: 'form-control' } %>
