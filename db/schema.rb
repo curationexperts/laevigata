@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180524202322) do
+ActiveRecord::Schema.define(version: 20180606164027) do
 
   create_table "bookmarks", force: :cascade do |t|
     t.integer  "user_id",       null: false
@@ -141,6 +141,16 @@ ActiveRecord::Schema.define(version: 20180524202322) do
     t.boolean  "enabled",    default: false, null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+  end
+
+  create_table "in_progress_etds", force: :cascade do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "graduation_date"
+    t.string   "submission_type"
+    t.string   "user_ppid"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "job_io_wrappers", force: :cascade do |t|
