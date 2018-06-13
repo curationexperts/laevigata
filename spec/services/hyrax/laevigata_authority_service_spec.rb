@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Hyrax::LaevigataAuthorityService do
+  subject(:select_service) { described_class.new('graduation_dates') }
+
   describe '.for' do
     it 'raises an error if no arguments are passed' do
       expect { described_class.for }.to raise_error ArgumentError
@@ -49,6 +51,26 @@ RSpec.describe Hyrax::LaevigataAuthorityService do
         expect(described_class.for(department: 'Executive Masters of Public Health - MPH'))
           .to be_a Hyrax::ExecutiveService
       end
+    end
+  end
+
+  describe '#include_current_value' do
+    let(:render_opts) { [] }
+    let(:html_opts)   { { class: 'moomin' } }
+
+    it 'adds an inactive current value' do
+      expect(select_service.include_current_value('2009', :idx, render_opts, html_opts))
+        .to eq [[['2009', '2009']], { class: 'moomin force-select' }]
+    end
+
+    it 'does not add an empty/missing value' do
+      expect(select_service.include_current_value('', :idx, render_opts, html_opts))
+        .to eq [render_opts, html_opts]
+    end
+
+    it 'does not add an active current value' do
+      expect(select_service.include_current_value('Spring 2019', :idx, render_opts.dup, html_opts.dup))
+        .to eq [render_opts, html_opts]
     end
   end
 end
