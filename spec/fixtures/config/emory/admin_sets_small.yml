@@ -1,0 +1,23 @@
+Laney Graduate School:
+  workflow:
+   - laney_graduate_school
+  approving:
+   - laneyadmin
+   - laneyadmin2
+Emory College:
+  approving:
+   - ecadmin
+   - ecadmin2
+Candler School of Theology:
+  approving:
+   - candleradmin
+   - candleradmin2
+Applied Epidemiology:
+  approving:
+   - applied_epidemiology_admin
+Biostatistics:
+  approving:
+   - biostatistics_admin
+Epidemiology:
+  approving:
+   - epidemiology_admin
