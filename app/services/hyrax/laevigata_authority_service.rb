@@ -80,11 +80,23 @@ module Hyrax
     end
 
     def active?(id)
-      authority.find(id).fetch('active', true)
+      authority.find(id)&.fetch('active', true)
     end
 
     def active_elements
       authority.all.select { |e| e.fetch('active', true) }
+    end
+
+    def include_current_value(value, _index, render_options, html_options)
+      warn "#{self.class}##{__method__} has been implemented in Hyrax and can be removed." if
+        method(__method__).super_method
+
+      unless active?(value)
+        html_options[:class] << ' force-select'
+        render_options += [[label(value) { value }, value]]
+      end
+
+      [render_options, html_options]
     end
   end
 end
