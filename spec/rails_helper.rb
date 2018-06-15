@@ -119,6 +119,31 @@ RSpec.configure do |config|
   config.include Warden::Test::Helpers, type: :feature
   config.after(:each, type: :feature) { Warden.test_reset! }
 
+  # get this value once, then check variable in each test
+  new_ui = false
+  %i[feature view].each do
+    config.before(:all) do
+      new_ui = Rails.application.config_for(:new_ui).fetch('enabled', false)
+    end
+  end
+
+  # because we need to negate with skip, these conditionals are a little awkward, but they do control the flow correctly.
+  # this is the flow we want:
+  # when env new_ui is true, only run tests tagged new_ui
+  # when env new_ui is false, only run tests without new_ui tag
+
+  config.before(:each, type: :feature) do |example|
+    if new_ui
+      skip('Hyrax Feature tests do not run when NEW_UI_ENABLED') unless example.metadata[:new_ui]
+    end
+
+    skip("New UI Feature tests run only when NEW_UI_ENABLED") if !new_ui && example.metadata[:new_ui]
+  end
+
+  config.before(:all, type: :view) do
+    skip("View tests run only when NEW_UI_ENABLED") unless new_ui
+  end
+
   # Gets around a bug in RSpec where helper methods that are defined in views aren't
   # getting scoped correctly and RSpec returns "does not implement" errors. So we
   # can disable verify_partial_doubles if a particular test is giving us problems.
@@ -126,15 +151,6 @@ RSpec.configure do |config|
   #   describe "problem test", verify_partial_doubles: false do
   #     ...
   #   end
-
-  config.around(:each, type: :feature) do
-    ENV["NEW_UI_ENABLED"] = 'false'
-  end
-
-  config.before(:all, type: :view) do
-    skip("View tests run only when NEW_UI_ENABLED") if ENV["NEW_UI_ENABLED"] == 'false'
-  end
-
   config.before do |example|
     config.mock_with :rspec do |mocks|
       mocks.verify_partial_doubles = example.metadata.fetch(:verify_partial_doubles, true)
