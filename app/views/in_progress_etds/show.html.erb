@@ -1,7 +1,7 @@
 <html>
   <head></head>
   <body>
-    <h1>Your In-Progress ETD</h1>
+    <h1>Review Your In-Progress ETD</h1>
     <ul class='basic_list'>
       <li>
         Name <%= @in_progress_etd.name %>
@@ -14,6 +14,9 @@
       </li>
       <li>
         Submission Type <%= @in_progress_etd.submission_type %>
+      </li>
+      <li>
+        Department <%= @in_progress_etd.department %>
       </li>
     </ul>
     <%= link_to('Edit', edit_in_progress_etd_path(@in_progress_etd)) %>

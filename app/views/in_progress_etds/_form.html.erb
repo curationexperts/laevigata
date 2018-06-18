@@ -18,6 +18,20 @@
       <%= form.text_field(:submission_type) %>
     </li>
     <li>
+      <%= hidden_field(:in_progress_etd, :tab, value: 'student') %>
+      <%= form.submit('Save') %>
+    </li>
+  </ul>
+<% end %>
+
+<%= form_for @in_progress_etd do |form| %>
+  <ul class='basic_list'>
+    <li>
+      <%= form.label(:department) %>
+      <%= form.text_field(:department) %>
+    </li>
+    <li>
+      <%= hidden_field(:in_progress_etd, :tab, value: 'program') %>
       <%= form.submit('Save') %>
     </li>
   </ul>
