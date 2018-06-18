@@ -4,6 +4,10 @@ FactoryBot.define do
     title { [] << FFaker::Book.title }
     visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
 
+    transient do
+      user { nil }
+    end
+
     factory :etd_with_toc do
       table_of_contents { [] << FFaker::Lorem.paragraph }
     end

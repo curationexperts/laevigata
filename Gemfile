@@ -70,6 +70,7 @@ group :development, :test do
   # gem 'factory_girl_rails'
   gem 'fcrepo_wrapper'
   # gem 'ffaker'
+  gem 'hyrax-spec'
   gem 'jasmine' # Needed for testing forms
   gem 'launchy'
   gem 'rails-controller-testing'
