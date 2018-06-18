@@ -103,6 +103,27 @@ RSpec.configure do |config|
     ActiveJob::Base.queue_adapter.perform_enqueued_jobs = false
   end
 
+  config.before(:example, :workflow) do |example|
+    DatabaseCleaner.clean
+    ActiveFedora::Cleaner.clean!
+
+    workflow_settings = example.metadata[:workflow].try(:to_h) || {}
+    workflow_settings = { superusers_config: "#{fixture_path}/config/emory/superusers.yml",
+                          admin_sets_config: "#{fixture_path}/config/emory/ec_admin_sets.yml",
+                          log_location:      "/dev/null" }.merge(workflow_settings)
+
+    setup_args = [workflow_settings[:superusers_config],
+                  workflow_settings[:admin_sets_config],
+                  workflow_settings[:log_location]]
+
+    WorkflowSetup.new(*setup_args).setup
+  end
+
+  config.after(:example, :workflow) do |example|
+    DatabaseCleaner.clean
+    ActiveFedora::Cleaner.clean!
+  end
+
   config.before do
     DatabaseCleaner.start
     class_double("Clamby").as_stubbed_const
