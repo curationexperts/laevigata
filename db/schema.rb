@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180612210823) do
+ActiveRecord::Schema.define(version: 20180620152733) do
 
   create_table "bookmarks", force: :cascade do |t|
     t.integer  "user_id",       null: false
@@ -155,6 +155,7 @@ ActiveRecord::Schema.define(version: 20180612210823) do
     t.string   "degree"
     t.string   "subfield"
     t.string   "partnering_agency"
+    t.string   "data"
   end
 
   create_table "job_io_wrappers", force: :cascade do |t|
