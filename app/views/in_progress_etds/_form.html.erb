@@ -1,38 +1,13 @@
-<%= form_for @in_progress_etd do |form| %>
+<%= form_tag("/in_progress_etds", method: "post") do %>
   <ul class='basic_list'>
+    <% Hyrax::EtdForm.terms.each do |term| %>
+      <li>
+        <%= label_tag(term) %>
+        <%= text_field_tag(term) %>
+      </li>
+    <% end %>
     <li>
-      <%= form.label(:name) %>
-      <%= form.text_field(:name) %>
-    </li>
-    <li>
-      <%= form.label(:email) %>
-      <%= form.text_field(:email) %>
-    </li>
-    <li>
-      <!-- TODO: capitalize appropriately -->
-      <%= form.label(:graduation_date) %>
-      <%= form.text_field(:graduation_date) %>
-    </li>
-    <li>
-      <%= form.label(:submission_type) %>
-      <%= form.text_field(:submission_type) %>
-    </li>
-    <li>
-      <%= hidden_field(:in_progress_etd, :tab, value: 'student') %>
-      <%= form.submit('Save') %>
-    </li>
-  </ul>
-<% end %>
-
-<%= form_for @in_progress_etd do |form| %>
-  <ul class='basic_list'>
-    <li>
-      <%= form.label(:department) %>
-      <%= form.text_field(:department) %>
-    </li>
-    <li>
-      <%= hidden_field(:in_progress_etd, :tab, value: 'program') %>
-      <%= form.submit('Save') %>
+      <%= submit_tag('Save') %>
     </li>
   </ul>
 <% end %>
