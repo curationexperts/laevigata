@@ -79,6 +79,9 @@ describe EmbargoExpirationService, :clean do
   context "#expire_embargoes" do
     let(:etd) { FactoryBot.create(:tomorrow_expiration) }
     let(:service) { described_class.new(Time.zone.tomorrow) }
+
+    before { etd.embargo_visibility! }
+
     it "removes the embargo for each object whose expiration date has been reached" do
       expect(etd.embargo_release_date).to eq(Time.zone.tomorrow)
       expect(etd.under_embargo?).to eq true
@@ -90,6 +93,25 @@ describe EmbargoExpirationService, :clean do
       # Visibility during embargo was authenticated and intended visibility after embargo was open"
       expect(etd.embargo_history.last).to match(/deactivated/)
       expect(etd.under_embargo?).to eq false
+    end
+
+    it "changes the embargo permissions" do
+      expect { service.expire_embargoes }
+        .to change { etd.reload.visibility }
+        .from(etd.visibility_during_embargo)
+        .to(etd.visibility_after_embargo)
+    end
+
+    context "when the embargo is not expired" do
+      let(:service) { described_class.new(Time.zone.now + 2.days) }
+
+      it 'does not deactivate embargo' do
+        expect { service.expire_embargoes }
+          .not_to change { etd.visibility }
+          .from(etd.visibility_during_embargo)
+
+        expect(etd.under_embargo?).to be_truthy
+      end
     end
   end
 
