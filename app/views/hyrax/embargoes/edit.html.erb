@@ -31,7 +31,6 @@
         <div class="col-md-12 form-actions">
           <% if curation_concern.embargo_release_date %>
             <%= f.submit t('.embargo_update'), class: 'btn btn-primary' %>
-            <%= link_to t('.embargo_deactivate'), embargo_path(curation_concern), method: :delete, class: 'btn btn-danger' %>
           <% else %>
             <%= f.submit t('.embargo_apply'), class: 'btn btn-primary' %>
           <% end %>
