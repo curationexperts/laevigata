@@ -1,31 +1,34 @@
 module EtdHelper
+  mattr_accessor :curation_concern
+  self.curation_concern = @curation_concern ||= curation_concern
+
   def school_determined_departments(f)
     # if you are in a 'new' state, collection will be supplied by js so disable field, nothing selected
-    if curation_concern.new_record?
+    if @curation_concern.new_record?
       f.input :department, department_form_opts(disabled: true)
     else
-      f.input :department, department_form_opts(disabled: false).merge(collection: departments(curation_concern[:school].first), selected: curation_concern[:department].first)
+      f.input :department, department_form_opts(disabled: false).merge(collection: departments(@curation_concern[:school].first), selected: @curation_concern[:department].first)
     end
   end
 
   def department_determined_subfields(f)
     # a 'new' state, nothing is selected and disable subfields
-    if curation_concern.new_record? || curation_concern['subfield'].empty?
+    if @curation_concern.new_record? || curation_concern['subfield'].empty?
 
       f.input :subfield, subfield_form_opts(disabled: true)
 
     else
-      f.input :subfield, subfield_form_opts(disabled: false).merge(collection: subfields(curation_concern[:department].first), selected: curation_concern[:subfield].first)
+      f.input :subfield, subfield_form_opts(disabled: false).merge(collection: subfields(@curation_concern[:department].first), selected: @curation_concern[:subfield].first)
     end
   end
 
   def partnering_agency(f)
-    if curation_concern.new_record?
+    if @curation_concern.new_record?
       f.input :partnering_agency,
               partnering_agency_form_opts
     else
       f.input :partnering_agency, partnering_agency_form_opts.merge(
-        selected: curation_concern[:partnering_agency].first
+        selected: @curation_concern[:partnering_agency].first
       )
     end
   end

@@ -1,15 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe 'in_progress_etds/new.html.erb', type: :view do
-  let(:in_progress_etd) { FactoryBot.create(:in_progress_etd) }
-
+  let(:user) { FactoryBot.create(:user) }
+  let(:etd) { Etd.new }
+  let(:form) { Hyrax::EtdForm.new(etd, ::Ability.new(user), Hyrax::EtdsController) }
   before do
-    assign(:in_progress_etd, in_progress_etd)
+    assign(:form, form)
+    assign(:curation_concern, etd)
     render
   end
 
   it 'contains a form to create a new in_progress_etd' do
-    pending
-    expect(rendered).to have_selector("form[action='/in_progress_etds/1']")
+    expect(rendered).to have_selector("form[action='/in_progress_etds']")
   end
 end

@@ -1,10 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe 'in_progress_etds/_form.html.erb', type: :view do
-  let(:in_progress_etd) { FactoryBot.create(:in_progress_etd) }
+  let(:user) { FactoryBot.create(:user) }
+  let(:etd) { Etd.new }
+  let(:form) { Hyrax::EtdForm.new(etd, ::Ability.new(user), Hyrax::EtdsController) }
   let(:inputs) { Hyrax::EtdForm.terms }
   before do
-    assign(:in_progress_etd, in_progress_etd)
+    assign(:form, form)
+    assign(:curation_concern, etd)
     render
   end
 
