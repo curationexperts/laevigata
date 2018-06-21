@@ -90,6 +90,7 @@ class EmbargoExpirationService
     expirations = find_expirations(0)
     expirations.each do |expiration|
       Rails.logger.warn "ETD #{expiration.id}: Expiring embargo"
+      expiration.visibility = expiration.visibility_after_embargo if expiration.visibility_after_embargo
       expiration.deactivate_embargo!
       expiration.embargo.save
       expiration.save
