@@ -1,15 +1,11 @@
 class InProgressEtdsController < ApplicationController
   def new
     @in_progress_etd = InProgressEtd.find_or_create_by(user_ppid: current_user.id)
-    @form = Hyrax::EtdForm.new(Etd.new, current_user.ability, Hyrax::EtdsController)
-    @curation_concern = Etd.new
-
-    # Showing the form that we get from Hyrax::EtdForm
   end
 
   def create
     @in_progress_etd = InProgressEtd.new
-    @in_progress_etd.data = params['etd'].to_json
+    @in_progress_etd.data = sanitize_params.to_json
     @in_progress_etd.save
     redirect_to @in_progress_etd
   end
@@ -33,6 +29,12 @@ class InProgressEtdsController < ApplicationController
   end
 
   private
+
+    def sanitize_params
+      params["in_progress_etd"].each do |field|
+        params["in_progress_etd"][field.to_s] = Array.wrap(params["in_progress_etd"][field.to_s])
+      end
+    end
 
     def in_progress_etd_params
       params.permit(Hyrax::EtdForm.terms)
