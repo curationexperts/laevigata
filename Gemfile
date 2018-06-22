@@ -32,7 +32,7 @@ gem 'okcomputer'
 gem 'omniauth-shibboleth', '~> 1.2', '>= 1.2.1'
 gem 'pg', '~> 0.21'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.2'
+gem 'rails', '~> 5.1'
 gem 'rsolr', '~> 1.0'
 gem 'rubyzip'
 gem 'sanitize', '~> 4.6', '>= 4.6.3'
@@ -91,6 +91,8 @@ group :development do
   gem 'capistrano-rails'
   gem 'capistrano-sidekiq', '~> 0.20.0'
   gem 'listen', '~> 3.0.5'
+  gem 'pry'
+  gem 'pry-byebug'
   # Spring speeds up development by keeping your application running in the
   # background. Read more: https://github.com/rails/spring
   gem 'spring'
