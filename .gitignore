@@ -40,3 +40,8 @@ coverage
 .env
 .env.development
 .env.production
+/public/packs
+/public/packs-test
+/node_modules
+yarn-debug.log*
+.yarn-integrity

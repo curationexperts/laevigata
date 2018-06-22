@@ -50,6 +50,7 @@ gem 'twitter-bootstrap-rails'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
+gem 'webpacker', '~> 3.5'
 gem 'whenever', require: false
 gem 'xray-rails'
 gem 'yard'
