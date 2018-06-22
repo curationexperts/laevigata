@@ -206,10 +206,12 @@ Hyrax::CurationConcern.class_eval do
     @work_middleware_stack ||= actor_factory.build(Hyrax::Actors::Terminator.new)
     return @work_middleware_stack if args.empty?
 
-    warn "[DEPRECATION] calling `CurationConcern.actor` with arguments is " \
+    unless continuous_integration?
+      warn "[DEPRECATION] calling `CurationConcern.actor` with arguments is " \
          "deprecated and removed from Hyrax 2.0.0. Pass a " \
          "`Hyrax::Actors::Environment` to `#create`, `#update` or `#delete` " \
          "instead.\nCalled from #{Gem.location_of_caller.join(':')}"
+    end
 
     concern, ability = args.take(2)
     Hyrax::Actors::ActorStack.new(concern, ability, @work_middleware_stack)
@@ -220,11 +222,12 @@ module Hyrax
   module Actors
     class ActorStack
       def initialize(work, ability, actor)
-        warn "[DEPRECATION] caling `Hyrax::Actors::ActorStack` is deprecated " \
+        unless continuous_integration?
+          warn "[DEPRECATION] calling `Hyrax::Actors::ActorStack` is deprecated " \
              "and removed from from Hyrax 2.0.0. Use " \
              "`Hyrax::DefaultMiddlewareStack` instead.\n " \
              "Called from #{Gem.location_of_caller.join(':')}"
-
+        end
         @ability = ability
         @actor   = actor
         @work    = work
