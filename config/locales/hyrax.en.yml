@@ -56,4 +56,4 @@ en:
     upload:
       browse_everything:
         browse_files_button: "Upload via Box"
-      cloud_timeout_message_html: "For PDFs 100MB or larger, we recommend uploading via your Emory Box account. You will be asked to log into Box. If you have a file larger than 2.5 GB, contact the ETD team at <a href='mailto:etd-help@LISTSERV.CC.EMORY.EDU'>etd-help@LISTSERV.CC.EMORY.EDU</a> for help."
+      cloud_timeout_message_html: "For PDFs 100MB or larger, we recommend uploading via your Emory Box account. You will be asked to log into Box. If you have a file larger than 2.5 GB, contact the ETD team using the <a href='http://sco.library.emory.edu/etds/help-form.html'>Help Form</a>."
