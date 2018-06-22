@@ -4,8 +4,11 @@ include Warden::Test::Helpers
 
 RSpec.feature 'Dashboard workflow', :clean do
   let(:approving_user)  { User.find_by(uid: "candleradmin") }
-  let(:depositing_user) { User.find_by(ppid: etd.depositor) }
-  let(:etd)             { create(:sample_data, school: ["Candler School of Theology"]) }
+  let(:depositing_user) { FactoryBot.create(:user) }
+
+  let(:etd) do
+    FactoryBot.actor_create(:sample_data, school: ["Candler School of Theology"], user: depositing_user)
+  end
 
   before do
     WorkflowSetup
@@ -17,9 +20,6 @@ RSpec.feature 'Dashboard workflow', :clean do
   end
 
   scenario 'approver can approve submitted etd', :perform_jobs do
-    allow(CharacterizeJob).to receive(:perform_later) # don't run fits
-    Hyrax::CurationConcern.actor(etd, ::Ability.new(depositing_user)).create({})
-
     expect(etd.active_workflow.name).to eq 'emory_one_step_approval'
     expect(etd.to_sipity_entity.reload.workflow_state_name).to eq 'pending_approval'
 

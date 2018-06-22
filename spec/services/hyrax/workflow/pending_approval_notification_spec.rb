@@ -10,11 +10,12 @@ RSpec.describe Hyrax::Workflow::PendingApprovalNotification, :clean do
   end
   let(:user) { FactoryBot.create(:user) }
   let(:etd) do
-    FactoryBot.create(
+    FactoryBot.actor_create(
       :sample_data,
       title: ["Grant Proposal for a socio-ecological approach, using community-based engagement principles and green infrastructure, to reduce magnitude and improve quality of storm water runoff entering storm drains in the Sandtown-Winchester/Harlem Park neighborhood, Baltimore City, Maryland"],
       depositor: user.user_key,
-      school: ["Candler School of Theology"]
+      school: ["Candler School of Theology"],
+      user: user
     )
   end
   let(:ability) { ::Ability.new(user) }
@@ -22,9 +23,6 @@ RSpec.describe Hyrax::Workflow::PendingApprovalNotification, :clean do
     { 'to' => [FactoryBot.create(:user), FactoryBot.create(:user)] }
   end
   let(:notification) do
-    attributes_for_actor = {}
-    actor = Hyrax::CurationConcern.actor(etd, ability)
-    actor.create(attributes_for_actor)
     work_global_id = etd.to_global_id.to_s
     entity = Sipity::Entity.where(proxy_for_global_id: work_global_id).first
     described_class.new(entity, '', user, recipients)

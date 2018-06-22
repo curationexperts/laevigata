@@ -5,24 +5,22 @@ require 'workflow_setup'
 include Warden::Test::Helpers
 
 RSpec.feature 'Create a Rollins ETD', :perform_jobs, :clean, :js do
-  let(:depositing_user) { User.where(ppid: etd.depositor).first }
+  let(:depositing_user) { FactoryBot.create(:user) }
   let(:approving_user) { User.where(uid: "epidemiology_admin").first }
   let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/epidemiology_admin_sets.yml", "/dev/null") }
   let(:etd) do
-    FactoryBot.create(
+    FactoryBot.actor_create(
       :sample_data,
       title: ["Grant Proposal for a socio-ecological approach, using community-based engagement principles and green infrastructure, to reduce magnitude and improve quality of storm water runoff entering storm drains in the Sandtown-Winchester/Harlem Park neighborhood, Baltimore City, Maryland"],
       school: ["Rollins School of Public Health"],
-      department: ["Epidemiology"]
+      department: ["Epidemiology"],
+      user: depositing_user
     )
   end
+
   context 'a logged in user' do
-    before do
-      allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
-      w.setup
-      actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(depositing_user))
-      actor.create({})
-    end
+    before { w.setup }
+
     scenario "Miranda submits a thesis and an approver approves it", js: true do
       expect(etd.active_workflow.name).to eq "emory_one_step_approval"
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "pending_approval"

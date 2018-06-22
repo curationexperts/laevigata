@@ -52,14 +52,12 @@ describe GraduationJob, :clean do
   end
   context "workflow transition" do
     let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
-    let(:etd) { FactoryBot.create(:sample_data, school: ["Emory College"]) }
-    let(:depositing_user) { User.where(ppid: etd.depositor).first }
+    let(:etd) { FactoryBot.actor_create(:sample_data, school: ["Emory College"], user: depositing_user) }
+    let(:depositing_user) { FactoryBot.create(:user) }
     let(:approving_user) { User.where(uid: "ecadmin").first }
+
     before do
-      allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
       w.setup
-      actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(depositing_user))
-      actor.create({})
 
       # The approving user approves the ETD before graduation
       subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
@@ -67,6 +65,7 @@ describe GraduationJob, :clean do
       Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: nil)
       described_class.perform_now(etd.id, Time.zone.today)
     end
+
     it "transitions the object's workflow to 'graduated' and makes it active (visible)" do
       etd.reload
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "published"
