@@ -91,11 +91,14 @@ add the email address to the list in `config/emory/do_not_send.yml`
 1. Start redis
     `redis-server &`
     *note:* use ` &` to start in the background, or run redis in a new terminal session
+1. Setup environment variables for your development environment: 
+    `cp dotenv.sample .env.development`, 
+    see the [Environment variables in development](#environment-variables-in-development) section for more details
 1. Read the section on 'Database Authentication' below and decide if you want to set up your environment for database authentication.
 1. Start the demo server in its own terminal session
     `bin/rails hydra:server`
 1. Start the webpack dev server
-   `webpack-dev-server`
+   `bin/webpack-dev-server`
 1. Run the first time setup script
     `bin/setup`
 1. Run the test suite
