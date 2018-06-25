@@ -1,9 +1,12 @@
 {
   "dependencies": {
     "@rails/webpacker": "3.5",
+    "axios": "^0.18.0",
     "vue": "^2.5.16",
+    "vue-axios": "^2.1.1",
     "vue-loader": "14.2.2",
-    "vue-template-compiler": "^2.5.16"
+    "vue-template-compiler": "^2.5.16",
+    "vue-turbolinks": "^2.0.3"
   },
   "devDependencies": {
     "webpack-dev-server": "2.11.2"
