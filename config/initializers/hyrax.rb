@@ -201,6 +201,16 @@ Qa::Authorities::Local.register_subauthority('subjects', 'Qa::Authorities::Local
 Qa::Authorities::Local.register_subauthority('languages', 'Qa::Authorities::Local::TableBasedAuthority')
 Qa::Authorities::Local.register_subauthority('genres', 'Qa::Authorities::Local::TableBasedAuthority')
 
+Hyrax::EmbargoPresenter.class_eval do
+  def sortable_release_date
+    return solr_document.embargo_release_date&.iso8601 unless
+      method(__method__).super_method
+
+    warn "#{self.class}##{__method__} has been implemented in Hyrax and can be removed."
+    super
+  end
+end
+
 Hyrax::CurationConcern.class_eval do
   def self.actor(*args)
     @work_middleware_stack ||= actor_factory.build(Hyrax::Actors::Terminator.new)
