@@ -12,14 +12,17 @@ RSpec.describe Hyrax::Workflow::ApprovedNotification, :clean do
   end
 
   let(:user) { FactoryBot.create(:user) }
-  let(:etd) { FactoryBot.create(:sample_data, depositor: user.user_key, school: ["Candler School of Theology"]) }
   let(:ability) { ::Ability.new(user) }
+
+  let(:etd) do
+    FactoryBot.actor_create(:sample_data, depositor: user.user_key, school: ["Candler School of Theology"], user: user)
+  end
+
   let(:recipients) do
     { 'to' => [FactoryBot.create(:user), FactoryBot.create(:user)] }
   end
+
   let(:notification) do
-    env = Hyrax::Actors::Environment.new(etd, ability, admin_set_id: etd.admin_set.id)
-    Hyrax::CurationConcern.actor.create(env)
     work_global_id = etd.to_global_id.to_s
     entity = Sipity::Entity.where(proxy_for_global_id: work_global_id).first
     described_class.new(entity, '', user, recipients)

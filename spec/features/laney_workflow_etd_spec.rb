@@ -5,17 +5,14 @@ require 'workflow_setup'
 include Warden::Test::Helpers
 
 RSpec.feature 'Laney Graduate School two step approval workflow', :perform_jobs, :clean, :js do
-  let(:depositing_user) { User.where(ppid: etd.depositor).first }
+  let(:depositing_user) { FactoryBot.create(:user) }
   let(:approving_user) { User.where(uid: "laneyadmin").first }
   let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/laney_admin_sets.yml", "/dev/null") }
-  let(:etd) { FactoryBot.create(:sample_data, school: ["Laney Graduate School"]) }
+  let(:etd) { FactoryBot.actor_create(:sample_data, school: ["Laney Graduate School"], user: depositing_user) }
+
   context 'a logged in user' do
-    before do
-      allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
-      w.setup
-      actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(depositing_user))
-      actor.create({})
-    end
+    before { w.setup }
+
     scenario "an approver reviews and approves a work" do
       expect(etd.active_workflow.name).to eq "laney_graduate_school"
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "pending_review"
