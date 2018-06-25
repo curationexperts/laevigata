@@ -9,6 +9,7 @@ AllCops:
     - 'vendor/**/*'
     - 'tmp/**/*'
     - 'config/initializers/explain_partials.rb'
+    - 'node_modules/**/*'
 
 # BEGIN; Disabled in move to 2.3 sytax linter
 Style/FrozenStringLiteralComment:
@@ -75,7 +76,7 @@ Rails/FindBy:
 
 RSpec/ExampleLength:
   Enabled: false
-  
+
 RSpec/MessageSpies:
   Exclude:
     - 'spec/controllers/hyrax/admin/workflows_controller_spec.rb'
