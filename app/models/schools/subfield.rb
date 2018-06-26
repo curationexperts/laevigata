@@ -25,21 +25,5 @@ module Schools
       qa_terms = department_service.active_elements.find { |subfield| subfield['id'] == id } || {}
       @label = qa_terms[:label]
     end
-
-    delegate :all_admin_sets, to: :school
-    delegate :as_chooser, to: :school
-
-    # @return [AdminSet] The AdminSet for this subfield (if it has one)
-    def admin_set
-      # Some AdminSets are determined by school or
-      # department, not subfield.
-      return nil if school.admin_set
-      return nil if department.admin_set
-
-      return @admin_set if @admin_set
-      as_name = as_chooser.determine_admin_set([], [], [id])
-      return nil unless as_name
-      @admin_set = all_admin_sets.find { |as| as.title.include?(as_name) }
-    end
   end
 end

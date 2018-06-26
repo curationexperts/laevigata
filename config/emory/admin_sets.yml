@@ -24,6 +24,9 @@ Behavioral Sciences and Health Education:
 Biostatistics:
   approving:
    - biostatistics_admin
+Environmental Health:
+  approving:
+   - eh_admin
 Environmental Health - MPH:
   approving:
    - environmental_health_mph_admin

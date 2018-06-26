@@ -55,8 +55,7 @@ RSpec.describe Schools::School, type: :model do
 
     # Candler has an associated AdminSet, but Rollins
     # doesn't because AdminSets for Rollins are
-    # determined by department/sub-field rather than
-    # by school.
+    # determined by department rather than by school.
     it 'returns an AdminSet if there is one at the school level' do
       expect(AdminSet.count).to eq 2
       expect(candler.admin_set.title).to eq [id_candler]
