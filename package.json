@@ -3,9 +3,15 @@
     "@rails/webpacker": "3.5",
     "vue": "^2.5.16",
     "vue-loader": "14.2.2",
-    "vue-template-compiler": "^2.5.16"
+    "vue-template-compiler": "^2.5.16",
+    "vue-turbolinks": "^2.0.3"
   },
   "devDependencies": {
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
     "webpack-dev-server": "2.11.2"
   }
 }
