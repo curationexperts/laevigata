@@ -50,11 +50,14 @@ RSpec.describe User, :clean do
   end
   context "signing in twice" do
     it "finds the original account instead of trying to make a new one" do
-      expect(described_class.count).to eq 0
-      described_class.from_omniauth(auth_hash)
-      expect(described_class.count).to eq 1
-      described_class.from_omniauth(auth_hash)
-      expect(described_class.count).to eq 1
+      # create user first time
+      expect { described_class.from_omniauth(auth_hash) }
+        .to change { described_class.count }
+        .by(1)
+
+      # login existing user second time
+      expect { described_class.from_omniauth(auth_hash) }
+        .not_to change { described_class.count }
     end
   end
   context "user factories" do
