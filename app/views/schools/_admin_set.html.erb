@@ -1,0 +1,16 @@
+<table class='admin_set'>
+  <tr>
+    <th> Admin Set </th>
+    <td> <%= admin_set.title.join(', ') %> </td>
+  </tr>
+
+  <tr>
+    <th> Workflow </th>
+    <td> <%= admin_set.active_workflow.name %> </td>
+  </tr>
+
+  <tr>
+    <th> Approvers </th>
+    <td> <%= Approver.for_admin_set(admin_set).join(', ') %> </td>
+  </tr>
+</table>

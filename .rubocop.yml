@@ -71,6 +71,11 @@ Metrics/MethodLength:
 Metrics/ModuleLength:
   Enabled: false
 
+Rails/Delegate:
+  Exclude:
+    - 'app/models/schools/department.rb'
+    - 'app/models/schools/subfield.rb'
+
 Rails/FindBy:
   Enabled: false
 
@@ -111,6 +116,10 @@ RSpec/InstanceVariable:
 RSpec/DescribeClass:
   Exclude:
     - 'spec/javascripts/jasmine_spec.rb'
+
+RSpec/LetSetup:
+  Exclude:
+    - "spec/models/schools/*.rb"
 
 RSpec/NestedGroups:
   Enabled: false

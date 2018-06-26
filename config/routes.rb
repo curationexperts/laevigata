@@ -67,5 +67,7 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
+  resources :schools, only: [:index, :show]
+
   match "*path", to: "catalog#catch_404", via: :all
 end

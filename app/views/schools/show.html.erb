@@ -1,0 +1,31 @@
+<div id='school-config'>
+  School Configuration:
+  <h1><%= @school.label %></h1>
+
+  <% if @school.admin_set %>
+    <%= render partial: 'admin_set', locals: { admin_set: @school.admin_set } %>
+  <% end %>
+
+  <% @school.departments.each do |dept| %>
+    <div class='department'>
+      <span class='org-label'> Department </span>
+      <%= dept.label %>
+
+      <% if dept.admin_set %>
+        <%= render partial: 'admin_set', locals: { admin_set: dept.admin_set } %>
+      <% end %>
+
+      <% dept.subfields.each do |subfield| %>
+        <div class='subfield'>
+          <span class='org-label'> Subfield </span>
+          <%= subfield.label %>
+
+          <% if subfield.admin_set %>
+            <%= render partial: 'admin_set', locals: { admin_set: subfield.admin_set } %>
+          <% end %>
+        </div>
+      <% end %>
+
+    </div>
+  <% end %>
+</div>

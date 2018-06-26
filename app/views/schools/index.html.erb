@@ -1,0 +1,5 @@
+<h1>Schools</h1>
+
+<% @school_terms.each do |school| %>
+  <p> <%= link_to school[:label], school_path(school[:id]) %> </p>
+<% end %>

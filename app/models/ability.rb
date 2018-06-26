@@ -8,6 +8,7 @@ class Ability
     return unless admin?
     can [:create, :show, :add_user, :remove_user, :index, :edit, :update, :destroy], Role
     can [:destroy], ActiveFedora::Base
+    can [:read], Schools::School
   end
 
   ##
