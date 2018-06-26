@@ -3,6 +3,8 @@ require 'workflow_setup'
 include Warden::Test::Helpers
 
 RSpec.describe WorkflowSetup, :clean do
+  before(:context) { DatabaseCleaner.clean_with(:truncation) }
+
   # Change "/dev/null" to STDOUT to see all logging output
   let(:w) { described_class.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/admin_sets.yml", "/dev/null") }
   let(:superuser_uid) { "superuser001" }
