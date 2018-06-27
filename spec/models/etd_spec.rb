@@ -36,12 +36,7 @@ RSpec.describe Etd do
       etd.department = ["Epidemiology"]
       expect(etd.determine_admin_set).to eq "Epidemiology"
     end
-    it "assigns according to subfield for Rollins when necessary" do
-      etd.school = ["Rollins School of Public Health"]
-      etd.department = ["Environmental Health"]
-      etd.subfield = ["Environmental Health - MPH"]
-      expect(etd.determine_admin_set).to eq "Environmental Health - MPH"
-    end
+
     it "raises an error if it can't find the admin set in the config" do
       etd.school = ["Fake School"]
       expect { etd.determine_admin_set }.to raise_error(RuntimeError, /Cannot find admin set config/)
@@ -66,16 +61,6 @@ RSpec.describe Etd do
         etd.school = ["Rollins School of Public Health"]
         etd.department = [] << department
         expect(etd.determine_admin_set).to eq department
-      end
-    end
-    it "can assign an admin set for every subfield in the department of Environmental Health" do
-      config = YAML.safe_load(File.read(Rails.root.join('config', 'authorities', 'environmental_programs.yml')))
-      environmental_programs = config["terms"].map { |a| a["id"] }
-      environmental_programs.each do |subfield|
-        etd.school = ["Rollins School of Public Health"]
-        etd.department = ["Environmental Health"]
-        etd.subfield = [] << subfield
-        expect(etd.determine_admin_set).to eq subfield
       end
     end
   end

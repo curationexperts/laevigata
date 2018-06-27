@@ -215,9 +215,9 @@ class Etd < ActiveFedora::Base
   # Determine what admin set an ETD should belong to, based on what school and
   # department it belongs to
   # @return [String] the name of an admin set
-  def determine_admin_set(school = self.school, department = self.department, subfield = self.subfield)
-    as_name = AdminSetChooser.new.determine_admin_set(school, department, subfield)
-    raise "Cannot find admin set config where school = #{school.first} and department = #{department.first} and subfield = #{subfield.first}" unless as_name
+  def determine_admin_set(school = self.school, department = self.department)
+    as_name = AdminSetChooser.new.determine_admin_set(school, department)
+    raise "Cannot find admin set config where school = #{school.first} and department = #{department.first}" unless as_name
     as_name
   end
 

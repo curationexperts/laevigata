@@ -26,27 +26,6 @@ RSpec.describe Schools::Department, type: :model do
   end
 
   describe '#admin_set' do
-    let(:rollins) { Schools::School.new('Rollins School of Public Health') }
-
-    let(:id_behav) { 'Behavioral Sciences and Health Education' }
-    let(:id_envir) { 'Environmental Health' }
-    let(:behav) { described_class.new(rollins, id_behav) }
-    let(:envir) { described_class.new(rollins, id_envir) }
-
-    before { AdminSet.delete_all }
-    let!(:as_behav) { FactoryBot.create(:admin_set, title: [id_behav]) }
-
-    # The 'Behavioral Sciences and Health Education'
-    # department has a matching AdminSet, but for the
-    # 'Environmental Health' department, the AdminSet
-    # will be determined by the subfield, rather than
-    # by department.
-    it 'returns an AdminSet if there is one at the department level' do
-      expect(AdminSet.count).to eq 1
-      expect(behav.admin_set.title).to eq [id_behav]
-      expect(envir.admin_set).to eq nil
-    end
-
     context 'when department name matches an existing AdminSet record, but AdminSet is determined by school, not department' do
       let(:id_laney) { 'Laney Graduate School' }
       let(:laney) { Schools::School.new(id_laney) }

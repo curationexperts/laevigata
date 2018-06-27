@@ -15,14 +15,15 @@
         <%= render partial: 'admin_set', locals: { admin_set: dept.admin_set } %>
       <% end %>
 
-      <% dept.subfields.each do |subfield| %>
+      <% unless dept.subfields.empty? %>
         <div class='subfield'>
-          <span class='org-label'> Subfield </span>
-          <%= subfield.label %>
+          <div class='org-label'> Subfields </div>
 
-          <% if subfield.admin_set %>
-            <%= render partial: 'admin_set', locals: { admin_set: subfield.admin_set } %>
-          <% end %>
+          <ul>
+            <% dept.subfields.each do |subfield| %>
+              <li> <%= subfield.label %> </li>
+            <% end %>
+          </ul>
         </div>
       <% end %>
 

@@ -52,8 +52,8 @@ module Schools
     # @return [Array<AdminSet>] All AdminSet records.
     #
     # Fetch all the AdminSet records so they will be
-    # available for this school's departments and
-    # sub-fields without having to do multiple queries
+    # available for this school's departments without
+    # having to do multiple queries.
     def all_admin_sets
       @all_admin_sets ||= AdminSet.all.to_a
     end
@@ -61,7 +61,7 @@ module Schools
     # @return [AdminSet] The AdminSet for this school (if it has one)
     def admin_set
       return @admin_set if @admin_set
-      as_name = as_chooser.determine_admin_set([id], [], [])
+      as_name = as_chooser.determine_admin_set([id], [])
       return nil unless as_name
       @admin_set = all_admin_sets.find { |as| as.title.include?(as_name) }
     end

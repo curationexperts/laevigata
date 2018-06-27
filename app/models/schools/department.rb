@@ -50,7 +50,7 @@ module Schools
       return nil if school.admin_set
 
       return @admin_set if @admin_set
-      as_name = as_chooser.determine_admin_set([], [id], [])
+      as_name = as_chooser.determine_admin_set([], [id])
       return nil unless as_name
       @admin_set = all_admin_sets.find { |as| as.title.include?(as_name) }
     end
