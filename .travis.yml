@@ -17,6 +17,7 @@ rvm:
 before_script:
   - bundle exec rake db:create
 script:
+  - RAILS_ENV=test ./bin/rails webpacker:compile
   - bundle exec rubocop
   - xvfb-run -a bundle exec rake ci
 env:
@@ -25,6 +26,11 @@ env:
   matrix:
     - NEW_UI_ENABLED=false
     - NEW_UI_ENABLED=true
+install:
+  - nvm install node
+  - node -v
+  - npm i -g yarn
+  - yarn
 addons:
   apt:
     packages:
@@ -32,3 +38,8 @@ addons:
       - libqt5webkit5-dev
       - gstreamer1.0-plugins-base
       - gstreamer1.0-tools gstreamer1.0-x
+cache:
+  bundler: true
+  directories:
+    - node_modules
+    yarn: true
