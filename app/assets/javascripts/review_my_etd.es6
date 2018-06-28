@@ -49,17 +49,35 @@ export default class ReviewMyETD {
 
     let data = $('.about-my-etd :input').serializeArray();
 
-    let optional_data = $('#about_my_etd :input.copyright').serializeArray();
+    let permission_data = "Unanswered"
 
-    let optional_values = ""
-
-    if(optional_data.length > 0){
-      for (var i = 0; i < optional_data.length; i++){
-        optional_values += optional_data[i].value;
-      }
+    if ($('#about_my_etd :input#etd_requires_permissions_true').prop('checked')) {
+      permission_data = "Yes, my thesis or dissertation does contain third-party material that would require permission to use"
+    } else if ($('#about_my_etd :input#etd_requires_permissions_false').prop('checked')) {
+      permission_data = "No, my thesis or dissertation does not contain third-party material that would require permission to use"
     }
-    let copyright_data = {'name': 'Copyrights and Patents', 'value': optional_values }
-    data.push(copyright_data)
+
+    let copyright_data = "Unanswered"
+
+    if ($('#about_my_etd :input#etd_other_copyrights_true').prop('checked')) {
+      copyright_data = "Yes, my thesis or dissertation does contain content for which I no longer own copyright"
+    } else if ($('#about_my_etd :input#etd_other_copyrights_false').prop('checked')) {
+      copyright_data = "No, my thesis or dissertation does not contain content for which I no longer own copyright"
+    }
+
+    let patent_data = "Unanswered"
+
+    if ($('#about_my_etd :input#etd_patents_true').prop('checked')) {
+      patent_data = "Yes, my thesis or dissertation does have content that may be patented"
+    } else if ($('#about_my_etd :input#etd_patents_false').prop('checked')) {
+      patent_data = "No, my thesis or dissertation does not have content that may be patented"
+    }
+
+    let permissions = {'name': 'ETD Requires Permission', 'value': permission_data}
+    let copyrights = {'name': 'ETD Contains Copyrighted Material', 'value': copyright_data}
+    let patents = {'name': 'ETD Might be Eligible for Patent', 'value': patent_data}
+
+    data.push(permissions, copyrights, patents)
 
     return data
   }
@@ -186,7 +204,7 @@ export default class ReviewMyETD {
     if (el === undefined){
       return
     }
-    if (el === "My Primary PDF" || el === "My Supplemental Files" || el.includes('Affiliation') || el.includes('Embargo') || el.includes('Copyrights')){
+    if (el === "My Primary PDF" || el === "My Supplemental Files" || el.includes('Affiliation') || el.includes('Embargo') || el.includes('Copyrighted') || el.includes('Permission') || el.includes('Patent')){
       return el
     }
 
