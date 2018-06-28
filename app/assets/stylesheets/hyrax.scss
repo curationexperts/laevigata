@@ -40,6 +40,12 @@
 	color: #e8ebf4;
 }
 
+body.dashboard {
+  padding-top: 0;
+
+  #masthead { position: relative; }
+  #content-wrapper { margin-top: 0; }
+}
 
 #masthead {
     background: #002878 none repeat scroll 0 0;
