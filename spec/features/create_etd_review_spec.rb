@@ -48,6 +48,7 @@ RSpec.feature 'Create an Etd', :clean do
       select 'Aeronomy', from: 'Research Field'
       fill_in 'Keyword', with: "Courtship"
       find('#question_1').choose('No')
+      find('#question_2').choose('Yes')
 
       expect(page).to have_css 'li#required-my-etd.complete'
 
@@ -121,6 +122,9 @@ RSpec.feature 'Create an Etd', :clean do
       expect(page).to have_content('Chapter One')
       expect(page).to have_content('Aeronomy')
       expect(page).to have_content('Courtship')
+      expect(page).to have_content('No, my thesis or dissertation does not contain third-party material that would require permission to use')
+      expect(page).to have_content('Yes, my thesis or dissertation does contain content for which I no longer own copyright')
+      expect(page).to have_content('Unanswered')
 
       # My Primary PDF
       expect(page).to have_content('miranda_thesis.pdf')
@@ -166,6 +170,7 @@ RSpec.feature 'Create an Etd', :clean do
       select 'Aeronomy', from: 'Research Field'
       fill_in 'Keyword', with: "Courtship"
       find('#question_1').choose('No')
+      find('#question_2').choose('Yes')
 
       expect(page).to have_css 'li#required-my-etd.complete'
 
@@ -248,6 +253,9 @@ RSpec.feature 'Create an Etd', :clean do
       expect(page).not_to have_content('Research Field required')
       expect(page).to have_content('Courtship')
       expect(page).not_to have_content('Keyword required')
+      expect(page).to have_content('No, my thesis or dissertation does not contain third-party material that would require permission to use')
+      expect(page).to have_content('Yes, my thesis or dissertation does contain content for which I no longer own copyright')
+      expect(page).to have_content('Unanswered')
 
       # My Primary PDF
       expect(page).to have_content('miranda_thesis.pdf')

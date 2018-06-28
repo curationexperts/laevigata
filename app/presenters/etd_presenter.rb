@@ -145,4 +145,22 @@ class EtdPresenter < Hyrax::WorkShowPresenter
     end
     admin_return_message + table_of_contents.first
   end
+
+  def requires_permission_question
+    return "Yes" if copyright_question_one.to_s.include?("true")
+    return "No" if copyright_question_one.to_s.include?("false")
+    "Unanswered"
+  end
+
+  def other_copyrights_question
+    return "Yes" if copyright_question_two.to_s.include?("true")
+    return "No" if copyright_question_two.to_s.include?("false")
+    return "Unanswered" unless copyright_question_two
+  end
+
+  def patents_question
+    return "Yes" if copyright_question_three.to_s.include?("true")
+    return "No" if copyright_question_three.to_s.include?("false")
+    return "Unanswered" unless copyright_question_three
+  end
 end
