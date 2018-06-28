@@ -5,8 +5,9 @@
         <a href="#" data-turbolinks="false" class="tab" v-on:click="form.toggleSelected(index)">{{ value.label }}</a>
       </li>
     </ul>
-    <form role="form" action="/concern/etds/new" method="post">
+    <form role="form" action="/concern/etds/new" method="post" @submit.prevent="onSubmit">
       <div v-for="value in form.tabs" v-bind:key="value.label">
+
         <div class="tab-content form-group" v-if="value.selected">
           <h1> {{ value.label }} </h1>
           <div v-for="input in value.inputs" v-bind:key="input">
@@ -26,16 +27,37 @@
 </template>
 
 <script>
+
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 import { formStore } from "./form_store";
 import School from "./school";
+
+let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+axios.defaults.headers.common['X-CSRF-Token'] = token
+
+
 export default {
   data() {
     return {
-      form: formStore
-    };
+      form: formStore,
+      about_me: formStore.tabs.about_me.inputs
+    }
   },
   components: {
     school: School
+  },
+  methods: {
+    onSubmit() {
+      axios.post('/in_progress_etds',
+      {
+        etd: this.about_me
+      })
+      .then(response => {})
+      .catch(e => {
+        this.errors.push(e)
+      })
+    }
   }
 };
 </script>
