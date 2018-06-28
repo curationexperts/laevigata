@@ -5,18 +5,17 @@
         <a href="#" data-turbolinks="false" class="tab" v-on:click="form.toggleSelected(index)">{{ value.label }}</a>
       </li>
     </ul>
-    <form role="form" action="/concern/etds/new" method="post" @submit.prevent="onSubmit">
+    <form role="form" id="vue_form" action="/concern/etds/new" method="post" @submit.prevent="onSubmit">
       <div v-for="value in form.tabs" v-bind:key="value.label">
-
         <div class="tab-content form-group" v-if="value.selected">
           <h1> {{ value.label }} </h1>
-          <div v-for="input in value.inputs" v-bind:key="input">
+          <div v-for="(input, index) in value.inputs" v-bind:key="index">
             <div v-if="input.label === 'School'">
               <school></school>
             </div>
             <div v-else>
               <label>{{ input.label }}</label>
-              <input class="form-control" v-model="input.value">
+              <input class="form-control" :name="etdPrefix(index)" v-model="input.value">
             </div>
           </div>
           <button type="submit" class="btn btn-default">Submit</button>
@@ -27,39 +26,47 @@
 </template>
 
 <script>
+import axios from "axios"
+import VueAxios from "vue-axios"
+import { formStore } from "./form_store"
+import School from "./school"
 
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-import { formStore } from "./form_store";
-import School from "./school";
-
-let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-axios.defaults.headers.common['X-CSRF-Token'] = token
-
+let token = document
+  .querySelector('meta[name="csrf-token"]')
+  .getAttribute("content")
+axios.defaults.headers.common["X-CSRF-Token"] = token
 
 export default {
   data() {
     return {
       form: formStore,
-      about_me: formStore.tabs.about_me.inputs
+      tabInputs: []
     }
   },
   components: {
     school: School
   },
   methods: {
+    etdPrefix(index) {
+      return "etd[" + index + "]"
+    },
+    getFormData() {
+      var form = document.getElementById("vue_form")
+      var formData = new FormData(form)
+      return formData
+    },
     onSubmit() {
-      axios.post('/in_progress_etds',
-      {
-        etd: this.about_me
-      })
-      .then(response => {})
-      .catch(e => {
-        this.errors.push(e)
-      })
+      axios
+        .post("/in_progress_etds", this.getFormData(), {
+          config: { headers: { "Content-Type": "multipart/form-data" } }
+        })
+        .then(response => {})
+        .catch(e => {
+          this.errors.push(e)
+        })
     }
   }
-};
+}
 </script>
 
 <style scoped>
