@@ -85,6 +85,7 @@ RSpec/ExampleLength:
 RSpec/MessageSpies:
   Exclude:
     - 'spec/controllers/hyrax/admin/workflows_controller_spec.rb'
+    - 'spec/actors/primary_file_title_actor_spec.rb'
 
 RSpec/MultipleExpectations:
   Enabled: false

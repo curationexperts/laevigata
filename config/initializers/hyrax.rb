@@ -271,3 +271,5 @@ module Hyrax
     end
   end
 end
+
+Hyrax::CurationConcern.actor_factory.insert_after(Hyrax::Actors::TransactionalRequest, PrimaryFileTitleActor)
