@@ -1,18 +1,22 @@
 <template>
   <div>
     <ul>
-      <li v-for="value in tabs" v-bind:key="value.label">
-        <a href="#" data-turbolinks="false" class="tab" v-on:click="value.selected = !value.selected">{{ value.label }}</a>
+      <li v-for="(value,index) in form.tabs" v-bind:key="value.label">
+        <a href="#" data-turbolinks="false" class="tab" v-on:click="form.toggleSelected(index)">{{ value.label }}</a>
       </li>
     </ul>
     <form role="form" action="/concern/etds/new" method="post">
-      <div v-for="value in tabs" v-bind:key="value.label">
-
+      <div v-for="value in form.tabs" v-bind:key="value.label">
         <div class="tab-content form-group" v-if="value.selected">
           <h1> {{ value.label }} </h1>
-          <div v-for="input in value.inputs" v-bind:key="input.label">
-            <label>{{ input.label }}</label>
-            <input class="form-control" v-model="input.value">
+          <div v-for="input in value.inputs" v-bind:key="input">
+            <div v-if="input.label === 'School'">
+              <school></school>
+            </div>
+            <div v-else>
+              <label>{{ input.label }}</label>
+              <input class="form-control" v-model="input.value">
+            </div>
           </div>
           <button type="submit" class="btn btn-default">Submit</button>
         </div>
@@ -22,15 +26,18 @@
 </template>
 
 <script>
-import { formSchema } from './form_schema'
-
+import { formStore } from "./form_store";
+import School from "./school";
 export default {
   data() {
     return {
-      tabs: formSchema.tabs
-    }
+      form: formStore
+    };
+  },
+  components: {
+    school: School
   }
-}
+};
 </script>
 
 <style scoped>
