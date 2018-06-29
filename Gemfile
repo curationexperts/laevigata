@@ -97,6 +97,7 @@ group :development do
   gem 'pry-byebug'
   # Spring speeds up development by keeping your application running in the
   # background. Read more: https://github.com/rails/spring
+  gem 'puma'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   # Access an IRB console on exception pages or by using <%= console %> anywhere

@@ -594,6 +594,7 @@ GEM
       pry (~> 0.10)
     public_suffix (3.0.1)
     pul_uv_rails (2.0.1)
+    puma (3.11.4)
     qa (2.0.1)
       activerecord-import
       deprecation
@@ -950,6 +951,7 @@ DEPENDENCIES
   pg (~> 0.21)
   pry
   pry-byebug
+  puma
   rails (~> 5.1)
   rails-controller-testing
   rsolr (~> 1.0)
