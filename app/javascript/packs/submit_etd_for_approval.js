@@ -19,7 +19,7 @@ document.addEventListener('turbolinks:load', function () {
     methods: {
       submitEtd: function(){
         axios.post(`/concern/etds`, {
-          etd: document.getElementById('postBody').value
+          etd: {"etd": document.getElementById('postBody').value }
         })
         .then(response => {})
         .catch(e => {
