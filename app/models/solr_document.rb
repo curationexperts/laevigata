@@ -81,7 +81,7 @@ class SolrDocument
   end
 
   def description
-    self[Solrizer.solr_name('description')]
+    self[Solrizer.solr_name('description')] || []
   end
 
   def embargo_length
