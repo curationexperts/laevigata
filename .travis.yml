@@ -19,6 +19,7 @@ before_script:
 script:
   - RAILS_ENV=test ./bin/rails webpacker:compile
   - bundle exec rubocop
+  - yarn test
   - xvfb-run -a bundle exec rake ci
 env:
   global:
