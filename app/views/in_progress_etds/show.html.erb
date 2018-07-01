@@ -6,11 +6,22 @@
     </ul>
     <%= link_to('Edit', edit_in_progress_etd_path(@in_progress_etd)) %>
 
+    <% in_progress_etd = @etd %>
+
+    <form role="form" id="etd_form" action="/concern/etds/new" method="post">
+      <% JSON.parse(in_progress_etd).each do |k, v| %>
+      <p><b><%= k %>:</b> <%= v %></p>
+
+      <input type='hidden' id="etd" name="etd[<%= k %>]" value="<%= v %>"/>
+      <% end %>
+
+      <input type='hidden' id="files" name='uploaded_files[]' value="1"/>
+    </form>
+
     <div id='submit-etd'>
       <submit-for-approval></submit-for-approval>
     </div>
 
-    <input type="hidden" v-model="postBody" id='postBody' name="etd" value="<%= @in_progress_etd.data %>"/>
   </body>
 </html>
 

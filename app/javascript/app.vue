@@ -18,6 +18,7 @@
               <input class="form-control" :name="etdPrefix(index)" v-model="input.value">
             </div>
           </div>
+          <!--  TODO: add tab label as hidden input, for validation -->
           <button type="submit" class="btn btn-default">Submit</button>
         </div>
       </div>
