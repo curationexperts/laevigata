@@ -24,14 +24,14 @@
                <quill-editor ref="myTextEditor"
                 v-model="input.value[0]">
                </quill-editor>
-               <input class="quill-hidden-field" :name="etdPrefix(index)" v-model="input.value" />   
+               <input class="quill-hidden-field" :name="etdPrefix(index)" v-model="input.value" />
             </div>
             <div v-else-if="input.label === 'Abstract'">
                <label>{{ input.label }}</label>
                <quill-editor ref="myTextEditor"
                 v-model="input.value[0]">
-               </quill-editor> 
-               <input class="quill-hidden-field" :name="etdPrefix(index)" v-model="input.value" /> 
+               </quill-editor>
+               <input class="quill-hidden-field" :name="etdPrefix(index)" v-model="input.value" />
             </div>
              <div v-else-if="input.label === 'Graduation Date'">
               <graduationDate></graduationDate>
@@ -54,7 +54,12 @@
             </div>
           </div>
           <!--  TODO: add tab label as hidden input, for validation -->
+          <input name="etd[currentTab]" type="hidden" :value="value.label" />
           <button type="submit" class="btn btn-default">Submit</button>
+          <section v-if="errored">
+            Invalidation Errors happened:        
+              <p>{{ errors }}</p>
+          </section>
         </div>
       </div>
     </form>
@@ -89,6 +94,8 @@ export default {
       tabInputs: [],
       editorOptions: {
       },
+      errored: false,
+      errors: []
     }
   },
   components: {
@@ -112,13 +119,17 @@ export default {
       return formData
     },
     onSubmit() {
+      var that = this;
       axios
         .post("/in_progress_etds", this.getFormData(), {
           config: { headers: { "Content-Type": "multipart/form-data" } }
         })
-        .then(response => {})
-        .catch(e => {
-          this.errors.push(e)
+        .then(response => {
+        })
+        .catch(error => {
+          that.errored = true
+          that.errors = []
+          that.errors.push(error.response.data.errors)
         })
     }
   }

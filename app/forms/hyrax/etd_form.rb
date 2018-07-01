@@ -38,6 +38,17 @@ module Hyrax
 
     self.single_valued_fields = [:title, :creator, :post_graduation_email, :submitting_type, :graduation_date, :degree, :subfield, :department, :school, :language, :abstract, :table_of_contents]
 
+    # methods for accessing new tab-determined sets of terms on new form tabs in new ui
+    if Rails.application.config_for(:new_ui).fetch('enabled', false)
+      def self.about_me_terms
+        [:creator, :graduation_date, :post_graduation_email, :school]
+      end
+
+      def self.my_program_terms
+        [:department, :subfield, :partnering_agency, :degree, :submitting_type]
+      end
+    end
+
     def about_me_fields
       [:creator, :graduation_date, :post_graduation_email]
     end
