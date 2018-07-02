@@ -1,4 +1,7 @@
 en:
+  activefedora:
+    models:
+      etd:                  "ETD"
   hyrax:
     icons:
       etd:     'fa fa-file-text-o'
