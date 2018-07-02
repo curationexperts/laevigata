@@ -37,9 +37,6 @@ RSpec.feature 'Create an Etd', :clean do
     let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
 
     before do
-      # Don't run background jobs during the spec
-      allow(ActiveJob::Base).to receive_messages(perform_later: nil, perform_now: nil)
-
       # Create AdminSet and Workflow
       workflow_setup.setup
 

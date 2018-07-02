@@ -12,7 +12,6 @@ RSpec.feature 'Create an Etd', :clean do
     before do
       # Don't run background jobs during the spec
       page.driver.console_messages
-      allow(ActiveJob::Base).to receive_messages(perform_later: nil, perform_now: nil)
 
       # Create AdminSet and Workflow
       workflow_setup.setup

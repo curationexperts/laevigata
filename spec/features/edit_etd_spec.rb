@@ -3,7 +3,7 @@ require 'rails_helper'
 
 include Warden::Test::Helpers
 
-RSpec.feature 'Edit an existing ETD', :perform_jobs, :clean do
+RSpec.feature 'Edit an existing ETD', :clean do
   let(:approver) { User.where(uid: "tezprox").first }
   let(:student) { create :user }
 
@@ -77,9 +77,6 @@ RSpec.feature 'Edit an existing ETD', :perform_jobs, :clean do
 
     # Approver requests changes, so student will be able to edit the ETD
     change_workflow_status(etd, "request_changes", approver)
-
-    # Don't run background jobs during the spec
-    allow(ActiveJob::Base).to receive_messages(perform_later: nil, perform_now: nil)
   end
 
   context 'a logged in student' do
