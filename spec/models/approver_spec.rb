@@ -2,16 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.describe Approver, type: :model do
-  # Change "/dev/null" to STDOUT to see all logging output
-  let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/admin_sets_small.yml", "/dev/null") }
+RSpec.describe Approver,
+               type: :model,
+               workflow: { admin_sets_config: 'spec/fixtures/config/emory/admin_sets_small.yml' } do
 
   let(:superusers) { ['admin_set_owner', 'superman001', 'wonderwoman001', 'tezprox'] }
-
-  before do
-    # Create AdminSet and Workflow records
-    workflow_setup.setup
-  end
 
   describe '::for_admin_set' do
     let(:laney) { AdminSet.where(title_sim: 'Laney Graduate School').first }
