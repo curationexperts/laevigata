@@ -115,3 +115,21 @@ border-bottom: solid 5px #d2b000;
     color: #163b84;
     font-weight: bold;
 }
+
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:after {
+    position: relative;
+    display: inline;
+    vertical-align: middle;
+    top: 0px;
+    right: 0px;
+    left: 0.5em;
+}
+
+table.dataTable.table-condensed thead .sorting:after,
+table.dataTable.table-condensed thead .sorting_asc:after,
+table.dataTable.table-condensed thead .sorting_desc:after {
+    top: 0px;
+    right: 0px;
+}
