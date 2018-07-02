@@ -2,6 +2,7 @@
 
 class SchoolsController < ApplicationController
   before_action :auth
+  layout 'hyrax/dashboard'
 
   def index
     @school_terms = Schools::School.active_elements
