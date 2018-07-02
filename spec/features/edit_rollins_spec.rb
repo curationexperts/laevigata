@@ -3,13 +3,13 @@ require 'rails_helper'
 require 'workflow_setup'
 include Warden::Test::Helpers
 
-RSpec.feature 'Edit an existing ETD', :perform_jobs, :clean do
+RSpec.feature 'Edit an existing ETD',
+              workflow: { admin_sets_config: 'spec/fixtures/config/emory/epidemiology_admin_sets.yml' } do
   let(:approver) { User.where(uid: "epidemiology_admin").first }
   let(:student) { create :user }
 
   let(:etd) { FactoryBot.build(:etd, attrs) }
   let(:primary_pdf_file) { File.join(fixture_path, "joey/joey_thesis.pdf") }
-
   let(:attrs) do
     {
       depositor: student.user_key,
@@ -52,15 +52,7 @@ RSpec.feature 'Edit an existing ETD', :perform_jobs, :clean do
   let(:cc_attrs) { [{ name: 'Fred' }] }
   let(:cm_attrs) { [{ name: 'Barney' }] }
 
-  let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/epidemiology_admin_sets.yml", "/dev/null") }
-
   before do
-    # Create AdminSet and Workflow
-    workflow_setup.setup
-
-    # Don't characterize the file during specs
-    allow(CharacterizeJob).to receive_messages(perform_later: nil, perform_now: nil)
-
     # Create ETD & attach PDF file
     etd.assign_admin_set
     uploaded_etd = File.open(primary_pdf_file) { |file| Hyrax::UploadedFile.create(user: student, file: file, pcdm_use: 'primary') }
@@ -71,9 +63,6 @@ RSpec.feature 'Edit an existing ETD', :perform_jobs, :clean do
 
     # Approver requests changes, so student will be able to edit the ETD
     change_workflow_status(etd, "request_changes", approver)
-
-    # Don't run background jobs during the spec
-    allow(ActiveJob::Base).to receive_messages(perform_later: nil, perform_now: nil)
   end
 
   context 'a logged in Rollins student edits their ETD', js: true do
