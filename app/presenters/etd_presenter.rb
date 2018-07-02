@@ -18,9 +18,9 @@ class EtdPresenter < Hyrax::WorkShowPresenter
            :submitting_type,
            :table_of_contents,
            :toc_embargoed,
-           :copyright_question_one,
-           :copyright_question_two,
-           :copyright_question_three,
+           :requires_permissions,
+           :other_copyrights,
+           :patents,
            to: :solr_document
 
   # we want to override the permission_badge method in the FileSetPresenter class, because we handle embargos differently than Hyrax does.

@@ -17,9 +17,9 @@
    "table_of_contents"=>"",
    "research_field"=>[""],
    "keyword"=>[""],
-   "copyright_question_one"=>"",
-   "copyright_question_two"=>"",
-   "copyright_question_three"=>"",
+   "requires_permissions"=>"",
+   "other_copyrights"=>"",
+   "patents"=>"",
    "no_supplemental_files"=>"0",
    "supplemental_file_metadata"=>
     {"0"=>{"filename"=>"river.JPG", "title"=>"River", "description"=>"in the elephant carrier", "file_type"=>"Image"},

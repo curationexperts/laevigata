@@ -66,15 +66,15 @@ export var formStore = {
       inputs: {
         research_field: { label: "Research Field", value: [], required: true },
         keywoord: { label: "Keywork", value: [], required: true },
-        copyright_question_one: {
+        requires_permissions: {
           label: "Copyright Question One",
           value: false, required: true
         },
-        copyright_question_two: {
+        other_copyrights: {
           label: "Copyright Question Two",
           value: false, required: true
         },
-        copyright_question_three: {
+        patents: {
           label: "Copright Question Three",
           value: false, required: true
         }

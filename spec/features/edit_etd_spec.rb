@@ -39,9 +39,9 @@ RSpec.feature 'Edit an existing ETD', :perform_jobs, :clean do
       table_of_contents: ['<h1>Chapter One</h1>'],
       research_field: ['Aeronomy'],
       keyword: ['key1'],
-      copyright_question_one: false,
-      copyright_question_two: true,
-      copyright_question_three: false,
+      requires_permissions: false,
+      other_copyrights: true,
+      patents: false,
       files_embargoed: embargo_attrs[:files_embargoed],
       abstract_embargoed: embargo_attrs[:abstract_embargoed],
       toc_embargoed: embargo_attrs[:toc_embargoed],
@@ -203,21 +203,21 @@ RSpec.feature 'Edit an existing ETD', :perform_jobs, :clean do
         expect(find_field('Keyword')).not_to be_disabled
 
         # Verify copyright questions
-        expect(find_field(id: 'etd_copyright_question_one_true').checked?).to be false
+        expect(find_field(id: 'etd_requires_permissions_true').checked?).to be false
         # TODO: capybara draws these checkboxes differently from Firefox, and doesn't mark them as checked, even though it works properly in the browser.  Is this a bug in capybara?
-        # expect(find_field(id: 'etd_copyright_question_one_false').checked?).to be true
-        expect(find_field(id: 'etd_copyright_question_one_true')).not_to be_disabled
-        expect(find_field(id: 'etd_copyright_question_one_false')).not_to be_disabled
+        # expect(find_field(id: 'etd_requires_permissions_false').checked?).to be true
+        expect(find_field(id: 'etd_requires_permissions_true')).not_to be_disabled
+        expect(find_field(id: 'etd_requires_permissions_false')).not_to be_disabled
 
-        expect(find_field(id: 'etd_copyright_question_two_true').checked?).to be true
-        expect(find_field(id: 'etd_copyright_question_two_false').checked?).to be false
-        expect(find_field(id: 'etd_copyright_question_two_true')).not_to be_disabled
-        expect(find_field(id: 'etd_copyright_question_two_false')).not_to be_disabled
+        expect(find_field(id: 'etd_other_copyrights_true').checked?).to be true
+        expect(find_field(id: 'etd_other_copyrights_false').checked?).to be false
+        expect(find_field(id: 'etd_other_copyrights_true')).not_to be_disabled
+        expect(find_field(id: 'etd_other_copyrights_false')).not_to be_disabled
 
-        expect(find_field(id: 'etd_copyright_question_three_true').checked?).to be false
-        # TODO: expect(find_field(id: 'etd_copyright_question_three_false').checked?).to be true
-        expect(find_field(id: 'etd_copyright_question_three_true')).not_to be_disabled
-        expect(find_field(id: 'etd_copyright_question_three_false')).not_to be_disabled
+        expect(find_field(id: 'etd_patents_true').checked?).to be false
+        # TODO: expect(find_field(id: 'etd_patents_false').checked?).to be true
+        expect(find_field(id: 'etd_patents_true')).not_to be_disabled
+        expect(find_field(id: 'etd_patents_false')).not_to be_disabled
 
         click_on('My PDF')
         # The javascript expects to find the file in '#primary_file_name'
