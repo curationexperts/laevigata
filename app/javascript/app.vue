@@ -13,6 +13,20 @@
             <div v-if="input.label === 'School'">
               <school></school>
             </div>
+            <div v-else-if="input.label === 'Table of Contents'">
+              <label>{{ input.label }}</label>
+               <quill-editor ref="myTextEditor"
+                v-model="input.value[0]">
+               </quill-editor>
+               <input class="quill-hidden-field" :name="etdPrefix(index)" v-model="input.value" />   
+            </div>
+            <div v-else-if="input.label === 'Abstract'">
+               <label>{{ input.label }}</label>
+               <quill-editor ref="myTextEditor"
+                v-model="input.value[0]">
+               </quill-editor> 
+               <input class="quill-hidden-field" :name="etdPrefix(index)" v-model="input.value" /> 
+            </div>
             <div v-else>
               <label>{{ input.label }}</label>
               <input class="form-control" :name="etdPrefix(index)" v-model="input.value">
@@ -31,6 +45,10 @@ import axios from "axios"
 import VueAxios from "vue-axios"
 import { formStore } from "./form_store"
 import School from "./school"
+import { quillEditor } from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 let token = document
   .querySelector('meta[name="csrf-token"]')
@@ -41,11 +59,31 @@ export default {
   data() {
     return {
       form: formStore,
-      tabInputs: []
+      tabInputs: [],
+      editorOptions: {
+          modules: {
+            toolbar: [
+              ['bold', 'italic', 'underline', 'strike'],
+              ['blockquote', 'code-block'],
+              [{ 'header': 1 }, { 'header': 2 }],
+              [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+              [{ 'script': 'sub' }, { 'script': 'super' }],
+              [{ 'indent': '-1' }, { 'indent': '+1' }],
+              [{ 'direction': 'rtl' }],
+              [{ 'size': ['small', false, 'large', 'huge'] }],
+              [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+              [{ 'font': [] }],
+              [{ 'color': [] }, { 'background': [] }],
+              [{ 'align': [] }],
+              ['clean'],
+            ]
+          }
+      },
     }
   },
   components: {
-    school: School
+    school: School,
+    quillEditor: quillEditor
   },
   methods: {
     etdPrefix(index) {
@@ -98,5 +136,14 @@ ul li a {
 
 input {
   margin-bottom: 1em;
+}
+
+.quill-hidden-field {
+  display: none;
+}
+
+.quill-editor {
+  height: 10em;
+  margin-bottom:7em;
 }
 </style>

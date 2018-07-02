@@ -6,6 +6,7 @@
     "vue": "^2.5.16",
     "vue-axios": "^2.1.1",
     "vue-loader": "14.2.2",
+    "vue-quill-editor": "^3.0.6",
     "vue-template-compiler": "^2.5.16",
     "vue-turbolinks": "^2.0.3"
   },
@@ -44,7 +45,8 @@
       "app/javascript"
     ],
     "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/$1"
+      "^@/(.*)$": "<rootDir>/$1",
+      ".*\\.css$": "<rootDir>/app/javascript/test/dummy.js"
     },
     "transform": {
       "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
