@@ -30,6 +30,9 @@
             <div v-if="input.label === 'Submitting Type'">
               <submittingType></submittingType>
             </div>
+            <div v-if="input.label === 'Degree'">
+              <degree></degree>
+            </div>
             <div v-else>
               <label>{{ input.label }}</label>
               <input class="form-control" :name="etdPrefix(index)" v-model="input.value">
@@ -53,6 +56,7 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import SubmittingType from './SubmittingType'
+import Degree from "./degree"
 
 let token = document
   .querySelector('meta[name="csrf-token"]')
@@ -88,7 +92,8 @@ export default {
   components: {
     school: School,
     quillEditor: quillEditor,
-    submittingType: SubmittingType
+    submittingType: SubmittingType,
+    degree: Degree
   },
   methods: {
     etdPrefix(index) {
