@@ -27,6 +27,9 @@
                </quill-editor> 
                <input class="quill-hidden-field" :name="etdPrefix(index)" v-model="input.value" /> 
             </div>
+            <div v-if="input.label === 'Submitting Type'">
+              <submittingType></submittingType>
+            </div>
             <div v-else>
               <label>{{ input.label }}</label>
               <input class="form-control" :name="etdPrefix(index)" v-model="input.value">
@@ -49,6 +52,7 @@ import { quillEditor } from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
+import SubmittingType from './SubmittingType'
 
 let token = document
   .querySelector('meta[name="csrf-token"]')
@@ -83,7 +87,8 @@ export default {
   },
   components: {
     school: School,
-    quillEditor: quillEditor
+    quillEditor: quillEditor,
+    submittingType: SubmittingType
   },
   methods: {
     etdPrefix(index) {
