@@ -1,0 +1,8 @@
+# Over ride Hyrax's default settings for features
+
+proxy_deposit:
+  enabled: false
+transfer_works:
+  enabled: false
+batch_upload:
+  enabled: false
