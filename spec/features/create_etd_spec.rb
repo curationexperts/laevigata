@@ -158,9 +158,9 @@ RSpec.feature 'Create an Etd', :clean do
       expect(page).to have_content 'Table of Contents Chapter One'
       expect(page).to have_content 'Research field Aeronomy'
       expect(page).to have_content 'Keyword key1'
-      expect(etd.copyright_question_one).to eq 'false'
-      expect(etd.copyright_question_two).to eq 'false'
-      expect(etd.copyright_question_three).to eq 'false'
+      expect(etd.requires_permissions).to eq 'false'
+      expect(etd.other_copyrights).to eq 'false'
+      expect(etd.patents).to eq 'false'
 
       # Verify data from 'My PDF' tab
       # TODO: Test primary PDF

@@ -130,15 +130,15 @@ class Etd < ActiveFedora::Base
   end
 
   # About My Etd Questionaire questions
-  property :copyright_question_one, predicate: "http://www.w3.org/2004/02/skos/core#note_permissions", multiple: false do |index|
+  property :requires_permissions, predicate: "http://www.w3.org/2004/02/skos/core#note_permissions", multiple: false do |index|
     index.as :stored_searchable
   end
 
-  property :copyright_question_two, predicate: "http://www.w3.org/2004/02/skos/core#note_copyrights", multiple: false do |index|
+  property :other_copyrights, predicate: "http://www.w3.org/2004/02/skos/core#note_copyrights", multiple: false do |index|
     index.as :stored_searchable
   end
 
-  property :copyright_question_three, predicate: "http://www.w3.org/2004/02/skos/core#note_patents", multiple: false do |index|
+  property :patents, predicate: "http://www.w3.org/2004/02/skos/core#note_patents", multiple: false do |index|
     index.as :stored_searchable
   end
 

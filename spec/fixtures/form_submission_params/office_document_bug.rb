@@ -50,9 +50,9 @@
       "skull island",
       "fake data"
     ],
-    "copyright_question_one" => "false",
-    "copyright_question_two" => "false",
-    "copyright_question_three" => "false",
+    "requires_permissions" => "false",
+    "other_copyrights" => "false",
+    "patents" => "false",
     "no_supplemental_files" => "1",
     "toc_embargoed" => "",
     "abstract_embargoed" => "",
