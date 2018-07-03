@@ -10,7 +10,6 @@ export var formStore = {
       inputs: {
         creator: { label: "Student Name", value: [], required: true },
         graduation_date: { label: "Graduation Date", value: [], required: true },
-        school: { label: "School", value: [] },
         post_graduation_email: { label: "Post-Graduation Email", value: [], required: true }
       }
     },
@@ -22,6 +21,7 @@ export var formStore = {
       completed: false,
       step: 2,
       inputs: {
+        school: { label: "School", value: [] },
         department: { label: "Department", value: [] },
         partnering_agency: { label: "Partnering Agency", value: [], required: true },
         subfield: { label: "subfield", value: [], required: true },
