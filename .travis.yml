@@ -27,7 +27,7 @@ env:
     - COVERALLS_PARALLEL=true
     - QMAKE=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
   matrix:
-    - NEW_UI_ENABLED=false
+    - NEW_UI_ENABLED=false NO_COVERAGE=true
     - NEW_UI_ENABLED=true
 install:
   - nvm install node
