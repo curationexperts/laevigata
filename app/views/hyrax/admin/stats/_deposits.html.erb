@@ -3,7 +3,7 @@
   <% @presenter.depositors.each do |usr| %>
     <li>
       <% if usr[:user] %>
-        <a href="<%= hyrax.profile_path(usr[:key]) %>" title="View user's profile"><%= usr[:user].name %></a>
+        <a href="<%= hyrax.dashboard_profile_path(usr[:key]) %>" title="View user's profile"><%= usr[:user].name %></a>
         deposited <%= pluralize(usr[:deposits], "file") %>
       <% else %>
         <%= "Unknown User ID #{usr[:key]}" %>
