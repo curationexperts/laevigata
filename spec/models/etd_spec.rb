@@ -3,6 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe Etd do
+  context "human readable type" do
+    it "capitalizes ETD because it is an acronym" do
+      expect(I18n.t("activefedora.models.etd")).to eq "ETD"
+    end
+  end
+
   context "#hidden?" do
     let(:etd) { FactoryBot.build(:etd) }
     context "with a new ETD" do
