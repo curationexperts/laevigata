@@ -16,6 +16,9 @@
             <div v-else-if="input.label === 'Department'">
               <department></department>
             </div>
+            <div v-else-if="input.label === 'subfield'">
+              <subfield></subfield>
+            </div>
             <div v-else-if="input.label === 'Table of Contents'">
               <label>{{ input.label }}</label>
                <quill-editor ref="myTextEditor"
@@ -73,7 +76,7 @@ import Degree from "./Degree"
 import ResearchField from "./ResearchField"
 import GraduationDate from "./GraduationDate"
 import Language from "./Language"
-
+import Subfield from "./Subfield"
 let token = document
   .querySelector('meta[name="csrf-token"]')
   .getAttribute("content")
@@ -96,7 +99,8 @@ export default {
     researchField: ResearchField,
     graduationDate: GraduationDate,
     language: Language,
-    department: Department
+    department: Department,
+    subfield: Subfield
   },
   methods: {
     etdPrefix(index) {

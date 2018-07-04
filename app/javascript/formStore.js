@@ -120,9 +120,31 @@ export var formStore = {
     }
   },
   departments: [],
+  selectedDepartment: '',
+  subfields: [],
+  subfieldEndpoints: {
+    'Biological and Biomedical Sciences': '/authorities/terms/local/biological_programs',
+    'Biostatistics': '/authorities/terms/local/biostatistics_programs',
+    'Business': '/authorities/terms/local/business_programs',
+    'Environmental Sciences': '/authorities/terms/local/environmental_programs',
+    'Epidemiology': '/authorities/terms/local/epidemiology_programs',
+    'Psychology': '/authorities/terms/local/psychology_programs',
+    'Executive Masters of Public Health - MPH': '/authorities/terms/local/executive_programs'
+  },
+  setSelectedDepartment (department) {
+    this.selectedDepartment = department
+  },
+  getSelectedDepartment () {
+    return this.selectedDepartment
+  },
   getDepartments (selectedSchool) {
     Axios.get(selectedSchool).then(response => {
       this.departments = response.data
+    })
+  },
+  getSubfields () {
+    Axios.get(this.subfieldEndpoints[this.selectedDepartment]).then(response => {
+      this.subfields = response.data
     })
   },
   toggleSelected (index) {
