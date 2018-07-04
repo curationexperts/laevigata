@@ -9,6 +9,9 @@
       <div v-for="value in form.tabs" v-bind:key="value.label">
         <div class="tab-content form-group" v-if="value.selected">
           <h1> {{ value.label }} </h1>
+          <p>
+            {{ value.help_text }}
+          </p>
           <div v-for="(input, index) in value.inputs" v-bind:key="index">
             <div v-if="input.label === 'School'">
               <school></school>
