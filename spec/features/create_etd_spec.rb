@@ -84,9 +84,9 @@ RSpec.feature 'Create an Etd', :clean do
       select 'Aeronomy', from: 'Research Field'
       fill_in 'Keyword', with: 'key1'
       expect(page).to have_css('li#required-my-etd.incomplete')
-      find('#question_1').choose('No')
-      find('#question_2').choose('No')
-      find('#question_3').choose('No')
+      find('#requires_permissions').choose('No')
+      find('#additional_copyrights').choose('No')
+      find('#patents').choose('No')
       expect(page).to have_css('li#required-my-etd.complete')
 
       click_on('My PDF')

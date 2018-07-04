@@ -13,19 +13,19 @@
 
     <p class='help-block'>Below are three questions related to copyright and patents for your thesis or dissertation. Read each question and select either Yes or No.</p>
 
-    <div id="question_1" class="question">
+    <div id="requires_permissions" class="question">
       <p class="question_text">
       1) Does your thesis or dissertation contain any third-party text, audiovisual content or other material which is beyond a fair use and would require permission?</p>
       <%= f.input :requires_permissions, as: :radio_buttons, label: "", input_html: { class: 'copyright'} %>
     </div>
 
-    <div id="question_2" class="question">
+    <div id="additional_copyrights" class="question">
       <p class="question_text">
       2) Does your thesis or dissertation contain content, such as a previously published article, for which you no longer own copyright? If you have questions about your use of copyrighted material, contact the Scholarly Communications Office at scholcomm@listserv.cc.emory.edu.</p>
       <%= f.input :other_copyrights, as: :radio_buttons, label: "", input_html: { class: 'copyright' } %>
     </div>
 
-    <div id="question_3" class="question">
+    <div id="patents" class="question">
       <p class="question_text">
       3) Does your thesis or dissertation disclose or describe any inventions or discoveries that could potentially have commercial application and therefore may be patented? <b>If so, please contact the Office of Technology Transfer (OTT) at (404) 727-2211.</b></p>
       <%= f.input :patents, as: :radio_buttons, label: "", input_html: { class: 'copyright'} %>
