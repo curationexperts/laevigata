@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul>
+    <ul class="nav navtabs">
       <li v-for="(value,index) in form.tabs" v-bind:key="value.label">
         <a href="#" data-turbolinks="false" class="tab" v-on:click="form.toggleSelected(index)">{{ value.label }}</a>
       </li>
@@ -130,40 +130,66 @@ export default {
 
 <style scoped>
 ul {
-  clear: left;
-  float: left;
-  list-style: none;
-  position: relative;
-  margin: 0;
-  padding: 0;
+     clear: left;
+     float: left;
+     list-style: none;
+     position: relative;
+     margin: 0;
+     padding: 0;
+     margin-bottom: 0;
 }
-li {
-  margin: 1em;
-  display: block;
-  float: left;
-  list-style: none;
-  position: relative;
+ li {
+     margin: 0;
+     display: block;
+     float: left;
+     list-style: none;
+     position: relative;
+     margin-bottom: 0;
+     min-width:100px;
+     text-align: center 
 }
-ul li a {
-  display: block;
-  line-height: 1.3em;
-  font-family: "PT Sans", sans;
+ ul li a {
+     display: block;
+     line-height: 1.3em;
+     font-family: "PT Sans", sans;
+     border: 1px solid rgba(0,0,0,0.15);
+     border-bottom: 0;
+     box-shadow: 1px 1px .5px rgba(0,0,0,0.06);
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+     padding: 1em;
+     border-bottom: 0;
+     margin-bottom:0;
+     margin-right: 0.5em;
 }
-
-.tab-content {
-  clear: left;
+ .tab-content {
+     margin-top:0;
+     clear: left;
+     box-shadow: 2px 1px .5px rgba(0,0,0,0.06);
+     border: 1px solid rgba(0,0,0,0.15);
 }
-
-input {
-  margin-bottom: 1em;
+ .tab-content > * {
+     margin-left:2em;
+     margin-right: 2em;
+     margin-bottom: 1em;
 }
-
-.quill-hidden-field {
-  display: none;
+ .tab-content > h1 {
+     padding-left: 0;
+     margin-left: 0.7em;
+     margin-bottom:0.4em;
 }
-
-.quill-editor {
-  height: 10em;
-  margin-bottom:7em;
+ .tab-content > button {
+     margin-left: 1.7em;
+     margin-bottom:1.5em;
+}
+ input {
+     margin-bottom: 1em;
+}
+ .quill-hidden-field {
+     display: none;
+}
+ .quill-editor {
+     height: 10em;
+     margin-bottom:7em;
 }
 </style>

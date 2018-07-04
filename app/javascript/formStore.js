@@ -33,8 +33,8 @@ export var formStore = {
     },
     my_advisor: {
       label: 'My Advisor',
-      help_text: `Please provide some details about the people who supervised your submission. 
-      If your committee chair, thesis advisor, or committee members 
+      help_text: `Please provide some details about the people who supervised your submission.
+      If your committee chair, thesis advisor, or committee members
       are not affiliated with Emory, select "Non-Emory" and enter their organization.`,
       description: '',
       enabled: false,
@@ -89,10 +89,7 @@ export var formStore = {
     },
     my_files: {
       label: 'My Files',
-      help_text: `Upload the version of your thesis or dissertation approved by your advisor or committee. 
-      You can only upload one file. This file should not contain any signatures or other personally identifying 
-      information because it is a better version for preservation, we recommend you upload a PDF/A file, but it is not required. 
-      For help converting your manuscript to PDF/A, please contact Student Digital Life`,
+      help_text: 'Upload the version of your thesis or dissertation approved by your advisor or committee. You can only upload one file. This file should not contain any signatures or other personally identifying information. PDF/A is a better version for preservation and for that reason we recommend you upload a PDF/A file, but it is not required. For help converting your manuscript to PDF/A, please contact Student Digital Life.',
       enabled: false,
       selected: false,
       completed: false,
@@ -103,10 +100,7 @@ export var formStore = {
     },
     embargo: {
       label: 'Embargo',
-      help_text: `You have the option to restrict access to your thesis or dissertation for a limited time. 
-      First, select whether you would like to apply an embargo and how long you would like it to apply. 
-      Then select which parts of your record to include in the embargo. If you are unsure whether to embargo your ETD 
-      consult with your thesis advisor or committee chair`,
+      help_text: 'You have the option to restrict access to your thesis or dissertation for a limited time. First, select whether you would like to apply an embargo and how long you would like it to apply. Then select which parts of your record to include in the embargo. If you are unsure whether to embargo your ETD, consult with your thesis advisor or committee chair.',
       enabled: false,
       selected: false,
       completed: false,
