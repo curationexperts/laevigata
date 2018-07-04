@@ -40,8 +40,8 @@ export var formStore = {
       completed: false,
       step: 3,
       inputs: {
-        committee_chair: { label: 'Committee Chair', value: [], required: true },
-        committee_members: { label: 'Committee Members', value: [], required: true }
+        committee_member: { label: 'Committee Member', value: [], required: true },
+
       }
     },
     my_etd: {
@@ -119,6 +119,7 @@ export var formStore = {
       step: 8
     }
   },
+  committeeChairs: [],
   departments: [],
   selectedDepartment: '',
   subfields: [],
@@ -130,6 +131,9 @@ export var formStore = {
     'Epidemiology': '/authorities/terms/local/epidemiology_programs',
     'Psychology': '/authorities/terms/local/psychology_programs',
     'Executive Masters of Public Health - MPH': '/authorities/terms/local/executive_programs'
+  },
+  addCommitteeMember (affilation, name) {
+    this.committeeChairs.push({affilation: affilation, name: name})
   },
   setSelectedDepartment (department) {
     this.selectedDepartment = department
