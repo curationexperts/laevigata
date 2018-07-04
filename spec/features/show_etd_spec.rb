@@ -79,9 +79,9 @@ RSpec.feature 'Display ETD metadata', :clean do
     expect(page).to have_content "Rural Clinics in Georgia (GIS shapefile showing rural clinics)"
     expect(page).to have_content "Photographer (a portrait of the artist)"
 
-    expect(page).not_to have_content I18n.t("hyrax.works.copyright_question_one_label")
-    expect(page).not_to have_content I18n.t("hyrax.works.copyright_question_two_label")
-    expect(page).not_to have_content I18n.t("hyrax.works.copyright_question_three_label")
+    expect(page).not_to have_content I18n.t("hyrax.works.requires_permissions_label")
+    expect(page).not_to have_content I18n.t("hyrax.works.other_copyrights_label")
+    expect(page).not_to have_content I18n.t("hyrax.works.patents_label")
   end
 
   scenario 'logged in approver sees copyright info' do
@@ -89,9 +89,9 @@ RSpec.feature 'Display ETD metadata', :clean do
     visit("/concern/etds/#{etd.id}")
 
     # Copyright questions
-    expect(page).to have_content I18n.t("hyrax.works.copyright_question_one_label")
-    expect(page).to have_content I18n.t("hyrax.works.copyright_question_two_label")
-    expect(page).to have_content I18n.t("hyrax.works.copyright_question_three_label")
+    expect(page).to have_content I18n.t("hyrax.works.requires_permissions_label")
+    expect(page).to have_content I18n.t("hyrax.works.other_copyrights_label")
+    expect(page).to have_content I18n.t("hyrax.works.patents_label")
 
     # Embargo questions
     expect(find('li.attribute-files_embargoed')).to have_content false

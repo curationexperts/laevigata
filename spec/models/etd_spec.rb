@@ -302,19 +302,19 @@ RSpec.describe Etd do
   context "the three intellectual property questions" do
     let(:etd) { FactoryBot.build(:etd) }
     it "has an answer about permissions" do
-      etd.copyright_question_one = true
+      etd.requires_permissions = true
       expect(etd.resource.dump(:ttl)).to match(/www.w3.org\/2004\/02\/skos\/core\#note_permissions/)
-      expect(etd.copyright_question_one).to eq true
+      expect(etd.requires_permissions).to eq true
     end
     it "has an answer about copyright" do
-      etd.copyright_question_two = true
+      etd.other_copyrights = true
       expect(etd.resource.dump(:ttl)).to match(/www.w3.org\/2004\/02\/skos\/core\#note_copyrights/)
-      expect(etd.copyright_question_two).to eq true
+      expect(etd.other_copyrights).to eq true
     end
     it "has an answer about patents" do
-      etd.copyright_question_three = true
+      etd.patents = true
       expect(etd.resource.dump(:ttl)).to match(/www.w3.org\/2004\/02\/skos\/core\#note_patents/)
-      expect(etd.copyright_question_three).to eq true
+      expect(etd.patents).to eq true
     end
   end
 

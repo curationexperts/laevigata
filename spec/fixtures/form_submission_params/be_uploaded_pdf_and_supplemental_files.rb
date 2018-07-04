@@ -36,9 +36,9 @@
     "table_of_contents" => "<p>&nbsp;Chapter Uno</p>",
     "research_field" => ["Agriculture, Agronomy"],
     "keyword" => ["Land"],
-    "copyright_question_one" => "",
-    "copyright_question_two" => "",
-    "copyright_question_three" => "",
+    "requires_permissions" => "",
+    "other_copyrights" => "",
+    "patents" => "",
     "no_supplemental_files" => "0",
     "supplemental_file_metadata" => {
       "0" => {
