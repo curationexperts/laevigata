@@ -13,6 +13,9 @@
             <div v-if="input.label === 'School'">
               <school></school>
             </div>
+            <div v-else-if="input.label === 'Department'">
+              <department></department>
+            </div>
             <div v-else-if="input.label === 'Table of Contents'">
               <label>{{ input.label }}</label>
                <quill-editor ref="myTextEditor"
@@ -27,19 +30,19 @@
                </quill-editor> 
                <input class="quill-hidden-field" :name="etdPrefix(index)" v-model="input.value" /> 
             </div>
-             <div v-if="input.label === 'Graduation Date'">
+             <div v-else-if="input.label === 'Graduation Date'">
               <graduationDate></graduationDate>
             </div>
-            <div v-if="input.label === 'Submitting Type'">
+            <div v-else-if="input.label === 'Submitting Type'">
               <submittingType></submittingType>
             </div>
-            <div v-if="input.label === 'Degree'">
+            <div v-else-if="input.label === 'Degree'">
               <degree></degree>
             </div>
-            <div v-if="input.label === 'Research Field'">
+            <div v-else-if="input.label === 'Research Field'">
               <researchField></researchField>
             </div>
-            <div v-if="input.label === 'Language'">
+            <div v-else-if="input.label === 'Language'">
               <language></language>
             </div>
             <div v-else>
@@ -58,8 +61,9 @@
 <script>
 import axios from "axios"
 import VueAxios from "vue-axios"
-import { formStore } from "./form_store"
+import { formStore } from "./formStore"
 import School from "./School"
+import Department from './Department'
 import { quillEditor } from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -81,23 +85,6 @@ export default {
       form: formStore,
       tabInputs: [],
       editorOptions: {
-          modules: {
-            toolbar: [
-              ['bold', 'italic', 'underline', 'strike'],
-              ['blockquote', 'code-block'],
-              [{ 'header': 1 }, { 'header': 2 }],
-              [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-              [{ 'script': 'sub' }, { 'script': 'super' }],
-              [{ 'indent': '-1' }, { 'indent': '+1' }],
-              [{ 'direction': 'rtl' }],
-              [{ 'size': ['small', false, 'large', 'huge'] }],
-              [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-              [{ 'font': [] }],
-              [{ 'color': [] }, { 'background': [] }],
-              [{ 'align': [] }],
-              ['clean'],
-            ]
-          }
       },
     }
   },
@@ -108,7 +95,8 @@ export default {
     degree: Degree,
     researchField: ResearchField,
     graduationDate: GraduationDate,
-    language: Language
+    language: Language,
+    department: Department
   },
   methods: {
     etdPrefix(index) {

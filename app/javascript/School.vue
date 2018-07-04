@@ -6,20 +6,15 @@
         {{ option.text }}
       </option>
     </select>
-    <label>Department</label>
-    <select class="form-control" id="department">
-      <option v-for="department in departments" v-bind:value="department.label" v-bind:key="department.label">
-        {{ department.label }}
-      </option>
-    </select>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-import App from "./App";
+import Vue from "vue"
+import axios from "axios"
+import VueAxios from "vue-axios"
+import App from "./App"
+import { formStore } from './formStore'
 
 export default {
   data() {
@@ -32,8 +27,6 @@ export default {
         rollins:
           "/authorities/terms/local/rollins_programs"
       },
-      departments: [],
-      selected_department: [],
       selected: "",
       options: [
         {
@@ -51,10 +44,8 @@ export default {
   },
   methods: {
     fetchData() {
-      var selectecdSchool = this.schools[this.selected];
-      axios.get(selectecdSchool).then(response => {
-        this.departments = response.data;
-      });
+      var selectedSchool = this.schools[this.selected];
+      formStore.getDepartments(selectedSchool)
     }
   },
   watch: {
