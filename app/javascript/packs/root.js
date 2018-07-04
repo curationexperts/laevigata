@@ -1,6 +1,6 @@
 import TurbolinksAdapter from 'vue-turbolinks'
 import Vue from 'vue/dist/vue.esm'
-import App from '../app.vue'
+import App from '../App'
 import { formStore } from '../form_store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'

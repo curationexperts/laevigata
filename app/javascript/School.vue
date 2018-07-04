@@ -19,7 +19,7 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import App from "./app.vue";
+import App from "./App";
 
 export default {
   data() {

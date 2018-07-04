@@ -27,11 +27,20 @@
                </quill-editor> 
                <input class="quill-hidden-field" :name="etdPrefix(index)" v-model="input.value" /> 
             </div>
+             <div v-if="input.label === 'Graduation Date'">
+              <graduationDate></graduationDate>
+            </div>
             <div v-if="input.label === 'Submitting Type'">
               <submittingType></submittingType>
             </div>
             <div v-if="input.label === 'Degree'">
               <degree></degree>
+            </div>
+            <div v-if="input.label === 'Research Field'">
+              <researchField></researchField>
+            </div>
+            <div v-if="input.label === 'Language'">
+              <language></language>
             </div>
             <div v-else>
               <label>{{ input.label }}</label>
@@ -50,13 +59,16 @@
 import axios from "axios"
 import VueAxios from "vue-axios"
 import { formStore } from "./form_store"
-import School from "./school"
+import School from "./School"
 import { quillEditor } from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import SubmittingType from './SubmittingType'
-import Degree from "./degree"
+import Degree from "./Degree"
+import ResearchField from "./ResearchField"
+import GraduationDate from "./GraduationDate"
+import Language from "./Language"
 
 let token = document
   .querySelector('meta[name="csrf-token"]')
@@ -93,7 +105,10 @@ export default {
     school: School,
     quillEditor: quillEditor,
     submittingType: SubmittingType,
-    degree: Degree
+    degree: Degree,
+    researchField: ResearchField,
+    graduationDate: GraduationDate,
+    language: Language
   },
   methods: {
     etdPrefix(index) {

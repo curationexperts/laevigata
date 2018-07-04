@@ -2,7 +2,7 @@
 /* global it */
 /* global expect */
 import { shallowMount } from '@vue/test-utils'
-import App from 'app.vue'
+import App from 'App'
 
 describe('App.vue', () => {
   it('renders a form', () => {
