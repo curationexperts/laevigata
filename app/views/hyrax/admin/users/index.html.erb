@@ -12,7 +12,7 @@
       <table class="table table-striped datatable">
         <thead>
           <tr>
-            <th></th>
+            <th><%= t('.display_name') %></th>
             <th><%= t('.id_label') %></th>
             <th><%= t('.role_label') %></th>
             <th><%= t('.access_label') %></th>
@@ -21,12 +21,12 @@
         <tbody>
           <% @presenter.users.each do |user| %>
             <tr>
-              <td><%= link_to hyrax.profile_path(user) do %>
+              <td><%= link_to hyrax.dashboard_profile_path(user) do %>
                     <%= user.display_name %>
                   <% end %>
               </td>
               <td>
-                <%= link_to hyrax.profile_path(user) do %>
+                <%= link_to hyrax.dashboard_profile_path(user) do %>
                   <%= user.uid %>
                 <% end %>
               </td>

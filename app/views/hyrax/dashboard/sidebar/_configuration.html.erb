@@ -33,12 +33,19 @@
       <%= menu.nav_link(hyrax.admin_workflow_roles_path) do %>
         <span class="fa fa-users"></span> <span class="sidebar-action-text"><%= t('hyrax.admin.sidebar.workflow_roles') %></span>
       <% end %>
-    <% end # end of configuration block %>
+    <% end %>
 
-      <% if can?(:read, Schools::School) %>
-        <%= menu.nav_link(main_app.schools_path) do %>
-          <span class="fa fa-cog"></span>
-          <span class="sidebar-action-text">Schools</span>
-        <% end %>
+    <% if can?(:read, Schools::School) %>
+      <%= menu.nav_link(main_app.schools_path) do %>
+        <span class="fa fa-cog"></span>
+        <span class="sidebar-action-text">Schools</span>
       <% end %>
+    <% end %>
+
+    <% if can?(:manage, Sipity::WorkflowResponsibility) %>
+      <%= menu.nav_link(hyrax.admin_users_path) do %>
+        <span class="fa fa-cog"></span>
+        <span class="sidebar-action-text">Manage Users</span>
+      <% end %>
+    <% end # end of configuration block %>
   <% end %>
