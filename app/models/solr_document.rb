@@ -120,16 +120,16 @@ class SolrDocument
     self[Solrizer.solr_name('rights_statement')]
   end
 
-  def copyright_question_one
-    self[Solrizer.solr_name('copyright_question_one')]
+  def requires_permissions
+    self[Solrizer.solr_name('requires_permissions')]
   end
 
-  def copyright_question_two
-    self[Solrizer.solr_name('copyright_question_two')]
+  def other_copyrights
+    self[Solrizer.solr_name('other_copyrights')]
   end
 
-  def copyright_question_three
-    self[Solrizer.solr_name('copyright_question_three')]
+  def patents
+    self[Solrizer.solr_name('patents')]
   end
 
   def choose_proquest_submission

@@ -22,12 +22,12 @@ RSpec.feature 'Create an Etd: My Etd' do
       expect(page).to have_css('#about_my_etd textarea#etd_table_of_contents')
       expect(page).to have_css('#about_my_etd select#etd_research_field')
       expect(page).to have_css('#about_my_etd input#etd_keyword')
-      expect(page).to have_css('#about_my_etd input#etd_copyright_question_one_true')
-      expect(page).to have_css('#about_my_etd input#etd_copyright_question_one_false')
-      expect(page).to have_css('#about_my_etd input#etd_copyright_question_two_true')
-      expect(page).to have_css('#about_my_etd input#etd_copyright_question_two_false')
-      expect(page).to have_css('#about_my_etd input#etd_copyright_question_three_true')
-      expect(page).to have_css('#about_my_etd input#etd_copyright_question_three_false')
+      expect(page).to have_css('#about_my_etd input#etd_requires_permissions_true')
+      expect(page).to have_css('#about_my_etd input#etd_requires_permissions_false')
+      expect(page).to have_css('#about_my_etd input#etd_other_copyrights_true')
+      expect(page).to have_css('#about_my_etd input#etd_other_copyrights_false')
+      expect(page).to have_css('#about_my_etd input#etd_patents_true')
+      expect(page).to have_css('#about_my_etd input#etd_patents_false')
     end
 
     scenario "validates 'my etd'", js: true unless continuous_integration? do

@@ -121,9 +121,9 @@ FactoryBot.define do
       # because the solr_document methods return strings in the feature tests, although not from the application.
       factory :sample_data_with_copyright_questions do
         title ["Sample Data With Copyrights: #{FFaker::Book.title}"]
-        copyright_question_one "true"
-        copyright_question_two "false"
-        copyright_question_three "true"
+        requires_permissions "true"
+        other_copyrights "false"
+        patents "true"
       end
 
       factory :sample_data_with_everything_embargoed do

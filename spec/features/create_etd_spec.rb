@@ -84,9 +84,9 @@ RSpec.feature 'Create an Etd', :clean do
       select 'Aeronomy', from: 'Research Field'
       fill_in 'Keyword', with: 'key1'
       expect(page).to have_css('li#required-my-etd.incomplete')
-      find('#question_1').choose('No')
-      find('#question_2').choose('No')
-      find('#question_3').choose('No')
+      find('#requires_permissions').choose('No')
+      find('#additional_copyrights').choose('No')
+      find('#patents').choose('No')
       expect(page).to have_css('li#required-my-etd.complete')
 
       click_on('My PDF')
@@ -158,9 +158,9 @@ RSpec.feature 'Create an Etd', :clean do
       expect(page).to have_content 'Table of Contents Chapter One'
       expect(page).to have_content 'Research field Aeronomy'
       expect(page).to have_content 'Keyword key1'
-      expect(etd.copyright_question_one).to eq 'false'
-      expect(etd.copyright_question_two).to eq 'false'
-      expect(etd.copyright_question_three).to eq 'false'
+      expect(etd.requires_permissions).to eq 'false'
+      expect(etd.other_copyrights).to eq 'false'
+      expect(etd.patents).to eq 'false'
 
       # Verify data from 'My PDF' tab
       # TODO: Test primary PDF

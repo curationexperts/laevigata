@@ -26,9 +26,9 @@ module Hyrax
     self.terms += [:language]
     self.terms += [:research_field]
     self.terms += [:table_of_contents]
-    self.terms += [:copyright_question_one]
-    self.terms += [:copyright_question_two]
-    self.terms += [:copyright_question_three]
+    self.terms += [:requires_permissions]
+    self.terms += [:other_copyrights]
+    self.terms += [:patents]
     # my embargo terms
     self.terms += [:embargo_length]
     self.terms += [:embargo_release_date]

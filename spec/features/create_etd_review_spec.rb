@@ -47,7 +47,7 @@ RSpec.feature 'Create an Etd', :clean do
       tinymce_fill_in('etd_table_of_contents', 'Chapter One')
       select 'Aeronomy', from: 'Research Field'
       fill_in 'Keyword', with: "Courtship"
-      find('#question_1').choose('No')
+      find('#requires_permissions').choose('No')
 
       expect(page).to have_css 'li#required-my-etd.complete'
 
@@ -165,7 +165,7 @@ RSpec.feature 'Create an Etd', :clean do
       tinymce_fill_in('etd_table_of_contents', 'Chapter One')
       select 'Aeronomy', from: 'Research Field'
       fill_in 'Keyword', with: "Courtship"
-      find('#question_1').choose('No')
+      find('#requires_permissions').choose('No')
 
       expect(page).to have_css 'li#required-my-etd.complete'
 
@@ -290,7 +290,7 @@ RSpec.feature 'Create an Etd', :clean do
       tinymce_fill_in('etd_table_of_contents', 'Chapter One')
       select 'Aeronomy', from: 'Research Field'
       fill_in 'Keyword', with: "Courtship"
-      find('#question_1').choose('No')
+      find('#requires_permissions').choose('No')
 
       expect(page).to have_css 'li#required-my-etd.complete'
 
