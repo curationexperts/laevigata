@@ -254,4 +254,26 @@ describe EtdPresenter do
     it { is_expected.to delegate_method(:copyright_question_two).to(:solr_document) }
     it { is_expected.to delegate_method(:copyright_question_three).to(:solr_document) }
   end
+
+  context "copyrights and patents questions" do
+    let(:etd) { FactoryBot.build(:etd) }
+    let(:ability) { Ability.new(FactoryBot.build(:user)) }
+    let(:presenter) do
+      described_class.new(SolrDocument.new(etd.to_solr), ability)
+    end
+
+    it "returns selection for permission requirement if any" do
+      allow(presenter).to receive(:requires_permission_question).and_return("Yes")
+      expect(presenter.requires_permission_question).to eq("Yes")
+    end
+
+    it "returns selection for ownership of copyrights question if any" do
+      allow(presenter).to receive(:other_copyrights_question).and_return("No")
+      expect(presenter.other_copyrights_question).to eq("No")
+    end
+
+    it "returns selection for patents question eligibility if any" do
+      expect(presenter.patents_question).to eq("Unanswered")
+    end
+  end
 end
