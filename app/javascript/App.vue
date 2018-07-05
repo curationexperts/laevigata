@@ -39,6 +39,9 @@
             <div v-else-if="input.label === 'Submitting Type'">
               <submittingType></submittingType>
             </div>
+            <div v-else-if="input.label === 'Committee Member'">
+              <committeeMember></committeeMember>
+            </div>
             <div v-else-if="input.label === 'Degree'">
               <degree></degree>
             </div>
@@ -82,6 +85,8 @@ import ResearchField from "./ResearchField"
 import GraduationDate from "./GraduationDate"
 import Language from "./Language"
 import Subfield from "./Subfield"
+import CommitteeMember from "./CommitteeMember"
+
 let token = document
   .querySelector('meta[name="csrf-token"]')
   .getAttribute("content")
@@ -107,7 +112,8 @@ export default {
     graduationDate: GraduationDate,
     language: Language,
     department: Department,
-    subfield: Subfield
+    subfield: Subfield,
+    committeeMember: CommitteeMember
   },
   methods: {
     etdPrefix(index) {
