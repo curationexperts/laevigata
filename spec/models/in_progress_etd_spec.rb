@@ -26,6 +26,14 @@ describe InProgressEtd do
         expect(in_progress_etd).not_to be_valid
       end
     end
+
+    context "with missing school and graduation_date" do
+      let(:in_progress_etd) { described_class.new(data: { currentTab: "About Me", creator: "Student", post_graduation_email: "" }.to_json) }
+
+      it "is not valid" do
+        expect(in_progress_etd).not_to be_valid
+      end
+    end
   end
 
   describe "My Program" do
