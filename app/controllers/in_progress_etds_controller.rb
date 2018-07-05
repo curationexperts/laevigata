@@ -6,8 +6,11 @@ class InProgressEtdsController < ApplicationController
   def create
     @in_progress_etd = InProgressEtd.new
     @in_progress_etd.data = prepare_etd_data.to_json
-    @in_progress_etd.save
-    redirect_to @in_progress_etd
+    if @in_progress_etd.save
+      redirect_to @in_progress_etd
+    else
+      render json: { errors: @in_progress_etd.errors.messages }, status: 422
+    end
   end
 
   def edit
