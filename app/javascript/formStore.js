@@ -4,7 +4,7 @@ export var formStore = {
   tabs: {
     about_me: {
       label: 'About Me',
-      help_text: '',
+      help_text: `It's time to submit your thesis or dissertation! Let's begin with some basic information.`,
       enabled: true,
       selected: true,
       completed: false,
@@ -18,7 +18,7 @@ export var formStore = {
     },
     my_program: {
       label: 'My Program',
-      help_text: '',
+      help_text: 'Tell us a little bit more about the specifics of your program.',
       enabled: false,
       selected: false,
       completed: false,
@@ -33,7 +33,9 @@ export var formStore = {
     },
     my_advisor: {
       label: 'My Advisor',
-      help_text: '',
+      help_text: `Please provide some details about the people who supervised your submission.
+      If your committee chair, thesis advisor, or committee members
+      are not affiliated with Emory, select "Non-Emory" and enter their organization.`,
       description: '',
       enabled: false,
       selected: false,
@@ -46,7 +48,7 @@ export var formStore = {
     },
     my_etd: {
       label: 'My Etd',
-      help_text: '',
+      help_text: 'Please describe your primary submission document.',
       enabled: false,
       selected: false,
       completed: false,
@@ -60,7 +62,7 @@ export var formStore = {
     },
     keywords: {
       label: 'Keywords',
-      help_text: '',
+      help_text: 'Please provide some additional information about your submission.',
       enabled: false,
       selected: false,
       completed: false,
@@ -87,7 +89,7 @@ export var formStore = {
     },
     my_files: {
       label: 'My Files',
-      help_text: '',
+      help_text: 'Upload the version of your thesis or dissertation approved by your advisor or committee. You can only upload one file. This file should not contain any signatures or other personally identifying information. PDF/A is a better version for preservation and for that reason we recommend you upload a PDF/A file, but it is not required. For help converting your manuscript to PDF/A, please contact Student Digital Life.',
       enabled: false,
       selected: false,
       completed: false,
@@ -98,7 +100,7 @@ export var formStore = {
     },
     embargo: {
       label: 'Embargo',
-      help_text: '',
+      help_text: 'You have the option to restrict access to your thesis or dissertation for a limited time. First, select whether you would like to apply an embargo and how long you would like it to apply. Then select which parts of your record to include in the embargo. If you are unsure whether to embargo your ETD, consult with your thesis advisor or committee chair.',
       enabled: false,
       selected: false,
       completed: false,
@@ -112,7 +114,8 @@ export var formStore = {
     },
     submit: {
       label: 'Submit',
-      help_text: '',
+      help_text: `Please take a moment to review all your answers before submitting your document(s) to your department or school for approval.
+       Afer you submit your document(s), your school will be notified and staff will review your submission for acceptance.`,
       enabled: false,
       selected: false,
       completed: false,
