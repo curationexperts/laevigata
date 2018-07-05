@@ -63,7 +63,7 @@
           <input name="etd[currentTab]" type="hidden" :value="value.label" />
           <button type="submit" class="btn btn-default">Submit</button>
           <section v-if="errored">
-            Invalidation Errors happened:        
+            Invalidation Errors happened:
               <p>{{ errors }}</p>
           </section>
         </div>
@@ -134,6 +134,8 @@ export default {
           config: { headers: { "Content-Type": "multipart/form-data" } }
         })
         .then(response => {
+          that.errored = false
+          that.errors = []
         })
         .catch(error => {
           that.errored = true
@@ -163,7 +165,7 @@ ul {
      position: relative;
      margin-bottom: 0;
      min-width:100px;
-     text-align: center 
+     text-align: center
 }
  ul li a {
      display: block;

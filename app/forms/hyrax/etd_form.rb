@@ -47,6 +47,18 @@ module Hyrax
       def self.my_program_terms
         [:department, :subfield, :partnering_agency, :degree, :submitting_type]
       end
+
+      def self.my_etd_terms
+        [:title, :language, :abstract, :table_of_contents]
+      end
+
+      def self.my_advisor_terms
+        [:committee_member_attributes, :committee_chair_attributes]
+      end
+
+      def self.keyword_terms
+        [:keyword, :research_field]
+      end
     end
 
     def about_me_fields
