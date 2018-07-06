@@ -22,6 +22,9 @@
             <div v-else-if="input.label === 'subfield'">
               <subfield></subfield>
             </div>
+            <div v-else-if="input.label === 'files'">
+              <primary-file-uploader></primary-file-uploader>
+            </div>
             <div v-else-if="input.label === 'Table of Contents'">
               <label>{{ input.label }}</label>
                <quill-editor ref="myTextEditor"
@@ -89,6 +92,7 @@ import GraduationDate from "./GraduationDate"
 import Language from "./Language"
 import Subfield from "./Subfield"
 import CommitteeMember from "./CommitteeMember"
+import PrimaryFileUploader from './PrimaryFileUploader.vue';
 
 let token = document
   .querySelector('meta[name="csrf-token"]')
@@ -100,6 +104,8 @@ export default {
     return {
       form: formStore,
       tabInputs: [],
+      files: [],
+      deleteableFiles: [],
       editorOptions: {
       },
       errored: false,
@@ -116,7 +122,8 @@ export default {
     language: Language,
     department: Department,
     subfield: Subfield,
-    committeeMember: CommitteeMember
+    committeeMember: CommitteeMember,
+    primaryFileUploader: PrimaryFileUploader
   },
   methods: {
     etdPrefix(index) {

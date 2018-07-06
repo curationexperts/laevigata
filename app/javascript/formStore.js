@@ -89,7 +89,10 @@ export var formStore = {
     },
     my_files: {
       label: 'My Files',
-      help_text: 'Upload the version of your thesis or dissertation approved by your advisor or committee. You can only upload one file. This file should not contain any signatures or other personally identifying information. PDF/A is a better version for preservation and for that reason we recommend you upload a PDF/A file, but it is not required. For help converting your manuscript to PDF/A, please contact Student Digital Life.',
+      help_text: `Upload the version of your thesis or dissertation approved by your advisor or committee. 
+      You can only upload one file. This file should not contain any signatures or other personally identifying 
+      information. PDF/A is a better version for preservation and for that reason we recommend you upload a PDF/A file, but it is not required. 
+      For help converting your manuscript to PDF/A, please contact Student Digital Life`,
       enabled: false,
       selected: false,
       completed: false,
@@ -123,6 +126,7 @@ export var formStore = {
     }
   },
   committeeChairs: [],
+  deletablePrimaryFiles: [],
   departments: [],
   selectedDepartment: '',
   subfields: [],
