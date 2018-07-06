@@ -14,6 +14,6 @@ describe('CommitteeMember.vue', () => {
   it('has the correct html', () => {
     const wrapper = shallowMount(CommitteeMember, {
     })
-    expect(wrapper.html()).toEqual('<div> <p><a data-turbolinks="false">Add Another Chair or Advisor</a></p>  <p><a data-turbolinks="false">Add Another Committee Member</a></p></div>')
+    expect(wrapper.html()).toEqual('<div> <p><a href="#" data-turbolinks="false" class="btn btn-default">Add Another Chair or Advisor</a></p>  <br> <a href="#" data-turbolinks="false" class="btn btn-default">Add Another Committee Member</a></div>')
   })
 })
