@@ -1,6 +1,10 @@
 <template>
     <div>
-        <input name="primary_files[]" type="file" ref="fileInput" @change="onFileChange">
+        <input name="primary_files[]" type="file" ref="fileInput" @change="onFileChange" accept="application/pdf"/>
+        <br>
+        <div class="progress">
+          <div class="progress-bar" :style="'width:' + progress + '%'" role="progressbar" :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
         <div v-for="files in sharedState.deletablePrimaryFiles" v-bind:key="files[0].deleteUrl">
             <div v-for="file in files" v-bind:key="file.deleteUrl">
                 {{ file.name }}
@@ -20,6 +24,7 @@ let token = document
 export default {
   data() {
     return {
+      progress: 0,
       sharedState: formStore
     }
   },
@@ -42,10 +47,11 @@ export default {
         }
       }
       xhr.send(this.getFormData())
+      this.progress = 0
     },
     onprogressHandler(evt) {
       var percent = evt.loaded / evt.total * 100
-      console.log("Upload progress: " + percent + "%")
+      this.progress = percent
     },
     getFormData() {
       var form = document.getElementById("vue_form")
