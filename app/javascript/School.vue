@@ -51,6 +51,7 @@ export default {
   watch: {
     selected() {
       this.fetchData();
+      formStore.clearSubfields() 
     }
   }
 };

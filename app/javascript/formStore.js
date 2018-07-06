@@ -139,6 +139,9 @@ export var formStore = {
     'Psychology': '/authorities/terms/local/psychology_programs',
     'Executive Masters of Public Health - MPH': '/authorities/terms/local/executive_programs'
   },
+  clearSubfields () {
+    this.subfields = []
+  },
   addCommitteeMember (affilation, name) {
     this.committeeChairs.push({affilation: affilation, name: name})
   },
