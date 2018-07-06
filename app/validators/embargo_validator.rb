@@ -10,6 +10,7 @@ class EmbargoValidator < ActiveModel::Validator
   end
 
   def parsed_data(record)
+    return {} unless record.data
     JSON.parse(record.data)
   end
 
