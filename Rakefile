@@ -6,3 +6,7 @@ require_relative 'config/application'
 Rails.application.load_tasks
 
 require 'solr_wrapper/rake_task' unless Rails.env.production?
+
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.rspec_opts = '--profile'
+end
