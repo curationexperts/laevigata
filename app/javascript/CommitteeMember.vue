@@ -1,42 +1,44 @@
 <template>
     <div>
-        <div v-for="(index, committeeChair) in committeeChairs" v-bind:value="committeeChair.name" v-bind:key='index.id'>
+        <div v-for="chair in committeeChairs" v-bind:value="chair.name" v-bind:key='chair.id'>
             <label>Committee Chair/Thesis Advisor's Affliation</label>
-            <select :name="chairAffiliationTypeAttr(index)" class="form-control">
+            <select :name="chairAffiliationTypeAttr(chair)" class="form-control">
                 <option disabled selected>
-                    Select an affliation
+                    Select an affiliation
                 </option>
                 <option>Emory University</option>
                 <option>Non-Emory</option>
             </select>
             <label>Committee Chair/Thesis Advisor's Name</label>
-            <input :name="chairNameAttr(index)" type="text" class="form-control" />
+            <input :name="chairNameAttr(chair)" type="text" class="form-control" />
 
+           
             <label>Affiliation</label> 
-            <input :name="chairAffiliationAttr(index)" type="text" class="form-control" />
-             <a data-turbolinks="false" @click="removeChair(index)">Remove Chair or Advisor</a>
+            <input :name="chairAffiliationAttr(chair)" type="text" class="form-control" />
+
+             <a class="btn btn-default" href="#" data-turbolinks="false" @click="removeChair(chair)">Remove Chair or Advisor</a>
         </div>
         <p>
-        <a data-turbolinks="false" @click="addChair">Add Another Chair or Advisor</a>
+        <a href="#" class="btn btn-default" data-turbolinks="false" @click="addChair">Add Another Chair or Advisor</a>
         </p>
-         <div v-for="(index, member) in committeeMembers" v-bind:value="member.name" v-bind:key='member.id'>
+         <div v-for="member in committeeMembers" v-bind:value="member.name" v-bind:key='member.id'>
             <label>Committee Member's Affiliation</label>
-            <select :name="memberAffiliationTypeAttr(index)" class="form-control">
+            <select :name="memberAffiliationTypeAttr(member)" class="form-control">
                 <option disabled selected>
-                    Select an affliation
+                    Select an affiliation
                 </option>
                 <option>Emory University</option>
                 <option>Non-Emory</option>
             </select>
             <label>Committee Member's Name</label>
-            <input :name="memberNameAttr(index)" type="text" class="form-control" />
+            <input :name="memberNameAttr(member)" type="text" class="form-control" />
             <label>Affiliation</label> 
-            <input :name="memberAffiliationAttr(index)" type="text" class="form-control" />
-            <a data-turbolinks="false" @click="removeMember(index)">Remove Committee Member</a>
+            <input :name="memberAffiliationAttr(member)" type="text" class="form-control" />
+            <a href="#" class="btn btn-default" data-turbolinks="false" @click="removeMember(member)">Remove Committee Member</a>
+            <br>
         </div>
-        <p>
-        <a data-turbolinks="false" @click="addMember">Add Another Committee Member</a>
-        </p>
+        <br>
+        <a href="#" class="btn btn-default" data-turbolinks="false" @click="addMember">Add Another Committee Member</a>
     </div>
 </template>
 
@@ -50,41 +52,42 @@ export default {
     return {
       committeeChairs: [],
       committeeMembers: [],
+      selectedAffiliation: [],
       sharedState: formStore,
     };
   },
   methods: {
       addMember () {
-          this.committeeMembers.push({id: this.committeeMembers.length + 1, affliation: '', name: ''})
+          this.committeeMembers.push({id: this.committeeMembers.length + 1, affiliation: '', name: ''})
       },
-      removeMember(index) {
-          const filteredMembers = this.committeeMembers.filter((member) => member.id !== index.id)
+      removeMember(member) {
+          const filteredMembers = this.committeeMembers.filter((member) => member.id !== member.id)
           this.committeeMembers = filteredMembers
       },
       addChair () {
-          this.committeeChairs.push({id: this.committeeChairs.length + 1, affliation: '', name: ''})
+          this.committeeChairs.push({id: this.committeeChairs.length + 1, affiliation: '', name: ''})
       },
-      removeChair(index) {
-          const filteredChairs = this.committeeChairs.filter((chair) => chair.id !== index.id)
+      removeChair(chair) {
+          const filteredChairs = this.committeeChairs.filter((chair) => chair.id !== chair.id)
           this.committeeChairs = filteredChairs
       },
-      chairNameAttr(index) {
-          return `etd[committee_chair_attributes][${index}][name][]`
+      chairNameAttr(chair) {
+          return `etd[committee_chair_attributes][${chair.id}][name][]`
       },
-      chairAffiliationAttr(index) {
-          return `etd[committee_chair_attributes][${index}][affiliation][]`
+      chairAffiliationAttr(chair) {
+          return `etd[committee_chair_attributes][${chair.id}][affiliation][]`
       },
-      chairAffiliationTypeAttr(index) {
-        return `etd[committee_chair_attributes][${index}][affiliation_type]`
+      chairAffiliationTypeAttr(chair) {
+        return `etd[committee_chair_attributes][${chair.id}][affiliation_type]`
       },
-      memberNameAttr(index) {
-          return `etd[committee_member_attributes][${index}][name][]`
+      memberNameAttr(member) {
+          return `etd[committee_member_attributes][${member.id}][name][]`
       },
-      memberAffiliationAttr(index) {
-          return `etd[committee_member_attributes][${index}][affiliation][]`
+      memberAffiliationAttr(member) {
+          return `etd[committee_member_attributes][${member.id}][affiliation][]`
       },
-      memberAffiliationTypeAttr(index) {
-        return `etd[committee_member_attributes][${index}][affiliation_type]`
+      memberAffiliationTypeAttr(member) {
+        return `etd[committee_member_attributes][${member.id}][affiliation_type]`
       }
   },
   watch: {
