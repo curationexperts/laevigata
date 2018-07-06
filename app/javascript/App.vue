@@ -62,7 +62,6 @@
               <input class="form-control" :name="etdPrefix(index)" v-model="input.value">
             </div>
           </div>
-          <!--  TODO: add tab label as hidden input, for validation -->
           <input name="etd[currentTab]" type="hidden" :value="value.label" />
           <button type="submit" class="btn btn-default">Submit</button>
           <section v-if="errored">
@@ -141,6 +140,7 @@ export default {
           config: { headers: { "Content-Type": "multipart/form-data" } }
         })
         .then(response => {
+          console.log('hi')
           that.errored = false
           that.errors = []
         })
