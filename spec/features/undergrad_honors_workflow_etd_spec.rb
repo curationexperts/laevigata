@@ -4,18 +4,23 @@ require 'rails_helper'
 require 'workflow_setup'
 include Warden::Test::Helpers
 
-RSpec.feature 'Emory College approval workflow',
-              :perform_jobs, :clean, :js, integration: true do
+RSpec.feature 'Emory College approval workflow', :perform_jobs, :clean, :js, integration: true, workflow: { admin_sets_config: 'spec/fixtures/config/emory/ec_admin_sets.yml' } do
   let(:depositing_user) { User.where(ppid: etd.depositor).first }
-  let(:approving_user) { User.where(uid: "ecadmin").first }
-  let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
+  let(:ability) { ::Ability.new(depositing_user) }
+  let(:approving_user) { User.find_by_uid("ecadmin") }
+  let(:admin_user) { User.find_by_uid('wonderwoman001') }
   let(:etd) { FactoryBot.create(:sample_data, school: ["Emory College"]) }
+  let(:attributes) { {} }
+  let(:env) { Hyrax::Actors::Environment.new(etd, ability, attributes) }
+  let(:terminator) { Hyrax::Actors::Terminator.new }
+  let(:middleware) do
+    Hyrax::DefaultMiddlewareStack.build_stack.build(terminator)
+  end
+
   context 'a logged in user' do
     before do
       allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
-      w.setup
-      actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(depositing_user))
-      actor.create({})
+      middleware.create(env)
     end
     scenario "a school approver approves a work" do
       expect(etd.active_workflow.name).to eq "emory_one_step_approval"
@@ -51,8 +56,7 @@ RSpec.feature 'Emory College approval workflow',
       expect(available_workflow_actions.include?("unhide")).to eq true
 
       # Last superuser should have all workflow options available. (First superuser gets these by virtue of owning the admin sets.)
-      expect(w.superusers.count).to be > 1 # This test is meaningless if there is only one superuser
-      available_workflow_actions = Hyrax::Workflow::PermissionQuery.scope_permitted_workflow_actions_available_for_current_state(user: w.superusers.last, entity: etd.to_sipity_entity).pluck(:name)
+      available_workflow_actions = Hyrax::Workflow::PermissionQuery.scope_permitted_workflow_actions_available_for_current_state(user: admin_user, entity: etd.to_sipity_entity).pluck(:name)
       expect(available_workflow_actions.include?("mark_as_reviewed")).to eq false # this workflow step should only exist for Laney
       expect(available_workflow_actions.include?("approve")).to eq true
       expect(available_workflow_actions.include?("request_changes")).to eq true

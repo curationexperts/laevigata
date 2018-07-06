@@ -3,39 +3,25 @@
 require 'rails_helper'
 require 'workflow_setup'
 include Warden::Test::Helpers
-RSpec.describe Etd, :perform_jobs, :clean do
+RSpec.describe Etd, :perform_jobs, :clean, workflow: { admin_sets_config: 'spec/fixtures/config/emory/laney_admin_sets.yml' } do
   let(:etd) { FactoryBot.create(:ready_for_proquest_submission_phd) }
   context "ProQuest submission" do
-    let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/laney_admin_sets.yml", "/dev/null") }
     let(:proquest_dtd) { "#{fixture_path}/proquest/Dissertations_metadata48.dtd" }
     let(:output_xml) { "#{fixture_path}/proquest/output.xml" }
+    let(:approving_user) { User.where(ppid: 'laneyadmin').first }
     let(:user) { User.where(ppid: etd.depositor).first }
     let(:ability) { ::Ability.new(user) }
-    let(:file1_path) { "#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf" }
-    let(:file2_path) { "#{::Rails.root}/spec/fixtures/miranda/image.tif" }
-    let(:upload1) do
-      File.open(file1_path) do |file1|
-        Hyrax::UploadedFile.create(user: user, file: file1, pcdm_use: 'primary')
-      end
+    let(:upload1) { FactoryBot.create(:primary_uploaded_file, user_id: user.id) }
+    let(:upload2) { FactoryBot.create(:supplementary_uploaded_file, user_id: user.id) }
+    let(:attributes) { { uploaded_files: [upload1.id, upload2.id] } }
+    let(:env) { Hyrax::Actors::Environment.new(etd, ability, attributes) }
+    let(:terminator) { Hyrax::Actors::Terminator.new }
+    let(:middleware) do
+      Hyrax::DefaultMiddlewareStack.build_stack.build(terminator)
     end
-    let(:upload2) do
-      File.open(file2_path) do |file2|
-        Hyrax::UploadedFile.create(
-          user: user,
-          file: file2,
-          pcdm_use: 'supplementary',
-          description: 'Description of the supplementary file',
-          file_type: 'Image'
-        )
-      end
-    end
-    let(:actor) { Hyrax::CurationConcern.actor(etd, ability) }
-    let(:attributes_for_actor) { { uploaded_files: [upload1.id, upload2.id] } }
-    let(:approving_user) { User.where(ppid: 'laneyadmin').first }
     before do
       allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
-      w.setup
-      actor.create(attributes_for_actor)
+      middleware.create(env)
       subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
       sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
       Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "Preapproved")
