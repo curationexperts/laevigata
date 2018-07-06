@@ -5,10 +5,11 @@ export var formStore = {
     about_me: {
       label: 'About Me',
       help_text: `It's time to submit your thesis or dissertation! Let's begin with some basic information.`,
-      enabled: true,
+      disabled: false,
       selected: true,
       completed: false,
-      step: 1,
+      currentStep: true,
+      step: 0,
       inputs: {
         creator: { label: 'Student Name', value: [], required: true },
         school: { label: 'School', value: [] },
@@ -19,10 +20,11 @@ export var formStore = {
     my_program: {
       label: 'My Program',
       help_text: 'Tell us a little bit more about the specifics of your program.',
-      enabled: false,
+      disabled: true,
       selected: false,
       completed: false,
-      step: 2,
+      currentStep: false,
+      step: 1,
       inputs: {
         department: { label: 'Department', value: [] },
         partnering_agency: { label: 'Partnering Agency', value: [], required: true },
@@ -37,10 +39,11 @@ export var formStore = {
       If your committee chair, thesis advisor, or committee members
       are not affiliated with Emory, select 'Non-Emory' and enter their organization.`,
       description: '',
-      enabled: false,
+      disabled: true,
       selected: false,
       completed: false,
-      step: 3,
+      currentStep: false,
+      step: 2,
       inputs: {
         committee_member: { label: 'Committee Member', value: [], required: true }
 
@@ -49,10 +52,11 @@ export var formStore = {
     my_etd: {
       label: 'My Etd',
       help_text: 'Please describe your primary submission document.',
-      enabled: false,
+      disabled: true,
       selected: false,
       completed: false,
-      step: 4,
+      currentStep: false,
+      step: 3,
       inputs: {
         title: { label: 'Title', value: [], required: true },
         language: { label: 'Language', value: [], required: true },
@@ -63,10 +67,11 @@ export var formStore = {
     keywords: {
       label: 'Keywords',
       help_text: 'Please provide some additional information about your submission.',
-      enabled: false,
+      disabled: true,
       selected: false,
       completed: false,
-      step: 5,
+      currentStep: false,
+      step: 4,
       inputs: {
         research_field: { label: 'Research Field', value: [], required: true },
         keyword: { label: 'Keyword', value: [], required: true },
@@ -75,14 +80,15 @@ export var formStore = {
     },
     my_files: {
       label: 'My Files',
-      help_text: `Upload the version of your thesis or dissertation approved by your advisor or committee. 
-      You can only upload one file. This file should not contain any signatures or other personally identifying 
-      information. PDF/A is a better version for preservation and for that reason we recommend you upload a PDF/A file, but it is not required. 
+      help_text: `Upload the version of your thesis or dissertation approved by your advisor or committee.
+      You can only upload one file. This file should not contain any signatures or other personally identifying
+      information. PDF/A is a better version for preservation and for that reason we recommend you upload a PDF/A file, but it is not required.
       For help converting your manuscript to PDF/A, please contact Student Digital Life`,
-      enabled: false,
+      disabled: true,
       selected: false,
       completed: false,
-      step: 6,
+      currentStep: false,
+      step: 5,
       inputs: {
         files: { label: 'files', value: [] }
       }
@@ -90,10 +96,11 @@ export var formStore = {
     embargo: {
       label: 'Embargo',
       help_text: 'You have the option to restrict access to your thesis or dissertation for a limited time. First, select whether you would like to apply an embargo and how long you would like it to apply. Then select which parts of your record to include in the embargo. If you are unsure whether to embargo your ETD, consult with your thesis advisor or committee chair.',
-      enabled: false,
+      disabled: true,
       selected: false,
       completed: false,
-      step: 7,
+      currentStep: false,
+      step: 6,
       inputs: {
         embargo_length: { label: 'embargo_length', value: [], required: true },
         files_embargoed: { label: 'files_embargoed', value: [], required: true },
@@ -105,10 +112,11 @@ export var formStore = {
       label: 'Submit',
       help_text: `Please take a moment to review all your answers before submitting your document(s) to your department or school for approval.
        Afer you submit your document(s), your school will be notified and staff will review your submission for acceptance.`,
-      enabled: false,
+      disabled: true,
       selected: false,
       completed: false,
-      step: 8
+      currentStep: false,
+      step: 7
     }
   },
   copyrightQuestions: [{
@@ -165,8 +173,5 @@ export var formStore = {
     Axios.get(this.subfieldEndpoints[this.selectedDepartment]).then(response => {
       this.subfields = response.data
     })
-  },
-  toggleSelected (index) {
-    this.tabs[index].selected = !this.tabs[index].selected
   }
 }
