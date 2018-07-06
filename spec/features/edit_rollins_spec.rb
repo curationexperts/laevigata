@@ -60,7 +60,8 @@ RSpec.feature 'Edit an existing ETD',
     file_ids = [uploaded_etd.id]
 
     env = Hyrax::Actors::Environment.new(etd, ::Ability.new(student), uploaded_files: file_ids)
-    Hyrax::CurationConcern.actor.create(env)
+    middleware = Hyrax::DefaultMiddlewareStack.build_stack.build(Hyrax::Actors::Terminator.new)
+    middleware.create(env)
 
     # Approver requests changes, so student will be able to edit the ETD
     change_workflow_status(etd, "request_changes", approver)
