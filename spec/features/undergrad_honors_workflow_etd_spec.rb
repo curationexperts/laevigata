@@ -13,8 +13,9 @@ RSpec.feature 'Emory College approval workflow', :perform_jobs, :clean, :js do
     before do
       allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
       w.setup
-      actor = Hyrax::CurationConcern.actor(etd, ::Ability.new(depositing_user))
-      actor.create({})
+      env = Hyrax::Actors::Environment.new(etd, ::Ability.new(depositing_user), {})
+      middleware = Hyrax::DefaultMiddlewareStack.build_stack.build(Hyrax::Actors::Terminator.new)
+      middleware.create(env)
     end
     scenario "a school approver approves a work" do
       expect(etd.active_workflow.name).to eq "emory_one_step_approval"
