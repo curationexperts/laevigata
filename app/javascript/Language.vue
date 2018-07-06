@@ -2,10 +2,10 @@
     <div>
         <label>Language</label>
         <select name="etd[language]" class="form-control">
-            <option v-for="langauge in langauges" v-bind:value="langauge.id" 
-            v-bind:key='langauge.id' v-if="langauge.active" :disabled="researchField.disabled"  
-            :selected="researchField.selected">
-                {{ langauge.label }}
+            <option v-for="language in languages" v-bind:value="language.id"
+            v-bind:key='language.id' v-if="language.active" :disabled="language.disabled"
+            :selected="language.selected">
+                {{ language.label }}
             </option>
         </select>
     </div>
@@ -16,15 +16,15 @@ import Axios from "axios"
 export default {
   data() {
     return {
-      langaugesEndpoint: "/authorities/terms/local/languages_list",
-      langauges: {}
+      languagesEndpoint: "/authorities/terms/local/languages_list",
+      languages: {}
     }
   },
   methods: {
     fetchData() {
       Axios.get(this.languagesEndpoint).then(response => {
-        this.langauges = response.data
-        this.langauges.unshift({ "value": "", "active": true, "label": "Select a Language", "disabled":"disabled" ,"selected": "selected"})
+        this.languages = response.data
+        this.languages.unshift({ "value": "", "active": true, "label": "Select a Language", "disabled":"disabled" ,"selected": "selected"})
 
       })
     }

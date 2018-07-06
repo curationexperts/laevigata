@@ -19,6 +19,8 @@ document.addEventListener('turbolinks:load', function () {
       getEtdData: function(){
         var form = document.getElementById("etd_form")
         var formData = new FormData(form)
+        formData.delete('etd[currentTab]')
+
         return formData
       },
       submitEtd: function(){
