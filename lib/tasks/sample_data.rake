@@ -6,63 +6,29 @@ namespace :sample_data do
   task :basic do
     sample_data = [:sample_data, :sample_data_with_everything_embargoed, :sample_data_with_only_files_embargoed, :ateer_etd]
     sample_data.each do |s|
-      etd_factory = EtdFactory.new
-      etd = FactoryBot.create(
-        s,
-        submitting_type: ["Master's Thesis"],
-        school: ["Rollins School of Public Health"],
-        department: ["Epidemiology"],
-        degree: ["M.S."],
-        subfield: ["Political Robotics"]
-      )
-      primary_pdf_file = "#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf"
-      etd_factory.etd = etd
-      etd_factory.primary_pdf_file = primary_pdf_file
-      etd_factory.attach_primary_pdf_file
-      etd_factory.supplemental_files = ["#{::Rails.root}/spec/fixtures/miranda/rural_clinics.zip", "#{::Rails.root}/spec/fixtures/miranda/image.tif"]
-      etd_factory.attach_supplemental_files
-      etd_factory.etd.save
-      puts "Created #{etd.id}"
+      RSpec::Mocks.with_temporary_scope do
+        user = FactoryBot.create(:user)
+        etd = FactoryBot.create(
+          s,
+          submitting_type: ["Master's Thesis"],
+          school: ["Rollins School of Public Health"],
+          department: ["Epidemiology"],
+          degree: ["M.S."],
+          subfield: ["Political Robotics"],
+          depositor: user.user_key
+        )
+        upload1 = FactoryBot.create(:primary_uploaded_file, user_id: user.id)
+        upload2 = FactoryBot.create(:uploaded_image_file, user_id: user.id)
+        upload3 = FactoryBot.create(:uploaded_data_file, user_id: user.id)
+        attributes_for_actor = { uploaded_files: [upload1.id, upload2.id, upload3.id] }
+        env = Hyrax::Actors::Environment.new(etd, ::Ability.new(user), attributes_for_actor)
+        middleware = Hyrax::DefaultMiddlewareStack.build_stack.build(Hyrax::Actors::Terminator.new)
+        middleware.create(env)
+      end
     end
   end
 
-  desc "Sample data with supplementary file metadata"
-  task :with_supplementary_file_metadata do
-    puts "Making sample data with supplementary file metadata"
-    sample_data = [
-      :sample_data,
-      :sample_data_with_everything_embargoed,
-      :sample_data_with_only_files_embargoed
-    ]
-    sample_data.each do |s|
-      etd = FactoryBot.create(s)
-      uploaded_files = []
-      primary_pdf_file = "#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf"
-      supplementary_file_one = "#{::Rails.root}/spec/fixtures/miranda/rural_clinics.zip"
-      supplementary_file_two = "#{::Rails.root}/spec/fixtures/miranda/image.tif"
-      uploaded_files << Hyrax::UploadedFile.create(
-        file: File.open(primary_pdf_file),
-        pcdm_use: FileSet::PRIMARY
-      )
-      uploaded_files << Hyrax::UploadedFile.create(
-        file: File.open(supplementary_file_one),
-        pcdm_use: FileSet::SUPPLEMENTARY,
-        title: "Rural Clinics in Georgia",
-        description: "GIS shapefile showing rural clinics",
-        file_type: "Dataset"
-      )
-      uploaded_files << Hyrax::UploadedFile.create(
-        file: File.open(supplementary_file_two),
-        pcdm_use: FileSet::SUPPLEMENTARY,
-        title: "Photographer",
-        description: "a portrait of the artist",
-        file_type: "Image"
-      )
-      AttachFilesToWorkJob.perform_now(etd, uploaded_files)
-      puts "Created #{etd.id}"
-    end
-  end
-
+  desc "Build sample data for all admin sets"
   task :workflow do
     sample_data = [:sample_data, :sample_data_with_everything_embargoed, :sample_data_with_only_files_embargoed]
     school_based_admin_sets = ["Laney Graduate School", "Emory College", "Candler School of Theology"]
@@ -70,31 +36,25 @@ namespace :sample_data do
     admin_sets.each do |as|
       puts "Making sample data for #{as}"
       sample_data.each do |s|
-        etd = FactoryBot.build(s, submitting_type: ["Master's Thesis"], degree: ["M.S."])
-        if school_based_admin_sets.include?(as)
-          etd.school = [as]
-        else
-          etd.school = ["Rollins School of Public Health"]
-          etd.department = [as]
+        RSpec::Mocks.with_temporary_scope do
+          user = FactoryBot.create(:user)
+          etd = FactoryBot.build(s, submitting_type: ["Master's Thesis"], degree: ["M.S."], depositor: user.id)
+          if school_based_admin_sets.include?(as)
+            etd.school = [as]
+          else
+            etd.school = ["Rollins School of Public Health"]
+            etd.department = [as]
+          end
+          etd.save
+          ability = ::Ability.new(user)
+          upload1 = FactoryBot.create(:primary_uploaded_file, user_id: user.id)
+          upload2 = FactoryBot.create(:uploaded_image_file, user_id: user.id)
+          attributes_for_actor = { uploaded_files: [upload1.id, upload2.id] }
+          env = Hyrax::Actors::Environment.new(etd, ability, attributes_for_actor)
+          middleware = Hyrax::DefaultMiddlewareStack.build_stack.build(Hyrax::Actors::Terminator.new)
+          middleware.create(env)
+          puts "Created #{etd.id}"
         end
-        etd.assign_admin_set
-        user = User.where(ppid: etd.depositor).first
-        ability = ::Ability.new(user)
-
-        file1_path = "#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf"
-        file2_path = "#{::Rails.root}/spec/fixtures/miranda/image.tif"
-        upload1 = File.open(file1_path) do |file1|
-          Hyrax::UploadedFile.create(user: user, file: file1, pcdm_use: 'primary')
-        end
-        upload2 = File.open(file2_path) do |file2|
-          Hyrax::UploadedFile.create(user: user, file: file2, pcdm_use: 'supplementary')
-        end
-
-        attributes_for_actor = { uploaded_files: [upload1.id, upload2.id] }
-        env = Hyrax::Actors::Environment.new(etd, ability, attributes_for_actor)
-        Hyrax::CurationConcern.actor.create(env)
-
-        puts "Created #{etd.id}"
       end
     end
   end
