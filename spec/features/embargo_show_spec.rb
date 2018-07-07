@@ -3,7 +3,7 @@ require 'workflow_setup'
 require 'etd_factory'
 include Warden::Test::Helpers
 
-RSpec.feature 'Display an ETD with embargoed content', :clean do
+RSpec.feature 'Display an ETD with embargoed content', :clean, integration: true do
   let(:etd) do
     etd = FactoryBot.create(:sample_data_with_everything_embargoed, school: ["Candler School of Theology"])
     etd_factory = EtdFactory.new

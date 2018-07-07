@@ -1,6 +1,8 @@
 require 'rails_helper'
 
-RSpec.feature 'Do not send email to blacklisted addresses', :clean do
+RSpec.feature 'Do not send email to blacklisted addresses',
+              :clean,
+              integration: true do
   before do
     ActionMailer::Base.deliveries.clear
   end

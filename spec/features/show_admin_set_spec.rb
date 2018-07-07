@@ -1,7 +1,7 @@
 require 'rails_helper'
 include Warden::Test::Helpers
 
-RSpec.feature 'show admin set' do
+RSpec.feature 'show admin set', integration: true do
   let(:admin_set) { FactoryBot.create(:admin_set) }
   let(:admin) { FactoryBot.create(:admin) }
 

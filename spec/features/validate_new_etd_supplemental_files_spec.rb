@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Form Validation: "Supplemental Files" tab' do
+RSpec.feature 'Form Validation: "Supplemental Files" tab', integration: true do
   let(:student) { create :user }
 
   context 'a student (non-admin user)' do

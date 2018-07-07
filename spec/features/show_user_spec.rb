@@ -1,7 +1,7 @@
 require 'rails_helper'
 include Warden::Test::Helpers
 
-RSpec.feature 'show user profile' do
+RSpec.feature 'show user profile', integration: true do
   let(:user) { FactoryBot.create(:user) }
 
   scenario "show user profile but not email address" do

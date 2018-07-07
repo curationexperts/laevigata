@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-RSpec.feature 'Collection objects should not appear in search results', :clean do
+RSpec.feature 'Collection objects should not appear in search results',
+              :clean, integration: true do
   let(:collection) { build(:collection) }
 
   context 'a search for everything' do

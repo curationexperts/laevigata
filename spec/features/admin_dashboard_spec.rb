@@ -2,6 +2,7 @@ require 'rails_helper'
 include Warden::Test::Helpers
 
 RSpec.feature 'Admin dashboard',
+              integration: true,
               workflow: { admin_sets_config: 'spec/fixtures/config/emory/epidemiology_admin_sets.yml' } do
 
   context 'as an admin user' do

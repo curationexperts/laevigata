@@ -7,7 +7,8 @@ unless Rails.env.production?
   require 'solr_wrapper/rake_task'
 
   desc "Run Continuous Integration"
-  task :ci do
+  task :ci, [:test_suite] do |task, args|
+    test_suite = args[:test_suite] || "spec"
     ENV["environment"] = "test"
     solr_params = {
       port: 8985,
@@ -28,7 +29,7 @@ unless Rails.env.production?
         dir: Rails.root.join("solr", "config")
       ) do
         FcrepoWrapper.wrap(fcrepo_params) do
-          Rake::Task["spec"].invoke
+          Rake::Task[test_suite].invoke
         end
       end
     end

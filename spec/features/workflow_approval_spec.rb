@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'workflow_setup'
 include Warden::Test::Helpers
 
-RSpec.feature 'Dashboard workflow', :clean do
+RSpec.feature 'Dashboard workflow', :clean, integration: true do
   let(:approving_user)  { User.find_by(uid: "candleradmin") }
   let(:depositing_user) { FactoryBot.create(:user) }
 
