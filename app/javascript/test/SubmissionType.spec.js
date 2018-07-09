@@ -1,10 +1,16 @@
 /* global describe */
 /* global it */
 /* global expect */
+/* global jest */
 import { shallowMount } from '@vue/test-utils'
 import SubmittingType from 'SubmittingType'
+import axios from 'axios'
+jest.mock('axios')
 
 describe('SubmittingType.vue', () => {
+  const resp = {data: [{'id': 'Honors Thesis', 'label': 'Honors Thesis', 'active': true}]}
+  axios.get.mockResolvedValue(resp)
+
   it('renders a select element', () => {
     const wrapper = shallowMount(SubmittingType, {
     })

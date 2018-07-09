@@ -35,7 +35,7 @@ export var formStore = {
       label: 'My Advisor',
       help_text: `Please provide some details about the people who supervised your submission.
       If your committee chair, thesis advisor, or committee members
-      are not affiliated with Emory, select "Non-Emory" and enter their organization.`,
+      are not affiliated with Emory, select 'Non-Emory' and enter their organization.`,
       description: '',
       enabled: false,
       selected: false,
@@ -130,6 +130,8 @@ export var formStore = {
   departments: [],
   selectedDepartment: '',
   subfields: [],
+  languages: [{ 'value': '', 'active': true, 'label': 'Select a Language', 'disabled':'disabled' ,'selected': 'selected'}],
+  languagesEndpoint: '/authorities/terms/local/languages_list',
   subfieldEndpoints: {
     'Biological and Biomedical Sciences': '/authorities/terms/local/biological_programs',
     'Biostatistics': '/authorities/terms/local/biostatistics_programs',

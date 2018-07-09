@@ -1,10 +1,18 @@
 /* global describe */
 /* global it */
 /* global expect */
+/* global jest */
+
 import { shallowMount } from '@vue/test-utils'
 import Degree from 'Degree'
+import axios from 'axios'
+
+jest.mock('axios')
 
 describe('Degree.vue', () => {
+  const resp = {data: [{'id': 'Th.D.', 'label': 'Th.D.', 'active': true}]}
+  axios.get.mockResolvedValue(resp)
+
   it('renders a select element', () => {
     const wrapper = shallowMount(Degree, {
     })
