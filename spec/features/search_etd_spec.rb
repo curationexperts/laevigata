@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Search for an ETD' do
+RSpec.feature 'Search for an ETD', integration: true do
   let(:etd) do
     FactoryBot.create(
       :etd,

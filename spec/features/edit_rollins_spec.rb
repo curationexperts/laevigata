@@ -4,6 +4,7 @@ require 'workflow_setup'
 include Warden::Test::Helpers
 
 RSpec.feature 'Edit an existing ETD',
+              integration: true,
               workflow: { admin_sets_config: 'spec/fixtures/config/emory/epidemiology_admin_sets.yml' } do
   let(:approver) { User.where(uid: "epidemiology_admin").first }
   let(:student) { create :user }

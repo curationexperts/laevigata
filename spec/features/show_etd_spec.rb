@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'workflow_setup'
 include Warden::Test::Helpers
 
-RSpec.feature 'Display ETD metadata', :clean do
+RSpec.feature 'Display ETD metadata', :clean, integration: true do
   let(:etd) do
     FactoryBot.create(:sample_data_with_copyright_questions,
                       partnering_agency: ["CDC"],

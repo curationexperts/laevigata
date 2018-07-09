@@ -1,7 +1,7 @@
 require 'rails_helper'
 include Warden::Test::Helpers
 
-RSpec.feature 'Primary PDF' do
+RSpec.feature 'Primary PDF', integration: true do
   let(:user) { create :user }
   context 'a logged in user uploads Primary PDF' do
     before do

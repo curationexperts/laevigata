@@ -3,7 +3,7 @@ require 'rails_helper'
 
 include Warden::Test::Helpers
 
-RSpec.feature 'Read Only Mode' do
+RSpec.feature 'Read Only Mode', integration: true do
   let(:student) { create :user }
 
   context 'a logged in user' do

@@ -4,7 +4,7 @@ require 'rails_helper'
 
 include Warden::Test::Helpers
 
-RSpec.feature 'Create an Etd: My Etd' do
+RSpec.feature 'Create an Etd: My Etd', integration: true do
   let(:user) { create :user }
 
   context 'a logged in user' do

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 include Warden::Test::Helpers
 
-RSpec.feature 'Using Controlled Vocabularies', :workflow do
+RSpec.feature 'Using Controlled Vocabularies', :workflow, integration: true do
   let(:admin) { create(:admin) }
   let(:user)  { create(:user) }
 

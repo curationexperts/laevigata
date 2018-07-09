@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'workflow_setup'
 include Warden::Test::Helpers
 
-RSpec.feature 'Candler approval workflow', :perform_jobs, :clean do
+RSpec.feature 'Candler approval workflow', :perform_jobs, :clean, integration: true do
   let(:depositing_user) { FactoryBot.create(:user) }
   let(:approving_user) { User.where(uid: "candleradmin").first }
   let(:admin_superuser) { User.where(uid: "tezprox").first } # uid from superuser.yml

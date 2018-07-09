@@ -2,7 +2,7 @@ require 'rails_helper'
 
 include Warden::Test::Helpers
 
-RSpec.feature 'Validate an Etd: About Me' do
+RSpec.feature 'Validate an Etd: About Me', integration: true do
   let(:user) { create :user }
 
   context 'a logged in user' do

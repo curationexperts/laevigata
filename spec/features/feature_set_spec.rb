@@ -1,7 +1,7 @@
 require 'rails_helper'
 include Warden::Test::Helpers
 
-RSpec.feature 'Feature configuration' do
+RSpec.feature 'Feature configuration', integration: true do
   context 'via a config file' do
     scenario 'unwanted features are disabled' do
       expect(Flipflop.proxy_deposit?).to eq false

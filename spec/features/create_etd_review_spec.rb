@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'workflow_setup'
 include Warden::Test::Helpers
 
-RSpec.feature 'Create an Etd', :clean do
+RSpec.feature 'Create an Etd', :clean, integration: true do
   let(:user) { create :user }
 
   context 'a logged in (non-admin) user' do

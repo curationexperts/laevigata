@@ -1,7 +1,7 @@
 require 'rails_helper'
 include Warden::Test::Helpers
 
-RSpec.feature 'Supplemental files' do
+RSpec.feature 'Supplemental files', integration: true do
   let(:user) { create :user }
   context 'logged in user uploads Supplemental files' do
     before do

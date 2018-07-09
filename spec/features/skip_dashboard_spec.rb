@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Skip the dashboard' do
+RSpec.feature 'Skip the dashboard', integration: true do
   let(:user) { FactoryBot.create(:user) }
 
   context 'an unauthenticated user' do
