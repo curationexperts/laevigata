@@ -12,20 +12,19 @@
 </template>
 
 <script>
-import Axios from "axios"
+import axios from "axios"
+import { formStore } from './formStore'
 export default {
   data() {
     return {
-      languagesEndpoint: "/authorities/terms/local/languages_list",
-      languages: {}
+      languagesEndpoint: formStore.languagesEndpoint,
+      languages: formStore.languages
     }
   },
   methods: {
     fetchData() {
-      Axios.get(this.languagesEndpoint).then(response => {
-        this.languages = response.data
-        this.languages.unshift({ "value": "", "active": true, "label": "Select a Language", "disabled":"disabled" ,"selected": "selected"})
-
+      axios.get(this.languagesEndpoint).then(response => {
+        this.languages.push(response.data)
       })
     }
   },

@@ -1,6 +1,7 @@
 /* global describe */
 /* global it */
 /* global expect */
+
 import { shallowMount } from '@vue/test-utils'
 import CommitteeMember from 'CommitteeMember'
 
