@@ -26,13 +26,14 @@ describe ProquestJob, :clean do
         )
       end
     end
-    let(:actor) { Hyrax::CurationConcern.actor }
     let(:attributes_for_actor) { { uploaded_files: [upload1.id, upload2.id] } }
     let(:approving_user) { User.where(ppid: 'laneyadmin').first }
     before do
       allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
       w.setup
-      actor.create(Hyrax::Actors::Environment.new(etd, ability, attributes_for_actor))
+      env = Hyrax::Actors::Environment.new(etd, ability, attributes_for_actor)
+      middleware = Hyrax::DefaultMiddlewareStack.build_stack.build(Hyrax::Actors::Terminator.new)
+      middleware.create(env)
       subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
       sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
       Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "Preapproved")

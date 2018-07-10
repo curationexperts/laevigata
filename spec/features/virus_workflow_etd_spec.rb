@@ -25,7 +25,8 @@ RSpec.feature 'Virus checking', :perform_jobs, :clean, :js, integration: true do
 
       attributes_for_actor = { uploaded_files: [upload1.id] }
       env = Hyrax::Actors::Environment.new(etd, ::Ability.new(depositing_user), attributes_for_actor)
-      Hyrax::CurationConcern.actor.create(env)
+      middleware = Hyrax::DefaultMiddlewareStack.build_stack.build(Hyrax::Actors::Terminator.new)
+      middleware.create(env)
     end
 
     scenario "supplemental file with virus" do
