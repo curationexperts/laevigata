@@ -27,6 +27,7 @@ append :linked_dirs, "log"
 
 append :linked_files, ".env.production"
 append :linked_files, "config/secrets.yml"
+append :linked_files, "config/database.yml"
 
 # We have to re-define capistrano-sidekiq's tasks to work with
 # systemctl in production

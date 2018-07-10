@@ -1,6 +1,3 @@
-# We run postgres in production so we should run
-# postgres in development and test environments too
-#
 default: &default
   adapter:  postgresql
   encoding: unicode
