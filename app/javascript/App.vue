@@ -160,13 +160,10 @@ export default {
 
 <style scoped>
 ul {
-     clear: left;
-     float: left;
-     list-style: none;
-     position: relative;
-     margin: 0;
-     padding: 0;
-     margin-bottom: 0;
+     margin-bottom: 2em;
+     border-bottom: 1px solid #00000029;
+     box-shadow: 0px 2px 6px whitesmoke;
+     width: 100%;
 }
  li {
      margin: 0;
@@ -188,28 +185,17 @@ ul {
      border-top-left-radius: 5px;
      border-top-right-radius: 5px;
      padding: 1em;
-     border-bottom: 0;
-     margin-bottom:0;
      margin-right: 0.5em;
 }
- .tab-content {
-     margin-top:0;
-     clear: left;
-     box-shadow: 2px 1px .5px rgba(0,0,0,0.06);
-     border: 1px solid rgba(0,0,0,0.15);
-}
  .tab-content > * {
-     margin-left:2em;
      margin-right: 2em;
      margin-bottom: 1em;
 }
  .tab-content > h1 {
      padding-left: 0;
-     margin-left: 0.7em;
      margin-bottom:0.4em;
 }
  .tab-content > button {
-     margin-left: 1.7em;
      margin-bottom:1.5em;
 }
  input {
