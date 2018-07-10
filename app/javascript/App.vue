@@ -2,12 +2,12 @@
   <div>
     <ul class="nav navtabs">
       <li v-for="(value,index) in form.tabs" v-bind:key="value.label">
-        <a href="#" data-turbolinks="false" class="tab" v-on:click="form.toggleSelected(index)">{{ value.label }}</a>
+        <a href="#" data-turbolinks="false" class="tab" v-bind:class="{ disabled: value.disabled }" v-on:click="setCurrentStep(value.label)">{{ value.label }}</a>
       </li>
     </ul>
     <form role="form" id="vue_form" action="/concern/etds/new" method="post" @submit.prevent="onSubmit">
       <div v-for="value in form.tabs" v-bind:key="value.label">
-        <div class="tab-content form-group" v-if="value.selected">
+        <div class="tab-content form-group" v-if="value.currentStep">
           <h1> {{ value.label }} </h1>
           <p>
             {{ value.help_text }}
@@ -66,7 +66,8 @@
             </div>
           </div>
           <input name="etd[currentTab]" type="hidden" :value="value.label" />
-          <button type="submit" class="btn btn-default">Submit</button>
+          <input name="etd[currentStep]" type="hidden" :value="value.step" />
+          <button type="submit" class="btn btn-default">Save and Continue</button>
           <section v-if="errored">
             Invalidation Errors happened:
               <p>{{ errors }}</p>
@@ -111,7 +112,8 @@ export default {
       editorOptions: {
       },
       errored: false,
-      errors: []
+      errors: [],
+      lastCompletedStep: 0
     }
   },
   components: {
@@ -129,6 +131,41 @@ export default {
     copyrightQuestions: CopyrightQuestions
   },
   methods: {
+    // tabs that have been validated and the current tab are enabled
+    enableTabs(){
+      for (var tab in this.form.tabs){
+        if (this.form.tabs[tab].complete == true || this.form.tabs[tab].currentStep == true){
+          this.form.tabs[tab].disabled = false
+        } else {
+          this.form.tabs[tab].disabled = true
+        }
+      }
+    },
+    setComplete(tab_name){
+      for (var tab in this.form.tabs){
+        if (this.form.tabs[tab].label == tab_name){
+          this.form.tabs[tab].complete = true
+        }
+      }
+    },
+    setCurrentStep(tab_label){
+      for (var tab in this.form.tabs){
+        if (this.form.tabs[tab].label == tab_label){
+          this.form.tabs[tab].currentStep = true
+        } else {
+          this.form.tabs[tab].currentStep = false
+        }
+      }
+    },
+    nextStepIsCurrent(lastCompletedStep){
+      for (var tab in this.form.tabs){
+        if (this.form.tabs[tab].step == parseInt(lastCompletedStep) + 1) {
+          this.form.tabs[tab].currentStep = true
+        } else {
+          this.form.tabs[tab].currentStep = false
+        }
+      }
+    },
     etdPrefix(index) {
       return "etd[" + index + "]"
     },
@@ -144,9 +181,11 @@ export default {
           config: { headers: { "Content-Type": "multipart/form-data" } }
         })
         .then(response => {
-          console.log('hi')
           that.errored = false
           that.errors = []
+          that.nextStepIsCurrent(response.data.lastCompletedStep)
+          that.setComplete(response.data.tab_name)
+          that.enableTabs()
         })
         .catch(error => {
           that.errored = true
@@ -187,6 +226,12 @@ ul {
      padding: 1em;
      margin-right: 0.5em;
 }
+
+ .disabled {
+     color: #cdcdcd;
+     cursor: not-allowed !important;
+ }
+
  .tab-content > * {
      margin-right: 2em;
      margin-bottom: 1em;
@@ -198,6 +243,7 @@ ul {
  .tab-content > button {
      margin-bottom:1.5em;
 }
+
  input {
      margin-bottom: 1em;
 }
