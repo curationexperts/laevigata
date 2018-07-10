@@ -18,4 +18,17 @@ describe('App.vue', () => {
     // expect the form to display errors and not increment current tab/move the user to next tab
     // expect the disabled property to be false for all tabs that are complete and the current tab
   })
+  it('loads all saved data into form inputs', () => {
+    var data = { creator: "A Student", school: "Emory College", graduation_date: "today", post_graduation_email: "adult@graduated.com" }
+
+    const wrapper = shallowMount(App, {
+    })
+
+    // call the method with the mocked data
+    wrapper.vm.$data.form.loadSavedData(data)
+    const value = wrapper.vm.$refs.creator.currentValue
+    // not working yet
+    // expect(value).toBe('A Student')
+  })
+
 })

@@ -226,5 +226,22 @@ export var formStore = {
     axios.get(this.subfieldEndpoints[this.selectedDepartment]).then(response => {
       this.subfields = response.data
     })
+  },
+  loadSavedData(data){
+    if (Object.keys(data).length > 0){
+      for (var tab in this.tabs){
+         if (!this.tabs[tab].disabled){
+           var input_keys = Object.keys(this.tabs[tab].inputs)
+            input_keys.forEach(function(el){
+              if (this.tabs[tab].inputs[el].value.isArray) {
+                //TODO: find best way to mark our value as selected
+                this.tabs[tab].inputs[el].selected = data[el]
+              } else {
+                this.tabs[tab].inputs[el].value = data[el]
+              }
+            }, this)
+         }
+      }
+    }
   }
 }
