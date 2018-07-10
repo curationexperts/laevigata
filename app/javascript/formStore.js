@@ -42,7 +42,7 @@ export var formStore = {
       completed: false,
       step: 3,
       inputs: {
-        committee_member: { label: 'Committee Member', value: [], required: true },
+        committee_member: { label: 'Committee Member', value: [], required: true }
 
       }
     },
@@ -70,21 +70,7 @@ export var formStore = {
       inputs: {
         research_field: { label: 'Research Field', value: [], required: true },
         keyword: { label: 'Keyword', value: [], required: true },
-        requires_permissions: {
-          label: 'Requires Permissions Question',
-          value: false,
-          required: true
-        },
-        additional_copyrights: {
-          label: 'Additional Copyrights Question',
-          value: false,
-          required: true
-        },
-        patents: {
-          label: 'Patents Question',
-          value: false,
-          required: true
-        }
+        copyrights: { label: 'Copyright & Patents' }
       }
     },
     my_files: {
@@ -125,12 +111,29 @@ export var formStore = {
       step: 8
     }
   },
+  copyrightQuestions: [{
+    'label': 'Fair Use',
+    'text': `Does your thesis or dissertation contain any thirdy-party text, audiovisual content or other material which is beyond a fair use and would require permission?`,
+    'choice': 'no',
+    'name': 'etd[requires_permissions]'
+  }, {
+    'label': 'Copyright',
+    'text': `Does your thesis or dissertation contain content, such as a previously published article, for which you no longer own copyright? If you have quiestions about your use of copyrighted material, contact the Scholarly Communications Office at scholcom@listserv.cc.emory.edu`,
+    'choice': 'no',
+    'name': 'etd[additional_copyrights]'
+  },
+  {
+    'label': 'Patents',
+    'text': `Does your thesis or dissertation disclose or described any inventions or discoveries that could potentially have commerical application and therefore may be patended? If so please contact the Office of Technology Transfer (OTT) at (404) 727-2211.`,
+    'choice': 'no',
+    'name': 'etd[patents]'
+  }],
   committeeChairs: [],
   deletablePrimaryFiles: [],
   departments: [],
   selectedDepartment: '',
   subfields: [],
-  languages: [{ 'value': '', 'active': true, 'label': 'Select a Language', 'disabled':'disabled' ,'selected': 'selected'}],
+  languages: [{ 'value': '', 'active': true, 'label': 'Select a Language', 'disabled': 'disabled', 'selected': 'selected' }],
   languagesEndpoint: '/authorities/terms/local/languages_list',
   subfieldEndpoints: {
     'Biological and Biomedical Sciences': '/authorities/terms/local/biological_programs',
@@ -145,7 +148,7 @@ export var formStore = {
     this.subfields = []
   },
   addCommitteeMember (affilation, name) {
-    this.committeeChairs.push({affilation: affilation, name: name})
+    this.committeeChairs.push({ affilation: affilation, name: name })
   },
   setSelectedDepartment (department) {
     this.selectedDepartment = department

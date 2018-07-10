@@ -54,6 +54,9 @@
             <div v-else-if="input.label === 'Research Field'">
               <researchField></researchField>
             </div>
+            <div v-else-if="input.label === 'Copyright & Patents'">
+              <copyrightQuestions></copyrightQuestions>
+            </div>
             <div v-else-if="input.label === 'Language'">
               <language></language>
             </div>
@@ -91,8 +94,8 @@ import GraduationDate from "./GraduationDate"
 import Language from "./Language"
 import Subfield from "./Subfield"
 import CommitteeMember from "./CommitteeMember"
-import PrimaryFileUploader from './PrimaryFileUploader.vue';
-
+import PrimaryFileUploader from './PrimaryFileUploader.vue'
+import CopyrightQuestions from './CopyrightQuestions'
 let token = document
   .querySelector('meta[name="csrf-token"]')
   .getAttribute("content")
@@ -122,7 +125,8 @@ export default {
     department: Department,
     subfield: Subfield,
     committeeMember: CommitteeMember,
-    primaryFileUploader: PrimaryFileUploader
+    primaryFileUploader: PrimaryFileUploader,
+    copyrightQuestions: CopyrightQuestions
   },
   methods: {
     etdPrefix(index) {
