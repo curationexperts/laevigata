@@ -22,34 +22,6 @@ or cherokee rose is the <a href="https://georgia.gov/georgia-facts-and-symbols">
 
 See the [dotenv sample file](dotenv.sample) for environment variables you may need to set in your development environment.
 
-## Environment variables in production
-Laevigata depends on certain environment variables being set. In development mode, these can be set via a `.env` file. You can see an example in `dotenv.sample`. See also [the dotenv project](https://github.com/bkeepers/dotenv) for more details about how this works.  In production, values are set in a file called `.env.production`. Expected values include:
-* `BOX_EXPIRY_TIME_IN_MINTUTES` - minutes before box upload links will expire, defaults to 360
-* `RAILS_HOST` - used to generate urls in notification emails
-* `ACTION_MAILER_SMTP_ADDRESS`
-* `ACTION_MAILER_PORT`
-* `ACTION_MAILER_USER_NAME`
-* `ACTION_MAILER_PASSWORD`
-* `HONEYBADGER_API_KEY`
-* `BOX_OAUTH_CLIENT_ID`
-* `BOX_OAUTH_CLIENT_SECRET`
-* `FITS_PATH`
-* `LIBREOFFICE_PATH`
-* `UPLOAD_PATH`
-* `CACHE_PATH`
-* `DERIVATIVES_PATH`
-* `WORKING_PATH`
-* `FFMPEG_PATH`
-* `DATABASE_NAME`
-* `DATABASE_USERNAME`
-* `DATABASE_PASSWORD`
-* `PROQUEST_SFTP_HOST`
-* `PROQUEST_SFTP_USER`
-* `PROQUEST_SFTP_PASSWORD`
-* `PROQUEST_NOTIFICATION_EMAIL`
-* `REGISTRAR_DATA_PATH` - the file from which to load registrar data (e.g., for graduation status and dates)
-* `NEW_UI_ENABLED` (should be set to default to false in all .env files)
-
 ## Cron jobs in production
 
 There are certain cron jobs that are expected to run in production. These include graduation job,
@@ -91,8 +63,8 @@ add the email address to the list in `config/emory/do_not_send.yml`
 1. Start redis
     `redis-server &`
     *note:* use ` &` to start in the background, or run redis in a new terminal session
-1. Setup environment variables for your development environment: 
-    `cp dotenv.sample .env.development`, 
+1. Setup environment variables for your development environment:
+    `cp dotenv.sample .env.development`,
     see the [Environment variables in development](#environment-variables-in-development) section for more details
 1. Read the section on 'Database Authentication' below and decide if you want to set up your environment for database authentication.
 1. Start the demo server in its own terminal session
