@@ -25,6 +25,9 @@
             <div v-else-if="input.label === 'files'">
               <primary-file-uploader></primary-file-uploader>
             </div>
+              <div v-else-if="input.label === 'supplemental-files'">
+              <Supplemental-files></supplemental-files>
+            </div>
             <div v-else-if="input.label === 'Table of Contents'">
               <label>{{ input.label }}</label>
                <quill-editor ref="myTextEditor"
@@ -101,6 +104,7 @@ import CommitteeMember from "./CommitteeMember"
 import PrimaryFileUploader from './PrimaryFileUploader.vue'
 import CopyrightQuestions from './CopyrightQuestions'
 import Embargo from './Embargo'
+import SupplementalFiles from './SupplementalFiles'
 
 let token = document
   .querySelector('meta[name="csrf-token"]')
@@ -134,7 +138,8 @@ export default {
     committeeMember: CommitteeMember,
     primaryFileUploader: PrimaryFileUploader,
     copyrightQuestions: CopyrightQuestions,
-    embargo: Embargo
+    embargo: Embargo,
+    SupplementalFiles: SupplementalFiles
   },
   methods: {
     // tabs that have been validated and the current tab are enabled
@@ -198,6 +203,7 @@ export default {
           that.errors = []
           that.errors.push(error.response.data.errors)
         })
+
     }
   }
 }

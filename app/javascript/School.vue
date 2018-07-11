@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       sharedState: formStore,
-      selected: ''
+      selected: formStore.getSelectedSchool()
     }
   },
   methods: {

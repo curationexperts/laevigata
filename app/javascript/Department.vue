@@ -2,7 +2,7 @@
   <div>
     <label>Department</label>
     <select class="form-control" id="department" v-model="selected">
-      <option v-for="department in sharedState.departments" v-bind:value="department.label" v-bind:key="department.label">
+      <option v-for="department in sharedState.departments" :selected="department.selected" v-bind:value="department.label" v-bind:key="department.label">
         {{ department.label }}
       </option>
     </select>
@@ -17,7 +17,7 @@ import { formStore } from "./formStore";
 export default {
   data() {
     return {
-      selected: "",
+      selected: formStore.getSelectedDepartment(),
       sharedState: formStore
     };
   },

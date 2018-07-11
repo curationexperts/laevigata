@@ -1,11 +1,11 @@
 <template>
     <div>
-        <input name="primary_files[]" type="file" ref="fileInput" @change="onFileChange" accept="application/pdf"/>
+        <input name="supplemental_files[]" type="file" ref="fileInput" @change="onFileChange" accept="application/pdf"/>
         <br>
         <div class="progress">
           <div class="progress-bar" :style="'width:' + progress + '%'" role="progressbar" :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <div v-for="files in sharedState.deletablePrimaryFiles" v-bind:key="files[0].deleteUrl">
+        <div v-for="files in sharedState.deletableSupplementalFiles" v-bind:key="files[0].deleteUrl">
             <div v-for="file in files" v-bind:key="file.deleteUrl">
                 {{ file.name }}
                 <a href="#" data-turbolinks="false" @click="deleteFile(file.deleteUrl)">Remove this file</a>
@@ -16,7 +16,6 @@
 
 <script>
 import { formStore } from "./formStore"
-import axios from 'axios'
 
 let token = document
   .querySelector('meta[name="csrf-token"]')
@@ -33,14 +32,13 @@ export default {
     onFileChange(e) {
       var files = e.target.files || e.dataTransfer.files
       if (!files.length) return
-
       var xhr = new XMLHttpRequest()
       xhr.upload.addEventListener("progress", this.onprogressHandler, false)
       xhr.open("POST", "/uploads/", true)
       xhr.setRequestHeader("X-CSRF-Token", token)
       xhr.onreadystatechange = () => {
         if (xhr.readyState == XMLHttpRequest.DONE) {
-          formStore.deletablePrimaryFiles.push(
+          this.sharedState.addDeleteableSupplementalFile(
             JSON.parse(xhr.responseText).files
           )
           const input = this.$refs.fileInput
@@ -49,7 +47,6 @@ export default {
         }
       }
       xhr.send(this.getFormData())
-      this.progress = 0
     },
     onprogressHandler(evt) {
       var percent = evt.loaded / evt.total * 100
@@ -61,15 +58,7 @@ export default {
       return formData
     },
     deleteFile(deleteUrl) {
-      var xhr = new XMLHttpRequest()
-      xhr.open("DELETE", deleteUrl, true)
-      xhr.setRequestHeader("X-CSRF-Token", token)
-      xhr.send(null)
-      console.log(deleteUrl)
-      const filteredFiles = this.sharedState.deletablePrimaryFiles.filter(
-        file => file[0].deleteUrl !== deleteUrl
-      )
-      this.sharedState.deletablePrimaryFiles = filteredFiles
+     this.sharedState.deleteSupplementalFile(deleteUrl, token)
     }
   }
 }
