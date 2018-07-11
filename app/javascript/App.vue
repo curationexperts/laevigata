@@ -54,6 +54,9 @@
             <div v-else-if="input.label === 'Research Field'">
               <researchField></researchField>
             </div>
+            <div v-else-if="input.label === 'Embargo'">
+              <embargo></embargo>
+            </div>
             <div v-else-if="input.label === 'Copyright & Patents'">
               <copyrightQuestions></copyrightQuestions>
             </div>
@@ -97,6 +100,8 @@ import Subfield from "./Subfield"
 import CommitteeMember from "./CommitteeMember"
 import PrimaryFileUploader from './PrimaryFileUploader.vue'
 import CopyrightQuestions from './CopyrightQuestions'
+import Embargo from './Embargo'
+
 let token = document
   .querySelector('meta[name="csrf-token"]')
   .getAttribute("content")
@@ -128,7 +133,8 @@ export default {
     subfield: Subfield,
     committeeMember: CommitteeMember,
     primaryFileUploader: PrimaryFileUploader,
-    copyrightQuestions: CopyrightQuestions
+    copyrightQuestions: CopyrightQuestions,
+    embargo: Embargo
   },
   methods: {
     // tabs that have been validated and the current tab are enabled
