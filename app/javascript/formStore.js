@@ -1,4 +1,4 @@
-import Axios from 'axios'
+import axios from 'axios'
 
 export var formStore = {
   tabs: {
@@ -102,10 +102,7 @@ export var formStore = {
       currentStep: false,
       step: 6,
       inputs: {
-        embargo_length: { label: 'embargo_length', value: [], required: true },
-        files_embargoed: { label: 'files_embargoed', value: [], required: true },
-        abstract_embargoed: { label: 'abstract_embargoed', value: [], required: true },
-        toc_embargoed: { label: 'toc_embargoed', value: [], required: true }
+        embargo: { label: 'Embargo', value: [] }
       }
     },
     submit: {
@@ -152,6 +149,50 @@ export var formStore = {
     'Psychology': '/authorities/terms/local/psychology_programs',
     'Executive Masters of Public Health - MPH': '/authorities/terms/local/executive_programs'
   },
+  schools: {
+    candler:
+    '/authorities/terms/local/candler_programs',
+    emory: '/authorities/terms/local/emory_programs',
+    laney: '/authorities/terms/local/laney_programs',
+    rollins:
+    '/authorities/terms/local/rollins_programs',
+    selected: '',
+    options: [
+      {
+        text: 'Select a School',
+        value: '',
+        disabled: 'disabled',
+        selected: 'selected'
+      },
+      { text: 'Candler School of Theology', value: 'candler' },
+      { text: 'Emory College', value: 'emory' },
+      { text: 'Laney Graduate School', value: 'laney' },
+      { text: 'Rollins School of Public Health', value: 'rollins' }
+    ]
+  },
+  embargoContents: [{ text: 'Files',
+    value: '[:files_embargoed]',
+    disabled: false
+  },
+  { text: 'Files and Table of Contents',
+    value: '[:files_embargoed, :toc_embargoed]',
+    disabled: false
+  },
+  { text: 'Files and Table of Contents and Abstract',
+    value: '[:files_embargoed, :toc_embargoed, :abstract_embargoed]',
+    disabled: false
+  }
+  ],
+  embargoLengths: {
+    emory: [{value: 'None - open access immediately', selected: 'selected'},
+      {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}],
+    candler: [{value: 'None - open access immediately', selected: 'selected'},
+      {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}],
+    laney: [{value: 'None - open access immediately', selected: 'selected'}, {value: '6 Months'},
+      {value: '1 year'}, {value: '2 Years'}, {value: '6 years'}],
+    rollins: [{value: 'None - open access immediately', selected: 'selected'},
+      {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}]
+  },
   clearSubfields () {
     this.subfields = []
   },
@@ -164,13 +205,25 @@ export var formStore = {
   getSelectedDepartment () {
     return this.selectedDepartment
   },
+  setSelectedSchool (school) {
+    this.schools.selected = school
+  },
+  getEmbargoLengths () {
+    return this.embargoLengths[this.schools.selected]
+  },
+  getEmbargoContents () {
+    return this.embargoContents
+  },
+  getSelectedSchool () {
+    return this.schools.selected
+  },
   getDepartments (selectedSchool) {
-    Axios.get(selectedSchool).then(response => {
+    axios.get(selectedSchool).then(response => {
       this.departments = response.data
     })
   },
   getSubfields () {
-    Axios.get(this.subfieldEndpoints[this.selectedDepartment]).then(response => {
+    axios.get(this.subfieldEndpoints[this.selectedDepartment]).then(response => {
       this.subfields = response.data
     })
   }
