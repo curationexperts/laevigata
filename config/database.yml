@@ -1,11 +1,13 @@
 # We run postgres in production so we should run
 # postgres in development and test environments too
-#
+
 default: &default
-  adapter:  postgresql
+  adapter:  <%= ENV['DATABASE_ADAPTER'] || 'postgresql' %>
   encoding: unicode
-  pool:     25
+  pool:     <%= ENV['DATABASE_POOL'] || 5 %>
   timeout:  5000
+  host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
+  min_messages: <%= ENV['DATABASE_MIN_MESSAGES'] || 'warning' %>
 
 development:
   <<: *default
