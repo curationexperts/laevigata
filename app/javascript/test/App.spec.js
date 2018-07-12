@@ -10,13 +10,45 @@ describe('App.vue', () => {
     })
     expect(wrapper.findAll('form')).toHaveLength(1)
   })
-  it('updates the formStore tabs with all save-and-continue requests and progresses user from left to right through each', () => {
-    const wrapper = shallowMount(App, {
+
+  describe('Tab Navigation', () => {
+    it('enables the completed and current tabs', () => {
+      const wrapper = shallowMount(App, {
+      })
+      wrapper.vm.$data.form.tabs.about_me.complete = true
+      wrapper.vm.$data.form.tabs.my_program.complete = true
+      wrapper.vm.$data.form.tabs.my_advisor.currentStep = true
+
+      wrapper.vm.enableTabs()
+
+      expect(wrapper.vm.$data.form.tabs.about_me.disabled).toBe(false)
+      expect(wrapper.vm.$data.form.tabs.my_program.disabled).toBe(false)
+      expect(wrapper.vm.$data.form.tabs.my_advisor.disabled).toBe(false)
     })
-    // setup two tests, mocking successful and failing requests to save a tab
-    // expect the tab complete property to be true on success and false on failure
-    // expect the form to display errors and not increment current tab/move the user to next tab
-    // expect the disabled property to be false for all tabs that are complete and the current tab
+
+    it('can set the complete property of a tab', () => {
+      const wrapper = shallowMount(App, {
+      })
+      wrapper.vm.setComplete('About Me')
+
+      expect(wrapper.vm.$data.form.tabs.about_me.complete).toBe(true)
+    })
+
+    it('sets the current tab property', () => {
+      const wrapper = shallowMount(App, {
+      })
+      wrapper.vm.setCurrentStep('My Advisor')
+
+      expect(wrapper.vm.$data.form.tabs.my_advisor.currentStep).toBe(true)
+    })
+
+    it('determines the next current tab', () => {
+      const wrapper = shallowMount(App, {
+      })
+      wrapper.vm.nextStepIsCurrent(3)
+
+      expect(wrapper.vm.$data.form.tabs.keywords.currentStep).toBe(true)
+    })
   })
   it('loads all saved data into form inputs', () => {
     var data = { creator: "A Student", school: "Emory College", graduation_date: "today", post_graduation_email: "adult@graduated.com" }
