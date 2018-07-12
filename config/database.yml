@@ -21,6 +21,7 @@ test:
   database: laevigata_test
 
 production:
+  adapter:  'postgresql'
   database: <%= ENV['DATABASE_NAME'] %>
   username: <%= ENV['DATABASE_USERNAME'] %>
   password: <%= ENV['DATABASE_PASSWORD'] %>
