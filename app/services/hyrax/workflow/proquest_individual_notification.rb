@@ -37,10 +37,10 @@ module Hyrax
       end
 
       def call
-        Rails.logger.warn "ProquestIndividualNotification: ETD #{@work.id} was sent to ProQuest -- notified #{@recipient.email}"
         user = ::User.find_or_create_by(uid: WorkflowSetup::NOTIFICATION_OWNER)
         recipients.each do |recipient|
           user.send_message(recipient, @message, @subject)
+          Rails.logger.warn "ProquestIndividualNotification: ETD #{@work.id} was sent to ProQuest -- notified #{recipient.email}"
         end
       end
 
