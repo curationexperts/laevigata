@@ -2,7 +2,7 @@
   <div>
     <ul class="nav navtabs">
       <li v-for="(value,index) in form.tabs" v-bind:key="value.label">
-        <a href="#" data-turbolinks="false" class="tab" v-bind:class="{ disabled: value.disabled }" v-on:click="setCurrentStep(value.label)">{{ value.label }}</a>
+        <a href="#" data-turbolinks="false" class="tab" v-bind:class="{ disabled: value.disabled }" v-on:click="setCurrentStep(value.label, $event)">{{ value.label }}</a>
       </li>
     </ul>
     <form role="form" id="vue_form" action="/concern/etds/new" method="post" @submit.prevent="onSubmit">
@@ -144,7 +144,7 @@ export default {
       var el = document.getElementById('saved_data');
       // when the load this form the first time, there will not be
       // any data in the data- attribute, therefore, pass empty
-      // hash rather than undefined. 
+      // hash rather than undefined.
       var savedData = {}
       if (el && el.hasAttribute("data-in-progress-etd")){
         savedData = JSON.parse(el.dataset.inProgressEtd);
@@ -168,12 +168,15 @@ export default {
         }
       }
     },
-    setCurrentStep(tab_label){
-      for (var tab in this.form.tabs){
-        if (this.form.tabs[tab].label == tab_label){
-          this.form.tabs[tab].currentStep = true
-        } else {
-          this.form.tabs[tab].currentStep = false
+    setCurrentStep(tab_label, event){
+      // display current tab unless click comes from disabled tab
+      if (!event.target.classList.contains("disabled")){
+        for (var tab in this.form.tabs){
+          if (this.form.tabs[tab].label == tab_label){
+            this.form.tabs[tab].currentStep = true
+          } else {
+            this.form.tabs[tab].currentStep = false
+          }
         }
       }
     },
