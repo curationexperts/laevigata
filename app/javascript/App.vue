@@ -65,7 +65,7 @@
             </div>
             <div v-else>
               <label>{{ input.label }}</label>
-              <input class="form-control" :name="etdPrefix(index)" v-model="input.value">
+              <input class="form-control" :ref="index" :name="etdPrefix(index)" v-model="input.value">
             </div>
           </div>
           <input name="etd[currentTab]" type="hidden" :value="value.label" />
@@ -136,7 +136,21 @@ export default {
     copyrightQuestions: CopyrightQuestions,
     embargo: Embargo
   },
+  mounted(){
+    this.loadSavedData();
+  },
   methods: {
+    loadSavedData(){
+      var el = document.getElementById('saved_data');
+      // when the load this form the first time, there will not be
+      // any data in the data- attribute, therefore, pass empty
+      // hash rather than undefined. 
+      var savedData = {}
+      if (el && el.hasAttribute("data-in-progress-etd")){
+        savedData = JSON.parse(el.dataset.inProgressEtd);
+      }
+      this.form.loadSavedData(savedData);
+    },
     // tabs that have been validated and the current tab are enabled
     enableTabs(){
       for (var tab in this.form.tabs){

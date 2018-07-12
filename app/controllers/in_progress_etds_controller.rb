@@ -1,17 +1,18 @@
 class InProgressEtdsController < ApplicationController
   def new
     @in_progress_etd = InProgressEtd.find_or_create_by(user_ppid: current_user.id)
+    @data = @in_progress_etd.data unless @in_progress_etd.data.nil?
   end
 
   # TODO: this is effectively always an update. Should we just use the update action instead?
   # TODO: this needs to be authorized
   def create
     @in_progress_etd = InProgressEtd.find_by(user_ppid: current_user.id)
-    @in_progress_etd.data = prepare_etd_data(@in_progress_etd).to_json
+    @in_progress_etd.data = prepare_etd_data.to_json
 
     if @in_progress_etd.save
       # TODO: we'll want all the json data sent back
-      render json: { lastCompletedStep: current_step, tab_name: tab_name }, status: 200
+      render json: { in_progress_etd: @in_progress_etd, lastCompletedStep: current_step, tab_name: tab_name }, status: 200
     else
       render json: { errors: @in_progress_etd.errors.messages }, status: 422
     end
