@@ -49,8 +49,8 @@ class InProgressEtdsController < ApplicationController
       etd.fetch(:currentTab, "About Me")
     end
 
-    def prepare_etd_data
-      # TODO: we need to use the json data we have if we have any
+    def prepare_etd_data(_saved_data)
+      # TODO: we need to use the _saved_data we have if we have any
       etd = request.parameters.fetch(:etd)
       prepare_committee_data(etd)
       add_supplemental_file_data(etd)
