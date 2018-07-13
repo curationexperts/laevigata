@@ -7,11 +7,13 @@ addons:
       - gstreamer1.0-plugins-base
       - "gstreamer1.0-tools gstreamer1.0-x"
 after_success:
-  - |
-    if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then
-      openssl aes-256-cbc -k $DEPLOY_KEY -in config/laevigata_deploy_rsa_enc_travis -d -a -out config/deploy_id_rsa
-      bundle exec cap prod_upgrade deploy
-    fi
+  - openssl aes-256-cbc -k $DEPLOY_KEY -in config/laevigata_deploy_rsa_enc_travis -d -a -out config/deploy_id_rsa
+  - bundle exec cap prod_upgrade deploy
+  # - |
+  #   if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then
+  #     openssl aes-256-cbc -k $DEPLOY_KEY -in config/laevigata_deploy_rsa_enc_travis -d -a -out config/deploy_id_rsa
+  #     bundle exec cap prod_upgrade deploy
+  #   fi
 before_script:
   - "bundle exec rake db:create"
 cache:
