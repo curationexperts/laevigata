@@ -8,7 +8,7 @@ class InProgressEtdsController < ApplicationController
   # TODO: this needs to be authorized
   def create
     @in_progress_etd = InProgressEtd.find_by(user_ppid: current_user.id)
-    @in_progress_etd.data = prepare_etd_data.to_json
+    @in_progress_etd.data = prepare_etd_data(@in_progress_etd).to_json
 
     if @in_progress_etd.save
       # TODO: we'll want all the json data sent back
