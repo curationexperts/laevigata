@@ -68,9 +68,15 @@
               <input class="form-control" :ref="index" :name="etdPrefix(index)" v-model="input.value">
             </div>
           </div>
+
+          <div v-for="(value, key) in value.fields">
+            <label>{{ key }}</label>
+            <span>{{ value }}</span>
+          </div>
+
           <input name="etd[currentTab]" type="hidden" :value="value.label" />
           <input name="etd[currentStep]" type="hidden" :value="value.step" />
-          <button type="submit" class="btn btn-default">Save and Continue</button>
+          <save-and-submit></save-and-submit>
           <section v-if="errored">
             Invalidation Errors happened:
               <p>{{ errors }}</p>
@@ -101,6 +107,7 @@ import CommitteeMember from "./CommitteeMember"
 import Files from './Files.vue'
 import CopyrightQuestions from './CopyrightQuestions'
 import Embargo from './Embargo'
+import SaveAndSubmit from './SaveAndSubmit'
 
 let token = document
   .querySelector('meta[name="csrf-token"]')
@@ -121,6 +128,12 @@ export default {
       lastCompletedStep: 0
     }
   },
+  provide: function () {
+    return {
+      getErrors: this.errors,
+      getErrored: this.errored
+    }
+  },
   components: {
     school: School,
     quillEditor: quillEditor,
@@ -134,7 +147,8 @@ export default {
     committeeMember: CommitteeMember,
     files: Files,
     copyrightQuestions: CopyrightQuestions,
-    embargo: Embargo
+    embargo: Embargo,
+    saveAndSubmit: SaveAndSubmit
   },
   mounted(){
     this.loadSavedData();
@@ -142,9 +156,6 @@ export default {
   methods: {
     loadSavedData(){
       var el = document.getElementById('saved_data');
-      // when the load this form the first time, there will not be
-      // any data in the data- attribute, therefore, pass empty
-      // hash rather than undefined.
       var savedData = {}
       if (el && el.hasAttribute("data-in-progress-etd")){
         savedData = JSON.parse(el.dataset.inProgressEtd);
@@ -160,6 +171,16 @@ export default {
           this.form.tabs[tab].disabled = true
         }
       }
+    },
+    isComplete(tab) {
+      return tab;
+    },
+    allTabsComplete(){
+      var complete = [];
+      for (var tab in this.form.tabs){
+        complete.push(this.form.tabs[tab].completed)
+      }
+      return true //complete.every(this.isComplete);
     },
     setComplete(tab_name){
       for (var tab in this.form.tabs){
@@ -197,24 +218,80 @@ export default {
       var formData = new FormData(form)
       return formData
     },
+    submitTab(){
+        var saveAndSubmit = new SaveAndSubmit({
+          formStore: this.sharedState,
+          token: token,
+          event: e,
+          formData: this.getFormData(),
+          navigator: ""
+        })
+        saveAndSubmit.submitTab()
+
+    },
+    readyForReview(){
+      // probably will not need this, save will go from embargo tab to review tab naturally
+      // all tabs are complete but user has not checked agreement
+      return true //this.allTabsComplete() && this.form.agreement == false
+    },
+    displayDataForReview(){
+      var that = this;
+      axios.get('/in_progress_etds/4', { config: { headers: { "Content-Type": "application/json" } } })
+      .then(response => {
+        that.form.showSavedData(response.data)
+        // for now fake that user got here naturally
+        that.nextStepIsCurrent(6)
+        that.setComplete('embargo')
+        that.enableTabs()
+      })
+      .catch(error => {
+        console.log('an error', error)
+      })
+    },
+    getEtdData: function(){
+      var formData = this.getFormData()
+      //TODO: may need to remove other params
+      formData.delete('etd[currentTab]')
+
+      return formData
+    },
+    readyForSubmission(){
+      return this.allTabsComplete() && this.form.agreement == true
+    },
+    submitForPublication(){
+      // clean this that this up
+      var that = this;
+      // TODO: change text of submit button to say submit for publication
+      // get the data
+      axios.get('/in_progress_etds/4', { config: { headers: { "Content-Type": "application/json" } } })
+      .then(response => {
+        document.getElementById('saved_data').dataset.in_progress_etd = response.data
+        // populate form in order to use its inputs
+        that.loadSavedData()
+        // submit as form data
+        axios.post('/concern/etds', this.getEtdData()
+        )
+        .then(response => {})
+        .catch(e => {
+          this.errors.push(e)
+        })
+      })
+      .catch(error => {
+        console.log('an error', error)
+      })
+    },
     onSubmit() {
       var that = this;
-      axios
-        .post("/in_progress_etds", this.getFormData(), {
-          config: { headers: { "Content-Type": "multipart/form-data" } }
-        })
-        .then(response => {
-          that.errored = false
-          that.errors = []
-          that.nextStepIsCurrent(response.data.lastCompletedStep)
-          that.setComplete(response.data.tab_name)
-          that.enableTabs()
-        })
-        .catch(error => {
-          that.errored = true
-          that.errors = []
-          that.errors.push(error.response.data.errors)
-        })
+      if (this.readyForReview()){
+        console.log('ready for review')
+        this.displayDataForReview()
+      } else if (this.readyForSubmission()){
+        console.log('ready for submission')
+        this.submitForPublication()
+      } else {
+        console.log('regular submit')
+        this.submitTab()
+      }
     }
   }
 }

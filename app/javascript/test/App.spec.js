@@ -3,6 +3,8 @@
 /* global expect */
 import { shallowMount } from '@vue/test-utils'
 import App from 'App'
+import axios from 'axios'
+jest.mock('axios')
 
 describe('App.vue', () => {
   it('renders a form', () => {
@@ -87,6 +89,16 @@ describe('App.vue', () => {
       wrapper.find('a.tab.disabled').trigger('click')
 
       expect(wrapper.find('h1').text()).toBe('About Me');
+    })
+    it("displays all of the user's data on the submit tab", () => {
+      const wrapper = shallowMount(App, {
+      })
+      //oof. oki, click submit and redirect to show page? or load show view into form area and let people scroll ... nah.
+      //wrapper.find({name: "Submit"}).trigger('click')
+      // expect show view
+    })
+    it('lets the user submit their data for publication as an ETD', () => {
+      
     })
   })
 })
