@@ -12,49 +12,49 @@ unless Rails.env.production?
     check_style if test_suite == "style"
     ci_with_infrastructure(test_suite) unless test_suite == "style"
   end
-end
 
-def ci_with_infrastructure(test_suite)
-  ENV["environment"] = "test"
-  solr_params = {
-    port: 8985,
-    verbose: true,
-    managed: true
-  }
-  fcrepo_params = {
-    port: 8986,
-    verbose: true,
-    managed: true,
-    enable_jms: false,
-    fcrepo_home_dir: 'tmp/fcrepo4-test-data'
-  }
-  SolrWrapper.wrap(solr_params) do |solr|
-    solr.with_collection(
-      name: "hydra-test",
-      persist: false,
-      dir: Rails.root.join("solr", "config")
-    ) do
-      FcrepoWrapper.wrap(fcrepo_params) do
-        Rake::Task[test_suite].invoke
+  def ci_with_infrastructure(test_suite)
+    ENV["environment"] = "test"
+    solr_params = {
+      port: 8985,
+      verbose: true,
+      managed: true
+    }
+    fcrepo_params = {
+      port: 8986,
+      verbose: true,
+      managed: true,
+      enable_jms: false,
+      fcrepo_home_dir: 'tmp/fcrepo4-test-data'
+    }
+    SolrWrapper.wrap(solr_params) do |solr|
+      solr.with_collection(
+        name: "hydra-test",
+        persist: false,
+        dir: Rails.root.join("solr", "config")
+      ) do
+        FcrepoWrapper.wrap(fcrepo_params) do
+          Rake::Task[test_suite].invoke
+        end
       end
     end
+    # Rake::Task["doc"].invoke
   end
-  # Rake::Task["doc"].invoke
-end
 
-RSpec::Core::RakeTask.new(:integration) do |t|
-  t.rspec_opts = "--tag integration --profile"
-end
+  RSpec::Core::RakeTask.new(:integration) do |t|
+    t.rspec_opts = "--tag integration --profile"
+  end
 
-RSpec::Core::RakeTask.new(:unit) do |t|
-  t.rspec_opts = "--tag ~integration --profile"
-end
+  RSpec::Core::RakeTask.new(:unit) do |t|
+    t.rspec_opts = "--tag ~integration --profile"
+  end
 
-desc "Run js tests"
-task :js do
-  sh "yarn test"
-end
+  desc "Run js tests"
+  task :js do
+    sh "yarn test"
+  end
 
-def check_style
-  sh "bundle exec rubocop"
+  def check_style
+    sh "bundle exec rubocop"
+  end
 end
