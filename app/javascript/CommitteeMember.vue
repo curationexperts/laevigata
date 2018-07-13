@@ -81,13 +81,13 @@ export default {
         return `etd[committee_chair_attributes][${chair.id}][affiliation_type]`
       },
       memberNameAttr(member) {
-          return `etd[committee_member_attributes][${member.id}][name][]`
+          return `etd[committee_members_attributes][${member.id}][name][]`
       },
       memberAffiliationAttr(member) {
-          return `etd[committee_member_attributes][${member.id}][affiliation][]`
+          return `etd[committee_members_attributes][${member.id}][affiliation][]`
       },
       memberAffiliationTypeAttr(member) {
-        return `etd[committee_member_attributes][${member.id}][affiliation_type]`
+        return `etd[committee_members_attributes][${member.id}][affiliation_type]`
       }
   },
   watch: {

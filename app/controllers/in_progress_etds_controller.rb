@@ -8,7 +8,7 @@ class InProgressEtdsController < ApplicationController
   # TODO: this needs to be authorized
   def create
     @in_progress_etd = InProgressEtd.find_by(user_ppid: current_user.id)
-    @in_progress_etd.data = prepare_etd_data(@in_progress_etd).to_json
+    @in_progress_etd.data = prepare_etd_data.to_json
 
     if @in_progress_etd.save
       # TODO: we'll want all the json data sent back
@@ -34,8 +34,9 @@ class InProgressEtdsController < ApplicationController
 
   def show
     @in_progress_etd = InProgressEtd.find(params[:id])
-    @etd = InProgressEtd.find(params[:id]).data
-    @uploaded_files = ["1"] # @etd['uploaded_files']
+
+    # @uploaded_files = ["1"] # JSON.parse(@in_progress_etd.data)['uploaded_files']
+    # @uploaded_files = []
   end
 
   private
@@ -50,30 +51,20 @@ class InProgressEtdsController < ApplicationController
       etd.fetch(:currentTab, "About Me")
     end
 
-    def prepare_etd_data(_saved_data)
-      # TODO: we need to use the _saved_data we have if we have any
-      etd = request.parameters.fetch(:etd)
-      prepare_committee_data(etd)
-      add_supplemental_file_data(etd)
+    def prepare_etd_data
+      new_data = request.parameters.fetch(:etd, {})
+
+      # Add temporarily hard-coded data into the new data
+      # TODO: Replace the hard-coded data with real data from the form
+      add_supplemental_file_data(new_data)
       # uploaded_files = Hyrax::UploadedFile.id
-      # add_uploaded_file_data(etd)
-      add_agreement_data(etd)
-      add_embargo_data(etd)
-      add_school_department_subfield(etd)
-      etd
-    end
+      # add_uploaded_file_data(new_data)
+      add_agreement_data(new_data)
+      add_embargo_data(new_data)
+      add_school_department_subfield(new_data)
 
-    def prepare_committee_data(etd)
-      # use real names; check what type of nested_id is needed.
-      etd["committee_chair_attributes"] = { "0" => {
-        "affiliation_type" => "Emory Committee Chair", "name" => ["Curie, Marie"],
-        "id" => "#nested_g70334968021140"
-      }, "1" => { "affiliation_type" =>
-        "Emory Committee Chair", "name" => [""] } }
-
-      etd["committee_members_attributes"] = { "0" =>
-      { "affiliation_type" => "Non-Emory Committee Member", "affiliation" => ["NASA"],
-        "name" => ["Maher, Valerie"], "id" => "#nested_g70334919944200" } }
+      # Add the new data to the existing persisted data
+      @in_progress_etd.add_data(new_data)
     end
 
     # TODO: Get each of these from the form

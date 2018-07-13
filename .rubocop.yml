@@ -34,6 +34,10 @@ Layout/MultilineHashBraceLayout:
   Exclude:
     - 'spec/controllers/hyrax/etds_controller_spec.rb'
 
+Layout/IndentHash:
+  Exclude:
+    - 'spec/models/in_progress_etd_spec.rb'
+
 Lint/Void:
   Enabled: false
 
@@ -89,6 +93,10 @@ RSpec/MessageSpies:
 
 RSpec/MultipleExpectations:
   Enabled: false
+
+Style/BracesAroundHashParameters:
+  Exclude:
+    - 'spec/models/in_progress_etd_spec.rb'
 
 Style/CommentAnnotation:
   Enabled: false
