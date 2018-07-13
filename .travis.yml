@@ -30,9 +30,9 @@ env:
     - NEW_UI_ENABLED=false NO_COVERAGE=true TEST_SUITE=unit
     - NEW_UI_ENABLED=false NO_COVERAGE=true TEST_SUITE=integration
     - NEW_UI_ENABLED=false NO_COVERAGE=true TEST_SUITE=js
-    - NEW_UI_ENABLED=true TEST_SUITE=unit
-    - NEW_UI_ENABLED=true TEST_SUITE=integration
-    - NEW_UI_ENABLED=true TEST_SUITE=js
+    - NEW_UI_ENABLED=true  NO_COVERAGE=true TEST_SUITE=unit
+    - NEW_UI_ENABLED=true  NO_COVERAGE=true TEST_SUITE=integration
+    - NEW_UI_ENABLED=true  NO_COVERAGE=true TEST_SUITE=js
 install:
   - nvm install node
   - node -v
