@@ -3,6 +3,8 @@
 /* global expect */
 import { shallowMount } from '@vue/test-utils'
 import App from 'App'
+import axios from 'axios'
+jest.mock('axios')
 
 describe('App.vue', () => {
   it('renders a form', () => {
@@ -31,7 +33,7 @@ describe('App.vue', () => {
       wrapper.vm.$data.form.tabs.my_files.currentStep = false
       wrapper.vm.$data.form.tabs.embargo.currentStep = false
 
-      wrapper.vm.enableTabs()
+      wrapper.vm.$data.form.enableTabs()
     });
 
     it('enables the completed and current tabs', () => {
@@ -41,7 +43,7 @@ describe('App.vue', () => {
       wrapper.vm.$data.form.tabs.my_program.complete = true
       wrapper.vm.$data.form.tabs.my_advisor.currentStep = true
 
-      wrapper.vm.enableTabs()
+      wrapper.vm.$data.form.enableTabs()
 
       expect(wrapper.vm.$data.form.tabs.about_me.disabled).toBe(false)
       expect(wrapper.vm.$data.form.tabs.my_program.disabled).toBe(false)
@@ -51,7 +53,7 @@ describe('App.vue', () => {
     it('can set the complete property of a tab', () => {
       const wrapper = shallowMount(App, {
       })
-      wrapper.vm.setComplete('About Me')
+      wrapper.vm.$data.form.setComplete('About Me')
 
       expect(wrapper.vm.$data.form.tabs.about_me.complete).toBe(true)
     })
@@ -63,7 +65,7 @@ describe('App.vue', () => {
       wrapper.vm.$data.form.tabs.about_me.complete = true
       wrapper.vm.$data.form.tabs.about_me.currentStep = false
       wrapper.vm.$data.form.tabs.my_program.currentStep = true
-      wrapper.vm.enableTabs()
+      wrapper.vm.$data.form.enableTabs()
       expect(wrapper.vm.$data.form.tabs.about_me.currentStep).toBe(false)
 
       //find and click first tab
@@ -75,7 +77,7 @@ describe('App.vue', () => {
     it('determines the next current tab', () => {
       const wrapper = shallowMount(App, {
       })
-      wrapper.vm.nextStepIsCurrent(3)
+      wrapper.vm.$data.form.nextStepIsCurrent(3)
 
       expect(wrapper.vm.$data.form.tabs.keywords.currentStep).toBe(true)
     })
@@ -87,6 +89,13 @@ describe('App.vue', () => {
       wrapper.find('a.tab.disabled').trigger('click')
 
       expect(wrapper.find('h1').text()).toBe('About Me');
+    })
+    it("displays all of the user's data on the submit tab", () => {
+      const wrapper = shallowMount(App, {
+      })
+    })
+    it('lets the user submit their data for publication as an ETD', () => {
+
     })
   })
 })

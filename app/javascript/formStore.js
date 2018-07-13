@@ -110,7 +110,8 @@ export var formStore = {
       selected: false,
       completed: false,
       currentStep: false,
-      step: 7
+      step: 7,
+      fields: {}
     }
   },
   copyrightQuestions: [{
@@ -137,6 +138,8 @@ export var formStore = {
   selectedDepartment: '',
   subfields: [],
   keywords: [],
+  errors: [],
+  errored: false,
   languages: [{ 'value': '', 'active': true, 'label': 'Select a Language', 'disabled': 'disabled', 'selected': 'selected' }],
   languagesEndpoint: '/authorities/terms/local/languages_list',
   subfieldEndpoints: {
@@ -200,6 +203,46 @@ export var formStore = {
   removeKeyword (index) {
     this.keywords.splice(this.keywords.indexOf(index, 1))
   },
+  //will be in the etd data soon
+  agreement: false,
+
+  setComplete(tab_name){
+    for (var tab in this.tabs){
+      if (this.tabs[tab].label == tab_name){
+        this.tabs[tab].complete = true
+      }
+    }
+  },
+  // tabs that have been validated and the current tab are enabled
+  enableTabs(){
+    for (var tab in this.tabs){
+      if (this.tabs[tab].complete == true || this.tabs[tab].currentStep == true){
+        this.tabs[tab].disabled = false
+      } else {
+        this.tabs[tab].disabled = true
+      }
+    }
+  },
+  nextStepIsCurrent(lastCompletedStep){
+    for (var tab in this.tabs){
+      if (this.tabs[tab].step == parseInt(lastCompletedStep) + 1) {
+        this.tabs[tab].currentStep = true
+      } else {
+        this.tabs[tab].currentStep = false
+      }
+    }
+  },
+  hasError(input_key){
+    var hasError = false;
+    _.forEach(this.errors, function(error) {
+      _.forEach(error, function(value, key){
+        if (input_key == key){
+          hasError = true;
+        }
+      })
+    });
+    return hasError;
+  },
   clearSubfields () {
     this.subfields = []
   },
@@ -235,20 +278,28 @@ export var formStore = {
     })
   },
   loadSavedData(data){
-    if (Object.keys(data).length > 0){
+    var el = document.getElementById('saved_data');
+    var savedData = {}
+    if (el && el.hasAttribute("data-in-progress-etd")){
+      savedData = JSON.parse(el.dataset.inProgressEtd);
+    }
+    if (Object.keys(savedData).length > 0){
       for (var tab in this.tabs){
          if (!this.tabs[tab].disabled){
            var input_keys = Object.keys(this.tabs[tab].inputs)
             input_keys.forEach(function(el){
               if (this.tabs[tab].inputs[el].value.isArray) {
                 //TODO: find best way to mark our value as selected
-                this.tabs[tab].inputs[el].selected = data[el]
+                this.tabs[tab].inputs[el].selected = savedData[el]
               } else {
-                this.tabs[tab].inputs[el].value = data[el]
+                this.tabs[tab].inputs[el].value = savedData[el]
               }
             }, this)
          }
       }
     }
+  },
+  showSavedData(data){
+    this.tabs.submit.fields = JSON.parse(data['in_progress_etd'])
   }
 }
