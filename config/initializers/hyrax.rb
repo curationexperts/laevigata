@@ -273,3 +273,4 @@ module Hyrax
 end
 
 Hyrax::CurationConcern.actor_factory.insert_after(Hyrax::Actors::TransactionalRequest, PrimaryFileTitleActor)
+Hyrax::CurationConcern.actor_factory.swap(Hyrax::Actors::InterpretVisibilityActor, Hyrax::Actors::LaevigataEmbargo)
