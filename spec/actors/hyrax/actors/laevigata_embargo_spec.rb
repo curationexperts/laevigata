@@ -1,14 +1,13 @@
-libdir = File.expand_path('../../../../', __FILE__)
-$LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 require 'rails_helper'
 
-describe Hyrax::Actors::InterpretVisibilityActor do
+describe Hyrax::Actors::LaevigataEmbargo do
   subject(:middleware) do
     stack = ActionDispatch::MiddlewareStack.new.tap do |middleware|
       middleware.use described_class
     end
     stack.build(terminator)
   end
+
   let(:user) { create(:user) }
   let(:ability) { ::Ability.new(user) }
   let(:etd) { FactoryBot.create(:etd) }
