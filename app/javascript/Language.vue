@@ -24,7 +24,8 @@ export default {
   methods: {
     fetchData() {
       axios.get(this.languagesEndpoint).then(response => {
-        this.languages.push(response.data)
+        this.languages = response.data
+        this.degrees.unshift({ 'value': '', 'active': true, 'label': 'Select a Language', 'disabled': 'disabled', 'selected': 'selected' })
       })
     }
   },
