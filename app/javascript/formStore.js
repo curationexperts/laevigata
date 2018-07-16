@@ -90,7 +90,8 @@ export var formStore = {
       currentStep: false,
       step: 5,
       inputs: {
-        files: { label: 'files', value: [] }
+        files: { label: 'files', value: [] },
+        supplementalFiles: { label: 'supplemental-files' }
       }
     },
     embargo: {
@@ -161,8 +162,7 @@ export var formStore = {
       {
         text: 'Select a School',
         value: '',
-        disabled: 'disabled',
-        selected: 'selected'
+        disabled: 'disabled'
       },
       { text: 'Candler School of Theology', value: 'candler' },
       { text: 'Emory College', value: 'emory' },
@@ -192,6 +192,26 @@ export var formStore = {
       {value: '1 year'}, {value: '2 Years'}, {value: '6 years'}],
     rollins: [{value: 'None - open access immediately', selected: 'selected'},
       {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}]
+  },
+  token: 'gokeoge',
+  deletableSupplementalFiles: [],
+  addDeleteableSupplementalFile (deletableFile) {
+    this.deletableSupplementalFiles.push(deletableFile)
+  },
+  getDeleteableSupplementalFiles () {
+    return this.deletableSupplementalFiles
+  },
+  deleteSupplementalFile (deleteUrl, token) {
+    const filteredFiles = this.deletableSupplementalFiles.filter(
+      file => file.deleteUrl !== deleteUrl
+    )
+    this.deletableSupplementalFiles = filteredFiles
+
+    axios.defaults.headers.common['X-CSRF-Token'] = token
+    axios.delete(deleteUrl).then((response) => {
+    }, (error) => {
+      console.log('Error deleting file from the server')
+    })
   },
   clearSubfields () {
     this.subfields = []
