@@ -5,9 +5,10 @@ require 'rails_helper'
 describe Hyrax::CurationConcern, :workflow do
   subject(:actor) { described_class.actor }
 
-  let(:ability)    { ::Ability.new(FactoryBot.create(:user)) }
+  let(:ability)    { ::Ability.new(user) }
   let(:etd)        { FactoryBot.build(:etd) }
   let(:terminator) { Hyrax::Actors::Terminator.new }
+  let(:user)       { FactoryBot.create(:user) }
   let(:env)        { Hyrax::Actors::Environment.new(etd, ability, attributes) }
 
   let(:attributes) do
@@ -46,6 +47,34 @@ describe Hyrax::CurationConcern, :workflow do
           .to have_attributes embargo_release_date: six_years_from_today,
                               visibility_during_embargo: open,
                               visibility_after_embargo: open
+      end
+
+      context 'with an uploaded file', :perform_jobs do
+        before do
+          ActiveJob::Base.queue_adapter.filter =
+            [IngestJob, AttachFilesToWorkJob]
+        end
+
+        let(:uploaded_file) do
+          FactoryBot.create :primary_uploaded_file, user_id: user.id
+        end
+
+        let(:attributes) do
+          { 'title' => ['good fun'],
+            'creator' => ['Sneddon, River'],
+            'school' => ['Emory College'],
+            'embargo_length' => '6 months',
+            'uploaded_files' => [uploaded_file.id] }
+        end
+
+        it 'sets the file embargo' do
+          actor.create(env)
+
+          expect(etd.reload.file_sets.first.embargo)
+            .to have_attributes embargo_release_date: six_years_from_today,
+                                visibility_during_embargo: open,
+                                visibility_after_embargo: open
+        end
       end
     end
   end
