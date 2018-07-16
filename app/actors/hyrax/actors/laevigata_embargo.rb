@@ -1,8 +1,6 @@
-# See `README_embargos.md` for an explanation of how Laevigata embargoes
-# differ from the usual Hyrax behavior
 module Hyrax
   module Actors
-    class InterpretVisibilityActor < AbstractActor
+    class LaevigataEmbargo < AbstractActor
       attr_accessor :curation_concern
 
       def create(attributes)

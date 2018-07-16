@@ -90,7 +90,6 @@ module Importer
        Hyrax::Actors::AddToWorkActor,
        Hyrax::Actors::AttachMembersActor,
        Hyrax::Actors::ApplyOrderActor,
-       Hyrax::Actors::InterpretVisibilityActor,
        SetEmbargoActor,
        ImportAdminSetActor,
        Hyrax::Actors::ApplyPermissionTemplateActor,
