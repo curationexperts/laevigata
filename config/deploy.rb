@@ -5,7 +5,7 @@ lock ">=3.9.0"
 set :application, "laevigata"
 set :repo_url, "https://github.com/curationexperts/laevigata.git"
 set :deploy_to, '/opt/laevigata'
-set :ssh_options, keys: ["config/deploy_id_rsa"] if File.exist?("config/deploy_id_rsa")
+set :ssh_options, keys: ["laevigata_deploy_rsa"] if File.exist?("laevigata_deploy_rsa")
 
 set :log_level, :debug
 set :bundle_flags, '--deployment'

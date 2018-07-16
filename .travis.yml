@@ -1,62 +1,59 @@
----
 addons:
   apt:
     packages:
-      - qt5-default
-      - libqt5webkit5-dev
-      - gstreamer1.0-plugins-base
-      - "gstreamer1.0-tools gstreamer1.0-x"
+    - qt5-default
+    - libqt5webkit5-dev
+    - gstreamer1.0-plugins-base
+    - gstreamer1.0-tools gstreamer1.0-x
 after_success:
-  - openssl aes-256-cbc -k $DEPLOY_KEY -in config/laevigata_deploy_rsa_enc_travis -d -a -out config/deploy_id_rsa
-  - bundle exec cap prod_upgrade deploy
-  # - |
-  #   if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then
-  #     openssl aes-256-cbc -k $DEPLOY_KEY -in config/laevigata_deploy_rsa_enc_travis -d -a -out config/deploy_id_rsa
-  #     bundle exec cap prod_upgrade deploy
-  #   fi
+- |
+  if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then
+    bundle exec cap prod_upgrade deploy
+  fi
 before_script:
-  - "bundle exec rake db:create"
+- bundle exec rake db:create
 cache:
   bundler: true
   directories:
-    - node_modules
+  - node_modules
   yarn: true
 dist: trusty
 env:
   global:
-    - COVERALLS_PARALLEL=true
-    - QMAKE=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
-    -
-      secure: JyMUleKlMCm7P2QCFtKV3akr7RoAjlbajHZQGBFk7egKFkb5L2FpnFl0gsSC8myLPcZ9C31XVZ45sdYkJJPfPSlVSuw2Xsuj+zjHwtsX2e0CnUXSkNwdn9umdNqj50c0uDb9uIPjTi1XKcy+YIqA8WdDl5GwO6bpFhR0ENTNHryrn0qU6K1Sk1QeL7BN1XD+/dXOOjhDK2qC6A/gQVgp3P/yVLM/98qUKx3G11y6zVoMmgMk5Tg6QVfJ6eO+e+ZxMOR4Xl57qPhny7f2aZJdziZ8Miury9qNsyzrPtj/gCSOZ9x+oZu4sULD2K3vq9XE1db/eqlr1D7sDGadZnC/R6a1BR1ZTupvutwq9/ftygz4L438MckDfogmpluxMkk1+xO5CsJD8I0wF+1xA5yCvTCZz9URoASrQZ49brr4qWvtGK/IdOYK3Kfqsp3IwksK85y34CFiUce5v7QUPvJYduDfJ0dQ0aL+Jh8MyU68VKYgSu2zuCnKbko9nJ+QNxlvnZEp5OUoUTQQMKO3g1KoE8BXmjbxcXePyGDWPZbdpATvcSLQK5nHS7+nVntf9jjGDjgy8nhmODGKyi513RoF2ETPvfGdeAzVcvpd/ZrzXne0Za+jo2HM7hZl2ycU8fYEfCkvbzoh+3vRK2ec6K/FydhnIAE4ujj1trXo1pnMBVg=
+  - COVERALLS_PARALLEL=true
+  - QMAKE=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
   matrix:
-    - TEST_SUITE=style
-    - "NEW_UI_ENABLED=false NO_COVERAGE=true TEST_SUITE=unit"
-    - "NEW_UI_ENABLED=false NO_COVERAGE=true TEST_SUITE=integration"
-    - "NEW_UI_ENABLED=false NO_COVERAGE=true TEST_SUITE=js"
-    - "NEW_UI_ENABLED=true NO_COVERAGE=true TEST_SUITE=unit"
-    - "NEW_UI_ENABLED=true NO_COVERAGE=true TEST_SUITE=integration"
-    - "NEW_UI_ENABLED=true NO_COVERAGE=true TEST_SUITE=js"
+  - TEST_SUITE=style
+  - NEW_UI_ENABLED=false NO_COVERAGE=true TEST_SUITE=unit
+  - NEW_UI_ENABLED=false NO_COVERAGE=true TEST_SUITE=integration
+  - NEW_UI_ENABLED=false NO_COVERAGE=true TEST_SUITE=js
+  - NEW_UI_ENABLED=true NO_COVERAGE=true TEST_SUITE=unit
+  - NEW_UI_ENABLED=true NO_COVERAGE=true TEST_SUITE=integration
+  - NEW_UI_ENABLED=true NO_COVERAGE=true TEST_SUITE=js
 install:
-  - "nvm install node"
-  - "node -v"
-  - "npm i -g yarn"
-  - yarn
-  - "bundle install"
+- nvm install node
+- node -v
+- npm i -g yarn
+- yarn
+- bundle install
 jdk:
-  - oraclejdk8
+- oraclejdk8
 language: ruby
 notifications:
   email: false
   slack:
     on_failure: always
     on_success: never
-  webhooks: "https://coveralls.io/webhook?repo_token=oPKpGeKJ4aaeNx5e3fyqt4ookolOfCWXi"
+  webhooks: https://coveralls.io/webhook?repo_token=oPKpGeKJ4aaeNx5e3fyqt4ookolOfCWXi
 rvm:
-  - "2.4.2"
+- 2.4.2
 script:
-  - "RAILS_ENV=test ./bin/rails db:migrate"
-  - "RAILS_ENV=test ./bin/rails webpacker:compile"
-  - "xvfb-run -a bundle exec rake ci[$TEST_SUITE]"
+- RAILS_ENV=test ./bin/rails db:migrate
+- RAILS_ENV=test ./bin/rails webpacker:compile
+- xvfb-run -a bundle exec rake ci[$TEST_SUITE]
 services:
-  - redis-server
+- redis-server
 sudo: false
+before_install:
+- openssl aes-256-cbc -K $encrypted_8e88c8312d5a_key -iv $encrypted_8e88c8312d5a_iv
+  -in laevigata_deploy_rsa.enc -out laevigata_deploy_rsa -d
