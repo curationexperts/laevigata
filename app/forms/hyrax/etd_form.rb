@@ -53,7 +53,7 @@ module Hyrax
       end
 
       def self.my_advisor_terms
-        [:committee_member_attributes, :committee_chair_attributes]
+        [:committee_members_attributes, :committee_chair_attributes]
       end
 
       def self.keyword_terms

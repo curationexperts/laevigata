@@ -61,7 +61,7 @@ describe InProgressEtd do
     # TODO: align with committee front end if it changes, which it is likely to
     context "with valid data" do
       let(:data) do
-        { currentTab: "My Advisor", "committee_member_attributes": ["member_info"], "committee_chair_attributes": ["chair_info"] }
+        { currentTab: "My Advisor", "committee_members_attributes": ["member_info"], "committee_chair_attributes": ["chair_info"] }
       end
 
       it "is valid" do
@@ -133,6 +133,86 @@ describe InProgressEtd do
 
     it "is valid" do
       expect(in_progress_etd).to be_valid
+    end
+  end
+
+  describe '#add_data' do
+    let(:in_progress_etd) { described_class.new(data: old_data.to_json) }
+
+    let(:old_data) { { 'title': 'The Old Title' } }
+    let(:new_data) { nil }
+    let(:resulting_data) { JSON.parse(in_progress_etd.data) } # in-memory data
+    let(:return_value) { in_progress_etd.add_data(new_data) }
+
+    before { return_value } # Call the method
+
+    context 'with new data' do
+      let(:new_data) { { 'creator': 'A Student' } }
+
+      it 'adds the new data to the old data' do
+        expect(resulting_data).to eq({
+          'title' => 'The Old Title',
+          'creator' => 'A Student'
+        })
+      end
+    end
+
+    context 'with updated data' do
+      let(:new_data) { { 'title': 'The New Title' } }
+      it 'changes the existing data' do
+        expect(resulting_data).to eq({
+          'title' => 'The New Title'
+        })
+      end
+    end
+
+    context 'with updated data (symbol vs string keys)' do
+      let(:old_data) { { title: 'The Old Title' } }
+      let(:new_data) { { 'title': 'The New Title' } }
+
+      it 'changes the existing data without duplicating data' do
+        expect(resulting_data).to eq({
+          'title' => 'The New Title'
+        })
+      end
+    end
+
+    context 'with no new data' do
+      let(:new_data) { {} }
+
+      it 'keeps the old data' do
+        expect(resulting_data).to eq({
+          'title' => 'The Old Title'
+        })
+      end
+    end
+
+    context 'with nil (but existing data)' do
+      let(:new_data) { nil }
+
+      it 'keeps the old data' do
+        expect(resulting_data).to eq({
+          'title' => 'The Old Title'
+        })
+      end
+    end
+
+    context 'with nil new data (and nil existing data)' do
+      let(:in_progress_etd) { described_class.new } # data field is nil
+      let(:new_data) { nil }
+
+      it 'returns empty hash' do
+        expect(return_value).to eq({})
+      end
+    end
+
+    context 'with no new data (and no existing data)' do
+      let(:in_progress_etd) { described_class.new } # data field is nil
+      let(:new_data) { {} }
+
+      it 'returns empty hash' do
+        expect(resulting_data).to eq({})
+      end
     end
   end
 end
