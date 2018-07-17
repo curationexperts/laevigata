@@ -85,7 +85,8 @@ module Hyrax
         # @param [FileSet] fs
         # @param [Work] curation_concern
         def apply_saved_metadata(fs, curation_concern)
-          uf = ::Hyrax::UploadedFile.where(browse_everything_url: fs.import_url).first
+          uf = ::Hyrax::UploadedFile.find_by(browse_everything_url: fs.import_url)
+
           if uf&.pcdm_use == ::FileSet::PRIMARY
             fs.pcdm_use = ::FileSet::PRIMARY
             fs.title = curation_concern.title
@@ -95,7 +96,6 @@ module Hyrax
             fs.description = Array.wrap(uf&.description)
             fs.file_type = uf&.file_type
           end
-          fs.save
         end
 
         def operation_for(user:)
