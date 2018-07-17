@@ -15,7 +15,7 @@ describe('ResearchField.vue', () => {
   it('renders a select element', () => {
     const wrapper = shallowMount(ResearchField, {
     })
-    expect(wrapper.findAll('select')).toHaveLength(1)
+    expect(wrapper.findAll('select')).toHaveLength(3)
   })
 
   it('has a label that contains Research Field', () => {
@@ -27,6 +27,6 @@ describe('ResearchField.vue', () => {
   it('has the correct html', () => {
     const wrapper = shallowMount(ResearchField, {
     })
-    expect(wrapper.html()).toEqual(`<div><label>Research Field</label> <select name="etd[research_field][]" class="form-control"></select></div>`)
+    expect(wrapper.html()).toContain(`<div><label>Research Fields</label>`)
   })
 })
