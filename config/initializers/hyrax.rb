@@ -273,4 +273,5 @@ module Hyrax
 end
 
 Hyrax::CurationConcern.actor_factory.insert_after(Hyrax::Actors::TransactionalRequest, PrimaryFileTitleActor)
+Hyrax::CurationConcern.actor_factory.insert_after(Hyrax::Actors::CreateWithFilesActor, Hyrax::Actors::FileVisibilityAttributesActor)
 Hyrax::CurationConcern.actor_factory.insert_before(Hyrax::Actors::InterpretVisibilityActor, Hyrax::Actors::PregradEmbargo)

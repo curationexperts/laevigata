@@ -8,8 +8,8 @@ class AttachFilesToWorkJob < Hyrax::ApplicationJob
     validate_files!(uploaded_files)
     depositor = proxy_or_depositor(work)
     user = User.find_by_user_key(depositor)
-    work_permissions = work.permissions.map(&:to_hash)
     metadata = visibility_attributes(work_attributes)
+
     uploaded_files.each do |uploaded_file|
       virus_check!(uploaded_file)
       actor = Hyrax::Actors::FileSetActor.new(FileSet.create, user)
@@ -23,8 +23,7 @@ class AttachFilesToWorkJob < Hyrax::ApplicationJob
         actor.file_set.description = Array.wrap(uploaded_file.description)
         actor.file_set.file_type   = uploaded_file.file_type
       end
-      actor.attach_to_work(work)
-      actor.file_set.permissions_attributes = work_permissions
+      actor.attach_to_work(work, metadata)
       uploaded_file.update(file_set_uri: actor.file_set.uri)
     end
   rescue VirusDetectedError
