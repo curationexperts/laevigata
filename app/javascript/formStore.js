@@ -110,7 +110,8 @@ export var formStore = {
       selected: false,
       completed: false,
       currentStep: false,
-      step: 7
+      step: 7,
+      fields: {}
     }
   },
   copyrightQuestions: [{
@@ -191,6 +192,9 @@ export var formStore = {
     rollins: [{value: 'None - open access immediately', selected: 'selected'},
       {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}]
   },
+  //will be in the etd data soon
+  agreement: false,
+
   clearSubfields () {
     this.subfields = []
   },
@@ -241,5 +245,8 @@ export var formStore = {
          }
       }
     }
+  },
+  showSavedData(data){
+    this.tabs.submit.fields = JSON.parse(data['in_progress_etd'])
   }
 }
