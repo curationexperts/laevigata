@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import _ from 'lodash'
 export var formStore = {
   tabs: {
     about_me: {
@@ -136,6 +136,7 @@ export var formStore = {
   departments: [],
   selectedDepartment: '',
   subfields: [],
+  keywords: [],
   languages: [{ 'value': '', 'active': true, 'label': 'Select a Language', 'disabled': 'disabled', 'selected': 'selected' }],
   languagesEndpoint: '/authorities/terms/local/languages_list',
   subfieldEndpoints: {
@@ -190,6 +191,14 @@ export var formStore = {
       {value: '1 year'}, {value: '2 Years'}, {value: '6 years'}],
     rollins: [{value: 'None - open access immediately', selected: 'selected'},
       {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}]
+  },
+  keywordIndex: 0,
+  newKeyword: '',
+  addKeyword (keyword) {
+    this.keywords.unshift({ index: this.keywords.length, value: keyword })
+  },
+  removeKeyword (index) {
+    this.keywords.splice(this.keywords.indexOf(index, 1))
   },
   clearSubfields () {
     this.subfields = []

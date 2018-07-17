@@ -1,10 +1,22 @@
 <template>
     <div>
-        <label>Research Field</label>
+        <label>Research Fields</label>
         <select name="etd[research_field][]" class="form-control">
             <option v-for="researchField in researchFields" v-bind:value="researchField.id" v-bind:key='researchField.id' 
-            v-if="researchField.active" :disabled="researchField.disabled"  
+            v-if="researchField.active"  
             :selected="researchField.selected">
+                {{ researchField.id }}
+            </option>
+        </select>
+        <select name="etd[research_field][]" class="form-control">
+            <option v-for="researchField in researchFields" v-bind:value="researchField.id" v-bind:key='researchField.id' 
+            v-if="researchField.active" :selected="researchField.selected">
+                {{ researchField.id }}
+            </option>
+        </select>
+           <select name="etd[research_field][]" class="form-control">
+            <option v-for="researchField in researchFields" v-bind:value="researchField.id" v-bind:key='researchField.id' 
+            v-if="researchField.active" :selected="researchField.selected">
                 {{ researchField.id }}
             </option>
         </select>

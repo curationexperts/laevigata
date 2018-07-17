@@ -57,6 +57,9 @@
             <div v-else-if="input.label === 'Embargo'">
               <embargo></embargo>
             </div>
+            <div v-else-if="input.label === 'Keyword'">
+              <keywords></keywords>
+            </div>
             <div v-else-if="input.label === 'Copyright & Patents'">
               <copyrightQuestions></copyrightQuestions>
             </div>
@@ -101,6 +104,7 @@ import CommitteeMember from "./CommitteeMember"
 import Files from './Files.vue'
 import CopyrightQuestions from './CopyrightQuestions'
 import Embargo from './Embargo'
+import Keywords from './Keywords'
 
 let token = document
   .querySelector('meta[name="csrf-token"]')
@@ -134,7 +138,8 @@ export default {
     committeeMember: CommitteeMember,
     files: Files,
     copyrightQuestions: CopyrightQuestions,
-    embargo: Embargo
+    embargo: Embargo,
+    keywords: Keywords
   },
   mounted(){
     this.loadSavedData();
