@@ -15,15 +15,27 @@
           <div v-for="(input, index) in value.inputs" v-bind:key="index">
             <div v-if="input.label === 'School'">
               <school></school>
+              <section class='errorMessage' v-if="displayError(index)">
+                  <p>{{ input.label }} is required</p>
+              </section>
             </div>
             <div v-else-if="input.label === 'Department'">
               <department></department>
+              <section class='errorMessage' v-if="displayError(index)">
+                  <p>{{ input.label }} is required</p>
+              </section>
             </div>
             <div v-else-if="input.label === 'subfield'">
               <subfield></subfield>
+              <section class='errorMessage' v-if="displayError(index)">
+                  <p>{{ input.label }} is required</p>
+              </section>
             </div>
             <div v-else-if="input.label === 'files'">
               <files></files>
+              <section class='errorMessage' v-if="displayError(index)">
+                  <p>{{ input.label }} is required</p>
+              </section>
             </div>
             <div v-else-if="input.label === 'Table of Contents'">
               <label>{{ input.label }}</label>
@@ -31,6 +43,9 @@
                 v-model="input.value[0]">
                </quill-editor>
                <input class="quill-hidden-field" :name="etdPrefix(index)" v-model="input.value" />
+               <section class='errorMessage' v-if="displayError(index)">
+                   <p>{{ input.label }} is required</p>
+               </section>
             </div>
             <div v-else-if="input.label === 'Abstract'">
                <label>{{ input.label }}</label>
@@ -38,21 +53,39 @@
                 v-model="input.value[0]">
                </quill-editor>
                <input class="quill-hidden-field" :name="etdPrefix(index)" v-model="input.value" />
+               <section class='errorMessage' v-if="displayError(index)">
+                   <p>{{ input.label }} is required</p>
+               </section>
             </div>
              <div v-else-if="input.label === 'Graduation Date'">
               <graduationDate></graduationDate>
+              <section class='errorMessage' v-if="displayError(index)">
+                  <p>{{ input.label }} is required</p>
+              </section>
             </div>
             <div v-else-if="input.label === 'Submitting Type'">
               <submittingType></submittingType>
+              <section class='errorMessage' v-if="displayError(index)">
+                  <p>{{ input.label }} is required</p>
+              </section>
             </div>
             <div v-else-if="input.label === 'Committee Member'">
               <committeeMember></committeeMember>
+              <section class='errorMessage' v-if="displayError(index)">
+                  <p>{{ input.label }} is required</p>
+              </section>
             </div>
             <div v-else-if="input.label === 'Degree'">
               <degree></degree>
+              <section class='errorMessage' v-if="displayError(index)">
+                  <p>{{ input.label }} is required</p>
+              </section>
             </div>
             <div v-else-if="input.label === 'Research Field'">
               <researchField></researchField>
+              <section class='errorMessage' v-if="displayError(index)">
+                  <p>{{ input.label }} is required</p>
+              </section>
             </div>
             <div v-else-if="input.label === 'Embargo'">
               <embargo></embargo>
@@ -65,19 +98,21 @@
             </div>
             <div v-else-if="input.label === 'Language'">
               <language></language>
+              <section class='errorMessage' v-if="displayError(index)">
+                  <p>{{ input.label }} is required</p>
+              </section>
             </div>
             <div v-else>
               <label>{{ input.label }}</label>
               <input class="form-control" :ref="index" :name="etdPrefix(index)" v-model="input.value">
+              <section class='errorMessage' v-if="displayError(index)">
+                  <p>{{ input.label }} is required</p>
+              </section>
             </div>
           </div>
           <input name="etd[currentTab]" type="hidden" :value="value.label" />
           <input name="etd[currentStep]" type="hidden" :value="value.step" />
           <button type="submit" class="btn btn-default">Save and Continue</button>
-          <section v-if="errored">
-            Invalidation Errors happened:
-              <p>{{ errors }}</p>
-          </section>
         </div>
       </div>
     </form>
@@ -87,6 +122,7 @@
 <script>
 import axios from "axios"
 import VueAxios from "vue-axios"
+import _ from "lodash"
 import { formStore } from "./formStore"
 import School from "./School"
 import Department from './Department'
@@ -145,6 +181,17 @@ export default {
     this.loadSavedData();
   },
   methods: {
+    displayError(input_key){
+      var isError = false;
+      _.forEach(this.errors, function(error) {
+        _.forEach(error, function(value, key){
+          if (input_key == key){
+            isError = true;
+          }
+        })
+      });
+      return isError;
+    },
     loadSavedData(){
       var el = document.getElementById('saved_data');
       // when the load this form the first time, there will not be
@@ -203,22 +250,21 @@ export default {
       return formData
     },
     onSubmit() {
-      var that = this;
       axios
         .post("/in_progress_etds", this.getFormData(), {
           config: { headers: { "Content-Type": "multipart/form-data" } }
         })
         .then(response => {
-          that.errored = false
-          that.errors = []
-          that.nextStepIsCurrent(response.data.lastCompletedStep)
-          that.setComplete(response.data.tab_name)
-          that.enableTabs()
+          this.errored = false
+          this.errors = []
+          this.nextStepIsCurrent(response.data.lastCompletedStep)
+          this.setComplete(response.data.tab_name)
+          this.enableTabs()
         })
         .catch(error => {
-          that.errored = true
-          that.errors = []
-          that.errors.push(error.response.data.errors)
+          this.errored = true
+          this.errors = []
+          this.errors.push(error.response.data.errors)
         })
     }
   }
@@ -281,5 +327,9 @@ ul {
  .quill-editor {
      height: 10em;
      margin-bottom:7em;
+}
+
+.errorMessage{
+  color: red;
 }
 </style>
