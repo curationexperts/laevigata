@@ -4,12 +4,11 @@ module Hyrax
     class CreateWithRemoteFilesActor < Hyrax::Actors::AbstractActor
       attr_accessor :curation_concern
 
-      def create(attributes)
-        if attributes.is_a? Hyrax::Actors::Environment
-          env                   = attributes
-          attributes            = env.attributes
-          self.curation_concern = env.curation_concern
-        end
+      def create(env)
+        raise ArgumentError unless env.is_a? Hyrax::Actors::Environment
+
+        attributes            = env.attributes
+        self.curation_concern = env.curation_concern
 
         remote_files = attributes.delete(:remote_files)
         next_actor.create(env) && attach_files(remote_files)
