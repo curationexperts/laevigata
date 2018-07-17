@@ -23,7 +23,7 @@
               <subfield></subfield>
             </div>
             <div v-else-if="input.label === 'files'">
-              <primary-file-uploader></primary-file-uploader>
+              <files></files>
             </div>
             <div v-else-if="input.label === 'Table of Contents'">
               <label>{{ input.label }}</label>
@@ -98,7 +98,7 @@ import GraduationDate from "./GraduationDate"
 import Language from "./Language"
 import Subfield from "./Subfield"
 import CommitteeMember from "./CommitteeMember"
-import PrimaryFileUploader from './PrimaryFileUploader.vue'
+import Files from './Files.vue'
 import CopyrightQuestions from './CopyrightQuestions'
 import Embargo from './Embargo'
 
@@ -132,7 +132,7 @@ export default {
     department: Department,
     subfield: Subfield,
     committeeMember: CommitteeMember,
-    primaryFileUploader: PrimaryFileUploader,
+    files: Files,
     copyrightQuestions: CopyrightQuestions,
     embargo: Embargo
   },
