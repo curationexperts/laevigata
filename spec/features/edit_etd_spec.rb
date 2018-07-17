@@ -58,8 +58,7 @@ RSpec.feature 'Edit an existing ETD', :perform_jobs, :clean, integration: true d
     # Create AdminSet and Workflow
     workflow_setup.setup
 
-    # Don't characterize the file during specs
-    allow(CharacterizeJob).to receive_messages(perform_later: nil, perform_now: nil)
+    ActiveJob::Base.queue_adapter.filter = [AttachFilesToWorkJob]
 
     # Create ETD & attach PDF file
     etd.assign_admin_set
@@ -72,15 +71,12 @@ RSpec.feature 'Edit an existing ETD', :perform_jobs, :clean, integration: true d
     end
 
     attributes_for_actor = { uploaded_files: file_ids }
+    attributes_for_actor.merge!(embargo_attrs) if embargo_attrs[:embargo_length]
     env = Hyrax::Actors::Environment.new(etd, ::Ability.new(student), attributes_for_actor)
-    middleware = Hyrax::DefaultMiddlewareStack.build_stack.build(Hyrax::Actors::Terminator.new)
-    middleware.create(env)
+    Hyrax::CurationConcern.actor.create(env)
 
     # Approver requests changes, so student will be able to edit the ETD
     change_workflow_status(etd, "request_changes", approver)
-
-    # Don't run background jobs during the spec
-    allow(ActiveJob::Base).to receive_messages(perform_later: nil, perform_now: nil)
   end
 
   context 'a logged in student' do
@@ -131,7 +127,7 @@ RSpec.feature 'Edit an existing ETD', :perform_jobs, :clean, integration: true d
       end
     end
 
-    context "An existing ETD" do
+    context "with an existing ETD" do
       let(:dept) { 'Biological and Biomedical Sciences' }
       let(:subfield) { ['Genetics and Molecular Biology'] }
       let(:attach_supp_files) { true }
@@ -144,7 +140,7 @@ RSpec.feature 'Edit an existing ETD', :perform_jobs, :clean, integration: true d
         }
       end
 
-      scenario "edit a field", js: true do
+      scenario "can edit a field", js: true do
         visit hyrax_etd_path(etd)
         click_on('Edit')
         sleep(5)
