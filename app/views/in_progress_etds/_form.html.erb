@@ -1,0 +1,12 @@
+<html>
+  <body>
+    <div id="root">
+      <!-- This tag holds the rails instance variable with the data from the in_progress_etd model, making it accessible to the js. However, we could have used an axios get request to get this data instead of relying on the instance variable, and that might be preferable in the future. -->
+      <%= tag.div id: 'saved_data', data: { in_progress_etd: @data } %>
+      <app></app>
+    </div>
+
+    <%= javascript_pack_tag 'root' %>
+    <%= stylesheet_pack_tag 'root' %>
+  </body>
+</html>

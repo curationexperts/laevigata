@@ -1,11 +1,12 @@
 class InProgressEtdsController < ApplicationController
+  # TODO: this needs to be authorized - all controller actions
+
   def new
     @in_progress_etd = InProgressEtd.find_or_create_by(user_ppid: current_user.id)
     @data = @in_progress_etd.data unless @in_progress_etd.data.nil?
   end
 
   # TODO: this is effectively always an update. Should we just use the update action instead?
-  # TODO: this needs to be authorized
   def create
     @in_progress_etd = InProgressEtd.find_by(user_ppid: current_user.id)
     @in_progress_etd.data = prepare_etd_data.to_json
@@ -20,6 +21,7 @@ class InProgressEtdsController < ApplicationController
 
   def edit
     @in_progress_etd = InProgressEtd.find(params[:id])
+    @data = @in_progress_etd.data unless @in_progress_etd.data.nil?
   end
 
   def update
