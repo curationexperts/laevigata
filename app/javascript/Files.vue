@@ -1,6 +1,8 @@
 <template>
   <div>
+    <section class="thesis-file">
     <h2>Add Your Thesis or Dissertation File</h2>
+    <div id="box-picker"></div> 
     <span class="form-instructions">Upload the version of your thesis or dissertation approved by your advisor or committee.
     You can only upload one file to represent your thesis or dissertation. This file should not contain any signatures or other personally identifying
     information. PDF/A is a better version for preservation and for that reason we recommend you upload a PDF/A file, but it is not required.
@@ -46,8 +48,11 @@
       <label class="btn btn-primary" for="add-file"><span class='glyphicon glyphicon-plus'></span>
       Add your thesis or dissertation file from your computer
       </label>
-      <a class="btn btn-primary" href="#" data-turbolinks="false"><span class="glyphicon glyphicon-plus"></span> Add your thesis or dissertation file from Box</a>
+      <a class="btn btn-primary" :href="boxOAuthUrl()" data-turbolinks="false"><span class="glyphicon glyphicon-plus"></span> Add your thesis or dissertation file from Box</a>
     </div>
+    
+    </section>
+    <section class="optional-files">
     <h2>Add Optional Supplemental Files</h2>
     <div class="form-instructions">
       Uploading supplemental files is not required, but it gives you a way to share more of your research. 
@@ -98,6 +103,7 @@
       <a class="btn btn-primary" href="#" data-turbolinks="false"><span class="glyphicon glyphicon-plus"></span> Add a supplemental file from Box</a>
       <input class="input-file btn-primary" id="add-supplemental-file" name="supplemental_files[]" type="file" ref="fileInput" @change="onSupplementalFileChange"/>
     </div>
+    </section>
   </div>
 </template>
 
@@ -107,6 +113,7 @@ import FileUploader from './FileUploader'
 import FileDelete from './FileDelete'
 import SupplementalFileDelete from './SupplementalFileDelete'
 import SupplementalFileUploader from './SupplementalFileUploader'
+import axios from 'axios'
 
 let token = document
   .querySelector('meta[name="csrf-token"]')
@@ -119,6 +126,36 @@ export default {
       sharedState: formStore,
       uploadError: false,
       progress: 0
+    }
+  },
+  mounted () {
+    var folderId = '0'
+    var accessToken = window.location.search.split('&access_token=')[1]
+    var filePicker = new Box.FilePicker()
+    if (accessToken) {
+    filePicker.show(folderId, accessToken, {
+      container: '#box-picker',
+      maxSelectable: 1,
+      canUpload: false,
+      logoUrl: 'box',
+      canCreateNewFolder: false
+    })
+  
+    filePicker.addListener('choose', (event) => {
+      console.log(event)
+      var boxRedirect = `/file/box`
+      axios({ 
+        method: 'post',
+        url: boxRedirect,
+        data: {
+          id: event[0].id,
+          token: accessToken
+        }
+      }).then((response) => {
+        // TO-DO: do something with the URL
+        console.log(response.data.location)
+      })
+    })
     }
   },
   methods: {
@@ -161,6 +198,9 @@ export default {
         formStore: this.sharedState
       })
       supplementalFileDelete.deleteFile()
+  },
+  boxOAuthUrl () {
+    return `https://account.box.com/api/oauth2/authorize?response_type=code&client_id=${boxClientId()}&redirect_uri=http://localhost:3000/auth/box&state=${this.sharedState.ipeId}`
   },
   supplementalFileTitleName (key) {
     return `etd[supplemental_file_metadata][${key}]title`

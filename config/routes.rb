@@ -69,5 +69,7 @@ Rails.application.routes.draw do
 
   resources :schools, only: [:index, :show]
 
+  get '/auth/box', to: 'box_auth#auth'
+  post '/file/box', to: 'box_redirect#redirect_file'
   match "*path", to: "catalog#catch_404", via: :all
 end
