@@ -36,9 +36,10 @@ class InProgressEtdsController < ApplicationController
 
   def show
     @in_progress_etd = InProgressEtd.find(params[:id])
+    @etd = InProgressEtd.find(params[:id]).data
+    @uploaded_files = ["1"]
 
-    # @uploaded_files = ["1"] # JSON.parse(@in_progress_etd.data)['uploaded_files']
-    # @uploaded_files = []
+    render json: { in_progress_etd: @etd, uploaded_files: @uploaded_files }, status: 200
   end
 
   private

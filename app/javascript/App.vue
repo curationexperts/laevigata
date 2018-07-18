@@ -15,25 +15,25 @@
           <div v-for="(input, index) in value.inputs" v-bind:key="index">
             <div v-if="input.label === 'School'">
               <school></school>
-              <section class='errorMessage' v-if="displayError(index)">
+              <section class='errorMessage' v-if="form.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'Department'">
               <department></department>
-              <section class='errorMessage' v-if="displayError(index)">
+              <section class='errorMessage' v-if="form.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'subfield'">
               <subfield></subfield>
-              <section class='errorMessage' v-if="displayError(index)">
+              <section class='errorMessage' v-if="form.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'files'">
               <files></files>
-              <section class='errorMessage' v-if="displayError(index)">
+              <section class='errorMessage' v-if="form.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
@@ -43,7 +43,7 @@
                 v-model="input.value[0]">
                </quill-editor>
                <input class="quill-hidden-field" :name="etdPrefix(index)" v-model="input.value" />
-               <section class='errorMessage' v-if="displayError(index)">
+               <section class='errorMessage' v-if="form.hasError(index)">
                    <p>{{ input.label }} is required</p>
                </section>
             </div>
@@ -53,37 +53,37 @@
                 v-model="input.value[0]">
                </quill-editor>
                <input class="quill-hidden-field" :name="etdPrefix(index)" v-model="input.value" />
-               <section class='errorMessage' v-if="displayError(index)">
+               <section class='errorMessage' v-if="form.hasError(index)">
                    <p>{{ input.label }} is required</p>
                </section>
             </div>
              <div v-else-if="input.label === 'Graduation Date'">
               <graduationDate></graduationDate>
-              <section class='errorMessage' v-if="displayError(index)">
+              <section class='errorMessage' v-if="form.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'Submitting Type'">
               <submittingType></submittingType>
-              <section class='errorMessage' v-if="displayError(index)">
+              <section class='errorMessage' v-if="form.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'Committee Member'">
               <committeeMember></committeeMember>
-              <section class='errorMessage' v-if="displayError(index)">
+              <section class='errorMessage' v-if="form.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'Degree'">
               <degree></degree>
-              <section class='errorMessage' v-if="displayError(index)">
+              <section class='errorMessage' v-if="form.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'Research Field'">
               <researchField></researchField>
-              <section class='errorMessage' v-if="displayError(index)">
+              <section class='errorMessage' v-if="form.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
@@ -98,18 +98,24 @@
             </div>
             <div v-else-if="input.label === 'Language'">
               <language></language>
-              <section class='errorMessage' v-if="displayError(index)">
+              <section class='errorMessage' v-if="form.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
             <div v-else>
               <label>{{ input.label }}</label>
               <input class="form-control" :ref="index" :name="etdPrefix(index)" v-model="input.value">
-              <section class='errorMessage' v-if="displayError(index)">
+              <section class='errorMessage' v-if="form.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
           </div>
+
+          <div v-for="(value, key) in value.fields">
+            <label>{{ key }}</label>
+            <span>{{ value }}</span>
+          </div>
+
           <input name="etd[currentTab]" type="hidden" :value="value.label" />
           <input name="etd[currentStep]" type="hidden" :value="value.step" />
           <button type="submit" class="btn btn-default">Save and Continue</button>
@@ -141,6 +147,8 @@ import Files from './Files.vue'
 import CopyrightQuestions from './CopyrightQuestions'
 import Embargo from './Embargo'
 import Keywords from './Keywords'
+import SaveAndSubmit from './SaveAndSubmit'
+
 
 let token = document
   .querySelector('meta[name="csrf-token"]')
@@ -156,8 +164,6 @@ export default {
       deleteableFiles: [],
       editorOptions: {
       },
-      errored: false,
-      errors: [],
       lastCompletedStep: 0
     }
   },
@@ -175,50 +181,22 @@ export default {
     files: Files,
     copyrightQuestions: CopyrightQuestions,
     embargo: Embargo,
-    keywords: Keywords
+    keywords: Keywords,
+    saveAndSubmit: SaveAndSubmit
   },
   mounted(){
-    this.loadSavedData();
+    this.form.loadSavedData();
   },
   methods: {
-    displayError(input_key){
-      var isError = false;
-      _.forEach(this.errors, function(error) {
-        _.forEach(error, function(value, key){
-          if (input_key == key){
-            isError = true;
-          }
-        })
-      });
-      return isError;
+    isComplete(tab) {
+      return tab;
     },
-    loadSavedData(){
-      var el = document.getElementById('saved_data');
-      // when the load this form the first time, there will not be
-      // any data in the data- attribute, therefore, pass empty
-      // hash rather than undefined.
-      var savedData = {}
-      if (el && el.hasAttribute("data-in-progress-etd")){
-        savedData = JSON.parse(el.dataset.inProgressEtd);
-      }
-      this.form.loadSavedData(savedData);
-    },
-    // tabs that have been validated and the current tab are enabled
-    enableTabs(){
+    allTabsComplete(){
+      var complete = [];
       for (var tab in this.form.tabs){
-        if (this.form.tabs[tab].complete == true || this.form.tabs[tab].currentStep == true){
-          this.form.tabs[tab].disabled = false
-        } else {
-          this.form.tabs[tab].disabled = true
-        }
+        complete.push(this.form.tabs[tab].completed)
       }
-    },
-    setComplete(tab_name){
-      for (var tab in this.form.tabs){
-        if (this.form.tabs[tab].label == tab_name){
-          this.form.tabs[tab].complete = true
-        }
-      }
+      return complete.every(this.isComplete);
     },
     setCurrentStep(tab_label, event){
       // display current tab unless click comes from disabled tab
@@ -232,15 +210,6 @@ export default {
         }
       }
     },
-    nextStepIsCurrent(lastCompletedStep){
-      for (var tab in this.form.tabs){
-        if (this.form.tabs[tab].step == parseInt(lastCompletedStep) + 1) {
-          this.form.tabs[tab].currentStep = true
-        } else {
-          this.form.tabs[tab].currentStep = false
-        }
-      }
-    },
     etdPrefix(index) {
       return "etd[" + index + "]"
     },
@@ -249,23 +218,54 @@ export default {
       var formData = new FormData(form)
       return formData
     },
+    saveTab(){
+      var form = document.getElementById("vue_form")
+      var formData = new FormData(form)
+
+      var saveAndSubmit = new SaveAndSubmit({
+        token: token,
+        formData: formData
+      })
+      saveAndSubmit.saveTab()
+    },
+    readyForReview(){
+      // probably will not need this, save will go from embargo tab to review tab naturally
+      // all tabs are complete but user has not checked agreement
+      return this.allTabsComplete() && this.form.agreement == false
+    },
+    reviewTabs(){
+      var form = document.getElementById("vue_form")
+      var formData = new FormData(form)
+
+      var saveAndSubmit = new SaveAndSubmit({
+        token: token,
+        formData: formData
+      })
+      saveAndSubmit.reviewTabs()
+    },
+    readyForSubmission(){
+      return true //this.allTabsComplete() && this.form.agreement == true
+    },
+    submitForPublication(){
+      var form = document.getElementById("vue_form")
+      var formData = new FormData(form)
+
+      var saveAndSubmit = new SaveAndSubmit({
+        token: token,
+        formData: formData
+      })
+      saveAndSubmit.submitEtd()
+    },
     onSubmit() {
-      axios
-        .post("/in_progress_etds", this.getFormData(), {
-          config: { headers: { "Content-Type": "multipart/form-data" } }
-        })
-        .then(response => {
-          this.errored = false
-          this.errors = []
-          this.nextStepIsCurrent(response.data.lastCompletedStep)
-          this.setComplete(response.data.tab_name)
-          this.enableTabs()
-        })
-        .catch(error => {
-          this.errored = true
-          this.errors = []
-          this.errors.push(error.response.data.errors)
-        })
+      if (this.readyForReview()){
+        console.log('ready for review')
+        this.reviewTabs()
+      } else if (this.readyForSubmission()){
+        console.log('ready for submission')
+        this.submitForPublication()
+      } else {
+        this.saveTab()
+      }
     }
   }
 }
