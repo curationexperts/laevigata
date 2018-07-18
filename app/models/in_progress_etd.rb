@@ -1,4 +1,6 @@
 class InProgressEtd < ApplicationRecord
+  after_create :add_id_to_data_store
+
   # custom validators check for presence of tab-determined set of fields based on presence of tab-identifying data
   validates_with AboutMeValidator
   validates_with MyProgramValidator
@@ -17,5 +19,12 @@ class InProgressEtd < ApplicationRecord
     resulting_data = existing_data.merge(new_data)
     self.data = resulting_data.to_json
     resulting_data
+  end
+
+  # Store this record's ID for the javascript form to use.
+  def add_id_to_data_store
+    return unless id
+    add_data('ipe_id' => id)
+    save
   end
 end

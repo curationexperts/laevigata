@@ -136,6 +136,22 @@ describe InProgressEtd do
     end
   end
 
+  describe '#add_id_to_data_store' do
+    let(:in_progress_etd) { described_class.new }
+    let(:parsed_data) { JSON.parse(in_progress_etd.data) }
+
+    context "a record that has been saved" do
+      before do
+        in_progress_etd.save!
+        in_progress_etd.reload
+      end
+
+      it 'has the ID in the data' do
+        expect(parsed_data).to eq('ipe_id' => in_progress_etd.id)
+      end
+    end
+  end
+
   describe '#add_data' do
     let(:in_progress_etd) { described_class.new(data: old_data.to_json) }
 

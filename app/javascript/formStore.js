@@ -114,6 +114,15 @@ export var formStore = {
       fields: {}
     }
   },
+  // The ID of the InProgressEtd record that we are editing (relational database ID).
+  // This will help us build the URL for the form submit.
+  ipeId: '',
+  setIpeId(id){
+    this.ipeId = id;
+  },
+  getUpdateRoute(){
+    return `/in_progress_etds/${this.ipeId}`
+  },
   copyrightQuestions: [{
     'label': 'Fair Use',
     'text': `Does your thesis or dissertation contain any thirdy-party text, audiovisual content or other material which is beyond a fair use and would require permission?`,
@@ -277,13 +286,15 @@ export var formStore = {
       this.subfields = response.data
     })
   },
-  loadSavedData(data){
+  loadSavedData(){
     var el = document.getElementById('saved_data');
     var savedData = {}
     if (el && el.hasAttribute("data-in-progress-etd")){
       savedData = JSON.parse(el.dataset.inProgressEtd);
     }
     if (Object.keys(savedData).length > 0){
+      this.setIpeId(savedData['ipe_id'])
+
       for (var tab in this.tabs){
          if (!this.tabs[tab].disabled){
            var input_keys = Object.keys(this.tabs[tab].inputs)

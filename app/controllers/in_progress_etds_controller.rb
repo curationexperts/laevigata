@@ -2,13 +2,21 @@ class InProgressEtdsController < ApplicationController
   # TODO: this needs to be authorized - all controller actions
 
   def new
-    @in_progress_etd = InProgressEtd.find_or_create_by(user_ppid: current_user.id)
+    @in_progress_etd = InProgressEtd.find_or_create_by(user_ppid: current_user.ppid)
+    # Now that the record has been created, render the form so student can edit it:
+    redirect_to action: :edit, id: @in_progress_etd.id
+  end
+
+  # Note: There is no 'create' action because the 'new' action does 'find or create'.
+
+  def edit
+    @in_progress_etd = InProgressEtd.find(params[:id])
     @data = @in_progress_etd.data unless @in_progress_etd.data.nil?
   end
 
-  # TODO: this is effectively always an update. Should we just use the update action instead?
-  def create
-    @in_progress_etd = InProgressEtd.find_by(user_ppid: current_user.id)
+  # The Vue.js form uses this action to update the record.
+  def update
+    @in_progress_etd = InProgressEtd.find(params[:id])
     @in_progress_etd.data = prepare_etd_data.to_json
 
     if @in_progress_etd.save
@@ -16,21 +24,6 @@ class InProgressEtdsController < ApplicationController
       render json: { in_progress_etd: @in_progress_etd, lastCompletedStep: current_step, tab_name: tab_name }, status: 200
     else
       render json: { errors: @in_progress_etd.errors.messages }, status: 422
-    end
-  end
-
-  def edit
-    @in_progress_etd = InProgressEtd.find(params[:id])
-    @data = @in_progress_etd.data unless @in_progress_etd.data.nil?
-  end
-
-  def update
-    @in_progress_etd = InProgressEtd.find(params[:id])
-
-    if @in_progress_etd.update(in_progress_etd_params)
-      redirect_to @in_progress_etd
-    else
-      render 'edit'
     end
   end
 
@@ -55,6 +48,7 @@ class InProgressEtdsController < ApplicationController
     end
 
     def prepare_etd_data
+      # TODO: strong params
       new_data = request.parameters.fetch(:etd, {})
 
       # Add temporarily hard-coded data into the new data
