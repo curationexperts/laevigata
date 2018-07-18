@@ -9,7 +9,7 @@ export default class SaveAndSubmit {
   }
   saveTab(){
     axios
-      .post("/in_progress_etds", this.formData, {
+      .patch(this.formStore.getUpdateRoute(), this.formData, {
         config: { headers: { "Content-Type": "multipart/form-data" } }
       })
       .then(response => {
@@ -26,8 +26,7 @@ export default class SaveAndSubmit {
       })
   }
   reviewTabs(){
-    //TODO: will this always be 1? confirm
-    axios.get('/in_progress_etds/7', { config: { headers: { "Content-Type": "application/json" } } })
+    axios.get(this.formStore.getUpdateRoute(), { config: { headers: { "Content-Type": "application/json" } } })
     .then(response => {
       this.formStore.showSavedData(response.data)
       // for now fake that user got here naturally
@@ -41,8 +40,7 @@ export default class SaveAndSubmit {
   }
   submitEtd(){
     // TODO: change text of submit button to say submit for publication
-    // TODO: use real in_progress_etds/id: 1? confirm
-    axios.get('/in_progress_etds/7', { config: { headers: { "Content-Type": "application/json" } } })
+    axios.get(this.formStore.getUpdateRoute(), { config: { headers: { "Content-Type": "application/json" } } })
     .then(response => {
       document.getElementById('saved_data').dataset.in_progress_etd = response.data
       // populate form in order to use its inputs

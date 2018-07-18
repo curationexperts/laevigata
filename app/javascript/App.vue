@@ -5,7 +5,7 @@
         <a href="#" data-turbolinks="false" class="tab" v-bind:class="{ disabled: value.disabled }" v-on:click="setCurrentStep(value.label, $event)">{{ value.label }}</a>
       </li>
     </ul>
-    <form role="form" id="vue_form" action="/concern/etds/new" method="post" @submit.prevent="onSubmit">
+    <form role="form" id="vue_form" :action="form.getUpdateRoute()" method="patch" @submit.prevent="onSubmit">
       <div v-for="value in form.tabs" v-bind:key="value.label">
         <div class="tab-content form-group" v-if="value.currentStep">
           <h1> {{ value.label }} </h1>
