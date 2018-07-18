@@ -6,6 +6,10 @@ FactoryBot.define do
 
     factory :primary_uploaded_file, traits: [:primary]
 
+    factory :remote_uploaded_file do
+      browse_everything_url 'http://example.com/remote/file.pdf'
+    end
+
     factory :supplementary_uploaded_file, traits: [:supplementary] do
       file { Rack::Test::UploadedFile.new("#{::Rails.root}/spec/fixtures/miranda/image.tif") }
       description { 'Description of the supplementary file' }
