@@ -244,7 +244,7 @@ export default {
       saveAndSubmit.reviewTabs()
     },
     readyForSubmission(){
-      return true //this.allTabsComplete() && this.form.agreement == true
+      return this.allTabsComplete() && this.form.agreement == true
     },
     submitForPublication(){
       var form = document.getElementById("vue_form")
