@@ -1,7 +1,7 @@
 <template>
     <div>
-        <label>Submission Type</label>
-        <select name="etd[submitting_type]" class="form-control">
+        <label for="submitting-type">Submission Type</label>
+        <select id="submitting-type" name="etd[submitting_type]" class="form-control">
             <option v-for="submittingType in submittingTypes" v-bind:value="submittingType.id" 
             v-bind:key='submittingType.id' v-if="submittingType.active" :disabled="submittingType.disabled"  
             :selected="submittingType.selected">

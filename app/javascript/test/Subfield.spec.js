@@ -20,6 +20,6 @@ describe('Subfield.vue', () => {
   it('has the correct html', () => {
     const wrapper = shallowMount(Subfield, {
     })
-    expect(wrapper.html()).toEqual(`<div><label>Subfield</label> <select name="etd[subfield]" class="form-control"></select></div>`)
+    expect(wrapper.html()).toEqual(`<div><label for="subfield">Subfield</label> <select id="subfield" name="etd[subfield]" class="form-control"></select></div>`)
   })
 })

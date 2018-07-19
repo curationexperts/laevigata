@@ -9,9 +9,9 @@
       <div v-for="value in form.tabs" v-bind:key="value.label">
         <div class="tab-content form-group" v-if="value.currentStep">
           <h1> {{ value.label }} </h1>
-          <p>
+          <section aria-live="assertive">
             {{ value.help_text }}
-          </p>
+          </section>
           <div v-for="(input, index) in value.inputs" v-bind:key="index">
             <div v-if="input.label === 'School'">
               <school></school>
@@ -83,7 +83,7 @@
             </div>
             <div v-else-if="input.label === 'Research Field'">
               <researchField></researchField>
-              <section class='errorMessage' v-if="form.hasError(index)">
+              <section role="alert" class='errorMessage' v-if="form.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
@@ -98,14 +98,14 @@
             </div>
             <div v-else-if="input.label === 'Language'">
               <language></language>
-              <section class='errorMessage' v-if="form.hasError(index)">
+              <section role="alert" class='errorMessage' v-if="form.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
             <div v-else>
-              <label>{{ input.label }}</label>
-              <input class="form-control" :ref="index" :name="etdPrefix(index)" v-model="input.value">
-              <section class='errorMessage' v-if="form.hasError(index)">
+              <label :for="input.label">{{ input.label }}</label>
+              <input :id="input.label" class="form-control" :ref="index" :name="etdPrefix(index)" v-model="input.value">
+              <section role="alert" class='errorMessage' v-if="form.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
@@ -118,7 +118,7 @@
 
           <input name="etd[currentTab]" type="hidden" :value="value.label" />
           <input name="etd[currentStep]" type="hidden" :value="value.step" />
-          <button type="submit" class="btn btn-default">Save and Continue</button>
+          <button type="submit" class="btn btn-default" autofocus>Save and Continue</button>
         </div>
       </div>
     </form>

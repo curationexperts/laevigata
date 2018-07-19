@@ -27,6 +27,6 @@ describe('GraduationDate.vue', () => {
   it('has the correct html', () => {
     const wrapper = shallowMount(GraduationDate, {
     })
-    expect(wrapper.html()).toEqual(`<div><label>Graduation Date</label> <select name="etd[graduation_date]" class="form-control"></select></div>`)
+    expect(wrapper.html()).toEqual(`<div><label for="graduation-date">Graduation Date</label> <select id="graduation-date" name="etd[graduation_date]" class="form-control"></select></div>`)
   })
 })

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label>Department</label>
+    <label for="department">Department</label>
     <select class="form-control" id="department" v-model="selected">
       <option v-for="department in sharedState.departments" v-bind:value="department.label" v-bind:key="department.label">
         {{ department.label }}

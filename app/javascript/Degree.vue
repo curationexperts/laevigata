@@ -1,7 +1,7 @@
 <template>
     <div>
-        <label>Degree</label>
-        <select name="etd[degree]" class="form-control">
+        <label for="degree">Degree</label>
+        <select id="degree" name="etd[degree]" class="form-control">
             <option v-for="degree in degrees" v-bind:value="degree.id" v-bind:key='degree.id' :selected='degree.selected' :disabled='degree.disabled'>
                 {{ degree.label }}
             </option>

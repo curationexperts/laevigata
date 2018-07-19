@@ -1,7 +1,7 @@
 <template>
   <div>
-    <label>Subfield</label>
-    <select name="etd[subfield]" class="form-control">
+    <label for="subfield">Subfield</label>
+    <select id="subfield" name="etd[subfield]" class="form-control">
       <option v-for="option in sharedState.subfields"  v-bind:value="option.value" v-bind:key='option.value' 
       :selected='option.selected' :disabled='option.disabled'>
         {{ option.id }}
