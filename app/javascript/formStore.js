@@ -267,6 +267,9 @@ export var formStore = {
   setSelectedSchool (school) {
     this.schools.selected = school
   },
+  getGraduationDate(){
+    return this.savedData["graduation_date"]
+  },
   getEmbargoLengths () {
     return this.embargoLengths[this.schools.selected]
   },
@@ -277,7 +280,7 @@ export var formStore = {
     return this.schools.selected
   },
   getSchoolOptionValue(){
-    return this.savedData["school"];
+    return this.savedData["school"]
   },
   getDepartments (selectedSchool) {
     axios.get(selectedSchool).then(response => {
