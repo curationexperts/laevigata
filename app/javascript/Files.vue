@@ -34,8 +34,8 @@
                   {{ file.size }}
                 </td>
                 <td>
-                  <a href="#" class="btn btn-danger delete" data-turbolinks="false" @click="deleteFile(file.deleteUrl)">
-                  <span class="glyphicon glyphicon-trash"></span> Remove this file</a>
+                  <button type="button" class="btn btn-danger delete" @click="deleteFile(file.deleteUrl)">
+                  <span class="glyphicon glyphicon-trash"></span> Remove this file</button>
                 </td>
               </tr>
             </tbody>
@@ -48,7 +48,7 @@
       <label class="btn btn-primary" for="add-file"><span class='glyphicon glyphicon-plus'></span>
       Add your thesis or dissertation file from your computer
       </label>
-      <a class="btn btn-primary" :href="boxOAuthUrl()" data-turbolinks="false"><span class="glyphicon glyphicon-plus"></span> Add your thesis or dissertation file from Box</a>
+      <button class="btn btn-primary" :href="boxOAuthUrl()"><span class="glyphicon glyphicon-plus"></span> Add your thesis or dissertation file from Box</button>
     </div>
     
     </section>
@@ -89,8 +89,8 @@
             </td>
             <td> 
               {{ files.deleteUrl }}
-              <a class="btn btn-danger remove-btn" data-turbolinks="false" @click="deleteSupplementalFile(files.deleteUrl)">
-              <span class="glyphicon glyphicon-trash"></span> Remove this file</a>
+              <button type="button" class="btn btn-danger remove-btn" @click="deleteSupplementalFile(files.deleteUrl)">
+              <span class="glyphicon glyphicon-trash"></span> Remove this file</button>
             </td>
           </tr>
         </tbody>
@@ -100,7 +100,7 @@
       <label class="btn btn-primary" for="add-supplemental-file"><span class='glyphicon glyphicon-plus'></span>
       Add a supplemental file from your computer
       </label>
-      <a class="btn btn-primary" href="#" data-turbolinks="false"><span class="glyphicon glyphicon-plus"></span> Add a supplemental file from Box</a>
+      <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add a supplemental file from Box</button>
       <input class="input-file btn-primary" id="add-supplemental-file" name="supplemental_files[]" type="file" ref="fileInput" @change="onSupplementalFileChange"/>
     </div>
     </section>

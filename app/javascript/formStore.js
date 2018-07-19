@@ -141,6 +141,7 @@ export var formStore = {
     'name': 'etd[patents]'
   }],
   committeeChairs: [],
+  committeeMembers: [],
   files: [],
   supplementalFiles: [],
   departments: [],
