@@ -30,6 +30,12 @@ export default {
       formStore.getDepartments(selectedSchool)
     }
   },
+  mounted: function(){
+    //This is the right hook in the dom loading sequence to get the saved data
+    this.$nextTick(function () {
+      this.selected = formStore.getSchoolOptionValue()
+    })
+  },
   watch: {
     selected() {
       this.fetchData();

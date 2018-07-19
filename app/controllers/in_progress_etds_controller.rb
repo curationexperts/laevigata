@@ -20,8 +20,8 @@ class InProgressEtdsController < ApplicationController
     @in_progress_etd.data = prepare_etd_data.to_json
 
     if @in_progress_etd.save
-      # TODO: we'll want all the json data sent back
-      render json: { in_progress_etd: @in_progress_etd, lastCompletedStep: current_step, tab_name: tab_name }, status: 200
+      @data = @in_progress_etd.data
+      render json: { in_progress_etd: @data, lastCompletedStep: current_step, tab_name: tab_name }, status: 200
     else
       render json: { errors: @in_progress_etd.errors.messages }, status: 422
     end
@@ -58,8 +58,6 @@ class InProgressEtdsController < ApplicationController
       # add_uploaded_file_data(new_data)
       add_agreement_data(new_data)
       add_embargo_data(new_data)
-      add_school_department_subfield(new_data)
-
       # Add the new data to the existing persisted data
       @in_progress_etd.add_data(new_data)
     end
@@ -80,12 +78,6 @@ class InProgressEtdsController < ApplicationController
 
     def add_embargo_data(etd)
       etd["no_embargoes"] = "1"
-    end
-
-    def add_school_department_subfield(etd)
-      etd["school"] = "Emory College"
-      etd["department"] = "Anthropology"
-      etd["subfield"] = "Epidemiology"
     end
 
     # TODO: confirm whether this is not needed
