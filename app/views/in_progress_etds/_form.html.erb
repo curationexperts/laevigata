@@ -1,12 +1,23 @@
-<html>
-  <body>
-    <div id="root">
-      <!-- This tag holds the rails instance variable with the data from the in_progress_etd model, making it accessible to the js. However, we could have used an axios get request to get this data instead of relying on the instance variable, and that might be preferable in the future. -->
-      <%= tag.div id: 'saved_data', data: { in_progress_etd: @data } %>
-      <app></app>
-    </div>
+<div id="root">
+<!-- This tag holds the rails instance variable with the data from the in_progress_etd model, making it accessible to the js. However, we could have used an axios get request to get this data instead of relying on the instance variable, and that might be preferable in the future. -->
+<%= tag.div id: 'saved_data', data: { in_progress_etd: @data } %>
+  <app></app>
+</div>
 
-    <%= javascript_pack_tag 'root' %>
-    <%= stylesheet_pack_tag 'root' %>
-  </body>
-</html>
+<!-- Assets for Box, look for a better way to do this in the future -->
+
+<!-- polyfill.io only loads the polyfills your browser needs -->
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Intl"></script>
+<!-- Latest version of the picker css for your locale -->
+<link rel="stylesheet" href="https://cdn01.boxcdn.net/platform/elements/4.4.0/en-US/picker.css" />
+<script src="https://cdn01.boxcdn.net/platform/elements/4.4.0/en-US/picker.js"></script>
+
+<script>
+function boxClientId () {
+  return '<%= ENV['BOX_OAUTH_CLIENT_ID'] %>'
+}
+</script>
+
+<%= javascript_pack_tag 'root' %>
+<%= stylesheet_pack_tag 'root' %>
+
