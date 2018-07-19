@@ -30,8 +30,8 @@ Rails.application.routes.draw do
   # While we work on new UI architecture, keep it accessible only when new_ui is true (see config/new_ui.yml).
 
   if Rails.application.config_for('new_ui').fetch('enabled', false)
-    get '/concern/etds/new', to: 'in_progress_etds#new'
-    resources :in_progress_etds
+    resources :in_progress_etds, except: :create
+    get '/concern/etds/new', to: redirect('in_progress_etds/new')
   else
     get '/concern/etds/new', to: 'hyrax/etds#new'
   end
