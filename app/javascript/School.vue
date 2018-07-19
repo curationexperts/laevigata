@@ -26,20 +26,20 @@ export default {
   methods: {
     fetchData() {
       var selectedSchool = this.sharedState.schools[this.selected];
-      formStore.setSelectedSchool(this.selected)
-      formStore.getDepartments(selectedSchool)
+      this.sharedState.setSelectedSchool(this.selected)
+      this.sharedState.getDepartments(selectedSchool)
     }
   },
   mounted: function(){
     //This is the right hook in the dom loading sequence to get the saved data
     this.$nextTick(function () {
-      this.selected = formStore.getSchoolOptionValue()
+      this.selected = this.sharedState.getSchoolOptionValue()
     })
   },
   watch: {
     selected() {
       this.fetchData();
-      formStore.clearSubfields()
+      this.sharedState.clearSubfields()
     }
   }
 };
