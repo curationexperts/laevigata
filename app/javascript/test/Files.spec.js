@@ -10,7 +10,7 @@ describe('Files.vue', () => {
   it('has 4 buttons when rendered', () => {
     const wrapper = shallowMount(Files, {
     })
-    expect(wrapper.findAll('a')).toHaveLength(4)
+    expect(wrapper.findAll('button')).toHaveLength(2)
   })
 
   it('has two labels ', () => {

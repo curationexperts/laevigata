@@ -1,44 +1,49 @@
 <template>
     <div>
-        <div v-for="chair in committeeChairs" v-bind:value="chair.name" v-bind:key='chair.id'>
-            <label>Committee Chair/Thesis Advisor's Affliation</label>
-            <select :name="chairAffiliationTypeAttr(chair)" class="form-control">
+        <div v-for="chair in sharedState.committeeChairs" v-bind:value="chair.name" v-bind:key='chair.id'>
+            <div class="well">
+            <h4>Committee Chair/Thesis Advisor</h4>
+            <label :for="chairId(chair)">Committee Chair/Thesis Advisor's Affliation</label>
+            <select v-model="chair.affiliation" :id="chairId(chair)" :name="chairAffiliationTypeAttr(chair)" class="form-control">
                 <option disabled selected>
                     Select an affiliation
                 </option>
                 <option>Emory University</option>
                 <option>Non-Emory</option>
             </select>
-            <label>Committee Chair/Thesis Advisor's Name</label>
-            <input :name="chairNameAttr(chair)" type="text" class="form-control" />
+            <label :for="chairNameId(chair)">Committee Chair/Thesis Advisor's Name</label>
+            <input :id="chairNameId(chair)" :name="chairNameAttr(chair)" type="text" class="form-control" />
 
-           
-            <label>Affiliation</label> 
-            <input :name="chairAffiliationAttr(chair)" type="text" class="form-control" />
-
-             <a class="btn btn-default" href="#" data-turbolinks="false" @click="removeChair(chair)">Remove Chair or Advisor</a>
+           <div v-if="chair.affiliation === 'Non-Emory'">
+            <label :for="chairAffiliationId(chair)">Affiliation</label> 
+            <input :id="chairAffiliationId(chair)" :name="chairAffiliationAttr(chair)" type="text" class="form-control" />
+           </div>
+             <button type="button" class="btn btn-default" @click="removeChair(chair)"><span class="glyphicon glyphicon-trash"></span> Remove This Chair or Advisor</button>
+             </div>
         </div>
-        <p>
-        <a href="#" class="btn btn-default" data-turbolinks="false" @click="addChair">Add Another Chair or Advisor</a>
-        </p>
-         <div v-for="member in committeeMembers" v-bind:value="member.name" v-bind:key='member.id'>
-            <label>Committee Member's Affiliation</label>
-            <select :name="memberAffiliationTypeAttr(member)" class="form-control">
+        <button type="button" class="btn btn-default" @click="addChair"><span class="glyphicon glyphicon-plus"></span> Add a Chair or Advisor</button>
+         <div v-for="member in sharedState.committeeMembers" v-bind:value="member.name" v-bind:key='member.id'>
+            <div class="well">
+            <h4>Committee Member</h4>
+            <label :for="memberId(member)">Committee Member's Affiliation</label>
+            <select :id="memberId(member)" v-model="member.affiliation" :name="memberAffiliationTypeAttr(member)" class="form-control">
                 <option disabled selected>
                     Select an affiliation
                 </option>
                 <option>Emory University</option>
                 <option>Non-Emory</option>
             </select>
-            <label>Committee Member's Name</label>
-            <input :name="memberNameAttr(member)" type="text" class="form-control" />
-            <label>Affiliation</label> 
-            <input :name="memberAffiliationAttr(member)" type="text" class="form-control" />
-            <a href="#" class="btn btn-default" data-turbolinks="false" @click="removeMember(member)">Remove Committee Member</a>
-            <br>
+            <label :for="memberNameId(member)">Committee Member's Name</label>
+            <input :id="memberNameId(member)" :name="memberNameAttr(member)" type="text" class="form-control" />
+            <div v-if="member.affiliation === 'Non-Emory'">
+                {{ member.affliation }}
+            <label :for="memberAfilliationId(member)">Affiliation</label> 
+            <input :id="memberAffiliationId(member)" :name="memberAffiliationAttr(member)" type="text" class="form-control" />
+            </div>
+            <button type="button" class="btn btn-default" @click="removeMember(member)"><span class="glyphicon glyphicon-trash"></span> Remove Committee Member</button>
         </div>
-        <br>
-        <a href="#" class="btn btn-default" data-turbolinks="false" @click="addMember">Add Another Committee Member</a>
+        </div>
+        <button type="button" class="btn btn-default" @click="addMember"><span class="glyphicon glyphicon-plus"></span> Add a Committee Member</button>
     </div>
 </template>
 
@@ -49,27 +54,48 @@ import { formStore } from "./formStore";
 
 export default {
   data() {
-    return {
-      committeeChairs: [],
-      committeeMembers: [],
-      selectedAffiliation: [],
+    return { 
       sharedState: formStore,
-    };
+      options:'',
+      selected: ''
+    }
   },
   methods: {
       addMember () {
-          this.committeeMembers.push({id: this.committeeMembers.length + 1, affiliation: '', name: ''})
+          this.sharedState.committeeMembers.push({id: this.sharedState.committeeMembers.length + 1, affiliation: '', name: ''})
       },
       removeMember(member) {
-          const filteredMembers = this.committeeMembers.filter((member) => member.id !== member.id)
-          this.committeeMembers = filteredMembers
+          const filteredMembers = this.sharedState.committeeMembers.filter((member) => member.id !== member.id)
+          this.sharedState.committeeMembers = filteredMembers
       },
       addChair () {
-          this.committeeChairs.push({id: this.committeeChairs.length + 1, affiliation: '', name: ''})
+          this.sharedState.committeeChairs.push({id: this.sharedState.committeeChairs.length + 1, affiliation: '', name: ''})
       },
       removeChair(chair) {
-          const filteredChairs = this.committeeChairs.filter((chair) => chair.id !== chair.id)
-          this.committeeChairs = filteredChairs
+          const filteredChairs = this.sharedState.committeeChairs.filter((chair) => chair.id !== chair.id)
+          this.sharedState.committeeChairs = filteredChairs
+      },
+      changeAffiliation(chair) {
+          chair.affiliation = this.selectedAffiliation
+          console.log(chair)
+      },
+      chairId (chair) {
+          return `chair-${chair.id}`
+      },
+      memberId (member) {
+          return `member-${member.id}`
+      },
+      chairAffiliationId (chair) {
+          return `chair-affiliation-${chair.id}`
+      },
+      memberAfilliationId (member) {
+          return `member-affiliation-${member.id}`
+      },
+      chairNameId (chair) {
+          return `chair-name-${chair.id}`
+      },
+      memberNameId (member) {
+          return `member-name-${member.id}`
       },
       chairNameAttr(chair) {
           return `etd[committee_chair_attributes][${chair.id}][name][]`
@@ -96,7 +122,14 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+
+.btn {
+    margin: 0;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
 select {
   margin-bottom: 1em;
 }

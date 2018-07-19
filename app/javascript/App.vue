@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div data-turbolinks="false">
     <ul class="nav navtabs">
-      <li v-for="(value,index) in form.tabs" v-bind:key="value.label">
-        <a href="#" data-turbolinks="false" class="tab" v-bind:class="{ disabled: value.disabled }" v-on:click="setCurrentStep(value.label, $event)">{{ value.label }}</a>
+      <li v-for="(value, index) in form.tabs" v-bind:key="index">
+        <a href="#" class="tab" v-bind:class="{ disabled: value.disabled }" v-on:click="setCurrentStep(value.label, $event)">{{ value.label }}</a>
       </li>
     </ul>
     <form role="form" id="vue_form" :action="form.getUpdateRoute()" method="patch" @submit.prevent="onSubmit">

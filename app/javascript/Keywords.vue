@@ -3,11 +3,11 @@
     <label>Keywords</label>
     <div class="form-inline keyword" v-for="(keyword, index) in sharedState.keywords" v-bind:key="index">
       <input class="form-control" name="etd[keyword][]" />
-      <a data-turbolinks="false" class="btn btn-default" href="#" @click="sharedState.removeKeyword(index)">Remove This Keyword</a>
+      <button type="button" class="btn btn-default" @click="sharedState.removeKeyword(index)">Remove This Keyword</button>
       <br/>
     </div>
     <br/>
-    <a data-turbolinks="false" class="btn btn-default" @click="sharedState.addKeyword('')" href="#"><span class="glyphicon glyphicon-plus"></span> Add a Keyword</a>
+    <button type="button" class="btn btn-default" @click="sharedState.addKeyword('')"><span class="glyphicon glyphicon-plus"></span> Add a Keyword</button>
   </div>
 </template>
 
