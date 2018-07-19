@@ -150,15 +150,15 @@ module Hyrax
     def merge_selected_files_hashes(params)
       selected_files = {}
       be_files = params.fetch('selected_files', false)
-
+      return unless be_files
       count_of_files = 0
       index = 0
 
       # Get count of all browse-everything selected_files
-      be_files[0].each_key { |k| count_of_files += be_files[0][k].size }
+      be_files[0]&.to_h&.each_key { |k| count_of_files += be_files[0][k].size }
 
       # Populate the selected_files hash with all of the browse-everything files, with keys in the structure the rest of the application will expect: their indexes converted to strings
-      be_files[0].each_key do |k|
+      be_files[0]&.to_h&.each_key do |k|
         be_files[0][k].each do |ke, va| # rubocop:disable HashEachMethods
           if index < count_of_files
             selected_files[index.to_s] = va
