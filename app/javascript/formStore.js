@@ -260,10 +260,16 @@ export var formStore = {
     this.committeeChairs.push({ affilation: affilation, name: name })
   },
   setSelectedDepartment (department) {
+    console.log('set Selected Depart', department)
     this.selectedDepartment = department
   },
+  selectedDepartment: '',
   getSelectedDepartment () {
-    return this.selectedDepartment
+    // in edit state, a user has a savedDepartment until they choose a new one with setSelectedDepartment
+    return this.selectedDepartment.length == 0 ? this.savedData["department"] : this.selectedDepartment
+  },
+  getSavedDepartment () {
+    return this.savedData["department"]
   },
   setSelectedSchool (school) {
     this.schools.selected = school
