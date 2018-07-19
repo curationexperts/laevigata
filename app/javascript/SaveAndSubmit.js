@@ -15,6 +15,12 @@ export default class SaveAndSubmit {
       .then(response => {
         this.formStore.errored = false
         this.formStore.errors = []
+        // get saved data for populating tabs.
+        document.getElementById('saved_data').dataset.inProgressEtd = response.data.in_progress_etd
+
+        // populate form in order to use its inputs
+        this.formStore.loadSavedData()
+
         this.formStore.nextStepIsCurrent(response.data.lastCompletedStep)
         this.formStore.setComplete(response.data.tab_name)
         this.formStore.enableTabs()
@@ -28,6 +34,7 @@ export default class SaveAndSubmit {
   reviewTabs(){
     axios.get(this.formStore.getUpdateRoute(), { config: { headers: { "Content-Type": "application/json" } } })
     .then(response => {
+      //TODO: confirm this is correct: response.data.in_progress_etd
       this.formStore.showSavedData(response.data)
       // for now fake that user got here naturally
       this.formStore.nextStepIsCurrent(6)
@@ -42,7 +49,8 @@ export default class SaveAndSubmit {
     // TODO: change text of submit button to say submit for publication
     axios.get(this.formStore.getUpdateRoute(), { config: { headers: { "Content-Type": "application/json" } } })
     .then(response => {
-      document.getElementById('saved_data').dataset.in_progress_etd = response.data
+      //TODO: confirm this is correct: response.data.in_progress_etd
+      document.getElementById('saved_data').dataset.inProgressEtd = response.data
       // populate form in order to use its inputs
       this.formStore.loadSavedData()
       // submit as form data

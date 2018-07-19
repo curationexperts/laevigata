@@ -276,6 +276,9 @@ export var formStore = {
   getSelectedSchool () {
     return this.schools.selected
   },
+  getSchoolOptionValue(){
+    return this.savedData["school"];
+  },
   getDepartments (selectedSchool) {
     axios.get(selectedSchool).then(response => {
       this.departments = response.data
@@ -286,25 +289,20 @@ export var formStore = {
       this.subfields = response.data
     })
   },
+  savedData: {},
   loadSavedData(){
     var el = document.getElementById('saved_data');
-    var savedData = {}
     if (el && el.hasAttribute("data-in-progress-etd")){
-      savedData = JSON.parse(el.dataset.inProgressEtd);
+      this.savedData = JSON.parse(el.dataset.inProgressEtd);
     }
-    if (Object.keys(savedData).length > 0){
-      this.setIpeId(savedData['ipe_id'])
-
+    if (Object.keys(this.savedData).length > 0){
+      this.setIpeId(this.savedData['ipe_id'])
       for (var tab in this.tabs){
          if (!this.tabs[tab].disabled){
            var input_keys = Object.keys(this.tabs[tab].inputs)
             input_keys.forEach(function(el){
-              if (this.tabs[tab].inputs[el].value.isArray) {
-                //TODO: find best way to mark our value as selected
-                this.tabs[tab].inputs[el].selected = savedData[el]
-              } else {
-                this.tabs[tab].inputs[el].value = savedData[el]
-              }
+              // components load after this function runs, so need to use their mounted and nextTick lifecycle hooks to get data.
+              this.tabs[tab].inputs[el].value = this.savedData[el]
             }, this)
          }
       }

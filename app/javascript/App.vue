@@ -221,6 +221,8 @@ export default {
     saveTab(){
       var form = document.getElementById("vue_form")
       var formData = new FormData(form)
+      //TODO: might need to make a function for this bc it might need to be done for all of the select components
+      formData.append(this.etdPrefix('school'), this.form.getSelectedSchool())
 
       var saveAndSubmit = new SaveAndSubmit({
         token: token,
