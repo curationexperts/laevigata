@@ -8,12 +8,15 @@ import VueAxios from 'vue-axios'
 Vue.use(TurbolinksAdapter, axios, VueAxios)
 
 document.addEventListener('turbolinks:load', () => {
-  let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-  axios.defaults.headers.common['X-CSRF-Token'] = token
+  var element = document.getElementById('root')
+  if (element != null) {
+    let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    axios.defaults.headers.common['X-CSRF-Token'] = token
 
-  const app = new Vue({
-    el: '#root',
-    data: formStore,
-    components: { App }
-  })
+    var app = new Vue({
+      el: element,
+      data: formStore,
+      components: { App }
+    })
+  }
 })
