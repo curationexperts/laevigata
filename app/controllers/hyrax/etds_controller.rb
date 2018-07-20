@@ -154,16 +154,23 @@ module Hyrax
     def merge_selected_files_hashes(params)
       selected_files = {}
       be_files = params.fetch('selected_files', false)
-
+      return unless be_files
       count_of_files = 0
       index = 0
 
-      # Get count of all browse-everything selected_files
-      be_files[0].each_key { |k| count_of_files += be_files[0][k].size }
+      # Ideally, we would whitelist all these params and not have to use
+      # `to_unsafe_h`. However, afaict, the names of the params are unpredictable
+      # in this case, so I think `to_unsafe_h` is our best option
+      params_hash = be_files[0].to_unsafe_h
 
-      # Populate the selected_files hash with all of the browse-everything files, with keys in the structure the rest of the application will expect: their indexes converted to strings
-      be_files[0].each_key do |k|
-        be_files[0][k].each do |ke, va| # rubocop:disable HashEachMethods
+      # Get count of all browse-everything selected_files
+      params_hash&.each_key { |k| count_of_files += params_hash[k].size }
+
+      # Populate the selected_files hash with all of the browse-everything files,
+      # with keys in the structure the rest of the application will expect:
+      # their indexes converted to strings
+      params_hash&.each_key do |k|
+        params_hash[k].each do |ke, va| # rubocop:disable HashEachMethods
           if index < count_of_files
             selected_files[index.to_s] = va
             index += 1
