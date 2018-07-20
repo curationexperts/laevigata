@@ -11,20 +11,35 @@
 
 <script>
 import axios from "axios"
+import { formStore } from './formStore'
+import _ from 'lodash'
 export default {
   data() {
     return {
       degreeEndpoint: "/authorities/terms/local/degree",
-      degrees: {}
+      degrees: {},
+      sharedState: formStore,
+      selected: ''
     }
   },
   methods: {
     fetchData() {
       axios.get(this.degreeEndpoint).then(response => {
-        this.degrees = response.data
-        this.degrees.unshift({ "value": "", "active": true, "label": "Select a Degree", "disabled":"disabled" ,"selected": "selected"})
-
+        this.degrees = this.getSelected(response.data)
       });
+    },
+    getSelected(data){
+      var selected = this.sharedState.getSavedDegree()
+      if (selected !== undefined) {
+        _.forEach(data, function(o){
+          if (o.id == selected){
+            o.selected = 'selected'
+          }
+        })
+      } else {
+        data.unshift({ "value": "", "active": true, "label": "Select a Degree", "disabled":"disabled" ,"selected": "selected"})
+      }
+      return data
     }
   },
   created() {

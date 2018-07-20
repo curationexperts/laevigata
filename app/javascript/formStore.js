@@ -277,6 +277,9 @@ export var formStore = {
   getGraduationDate(){
     return this.savedData["graduation_date"]
   },
+  getSavedDegree(){
+    return this.savedData["degree"]    
+  },
   getEmbargoLengths () {
     return this.embargoLengths[this.schools.selected]
   },
