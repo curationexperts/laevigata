@@ -1,9 +1,9 @@
 <template>
     <div>
-        <label>Graduation Date</label>
-        <select name="etd[graduation_date]" class="form-control">
-            <option v-for="graduationDate in graduationDates" v-bind:value="graduationDate.id"
-            v-bind:key='graduationDate.id' v-if="graduationDate.active" :disabled="graduationDate.disabled"
+        <label for="graduation-date">Graduation Date</label>
+        <select id="graduation-date" name="etd[graduation_date]" class="form-control">
+            <option v-for="graduationDate in graduationDates" v-bind:value="graduationDate.id" 
+            v-bind:key='graduationDate.id' v-if="graduationDate.active" :disabled="graduationDate.disabled"  
             :selected="graduationDate.selected">
                 {{ graduationDate.label }}
             </option>

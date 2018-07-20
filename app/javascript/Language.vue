@@ -1,7 +1,7 @@
 <template>
     <div>
-        <label>Language</label>
-        <select name="etd[language]" class="form-control">
+        <label for="language">Language</label>
+        <select id="language" name="etd[language]" class="form-control">
             <option v-for="language in languages" v-bind:value="language.id"
             v-bind:key='language.id' v-if="language.active" :disabled="language.disabled"
             :selected="language.selected">

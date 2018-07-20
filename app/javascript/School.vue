@@ -1,7 +1,7 @@
 <template>
   <div>
-    <label>School</label>
-    <select class="form-control" v-model="selected" id="school">
+    <label for="school">School</label>
+    <select id="school" class="form-control" v-model="selected">
       <option v-for="school in this.sharedState.schools.options" v-bind:value="school.value" v-bind:key='school.value' :selected='school.selected' :disabled='school.disabled'>
         {{ school.text }}
       </option>

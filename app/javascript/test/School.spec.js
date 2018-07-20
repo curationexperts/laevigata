@@ -14,6 +14,6 @@ describe('School.vue', () => {
   it('has the correct html', () => {
     const wrapper = shallowMount(Language, {
     })
-    expect(wrapper.html()).toContain(`<div><label>School</label> <select id="school" class="form-control"><option disabled="disabled" value="">`)
+    expect(wrapper.html()).toContain(`<div><label for="school">School</label> <select id="school" class="form-control"><option disabled="disabled" value="">`)
   })
 })

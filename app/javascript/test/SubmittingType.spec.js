@@ -26,6 +26,6 @@ describe('SubmittingType.vue', () => {
   it('has the correct html', () => {
     const wrapper = shallowMount(SubmittingType, {
     })
-    expect(wrapper.html()).toEqual(`<div><label>Submission Type</label> <select name="etd[submitting_type]" class="form-control"></select></div>`)
+    expect(wrapper.html()).toEqual(`<div><label for="submitting-type">Submission Type</label> <select id="submitting-type" name="etd[submitting_type]" class="form-control"></select></div>`)
   })
 })

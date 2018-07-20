@@ -11,6 +11,6 @@ describe('Keywords.vue', () => {
   })
 
   it('has the correct html', () => {
-    expect(wrapper.html()).toContain('<label>Keywords</label>')
+    expect(wrapper.html()).toContain('<label for="keywords">Keywords</label>')
   })
 })
