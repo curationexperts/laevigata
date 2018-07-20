@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180627152109) do
+ActiveRecord::Schema.define(version: 20180720185001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -159,6 +159,7 @@ ActiveRecord::Schema.define(version: 20180627152109) do
     t.string "subfield"
     t.string "partnering_agency"
     t.string "data"
+    t.string "etd_id"
   end
 
   create_table "job_io_wrappers", id: :serial, force: :cascade do |t|

@@ -15,6 +15,10 @@ AllCops:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Style/GuardClause:
+  Exclude:
+    - 'app/controllers/hyrax/etds_controller.rb'
+
 Style/NumericPredicate:
   Enabled: false
 

@@ -2,7 +2,12 @@ class InProgressEtdsController < ApplicationController
   # TODO: this needs to be authorized - all controller actions
 
   def new
-    @in_progress_etd = InProgressEtd.find_or_create_by(user_ppid: current_user.ppid)
+    @in_progress_etd = if params[:etd_id]
+                         InProgressEtd.find_or_create_by(etd_id: params[:etd_id])
+                       else
+                         InProgressEtd.find_or_create_by(user_ppid: current_user.ppid)
+                       end
+
     # Now that the record has been created, render the form so student can edit it:
     redirect_to action: :edit, id: @in_progress_etd.id
   end
@@ -11,7 +16,8 @@ class InProgressEtdsController < ApplicationController
 
   def edit
     @in_progress_etd = InProgressEtd.find(params[:id])
-    @data = @in_progress_etd.data unless @in_progress_etd.data.nil?
+    @in_progress_etd.refresh_from_etd!
+    @data = @in_progress_etd.data
   end
 
   # The Vue.js form uses this action to update the record.
