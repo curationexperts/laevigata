@@ -2,7 +2,7 @@
   <div>
     <section class="thesis-file">
     <h2>Add Your Thesis or Dissertation File</h2>
-    <div id="box-picker"></div> 
+    <div id="box-picker"></div>
     <span class="form-instructions">Upload the version of your thesis or dissertation approved by your advisor or committee.
     You can only upload one file to represent your thesis or dissertation. This file should not contain any signatures or other personally identifying
     information. PDF/A is a better version for preservation and for that reason we recommend you upload a PDF/A file, but it is not required.
@@ -50,15 +50,15 @@
       </label>
       <button class="btn btn-primary" :href="boxOAuthUrl()"><span class="glyphicon glyphicon-plus"></span> Add your thesis or dissertation file from Box</button>
     </div>
-    
+
     </section>
     <section class="optional-files">
     <h2>Add Optional Supplemental Files</h2>
     <div class="form-instructions">
-      Uploading supplemental files is not required, but it gives you a way to share more of your research. 
-      These files could be video, research data, securely zipped software, or other materials. Please group your supplemental files 
-      so you can select and upload them all at once. Once uploaded, <strong>you are required to add additional metadata for each</strong>. 
-      You may upload as many supplemental files as you like. No single file should exceed 2.5 GB. 
+      Uploading supplemental files is not required, but it gives you a way to share more of your research.
+      These files could be video, research data, securely zipped software, or other materials. Please group your supplemental files
+      so you can select and upload them all at once. Once uploaded, <strong>you are required to add additional metadata for each</strong>.
+      You may upload as many supplemental files as you like. No single file should exceed 2.5 GB.
       If you have a file larger than 2.5 GB, contact the ETD team at <a href="mailto:etd-help@LISTSERV.CC.EMORY.EDU">etd-help@LISTSERV.CC.EMORY.EDU</a> for help.
     </div>
     <div v-if="sharedState.supplementalFiles.length > 0" class="file-row form-inline">
@@ -74,7 +74,7 @@
         </thead>
         <tbody>
           <tr v-for="(files, key) in sharedState.supplementalFiles" v-bind:key="key">
-            
+
             <td><input  type="text" :value="files.name" class="form-control" disabled /></td>
             <td><input :name="supplementalFileTitleName(key)" type="text" class="form-control" /></td>
             <td><input :name="supplementalFileDescriptionName(key)" type="text" class="form-control" /></td>
@@ -87,7 +87,7 @@
                 <option>Software</option>
               </select>
             </td>
-            <td> 
+            <td>
               {{ files.deleteUrl }}
               <button type="button" class="btn btn-danger remove-btn" @click="deleteSupplementalFile(files.deleteUrl)">
               <span class="glyphicon glyphicon-trash"></span> Remove this file</button>
@@ -97,11 +97,11 @@
       </table>
     </div>
     <div class="form-inline">
+      <input class="input-file btn-primary" id="add-supplemental-file" name="supplemental_files[]" type="file" ref="fileInput" @change="onSupplementalFileChange"/>
       <label class="btn btn-primary" for="add-supplemental-file"><span class='glyphicon glyphicon-plus'></span>
       Add a supplemental file from your computer
       </label>
       <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add a supplemental file from Box</button>
-      <input class="input-file btn-primary" id="add-supplemental-file" name="supplemental_files[]" type="file" ref="fileInput" @change="onSupplementalFileChange"/>
     </div>
     </section>
   </div>
@@ -140,11 +140,11 @@ export default {
       logoUrl: 'box',
       canCreateNewFolder: false
     })
-  
+
     filePicker.addListener('choose', (event) => {
       console.log(event)
       var boxRedirect = `/file/box`
-      axios({ 
+      axios({
         method: 'post',
         url: boxRedirect,
         data: {
@@ -253,7 +253,7 @@ export default {
 .file-info {
   list-style-type: none;
   margin:0;
-  padding-left:0; 
+  padding-left:0;
 }
 
 .file-info li {

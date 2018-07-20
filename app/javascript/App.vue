@@ -39,8 +39,7 @@
             </div>
             <div v-else-if="input.label === 'Table of Contents'">
               <label>{{ input.label }}</label>
-               <quill-editor ref="myTextEditor"
-                v-model="input.value[0]">
+               <quill-editor :options="editorOptions" ref="myTextEditor"  v-model="input.value[0]">
                </quill-editor>
                <input class="quill-hidden-field" :name="etdPrefix(index)" v-model="input.value" />
                <section class='errorMessage' v-if="form.hasError(index)">
@@ -49,8 +48,7 @@
             </div>
             <div v-else-if="input.label === 'Abstract'">
                <label>{{ input.label }}</label>
-               <quill-editor ref="myTextEditor"
-                v-model="input.value[0]">
+               <quill-editor :options="editorOptions" ref="myTextEditor" v-model="input.value[0]">
                </quill-editor>
                <input class="quill-hidden-field" :name="etdPrefix(index)" v-model="input.value" />
                <section class='errorMessage' v-if="form.hasError(index)">
@@ -148,7 +146,8 @@ import CopyrightQuestions from './CopyrightQuestions'
 import Embargo from './Embargo'
 import Keywords from './Keywords'
 import SaveAndSubmit from './SaveAndSubmit'
-
+import quillToolbarOptions  from './quillToolbarOptions'
+import quillKeyboardBindings from './quillKeyboardBindings'
 
 let token = document
   .querySelector('meta[name="csrf-token"]')
@@ -163,6 +162,12 @@ export default {
       files: [],
       deleteableFiles: [],
       editorOptions: {
+        modules: {
+        toolbar: quillToolbarOptions(),
+        keyboard: {
+          bindings: quillKeyboardBindings()
+          }
+        }
       },
       lastCompletedStep: 0
     }
@@ -281,63 +286,63 @@ export default {
 
 <style scoped>
 ul {
-     margin-bottom: 2em;
-     border-bottom: 1px solid #00000029;
-     box-shadow: 0px 2px 6px whitesmoke;
-     width: 100%;
+  margin-bottom: 2em;
+  border-bottom: 1px solid #00000029;
+  box-shadow: 0px 2px 6px whitesmoke;
+  width: 100%;
 }
- li {
-     margin: 0;
-     display: block;
-     float: left;
-     list-style: none;
-     position: relative;
-     margin-bottom: 0;
-     min-width:100px;
-     text-align: center
+li {
+  margin: 0;
+  display: block;
+  float: left;
+  list-style: none;
+  position: relative;
+  margin-bottom: 0;
+  min-width: 100px;
+  text-align: center;
 }
- ul li a {
-     display: block;
-     line-height: 1.3em;
-     font-family: "PT Sans", sans;
-     border: 1px solid rgba(0,0,0,0.15);
-     border-bottom: 0;
-     box-shadow: 1px 1px .5px rgba(0,0,0,0.06);
-     border-top-left-radius: 5px;
-     border-top-right-radius: 5px;
-     padding: 1em;
-     margin-right: 0.5em;
-}
-
- .disabled {
-     color: #cdcdcd;
-     cursor: not-allowed !important;
- }
-
- .tab-content > * {
-     margin-right: 2em;
-     margin-bottom: 1em;
-}
- .tab-content > h1 {
-     padding-left: 0;
-     margin-bottom:0.4em;
-}
- .tab-content > button {
-     margin-bottom:1.5em;
+ul li a {
+  display: block;
+  line-height: 1.3em;
+  font-family: 'PT Sans', sans;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-bottom: 0;
+  box-shadow: 1px 1px 0.5px rgba(0, 0, 0, 0.06);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 1em;
+  margin-right: 0.5em;
 }
 
- input {
-     margin-bottom: 1em;
-}
- .quill-hidden-field {
-     display: none;
-}
- .quill-editor {
-     height: 10em;
-     margin-bottom:7em;
+.disabled {
+  color: #cdcdcd;
+  cursor: not-allowed !important;
 }
 
-.errorMessage{
+.tab-content > * {
+  margin-right: 2em;
+  margin-bottom: 1em;
+}
+.tab-content > h1 {
+  padding-left: 0;
+  margin-bottom: 0.4em;
+}
+.tab-content > button {
+  margin-bottom: 1.5em;
+}
+
+input {
+  margin-bottom: 1em;
+}
+.quill-hidden-field {
+  display: none;
+}
+.quill-editor {
+  height: 10em;
+  margin-bottom: 7em;
+}
+
+.errorMessage {
   color: red;
 }
 </style>
