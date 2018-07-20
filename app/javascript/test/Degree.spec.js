@@ -28,6 +28,6 @@ describe('Degree.vue', () => {
   it('has the correct html', () => {
     const wrapper = shallowMount(Degree, {
     })
-    expect(wrapper.html()).toEqual(`<div><label for="degree">Degree</label> <select id="degree" name="etd[degree]" class="form-control"></select></div>`)
+    expect(wrapper.html()).toEqual(`<div><label for="degree">Degree</label> <select id="degree" name="etd[degree]" aria-required="true" class="form-control"></select></div>`)
   })
 })

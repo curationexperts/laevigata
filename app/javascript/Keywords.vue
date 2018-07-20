@@ -7,8 +7,6 @@
         <a data-turbolinks="false" class="btn btn-default" href="#" @click="sharedState.removeKeyword(index)">Remove This Keyword</a>
         <br/>
       </div>
-      <br/>
-      <a data-turbolinks="false" class="btn btn-default" @click="sharedState.addKeyword('')" href="#"><span class="glyphicon glyphicon-plus"></span> Add a Keyword</a>
     </div>
     <br/>
     <button type="button" class="btn btn-default" @click="sharedState.addKeyword('')"><span class="glyphicon glyphicon-plus"></span> Add a Keyword</button>

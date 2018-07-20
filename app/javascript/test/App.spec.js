@@ -88,7 +88,7 @@ describe('App.vue', () => {
       //find and click first disabled element (My Program)
       wrapper.find('a.tab.disabled').trigger('click')
 
-      expect(wrapper.find('h1').text()).toBe('About Me');
+      expect(wrapper.find('h1').text()).toBe('Submit Your Thesis or Dissertation')
     })
     it("displays all of the user's data on the submit tab", () => {
       const wrapper = shallowMount(App, {
