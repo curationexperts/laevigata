@@ -1,20 +1,20 @@
 <template>
     <div>
-        <label>Research Fields</label>
-        <select name="etd[research_field][]" class="form-control">
+        <label id="research-fields">Research Fields</label>
+        <select aria-labelledby="research-fields" name="etd[research_field][]" aria-required="true" class="form-control">
             <option v-for="researchField in researchFields" v-bind:value="researchField.id" v-bind:key='researchField.id' 
             v-if="researchField.active"  
             :selected="researchField.selected">
                 {{ researchField.id }}
             </option>
         </select>
-        <select name="etd[research_field][]" class="form-control">
+        <select aria-labelledby="research-fields" name="etd[research_field][]" class="form-control">
             <option v-for="researchField in researchFields" v-bind:value="researchField.id" v-bind:key='researchField.id' 
             v-if="researchField.active" :selected="researchField.selected">
                 {{ researchField.id }}
             </option>
         </select>
-           <select name="etd[research_field][]" class="form-control">
+           <select aria-labelledby="research-fields" name="etd[research_field][]" class="form-control">
             <option v-for="researchField in researchFields" v-bind:value="researchField.id" v-bind:key='researchField.id' 
             v-if="researchField.active" :selected="researchField.selected">
                 {{ researchField.id }}

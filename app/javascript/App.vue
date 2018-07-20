@@ -1,5 +1,7 @@
 <template>
   <div data-turbolinks="false">
+    <section aria-labelledby="form-label">
+      <h1>Submit Your Thesis or Dissertation</h1>
     <ul class="nav navtabs">
       <li v-for="(value, index) in form.tabs" v-bind:key="index">
         <a href="#" class="tab" v-bind:class="{ disabled: value.disabled }" v-on:click="setCurrentStep(value.label, $event)">{{ value.label }}</a>
@@ -7,8 +9,9 @@
     </ul>
     <form role="form" id="vue_form" :action="form.getUpdateRoute()" method="patch" @submit.prevent="onSubmit">
       <div v-for="value in form.tabs" v-bind:key="value.label">
+        <transition name="fade">
         <div class="tab-content form-group" v-if="value.currentStep">
-          <h1> {{ value.label }} </h1>
+          <h2> {{ value.label }} </h2>
           <section aria-live="assertive">
             {{ value.help_text }}
           </section>
@@ -118,8 +121,10 @@
           <input name="etd[currentStep]" type="hidden" :value="value.step" />
           <button type="submit" class="btn btn-default" autofocus>Save and Continue</button>
         </div>
+        </transition>  
       </div>
     </form>
+    </section>
   </div>
 </template>
 
@@ -344,5 +349,12 @@ input {
 
 .errorMessage {
   color: red;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .3s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>

@@ -1,7 +1,12 @@
 <template>
-    <div>
+    <div aria-labelledby="chair-label">
+        <h3 id="chair-label">Chair & Commitee Members</h3>
+        <div role="alert" v-if="sharedState.committeeChairs.length === 0">
+            You have not selected a chair or committee members. Please 
+            use the buttons below to add them to your submission. 
+        </div> 
         <div v-for="chair in sharedState.committeeChairs" v-bind:value="chair.name" v-bind:key='chair.id'>
-            <div class="well">
+            <div class="well" aria-live="polite">
             <h4>Committee Chair/Thesis Advisor</h4>
             <label :for="chairId(chair)">Committee Chair/Thesis Advisor's Affliation</label>
             <select v-model="chair.affiliation" :id="chairId(chair)" :name="chairAffiliationTypeAttr(chair)" class="form-control">
@@ -16,7 +21,7 @@
 
            <div v-if="chair.affiliation === 'Non-Emory'">
             <label :for="chairAffiliationId(chair)">Affiliation</label> 
-            <input :id="chairAffiliationId(chair)" :name="chairAffiliationAttr(chair)" type="text" class="form-control" />
+            <input :id="chairAffiliationId(chair)" :name="chairAffiliationAttr(chair)" type="text" class="form-control" autofocus/>
            </div>
              <button type="button" class="btn btn-default" @click="removeChair(chair)"><span class="glyphicon glyphicon-trash"></span> Remove This Chair or Advisor</button>
              </div>

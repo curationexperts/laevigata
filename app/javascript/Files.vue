@@ -44,7 +44,7 @@
       </div>
     </div>
     <div v-if="sharedState.files.length === 0" class="form-inline">
-      <input class="input-file" id="add-file" name="primary_files[]" type="file" accept=".pdf, application/pdf"  ref="fileInput" @change="onFileChange"/>
+      <input class="input-file" id="add-file" name="primary_files[]" type="file" accept=".pdf, application/pdf" aria-required="true" ref="fileInput" @change="onFileChange"/>
       <label class="btn btn-primary" for="add-file"><span class='glyphicon glyphicon-plus'></span>
       Add your thesis or dissertation file from your computer
       </label>

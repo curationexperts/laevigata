@@ -117,10 +117,10 @@ export var formStore = {
   // The ID of the InProgressEtd record that we are editing (relational database ID).
   // This will help us build the URL for the form submit.
   ipeId: '',
-  setIpeId(id){
-    this.ipeId = id;
+  setIpeId (id) {
+    this.ipeId = id
   },
-  getUpdateRoute(){
+  getUpdateRoute () {
     return `/in_progress_etds/${this.ipeId}`
   },
   copyrightQuestions: [{
@@ -263,7 +263,6 @@ export var formStore = {
     console.log('set Selected Depart', department)
     this.selectedDepartment = department
   },
-  selectedDepartment: '',
   getSelectedDepartment () {
     // in edit state, a user has a savedDepartment until they choose a new one with setSelectedDepartment
     return this.selectedDepartment.length == 0 ? this.savedData["department"] : this.selectedDepartment

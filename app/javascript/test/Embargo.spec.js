@@ -8,6 +8,6 @@ describe('Embargo.vue', () => {
   it('has the correct html', () => {
     const wrapper = shallowMount(Embargo, {
     })
-    expect(wrapper.html()).toContain(`<select name="etd[embargo_length]" id="embargo-length" class="form-control"></select>`)
+    expect(wrapper.html()).toContain(`<select name="etd[embargo_length]" aria-required="true" id="embargo-length" class="form-control"></select>`)
   })
 })

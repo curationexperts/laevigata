@@ -1,7 +1,7 @@
 <template>
 <div>
   <label for="embargo-length">Requested Embargo Length</label>
-  <select v-model="selectedEmbargo" name="etd[embargo_length]" class="form-control" id="embargo-length">
+  <select v-model="selectedEmbargo" name="etd[embargo_length]" aria-required="true" class="form-control" id="embargo-length">
     <option v-for="length in lengths" :value="length.value" :selected="length.selected" :disabled="length.disabled">
         {{ length.value }}
       </option>

@@ -1,12 +1,15 @@
 <template>
-    <div>
+    <section aria-labelledby="copyright-questions">
+    <h4 id="copyright-questions">Please review the following copyright questions.</h4>
+      <div>
         <div v-for="question in sharedState.copyrightQuestions" v-bind:key="question.name">
             <label :for="question.name">{{ question.label }}</label>
             <p>{{ question.text }}</p>
-          <input :id="question.name" class="checkbox copyright-checkbox" :name="question.name" type="checkbox" v-model="question.choice"
-          true-value="yes" false-value="no">
+            <input :id="question.name" class="checkbox copyright-checkbox" :name="question.name" type="checkbox" v-model="question.choice"
+            true-value="yes" false-value="no">
         </div>
-    </div>
+      </div>
+    </section>
 </template>
 
 <script>
