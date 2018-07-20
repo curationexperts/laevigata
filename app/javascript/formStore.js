@@ -281,6 +281,12 @@ export var formStore = {
   getSubmittingType(){
     return this.savedData["submitting_type"]
   },
+  getSavedResearchFields(){
+    return this.savedData["research_field"] === undefined ? ["", "", ""] : this.savedData["research_field"]
+  },
+  getSavedResearchField(index){
+    return this.savedData["research_field"] === undefined ? ["", "", ""] : this.savedData["research_field"]
+  },
   getEmbargoLengths () {
     return this.embargoLengths[this.schools.selected]
   },
