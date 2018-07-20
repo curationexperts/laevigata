@@ -174,9 +174,15 @@ RSpec.describe Etd do
       expect(etd.committee_members_names).to contain_exactly("Craighead, W Edward", "Manns, Joseph")
       cm = etd.committee_members.select { |m| m.name.first.match(/Manns/) }.first
       cm.name = ['New Name']
+      cm.persist!
+      etd.send(:attribute_will_change!, :committee_members)
       etd.save!
       etd.reload # Make sure the new data is persisted
-      expect(etd.committee_members_names).to contain_exactly("Craighead, W Edward", "New Name")
+
+      expect(etd.committee_members.map(&:name).flatten)
+        .to contain_exactly(["Craighead, W Edward"], ["New Name"])
+      expect(etd.committee_members_names)
+        .to contain_exactly("Craighead, W Edward", "New Name")
     end
 
     it "updates committee_chair_name when committee_chair is edited" do
