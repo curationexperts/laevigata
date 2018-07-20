@@ -50,7 +50,6 @@ class InProgressEtdsController < ApplicationController
     def prepare_etd_data
       # TODO: strong params
       new_data = request.parameters.fetch(:etd, {})
-
       # Add temporarily hard-coded data into the new data
       # TODO: Replace the hard-coded data with real data from the form
       add_supplemental_file_data(new_data)
@@ -58,6 +57,7 @@ class InProgressEtdsController < ApplicationController
       # add_uploaded_file_data(new_data)
       add_agreement_data(new_data)
       add_embargo_data(new_data)
+      add_subfield(new_data)
       # Add the new data to the existing persisted data
       @in_progress_etd.add_data(new_data)
     end
@@ -78,6 +78,10 @@ class InProgressEtdsController < ApplicationController
 
     def add_embargo_data(etd)
       etd["no_embargoes"] = "1"
+    end
+
+    def add_subfield(etd)
+      etd["subfield"] = "MPH"
     end
 
     # TODO: confirm whether this is not needed

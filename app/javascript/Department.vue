@@ -23,9 +23,14 @@ export default {
   },
   watch: {
     selected() {
-      formStore.setSelectedDepartment(this.selected)
-      formStore.getSubfields()
+      this.sharedState.setSelectedDepartment(this.selected)
+      this.sharedState.getSubfields()
     }
+  },
+  mounted: function(){
+    this.$nextTick(function () {
+      this.selected = this.sharedState.getSavedDepartment()
+    })
   }
 };
 </script>
