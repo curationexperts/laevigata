@@ -2,8 +2,8 @@
     <div>
         <label for="submitting-type">Submission Type</label>
         <select id="submitting-type" name="etd[submitting_type]" aria-required="true" class="form-control">
-            <option v-for="submittingType in submittingTypes" v-bind:value="submittingType.id" 
-            v-bind:key='submittingType.id' v-if="submittingType.active" :disabled="submittingType.disabled"  
+            <option v-for="submittingType in submittingTypes" v-bind:value="submittingType.id"
+            v-bind:key='submittingType.id' v-if="submittingType.active" :disabled="submittingType.disabled"
             :selected="submittingType.selected">
                 {{ submittingType.label }}
             </option>
@@ -13,9 +13,14 @@
 
 <script>
 import Axios from "axios"
+import { formStore } from './formStore'
+import _ from 'lodash'
+
 export default {
   data() {
     return {
+      sharedState: formStore,
+      selected: '',
       submittingTypeEndpoint: "/authorities/terms/local/submitting_type",
       submittingTypes: {}
     }
@@ -23,10 +28,21 @@ export default {
   methods: {
     fetchData() {
       Axios.get(this.submittingTypeEndpoint).then(response => {
-        this.submittingTypes = response.data
-        this.submittingTypes.unshift({ "value": "", "active": true, "label": "Select a Submission Type", "disabled":"disabled" ,"selected": "selected"})
-
+        this.submittingTypes = this.getSelected(response.data)
       });
+    },
+    getSelected(data){
+      var selected = this.sharedState.getSubmittingType()
+      if (selected !== undefined) {
+        _.forEach(data, function(o){
+          if (o.id == selected){
+            o.selected = 'selected'
+          }
+        })
+      } else {
+        data.unshift({ "value": "", "active": true, "label": "Select a Submission Type", "disabled":"disabled" ,"selected": "selected"})
+      }
+      return data
     }
   },
   created() {

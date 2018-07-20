@@ -260,7 +260,6 @@ export var formStore = {
     this.committeeChairs.push({ affilation: affilation, name: name })
   },
   setSelectedDepartment (department) {
-    console.log('set Selected Depart', department)
     this.selectedDepartment = department
   },
   getSelectedDepartment () {
@@ -277,7 +276,10 @@ export var formStore = {
     return this.savedData["graduation_date"]
   },
   getSavedDegree(){
-    return this.savedData["degree"]    
+    return this.savedData["degree"]
+  },
+  getSubmittingType(){
+    return this.savedData["submitting_type"]
   },
   getEmbargoLengths () {
     return this.embargoLengths[this.schools.selected]
