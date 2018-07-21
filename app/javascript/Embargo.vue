@@ -8,8 +8,8 @@
     </select>
   <div v-if="selectedEmbargo != 'None - open access immediately'">
     <label for="content-to-embargo">Content to Embargo</label>
-    <select name="embargo_type" class="form-control" id="content-to-embargo">
-      <option v-for="content in contents" :value="content.value" :disabled="content.disabled">
+    <select name="etd[embargo_type]" v-model="selectedContent" class="form-control" id="content-to-embargo">
+      <option v-for="content in contents" :value="content.value" :disabled="content.disabled" :selected="content.selected">
         {{ content.text }}
       </option>
     </select>
@@ -21,21 +21,54 @@
 <script>
 import Vue from "vue"
 import { formStore } from './formStore'
+import _ from 'lodash'
 
 export default {
   data() {
     return {
-      selectedEmbargo: 'None - open access immediately'
+      selectedEmbargo: 'None - open access immediately',
+      selectedContent: ''
+    }
+  },
+  methods: {
+    setSelected(collection, selected){
+      var match = false
+      //ensuring we have this item in our current school's lengths and types
+      if (selected !== undefined) {
+        _.forEach(collection, function(item) {
+          if (item.value === selected){
+            match = true
+            item.selected = 'selected'
+          }
+        });
+      }
+      if (match === true) {
+        return selected
+      }
     }
   },
   computed: {
     lengths () {
-      return formStore.getEmbargoLengths()
+      var lengths = formStore.getEmbargoLengths()
+      var selected = formStore.savedData['embargo_length']
+      var selectedLength = this.setSelected(lengths, selected)
+
+      if (selectedLength  !== undefined){
+        this.selectedEmbargo = selectedLength
+      }
+      return lengths
     },
     contents () {
-      return formStore.getEmbargoContents()
+      var contents = formStore.getEmbargoContents()
+      var selected = formStore.savedData['embargo_type']
+      var selectedContent = this.setSelected(contents, selected)
+
+      if (selectedContent !== undefined){
+        this.selectedContent = selectedContent
+      }
+      return contents
     }
- }
+  }
 }
 </script>
 

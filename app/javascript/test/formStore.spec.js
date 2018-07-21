@@ -14,17 +14,17 @@ describe('formStore', () => {
   it('returns the correct embargo contents', () => {
     expect(formStore.getEmbargoContents()).toEqual([{
       text: 'Files',
-      value: '[:files_embargoed]',
+      value: 'files_embargoed',
       disabled: false
     },
     {
       text: 'Files and Table of Contents',
-      value: '[:files_embargoed, :toc_embargoed]',
+      value: 'files_embargoed, toc_embargoed',
       disabled: false
     },
     {
       text: 'Files and Table of Contents and Abstract',
-      value: '[:files_embargoed, :toc_embargoed, :abstract_embargoed]',
+      value: 'files_embargoed, toc_embargoed, abstract_embargoed',
       disabled: false
     }
     ])
@@ -36,7 +36,7 @@ describe('formStore', () => {
   })
 
   it('allows you to remove a keyword', () => {
-    formStore.removeKeyword(0) 
+    formStore.removeKeyword(0)
       expect(formStore.keywords.length).toEqual(0)
   })
 })

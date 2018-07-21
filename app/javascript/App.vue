@@ -124,7 +124,7 @@
           <input name="etd[currentStep]" type="hidden" :value="value.step" />
           <button type="submit" class="btn btn-default" autofocus>Save and Continue</button>
         </div>
-        </transition>  
+        </transition>
       </div>
     </form>
     </section>
@@ -236,7 +236,6 @@ export default {
     addComponents(formData){
       formData.append(this.etdPrefix('school'), this.form.getSelectedSchool())
       formData.append(this.etdPrefix('department'), this.form.getSelectedDepartment())
-
       return formData
     },
     saveTab(){

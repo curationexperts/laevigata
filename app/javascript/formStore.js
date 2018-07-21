@@ -183,31 +183,27 @@ export var formStore = {
       { text: 'Rollins School of Public Health', value: 'rollins' }
     ]
   },
-  embargoContents: [{
-    text: 'Files',
-    value: '[:files_embargoed]',
+  embargoContents: [{ text: 'Files',
+    value: 'files_embargoed',
     disabled: false
   },
-  {
-    text: 'Files and Table of Contents',
-    value: '[:files_embargoed, :toc_embargoed]',
+  { text: 'Files and Table of Contents',
+    value: 'files_embargoed, toc_embargoed',
     disabled: false
   },
-  {
-    text: 'Files and Table of Contents and Abstract',
-    value: '[:files_embargoed, :toc_embargoed, :abstract_embargoed]',
+  { text: 'Files and Table of Contents and Abstract',
+    value: 'files_embargoed, toc_embargoed, abstract_embargoed',
     disabled: false
-  }
-  ],
+  }],
   embargoLengths: {
-    emory: [{ value: 'None - open access immediately', selected: 'selected' },
-      { value: '6 Months' }, { value: '1 Year' }, { value: '2 Years' }],
-    candler: [{ value: 'None - open access immediately', selected: 'selected' },
-      { value: '6 Months' }, { value: '1 Year' }, { value: '2 Years' }],
-    laney: [{ value: 'None - open access immediately', selected: 'selected' }, { value: '6 Months' },
-      { value: '1 year' }, { value: '2 Years' }, { value: '6 years' }],
-    rollins: [{ value: 'None - open access immediately', selected: 'selected' },
-      { value: '6 Months' }, { value: '1 Year' }, { value: '2 Years' }]
+    emory: [{value: 'None - open access immediately', selected: 'selected'},
+      {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}],
+    candler: [{value: 'None - open access immediately', selected: 'selected'},
+      {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}],
+    laney: [{value: 'None - open access immediately', selected: 'selected'}, {value: '6 Months'},
+      {value: '1 Year'}, {value: '2 Years'}, {value: '6 Years'}],
+    rollins: [{value: 'None - open access immediately', selected: 'selected'},
+      {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}]
   },
   keywordIndex: 0,
   newKeyword: '',
@@ -304,7 +300,6 @@ export var formStore = {
     return this.savedData['school']
   },
   getPartneringAgenciesOptionValue () {
-    console.log(this.savedData)
     return this.savedData['partnering_agency']
   },
   getPartneringAgencies () {
