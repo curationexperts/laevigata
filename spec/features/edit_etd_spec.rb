@@ -284,9 +284,7 @@ RSpec.feature 'Edit an existing ETD',
         expect(current_path.gsub('?locale=en', '')).to eq hyrax_etd_path(etd)
         expect(page).to have_content 'Department Chemistry'
         expect(page).not_to have_content 'Subfield'
-        # I can't figure out why this last bit is failing, but this form is being
-        # replaced anyway so I'm not going to spend more time on it.
-        # expect(page).to have_content 'Committee Members Betty'
+        expect(page).to have_content 'Committee Members Betty'
       end
     end
   end
