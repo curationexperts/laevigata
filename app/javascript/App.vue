@@ -91,6 +91,9 @@
             <div v-else-if="input.label === 'Embargo'">
               <embargo></embargo>
             </div>
+            <div v-else-if="input.label === 'Partnering Agency'">
+              <partneringAgency></partneringAgency>
+            </div>
             <div v-else-if="input.label === 'Keyword'">
               <keywords></keywords>
             </div>
@@ -112,7 +115,7 @@
             </div>
           </div>
 
-          <div v-for="(value, key) in value.fields">
+          <div v-for="(value, key) in value.fields" v-bind:key="key">
             <label>{{ key }}</label>
             <span>{{ value }}</span>
           </div>
@@ -153,6 +156,7 @@ import Keywords from './Keywords'
 import SaveAndSubmit from './SaveAndSubmit'
 import quillToolbarOptions  from './quillToolbarOptions'
 import quillKeyboardBindings from './quillKeyboardBindings'
+import PartneringAgency from './PartneringAgency.vue';
 
 let token = document
   .querySelector('meta[name="csrf-token"]')
@@ -192,7 +196,8 @@ export default {
     copyrightQuestions: CopyrightQuestions,
     embargo: Embargo,
     keywords: Keywords,
-    saveAndSubmit: SaveAndSubmit
+    saveAndSubmit: SaveAndSubmit,
+    partneringAgency: PartneringAgency
   },
   mounted(){
     this.form.loadSavedData();
