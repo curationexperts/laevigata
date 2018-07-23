@@ -48,7 +48,7 @@
       <label class="btn btn-primary" for="add-file"><span class='glyphicon glyphicon-plus'></span>
       Add your thesis or dissertation file from your computer
       </label>
-      <button class="btn btn-primary" :href="boxOAuthUrl()"><span class="glyphicon glyphicon-plus"></span> Add your thesis or dissertation file from Box</button>
+      <a class="btn btn-primary" :href="boxOAuthUrl()"><span class="glyphicon glyphicon-plus"></span> Add your thesis or dissertation file from Box</a>
     </div>
 
     </section>
