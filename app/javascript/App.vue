@@ -3,12 +3,12 @@
     <section aria-labelledby="form-label">
       <h1>Submit Your Thesis or Dissertation</h1>
     <ul class="nav navtabs">
-      <li v-for="(value, index) in form.tabs" v-bind:key="index">
+      <li v-for="(value, index) in sharedState.tabs" v-bind:key="index">
         <a href="#" class="tab" v-bind:class="{ disabled: value.disabled }" v-on:click="setCurrentStep(value.label, $event)">{{ value.label }}</a>
       </li>
     </ul>
-    <form role="form" id="vue_form" :action="form.getUpdateRoute()" method="patch" @submit.prevent="onSubmit">
-      <div v-for="value in form.tabs" v-bind:key="value.label">
+    <form role="form" id="vue_form" :action="sharedState.getUpdateRoute()" method="patch" @submit.prevent="onSubmit">
+      <div v-for="value in sharedState.tabs" v-bind:key="value.label">
         <transition name="fade">
         <div class="tab-content form-group" v-if="value.currentStep">
           <h2> {{ value.label }} </h2>
@@ -18,25 +18,25 @@
           <div v-for="(input, index) in value.inputs" v-bind:key="index">
             <div v-if="input.label === 'School'">
               <school></school>
-              <section class='errorMessage' v-if="form.hasError(index)">
+              <section class='errorMessage' v-if="sharedState.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'Department'">
               <department></department>
-              <section class='errorMessage' v-if="form.hasError(index)">
+              <section class='errorMessage' v-if="sharedState.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'subfield'">
               <subfield></subfield>
-              <section class='errorMessage' v-if="form.hasError(index)">
+              <section class='errorMessage' v-if="sharedState.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'files'">
               <files></files>
-              <section class='errorMessage' v-if="form.hasError(index)">
+              <section class='errorMessage' v-if="sharedState.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
@@ -45,7 +45,7 @@
                <quill-editor :options="editorOptions" ref="myTextEditor"  v-model="input.value[0]">
                </quill-editor>
                <input class="quill-hidden-field" :name="etdPrefix(index)" v-model="input.value" />
-               <section class='errorMessage' v-if="form.hasError(index)">
+               <section class='errorMessage' v-if="sharedState.hasError(index)">
                    <p>{{ input.label }} is required</p>
                </section>
             </div>
@@ -54,37 +54,37 @@
                <quill-editor :options="editorOptions" ref="myTextEditor" v-model="input.value[0]">
                </quill-editor>
                <input class="quill-hidden-field" :name="etdPrefix(index)" v-model="input.value" />
-               <section class='errorMessage' v-if="form.hasError(index)">
+               <section class='errorMessage' v-if="sharedState.hasError(index)">
                    <p>{{ input.label }} is required</p>
                </section>
             </div>
              <div v-else-if="input.label === 'Graduation Date'">
               <graduationDate></graduationDate>
-              <section class='errorMessage' v-if="form.hasError(index)">
+              <section class='errorMessage' v-if="sharedState.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'Submitting Type'">
               <submittingType></submittingType>
-              <section class='errorMessage' v-if="form.hasError(index)">
+              <section class='errorMessage' v-if="sharedState.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'Committee Member'">
               <committeeMember></committeeMember>
-              <section class='errorMessage' v-if="form.hasError(index)">
+              <section class='errorMessage' v-if="sharedState.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'Degree'">
               <degree></degree>
-              <section class='errorMessage' v-if="form.hasError(index)">
+              <section class='errorMessage' v-if="sharedState.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'Research Field'">
               <researchField></researchField>
-              <section role="alert" class='errorMessage' v-if="form.hasError(index)">
+              <section role="alert" class='errorMessage' v-if="sharedState.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
@@ -102,14 +102,17 @@
             </div>
             <div v-else-if="input.label === 'Language'">
               <language></language>
-              <section role="alert" class='errorMessage' v-if="form.hasError(index)">
+              <section role="alert" class='errorMessage' v-if="sharedState.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
+            </div>
+            <div v-else-if="input.label === 'Submit'">
+              <submit></submit>
             </div>
             <div v-else>
               <label :for="input.label">{{ input.label }}</label>
               <input :id="input.label" class="form-control" :ref="index" :name="etdPrefix(index)" v-model="input.value">
-              <section role="alert" class='errorMessage' v-if="form.hasError(index)">
+              <section role="alert" class='errorMessage' v-if="sharedState.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
             </div>
@@ -157,6 +160,8 @@ import SaveAndSubmit from './SaveAndSubmit'
 import quillToolbarOptions  from './quillToolbarOptions'
 import quillKeyboardBindings from './quillKeyboardBindings'
 import PartneringAgency from './PartneringAgency.vue';
+import Submit from './Submit'
+import AboutMe from './components/submit/AboutMe'
 
 let token = document
   .querySelector('meta[name="csrf-token"]')
@@ -166,7 +171,7 @@ axios.defaults.headers.common["X-CSRF-Token"] = token
 export default {
   data() {
     return {
-      form: formStore,
+      sharedState: formStore,
       tabInputs: [],
       files: [],
       deleteableFiles: [],
@@ -197,10 +202,11 @@ export default {
     embargo: Embargo,
     keywords: Keywords,
     saveAndSubmit: SaveAndSubmit,
-    partneringAgency: PartneringAgency
+    partneringAgency: PartneringAgency,
+    submit: Submit
   },
   mounted(){
-    this.form.loadSavedData();
+    this.sharedState.loadSavedData();
   },
   methods: {
     isComplete(tab) {
@@ -208,19 +214,19 @@ export default {
     },
     allTabsComplete(){
       var complete = [];
-      for (var tab in this.form.tabs){
-        complete.push(this.form.tabs[tab].completed)
+      for (var tab in this.sharedState.tabs){
+        complete.push(this.sharedState.tabs[tab].completed)
       }
       return complete.every(this.isComplete);
     },
     setCurrentStep(tab_label, event){
       // display current tab unless click comes from disabled tab
       if (!event.target.classList.contains("disabled")){
-        for (var tab in this.form.tabs){
-          if (this.form.tabs[tab].label == tab_label){
-            this.form.tabs[tab].currentStep = true
+        for (var tab in this.sharedState.tabs){
+          if (this.sharedState.tabs[tab].label == tab_label){
+            this.sharedState.tabs[tab].currentStep = true
           } else {
-            this.form.tabs[tab].currentStep = false
+            this.sharedState.tabs[tab].currentStep = false
           }
         }
       }
@@ -236,6 +242,9 @@ export default {
     addComponents(formData){
       formData.append(this.etdPrefix('school'), this.form.getSelectedSchool())
       formData.append(this.etdPrefix('department'), this.form.getSelectedDepartment())
+      formData.append(this.etdPrefix('school'), this.sharedState.getSelectedSchool())
+      formData.append(this.etdPrefix('department'), this.sharedState.getSelectedDepartment())
+
       return formData
     },
     saveTab(){
@@ -253,7 +262,7 @@ export default {
     readyForReview(){
       // probably will not need this, save will go from embargo tab to review tab naturally
       // all tabs are complete but user has not checked agreement
-      return this.allTabsComplete() && this.form.agreement == false
+      return this.allTabsComplete() && this.sharedState.agreement == false
     },
     reviewTabs(){
       var form = document.getElementById("vue_form")
@@ -266,7 +275,7 @@ export default {
       saveAndSubmit.reviewTabs()
     },
     readyForSubmission(){
-      return this.allTabsComplete() && this.form.agreement == true
+      return this.allTabsComplete() && this.sharedState.agreement == true
     },
     submitForPublication(){
       var form = document.getElementById("vue_form")
