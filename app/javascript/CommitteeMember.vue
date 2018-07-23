@@ -5,7 +5,7 @@
             You have not selected a chair or committee members. Please 
             use the buttons below to add them to your submission. 
         </div> 
-        <div v-for="chair in sharedState.committeeChairs" v-bind:value="chair.name" v-bind:key='chair.id'>
+        <div v-for="chair in sharedState.committeeChairs" v-bind:value="chair.name" v-bind:key="chairId(chair)">
             <div class="well" aria-live="polite">
             <h4>Committee Chair/Thesis Advisor</h4>
             <label :for="chairId(chair)">Committee Chair/Thesis Advisor's Affliation</label>
@@ -27,7 +27,7 @@
              </div>
         </div>
         <button type="button" class="btn btn-default" @click="addChair"><span class="glyphicon glyphicon-plus"></span> Add a Chair or Advisor</button>
-         <div v-for="member in sharedState.committeeMembers" v-bind:value="member.name" v-bind:key='member.id'>
+         <div v-for="member in sharedState.committeeMembers" v-bind:value="member.name" v-bind:key="memberId(member)">
             <div class="well">
             <h4>Committee Member</h4>
             <label :for="memberId(member)">Committee Member's Affiliation</label>

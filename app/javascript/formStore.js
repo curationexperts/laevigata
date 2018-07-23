@@ -111,7 +111,9 @@ export var formStore = {
       completed: false,
       currentStep: false,
       step: 7,
-      fields: {}
+      inputs: {
+        submit: { label: 'Submit', value: [] }
+      }
     }
   },
   // The ID of the InProgressEtd record that we are editing (relational database ID).
@@ -281,11 +283,11 @@ export var formStore = {
   getSubmittingType () {
     return this.savedData['submitting_type']
   },
-  getSavedResearchFields(){
-    return this.savedData["research_field"] === undefined ? ["", "", ""] : this.savedData["research_field"]
+  getSavedResearchFields () {
+    return this.savedData['research_field'] === undefined ? ['', '', ''] : this.savedData['research_field']
   },
-  getSavedResearchField(index){
-    return this.savedData["research_field"] === undefined ? ["", "", ""] : this.savedData["research_field"]
+  getSavedResearchField (index) {
+    return this.savedData['research_field'] === undefined ? ['', '', ''] : this.savedData['research_field']
   },
   getEmbargoLengths () {
     return this.embargoLengths[this.schools.selected]
