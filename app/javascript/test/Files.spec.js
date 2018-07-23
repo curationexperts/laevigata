@@ -7,10 +7,10 @@ import Files from 'Files'
 describe('Files.vue', () => {
   global.Box = { FilePicker: function() {}}
   global.boxClientId = function() {}
-  it('has 4 buttons when rendered', () => {
+  it('has 1 button when rendered', () => {
     const wrapper = shallowMount(Files, {
     })
-    expect(wrapper.findAll('button')).toHaveLength(2)
+    expect(wrapper.findAll('button')).toHaveLength(1)
   })
 
   it('has two labels ', () => {
