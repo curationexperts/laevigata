@@ -193,6 +193,57 @@ describe InProgressEtd do
       end
     end
 
+    describe 'no embargoes' do
+      context 'with existing no_embargoes data and new embargo data' do
+        let(:old_data) { { no_embargoes: '1' } }
+        let(:new_data) { { 'embargo_length': '1 Year', 'embargo_type': 'Files' } }
+
+        it "removes the old no_embargoes parameter and adds the new embargo lengths and types" do
+          expect(resulting_data).to eq({
+            'embargo_length' => '1 Year',
+            'embargo_type' => 'Files'
+          })
+        end
+      end
+
+      context 'with existing no_embargoes and new no_embargoes' do
+        let(:old_data) { { no_embargoes: '1' } }
+        let(:new_data) { { 'embargo_length': 'None - open access immediately' } }
+
+        it "preserves the no_embargoes and adds the new embargo_length data" do
+          expect(resulting_data).to eq({
+            'embargo_length' => 'None - open access immediately',
+            'no_embargoes' => '1'
+          })
+        end
+      end
+
+      context 'with existing embargoes and new embargo data' do
+        let(:old_data) { { 'embargo_length': '1 Year', 'embargo_type': 'files_embargoed' } }
+        let(:new_data) { { 'embargo_length': '2 Years', 'embargo_type': 'files_embargoed, toc_embargoed' } }
+
+        it 'sets new embargo length and type and does not set no_embargoes' do
+          expect(resulting_data).to eq({
+            'embargo_length' => '2 Years',
+            'embargo_type' => 'files_embargoed, toc_embargoed'
+          })
+        end
+      end
+
+      context 'with existing embargoes and new no embargo data' do
+        let(:old_data) { { 'embargo_length': '1 Year', 'embargo_type': 'files_embargoed' } }
+
+        let(:new_data) { { 'embargo_length': 'None - open access immediately' } }
+
+        it 'removes old embargo lengths and types and sets no_embargoes' do
+          expect(resulting_data).to eq({
+            'embargo_length' => 'None - open access immediately',
+            'no_embargoes' => '1'
+          })
+        end
+      end
+    end
+
     context 'with no new data' do
       let(:new_data) { {} }
 

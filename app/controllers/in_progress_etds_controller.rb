@@ -56,7 +56,6 @@ class InProgressEtdsController < ApplicationController
       # uploaded_files = Hyrax::UploadedFile.id
       # add_uploaded_file_data(new_data)
       add_agreement_data(new_data)
-      add_embargo_data(new_data)
       add_subfield(new_data)
       # Add the new data to the existing persisted data
       @in_progress_etd.add_data(new_data)
@@ -74,10 +73,6 @@ class InProgressEtdsController < ApplicationController
 
     def add_agreement_data(etd)
       etd["agreement"] = "1"
-    end
-
-    def add_embargo_data(etd)
-      etd["no_embargoes"] = "1"
     end
 
     def add_subfield(etd)

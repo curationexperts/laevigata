@@ -70,6 +70,7 @@ export default class SaveAndSubmit {
   }
   getEtdData(){
     //TODO: might need to remove other params
+    // TODO: embargo content types need to be sent like this for publication. '[:files_embargoed]', '[:files_embargoed, :toc_embargoed]', '[:files_embargoed, :toc_embargoed, :abstract_embargoed]'
     this.formData.delete('etd[currentTab]')
     return this.formData
   }
