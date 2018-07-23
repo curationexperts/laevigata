@@ -21,9 +21,9 @@
     <%= presenter.attribute_to_html(:permanent_url, label: "Permanent URL") %>
     <%= presenter.attribute_to_html(:rights_statement, render_as: :rights_statement, html_dl: true) %>
     <% if presenter.current_ability_is_approver? %>
-      <%= presenter.attribute_to_html(:requires_permissions, label: t("hyrax.works.requires_permissions_label"))%>
-      <%= presenter.attribute_to_html(:other_copyrights, label: t("hyrax.works.other_copyrights_label"))%>
-      <%= presenter.attribute_to_html(:patents, label: t("hyrax.works.patents_label"))%>
+      <%= presenter.attribute_to_html(:requires_permissions_question, label: t("hyrax.works.requires_permissions_label"))%>
+      <%= presenter.attribute_to_html(:other_copyrights_question, label: t("hyrax.works.other_copyrights_label"))%>
+      <%= presenter.attribute_to_html(:patents_question, label: t("hyrax.works.patents_label"))%>
       <%= presenter.attribute_to_html(:files_embargoed, label: "Files Under Embargo", include_empty: true)%>
       <%= presenter.attribute_to_html(:abstract_embargoed, label: "Abstract Under Embargo", include_empty: true)%>
       <%= presenter.attribute_to_html(:toc_embargoed, label: "Table of Contents Under Embargo", include_empty: true)%>
