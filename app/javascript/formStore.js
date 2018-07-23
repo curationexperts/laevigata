@@ -140,6 +140,7 @@ export var formStore = {
     'choice': 'no',
     'name': 'etd[patents]'
   }],
+  partneringAgencies: [],
   committeeChairs: [],
   committeeMembers: [],
   files: [],
@@ -163,11 +164,11 @@ export var formStore = {
   },
   schools: {
     candler:
-    '/authorities/terms/local/candler_programs',
+      '/authorities/terms/local/candler_programs',
     emory: '/authorities/terms/local/emory_programs',
     laney: '/authorities/terms/local/laney_programs',
     rollins:
-    '/authorities/terms/local/rollins_programs',
+      '/authorities/terms/local/rollins_programs',
     selected: '',
     options: [
       {
@@ -182,28 +183,31 @@ export var formStore = {
       { text: 'Rollins School of Public Health', value: 'rollins' }
     ]
   },
-  embargoContents: [{ text: 'Files',
+  embargoContents: [{
+    text: 'Files',
     value: '[:files_embargoed]',
     disabled: false
   },
-  { text: 'Files and Table of Contents',
+  {
+    text: 'Files and Table of Contents',
     value: '[:files_embargoed, :toc_embargoed]',
     disabled: false
   },
-  { text: 'Files and Table of Contents and Abstract',
+  {
+    text: 'Files and Table of Contents and Abstract',
     value: '[:files_embargoed, :toc_embargoed, :abstract_embargoed]',
     disabled: false
   }
   ],
   embargoLengths: {
-    emory: [{value: 'None - open access immediately', selected: 'selected'},
-      {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}],
-    candler: [{value: 'None - open access immediately', selected: 'selected'},
-      {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}],
-    laney: [{value: 'None - open access immediately', selected: 'selected'}, {value: '6 Months'},
-      {value: '1 year'}, {value: '2 Years'}, {value: '6 years'}],
-    rollins: [{value: 'None - open access immediately', selected: 'selected'},
-      {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}]
+    emory: [{ value: 'None - open access immediately', selected: 'selected' },
+      { value: '6 Months' }, { value: '1 Year' }, { value: '2 Years' }],
+    candler: [{ value: 'None - open access immediately', selected: 'selected' },
+      { value: '6 Months' }, { value: '1 Year' }, { value: '2 Years' }],
+    laney: [{ value: 'None - open access immediately', selected: 'selected' }, { value: '6 Months' },
+      { value: '1 year' }, { value: '2 Years' }, { value: '6 years' }],
+    rollins: [{ value: 'None - open access immediately', selected: 'selected' },
+      { value: '6 Months' }, { value: '1 Year' }, { value: '2 Years' }]
   },
   keywordIndex: 0,
   newKeyword: '',
@@ -213,45 +217,45 @@ export var formStore = {
   removeKeyword (index) {
     this.keywords.splice(this.keywords.indexOf(index, 1))
   },
-  //will be in the etd data soon
+  // will be in the etd data soon
   agreement: false,
 
-  setComplete(tab_name){
-    for (var tab in this.tabs){
-      if (this.tabs[tab].label == tab_name){
+  setComplete (tabName) {
+    for (var tab in this.tabs) {
+      if (this.tabs[tab].label === tabName) {
         this.tabs[tab].complete = true
       }
     }
   },
   // tabs that have been validated and the current tab are enabled
-  enableTabs(){
-    for (var tab in this.tabs){
-      if (this.tabs[tab].complete == true || this.tabs[tab].currentStep == true){
+  enableTabs () {
+    for (var tab in this.tabs) {
+      if (this.tabs[tab].complete === true || this.tabs[tab].currentStep === true) {
         this.tabs[tab].disabled = false
       } else {
         this.tabs[tab].disabled = true
       }
     }
   },
-  nextStepIsCurrent(lastCompletedStep){
-    for (var tab in this.tabs){
-      if (this.tabs[tab].step == parseInt(lastCompletedStep) + 1) {
+  nextStepIsCurrent (lastCompletedStep) {
+    for (var tab in this.tabs) {
+      if (this.tabs[tab].step === parseInt(lastCompletedStep) + 1) {
         this.tabs[tab].currentStep = true
       } else {
         this.tabs[tab].currentStep = false
       }
     }
   },
-  hasError(input_key){
-    var hasError = false;
-    _.forEach(this.errors, function(error) {
-      _.forEach(error, function(value, key){
-        if (input_key == key){
-          hasError = true;
+  hasError (inputKey) {
+    var hasError = false
+    _.forEach(this.errors, function (error) {
+      _.forEach(error, function (value, key) {
+        if (inputKey === key) {
+          hasError = true
         }
       })
-    });
-    return hasError;
+    })
+    return hasError
   },
   clearSubfields () {
     this.subfields = []
@@ -264,22 +268,22 @@ export var formStore = {
   },
   getSelectedDepartment () {
     // in edit state, a user has a savedDepartment until they choose a new one with setSelectedDepartment
-    return this.selectedDepartment.length == 0 ? this.savedData["department"] : this.selectedDepartment
+    return this.selectedDepartment.length === 0 ? this.savedData['department'] : this.selectedDepartment
   },
   getSavedDepartment () {
-    return this.savedData["department"]
+    return this.savedData['department']
   },
   setSelectedSchool (school) {
     this.schools.selected = school
   },
-  getGraduationDate(){
-    return this.savedData["graduation_date"]
+  getGraduationDate () {
+    return this.savedData['graduation_date']
   },
-  getSavedDegree(){
-    return this.savedData["degree"]
+  getSavedDegree () {
+    return this.savedData['degree']
   },
-  getSubmittingType(){
-    return this.savedData["submitting_type"]
+  getSubmittingType () {
+    return this.savedData['submitting_type']
   },
   getEmbargoLengths () {
     return this.embargoLengths[this.schools.selected]
@@ -290,8 +294,17 @@ export var formStore = {
   getSelectedSchool () {
     return this.schools.selected
   },
-  getSchoolOptionValue(){
-    return this.savedData["school"]
+  getSchoolOptionValue () {
+    return this.savedData['school']
+  },
+  getPartneringAgenciesOptionValue () {
+    console.log(this.savedData)
+    return this.savedData['partnering_agency']
+  },
+  getPartneringAgencies () {
+    axios.get('/authorities/terms/local/partnering_agencies').then((response) => {
+      this.partneringAgencies = response.data
+    })
   },
   getDepartments (selectedSchool) {
     axios.get(selectedSchool).then(response => {
@@ -299,30 +312,30 @@ export var formStore = {
     })
   },
   getSubfields () {
-    axios.get(this.subfieldEndpoints[this.selectedDepartment]).then(response => {
+    axios.get(this.subfieldEndpoints[this.selectedDepartment]).then((response) => {
       this.subfields = response.data
     })
   },
   savedData: {},
-  loadSavedData(){
-    var el = document.getElementById('saved_data');
-    if (el && el.hasAttribute("data-in-progress-etd")){
-      this.savedData = JSON.parse(el.dataset.inProgressEtd);
+  loadSavedData () {
+    var el = document.getElementById('saved_data')
+    if (el && el.hasAttribute('data-in-progress-etd')) {
+      this.savedData = JSON.parse(el.dataset.inProgressEtd)
     }
-    if (Object.keys(this.savedData).length > 0){
+    if (Object.keys(this.savedData).length > 0) {
       this.setIpeId(this.savedData['ipe_id'])
-      for (var tab in this.tabs){
-         if (!this.tabs[tab].disabled){
-           var input_keys = Object.keys(this.tabs[tab].inputs)
-            input_keys.forEach(function(el){
-              // components load after this function runs, so need to use their mounted and nextTick lifecycle hooks to get data.
-              this.tabs[tab].inputs[el].value = this.savedData[el]
-            }, this)
-         }
+      for (var tab in this.tabs) {
+        if (!this.tabs[tab].disabled) {
+          var inputKeys = Object.keys(this.tabs[tab].inputs)
+          inputKeys.forEach(function (el) {
+            // components load after this function runs, so need to use their mounted and nextTick lifecycle hooks to get data.
+            this.tabs[tab].inputs[el].value = this.savedData[el]
+          }, this)
+        }
       }
     }
   },
-  showSavedData(data){
+  showSavedData (data) {
     this.tabs.submit.fields = JSON.parse(data['in_progress_etd'])
   }
 }
