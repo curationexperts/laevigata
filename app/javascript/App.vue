@@ -248,7 +248,6 @@ export default {
     addComponents(formData){
       formData.append(this.etdPrefix('school'), this.sharedState.getSelectedSchool())
       formData.append(this.etdPrefix('department'), this.sharedState.getSelectedDepartment())
-
       return formData
     },
     saveTab(){
