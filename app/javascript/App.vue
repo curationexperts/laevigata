@@ -72,8 +72,8 @@
             </div>
             <div v-else-if="input.label === 'Committee Member'">
               <committeeMember></committeeMember>
-              <section class='errorMessage' v-if="sharedState.hasError(index)">
-                  <p>{{ input.label }} is required</p>
+              <section class='errorMessage' v-if="sharedState.hasError('committee_chair_attributes')">
+                  <p>At least one Committee Chair is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'Degree'">
