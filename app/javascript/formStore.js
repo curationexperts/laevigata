@@ -1,5 +1,6 @@
 import axios from 'axios'
 import _ from 'lodash'
+
 export var formStore = {
   tabs: {
     about_me: {
@@ -11,10 +12,10 @@ export var formStore = {
       currentStep: true,
       step: 0,
       inputs: {
-        creator: { label: 'Student Name', value: [], required: true },
+        creator: { label: 'Student Name', value: [] },
         school: { label: 'School', value: [] },
-        graduation_date: { label: 'Graduation Date', value: [], required: true },
-        post_graduation_email: { label: 'Post-Graduation Email', value: [], required: true }
+        graduation_date: { label: 'Graduation Date', value: [] },
+        post_graduation_email: { label: 'Post-Graduation Email', value: [] }
       }
     },
     my_program: {
@@ -27,10 +28,10 @@ export var formStore = {
       step: 1,
       inputs: {
         department: { label: 'Department', value: [] },
-        partnering_agency: { label: 'Partnering Agency', value: [], required: true },
-        subfield: { label: 'subfield', value: [], required: true },
-        degree: { label: 'Degree', value: [], required: true },
-        submitting_type: { label: 'Submitting Type', value: [], required: true }
+        partnering_agency: { label: 'Partnering Agency', value: [] },
+        subfield: { label: 'subfield', value: [] },
+        degree: { label: 'Degree', value: [] },
+        submitting_type: { label: 'Submitting Type', value: [] }
       }
     },
     my_advisor: {
@@ -45,7 +46,7 @@ export var formStore = {
       currentStep: false,
       step: 2,
       inputs: {
-        committee_member: { label: 'Committee Member', value: [], required: true }
+        committee_member: { label: 'Committee Member', value: [] }
 
       }
     },
@@ -58,10 +59,10 @@ export var formStore = {
       currentStep: false,
       step: 3,
       inputs: {
-        title: { label: 'Title', value: [], required: true },
-        language: { label: 'Language', value: [], required: true },
-        abstract: { label: 'Abstract', value: [], required: true, rich_text: true },
-        table_of_contents: { label: 'Table of Contents', value: [], required: true, rich_text: true }
+        title: { label: 'Title', value: [] },
+        language: { label: 'Language', value: [] },
+        abstract: { label: 'Abstract', value: [] },
+        table_of_contents: { label: 'Table of Contents', value: [] }
       }
     },
     keywords: {
@@ -73,8 +74,8 @@ export var formStore = {
       currentStep: false,
       step: 4,
       inputs: {
-        research_field: { label: 'Research Field', value: [], required: true },
-        keyword: { label: 'Keyword', value: [], required: true },
+        research_field: { label: 'Research Field', value: [] },
+        keyword: { label: 'Keyword', value: [] },
         copyrights: { label: 'Copyright & Patents' }
       }
     },
@@ -153,6 +154,7 @@ export var formStore = {
   keywords: [],
   errors: [],
   errored: false,
+  userAgreement: false,
   languages: [{ 'value': '', 'active': true, 'label': 'Select a Language', 'disabled': 'disabled', 'selected': 'selected' }],
   languagesEndpoint: '/authorities/terms/local/languages_list',
   subfieldEndpoints: {
@@ -185,27 +187,31 @@ export var formStore = {
       { text: 'Rollins School of Public Health', value: 'rollins' }
     ]
   },
-  embargoContents: [{ text: 'Files',
-    value: 'files_embargoed',
+  embargoContents: [{
+    text: 'Files',
+    value: '[:files_embargoed]',
     disabled: false
   },
-  { text: 'Files and Table of Contents',
-    value: 'files_embargoed, toc_embargoed',
+  {
+    text: 'Files and Table of Contents',
+    value: '[:files_embargoed, :toc_embargoed]',
     disabled: false
   },
-  { text: 'Files and Table of Contents and Abstract',
-    value: 'files_embargoed, toc_embargoed, abstract_embargoed',
+  {
+    text: 'Files and Table of Contents and Abstract',
+    value: '[:files_embargoed, :toc_embargoed, :abstract_embargoed]',
     disabled: false
-  }],
+  }
+  ],
   embargoLengths: {
-    emory: [{value: 'None - open access immediately', selected: 'selected'},
-      {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}],
-    candler: [{value: 'None - open access immediately', selected: 'selected'},
-      {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}],
-    laney: [{value: 'None - open access immediately', selected: 'selected'}, {value: '6 Months'},
-      {value: '1 Year'}, {value: '2 Years'}, {value: '6 Years'}],
-    rollins: [{value: 'None - open access immediately', selected: 'selected'},
-      {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}]
+    emory: [{ value: 'None - open access immediately', selected: 'selected' },
+      { value: '6 Months' }, { value: '1 Year' }, { value: '2 Years' }],
+    candler: [{ value: 'None - open access immediately', selected: 'selected' },
+      { value: '6 Months' }, { value: '1 Year' }, { value: '2 Years' }],
+    laney: [{ value: 'None - open access immediately', selected: 'selected' }, { value: '6 Months' },
+      { value: '1 year' }, { value: '2 Years' }, { value: '6 years' }],
+    rollins: [{ value: 'None - open access immediately', selected: 'selected' },
+      { value: '6 Months' }, { value: '1 Year' }, { value: '2 Years' }]
   },
   keywordIndex: 0,
   newKeyword: '',
@@ -302,6 +308,7 @@ export var formStore = {
     return this.savedData['school']
   },
   getPartneringAgenciesOptionValue () {
+    console.log(this.savedData)
     return this.savedData['partnering_agency']
   },
   getPartneringAgencies () {
@@ -340,5 +347,16 @@ export var formStore = {
   },
   showSavedData (data) {
     this.tabs.submit.fields = JSON.parse(data['in_progress_etd'])
+  },
+  setUserAgreement () {
+    console.log(this.userAgreement)
+    this.userAgreement = !this.userAgreement
+  },
+  getUserAgreement () {
+    console.log(this.userAgreement)
+    return this.userAgreement
+  },
+  submit () {
+    // TO-DO: implement submission
   }
 }
