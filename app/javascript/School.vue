@@ -33,7 +33,12 @@ export default {
   mounted: function(){
     //This is the right hook in the dom loading sequence to get the saved data
     this.$nextTick(function () {
-      this.selected = this.sharedState.getSchoolOptionValue()
+      var selected = this.sharedState.getSchoolOptionValue()
+
+      if(selected === undefined){
+        selected = ''
+      }
+      this.selected = selected
     })
   },
   watch: {
