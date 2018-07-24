@@ -96,6 +96,9 @@
             </div>
             <div v-else-if="input.label === 'Keyword'">
               <keywords></keywords>
+              <section role="alert" class='errorMessage' v-if="sharedState.hasError(index)">
+                  <p>{{ input.label }} is required</p>
+              </section>              
             </div>
             <div v-else-if="input.label === 'Copyright & Patents'">
               <copyrightQuestions></copyrightQuestions>
