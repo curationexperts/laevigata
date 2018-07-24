@@ -328,13 +328,11 @@ export var formStore = {
     if (Object.keys(this.savedData).length > 0) {
       this.setIpeId(this.savedData['ipe_id'])
       for (var tab in this.tabs) {
-        if (!this.tabs[tab].disabled) {
           var inputKeys = Object.keys(this.tabs[tab].inputs)
           inputKeys.forEach(function (el) {
             // components load after this function runs, so need to use their mounted and nextTick lifecycle hooks to get data.
             this.tabs[tab].inputs[el].value = this.savedData[el]
           }, this)
-        }
       }
     }
   },
