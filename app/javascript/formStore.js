@@ -217,7 +217,11 @@ export var formStore = {
   },
   // will be in the etd data soon
   agreement: false,
-
+  addSavedKeywords (savedKeywords) {
+    if (savedKeywords !== undefined) {
+    this.keywords = savedKeywords
+    }
+  },
   setComplete (tabName) {
     for (var tab in this.tabs) {
       if (this.tabs[tab].label === tabName) {
@@ -287,7 +291,9 @@ export var formStore = {
     return this.savedData['research_field'] === undefined ? ['', '', ''] : this.savedData['research_field']
   },
   getSavedResearchField (index) {
-    return this.savedData['research_field'] === undefined ? ['', '', ''] : this.savedData['research_field']
+    if (this.savedData['research_field'] !== undefined){
+      return this.savedData['research_field'][index] === undefined ? '' : this.savedData['research_field'][index]
+    }
   },
   getEmbargoLengths () {
     return this.embargoLengths[this.schools.selected]
@@ -331,6 +337,9 @@ export var formStore = {
           var inputKeys = Object.keys(this.tabs[tab].inputs)
           inputKeys.forEach(function (el) {
             // components load after this function runs, so need to use their mounted and nextTick lifecycle hooks to get data.
+            if (el === 'keyword' && this.savedData[el] !== undefined){
+              this.addSavedKeywords(this.savedData[el])
+            }
             this.tabs[tab].inputs[el].value = this.savedData[el]
           }, this)
       }

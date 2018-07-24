@@ -3,8 +3,8 @@
     <label for="keywords">Keywords</label>
     <div id="keywords">
       <div class="form-inline keyword" v-for="(keyword, index) in sharedState.keywords" v-bind:key="index">
-        <input class="form-control" name="etd[keyword][]" />
-        <a data-turbolinks="false" class="btn btn-default" href="#" @click="sharedState.removeKeyword(index)">Remove This Keyword</a>
+        <input class="form-control" :value="getVal(keyword)" name="etd[keyword][]" />
+        <a data-turbolinks="false" class="btn btn-default"  href="#" @click="sharedState.removeKeyword(index)">Remove This Keyword</a>
         <br/>
       </div>
     </div>
@@ -15,11 +15,21 @@
 
 <script>
 import { formStore } from "./formStore";
+import _ from "lodash"
 
 export default {
   data() {
     return {
       sharedState: formStore
+    }
+  },
+  methods:{
+    getVal(keyword){
+      var val = ''
+      if (_.isString(keyword)){
+        val = keyword
+      }
+      return val
     }
   }
 }

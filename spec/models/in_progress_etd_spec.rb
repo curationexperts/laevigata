@@ -193,6 +193,16 @@ describe InProgressEtd do
       end
     end
 
+    describe 'keywords' do
+      context 'with existing keyword data and no new keyword data' do
+        let(:old_data) { { keyword: 'Agroecology' } }
+        let(:new_data) { {} }
+        it "removes the old keyword" do
+          expect(resulting_data).to eq({})
+        end
+      end
+    end
+
     describe 'no embargoes' do
       context 'with existing no_embargoes data and new embargo data' do
         let(:old_data) { { no_embargoes: '1' } }
