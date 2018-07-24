@@ -27,6 +27,6 @@ describe('Language.vue', () => {
   it('has the correct html', () => {
     const wrapper = shallowMount(Language, {
     })
-    expect(wrapper.html().replace(/\s/g, '')).toEqual('<div><label for="language">Language</label> <select id="language" name="etd[language]" aria-required="true" class="form-control"><option disabled="disabled" value="">Select a Language</option></select></div>'.replace(/\s/g, ''))
+    expect(wrapper.html().replace(/\s/g, '')).toEqual('<div><label for="language">Language</label> <select id="language" name="etd[language]" aria-required="true" class="form-control"></select></div>'.replace(/\s/g, ''))
   })
 })
