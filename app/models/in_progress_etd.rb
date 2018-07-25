@@ -17,6 +17,7 @@ class InProgressEtd < ApplicationRecord
     return existing_data unless new_data
     new_data = add_no_embargoes(new_data)
     existing_data = remove_stale_embargo_data(existing_data, new_data)
+    existing_data = remove_stale_keyword_data(existing_data, new_data)
 
     resulting_data = existing_data.merge(new_data)
     self.data = resulting_data.to_json
@@ -38,6 +39,11 @@ class InProgressEtd < ApplicationRecord
     existing_data.delete('no_embargoes') if existing_data.keys.include?('no_embargoes') && new_data[:embargo_length] != 'None - open access immediately'
 
     existing_data.delete('embargo_type') if new_data[:embargo_length] == 'None - open access immediately' && existing_data.keys.include?('embargo_type')
+    existing_data
+  end
+
+  def remove_stale_keyword_data(existing_data, new_data)
+    existing_data.delete('keyword') if existing_data.keys.include?('keyword') && new_data[:keyword].nil?
     existing_data
   end
 
