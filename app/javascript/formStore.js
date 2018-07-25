@@ -338,5 +338,16 @@ export var formStore = {
   },
   showSavedData (data) {
     this.tabs.submit.fields = JSON.parse(data['in_progress_etd'])
+  },
+  setUserAgreement () {
+    console.log(this.userAgreement)
+    this.userAgreement = !this.userAgreement
+  },
+  getUserAgreement () {
+    console.log(this.userAgreement)
+    return this.userAgreement
+  },
+  submit () {
+    // TO-DO: implement submission
   }
 }
