@@ -9,7 +9,7 @@
             <div class="well" aria-live="polite">
             <h4>Committee Chair/Thesis Advisor</h4>
             <label :for="chairId(chair)">Committee Chair/Thesis Advisor's Affliation</label>
-            <select v-model="chair.affiliation" :id="chairId(chair)" :name="chairAffiliationTypeAttr(chair)" class="form-control">
+            <select v-model="chair.affiliation" :id="chairId(chair)"  class="form-control">
                 <option disabled selected>
                     Select an affiliation
                 </option>
@@ -17,11 +17,11 @@
                 <option>Non-Emory</option>
             </select>
             <label :for="chairNameId(chair)">Committee Chair/Thesis Advisor's Name</label>
-            <input :id="chairNameId(chair)" :name="chairNameAttr(chair)" type="text" class="form-control" />
+            <input :id="chairNameId(chair)"  :name="chairNameAttr(chair)" type="text" class="form-control" />
 
-           <div v-if="chair.affiliation === 'Non-Emory'">
+           <div v-show="chair.affiliation === 'Non-Emory'">
             <label :for="chairAffiliationId(chair)">Affiliation</label> 
-            <input :id="chairAffiliationId(chair)" :name="chairAffiliationAttr(chair)" type="text" class="form-control" autofocus/>
+            <input :id="chairAffiliationId(chair)" value='Emory University' :name="chairAffiliationAttr(chair)" type="text" class="form-control" autofocus/>
            </div>
              <button type="button" class="btn btn-default" @click="removeChair(chair)"><span class="glyphicon glyphicon-trash"></span> Remove This Chair or Advisor</button>
              </div>
@@ -74,7 +74,7 @@ export default {
           this.sharedState.committeeMembers = filteredMembers
       },
       addChair () {
-          this.sharedState.committeeChairs.push({id: this.sharedState.committeeChairs.length + 1, affiliation: '', name: ''})
+          this.sharedState.committeeChairs.push({id: this.sharedState.committeeChairs.length + 1, affiliation: [''], name: ['']})
       },
       removeChair(chair) {
           const filteredChairs = this.sharedState.committeeChairs.filter((chair) => chair.id !== chair.id)
@@ -82,7 +82,6 @@ export default {
       },
       changeAffiliation(chair) {
           chair.affiliation = this.selectedAffiliation
-          console.log(chair)
       },
       chairId (chair) {
           return `chair-${chair.id}`

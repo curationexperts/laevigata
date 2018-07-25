@@ -42,18 +42,18 @@
             </div>
             <div v-else-if="input.label === 'Table of Contents'">
               <label>{{ input.label }}</label>
-               <quill-editor :options="editorOptions" ref="myTextEditor"  v-model="input.value[0]">
+               <quill-editor :options="editorOptions" ref="myTextEditor"  v-model="input.value">
                </quill-editor>
-               <input class="quill-hidden-field" :name="etdPrefix(index)" v-model="input.value" />
+               <input class="quill-hidden-field" :name="sharedState.etdPrefix(index)" v-model="input.value" />
                <section class='errorMessage' v-if="sharedState.hasError(index)">
                    <p>{{ input.label }} is required</p>
                </section>
             </div>
             <div v-else-if="input.label === 'Abstract'">
                <label>{{ input.label }}</label>
-               <quill-editor :options="editorOptions" ref="myTextEditor" v-model="input.value[0]">
+               <quill-editor :options="editorOptions" ref="myTextEditor" v-model="input.value">
                </quill-editor>
-               <input class="quill-hidden-field" :name="etdPrefix(index)" v-model="input.value" />
+               <input class="quill-hidden-field" :name="sharedState.etdPrefix(index)" v-model="input.value" />
                <section class='errorMessage' v-if="sharedState.hasError(index)">
                    <p>{{ input.label }} is required</p>
                </section>
@@ -117,7 +117,7 @@
             </div>
             <div v-else>
               <label :for="input.label">{{ input.label }}</label>
-              <input :id="input.label" class="form-control" :ref="index" :name="etdPrefix(index)" v-model="input.value">
+              <input :id="input.label" class="form-control" :ref="index" :name="sharedState.etdPrefix(index)" v-model="input.value">
               <section role="alert" class='errorMessage' v-if="sharedState.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
@@ -141,8 +141,6 @@
 </template>
 
 <script>
-import axios from "axios"
-import VueAxios from "vue-axios"
 import _ from "lodash"
 import { formStore } from "./formStore"
 import School from "./School"
@@ -169,10 +167,9 @@ import PartneringAgency from './PartneringAgency.vue';
 import Submit from './Submit'
 import AboutMe from './components/submit/AboutMe'
 
-let token = document
+var token = document
   .querySelector('meta[name="csrf-token"]')
   .getAttribute("content")
-axios.defaults.headers.common["X-CSRF-Token"] = token
 
 export default {
   data() {
@@ -211,21 +208,22 @@ export default {
     partneringAgency: PartneringAgency,
     submit: Submit
   },
-  mounted(){
-    this.sharedState.loadSavedData();
+  mounted (){
+    this.sharedState.loadSavedData()
+    this.sharedState.token = token
   },
   methods: {
-    isComplete(tab) {
+    isComplete (tab) {
       return tab;
     },
-    allTabsComplete(){
+    allTabsComplete (){
       var complete = [];
       for (var tab in this.sharedState.tabs){
         complete.push(this.sharedState.tabs[tab].completed)
       }
       return complete.every(this.isComplete);
     },
-    setCurrentStep(tab_label, event){
+    setCurrentStep (tab_label, event) {
       // display current tab unless click comes from disabled tab
       if (!event.target.classList.contains("disabled")){
         for (var tab in this.sharedState.tabs){
@@ -237,60 +235,43 @@ export default {
         }
       }
     },
-    etdPrefix(index) {
-      return "etd[" + index + "]"
-    },
-    getFormData() {
-      var form = document.getElementById("vue_form")
-      var formData = new FormData(form)
-      return formData
-    },
-    addComponents(formData){
-      formData.append(this.etdPrefix('school'), this.sharedState.getSelectedSchool())
-      formData.append(this.etdPrefix('department'), this.sharedState.getSelectedDepartment())
-      return formData
-    },
-    saveTab(){
-      var form = document.getElementById("vue_form")
-      var formData = new FormData(form)
-
-      formData = this.addComponents(formData)
-
+    saveTab (){
       var saveAndSubmit = new SaveAndSubmit({
         token: token,
-        formData: formData
+        formData: this.sharedState.formData
       })
       saveAndSubmit.saveTab()
+      console.log(this.sharedState.formData)
+      for (var f of this.sharedState.formData) {
+        console.log(f)
+      }
     },
-    readyForReview(){
+    readyForReview (){
       // probably will not need this, save will go from embargo tab to review tab naturally
       // all tabs are complete but user has not checked agreement
       return this.allTabsComplete() && this.sharedState.agreement == false
     },
-    reviewTabs(){
-      var form = document.getElementById("vue_form")
-      var formData = new FormData(form)
-
+    reviewTabs (){
       var saveAndSubmit = new SaveAndSubmit({
         token: token,
-        formData: formData
+        formData: this.sharedState.formData
       })
       saveAndSubmit.reviewTabs()
     },
-    readyForSubmission(){
+    readyForSubmission (){
       return this.allTabsComplete() && this.sharedState.agreement == true
     },
-    submitForPublication(){
-      var form = document.getElementById("vue_form")
-      var formData = new FormData(form)
-
+    submitForPublication (){
       var saveAndSubmit = new SaveAndSubmit({
         token: token,
-        formData: formData
+        formData: this.sharedState.formData
       })
       saveAndSubmit.submitEtd()
     },
-    onSubmit() {
+    onSubmit (event) {
+      console.log(event)
+      this.sharedState.setFormData(event.srcElement)
+      this.sharedState.loadSavedData(event.srcElement)
       if (this.readyForReview()){
         console.log('ready for review')
         this.reviewTabs()

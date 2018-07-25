@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Axios from "axios"
+import axios from "axios"
 import { formStore } from './formStore'
 import _ from 'lodash'
 
@@ -27,9 +27,9 @@ export default {
   },
   methods: {
     fetchData() {
-      Axios.get(this.submittingTypeEndpoint).then(response => {
+      axios.get(this.submittingTypeEndpoint).then(response => {
         this.submittingTypes = this.getSelected(response.data)
-      });
+      })
     },
     getSelected(data){
       var selected = this.sharedState.getSubmittingType()
