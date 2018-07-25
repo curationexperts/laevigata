@@ -3,9 +3,8 @@ import Vue from 'vue/dist/vue.esm'
 import App from '../App'
 import { formStore } from '../formStore'
 import axios from 'axios'
-import VueAxios from 'vue-axios'
 
-Vue.use(TurbolinksAdapter, axios, VueAxios)
+Vue.use(TurbolinksAdapter)
 
 document.addEventListener('turbolinks:load', () => {
   var element = document.getElementById('root')

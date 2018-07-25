@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Axios from "axios"
+import axios from "axios"
 import { formStore } from './formStore'
 import _ from 'lodash'
 
@@ -45,7 +45,7 @@ export default {
       return id === this.sharedState.getSavedResearchField(index) ? true : false
     },
     fetchData() {
-      Axios.get(this.researchFieldsEndpoint).then(response => {
+      axios.get(this.researchFieldsEndpoint).then(response => {
         this.researchFields = response.data
         this.setSelecteds(data)
       })

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div v-if="sharedState.subfields.length > 0">
     <label for="subfield">Subfield</label>
     <select id="subfield" name="etd[subfield]" class="form-control">
       <option v-for="option in sharedState.subfields"  v-bind:value="option.value" v-bind:key='option.value' 
@@ -7,6 +8,7 @@
         {{ option.id }}
       </option>
     </select>
+  </div>
   </div>
 </template>
 

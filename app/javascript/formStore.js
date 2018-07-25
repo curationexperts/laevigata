@@ -1,5 +1,7 @@
 import axios from 'axios'
 import _ from 'lodash'
+import SaveAndSubmit from './SaveAndSubmit'
+
 export var formStore = {
   tabs: {
     about_me: {
@@ -116,6 +118,7 @@ export var formStore = {
       }
     }
   },
+  token: undefined,
   // The ID of the InProgressEtd record that we are editing (relational database ID).
   // This will help us build the URL for the form submit.
   ipeId: '',
@@ -173,12 +176,7 @@ export var formStore = {
       '/authorities/terms/local/rollins_programs',
     selected: '',
     options: [
-      {
-        text: 'Select a School',
-        value: '',
-        disabled: 'disabled',
-        selected: 'selected'
-      },
+      { text: 'Select a School', value: '', disabled: 'disabled', selected: 'selected' },
       { text: 'Candler School of Theology', value: 'candler' },
       { text: 'Emory College', value: 'emory' },
       { text: 'Laney Graduate School', value: 'laney' },
@@ -206,6 +204,11 @@ export var formStore = {
       {value: '1 Year'}, {value: '2 Years'}, {value: '6 Years'}],
     rollins: [{value: 'None - open access immediately', selected: 'selected'},
       {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}]
+  },
+  getSchoolText (schoolKey) {
+    console.log(this.schools.options)
+    var school = _.find(this.schools.options, (school) => { return school.value === schoolKey })
+    return school.text
   },
   keywordIndex: 0,
   newKeyword: '',
@@ -259,11 +262,14 @@ export var formStore = {
     })
     return hasError
   },
+  etdPrefix (index) {
+    return 'etd[' + index + ']'
+  },
   clearSubfields () {
     this.subfields = []
   },
-  addCommitteeMember (affilation, name) {
-    this.committeeChairs.push({ affilation: affilation, name: name })
+  addCommitteeMember (affiliation, name) {
+    this.committeeChairs.push({ affiliation: [affiliation], name: name })
   },
   setSelectedDepartment (department) {
     this.selectedDepartment = department
@@ -321,11 +327,20 @@ export var formStore = {
     })
   },
   getSubfields () {
-    axios.get(this.subfieldEndpoints[this.selectedDepartment]).then((response) => {
-      this.subfields = response.data
-    })
+    if (this.subfieldEndpoints[this.getSelectedDepartment()]) {
+      axios.get(this.subfieldEndpoints[this.getSelectedDepartment()]).then((response) => {
+        this.subfields = response.data
+      })
+    }
   },
   savedData: {},
+  formData: undefined,
+  setFormData (formElement) {
+    var formData = new FormData(formElement) 
+    formData.append(this.etdPrefix('school'), this.getSelectedSchool())
+    formData.append(this.etdPrefix('department'), this.getSelectedDepartment())
+    this.formData = formData
+  },
   loadSavedData () {
     var el = document.getElementById('saved_data')
     if (el && el.hasAttribute('data-in-progress-etd')) {
@@ -349,14 +364,16 @@ export var formStore = {
     this.tabs.submit.fields = JSON.parse(data['in_progress_etd'])
   },
   setUserAgreement () {
-    console.log(this.userAgreement)
-    this.userAgreement = !this.userAgreement
+    this.agreement = !this.agreement
   },
   getUserAgreement () {
-    console.log(this.userAgreement)
-    return this.userAgreement
+    return this.agreement
   },
   submit () {
-    // TO-DO: implement submission
+    var saveAndSubmit = new SaveAndSubmit({
+      token: this.token,
+      formData: this.formData
+    })
+    saveAndSubmit.submitEtd()
   }
 }

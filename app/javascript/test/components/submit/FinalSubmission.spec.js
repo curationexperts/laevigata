@@ -7,7 +7,7 @@ import { formStore } from '../../../formStore'
 
 describe('FinalSubmission.vue', () => {
   it('has the correct label', () => {
-    formStore.userAgreement = true
+    formStore.agreement = true
     const wrapper = shallowMount(FinalSubmission, {
     })
     expect(wrapper.html()).toContain('Submit Your Thesis or Dissertation')

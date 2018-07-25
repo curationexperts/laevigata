@@ -19,11 +19,12 @@ export default {
     return {
       selected: "",
       sharedState: formStore
-    };
+    }
   },
   watch: {
     selected() {
       this.sharedState.setSelectedDepartment(this.selected)
+      this.sharedState.clearSubfields()
       this.sharedState.getSubfields()
     }
   },

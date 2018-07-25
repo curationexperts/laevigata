@@ -115,10 +115,6 @@ import SupplementalFileDelete from './SupplementalFileDelete'
 import SupplementalFileUploader from './SupplementalFileUploader'
 import axios from 'axios'
 
-let token = document
-  .querySelector('meta[name="csrf-token"]')
-  .getAttribute('content')
-
 export default {
   data() {
     return {
@@ -162,9 +158,9 @@ export default {
     onFileChange(e) {
       var fileUploader = new FileUploader({
         formStore: this.sharedState,
-        token: token,
+        token: this.sharedState.token,
         event: e,
-        formData: this.getFormData()
+        formData: this.sharedState.formData
       })
       fileUploader.uploadFile()
     },
@@ -173,14 +169,9 @@ export default {
         formStore: this.sharedState,
         token: token,
         event: e,
-        formData: this.getFormData()
+        formData: this.sharedState.formData
       })
       supplementalFileUploader.uploadFile()
-    },
-    getFormData() {
-      var form = document.getElementById('vue_form')
-      var formData = new FormData(form)
-      return formData
     },
     deleteFile(deleteUrl) {
       var fileDelete = new FileDelete({
