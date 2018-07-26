@@ -21,10 +21,12 @@ export default {
       sharedState: formStore
     }
   },
+
   watch: {
     selected() {
-      this.sharedState.setSelectedDepartment(this.selected)
+      this.sharedState.clearDepartment()
       this.sharedState.clearSubfields()
+      this.sharedState.setSelectedDepartment(this.selected)
       this.sharedState.getSubfields()
     }
   },

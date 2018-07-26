@@ -152,6 +152,7 @@ export var formStore = {
   supplementalFiles: [],
   departments: [],
   selectedDepartment: '',
+  selectedSubfield: '',
   subfields: [],
   keywords: [],
   errors: [],
@@ -206,7 +207,6 @@ export var formStore = {
       {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}]
   },
   getSchoolText (schoolKey) {
-    console.log(this.schools.options)
     var school = _.find(this.schools.options, (school) => { return school.value === schoolKey })
     return school.text
   },
@@ -265,30 +265,70 @@ export var formStore = {
   etdPrefix (index) {
     return 'etd[' + index + ']'
   },
-  clearSubfields () {
-    this.subfields = []
-  },
+
   addCommitteeMember (affiliation, name) {
     this.committeeChairs.push({ affiliation: [affiliation], name: name })
   },
-  setSelectedDepartment (department) {
-    this.selectedDepartment = department
+
+  /* Getters & Setters */
+
+  /* Schools, Departments & Subfields */
+
+  getSelectedSchool () {
+    return this.schools.selected
   },
-  getSelectedDepartment () {
-    // in edit state, a user has a savedDepartment until they choose a new one with setSelectedDepartment
-    return this.selectedDepartment.length === 0 ? this.savedData['department'] : this.selectedDepartment
-  },
-  getSavedDepartment () {
-    return this.savedData['department']
+  getSchoolOptionValue () {
+    return this.savedData['school']
   },
   setSelectedSchool (school) {
     this.schools.selected = school
   },
+
+  getSelectedDepartment () {
+    return this.selectedDepartment.length === 0 ? this.savedData['department'] : this.selectedDepartment
+  },
+
+  getSavedDepartment () {
+    return this.savedData['department']
+  },
+
+  setSelectedDepartment (department) {
+    this.selectedDepartment = department
+  },
+  clearDepartment(){
+    this.selectedDepartment = ''
+    this.savedData['department'] = ''
+  },
+  getDepartments (selectedSchool) {
+    axios.get(selectedSchool).then(response => {
+      this.departments = response.data
+    })
+  },
+  getSelectedSubfield(){
+    return this.selectedSubfield.length === 0 ? this.savedData['subfield'] : this.selectedSubfield
+  },
+  setSelectedSubfield (subfield) {
+    this.selectedSubfield = subfield
+  },
+  getSubfields () {
+    axios.get(this.subfieldEndpoints[this.selectedDepartment]).then((response) => {
+      this.subfields = response.data
+    })
+  },
+  clearSubfields () {
+    this.subfields = []
+  },
+
+  /* End of Schools, Departments & Subfields */
+
   getGraduationDate () {
     return this.savedData['graduation_date']
   },
   getSavedDegree () {
     return this.savedData['degree']
+  },
+  getSavedLanguage () {
+    return this.savedData['language']
   },
   getSubmittingType () {
     return this.savedData['submitting_type']
@@ -307,12 +347,6 @@ export var formStore = {
   getEmbargoContents () {
     return this.embargoContents
   },
-  getSelectedSchool () {
-    return this.schools.selected
-  },
-  getSchoolOptionValue () {
-    return this.savedData['school']
-  },
   getPartneringAgenciesOptionValue () {
     return this.savedData['partnering_agency']
   },
@@ -321,22 +355,19 @@ export var formStore = {
       this.partneringAgencies = response.data
     })
   },
-  getDepartments (selectedSchool) {
-    axios.get(selectedSchool).then(response => {
-      this.departments = response.data
-    })
+  setUserAgreement () {
+    this.agreement = !this.agreement
   },
-  getSubfields () {
-    if (this.subfieldEndpoints[this.getSelectedDepartment()]) {
-      axios.get(this.subfieldEndpoints[this.getSelectedDepartment()]).then((response) => {
-        this.subfields = response.data
-      })
-    }
+  getUserAgreement () {
+    return this.agreement
   },
+
+  /* end Getters & Setters */
+
   savedData: {},
   formData: undefined,
   setFormData (formElement) {
-    var formData = new FormData(formElement) 
+    var formData = new FormData(formElement)
     formData.append(this.etdPrefix('school'), this.getSelectedSchool())
     formData.append(this.etdPrefix('department'), this.getSelectedDepartment())
     this.formData = formData
@@ -362,12 +393,6 @@ export var formStore = {
   },
   showSavedData (data) {
     this.tabs.submit.fields = JSON.parse(data['in_progress_etd'])
-  },
-  setUserAgreement () {
-    this.agreement = !this.agreement
-  },
-  getUserAgreement () {
-    return this.agreement
   },
   submit () {
     var saveAndSubmit = new SaveAndSubmit({
