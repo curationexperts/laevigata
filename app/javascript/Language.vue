@@ -1,7 +1,7 @@
 <template>
     <div>
         <label for="language">Language</label>
-        <select id="language" name="etd[language]" aria-required="true" class="form-control">
+        <select id="language" v-model="selected" name="etd[language]" aria-required="true" class="form-control">
             <option v-for="language in languages" v-bind:value="language.id"
             v-bind:key='language.id' v-if="language.active"
             :selected="language.selected" :disabled="language.disabled">
@@ -33,11 +33,7 @@ export default {
     getSelected(data){
       var selected = this.sharedState.getSavedLanguage()
       if (selected !== undefined) {
-        _.forEach(data, function(o){
-          if (o.id === selected){
-            o.selected = 'selected'
-          }
-        })
+        this.selected = selected
       } else {
         data.unshift({ "value": "", "active": true, "label": "Select a Language", "disabled":"disabled" ,"selected": "selected"})
       }

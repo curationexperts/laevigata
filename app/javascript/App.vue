@@ -241,13 +241,8 @@ export default {
         formData: this.sharedState.formData
       })
       saveAndSubmit.saveTab()
-      console.log(this.sharedState.formData)
-      for (var f of this.sharedState.formData) {
-        console.log(f)
-      }
     },
     readyForReview (){
-      // probably will not need this, save will go from embargo tab to review tab naturally
       // all tabs are complete but user has not checked agreement
       return this.allTabsComplete() && this.sharedState.agreement == false
     },
@@ -269,9 +264,8 @@ export default {
       saveAndSubmit.submitEtd()
     },
     onSubmit (event) {
-      console.log(event)
-      this.sharedState.setFormData(event.srcElement)
-      this.sharedState.loadSavedData(event.srcElement)
+      this.sharedState.setFormData(event.target)
+      this.sharedState.loadSavedData(event.target)
       if (this.readyForReview()){
         console.log('ready for review')
         this.reviewTabs()
