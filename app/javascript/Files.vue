@@ -160,7 +160,7 @@ export default {
         formStore: this.sharedState,
         token: this.sharedState.token,
         event: e,
-        formData: this.sharedState.formData
+        formData: this.getFormData()
       })
       fileUploader.uploadFile()
     },
@@ -169,9 +169,14 @@ export default {
         formStore: this.sharedState,
         token: token,
         event: e,
-        formData: this.sharedState.formData
+        formData: this.getFormData()
       })
       supplementalFileUploader.uploadFile()
+    },
+    getFormData() {
+      var form = document.getElementById('vue_form')
+      var formData = new FormData(form)
+      return formData
     },
     deleteFile(deleteUrl) {
       var fileDelete = new FileDelete({
