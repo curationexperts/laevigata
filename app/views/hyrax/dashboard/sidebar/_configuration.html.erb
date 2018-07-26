@@ -42,10 +42,4 @@
       <% end %>
     <% end %>
 
-    <% if can?(:manage, Sipity::WorkflowResponsibility) %>
-      <%= menu.nav_link(hyrax.admin_users_path) do %>
-        <span class="fa fa-cog"></span>
-        <span class="sidebar-action-text">Manage Users</span>
-      <% end %>
-    <% end # end of configuration block %>
   <% end %>
