@@ -25,7 +25,9 @@ test:
   password: <%= ENV['DATABASE_PASSWORD'] %>
 
 production:
+  <<: *default
   adapter:  'postgresql'
+  pool:     <%= ENV['DATABASE_POOL'] || 25 %>
   database: <%= ENV['DATABASE_NAME'] %>
   username: <%= ENV['DATABASE_USERNAME'] %>
   password: <%= ENV['DATABASE_PASSWORD'] %>
