@@ -193,16 +193,6 @@ describe InProgressEtd do
       end
     end
 
-    describe 'keywords' do
-      context 'with existing keyword data and no new keyword data' do
-        let(:old_data) { { keyword: 'Agroecology' } }
-        let(:new_data) { {} }
-        it "removes the old keyword" do
-          expect(resulting_data).to eq({})
-        end
-      end
-    end
-
     describe 'no embargoes' do
       context 'with existing no_embargoes data and new embargo data' do
         let(:old_data) { { no_embargoes: '1' } }
@@ -289,6 +279,41 @@ describe InProgressEtd do
 
       it 'returns empty hash' do
         expect(resulting_data).to eq({})
+      end
+    end
+  end
+
+  describe '#refresh_from_etd!' do
+    let(:refreshed_data) { JSON.parse(ipe.data) }
+    before { ipe.refresh_from_etd! }
+
+    context 'without an associated Etd record' do
+      let(:ipe) { described_class.new(etd_id: nil, data: data.to_json) }
+      let(:data) { { 'title' => ['Title from IPE'] } }
+
+      it 'keeps the old data' do
+        expect(refreshed_data).to eq data
+      end
+    end
+
+    context 'with stale data in data store' do
+      let(:stale_data) { { title: ['Stale Title from IPE'], partnering_agency: ['Stale parter agency'] } }
+
+      let(:new_data) do
+        { 'title' => ['New ETD Title'],
+          'keyword' => ['new keyword'],
+          'committee_members_attributes' => [{ 'name' => ['Arthur'], 'affiliation' => ['Emory University'] }],
+          'committee_chair_attributes' => [{ 'name' => ['Morgan'], 'affiliation' => ['Another University'] }, { 'name' => ['Merlin'], 'affiliation' => ['Emory University'] }] }
+      end
+
+      let(:etd) { Etd.create!(new_data) }
+      let(:ipe) { described_class.new(etd_id: etd.id, data: stale_data.to_json) }
+
+      it 'replaces the stale data with updated data' do
+        expect(refreshed_data.except('committee_chair_attributes', 'ipe_id', 'etd_id')).to eq new_data.except('committee_chair_attributes')
+        expect(refreshed_data['committee_chair_attributes']).to contain_exactly *new_data['committee_chair_attributes']
+        expect(refreshed_data['ipe_id']).to eq ipe.id
+        expect(refreshed_data['etd_id']).to eq etd.id
       end
     end
   end

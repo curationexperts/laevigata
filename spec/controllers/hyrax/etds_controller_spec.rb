@@ -30,6 +30,11 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs, :clean do
   end
 
   describe "#update" do
+    before(:all) do
+      new_ui = Rails.application.config_for(:new_ui).fetch('enabled', false)
+      skip("These specs should only be run for the old UI") if new_ui
+    end
+
     let(:default_attrs) do
       { depositor: user.user_key,
         title: ['Another great thesis by Frodo'],

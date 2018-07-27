@@ -1,3 +1,23 @@
+# frozen_string_literal: true
+
+# This class is used to represent an `Etd` record.
+# It holds the data in a JSON data store for use by
+# the Vue form.
+#
+# If the student fills in part of the form and saves,
+# the partially-filled-in data will be saved in the
+# `data` field.  If the student wants to continue
+# editing their ETD later, this data will be used to
+# populate the form with the data the student had
+# previously saved.
+#
+# After the `Etd` record has been created in fedora
+# (the student filled in the entire form and
+# submitted it for approval), this class will still
+# be used to represent the `Etd` in the Vue form, but
+# its `data` field might need to be refreshed from
+# the data on the `Etd` record that it represents.
+
 class InProgressEtd < ApplicationRecord
   after_create :add_id_to_data_store
 
@@ -11,13 +31,18 @@ class InProgressEtd < ApplicationRecord
 
   # @param new_data [Hash, HashWithIndifferentAccess] New data to add to the existing data store.
   # @return [Hash] The resulting hash, with new data added to old data.
+  # Note: new_data might only have a few fields in it.
+  # We can't assume that new_data contains a full set
+  # of metadata, so, for example, we can't assume that
+  # the absence of a key means that a field should be
+  # deleted.
   def add_data(new_data)
     json_data = data || {}.to_json
     existing_data = JSON.parse(json_data)
     return existing_data unless new_data
+
     new_data = add_no_embargoes(new_data)
     existing_data = remove_stale_embargo_data(existing_data, new_data)
-    existing_data = remove_stale_keyword_data(existing_data, new_data)
 
     resulting_data = existing_data.merge(new_data)
     self.data = resulting_data.to_json
@@ -37,13 +62,7 @@ class InProgressEtd < ApplicationRecord
 
   def remove_stale_embargo_data(existing_data, new_data)
     existing_data.delete('no_embargoes') if existing_data.keys.include?('no_embargoes') && new_data[:embargo_length] != 'None - open access immediately'
-
     existing_data.delete('embargo_type') if new_data[:embargo_length] == 'None - open access immediately' && existing_data.keys.include?('embargo_type')
-    existing_data
-  end
-
-  def remove_stale_keyword_data(existing_data, new_data)
-    existing_data.delete('keyword') if existing_data.keys.include?('keyword') && new_data[:keyword].nil?
     existing_data
   end
 
@@ -52,5 +71,47 @@ class InProgressEtd < ApplicationRecord
     return unless id
     add_data('ipe_id' => id)
     save
+  end
+
+  # If this record is associated with an Etd record
+  # that has already been persisted to fedora, we
+  # need to refresh the JSON data store with the
+  # latest data from the Etd.  (This record
+  # may contain stale data if the Etd record was
+  # updated outside the UI, e.g. a background job.)
+  def refresh_from_etd!
+    return if etd_id.blank?
+    etd = Etd.find etd_id
+    new_data = {}
+    new_data['ipe_id'] = id unless id.blank?
+    new_data['etd_id'] = etd_id unless etd_id.blank?
+
+    all_simple_fields.each do |field|
+      new_value = etd.send field
+      new_data[field] = new_value unless new_value.blank?
+    end
+
+    members = etd.committee_members.inject([]) do |member_list, person|
+      member_list << { name: person.name, affiliation: person.affiliation }
+    end
+    new_data['committee_members_attributes'] = members unless members.blank?
+
+    chairs = etd.committee_chair.inject([]) do |member_list, person|
+      member_list << { name: person.name, affiliation: person.affiliation }
+    end
+    new_data['committee_chair_attributes'] = chairs unless chairs.blank?
+
+    self.data = new_data.to_json
+    save!
+  end
+
+  # All the fields that this model needs to know,
+  # except the fields for committee chairs and
+  # members, which are nested fields.
+  def all_simple_fields
+    ::Hyrax::EtdForm.about_me_terms +
+      ::Hyrax::EtdForm.my_program_terms +
+      ::Hyrax::EtdForm.my_etd_terms +
+      ::Hyrax::EtdForm.keyword_terms
   end
 end

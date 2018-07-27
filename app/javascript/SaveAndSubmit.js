@@ -60,4 +60,18 @@ export default class SaveAndSubmit {
         console.log('an error', e)
       })
   }
+  updateEtd () {
+    axios.defaults.headers.common['X-CSRF-Token'] = this.formStore.token
+    var form = document.getElementById('vue_form')
+    var formData = new FormData(form)
+
+    axios.patch(`/concern/etds/${this.formStore.etdId}`, formData)
+      .then(response => {
+        window.location = response.data.redirectPath
+      })
+      .catch(e => {
+        // this.errors.push(e)
+        console.log('an error', e)
+      })
+  }
 }

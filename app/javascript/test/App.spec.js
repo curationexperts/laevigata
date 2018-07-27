@@ -3,6 +3,7 @@
 /* global expect */
 import { shallowMount } from '@vue/test-utils'
 import App from 'App'
+import { quillEditor } from 'vue-quill-editor'
 import axios from 'axios'
 jest.mock('axios')
 
@@ -97,6 +98,26 @@ describe('App.vue', () => {
     })
     it('lets the user submit their data for publication as an ETD', () => {
 
+    })
+  })
+
+  describe('Edit form:', () => {
+    it('with an associated ETD record, renders the form without tabs', () => {
+      const wrapper = shallowMount(App, { })
+      wrapper.vm.$data.sharedState.setEtdId('123')
+      expect(wrapper.html()).toContain('Submit Your Thesis')
+      expect(wrapper.findAll('ul.navtabs').length).toEqual(0)
+      expect(wrapper.html()).toContain('<useragreement-stub></useragreement-stub>')
+      expect(wrapper.html()).not.toContain('<submit-stub></submit-stub>')
+    })
+
+    it('without an associated ETD record, renders the form with tabs', () => {
+      const wrapper = shallowMount(App, { })
+      wrapper.vm.$data.sharedState.setEtdId(undefined)
+      expect(wrapper.html()).toContain('Submit Your Thesis')
+      expect(wrapper.findAll('ul.navtabs').length).toEqual(1)
+      expect(wrapper.html()).not.toContain('<useragreement-stub></useragreement-stub>')
+      expect(wrapper.html()).not.toContain('<submit-stub></submit-stub>')
     })
   })
 })

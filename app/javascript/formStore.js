@@ -62,8 +62,8 @@ export var formStore = {
       inputs: {
         title: { label: 'Title', value: [], required: true },
         language: { label: 'Language', value: [], required: true },
-        abstract: { label: 'Abstract', value: [], required: true, rich_text: true },
-        table_of_contents: { label: 'Table of Contents', value: [], required: true, rich_text: true }
+        abstract: { label: 'Abstract', value: '', required: true, rich_text: true },
+        table_of_contents: { label: 'Table of Contents', value: '', required: true, rich_text: true }
       }
     },
     keywords: {
@@ -125,8 +125,28 @@ export var formStore = {
   setIpeId (id) {
     this.ipeId = id
   },
+  // The fedora ID of the Etd record that this InProgressEtd represents.
+  etdId: '',
+  setEtdId (fedora_id) {
+    this.etdId = fedora_id
+  },
+  // If student is editing an ETD that has already been persisted to fedora,
+  // don't allow student to save record on individual tabs.  This is because
+  // we want to save to the Etd, not the InProgressEtd.
+  // TODO: This method is duplicated in App.vue.  Do we need it in both places?
+  allowTabSave () {
+    if (this.etdId) {
+      return false
+    } else {
+      return true
+    }
+  },
   getUpdateRoute () {
-    return `/in_progress_etds/${this.ipeId}`
+    if (this.etdId) {
+      return `/concern/etds/${this.etdId}`
+    } else {
+      return `/in_progress_etds/${this.ipeId}`
+    }
   },
   copyrightQuestions: [{
     'label': 'Fair Use',
@@ -159,6 +179,9 @@ export var formStore = {
   errored: false,
   languages: [{ 'value': '', 'active': true, 'label': 'Select a Language', 'disabled': 'disabled', 'selected': 'selected' }],
   languagesEndpoint: '/authorities/terms/local/languages_list',
+  getSavedLanguage () {
+    return this.savedData['language']
+  },
   subfieldEndpoints: {
     'Biological and Biomedical Sciences': '/authorities/terms/local/biological_programs',
     'Biostatistics': '/authorities/terms/local/biostatistics_programs',
@@ -379,6 +402,7 @@ export var formStore = {
     }
     if (Object.keys(this.savedData).length > 0) {
       this.setIpeId(this.savedData['ipe_id'])
+      this.setEtdId(this.savedData['etd_id'])
       for (var tab in this.tabs) {
           var inputKeys = Object.keys(this.tabs[tab].inputs)
           inputKeys.forEach(function (el) {
@@ -399,6 +423,10 @@ export var formStore = {
       token: this.token,
       formData: this.formData
     })
-    saveAndSubmit.submitEtd()
+    if (this.allowTabSave()) {
+      saveAndSubmit.submitEtd()
+    } else {
+      saveAndSubmit.updateEtd()
+    }
   }
 }

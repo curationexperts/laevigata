@@ -2,7 +2,7 @@
   <div data-turbolinks="false">
     <section aria-labelledby="form-label">
       <h1>Submit Your Thesis or Dissertation</h1>
-    <ul class="nav navtabs">
+    <ul class="nav navtabs" v-if="allowTabSave()">
       <li v-for="(value, index) in sharedState.tabs" v-bind:key="index">
         <a href="#" class="tab" v-bind:class="{ disabled: value.disabled }" v-on:click="setCurrentStep(value.label, $event)">{{ value.label }}</a>
       </li>
@@ -10,7 +10,7 @@
     <form role="form" id="vue_form" :action="sharedState.getUpdateRoute()" method="patch" @submit.prevent="onSubmit">
       <div v-for="value in sharedState.tabs" v-bind:key="value.label">
         <transition name="fade">
-        <div class="tab-content form-group" v-if="value.currentStep">
+        <div class="tab-content form-group" v-if="(value.currentStep && allowTabSave()) || !allowTabSave()">
           <h2> {{ value.label }} </h2>
           <section aria-live="assertive">
             {{ value.help_text }}
@@ -113,7 +113,12 @@
               </section>
             </div>
             <div v-else-if="input.label === 'Submit'">
-              <submit></submit>
+              <div v-if="allowTabSave()">
+                <submit></submit>
+              </div>
+              <div v-if="!allowTabSave()">
+                <userAgreement></userAgreement>
+              </div>
             </div>
             <div v-else>
               <label :for="input.label">{{ input.label }}</label>
@@ -131,7 +136,7 @@
 
           <input name="etd[currentTab]" type="hidden" :value="value.label" />
           <input name="etd[currentStep]" type="hidden" :value="value.step" />
-          <button type="submit" class="btn btn-default" autofocus>Save and Continue</button>
+          <button v-if="allowTabSave()" type="submit" class="btn btn-default" autofocus>Save and Continue</button>
         </div>
         </transition>
       </div>
@@ -165,6 +170,7 @@ import quillToolbarOptions  from './quillToolbarOptions'
 import quillKeyboardBindings from './quillKeyboardBindings'
 import PartneringAgency from './PartneringAgency.vue';
 import Submit from './Submit'
+import UserAgreement from './components/submit/UserAgreement'
 import AboutMe from './components/submit/AboutMe'
 
 var token = document
@@ -206,13 +212,24 @@ export default {
     keywords: Keywords,
     saveAndSubmit: SaveAndSubmit,
     partneringAgency: PartneringAgency,
-    submit: Submit
+    submit: Submit,
+    userAgreement: UserAgreement
   },
   mounted (){
     this.sharedState.loadSavedData()
     this.sharedState.token = token
   },
   methods: {
+  // If student is editing an ETD that has already been persisted to fedora,
+  // don't allow student to save record on individual tabs.  This is because
+  // we want to save to the Etd, not the InProgressEtd.
+  allowTabSave () {
+    if (this.sharedState.etdId) {
+      return false
+    } else {
+      return true
+    }
+  },
     isComplete (tab) {
       return tab;
     },

@@ -27,9 +27,24 @@ module Hyrax
     def update
       sanitize_input(params)
       merge_selected_files_hashes(params) if params["selected_files"]
-      update_supplemental_files
-      update_committee_members
-      super
+
+      if Rails.application.config_for(:new_ui).fetch('enabled', false)
+        new_ui_update_behavior
+      else # old_ui behavior
+        update_supplemental_files
+        update_committee_members
+        super
+      end
+    end
+
+    def new_ui_update_behavior
+      if actor.update(actor_environment)
+        path = main_app.hyrax_etd_path(curation_concern)
+        render json: { redirectPath: path }, status: :ok
+      else
+        raise "TODO: Error path is not implemented yet"
+        # render json: { errors: curation_concern.errors.messages }, status: 422
+      end
     end
 
     # Override from Hyrax:app/controllers/concerns/hyrax/curation_concern_controller.rb
