@@ -9,7 +9,6 @@
     </ul>
     <form role="form" id="vue_form" :action="sharedState.getUpdateRoute()" method="patch" @submit.prevent="onSubmit">
       <div v-for="value in sharedState.tabs" v-bind:key="value.label">
-        <transition name="fade">
         <div class="tab-content form-group" v-if="(value.currentStep && allowTabSave()) || !allowTabSave()">
           <h2> {{ value.label }} </h2>
           <section aria-live="assertive">
@@ -138,7 +137,6 @@
           <input name="etd[currentStep]" type="hidden" :value="value.step" />
           <button v-if="allowTabSave()" type="submit" class="btn btn-default" autofocus>Save and Continue</button>
         </div>
-        </transition>
       </div>
     </form>
     </section>
@@ -357,12 +355,5 @@ input {
 
 .errorMessage {
   color: red;
-}
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .3s;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
 }
 </style>
