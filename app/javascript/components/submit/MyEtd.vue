@@ -5,22 +5,24 @@
     <div>{{ sharedState.savedData.title }}</div>
     <h5>Language</h5>
     <div>{{ sharedState.savedData.language }}</div>
-    <!-- TODO: think about how to render the abstract and toc without HTML tags.  -->
     <h5>Abstract</h5>
-    <div>{{ sharedState.savedData.abstract }}</div>
+    <div>{{ abstract }}</div>
     <h5>Table of Contents</h5>
-    <div>{{ sharedState.savedData.table_of_contents }}</div>
+    <div>{{ tableOfContents }}</div>
   </section>
 </template>
 
 <script>
 import Vue from "vue"
 import { formStore } from '../../formStore'
+import HtmlStripper from '../../HtmlStripper'
 
 export default {
   data() {
     return {
-      sharedState: formStore
+      sharedState: formStore,
+      abstract: new HtmlStripper({ html: formStore.savedData.abstract }).strippedHtml(),
+      tableOfContents: new HtmlStripper({ html: formStore.savedData.table_of_contents }).strippedHtml()
     }
   }
 }
