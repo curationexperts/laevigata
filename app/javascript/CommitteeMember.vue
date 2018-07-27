@@ -2,9 +2,9 @@
     <div aria-labelledby="chair-label">
         <h3 id="chair-label">Chair & Commitee Members</h3>
         <div role="alert" v-if="sharedState.committeeChairs.length === 0">
-            You have not selected a chair or committee members. Please 
-            use the buttons below to add them to your submission. 
-        </div> 
+            You have not selected a chair or committee members. Please
+            use the buttons below to add them to your submission.
+        </div>
         <div v-for="chair in sharedState.committeeChairs" v-bind:value="chair.name" v-bind:key="chairId(chair)">
             <div class="well" aria-live="polite">
             <h4>Committee Chair/Thesis Advisor</h4>
@@ -20,7 +20,7 @@
             <input :id="chairNameId(chair)"  :name="chairNameAttr(chair)" type="text" class="form-control" />
 
            <div v-show="chair.affiliation === 'Non-Emory'">
-            <label :for="chairAffiliationId(chair)">Affiliation</label> 
+            <label :for="chairAffiliationId(chair)">Affiliation</label>
             <input :id="chairAffiliationId(chair)" value='Emory University' :name="chairAffiliationAttr(chair)" type="text" class="form-control" autofocus/>
            </div>
              <button type="button" class="btn btn-default" @click="removeChair(chair)"><span class="glyphicon glyphicon-trash"></span> Remove This Chair or Advisor</button>
@@ -42,7 +42,7 @@
             <input :id="memberNameId(member)" :name="memberNameAttr(member)" type="text" class="form-control" />
             <div v-if="member.affiliation === 'Non-Emory'">
                 {{ member.affliation }}
-            <label :for="memberAfilliationId(member)">Affiliation</label> 
+            <label :for="memberAffiliationId(member)">Affiliation</label>
             <input :id="memberAffiliationId(member)" :name="memberAffiliationAttr(member)" type="text" class="form-control" />
             </div>
             <button type="button" class="btn btn-default" @click="removeMember(member)"><span class="glyphicon glyphicon-trash"></span> Remove Committee Member</button>
@@ -59,7 +59,7 @@ import { formStore } from "./formStore";
 
 export default {
   data() {
-    return { 
+    return {
       sharedState: formStore,
       options:'',
       selected: ''
@@ -92,7 +92,7 @@ export default {
       chairAffiliationId (chair) {
           return `chair-affiliation-${chair.id}`
       },
-      memberAfilliationId (member) {
+      memberAffiliationId (member) {
           return `member-affiliation-${member.id}`
       },
       chairNameId (chair) {
