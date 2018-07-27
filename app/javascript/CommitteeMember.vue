@@ -17,7 +17,7 @@
                 <option>Non-Emory</option>
             </select>
             <label :for="chairNameId(chair)">Committee Chair/Thesis Advisor's Name</label>
-            <input :id="chairNameId(chair)"  :name="chairNameAttr(chair)" type="text" class="form-control" />
+            <input :id="chairNameId(chair)" :name="chairNameAttr(chair)" type="text" class="form-control" />
 
            <div v-show="chair.affiliation === 'Non-Emory'">
             <label :for="chairAffiliationId(chair)">Affiliation</label>
@@ -41,7 +41,7 @@
             <label :for="memberNameId(member)">Committee Member's Name</label>
             <input :id="memberNameId(member)" :name="memberNameAttr(member)" type="text" class="form-control" />
             <div v-if="member.affiliation === 'Non-Emory'">
-                {{ member.affliation }}
+                {{ member.affiliation }}
             <label :for="memberAffiliationId(member)">Affiliation</label>
             <input :id="memberAffiliationId(member)" :name="memberAffiliationAttr(member)" type="text" class="form-control" />
             </div>
@@ -104,7 +104,7 @@ export default {
       chairNameAttr(chair) {
           return `etd[committee_chair_attributes][${chair.id}][name][]`
       },
-      chairAffiliationAttr(chair) {
+      chairAffiliationAttr (chair) {
           return `etd[committee_chair_attributes][${chair.id}][affiliation][]`
       },
       chairAffiliationTypeAttr(chair) {
