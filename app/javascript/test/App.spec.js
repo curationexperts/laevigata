@@ -101,6 +101,31 @@ describe('App.vue', () => {
     })
   })
 
+  describe('Tabs reflect saved progress', () => {
+    beforeEach(() => {
+      const wrapper = shallowMount(App, {
+      })
+      // simulate completion of first two tabs
+      wrapper.vm.$data.sharedState.savedData['currentStep'] = 1
+    })
+
+    it('displays the 3rd tab if the saved currentStep = 2nd', () => {
+      const wrapper = shallowMount(App, {
+      })
+      expect(wrapper.vm.$data.sharedState.tabs.about_me.disabled).toBe(false)
+      expect(wrapper.vm.$data.sharedState.tabs.my_program.disabled).toBe(false)
+      expect(wrapper.vm.$data.sharedState.tabs.my_advisor.disabled).toBe(false)
+
+      expect(wrapper.vm.$data.sharedState.tabs.my_etd.disabled).toBe(true)
+      expect(wrapper.vm.$data.sharedState.tabs.keywords.disabled).toBe(true)
+      expect(wrapper.vm.$data.sharedState.tabs.my_files.disabled).toBe(true)
+      expect(wrapper.vm.$data.sharedState.tabs.embargo.disabled).toBe(true)
+
+      expect(wrapper.vm.$data.sharedState.tabs.my_advisor.currentStep).toBe(true)
+    })
+
+  })
+
   describe('Edit form:', () => {
     it('with an associated ETD record, renders the form without tabs', () => {
       const wrapper = shallowMount(App, { })

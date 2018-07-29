@@ -248,6 +248,29 @@ export var formStore = {
     this.keywords = savedKeywords
     }
   },
+  getNextStep () {
+    return parseInt(this.savedData['currentStep']) + 1
+  },
+  loadTabs () {
+    // first time form has ever been loaded, start at the beginning
+    if (this.savedData['currentStep'] === undefined){
+      this.tabs.about_me.currentStep = true
+    } else {
+      // we want to display the next tab the student has not completed, which will be the tab's step index in the saved currentStep property, plus 1.
+      for (var tab in this.tabs) {
+        if (this.tabs[tab].step === this.getNextStep()){
+          this.tabs[tab].currentStep = true
+        } else {
+          this.tabs[tab].currentStep = false
+        }
+        if (this.tabs[tab].step <= this.getNextStep()) {
+          this.tabs[tab].disabled = false
+        } else {
+          this.tabs[tab].disabled = true
+        }
+      }
+    }
+  },
   setComplete (tabName) {
     for (var tab in this.tabs) {
       if (this.tabs[tab].label === tabName) {
