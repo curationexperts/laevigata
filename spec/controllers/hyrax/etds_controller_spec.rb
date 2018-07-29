@@ -247,6 +247,34 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs, :clean do
       }.to change { Etd.count }.by(1)
       assert_redirected_to main_app.hyrax_etd_path(assigns[:curation_concern], locale: 'en')
     end
+
+    context 'with an associated InProgressEtd record' do
+      let!(:ipe) { InProgressEtd.create }
+
+      before do
+        allow(Hyrax::CurationConcern).to receive(:actor).and_return(actor)
+      end
+
+      context 'when the Etd record creation is successful' do
+        let(:actor) { double(create: true) }
+
+        it 'deletes the InProgressEtd record' do
+          expect {
+            post :create, params: { etd: { ipe_id: ipe.id } }
+          }.to change { InProgressEtd.count }.by(-1)
+        end
+      end
+
+      context 'when the Etd record creation fails' do
+        let(:actor) { double(create: false) }
+
+        it 'keeps the InProgressEtd record' do
+          expect {
+            post :create, params: { etd: { ipe_id: ipe.id } }
+          }.to change { Etd.count }.by(0)
+        end
+      end
+    end
   end
 
   describe "supplemental file metadata" do

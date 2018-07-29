@@ -24,13 +24,28 @@ module Hyrax
       super
     end
 
+    def after_create_response
+      delete_ipe_record
+      super
+    end
+
+    # So that the next time a student wants to create
+    # a new ETD, they won't have the old values from
+    # their old ETD hanging around in the form.
+    def delete_ipe_record
+      return unless params['etd']['ipe_id']
+      return unless InProgressEtd.exists? params['etd']['ipe_id']
+      ipe = InProgressEtd.find params['etd']['ipe_id']
+      ipe.destroy
+    end
+
     def update
       sanitize_input(params)
       merge_selected_files_hashes(params) if params["selected_files"]
 
       if Rails.application.config_for(:new_ui).fetch('enabled', false)
         new_ui_update_behavior
-      else # old_ui behavior
+      else # old UI behavior
         update_supplemental_files
         update_committee_members
         super
