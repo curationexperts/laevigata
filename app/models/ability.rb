@@ -1,7 +1,7 @@
 class Ability
   include Hydra::Ability
   include Hyrax::Ability
-  self.ability_logic += [:everyone_can_create_curation_concerns]
+  self.ability_logic += [:everyone_can_create_curation_concerns, :ipe_permissions]
 
   # Define any customized permissions here.
   def custom_permissions
@@ -9,6 +9,23 @@ class Ability
     can [:create, :show, :add_user, :remove_user, :index, :edit, :update, :destroy], Role
     can [:destroy], ActiveFedora::Base
     can [:read], Schools::School
+  end
+
+  def ipe_permissions
+    can :create, InProgressEtd if registered_user?
+    can :update, InProgressEtd, user_ppid: current_user.ppid
+
+    # A user who has permission to edit the corresponding Etd should be able to edit the InProgressEtd. (e.g. admin users, proxy permissions, etc)
+    can :update, InProgressEtd do |ipe|
+      begin
+        unless ipe.etd_id.blank?
+          etd_doc = SolrDocument.find ipe.etd_id
+          can? :edit, etd_doc
+        end
+      rescue Blacklight::Exceptions::RecordNotFound
+        false
+      end
+    end
   end
 
   ##
