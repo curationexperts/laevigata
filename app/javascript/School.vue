@@ -37,7 +37,8 @@ export default {
   },
   mounted: function(){
     this.$nextTick(function () {
-      var selected = this.sharedState.getSchoolOptionValue()
+      //this needs to be saved or selected
+      var selected = this.sharedState.getSavedOrSelectedSchool()
       if(selected === undefined){
         selected = ''
       }
@@ -48,6 +49,9 @@ export default {
     selected() {
       //this executes when the component is rendered the first time and when the change event fires (user selects something)
       this.fetchData();
+      if (!this.sharedState.savedAndSelectedSchoolsMatch()){
+        this.sharedState.errors.push({"schoolDeptMismatch": ''})
+      }
     }
   }
 };

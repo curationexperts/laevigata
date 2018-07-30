@@ -290,15 +290,15 @@ export var formStore = {
       }
     }
   },
-  nextStepIsCurrent (lastCompletedStep) {
-    for (var tab in this.tabs) {
-      if (this.tabs[tab].step === parseInt(lastCompletedStep) + 1) {
-        this.tabs[tab].currentStep = true
-      } else {
-        this.tabs[tab].currentStep = false
-      }
-    }
-  },
+  // nextStepIsCurrent (lastCompletedStep) {
+  //   for (var tab in this.tabs) {
+  //     if (this.tabs[tab].step === parseInt(lastCompletedStep) + 1) {
+  //       this.tabs[tab].currentStep = true
+  //     } else {
+  //       this.tabs[tab].currentStep = false
+  //     }
+  //   }
+  // },
   hasError (inputKey) {
     var hasError = false
     _.forEach(this.errors, function (error) {
@@ -321,11 +321,25 @@ export var formStore = {
   /* Getters & Setters */
 
   /* Schools, Departments & Subfields */
+  // our 'messy state' flag
+  // from here, you should be able to save the new school selection
+  // but your program and embargo tabs are now invalid. you can navigate to the program tab, but maybe you get an error message next to departments (and embargoes) and it tells you to save your school.
+  savedAndSelectedSchoolsMatch(){
+    return this.schools.selected === this.savedData['school']
+  },
 
   getSelectedSchool () {
     return this.schools.selected
   },
-  getSchoolOptionValue () {
+
+  getSavedOrSelectedSchool () {
+    if (this.selectedSchool === undefined) {
+      this.selectedSchool = ''
+    }
+    return this.selectedSchool.length === 0 ?
+    this.savedData['school'] : this.schools.selected
+  },
+  getSavedSchool () {
     return this.savedData['school']
   },
   setSelectedSchool (school) {
@@ -333,6 +347,10 @@ export var formStore = {
   },
 
   getSelectedDepartment () {
+    return this.selectedDepartment
+  },
+
+  getSavedOrSelectedDepartment () {
     return this.selectedDepartment.length === 0 ? this.savedData['department'] : this.selectedDepartment
   },
 
@@ -347,10 +365,19 @@ export var formStore = {
     this.selectedDepartment = ''
     this.savedData['department'] = ''
   },
+  clearDepartments(){
+    this.departments = []
+  },
   getDepartments (selectedSchool) {
     axios.get(selectedSchool).then(response => {
       this.departments = response.data
     })
+  },
+  loadDepartments () {
+    if (this.savedData['department'] !== undefined){
+      var school_endpoint = '/authorities/terms/local/' + this.savedData['school'] + '_programs'
+      this.getDepartments (school_endpoint)
+    }
   },
   getSelectedSubfield(){
     if (this.selectedSubfield === undefined) {
@@ -419,6 +446,7 @@ export var formStore = {
   formData: undefined,
   setFormData (formElement) {
     var formData = new FormData(formElement)
+    //these needs to be whatever is current
     formData.append(this.etdPrefix('school'), this.getSelectedSchool())
     formData.append(this.etdPrefix('department'), this.getSelectedDepartment())
     this.formData = formData

@@ -21,9 +21,9 @@ export default class SaveAndSubmit {
         // populate form in order to use its inputs
         this.formStore.loadSavedData()
 
-        this.formStore.nextStepIsCurrent(response.data.lastCompletedStep)
+        //this.formStore.nextStepIsCurrent(response.data.lastCompletedStep)
         this.formStore.setComplete(response.data.tab_name)
-        this.formStore.enableTabs()
+        this.formStore.loadTabs()
       })
       .catch(error => {
         this.formStore.errored = true
@@ -39,7 +39,7 @@ export default class SaveAndSubmit {
         // for now fake that user got here naturally
         this.formStore.nextStepIsCurrent(6)
         this.formStore.setComplete('embargo')
-        this.formStore.enableTabs()
+        this.formStore.loadTabs()
       })
       .catch(error => {
         console.log('an error', error)

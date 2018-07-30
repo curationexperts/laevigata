@@ -29,7 +29,7 @@ class InProgressEtdsController < ApplicationController
 
     if @in_progress_etd.save
       @data = @in_progress_etd.data
-      render json: { in_progress_etd: @data, lastCompletedStep: current_step, tab_name: tab_name }, status: 200
+      render json: { in_progress_etd: @data, lastCompletedStep: current_step(@data), tab_name: tab_name }, status: 200
     else
       render json: { errors: @in_progress_etd.errors.messages }, status: 422
     end
@@ -45,9 +45,9 @@ class InProgressEtdsController < ApplicationController
 
   private
 
-    def current_step
-      etd = request.parameters.fetch(:etd)
-      etd.fetch(:currentStep, 0)
+    def current_step(data)
+      saved_data = JSON.parse(data)
+      saved_data['currentStep']
     end
 
     def tab_name
