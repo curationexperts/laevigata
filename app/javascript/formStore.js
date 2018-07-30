@@ -351,6 +351,9 @@ export var formStore = {
     })
   },
   getSelectedSubfield(){
+    if (this.selectedSubfield === undefined) {
+      this.selectedSubfield = ''
+    }
     return this.selectedSubfield.length === 0 ? this.savedData['subfield'] : this.selectedSubfield
   },
   setSelectedSubfield (subfield) {
