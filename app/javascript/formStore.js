@@ -1,6 +1,8 @@
 import axios from 'axios'
 import _ from 'lodash'
 import SaveAndSubmit from './SaveAndSubmit'
+import MemberList from './lib/MemberList'
+import ChairList from './lib/ChairList';
 
 export var formStore = {
   tabs: {
@@ -166,8 +168,8 @@ export var formStore = {
     'name': 'etd[patents]'
   }],
   partneringAgencies: [],
-  committeeChairs: [],
-  committeeMembers: [],
+  committeeChairs: new ChairList(),
+  committeeMembers: new MemberList(),
   files: [],
   supplementalFiles: [],
   departments: [],
