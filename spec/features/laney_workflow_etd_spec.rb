@@ -11,11 +11,19 @@ RSpec.feature 'Laney Graduate School two step approval workflow',
               integration: true do
   let(:depositing_user) { FactoryBot.create(:user) }
   let(:approving_user) { User.where(uid: "laneyadmin").first }
+  let(:file) { FactoryBot.create(:primary_uploaded_file, user_id: depositing_user.id) }
   let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/laney_admin_sets.yml", "/dev/null") }
-  let(:etd) { FactoryBot.actor_create(:sample_data, school: ["Laney Graduate School"], user: depositing_user) }
+  let(:etd) { FactoryBot.create(:sample_data, school: ["Laney Graduate School"], depositor: depositing_user.user_key) }
 
   context 'a logged in user' do
-    before { w.setup }
+    before do
+      allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
+      w.setup
+      attributes_for_actor = { uploaded_files: [file.id] }
+      env = Hyrax::Actors::Environment.new(etd, ::Ability.new(depositing_user), attributes_for_actor)
+      middleware = Hyrax::DefaultMiddlewareStack.build_stack.build(Hyrax::Actors::Terminator.new)
+      middleware.create(env)
+    end
 
     scenario "an approver reviews and approves a work" do
       expect(etd.active_workflow.name).to eq "laney_graduate_school"
@@ -84,12 +92,16 @@ RSpec.feature 'Laney Graduate School two step approval workflow',
       Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "hiding for reasons")
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "approved" # workflow state has not changed
       expect(etd.hidden?).to eq true
+      expect(etd.visibility).to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+      expect(etd.members.first.visibility).to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
 
       # The approving user unhides the ETD
       sipity_workflow_action = PowerConverter.convert_to_sipity_action("unhide", scope: subject.entity.workflow) { nil }
       Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "unhiding for reasons")
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "approved" # workflow state has not changed
       expect(etd.hidden?).to eq false
+      expect(etd.visibility).to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+      expect(etd.members.first.visibility).to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
 
       # Check notifications for approving user
       visit("/notifications?locale=en")
