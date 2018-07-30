@@ -1,124 +1,111 @@
 <template>
     <div aria-labelledby="chair-label">
-        <h3 id="chair-label">Chair & Commitee Members</h3>
+        <h3 id="chair-label">Chair and Commitee Members</h3>
         <div role="alert" v-if="sharedState.committeeChairs.length === 0">
             You have not selected a chair or committee members. Please 
             use the buttons below to add them to your submission. 
         </div> 
-        <div v-for="chair in sharedState.committeeChairs" v-bind:value="chair.name" v-bind:key="chairId(chair)">
-            <div class="well" aria-live="polite">
-            <h4>Committee Chair/Thesis Advisor</h4>
-            <label :for="chairId(chair)">Committee Chair/Thesis Advisor's Affliation</label>
-            <select v-model="chair.affiliation" :id="chairId(chair)"  class="form-control">
-                <option disabled selected>
-                    Select an affiliation
-                </option>
-                <option>Emory University</option>
-                <option>Non-Emory</option>
-            </select>
-            <label :for="chairNameId(chair)">Committee Chair/Thesis Advisor's Name</label>
-            <input :id="chairNameId(chair)"  :name="chairNameAttr(chair)" type="text" class="form-control" />
+        <div v-for="chair in sharedState.committeeChairs.chairs()" v-bind:value="chair.name">
+            <div class="well">
+            <h4>Committee Chair</h4>
+            <label>Committee Chairs's Affiliation
+                  <select v-model="chair.affiliationType" class="form-control" :name="chairAffiliationTypeAttr(chair)">
+                    <option disabled selected>
+                        Select an affiliation
+                    </option>
+                    <option>Emory University</option>
+                    <option>Non-Emory</option>
+                </select>
+            </label>
+          
+            <label>Committee Chairs's Name
+            <input :name="chairNameAttr(chair)" type="text" class="form-control" v-model="chair.name"/>
+            </label>
 
-           <div v-show="chair.affiliation === 'Non-Emory'">
-            <label :for="chairAffiliationId(chair)">Affiliation</label> 
-            <input :id="chairAffiliationId(chair)" value='Emory University' :name="chairAffiliationAttr(chair)" type="text" class="form-control" autofocus/>
-           </div>
-             <button type="button" class="btn btn-default" @click="removeChair(chair)"><span class="glyphicon glyphicon-trash"></span> Remove This Chair or Advisor</button>
-             </div>
+            <div v-if="chair.affiliationType === 'Non-Emory'">
+                {{ chair.affliation }}
+            <label>Affiliation
+                <input :name="chairAffiliationAttr(chair)" type="text" class="form-control" v-model="chair.affiliation" />
+            </label> 
+            </div>
+            <button type="button" class="btn btn-default" @click="sharedState.committeeChairs.remove(chair)"><span class="glyphicon glyphicon-trash"></span> Remove Committee Chair</button>
         </div>
-        <button type="button" class="btn btn-default" @click="addChair"><span class="glyphicon glyphicon-plus"></span> Add a Chair or Advisor</button>
-         <div v-for="member in sharedState.committeeMembers" v-bind:value="member.name" v-bind:key="memberId(member)">
+        </div>
+        <button type="button" class="btn btn-default" @click="sharedState.committeeChairs.addEmpty()"><span class="glyphicon glyphicon-plus"></span> Add a Committee Chair</button>
+    
+         <div v-for="member in sharedState.committeeMembers.members()" v-bind:value="member.name">
             <div class="well">
             <h4>Committee Member</h4>
-            <label :for="memberId(member)">Committee Member's Affiliation</label>
-            <select :id="memberId(member)" v-model="member.affiliation" :name="memberAffiliationTypeAttr(member)" class="form-control">
-                <option disabled selected>
-                    Select an affiliation
-                </option>
-                <option>Emory University</option>
-                <option>Non-Emory</option>
-            </select>
-            <label :for="memberNameId(member)">Committee Member's Name</label>
-            <input :id="memberNameId(member)" :name="memberNameAttr(member)" type="text" class="form-control" />
-            <div v-if="member.affiliation === 'Non-Emory'">
+            <label>Committee Member's Affiliation
+                  <select v-model="member.affiliationType" class="form-control" :name="memberAffiliationTypeAttr(member)">
+                    <option disabled selected>
+                        Select an affiliation
+                    </option>
+                    <option>Emory University</option>
+                    <option>Non-Emory</option>
+                </select>
+            </label>
+          
+            <label>Committee Member's Name
+            <input :name="memberNameAttr(member)" type="text" class="form-control" v-model="member.name"/>
+            </label>
+
+            <div v-if="member.affiliationType === 'Non-Emory'">
                 {{ member.affliation }}
-            <label :for="memberAfilliationId(member)">Affiliation</label> 
-            <input :id="memberAffiliationId(member)" :name="memberAffiliationAttr(member)" type="text" class="form-control" />
+            <label>Affiliation
+                <input :name="memberAffiliationAttr(member)" type="text" class="form-control" v-model="member.affiliation" />
+            </label> 
             </div>
-            <button type="button" class="btn btn-default" @click="removeMember(member)"><span class="glyphicon glyphicon-trash"></span> Remove Committee Member</button>
+            <button type="button" class="btn btn-default" @click="sharedState.committeeMembers.remove(member)"><span class="glyphicon glyphicon-trash"></span> Remove Committee Member</button>
         </div>
         </div>
-        <button type="button" class="btn btn-default" @click="addMember"><span class="glyphicon glyphicon-plus"></span> Add a Committee Member</button>
+        <button type="button" class="btn btn-default" @click="sharedState.committeeMembers.addEmpty()"><span class="glyphicon glyphicon-plus"></span> Add a Committee Member</button>
     </div>
 </template>
 
 <script>
-import Vue from "vue";
-import App from "./App";
-import { formStore } from "./formStore";
+import Vue from "vue"
+import App from "./App"
+import { formStore } from "./formStore"
 
 export default {
   data() {
-    return { 
-      sharedState: formStore,
-      options:'',
-      selected: ''
-    }
+    return {
+      sharedState: formStore
+    };
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.sharedState.committeeMembers.load(
+        this.sharedState.savedData["committee_members_attributes"]
+      );
+    });
   },
   methods: {
-      addMember () {
-          this.sharedState.committeeMembers.push({id: this.sharedState.committeeMembers.length + 1, affiliation: '', name: ''})
-      },
-      removeMember(member) {
-          const filteredMembers = this.sharedState.committeeMembers.filter((member) => member.id !== member.id)
-          this.sharedState.committeeMembers = filteredMembers
-      },
-      addChair () {
-          this.sharedState.committeeChairs.push({id: this.sharedState.committeeChairs.length + 1, affiliation: [''], name: ['']})
-      },
-      removeChair(chair) {
-          const filteredChairs = this.sharedState.committeeChairs.filter((chair) => chair.id !== chair.id)
-          this.sharedState.committeeChairs = filteredChairs
-      },
-      changeAffiliation(chair) {
-          chair.affiliation = this.selectedAffiliation
-      },
-      chairId (chair) {
-          return `chair-${chair.id}`
-      },
-      memberId (member) {
-          return `member-${member.id}`
-      },
-      chairAffiliationId (chair) {
-          return `chair-affiliation-${chair.id}`
-      },
-      memberAfilliationId (member) {
-          return `member-affiliation-${member.id}`
-      },
-      chairNameId (chair) {
-          return `chair-name-${chair.id}`
-      },
-      memberNameId (member) {
-          return `member-name-${member.id}`
-      },
-      chairNameAttr(chair) {
-          return `etd[committee_chair_attributes][${chair.id}][name][]`
-      },
-      chairAffiliationAttr(chair) {
-          return `etd[committee_chair_attributes][${chair.id}][affiliation][]`
-      },
-      chairAffiliationTypeAttr(chair) {
-        return `etd[committee_chair_attributes][${chair.id}][affiliation_type]`
-      },
-      memberNameAttr(member) {
-          return `etd[committee_members_attributes][${member.id}][name][]`
-      },
-      memberAffiliationAttr(member) {
-          return `etd[committee_members_attributes][${member.id}][affiliation][]`
-      },
-      memberAffiliationTypeAttr(member) {
-        return `etd[committee_members_attributes][${member.id}][affiliation_type]`
-      }
+    chairNameAttr(chair) {
+      return `etd[committee_chair_attributes][${this.sharedState.committeeChairs.chairs().indexOf(chair)}][name][]`
+    },
+    chairAffiliationAttr(chair) {
+      return `etd[committee_chair_attributes][${this.sharedState.committeeChairs.chairs().indexOf(chair)}][affiliation][]`
+    },
+     chairAffiliationTypeAttr(chair) {
+      return `etd[committee_chair_attributes][${this.sharedState.committeeChairs.chairs().indexOf(chair)}][affiliation_type]`
+    },
+    memberNameAttr(member) {
+      return `etd[committee_members_attributes][${this.sharedState.committeeMembers
+        .members()
+        .indexOf(member)}][name][]`
+    },
+    memberAffiliationAttr(member) {
+      return `etd[committee_members_attributes][${this.sharedState.committeeMembers
+        .members()
+        .indexOf(member)}][affiliation][]`
+    },
+    memberAffiliationTypeAttr(member) {
+      return `etd[committee_members_attributes][${this.sharedState.committeeMembers
+        .members()
+        .indexOf(member)}][affiliation_type]`
+    }
   },
   watch: {
     selected() {}
@@ -127,11 +114,10 @@ export default {
 </script>
 
 <style scoped>
-
 .btn {
-    margin: 0;
-    margin-top: 1em;
-    margin-bottom: 1em;
+  margin: 0;
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 
 select {
