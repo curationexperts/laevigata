@@ -27,7 +27,7 @@ RSpec.feature 'Dashboard workflow', :clean, integration: true do
     click_on 'Review Submissions'
 
     expect(page).to have_content etd.title.first
-    expect(page).to have_content depositing_user.user_key
+    expect(page).to have_content etd.contributor.first
     expect(page).to have_content 'pending_approval'
   end
 end
