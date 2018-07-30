@@ -50,7 +50,7 @@ export default class SaveAndSubmit {
     // submit as form data
     this.formStore.savedData['school'] = this.formStore.getSchoolText(this.formStore.savedData['school'])
     axios.defaults.headers.common['X-CSRF-Token'] = this.formStore.token
-    var savedDataToSubmit = { 'etd': this.formStore.savedData } 
+    var savedDataToSubmit = { 'etd': this.formStore.savedData }
     axios.post('/concern/etds', savedDataToSubmit)
       .then(response => {
         window.location = response.request.responseURL
