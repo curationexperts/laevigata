@@ -62,8 +62,8 @@ export var formStore = {
       inputs: {
         title: { label: 'Title', value: [], required: true },
         language: { label: 'Language', value: [], required: true },
-        abstract: { label: 'Abstract', value: '', required: true, rich_text: true },
-        table_of_contents: { label: 'Table of Contents', value: '', required: true, rich_text: true }
+        abstract: { label: 'Abstract', value: [], required: true, rich_text: true },
+        table_of_contents: { label: 'Table of Contents', value: [], required: true, rich_text: true }
       }
     },
     keywords: {
@@ -83,7 +83,7 @@ export var formStore = {
     my_files: {
       label: 'My Files',
       help_text: '',
-      disabled: true,
+      disabled: false,
       selected: false,
       completed: false,
       currentStep: false,
@@ -125,28 +125,8 @@ export var formStore = {
   setIpeId (id) {
     this.ipeId = id
   },
-  // The fedora ID of the Etd record that this InProgressEtd represents.
-  etdId: '',
-  setEtdId (fedora_id) {
-    this.etdId = fedora_id
-  },
-  // If student is editing an ETD that has already been persisted to fedora,
-  // don't allow student to save record on individual tabs.  This is because
-  // we want to save to the Etd, not the InProgressEtd.
-  // TODO: This method is duplicated in App.vue.  Do we need it in both places?
-  allowTabSave () {
-    if (this.etdId) {
-      return false
-    } else {
-      return true
-    }
-  },
   getUpdateRoute () {
-    if (this.etdId) {
-      return `/concern/etds/${this.etdId}`
-    } else {
-      return `/in_progress_etds/${this.ipeId}`
-    }
+    return `/in_progress_etds/${this.ipeId}`
   },
   copyrightQuestions: [{
     'label': 'Fair Use',
@@ -179,9 +159,6 @@ export var formStore = {
   errored: false,
   languages: [{ 'value': '', 'active': true, 'label': 'Select a Language', 'disabled': 'disabled', 'selected': 'selected' }],
   languagesEndpoint: '/authorities/terms/local/languages_list',
-  getSavedLanguage () {
-    return this.savedData['language']
-  },
   subfieldEndpoints: {
     'Biological and Biomedical Sciences': '/authorities/terms/local/biological_programs',
     'Biostatistics': '/authorities/terms/local/biostatistics_programs',
@@ -248,6 +225,16 @@ export var formStore = {
     this.keywords = savedKeywords
     }
   },
+  addSavedCommitteePeople(){
+    var chairAttrs = {}
+    var memberAttrs = {}
+    _.forEach(this.savedData['committee_chair_attributes'], ((cc) => {
+      this.addCommitteeChair(this.committeeChairs.length + 1, cc['affiliation'][0], cc['name'][0])
+    }))
+    _.forEach(this.savedData['committee_members_attributes'], ((cm) => {
+      this.addCommitteeMember(this.committeeMembers.length + 1, cm['affiliation'][0], cm['name'][0])
+    }))
+  },
   setComplete (tabName) {
     for (var tab in this.tabs) {
       if (this.tabs[tab].label === tabName) {
@@ -289,8 +276,21 @@ export var formStore = {
     return 'etd[' + index + ']'
   },
 
-  addCommitteeMember (affiliation, name) {
-    this.committeeChairs.push({ affiliation: [affiliation], name: name })
+  addCommitteeChair (id, affiliation, name) {
+    var found = undefined
+    found = _.find(this.committeeChairs, { 'name': name })
+    console.log('committee chair add', found)
+    if (found === undefined){
+      this.committeeChairs.push({ id: id, affiliation: [affiliation], name: name })
+    }
+  },
+  addCommitteeMember (id, affiliation, name) {
+    var found = undefined
+    found = _.find(this.committeeMembers, { 'name': name })
+    console.log('committee member add', found)
+    if (found === undefined){
+      this.committeeMembers.push({ id: id, affiliation: [affiliation], name: name })
+    }
   },
 
   /* Getters & Setters */
@@ -402,7 +402,8 @@ export var formStore = {
     }
     if (Object.keys(this.savedData).length > 0) {
       this.setIpeId(this.savedData['ipe_id'])
-      this.setEtdId(this.savedData['etd_id'])
+      // committees are special. this needs to be done only at page load, not with each tab save. or, is there any way to check just to make sure you don't duplicate?
+      this.addSavedCommitteePeople()
       for (var tab in this.tabs) {
           var inputKeys = Object.keys(this.tabs[tab].inputs)
           inputKeys.forEach(function (el) {
@@ -423,10 +424,6 @@ export var formStore = {
       token: this.token,
       formData: this.formData
     })
-    if (this.allowTabSave()) {
-      saveAndSubmit.submitEtd()
-    } else {
-      saveAndSubmit.updateEtd()
-    }
+    saveAndSubmit.submitEtd()
   }
 }
