@@ -1,7 +1,7 @@
 class InProgressEtdsController < ApplicationController
-  # TODO: this needs to be authorized - all controller actions
-
   def new
+    authorize! :create, InProgressEtd
+
     @in_progress_etd = if params[:etd_id]
                          InProgressEtd.find_or_create_by(etd_id: params[:etd_id])
                        else
@@ -16,6 +16,7 @@ class InProgressEtdsController < ApplicationController
 
   def edit
     @in_progress_etd = InProgressEtd.find(params[:id])
+    authorize! :update, @in_progress_etd
     @in_progress_etd.refresh_from_etd!
     @data = @in_progress_etd.data
   end
@@ -23,6 +24,7 @@ class InProgressEtdsController < ApplicationController
   # The Vue.js form uses this action to update the record.
   def update
     @in_progress_etd = InProgressEtd.find(params[:id])
+    authorize! :update, @in_progress_etd
     @in_progress_etd.data = prepare_etd_data.to_json
 
     if @in_progress_etd.save

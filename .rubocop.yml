@@ -98,6 +98,10 @@ RSpec/MessageSpies:
 RSpec/MultipleExpectations:
   Enabled: false
 
+RSpec/NotToNot:
+  Exclude:
+    - 'spec/models/ability_spec.rb'
+
 Style/BracesAroundHashParameters:
   Exclude:
     - 'spec/models/in_progress_etd_spec.rb'
