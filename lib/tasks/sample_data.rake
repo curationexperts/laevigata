@@ -22,8 +22,7 @@ namespace :sample_data do
         upload3 = FactoryBot.create(:uploaded_data_file, user_id: user.id)
         attributes_for_actor = { uploaded_files: [upload1.id, upload2.id, upload3.id] }
         env = Hyrax::Actors::Environment.new(etd, ::Ability.new(user), attributes_for_actor)
-        middleware = Hyrax::DefaultMiddlewareStack.build_stack.build(Hyrax::Actors::Terminator.new)
-        middleware.create(env)
+        Hyrax::CurationConcern.actor.create(env)
       end
     end
   end
@@ -51,8 +50,7 @@ namespace :sample_data do
           upload2 = FactoryBot.create(:uploaded_image_file, user_id: user.id)
           attributes_for_actor = { uploaded_files: [upload1.id, upload2.id] }
           env = Hyrax::Actors::Environment.new(etd, ability, attributes_for_actor)
-          middleware = Hyrax::DefaultMiddlewareStack.build_stack.build(Hyrax::Actors::Terminator.new)
-          middleware.create(env)
+          Hyrax::CurationConcern.actor.create(env)
           puts "Created #{etd.id}"
         end
       end
@@ -96,8 +94,7 @@ namespace :sample_data do
 
     attributes_for_actor = { embargo_length: etd.embargo_length, uploaded_files: [upload1.id, upload2.id] }
     env = Hyrax::Actors::Environment.new(etd, ability, attributes_for_actor)
-    middleware = Hyrax::DefaultMiddlewareStack.build_stack.build(Hyrax::Actors::Terminator.new)
-    middleware.create(env)
+    Hyrax::CurationConcern.actor.create(env)
 
     approving_user = User.where(ppid: 'candleradmin').first
     subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
@@ -128,8 +125,7 @@ namespace :sample_data do
 
     attributes_for_actor = { uploaded_files: [upload1.id, upload2.id] }
     env = Hyrax::Actors::Environment.new(etd, ability, attributes_for_actor)
-    middleware = Hyrax::DefaultMiddlewareStack.build_stack.build(Hyrax::Actors::Terminator.new)
-    middleware.create(env)
+    Hyrax::CurationConcern.actor.create(env)
 
     approving_user = User.where(ppid: 'tezprox').first
     subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
@@ -179,8 +175,7 @@ namespace :sample_data do
 
     attributes_for_actor = { uploaded_files: [upload1.id, upload2.id] }
     env = Hyrax::Actors::Environment.new(etd, ability, attributes_for_actor)
-    middleware = Hyrax::DefaultMiddlewareStack.build_stack.build(Hyrax::Actors::Terminator.new)
-    middleware.create(env)
+    Hyrax::CurationConcern.actor.create(env)
     etd
   end
 
@@ -209,8 +204,7 @@ namespace :sample_data do
 
       attributes_for_actor = { uploaded_files: [upload1.id, upload2.id] }
       env = Hyrax::Actors::Environment.new(etd, ability, attributes_for_actor)
-      middleware = Hyrax::DefaultMiddlewareStack.build_stack.build(Hyrax::Actors::Terminator.new)
-      middleware.create(env)
+      Hyrax::CurationConcern.actor.create(env)
 
       subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
       sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
