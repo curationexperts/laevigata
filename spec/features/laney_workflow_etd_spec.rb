@@ -21,11 +21,15 @@ RSpec.feature 'Laney Graduate School two step approval workflow',
       w.setup
       attributes_for_actor = { uploaded_files: [file.id] }
       env = Hyrax::Actors::Environment.new(etd, ::Ability.new(depositing_user), attributes_for_actor)
-      middleware = Hyrax::DefaultMiddlewareStack.build_stack.build(Hyrax::Actors::Terminator.new)
-      middleware.create(env)
+      Hyrax::CurationConcern.actor.create(env)
     end
 
     scenario "an approver reviews and approves a work" do
+      # A user can search for their work immediately after depositing it
+      login_as depositing_user
+      visit("/dashboard/my/works")
+      expect(page).to have_content etd.title.first
+
       expect(etd.active_workflow.name).to eq "laney_graduate_school"
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "pending_review"
 
