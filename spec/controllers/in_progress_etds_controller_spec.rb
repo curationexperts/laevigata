@@ -64,8 +64,9 @@ RSpec.describe InProgressEtdsController, type: :controller do
     end
 
     describe 'PATCH UPDATE' do
+      let(:new_title) { ['New Title from Update'] }
+
       context 'with permission to edit' do
-        let(:new_title) { ['New Title from Update'] }
         before do
           patch :update, params: { id: ipe.id, etd: { title: new_title } }
           ipe.reload
@@ -76,11 +77,28 @@ RSpec.describe InProgressEtdsController, type: :controller do
         end
       end
 
+      context "maliciously try to edit fields you shouldn't" do
+        before do
+          patch :update, params: {
+            id: ipe.id,
+            user_ppid: "try to attack someone else's InProgressEtd",
+            etd_id: "try to attack someone else's Etd",
+            etd: { title: new_title }
+          }
+          ipe.reload
+        end
+
+        it "doesn't allow student to directly edit etd_id or user_ppid fields" do
+          expect(ipe.etd_id).to eq nil
+          expect(ipe.user_ppid).to eq student.ppid
+        end
+      end
+
       context 'without permission to edit' do
         let(:ipe) { InProgressEtd.create(user_ppid: another_user.ppid) }
 
         it 'denies access' do
-          patch :update, params: { id: ipe.id, in_progress_etd: { title: ['New Title from Update'] } }
+          patch :update, params: { id: ipe.id, in_progress_etd: { title: new_title } }
           expect(response.status).to eq 401 # Unauthorized
         end
       end
