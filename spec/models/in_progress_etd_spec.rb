@@ -38,7 +38,7 @@ describe InProgressEtd do
   describe "My Program" do
     context "with valid data" do
       let(:data) do
-        { currentTab: "My Program", department: "Anthropology", subfield: "Foo", partnering_agency: "DCD", degree: "Non", submitting_type: "Phd" }
+        { currentTab: "My Program", department: "Anthropology", partnering_agency: "DCD", degree: "Non", submitting_type: "Phd" }
       end
 
       it "is valid" do
@@ -48,7 +48,7 @@ describe InProgressEtd do
 
     context "with invalid data" do
       let(:data) do
-        { currentTab: "My Program", department: "", subfield: "Foo", partnering_agency: "DCD", degree: "Non", submitting_type: "" }
+        { currentTab: "My Program", department: "", partnering_agency: "DCD", degree: "Non", submitting_type: "" }
       end
 
       it "is not valid" do
@@ -96,6 +96,26 @@ describe InProgressEtd do
         { currentTab: "My Etd", "title": "", "language": "", "abstract": "", "table_of_contents": "" }
       end
 
+      it "is not valid" do
+        expect(in_progress_etd).not_to be_valid
+      end
+    end
+  end
+
+  describe "My Advisor" do
+    context "with valid data" do
+      let(:data) do
+        { currentTab: "My Advisor", "committee_chair_attributes": "[0][affiliation_type]Emory" }
+      end
+      it "is valid" do
+        expect(in_progress_etd).to be_valid
+      end
+    end
+
+    context "with invalid data" do
+      let(:data) do
+        { currentTab: "My Advisor" }
+      end
       it "is not valid" do
         expect(in_progress_etd).not_to be_valid
       end
