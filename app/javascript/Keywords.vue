@@ -2,14 +2,15 @@
   <div>
     <label for="keywords">Keywords</label>
     <div id="keywords">
-      <div class="form-inline keyword" v-for="(keyword, index) in sharedState.keywords" v-bind:key="index">
-        <input class="form-control" :value="getVal(keyword)" name="etd[keyword][]" />
-        <a data-turbolinks="false" class="btn btn-default"  href="#" @click="sharedState.removeKeyword(index)">Remove This Keyword</a>
+      <div class="form-inline keyword" v-for="keyword in sharedState.keywords.keywords()">
+        <input type="text" class="form-control" name="etd[keyword][]" v-model="keyword.value"/>
+        <button type="button" class="btn btn-default" @click="sharedState.keywords.remove(keyword)">
+          <span class="glyphicon glyphicon-trash"></span>  Remove This Keyword</button>
         <br/>
       </div>
     </div>
     <br/>
-    <button type="button" class="btn btn-default" @click="sharedState.addKeyword('')"><span class="glyphicon glyphicon-plus"></span> Add a Keyword</button>
+    <button type="button" class="btn btn-default" @click="sharedState.keywords.addEmpty()"><span class="glyphicon glyphicon-plus"></span> Add a Keyword</button>
   </div>
 </template>
 
@@ -23,15 +24,13 @@ export default {
       sharedState: formStore
     }
   },
-  methods:{
-    getVal(keyword){
-      var val = ''
-      if (_.isString(keyword)){
-        val = keyword
-      }
-      return val
-    }
-  }
+   mounted() {
+    this.$nextTick(() => {
+      this.sharedState.keywords.load(
+        this.sharedState.savedData["keyword"]
+      )
+    })
+  },
 }
 </script>
 

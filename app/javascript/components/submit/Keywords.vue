@@ -2,11 +2,11 @@
   <section>   
     <h4>Keywords</h4>
     <h5>Research Fields</h5>
-    <div v-for="(researchField, index) in sharedState.savedData.research_field" v-bind:key="index">
+    <div v-for="(researchField, index) in sharedState.savedData.research_field">
       <div> {{ researchField }} </div>
     </div>
     <h5>Keywords</h5>
-    <div v-for="(keyword, index) in sharedState.savedData.keyword" v-bind:key="index">
+    <div v-for="(keyword, index) in sharedState.savedData.keyword">
       <div> {{ keyword }} </div>
     </div>
    <h5>Copyright Questions</h5>

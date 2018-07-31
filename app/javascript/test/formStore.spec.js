@@ -29,14 +29,4 @@ describe('formStore', () => {
     }
     ])
   })
-
-  it('allows you to add a keyword', () => {
-    formStore.addKeyword('testing')
-    expect(formStore.keywords).toEqual([{index: 0, value: 'testing'}])
-  })
-
-  it('allows you to remove a keyword', () => {
-    formStore.removeKeyword(0)
-      expect(formStore.keywords.length).toEqual(0)
-  })
 })
