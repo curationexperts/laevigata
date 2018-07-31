@@ -51,6 +51,10 @@
       <a class="btn btn-primary" :href="boxOAuthUrl()"><span class="glyphicon glyphicon-plus"></span> Add your thesis or dissertation file from Box</a>
     </div>
 
+    <div v-if="sharedState.files[0]">
+      <input type="hidden" name="uploaded_files[]" :value="sharedState.files[0][0].id" />
+    </div>
+
     </section>
     <section class="optional-files">
     <h2>Add Optional Supplemental Files</h2>
@@ -167,7 +171,7 @@ export default {
     onSupplementalFileChange(e) {
         var supplementalFileUploader = new SupplementalFileUploader({
         formStore: this.sharedState,
-        token: token,
+        token: this.sharedState.token,
         event: e,
         formData: this.getFormData()
       })
