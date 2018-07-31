@@ -21,11 +21,12 @@ export default class SaveAndSubmit {
         // populate form in order to use its inputs
         this.formStore.loadSavedData()
 
-        //this.formStore.nextStepIsCurrent(response.data.lastCompletedStep)
+        this.formStore.setValid(response.data.tab_name, true)
         this.formStore.setComplete(response.data.tab_name)
         this.formStore.loadTabs()
       })
       .catch(error => {
+        this.formStore.setValid(response.data.tab_name, false)
         this.formStore.errored = true
         this.formStore.errors = []
         this.formStore.errors.push(error.response.data.errors)

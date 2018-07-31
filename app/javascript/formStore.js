@@ -10,7 +10,7 @@ export var formStore = {
       label: 'About Me',
       help_text: `It's time to submit your thesis or dissertation! Let's begin with some basic information.`,
       disabled: false,
-      selected: true,
+      valid: true,
       completed: false,
       currentStep: true,
       step: 0,
@@ -25,7 +25,7 @@ export var formStore = {
       label: 'My Program',
       help_text: 'Tell us a little bit more about the specifics of your program.',
       disabled: true,
-      selected: false,
+      valid: false,
       completed: false,
       currentStep: false,
       step: 1,
@@ -44,7 +44,7 @@ export var formStore = {
       are not affiliated with Emory, select 'Non-Emory' and enter their organization.`,
       description: '',
       disabled: true,
-      selected: false,
+      valid: false,
       completed: false,
       currentStep: false,
       step: 2,
@@ -57,7 +57,7 @@ export var formStore = {
       label: 'My Etd',
       help_text: 'Please describe your primary submission document.',
       disabled: true,
-      selected: false,
+      valid: false,
       completed: false,
       currentStep: false,
       step: 3,
@@ -72,7 +72,7 @@ export var formStore = {
       label: 'Keywords',
       help_text: 'Please provide some additional information about your submission.',
       disabled: true,
-      selected: false,
+      valid: false,
       completed: false,
       currentStep: false,
       step: 4,
@@ -86,7 +86,7 @@ export var formStore = {
       label: 'My Files',
       help_text: '',
       disabled: true,
-      selected: false,
+      valid: false,
       completed: false,
       currentStep: false,
       step: 5,
@@ -98,7 +98,7 @@ export var formStore = {
       label: 'Embargo',
       help_text: 'You have the option to restrict access to your thesis or dissertation for a limited time. First, select whether you would like to apply an embargo and how long you would like it to apply. Then select which parts of your record to include in the embargo. If you are unsure whether to embargo your ETD, consult with your thesis advisor or committee chair.',
       disabled: true,
-      selected: false,
+      valid: false,
       completed: false,
       currentStep: false,
       step: 6,
@@ -111,7 +111,7 @@ export var formStore = {
       help_text: `Please take a moment to review all your answers before submitting your document(s) to your department or school for approval.
        Afer you submit your document(s), your school will be notified and staff will review your submission for acceptance.`,
       disabled: true,
-      selected: false,
+      valid: false,
       completed: false,
       currentStep: false,
       step: 7,
@@ -230,6 +230,23 @@ export var formStore = {
       {value: '1 Year'}, {value: '2 Years'}, {value: '6 Years'}],
     rollins: [{value: 'None - open access immediately', selected: 'selected'},
       {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}]
+  },
+  isValid(tab){
+    return this.tabs[`${tab}`].valid
+  },
+  setValid(tab, validity, otherTabs){
+    _.forEach(this.tabs, (t) => {
+      // passing in the object or the label is ok
+      if (t === tab || t.label === tab) {
+        t.valid = validity
+      }
+    })
+    // this is for the case where a change in an input renders other tabs invalid. those inputs call this function with an array of tab labels that should be marked invalid now.
+    if (otherTabs) {
+      _.forEach(otherTabs, (othertab) => {
+        this.setValid(othertab, false)
+      })
+    }
   },
   getSchoolText (schoolKey) {
     var school = _.find(this.schools.options, (school) => { return school.value === schoolKey })
