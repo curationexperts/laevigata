@@ -5,6 +5,7 @@ import { formStore } from '../formStore'
 import axios from 'axios'
 
 Vue.use(TurbolinksAdapter)
+Vue.config.productionTip = false
 
 document.addEventListener('turbolinks:load', () => {
   var element = document.getElementById('root')

@@ -4,7 +4,7 @@
       <h1>Submit Your Thesis or Dissertation</h1>
     <ul class="nav navtabs" v-if="allowTabSave()">
       <li v-for="(value, index) in sharedState.tabs" v-bind:key="index">
-        <a href="#" class="tab" v-bind:class="{ disabled: value.disabled }" v-on:click="setCurrentStep(value.label, $event)">{{ value.label }}</a>
+        <a href="#" class="tab" v-bind:class="{ disabled: value.disabled }" v-on:click="setCurrentStep(value.label, $event)">{{ value.label }} <font-awesome-icon icon="check-circle" v-show="sharedState.isValid(index)"></font-awesome-icon></a>
       </li>
     </ul>
     <form role="form" id="vue_form" :action="sharedState.getUpdateRoute()" method="patch" @submit.prevent="onSubmit">
@@ -124,7 +124,7 @@
             </div>
             <div v-else>
               <label :for="input.label">{{ input.label }}</label>
-              <input :id="input.label" class="form-control" :ref="index" :name="sharedState.etdPrefix(index)" v-model="input.value">
+              <input :id="input.label" class="form-control" :ref="index" :name="sharedState.etdPrefix(index)" v-model="input.value" v-on:change="sharedState.setValid(value.label, false)">
               <section role="alert" class='errorMessage' v-if="sharedState.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
@@ -148,6 +148,11 @@
 
 <script>
 import _ from "lodash"
+import { library } from '@fortawesome/fontawesome-svg-core'
+/* 'coffee' is just an example */
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { dom } from '@fortawesome/fontawesome-svg-core'
 import { formStore } from "./formStore"
 import School from "./School"
 import Department from './Department'
@@ -178,6 +183,10 @@ var token = document
   .querySelector('meta[name="csrf-token"]')
   .getAttribute("content")
 
+/* Font Awesome functions; dom.watch() provides the transformations to svg */
+library.add(faCheckCircle)
+dom.watch()
+
 export default {
   data() {
     return {
@@ -197,6 +206,7 @@ export default {
     }
   },
   components: {
+    fontAwesomeIcon: FontAwesomeIcon,
     school: School,
     quillEditor: quillEditor,
     submittingType: SubmittingType,
