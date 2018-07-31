@@ -50,9 +50,13 @@ export default class SaveAndSubmit {
     this.formStore.loadSavedData()
     // submit as form data
     this.formStore.savedData['school'] = this.formStore.getSchoolText(this.formStore.savedData['school'])
-    var uploadedFilesId = this.formStore.files[0][0].id
+    var uploadedFilesIds = []
+    uploadedFilesIds.push(`${this.formStore.files[0][0].id}`)
+    _.forEach(this.formStore.supplementalFiles, (sf) => {
+      uploadedFilesIds.push(`${sf.id}`)
+    })
     axios.defaults.headers.common['X-CSRF-Token'] = this.formStore.token
-    var savedDataToSubmit = { 'etd': this.formStore.savedData, 'uploaded_files': [`${uploadedFilesId}`] }
+    var savedDataToSubmit = { 'etd': this.formStore.savedData, 'uploaded_files': uploadedFilesIds }
     axios.post('/concern/etds', savedDataToSubmit)
       .then(response => {
         window.location = response.request.responseURL

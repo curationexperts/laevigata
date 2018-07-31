@@ -60,9 +60,7 @@ class InProgressEtdsController < ApplicationController
       new_data = request.parameters.fetch(:etd, {})
       # Add temporarily hard-coded data into the new data
       # TODO: Replace the hard-coded data with real data from the form
-      add_supplemental_file_data(new_data)
-      # uploaded_files = Hyrax::UploadedFile.id
-      # add_uploaded_file_data(new_data)
+
       add_agreement_data(new_data)
 
       # Add the new data to the existing persisted data
