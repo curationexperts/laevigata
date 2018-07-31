@@ -23,14 +23,25 @@ export default {
   },
 
   watch: {
-    selected() {
-      this.sharedState.clearDepartment()
-      this.sharedState.clearSubfields()
-      this.sharedState.setSelectedDepartment(this.selected)
-      this.sharedState.getSubfields()
+    selected () {
+      if (this.sharedState.getSavedDepartment() !== undefined) {
+        this.sharedState.loadDepartments()
+        this.sharedState.setSelectedDepartment(this.selected)
+        this.sharedState.getSubfields()
+      } else {
+        this.sharedState.clearDepartment()
+        this.sharedState.clearSubfields()
+      }
     }
   },
-  mounted: function(){
+  beforeMount: function(){
+    if (!this.sharedState.savedAndSelectedSchoolsMatch()){
+      this.sharedState.clearDepartments()
+      this.sharedState.clearDepartment()
+      this.sharedState.clearSubfields()
+    }
+  },
+  mounted: function (){
     this.$nextTick(function () {
       this.selected = this.sharedState.getSavedDepartment()
     })

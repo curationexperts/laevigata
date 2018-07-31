@@ -35,21 +35,24 @@ describe('App.vue', () => {
       wrapper.vm.$data.sharedState.tabs.my_files.currentStep = false
       wrapper.vm.$data.sharedState.tabs.embargo.currentStep = false
 
-      wrapper.vm.$data.sharedState.enableTabs()
+      wrapper.vm.$data.sharedState.loadTabs()
     });
 
     it('enables the completed and current tabs', () => {
       const wrapper = shallowMount(App, {
       })
+      wrapper.vm.$data.sharedState.savedData['currentStep'] = 1
       wrapper.vm.$data.sharedState.tabs.about_me.complete = true
       wrapper.vm.$data.sharedState.tabs.my_program.complete = true
       wrapper.vm.$data.sharedState.tabs.my_advisor.currentStep = true
-
-      wrapper.vm.$data.sharedState.enableTabs()
+      wrapper.vm.$data.sharedState.currentStep = 1
+      wrapper.vm.$data.sharedState.loadTabs()
 
       expect(wrapper.vm.$data.sharedState.tabs.about_me.disabled).toBe(false)
       expect(wrapper.vm.$data.sharedState.tabs.my_program.disabled).toBe(false)
       expect(wrapper.vm.$data.sharedState.tabs.my_advisor.disabled).toBe(false)
+
+      wrapper.vm.$data.sharedState.savedData['currentStep'] = undefined
     })
 
     it('can set the complete property of a tab', () => {
@@ -64,24 +67,18 @@ describe('App.vue', () => {
       const wrapper = shallowMount(App, {
       })
       // user has completed About Me tab, and My Program is current tab
+      wrapper.vm.$data.sharedState.savedData['currentStep'] = 1
       wrapper.vm.$data.sharedState.tabs.about_me.complete = true
       wrapper.vm.$data.sharedState.tabs.about_me.currentStep = false
       wrapper.vm.$data.sharedState.tabs.my_program.currentStep = true
-      wrapper.vm.$data.sharedState.enableTabs()
+      wrapper.vm.$data.sharedState.loadTabs()
       expect(wrapper.vm.$data.sharedState.tabs.about_me.currentStep).toBe(false)
 
       //find and click first tab
       wrapper.find('a.tab').trigger('click')
 
       expect(wrapper.vm.$data.sharedState.tabs.about_me.currentStep).toBe(true)
-    })
-
-    it('determines the next current tab', () => {
-      const wrapper = shallowMount(App, {
-      })
-      wrapper.vm.$data.sharedState.nextStepIsCurrent(3)
-
-      expect(wrapper.vm.$data.sharedState.tabs.keywords.currentStep).toBe(true)
+      wrapper.vm.$data.sharedState.savedData['currentStep'] = undefined
     })
 
     it('prevents a user from navigating to disabled tabs', () => {

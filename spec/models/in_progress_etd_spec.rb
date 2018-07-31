@@ -182,6 +182,36 @@ describe InProgressEtd do
       end
     end
 
+    context 'with a lower new currentStep than the old currentStep' do
+      let(:new_data) { { 'currentStep': '0' } }
+      let(:old_data) { { 'currentStep': '4' } }
+      it 'preserves the highest currentStep' do
+        expect(resulting_data).to eq({
+          'currentStep' => '4'
+        })
+      end
+    end
+
+    context 'with a higher new currentStep than the old currentStep' do
+      let(:new_data) { { 'currentStep': '3' } }
+      let(:old_data) { { 'currentStep': '1' } }
+      it 'preserves the highest currentStep' do
+        expect(resulting_data).to eq({
+          'currentStep' => '3'
+        })
+      end
+    end
+
+    context 'with the same new currentStep as the old currentStep' do
+      let(:new_data) { { 'currentStep': '2' } }
+      let(:old_data) { { 'currentStep': '2' } }
+      it 'preserves the highest currentStep' do
+        expect(resulting_data).to eq({
+          'currentStep' => '2'
+        })
+      end
+    end
+
     context 'with updated data (symbol vs string keys)' do
       let(:old_data) { { title: 'The Old Title' } }
       let(:new_data) { { 'title': 'The New Title' } }
