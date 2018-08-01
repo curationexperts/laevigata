@@ -2,7 +2,9 @@ import axios from 'axios'
 import _ from 'lodash'
 import SaveAndSubmit from './SaveAndSubmit'
 import MemberList from './lib/MemberList'
-import ChairList from './lib/ChairList';
+import ChairList from './lib/ChairList'
+import KeywordList from './lib/KeywordList'
+import PartneringAgencyList from './lib/PartneringAgencyList'
 
 export var formStore = {
   tabs: {
@@ -167,7 +169,6 @@ export var formStore = {
     'choice': 'no',
     'name': 'etd[patents]'
   }],
-  partneringAgencies: [],
   committeeChairs: new ChairList(),
   committeeMembers: new MemberList(),
   files: [],
@@ -176,7 +177,9 @@ export var formStore = {
   selectedDepartment: '',
   selectedSubfield: '',
   subfields: [],
-  keywords: [],
+  keywords: new KeywordList(),
+  partneringAgencies: new PartneringAgencyList(),
+  partneringAgencyChoices: {},
   errors: [],
   errored: false,
   languages: [{ 'value': '', 'active': true, 'label': 'Select a Language', 'disabled': 'disabled', 'selected': 'selected' }],
@@ -251,21 +254,6 @@ export var formStore = {
   getSchoolText (schoolKey) {
     var school = _.find(this.schools.options, (school) => { return school.value === schoolKey })
     return school.text
-  },
-  keywordIndex: 0,
-  newKeyword: '',
-  addKeyword (keyword) {
-    this.keywords.unshift({ index: this.keywords.length, value: keyword })
-  },
-  removeKeyword (index) {
-    this.keywords.splice(this.keywords.indexOf(index, 1))
-  },
-  // will be in the etd data soon
-  agreement: false,
-  addSavedKeywords (savedKeywords) {
-    if (savedKeywords !== undefined) {
-    this.keywords = savedKeywords
-    }
   },
   getNextStep () {
     return parseInt(this.savedData['currentStep']) + 1
@@ -442,21 +430,20 @@ export var formStore = {
   getEmbargoContents () {
     return this.embargoContents
   },
-  getPartneringAgenciesOptionValue () {
-    return this.savedData['partnering_agency']
-  },
-  getPartneringAgencies () {
-    axios.get('/authorities/terms/local/partnering_agencies').then((response) => {
-      this.partneringAgencies = response.data
-    })
-  },
   setUserAgreement () {
     this.agreement = !this.agreement
   },
   getUserAgreement () {
     return this.agreement
-  },
-
+  }, 
+  getPartneringChoices () {
+    axios.get('/authorities/terms/local/partnering_agencies')
+      .then((response) => {
+        this.partneringAgencyChoices = response.data
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
   /* end Getters & Setters */
 
   savedData: {},
@@ -479,10 +466,6 @@ export var formStore = {
       for (var tab in this.tabs) {
           var inputKeys = Object.keys(this.tabs[tab].inputs)
           inputKeys.forEach(function (el) {
-            // components load after this function runs, so need to use their mounted and nextTick lifecycle hooks to get data.
-            if (el === 'keyword' && this.savedData[el] !== undefined){
-              this.addSavedKeywords(this.savedData[el])
-            }
             this.tabs[tab].inputs[el].value = this.savedData[el]
           }, this)
       }
