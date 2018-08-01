@@ -55,6 +55,10 @@
       <input type="hidden" name="uploaded_files[]" :value="sharedState.files[0][0].id" />
     </div>
 
+    <div v-if="sharedState.supplementalFiles[0]">
+      <input type="hidden" name="uploaded_files[]" :value="sharedState.supplementalFiles[0].id" />
+    </div>
+
     </section>
     <section class="optional-files">
     <h2>Add Optional Supplemental Files</h2>
@@ -79,7 +83,8 @@
         <tbody>
           <tr v-for="(files, key) in sharedState.supplementalFiles" v-bind:key="key">
 
-            <td><input  type="text" :value="files.name" class="form-control" disabled /></td>
+            <td><input type="text" :value="files.name" class="form-control" disabled />
+            <input type='hidden' :value="files.name" :name="supplementalFileName(key)"></td>
             <td><input :name="supplementalFileTitleName(key)" type="text" class="form-control" /></td>
             <td><input :name="supplementalFileDescriptionName(key)" type="text" class="form-control" /></td>
             <td>
@@ -210,6 +215,9 @@ export default {
   },
   supplementalFileTypeName (key) {
     return `etd[supplemental_file_metadata][${key}]file_type`
+  },
+  supplementalFileName (key) {
+    return `etd[supplemental_file_metadata][${key}]filename`
   }
   }
 }
