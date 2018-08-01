@@ -85,10 +85,10 @@
 
             <td><input type="text" :value="files.name" class="form-control" disabled />
             <input type='hidden' :value="files.name" :name="supplementalFileName(key)"></td>
-            <td><input :name="supplementalFileTitleName(key)" type="text" class="form-control" /></td>
-            <td><input :name="supplementalFileDescriptionName(key)" type="text" class="form-control" /></td>
+            <td><input :name="supplementalFileTitleName(key)" type="text" class="form-control" v-on:change="sharedState.setValid('My Files', false)"/></td>
+            <td><input :name="supplementalFileDescriptionName(key)" type="text" class="form-control" v-on:change="sharedState.setValid('My Files', false)"/></td>
             <td>
-              <select :name="supplementalFileTypeName(key)" class="form-control file-type">
+              <select :name="supplementalFileTypeName(key)" class="form-control file-type" v-on:change="sharedState.setValid('My Files', false)">
                 <option selected="selected" disabled="disabled">Please select a file type</option>
                 <option>Text</option>
                 <option>Sound</option>
@@ -172,6 +172,7 @@ export default {
         formData: this.getFormData()
       })
       fileUploader.uploadFile()
+      formStore.setValid('My Files', false)
     },
     onSupplementalFileChange(e) {
         var supplementalFileUploader = new SupplementalFileUploader({
@@ -181,6 +182,7 @@ export default {
         formData: this.getFormData()
       })
       supplementalFileUploader.uploadFile()
+      formStore.setValid('My Files', false)
     },
     getFormData() {
       var form = document.getElementById('vue_form')
@@ -190,19 +192,21 @@ export default {
     deleteFile(deleteUrl) {
       var fileDelete = new FileDelete({
         deleteUrl: deleteUrl,
-        token: token,
+        token: this.sharedState.token,
         formStore: this.sharedState
       })
       fileDelete.deleteFile()
+      this.sharedState.setValid('My Files', false)
     },
     deleteSupplementalFile(deleteUrl) {
       console.log(deleteUrl)
      var supplementalFileDelete = new SupplementalFileDelete({
         deleteUrl: deleteUrl,
-        token: token,
+        token: this.sharedState.token,
         formStore: this.sharedState
       })
       supplementalFileDelete.deleteFile()
+      this.sharedState.setValid('My Files', false)
   },
   boxOAuthUrl () {
     return `https://account.box.com/api/oauth2/authorize?response_type=code&client_id=${boxClientId()}&redirect_uri=http://localhost:3000/auth/box&state=${this.sharedState.ipeId}`

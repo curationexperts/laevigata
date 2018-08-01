@@ -1,7 +1,7 @@
 <template>
     <div>
         <label for="language">Language</label>
-        <select id="language" v-model="selected" name="etd[language]" aria-required="true" class="form-control">
+        <select id="language" v-model="selected" name="etd[language]" aria-required="true" class="form-control" v-on:change="sharedState.setValid('My Etd', false)">
             <option v-for="language in languages" v-bind:value="language.id"
             v-bind:key='language.id' v-if="language.active"
             :selected="language.selected" :disabled="language.disabled">

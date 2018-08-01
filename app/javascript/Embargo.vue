@@ -1,14 +1,14 @@
 <template>
 <div>
   <label for="embargo-length">Requested Embargo Length</label>
-  <select v-model="selectedEmbargo" name="etd[embargo_length]" aria-required="true" class="form-control" id="embargo-length">
+  <select v-model="selectedEmbargo" name="etd[embargo_length]" aria-required="true" class="form-control" id="embargo-length" v-on:change="sharedState.setValid('Embargo', false)">
     <option v-for="length in lengths" :value="length.value" :selected="length.selected" :disabled="length.disabled">
         {{ length.value }}
       </option>
     </select>
   <div v-if="selectedEmbargo != 'None - open access immediately'">
     <label for="content-to-embargo">Content to Embargo</label>
-    <select name="etd[embargo_type]" v-model="selectedContent" class="form-control" id="content-to-embargo">
+    <select name="etd[embargo_type]" v-model="selectedContent" class="form-control" id="content-to-embargo" v-on:change="sharedState.setValid('Embargo', false)">
       <option v-for="content in contents" :value="content.value" :disabled="content.disabled" :selected="content.selected">
         {{ content.text }}
       </option>
@@ -27,7 +27,8 @@ export default {
   data() {
     return {
       selectedEmbargo: 'None - open access immediately',
-      selectedContent: ''
+      selectedContent: '',
+      sharedState: formStore
     }
   },
   methods: {
