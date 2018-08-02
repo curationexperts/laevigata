@@ -111,8 +111,10 @@ curl https://api.box.com/2.0/folders/0 -H \
 1. Go to `https://app.box.com/developers/console`
 1. Click on your app name, and then on the 'Configuration' tab on the left.
 1. In a box labeled OAuth 2.0 Credentials you will see your OAuth credentials. You'll need these.
-1. Set the `OAuth 2.0 Redirect URI` value to `http://localhost:3000` (or where ever you run
-  your local development instance)
+1. Set the `OAuth 2.0 Redirect URI` value to
+  `http://localhost:3000/auth/box/` (for NEW_UI_ENABLED=true) or
+  `http://localhost:3000` (for NEW_UI_ENABLED=false)
+  (or where ever you run your local development instance)
 1. Save changes
 1. Follow these instructions: https://github.com/samvera/browse-everything/wiki/Configuring-browse-everything
   1. `rails g browse_everything:config`

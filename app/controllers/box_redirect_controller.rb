@@ -6,11 +6,4 @@ class BoxRedirectController < ApplicationController
     end
     render json: response.env.response_headers
   end
-
-  private
-
-    def box_redirect_params
-      params.require(:token)
-      params.require(:id)
-    end
 end
