@@ -12,7 +12,7 @@ export var formStore = {
       label: 'About Me',
       help_text: `It's time to submit your thesis or dissertation! Let's begin with some basic information.`,
       disabled: false,
-      valid: true,
+      valid: '',
       completed: false,
       currentStep: true,
       step: 0,
@@ -27,7 +27,7 @@ export var formStore = {
       label: 'My Program',
       help_text: 'Tell us a little bit more about the specifics of your program.',
       disabled: true,
-      valid: false,
+      valid: '',
       completed: false,
       currentStep: false,
       step: 1,
@@ -46,7 +46,7 @@ export var formStore = {
       are not affiliated with Emory, select 'Non-Emory' and enter their organization.`,
       description: '',
       disabled: true,
-      valid: false,
+      valid: '',
       completed: false,
       currentStep: false,
       step: 2,
@@ -59,7 +59,7 @@ export var formStore = {
       label: 'My Etd',
       help_text: 'Please describe your primary submission document.',
       disabled: true,
-      valid: false,
+      valid: '',
       completed: false,
       currentStep: false,
       step: 3,
@@ -74,7 +74,7 @@ export var formStore = {
       label: 'Keywords',
       help_text: 'Please provide some additional information about your submission.',
       disabled: true,
-      valid: false,
+      valid: '',
       completed: false,
       currentStep: false,
       step: 4,
@@ -88,7 +88,7 @@ export var formStore = {
       label: 'My Files',
       help_text: '',
       disabled: true,
-      valid: false,
+      valid: '',
       completed: false,
       currentStep: false,
       step: 5,
@@ -100,7 +100,7 @@ export var formStore = {
       label: 'Embargo',
       help_text: 'You have the option to restrict access to your thesis or dissertation for a limited time. First, select whether you would like to apply an embargo and how long you would like it to apply. Then select which parts of your record to include in the embargo. If you are unsure whether to embargo your ETD, consult with your thesis advisor or committee chair.',
       disabled: true,
-      valid: false,
+      valid: '',
       completed: false,
       currentStep: false,
       step: 6,
@@ -113,7 +113,7 @@ export var formStore = {
       help_text: `Please take a moment to review all your answers before submitting your document(s) to your department or school for approval.
        Afer you submit your document(s), your school will be notified and staff will review your submission for acceptance.`,
       disabled: true,
-      valid: false,
+      valid: '',
       completed: false,
       currentStep: false,
       step: 7,
@@ -262,18 +262,22 @@ export var formStore = {
     // first time form has ever been loaded, start at the beginning
     if (this.savedData['currentStep'] === undefined){
       this.tabs.about_me.currentStep = true
+      this.tabs.about_me.valid = true
     } else {
       // we want to display the next tab the student has not completed, which will be the tab's step index in the saved currentStep property, plus 1.
       for (var tab in this.tabs) {
         if (this.tabs[tab].step === this.getNextStep()){
           this.tabs[tab].currentStep = true
+          this.tabs[tab].valid = true
         } else {
           this.tabs[tab].currentStep = false
         }
         if (this.tabs[tab].step <= this.getNextStep()) {
           this.tabs[tab].disabled = false
+          this.tabs[tab].valid = true
         } else {
           this.tabs[tab].disabled = true
+          this.tabs[tab].valid = false
         }
       }
     }

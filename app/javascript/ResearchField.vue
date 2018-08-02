@@ -1,21 +1,21 @@
 <template>
   <div>
     <label id="research-fields">Research Fields</label>
-    <select aria-labelledby="research-fields" name="etd[research_field][]" aria-required="true" class="form-control">
+    <select aria-labelledby="research-fields" name="etd[research_field][]" aria-required="true" class="form-control" v-on:change="sharedState.setValid('Keywords', false)">
       <option value="" active="true" selected="selected">Select a Research Field</option>
       <option v-for="researchField in researchFields" v-bind:value="researchField.id" v-bind:key='researchField.id'
       v-if="researchField.active" :selected="isSelected(researchField.id, 0)">
           {{ researchField.id }}
       </option>
     </select>
-    <select aria-labelledby="research-fields" name="etd[research_field][]" class="form-control">
+    <select aria-labelledby="research-fields" name="etd[research_field][]" class="form-control" v-on:change="sharedState.setValid('Keywords', false)">
       <option value="" active="true" selected="selected">Select a Research Field</option>
       <option v-for="researchField in researchFields" v-bind:value="researchField.id" v-bind:key='researchField.id'
       v-if="researchField.active" :selected="isSelected(researchField.id, 1)">
           {{ researchField.id }}
       </option>
     </select>
-    <select aria-labelledby="research-fields" name="etd[research_field][]" class="form-control">
+    <select aria-labelledby="research-fields" name="etd[research_field][]" class="form-control" v-on:change="sharedState.setValid('Keywords', false)">
       <option value="" active="true" selected="selected">Select a Research Field</option>
       <option v-for="researchField in researchFields" v-bind:value="researchField.id" v-bind:key='researchField.id'
       v-if="researchField.active" :selected="isSelected(researchField.id, 2)">

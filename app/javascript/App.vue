@@ -44,7 +44,7 @@
             </div>
             <div v-else-if="input.label === 'Table of Contents'">
               <label>{{ input.label }}</label>
-               <quill-editor :options="editorOptions" ref="myTextEditor"  v-model="input.value">
+               <quill-editor :options="editorOptions" ref="myTextEditor" v-model="input.value" v-on:change="sharedState.setValid('My Etd', false)">
                </quill-editor>
                <input class="quill-hidden-field" :name="sharedState.etdPrefix(index)" v-model="input.value" />
                <section class='errorMessage' v-if="sharedState.hasError(index)">
@@ -53,7 +53,7 @@
             </div>
             <div v-else-if="input.label === 'Abstract'">
                <label>{{ input.label }}</label>
-               <quill-editor :options="editorOptions" ref="myTextEditor" v-model="input.value">
+               <quill-editor :options="editorOptions" ref="myTextEditor" v-model="input.value" v-on:change="sharedState.setValid('My Etd', false)">
                </quill-editor>
                <input class="quill-hidden-field" :name="sharedState.etdPrefix(index)" v-model="input.value" />
                <section class='errorMessage' v-if="sharedState.hasError(index)">
