@@ -1,13 +1,6 @@
 # frozen_string_literal: true
 
 module EtdFormHelper
-  def summarize_committee_member(label, attrs_hash)
-    content_tag :p do
-      content_tag(:b, label) +
-        ": #{attrs_hash['name'].first} (#{attrs_hash['affiliation'].first})"
-    end
-  end
-
   # If we're using the old UI, just use the regular path from Hyrax for editing Etd record.
   # If we're using the new UI, use the path for the InProgressEtdsController.
   def etd_edit_link(presenter)
