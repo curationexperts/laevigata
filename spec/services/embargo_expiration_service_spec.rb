@@ -98,7 +98,7 @@ describe EmbargoExpirationService, :clean do
     it "changes the embargo permissions" do
       expect { service.expire_embargoes }
         .to change { etd.reload.visibility }
-        .from(etd.visibility_during_embargo)
+        .from(etd.visibility)
         .to(etd.visibility_after_embargo)
     end
 
@@ -108,7 +108,7 @@ describe EmbargoExpirationService, :clean do
       it 'does not deactivate embargo' do
         expect { service.expire_embargoes }
           .not_to change { etd.visibility }
-          .from(etd.visibility_during_embargo)
+          .from(etd.visibility)
 
         expect(etd.under_embargo?).to be_truthy
       end
