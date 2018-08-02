@@ -1,6 +1,7 @@
 <template>
   <div>
     <label id="research-fields">Research Fields</label>
+    <div aria-live="polite" class="alert alert-info"><span class="glyphicon glyphicon-info-sign"></span> One research field is required, but you may select up to three.</div>
     <select aria-labelledby="research-fields" name="etd[research_field][]" aria-required="true" class="form-control" v-on:change="sharedState.setValid('Keywords', false)">
       <option value="" active="true" selected="selected">Select a Research Field</option>
       <option v-for="researchField in researchFields" v-bind:value="researchField.id" v-bind:key='researchField.id'

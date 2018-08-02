@@ -28,6 +28,6 @@ describe('ResearchField.vue', () => {
     const wrapper = shallowMount(ResearchField, {
     })
 
-    expect(wrapper.html()).toContain(`<div><label id="research-fields">Research Fields</label> <select aria-labelledby="research-fields" name="etd[research_field][]" aria-required="true" class="form-control"><option value="" active="true" selected="selected">Select a Research Field</option> </select> <select aria-labelledby="research-fields" name="etd[research_field][]" class="form-control"><option value="" active="true" selected="selected">Select a Research Field</option> </select> <select aria-labelledby="research-fields" name="etd[research_field][]" class="form-control"><option value="" active="true" selected="selected">Select a Research Field</option> </select></div>`)
+    expect(wrapper.html()).toContain(`<label id="research-fields">Research Fields</label> <div aria-live="polite" class="alert alert-info">`)
   })
 })
