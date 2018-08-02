@@ -138,7 +138,7 @@
 
           <input name="etd[currentTab]" type="hidden" :value="value.label" />
           <input name="etd[currentStep]" type="hidden" :value="value.step" />
-          <button v-if="allowTabSave()" type="submit" class="btn btn-default" autofocus>Save and Continue</button>
+          <button v-if="allowTabSave() && !sharedState.tabs.submit.currentStep" type="submit" class="btn btn-default" autofocus>Save and Continue</button>
         </div>
       </div>
     </form>
