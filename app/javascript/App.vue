@@ -4,7 +4,10 @@
       <h1>Submit Your Thesis or Dissertation</h1>
     <ul class="nav navtabs" v-if="allowTabSave()">
       <li v-for="(value, index) in sharedState.tabs" v-bind:key="index">
-        <a href="#" class="tab" v-bind:class="{ disabled: value.disabled }" v-on:click="setCurrentStep(value.label, $event)">{{ value.label }} <font-awesome-icon icon="check-circle" v-show="sharedState.isValid(index)"></font-awesome-icon></a>
+        <button type="button" class="tab" v-bind:class="{ disabled: value.disabled }" v-on:click="setCurrentStep(value.label, $event)">{{ value.label }} 
+          <font-awesome-icon class="check-circle" icon="check-circle" v-show="sharedState.isValid(index)">
+          </font-awesome-icon>
+        </button>
       </li>
     </ul>
     <form role="form" id="vue_form" :action="sharedState.getUpdateRoute()" method="patch" @submit.prevent="onSubmit">
@@ -333,10 +336,10 @@ li {
   min-width: 100px;
   text-align: center;
 }
-ul li a {
+ul li button {
   display: block;
   line-height: 1.3em;
-  font-family: 'PT Sans', sans;
+  font-family: 'PT Sans', sans-serif;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-bottom: 0;
   box-shadow: 1px 1px 0.5px rgba(0, 0, 0, 0.06);
@@ -344,6 +347,18 @@ ul li a {
   border-top-right-radius: 5px;
   padding: 1em;
   margin-right: 0.5em;
+  min-width: 115px;
+  background: white;
+}
+
+ul li button:hover {
+  background: #cdcdcd
+}
+
+.check-circle {
+  color: steelblue;
+  margin-right: .2em;
+  margin-left: .2em;
 }
 
 .disabled {

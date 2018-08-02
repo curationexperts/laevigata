@@ -75,7 +75,7 @@ describe('App.vue', () => {
       expect(wrapper.vm.$data.sharedState.tabs.about_me.currentStep).toBe(false)
 
       //find and click first tab
-      wrapper.find('a.tab').trigger('click')
+      wrapper.find('button.tab').trigger('click')
 
       expect(wrapper.vm.$data.sharedState.tabs.about_me.currentStep).toBe(true)
       wrapper.vm.$data.sharedState.savedData['currentStep'] = undefined
@@ -85,7 +85,7 @@ describe('App.vue', () => {
       const wrapper = shallowMount(App, {
       })
       //find and click first disabled element (My Program)
-      wrapper.find('a.tab.disabled').trigger('click')
+      wrapper.find('button.tab.disabled').trigger('click')
 
       expect(wrapper.find('h1').text()).toBe('Submit Your Thesis or Dissertation')
     })
