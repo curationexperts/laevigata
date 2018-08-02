@@ -2,14 +2,14 @@ export default class BoxFileUploader {
   constructor (options) {
     this.boxAccessToken = options.boxAccessToken
     this.event = options.event
-    this.crsfToken = options.crsfToken
+    this.csrfToken = options.csrfToken
     this.sharedState = options.formStore
   }
 
   getUrlFromBox () {
     var xhr = new XMLHttpRequest()
     xhr.open('POST', '/file/box')
-    xhr.setRequestHeader('X-CSRF-Token', this.crsfToken)
+    xhr.setRequestHeader('X-CSRF-Token', this.csrfToken)
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
     xhr.send(JSON.stringify({ id: this.event[0].id, token: this.boxAccessToken }))
     xhr.onreadystatechange = () => {
@@ -26,7 +26,7 @@ export default class BoxFileUploader {
     formData.set('remote_url', boxResponse.location)
     var xhr = new XMLHttpRequest()
     xhr.open('POST', '/uploads')
-    xhr.setRequestHeader('X-CSRF-Token', this.crsfToken)
+    xhr.setRequestHeader('X-CSRF-Token', this.csrfToken)
     xhr.send(formData)
     xhr.onreadystatechange = () => {
       if (xhr.readyState === XMLHttpRequest.DONE) {

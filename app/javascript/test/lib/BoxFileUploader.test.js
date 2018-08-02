@@ -22,7 +22,7 @@ test('that you can get the url from box', () => {
   var boxFileUploader = new BoxFileUploader({
     boxAccessToken: 'accesstoken',
     event: event,
-    crsfToken: 'longstring',
+    csrfToken: 'longstring',
     formStore: formStore
   })
   boxFileUploader.getUrlFromBox()
@@ -33,7 +33,7 @@ test('that you can post to uploads', () => {
   var boxFileUploader = new BoxFileUploader({
     boxAccessToken: 'accesstoken',
     event: event,
-    crsfToken: 'longstring',
+    csrfToken: 'longstring',
     formStore: formStore
   })
   boxFileUploader.postToUploads({location: 'http://example.com'})
