@@ -3,6 +3,9 @@
     <section class="thesis-file">
     <h2>Add Your Thesis or Dissertation File</h2>
     <div id="box-picker"></div>
+    <div v-if="accessToken">
+      <link rel="stylesheet" href="https://cdn01.boxcdn.net/platform/elements/4.4.0/en-US/picker.css" />
+    </div>
     <span class="form-instructions">Upload the version of your thesis or dissertation approved by your advisor or committee.
     You can only upload one file to represent your thesis or dissertation. This file should not contain any signatures or other personally identifying
     information. PDF/A is a better version for preservation and for that reason we recommend you upload a PDF/A file, but it is not required.
@@ -130,7 +133,8 @@ export default {
       uploadSuccess: false,
       sharedState: formStore,
       uploadError: false,
-      progress: 0
+      progress: 0,
+      accessToken: window.location.search.split('&access_token=')[1]
     }
   },
   mounted () {
