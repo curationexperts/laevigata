@@ -173,14 +173,25 @@ export var formStore = {
   errored: false,
   languages: [{ 'value': '', 'active': true, 'label': 'Select a Language', 'disabled': 'disabled', 'selected': 'selected' }],
   languagesEndpoint: '/authorities/terms/local/languages_list',
+
   subfieldEndpoints: subfieldEndpoints,
   schools: schools,
   embargoContents: embargoContents,
   embargoLengths: embargoLengths,
-  isValid (tab) {
+
+  getSavedLanguage () {
+    return this.savedData['language']
+  },
+
+  getSchoolHasChanged(){
+    return this.savedData['schoolHasChanged']
+  },
+
+  isValid(tab){
     return this.tabs[`${tab}`].valid
   },
-  setValid (tab, validity, otherTabs) {
+
+  setValid(tab, validity, otherTabs){
     _.forEach(this.tabs, (t) => {
       // passing in the object or the label is ok
       if (t === tab || t.label === tab) {
@@ -205,22 +216,26 @@ export var formStore = {
     // first time form has ever been loaded, start at the beginning
     if (this.savedData['currentStep'] === undefined) {
       this.tabs.about_me.currentStep = true
-      this.tabs.about_me.valid = true
     } else {
       // we want to display the next tab the student has not completed, which will be the tab's step index in the saved currentStep property, plus 1.
       for (var tab in this.tabs) {
-        if (this.tabs[tab].step === this.getNextStep()) {
-          this.tabs[tab].currentStep = true
-          this.tabs[tab].valid = true
-        } else {
-          this.tabs[tab].currentStep = false
-        }
         if (this.tabs[tab].step <= this.getNextStep()) {
           this.tabs[tab].disabled = false
           this.tabs[tab].valid = true
         } else {
           this.tabs[tab].disabled = true
           this.tabs[tab].valid = false
+        }
+        // rather than complicate condition above, just adjust my program if it is invalid
+        if (this.savedData['schoolHasChanged'] === true){
+          this.tabs.my_program.valid = false
+        }
+
+        if (this.tabs[tab].step === this.getNextStep()){
+          this.tabs[tab].currentStep = true
+          this.tabs[tab].valid = false
+        } else {
+          this.tabs[tab].currentStep = false
         }
       }
     }
@@ -242,15 +257,6 @@ export var formStore = {
       }
     }
   },
-  // nextStepIsCurrent (lastCompletedStep) {
-  //   for (var tab in this.tabs) {
-  //     if (this.tabs[tab].step === parseInt(lastCompletedStep) + 1) {
-  //       this.tabs[tab].currentStep = true
-  //     } else {
-  //       this.tabs[tab].currentStep = false
-  //     }
-  //   }
-  // },
   hasError (inputKey) {
     var hasError = false
     _.forEach(this.errors, function (error) {
@@ -275,9 +281,18 @@ export var formStore = {
   /* Schools, Departments & Subfields */
   // our 'messy state' flag
   // from here, you should be able to save the new school selection
+
   // but your program and embargo tabs are now invalid. you can navigate to the program tab, but maybe you get an error message next to departments (and embargoes) and it tells you to save your school.
   savedAndSelectedSchoolsMatch () {
     return this.schools.selected === this.savedData['school']
+  },
+
+  messySchoolState(){
+    if (this.schools.selected === "") {
+      return false
+    } else {
+      return this.schools.selected !== this.savedData['school']
+    }
   },
 
   getSelectedSchool () {
@@ -300,9 +315,11 @@ export var formStore = {
   getSelectedDepartment () {
     return this.selectedDepartment
   },
+
   getSavedOrSelectedDepartment () {
     return this.selectedDepartment.length === 0 ? this.savedData['department'] : this.selectedDepartment
   },
+
   getSavedDepartment () {
     return this.savedData['department']
   },
@@ -311,7 +328,7 @@ export var formStore = {
   },
   clearDepartment () {
     this.selectedDepartment = ''
-    this.savedData['department'] = ''
+    delete this.savedData.department;
   },
   getDepartments (selectedSchool) {
     axios.get(selectedSchool).then(response => {
@@ -434,7 +451,14 @@ export var formStore = {
     var formData = new FormData(formElement)
     // these needs to be whatever is current
     formData.append(this.etdPrefix('school'), this.getSelectedSchool())
-    formData.append(this.etdPrefix('department'), this.getSelectedDepartment())
+    formData.append(this.etdPrefix('files[]'), this.getPrimaryFile())
+    // consider this 999 we should not send this unless we have it
+    // also do we still use this form anywhere?
+
+    if (this.getSelectedDepartment() !== '' && this.getSelectedDepartment() !== undefined ){
+      console.log('sel dept', this.getSelectedDepartment())
+      formData.append(this.etdPrefix('department'), this.getSelectedDepartment())
+    }
 
     this.formData = formData
   },
