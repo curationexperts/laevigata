@@ -57,7 +57,7 @@
     <div v-if="sharedState.files[0]">
       <input type="hidden" name="uploaded_files[]" :value="sharedState.files[0][0].id" />
     </div>
-
+    <!-- TODO: the final param to hyrax needs to be uploaded_files but this name should probly be supp_files-->
     <div v-if="sharedState.supplementalFiles[0]">
       <input type="hidden" name="uploaded_files[]" :value="sharedState.supplementalFiles[0].id" />
     </div>
@@ -176,7 +176,8 @@ export default {
         formData: this.getFormData()
       })
       fileUploader.uploadFile()
-      formStore.setValid('My Files', false)
+      // 999
+      //formStore.setValid('My Files', false)
     },
     onSupplementalFileChange(e) {
         var supplementalFileUploader = new SupplementalFileUploader({
