@@ -176,7 +176,7 @@ export default {
       })
       fileUploader.uploadFile()
       // 999
-      //formStore.setValid('My Files', false)
+      formStore.setValid('My Files', false)
     },
     onSupplementalFileChange(e) {
         var supplementalFileUploader = new SupplementalFileUploader({

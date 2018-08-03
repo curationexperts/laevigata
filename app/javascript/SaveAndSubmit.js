@@ -8,6 +8,8 @@ export default class SaveAndSubmit {
     this.formStore = formStore
   }
   saveTab () {
+    this.formData.append("etd[files]", this.formStore.getPrimaryFile())
+
     axios
       .patch(this.formStore.getUpdateRoute(), this.formData, {
         config: { headers: { 'Content-Type': 'multipart/form-data' } }

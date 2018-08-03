@@ -14,5 +14,7 @@ export default class FileDelete {
       file => file[0].deleteUrl !== this.deleteUrl
     )
     this.formStore.files = filteredFiles
+    //TODO: we need a remove from savedFiles function
+    //this.formStore.removeSavedFile(this.deleteUrl)
   }
 }
