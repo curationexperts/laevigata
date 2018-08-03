@@ -7,6 +7,9 @@ en:
     account_name:           "455000"
     directory:
       suffix:               "@emory.edu"
+    toolbar:
+      dashboard:
+        myetd:              "My ETDs"
     embargoes:
       edit:
         embargo_cancel: Manage Embargoes
