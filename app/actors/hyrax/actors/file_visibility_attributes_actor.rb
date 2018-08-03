@@ -14,17 +14,15 @@ module Hyrax
         # Set embargo visibility to 'private' for file sets;
         # otherwise set visibility visibility to 'open' and don't set embargo for files
         def attributes_for_file_sets(env)
-          if env.curation_concern.files_embargoed
-            env.attributes[:visibility] =
-              Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
-            env.attributes[:visibility_during_embargo] =
-              Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
-          else
-            env.attributes.except!(:visibility, :embargo_release_date)
+          visibility_attributes =
+            FileSetVisibilityAttributeBuilder
+              .new(work: env.curation_concern)
+              .build
 
-            env.attributes[:visibility] =
-              Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
-          end
+          env.attributes.merge!(visibility_attributes)
+
+          env.attributes.except!(:embargo_release_date) unless
+            env.curation_concern.files_embargoed
 
           true
         end
