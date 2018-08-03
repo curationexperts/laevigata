@@ -14,7 +14,6 @@
          I HAVE READ AND AGREE TO THE SUBMISSION AGREEMENT
      </label>
     </div>
-
     <finalSubmission></finalSubmission>
     </section>
   </section>
