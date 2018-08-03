@@ -70,6 +70,12 @@ en:
     visibility:
       open:
         text: 'Open Access'
+      all_restricted:
+        text: 'All Restricted'
+      toc_restricted:
+        text: 'Restricted; Files & ToC'
+      files_restricted:
+        text: 'Restricted; Files Only'
     upload:
       browse_everything:
         browse_files_button: "Upload via Box"

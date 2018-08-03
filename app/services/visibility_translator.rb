@@ -17,9 +17,9 @@
 #
 # @see Hydra::AccessControls::Visibility
 class VisibilityTranslator
-  ALL_EMBARGOED   = 'embargo; all'.freeze
-  FILES_EMBARGOED = 'embargo; file'.freeze
-  TOC_EMBARGOED   = 'embargo; toc + file'.freeze
+  ALL_EMBARGOED   = 'all_restricted'.freeze
+  FILES_EMBARGOED = 'files_restricted'.freeze
+  TOC_EMBARGOED   = 'toc_restricted'.freeze
   OPEN            = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
 
   attr_accessor :obj
