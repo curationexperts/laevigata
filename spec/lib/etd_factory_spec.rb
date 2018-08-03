@@ -45,7 +45,8 @@ RSpec.describe EtdFactory, :clean do
     it "copies the embargo to the pdf file if files_embargoed == true" do
       expect(attached_etd.files_embargoed).to eq true
       expect(primary_pdf_fs.embargo_id).to eq attached_etd.embargo_id
-      expect(primary_pdf_fs.visibility).to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+      expect(primary_pdf_fs.visibility)
+        .to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
     end
     it "marks the primary_pdf as primary" do
       expect(primary_pdf_fs.pcdm_use).to eq FileSet::PRIMARY
@@ -66,8 +67,10 @@ RSpec.describe EtdFactory, :clean do
     end
     it "copies the embargo to the supplemental_files if files_embargoed == true" do
       expect(attached_etd.files_embargoed).to eq true
-      expect(attached_etd.supplemental_files_fs.first.embargo_id).to eq attached_etd.embargo_id
-      expect(attached_etd.supplemental_files_fs.first.visibility).to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+      expect(attached_etd.supplemental_files_fs.first.embargo_id)
+        .to eq attached_etd.embargo_id
+      expect(attached_etd.supplemental_files_fs.first.visibility)
+        .to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
     end
   end
 end
