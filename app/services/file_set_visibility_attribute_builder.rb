@@ -13,6 +13,7 @@ class FileSetVisibilityAttributeBuilder
         Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
       attributes[:visibility_during_embargo] =
         Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+      attributes[:embargo_release_date] = work.embargo_release_date.to_s
     else
       attributes[:visibility] =
         Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC

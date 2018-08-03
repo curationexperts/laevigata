@@ -29,6 +29,29 @@ module Hyrax
       super
     end
 
+    ##
+    # Our file set visibility behavior is somewhat different from Hyrax's
+    # default behavior. When we update work visibility or permissions, we
+    # want to ensure that the FileSets are given permissions congruent with
+    # the embargo settings. We do this by setting the FileSet visibility using
+    # `FileSetActor` directly, inline.
+    #
+    # We can afford to run this inline, because we don't expect works with
+    # dozens or hundreds of FileSets.
+    #
+    # Overriding this method avoids redirects to confirmation pages when
+    # updating the visibility and permissions of a work.
+    def after_update_response
+      return enforce_file_visibility(curation_concern) if
+        curation_concern.file_sets.present? &&
+        (permissions_changed? || curation_concern.visibility_changed?)
+
+      respond_to do |wants|
+        wants.html { redirect_to [main_app, curation_concern], notice: "Work \"#{curation_concern}\" successfully updated." }
+        wants.json { render :show, status: :ok, location: polymorphic_path([main_app, curation_concern]) }
+      end
+    end
+
     # So that the next time a student wants to create
     # a new ETD, they won't have the old values from
     # their old ETD hanging around in the form.
@@ -227,5 +250,20 @@ module Hyrax
       return ::Hyrax::UploadedFile.find(uploaded_file_id) unless uploaded_file_id.starts_with?("http")
       ::Hyrax::UploadedFile.create(browse_everything_url: uploaded_file_id)
     end
+
+    private
+
+      def enforce_file_visibility(work)
+        visibility_attrs =
+          FileSetVisibilityAttributeBuilder
+            .new(work: work)
+            .build
+
+        work.file_sets.each do |fs|
+          Hyrax::Actors::FileSetActor
+            .new(fs, current_user)
+            .update_metadata(visibility_attrs)
+        end
+      end
   end
 end
