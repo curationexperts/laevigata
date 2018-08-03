@@ -60,6 +60,23 @@ RSpec.describe User, :clean do
         .not_to change { described_class.count }
     end
   end
+  context "invalid shibboleth data" do
+    let(:invalid_auth_hash) do
+      OmniAuth::AuthHash.new(
+        provider: 'shibboleth',
+        uid: '',
+        info: {
+          display_name: '',
+          uid: ''
+        }
+      )
+    end
+    it "does not create a new user" do
+      # do not create a new user if uid is blank
+      expect { described_class.from_omniauth(invalid_auth_hash) }
+        .not_to change { described_class.count }
+    end
+  end
   context "user factories" do
     it "makes a user with expected shibboleth fields" do
       user = FactoryBot.create(:user)

@@ -1,4 +1,15 @@
 class User < ApplicationRecord
+  # Special error for when Shibboleth passes us
+  # incomplete user data
+  class NilShibbolethUserError < RuntimeError
+    attr_accessor :auth
+
+    def initialize(message = nil, auth = nil)
+      super(message)
+      self.auth = auth
+    end
+  end
+
   # Connects this user object to Hydra behaviors.
   include Hydra::User
   # Connects this user object to Role-management behaviors.
@@ -28,11 +39,13 @@ class User < ApplicationRecord
   devise *devise_modules
 
   # When a user authenticates via shibboleth, find their User object or make
-  # a new one. Populate it with data we get from shibboleth.
+  # a new one. Populate it with data we get from shibboleth. If shibboleth
+  # doesn't pass us all the info we need to make a User object, do not make
+  # blank one. Usually if the user just tries to log in again it will work.
   # @param [OmniAuth::AuthHash] auth
   def self.from_omniauth(auth)
     Rails.logger.debug "auth = #{auth.inspect}"
-    # Uncomment the debugger above to capture what a shib auth object looks like for testing
+    raise User::NilShibbolethUserError.new("No uid", auth) if auth.uid.empty? || auth.info.uid.empty?
     user = where(provider: auth.provider, uid: auth.info.uid).first_or_create
     user.display_name = auth.info.display_name
     user.uid = auth.info.uid
@@ -41,6 +54,9 @@ class User < ApplicationRecord
     user.email = auth.info.uid + '@emory.edu' unless auth.info.uid == 'tezprox'
     user.save
     user
+  rescue User::NilShibbolethUserError => e
+    Honeybadger.notify "Nil user detected: Shibboleth didn't pass a uid for #{e.auth.inspect}"
+    Rails.logger.error "Nil user detected: Shibboleth didn't pass a uid for #{e.auth.inspect}"
   end
 
   # Method added by Blacklight; Blacklight uses #to_s on your
