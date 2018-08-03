@@ -26,10 +26,10 @@ export default class SaveAndSubmit {
         this.formStore.loadTabs()
       })
       .catch(error => {
-        this.formStore.setValid(response.data.tab_name, false)
         this.formStore.errored = true
         this.formStore.errors = []
         this.formStore.errors.push(error.response.data.errors)
+        this.formStore.setValid(response.data.tab_name, false)
       })
   }
   reviewTabs () {
