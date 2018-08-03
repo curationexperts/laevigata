@@ -126,6 +126,7 @@ import FileDelete from './FileDelete'
 import SupplementalFileDelete from './SupplementalFileDelete'
 import SupplementalFileUploader from './SupplementalFileUploader'
 import axios from 'axios'
+import BoxFileUploader from './lib/BoxFileUploader'
 
 export default {
   data() {
@@ -140,32 +141,30 @@ export default {
   mounted () {
     var folderId = '0'
     var accessToken = window.location.search.split('&access_token=')[1]
-    var filePicker = new Box.FilePicker()
+    
     if (accessToken) {
-    filePicker.show(folderId, accessToken, {
-      container: '#box-picker',
-      maxSelectable: 1,
-      canUpload: false,
-      logoUrl: 'box',
-      canCreateNewFolder: false
-    })
+      var filePicker = new Box.FilePicker()
 
-    filePicker.addListener('choose', (event) => {
-      console.log(event)
-      var boxRedirect = `/file/box`
-      axios({
-        method: 'post',
-        url: boxRedirect,
-        data: {
-          id: event[0].id,
-          token: accessToken
-        }
-      }).then((response) => {
-        // TO-DO: do something with the URL
-        console.log(response.data.location)
+      filePicker.show(folderId, accessToken, {
+        container: '#box-picker',
+        maxSelectable: 1,
+        canUpload: false,
+        logoUrl: 'box',
+        canCreateNewFolder: false
       })
-    })
-    }
+
+      filePicker.addListener('choose', (event) => {
+        var boxFileUploader = new BoxFileUploader({
+          boxAccessToken: accessToken,
+          event: event,
+          csrfToken: this.sharedState.token,
+          formStore: this.sharedState
+      })
+      
+      boxFileUploader.getUrlFromBox() 
+      filePicker.hide()
+      })
+    } 
   },
   methods: {
     onFileChange(e) {
