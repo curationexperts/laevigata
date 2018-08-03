@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="sharedState.getUserAgreement() === true">   
+    <div>   
       <input type="button" class="btn btn-primary" value="Submit Your Thesis or Dissertation" @click="sharedState.submit()"/>
     </div>
   </div>

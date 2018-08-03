@@ -14,6 +14,7 @@ export default class FileUploader {
     xhr.setRequestHeader('X-CSRF-Token', this.token)
     xhr.onreadystatechange = () => {
       if (xhr.readyState === XMLHttpRequest.DONE) {
+        console.log('about to push files to formstore', this.formStore.files)
         this.formStore.files.push(
           JSON.parse(xhr.responseText).files
         )
