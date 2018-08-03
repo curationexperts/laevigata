@@ -408,6 +408,16 @@ export var formStore = {
 
   /* End of Schools, Departments & Subfields */
 
+  getFiles(){
+    var filesInfo = _.map(this.files, function(f){
+      var file = {}
+      file['name'] = `${f[0].name}`
+      file['id'] = `${f[0].id}`
+      return file
+    })
+    return filesInfo
+  },
+
   getGraduationDate () {
     return this.savedData['graduation_date']
   },
@@ -439,7 +449,7 @@ export var formStore = {
   },
   getUserAgreement () {
     return this.agreement
-  }, 
+  },
   getPartneringChoices () {
     axios.get('/authorities/terms/local/partnering_agencies')
       .then((response) => {
@@ -457,6 +467,9 @@ export var formStore = {
     //these needs to be whatever is current
     formData.append(this.etdPrefix('school'), this.getSelectedSchool())
     formData.append(this.etdPrefix('department'), this.getSelectedDepartment())
+
+    formData.append(this.etdPrefix('files[]'), this.getFiles())
+
     this.formData = formData
   },
   loadSavedData () {
