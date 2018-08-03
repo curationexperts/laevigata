@@ -5,10 +5,15 @@ class Ability
 
   # Define any customized permissions here.
   def custom_permissions
+    can [:read, :edit], String if can_review_submissions?
     return unless admin?
     can [:create, :show, :add_user, :remove_user, :index, :edit, :update, :destroy], Role
     can [:destroy], ActiveFedora::Base
     can [:read], Schools::School
+  end
+
+  def test_download(id)
+    super || can_review_submissions?
   end
 
   def ipe_permissions
