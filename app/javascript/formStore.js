@@ -171,6 +171,8 @@ export var formStore = {
   }],
   committeeChairs: new ChairList(),
   committeeMembers: new MemberList(),
+  agreement: false,
+  submitted: false,
   files: [],
   supplementalFiles: [],
   departments: [],
@@ -499,6 +501,7 @@ export var formStore = {
     if (this.allowTabSave()) {
       saveAndSubmit.submitEtd()
     } else {
+      this.submitted = true
       saveAndSubmit.updateEtd()
     }
   }
