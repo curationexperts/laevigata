@@ -5,8 +5,7 @@
     <ul class="nav navtabs" v-if="allowTabSave()">
       <li v-for="(value, index) in sharedState.tabs" v-bind:key="index">
         <button type="button" class="tab" v-bind:class="{ disabled: value.disabled }" v-on:click="setCurrentStep(value.label, $event)">{{ value.label }} 
-          <font-awesome-icon class="check-circle" icon="check-circle" v-show="sharedState.isValid(index)">
-          </font-awesome-icon>
+         <i class="fa fa-check-circle" aria-hidden="true" v-if="sharedState.isValid(index)" ></i>
         </button>
       </li>
     </ul>
@@ -151,11 +150,6 @@
 
 <script>
 import _ from "lodash"
-import { library } from '@fortawesome/fontawesome-svg-core'
-/* 'coffee' is just an example */
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { dom } from '@fortawesome/fontawesome-svg-core'
 import { formStore } from "./formStore"
 import School from "./School"
 import Department from './Department'
@@ -186,10 +180,6 @@ var token = document
   .querySelector('meta[name="csrf-token"]')
   .getAttribute("content")
 
-/* Font Awesome functions; dom.watch() provides the transformations to svg */
-library.add(faCheckCircle)
-dom.watch()
-
 export default {
   data() {
     return {
@@ -209,7 +199,6 @@ export default {
     }
   },
   components: {
-    fontAwesomeIcon: FontAwesomeIcon,
     school: School,
     quillEditor: quillEditor,
     submittingType: SubmittingType,
@@ -355,8 +344,8 @@ ul li button:hover {
   background: #cdcdcd
 }
 
-.check-circle {
-  color: steelblue;
+.fa-check-circle {
+  color: #002878;
   margin-right: .2em;
   margin-left: .2em;
 }
