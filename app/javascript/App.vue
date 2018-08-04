@@ -47,22 +47,17 @@
             </div>
             <div v-else-if="input.label === 'Table of Contents'">
               <label>{{ input.label }}</label>
-               <quill-editor :options="editorOptions" ref="myTextEditor" v-model="input.value" v-on:change="sharedState.setValid('My Etd', false)">
-               </quill-editor>
-               <input class="quill-hidden-field" :name="sharedState.etdPrefix(index)" v-model="input.value" />
-               <section class='errorMessage' v-if="sharedState.hasError(index)">
-                   <p>{{ input.label }} is required</p>
-               </section>
+              <richTextEditor :parentLabel="input.label" 
+              v-bind:parentValue="input.value" :parentIndex="input.index" 
+              parentName="etd[table_of_contents]"></richTextEditor>
             </div>
             <div v-else-if="input.label === 'Abstract'">
-               <label>{{ input.label }}</label>
-               <quill-editor :options="editorOptions" ref="myTextEditor" v-model="input.value" v-on:change="sharedState.setValid('My Etd', false)">
-               </quill-editor>
-               <input class="quill-hidden-field" :name="sharedState.etdPrefix(index)" v-model="input.value" />
-               <section class='errorMessage' v-if="sharedState.hasError(index)">
-                   <p>{{ input.label }} is required</p>
-               </section>
+              <label>{{ input.label }}</label>
+              <richTextEditor :parentLabel="input.label" 
+              v-bind:parentValue="input.value" :parentIndex="input.index" 
+              parentName="etd[abstract]"></richTextEditor>
             </div>
+
              <div v-else-if="input.label === 'Graduation Date'">
               <graduationDate></graduationDate>
               <section class='errorMessage' v-if="sharedState.hasError(index)">
@@ -159,10 +154,6 @@ import { dom } from '@fortawesome/fontawesome-svg-core'
 import { formStore } from "./formStore"
 import School from "./School"
 import Department from './Department'
-import { quillEditor } from 'vue-quill-editor'
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
 import SubmittingType from './SubmittingType'
 import Degree from "./Degree"
 import ResearchField from "./ResearchField"
@@ -175,13 +166,11 @@ import CopyrightQuestions from './CopyrightQuestions'
 import Embargo from './Embargo'
 import Keywords from './Keywords'
 import SaveAndSubmit from './SaveAndSubmit'
-import quillToolbarOptions  from './quillToolbarOptions'
-import quillKeyboardBindings from './quillKeyboardBindings'
 import PartneringAgency from './PartneringAgency.vue';
 import Submit from './Submit'
 import UserAgreement from './components/submit/UserAgreement'
 import AboutMe from './components/submit/AboutMe'
-
+import RichTextEditor from './components/RichTextEditor'
 var token = document
   .querySelector('meta[name="csrf-token"]')
   .getAttribute("content")
@@ -197,21 +186,12 @@ export default {
       tabInputs: [],
       files: [],
       deleteableFiles: [],
-      editorOptions: {
-        modules: {
-        toolbar: quillToolbarOptions(),
-        keyboard: {
-          bindings: quillKeyboardBindings()
-          }
-        }
-      },
       lastCompletedStep: 0
     }
   },
   components: {
     fontAwesomeIcon: FontAwesomeIcon,
     school: School,
-    quillEditor: quillEditor,
     submittingType: SubmittingType,
     degree: Degree,
     researchField: ResearchField,
@@ -227,7 +207,8 @@ export default {
     saveAndSubmit: SaveAndSubmit,
     partneringAgency: PartneringAgency,
     submit: Submit,
-    userAgreement: UserAgreement
+    userAgreement: UserAgreement,
+    richTextEditor: RichTextEditor
   },
   created () {
     // this executes only the first time the page is loaded (before adding it to the dom), so we need the freshest saved data we have, and we use it to set the state of the tabs.
@@ -380,13 +361,6 @@ ul li button:hover {
 
 input {
   margin-bottom: 1em;
-}
-.quill-hidden-field {
-  display: none;
-}
-.quill-editor {
-  height: 10em;
-  margin-bottom: 7em;
 }
 
 .errorMessage {
