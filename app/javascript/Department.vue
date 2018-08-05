@@ -1,8 +1,8 @@
 <template>
   <div>
     <label for="department">Department</label>
-    <select class="form-control" id="department" v-model="selected" aria-required="true" v-on:change="sharedState.setValid('My Program', false)">
-      <option v-for="department in sharedState.departments" v-bind:value="department.label" v-bind:key="department.label">
+    <select class="form-control" id="department" v-model="selected" aria-required="true">
+      <option v-for="department in sharedState.departments" v-bind:value="department.label" v-bind:key="department.label" :disabled="department.disabled">
         {{ department.label }}
       </option>
     </select>
@@ -17,33 +17,31 @@ import { formStore } from "./formStore";
 export default {
   data() {
     return {
-      selected: "",
+      selected: 'Select a Department',
       sharedState: formStore
     }
   },
-
   watch: {
     selected () {
-      if (this.sharedState.getSavedDepartment() !== undefined) {
+      if (this.sharedState.getSelectedDepartment() !== undefined) {
         this.sharedState.loadDepartments()
         this.sharedState.setSelectedDepartment(this.selected)
         this.sharedState.getSubfields()
       } else {
         this.sharedState.clearDepartment()
         this.sharedState.clearSubfields()
+        
       }
-    }
-  },
-  beforeMount: function(){
-    if (!this.sharedState.savedAndSelectedSchoolsMatch()){
-      this.sharedState.clearDepartments()
-      this.sharedState.clearDepartment()
-      this.sharedState.clearSubfields()
     }
   },
   mounted: function (){
     this.$nextTick(function () {
-      this.selected = this.sharedState.getSavedDepartment()
+      this.sharedState.setValid('My Program', false)
+      if (this.sharedState.getSelectedDepartment()) {
+        this.selected = this.sharedState.getSelectedDepartment()  
+      } else {
+        this.selected = 'Select a Department'
+      }
     })
   }
 };

@@ -24,6 +24,7 @@ export default {
   },
   methods: {
     fetchData() {
+      console.log("degree", this.degreeEndpoint)
       axios.get(this.degreeEndpoint).then(response => {
         this.degrees = this.getSelected(response.data)
       });
