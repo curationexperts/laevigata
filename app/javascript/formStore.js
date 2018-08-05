@@ -6,26 +6,33 @@ import ChairList from './lib/ChairList'
 import KeywordList from './lib/KeywordList'
 import PartneringAgencyList from './lib/PartneringAgencyList'
 
+// Configuration imports
+import copyrightQuestions from './config/copyrightQuestions.json'
+import subfieldEndpoints from './config/subfieldEndpoints.json'
+import embargoContents from './config/embargoContents.json'
+import embargoLengths from './config/embargoLengths.json'
+import schools from './config/schools.json'
+import helpText from './config/helpText.json'
 export var formStore = {
   tabs: {
     about_me: {
       label: 'About Me',
-      help_text: `It's time to submit your thesis or dissertation! Let's begin with some basic information.`,
+      help_text: helpText.aboutMe,
       disabled: false,
       valid: '',
       completed: false,
       currentStep: true,
       step: 0,
       inputs: {
-        creator: { label: 'Student Name', value: [], required: true },
+        creator: { label: 'Student Name', value: [] },
         school: { label: 'School', value: [] },
-        graduation_date: { label: 'Graduation Date', value: [], required: true },
-        post_graduation_email: { label: 'Post-Graduation Email', value: [], required: true }
+        graduation_date: { label: 'Graduation Date', value: [] },
+        post_graduation_email: { label: 'Post-Graduation Email', value: [] }
       }
     },
     my_program: {
       label: 'My Program',
-      help_text: 'Tell us a little bit more about the specifics of your program.',
+      help_text: helpText.myProgram,
       disabled: true,
       valid: '',
       completed: false,
@@ -33,60 +40,57 @@ export var formStore = {
       step: 1,
       inputs: {
         department: { label: 'Department', value: [] },
-        partnering_agency: { label: 'Partnering Agency', value: [], required: true },
-        subfield: { label: 'subfield', value: [], required: true },
-        degree: { label: 'Degree', value: [], required: true },
-        submitting_type: { label: 'Submitting Type', value: [], required: true }
+        partnering_agency: { label: 'Partnering Agency', value: [] },
+        subfield: { label: 'subfield', value: [] },
+        degree: { label: 'Degree', value: [] },
+        submitting_type: { label: 'Submitting Type', value: [] }
       }
     },
     my_advisor: {
       label: 'My Advisor',
-      help_text: `Please provide some details about the people who supervised your submission.
-      If your committee chair, thesis advisor, or committee members
-      are not affiliated with Emory, select 'Non-Emory' and enter their organization.`,
-      description: '',
+      help_text: helpText.myAdvisor,
       disabled: true,
       valid: '',
       completed: false,
       currentStep: false,
       step: 2,
       inputs: {
-        committee_member: { label: 'Committee Member', value: [], required: true }
+        committee_member: { label: 'Committee Member', value: [] }
 
       }
     },
     my_etd: {
       label: 'My Etd',
-      help_text: 'Please describe your primary submission document.',
+      help_text: helpText.myEtd,
       disabled: true,
       valid: '',
       completed: false,
       currentStep: false,
       step: 3,
       inputs: {
-        title: { label: 'Title', value: [], required: true },
-        language: { label: 'Language', value: [], required: true },
-        abstract: { label: 'Abstract', value: '', required: true, rich_text: true },
-        table_of_contents: { label: 'Table of Contents', value: '', required: true, rich_text: true }
+        title: { label: 'Title', value: [] },
+        language: { label: 'Language', value: [] },
+        abstract: { label: 'Abstract', value: '' },
+        table_of_contents: { label: 'Table of Contents', value: '' }
       }
     },
     keywords: {
       label: 'Keywords',
-      help_text: 'Please provide some additional information about your submission.',
+      help_text: helpText.keywords,
       disabled: true,
       valid: '',
       completed: false,
       currentStep: false,
       step: 4,
       inputs: {
-        research_field: { label: 'Research Field', value: [], required: true },
-        keyword: { label: 'Keyword', value: [], required: true },
+        research_field: { label: 'Research Field', value: [] },
+        keyword: { label: 'Keyword', value: [] },
         copyrights: { label: 'Copyright & Patents' }
       }
     },
     my_files: {
       label: 'My Files',
-      help_text: '',
+      help_text: helpText.myFiles,
       disabled: true,
       valid: '',
       completed: false,
@@ -98,7 +102,7 @@ export var formStore = {
     },
     embargo: {
       label: 'Embargo',
-      help_text: 'You have the option to restrict access to your thesis or dissertation for a limited time. First, select whether you would like to apply an embargo and how long you would like it to apply. Then select which parts of your record to include in the embargo. If you are unsure whether to embargo your ETD, consult with your thesis advisor or committee chair.',
+      help_text: helpText.embargo,
       disabled: true,
       valid: '',
       completed: false,
@@ -110,8 +114,7 @@ export var formStore = {
     },
     submit: {
       label: 'Submit',
-      help_text: `Please take a moment to review all your answers before submitting your document(s) to your department or school for approval.
-       Afer you submit your document(s), your school will be notified and staff will review your submission for acceptance.`,
+      help_text: helpText.submit,
       disabled: true,
       valid: '',
       completed: false,
@@ -131,8 +134,8 @@ export var formStore = {
   },
   // The fedora ID of the Etd record that this InProgressEtd represents.
   etdId: '',
-  setEtdId (fedora_id) {
-    this.etdId = fedora_id
+  setEtdId (fedoraId) {
+    this.etdId = fedoraId
   },
   // If student is editing an ETD that has already been persisted to fedora,
   // don't allow student to save record on individual tabs.  This is because
@@ -152,23 +155,7 @@ export var formStore = {
       return `/in_progress_etds/${this.ipeId}`
     }
   },
-  copyrightQuestions: [{
-    'label': 'Fair Use',
-    'text': `Does your thesis or dissertation contain any thirdy-party text, audiovisual content or other material which is beyond a fair use and would require permission?`,
-    'choice': 'no',
-    'name': 'etd[requires_permissions]'
-  }, {
-    'label': 'Copyright',
-    'text': `Does your thesis or dissertation contain content, such as a previously published article, for which you no longer own copyright? If you have quiestions about your use of copyrighted material, contact the Scholarly Communications Office at scholcom@listserv.cc.emory.edu`,
-    'choice': 'no',
-    'name': 'etd[additional_copyrights]'
-  },
-  {
-    'label': 'Patents',
-    'text': `Does your thesis or dissertation disclose or described any inventions or discoveries that could potentially have commerical application and therefore may be patended? If so please contact the Office of Technology Transfer (OTT) at (404) 727-2211.`,
-    'choice': 'no',
-    'name': 'etd[patents]'
-  }],
+  copyrightQuestions: copyrightQuestions,
   committeeChairs: new ChairList(),
   committeeMembers: new MemberList(),
   agreement: false,
@@ -186,60 +173,14 @@ export var formStore = {
   errored: false,
   languages: [{ 'value': '', 'active': true, 'label': 'Select a Language', 'disabled': 'disabled', 'selected': 'selected' }],
   languagesEndpoint: '/authorities/terms/local/languages_list',
-  getSavedLanguage () {
-    return this.savedData['language']
-  },
-  subfieldEndpoints: {
-    'Biological and Biomedical Sciences': '/authorities/terms/local/biological_programs',
-    'Biostatistics': '/authorities/terms/local/biostatistics_programs',
-    'Business': '/authorities/terms/local/business_programs',
-    'Environmental Sciences': '/authorities/terms/local/environmental_programs',
-    'Epidemiology': '/authorities/terms/local/epidemiology_programs',
-    'Psychology': '/authorities/terms/local/psychology_programs',
-    'Executive Masters of Public Health - MPH': '/authorities/terms/local/executive_programs'
-  },
-  schools: {
-    candler:
-      '/authorities/terms/local/candler_programs',
-    emory: '/authorities/terms/local/emory_programs',
-    laney: '/authorities/terms/local/laney_programs',
-    rollins:
-      '/authorities/terms/local/rollins_programs',
-    selected: '',
-    options: [
-      { text: 'Select a School', value: '', disabled: 'disabled', selected: 'selected' },
-      { text: 'Candler School of Theology', value: 'candler' },
-      { text: 'Emory College', value: 'emory' },
-      { text: 'Laney Graduate School', value: 'laney' },
-      { text: 'Rollins School of Public Health', value: 'rollins' }
-    ]
-  },
-  embargoContents: [{ text: 'Files',
-    value: 'files_embargoed',
-    disabled: false
-  },
-  { text: 'Files and Table of Contents',
-    value: 'files_embargoed, toc_embargoed',
-    disabled: false
-  },
-  { text: 'Files and Table of Contents and Abstract',
-    value: 'files_embargoed, toc_embargoed, abstract_embargoed',
-    disabled: false
-  }],
-  embargoLengths: {
-    emory: [{value: 'None - open access immediately', selected: 'selected'},
-      {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}],
-    candler: [{value: 'None - open access immediately', selected: 'selected'},
-      {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}],
-    laney: [{value: 'None - open access immediately', selected: 'selected'}, {value: '6 Months'},
-      {value: '1 Year'}, {value: '2 Years'}, {value: '6 Years'}],
-    rollins: [{value: 'None - open access immediately', selected: 'selected'},
-      {value: '6 Months'}, {value: '1 Year'}, {value: '2 Years'}]
-  },
-  isValid(tab){
+  subfieldEndpoints: subfieldEndpoints,
+  schools: schools,
+  embargoContents: embargoContents,
+  embargoLengths: embargoLengths,
+  isValid (tab) {
     return this.tabs[`${tab}`].valid
   },
-  setValid(tab, validity, otherTabs){
+  setValid (tab, validity, otherTabs) {
     _.forEach(this.tabs, (t) => {
       // passing in the object or the label is ok
       if (t === tab || t.label === tab) {
@@ -262,13 +203,13 @@ export var formStore = {
   },
   loadTabs () {
     // first time form has ever been loaded, start at the beginning
-    if (this.savedData['currentStep'] === undefined){
+    if (this.savedData['currentStep'] === undefined) {
       this.tabs.about_me.currentStep = true
       this.tabs.about_me.valid = true
     } else {
       // we want to display the next tab the student has not completed, which will be the tab's step index in the saved currentStep property, plus 1.
       for (var tab in this.tabs) {
-        if (this.tabs[tab].step === this.getNextStep()){
+        if (this.tabs[tab].step === this.getNextStep()) {
           this.tabs[tab].currentStep = true
           this.tabs[tab].valid = true
         } else {
@@ -335,7 +276,7 @@ export var formStore = {
   // our 'messy state' flag
   // from here, you should be able to save the new school selection
   // but your program and embargo tabs are now invalid. you can navigate to the program tab, but maybe you get an error message next to departments (and embargoes) and it tells you to save your school.
-  savedAndSelectedSchoolsMatch(){
+  savedAndSelectedSchoolsMatch () {
     return this.schools.selected === this.savedData['school']
   },
 
@@ -348,7 +289,7 @@ export var formStore = {
       this.selectedSchool = ''
     }
     return this.selectedSchool.length === 0 ?
-    this.savedData['school'] : this.schools.selected
+      this.savedData['school'] : this.schools.selected
   },
   getSavedSchool () {
     return this.savedData['school']
@@ -372,11 +313,11 @@ export var formStore = {
   setSelectedDepartment (department) {
     this.selectedDepartment = department
   },
-  clearDepartment(){
+  clearDepartment () {
     this.selectedDepartment = ''
     this.savedData['department'] = ''
   },
-  clearDepartments(){
+  clearDepartments () {
     this.departments = []
   },
   getDepartments (selectedSchool) {
@@ -385,12 +326,12 @@ export var formStore = {
     })
   },
   loadDepartments () {
-    if (this.savedData['department'] !== undefined){
+    if (this.savedData['department'] !== undefined) {
       var school_endpoint = '/authorities/terms/local/' + this.savedData['school'] + '_programs'
-      this.getDepartments (school_endpoint)
+      this.getDepartments(school_endpoint)
     }
   },
-  getSelectedSubfield(){
+  getSelectedSubfield () {
     if (this.selectedSubfield === undefined) {
       this.selectedSubfield = ''
     }
@@ -410,8 +351,8 @@ export var formStore = {
 
   /* End of Schools, Departments & Subfields */
 
-  getFiles(){
-    var filesInfo = _.map(this.files, function(f){
+  getFiles () {
+    var filesInfo = _.map(this.files, function (f) {
       var file = {}
       file['name'] = `${f[0].name}`
       file['id'] = `${f[0].id}`
@@ -436,7 +377,7 @@ export var formStore = {
     return this.savedData['research_field'] === undefined ? ['', '', ''] : this.savedData['research_field']
   },
   getSavedResearchField (index) {
-    if (this.savedData['research_field'] !== undefined){
+    if (this.savedData['research_field'] !== undefined) {
       return this.savedData['research_field'][index] === undefined ? '' : this.savedData['research_field'][index]
     }
   },
@@ -459,14 +400,14 @@ export var formStore = {
       }).catch((err) => {
         console.log(err)
       })
-    },
+  },
   /* end Getters & Setters */
 
   savedData: {},
   formData: undefined,
   setFormData (formElement) {
     var formData = new FormData(formElement)
-    //these needs to be whatever is current
+    // these needs to be whatever is current
     formData.append(this.etdPrefix('school'), this.getSelectedSchool())
     formData.append(this.etdPrefix('department'), this.getSelectedDepartment())
 
@@ -483,10 +424,10 @@ export var formStore = {
       this.setIpeId(this.savedData['ipe_id'])
       this.setEtdId(this.savedData['etd_id'])
       for (var tab in this.tabs) {
-          var inputKeys = Object.keys(this.tabs[tab].inputs)
-          inputKeys.forEach(function (el) {
-            this.tabs[tab].inputs[el].value = this.savedData[el]
-          }, this)
+        var inputKeys = Object.keys(this.tabs[tab].inputs)
+        inputKeys.forEach(function (el) {
+          this.tabs[tab].inputs[el].value = this.savedData[el]
+        }, this)
       }
     }
   },
