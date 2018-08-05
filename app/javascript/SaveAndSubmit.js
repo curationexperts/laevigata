@@ -20,7 +20,6 @@ export default class SaveAndSubmit {
 
         // populate form in order to use its inputs
         this.formStore.loadSavedData()
-
         this.formStore.setValid(response.data.tab_name, true)
         this.formStore.setComplete(response.data.tab_name)
         this.formStore.loadTabs()

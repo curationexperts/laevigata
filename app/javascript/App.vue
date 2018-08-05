@@ -235,6 +235,9 @@ export default {
     this.sharedState.loadTabs()
     this.sharedState.loadDepartments()
     // load schools?
+    if (this.sharedState.getSelectedDepartment() === '') {
+      this.sharedState.setValid('My Program', false)
+    }
   },
   beforeMount () {
     // this is loaded every time the form changes (whenever the component changes and before the native DOM is updated)

@@ -12,7 +12,7 @@ export var formStore = {
       label: 'About Me',
       help_text: `It's time to submit your thesis or dissertation! Let's begin with some basic information.`,
       disabled: false,
-      valid: '',
+      valid: false,
       completed: false,
       currentStep: true,
       step: 0,
@@ -27,7 +27,7 @@ export var formStore = {
       label: 'My Program',
       help_text: 'Tell us a little bit more about the specifics of your program.',
       disabled: true,
-      valid: '',
+      valid: false,
       completed: false,
       currentStep: false,
       step: 1,
@@ -46,7 +46,7 @@ export var formStore = {
       are not affiliated with Emory, select 'Non-Emory' and enter their organization.`,
       description: '',
       disabled: true,
-      valid: '',
+      valid: false,
       completed: false,
       currentStep: false,
       step: 2,
@@ -59,7 +59,7 @@ export var formStore = {
       label: 'My Etd',
       help_text: 'Please describe your primary submission document.',
       disabled: true,
-      valid: '',
+      valid: false,
       completed: false,
       currentStep: false,
       step: 3,
@@ -74,7 +74,7 @@ export var formStore = {
       label: 'Keywords',
       help_text: 'Please provide some additional information about your submission.',
       disabled: true,
-      valid: '',
+      valid: false,
       completed: false,
       currentStep: false,
       step: 4,
@@ -88,7 +88,7 @@ export var formStore = {
       label: 'My Files',
       help_text: '',
       disabled: true,
-      valid: '',
+      valid: false,
       completed: false,
       currentStep: false,
       step: 5,
@@ -100,7 +100,7 @@ export var formStore = {
       label: 'Embargo',
       help_text: 'You have the option to restrict access to your thesis or dissertation for a limited time. First, select whether you would like to apply an embargo and how long you would like it to apply. Then select which parts of your record to include in the embargo. If you are unsure whether to embargo your ETD, consult with your thesis advisor or committee chair.',
       disabled: true,
-      valid: '',
+      valid: false,
       completed: false,
       currentStep: false,
       step: 6,
@@ -113,7 +113,7 @@ export var formStore = {
       help_text: `Please take a moment to review all your answers before submitting your document(s) to your department or school for approval.
        Afer you submit your document(s), your school will be notified and staff will review your submission for acceptance.`,
       disabled: true,
-      valid: '',
+      valid: false,
       completed: false,
       currentStep: false,
       step: 7,
@@ -248,8 +248,9 @@ export var formStore = {
     })
     // this is for the case where a change in an input renders other tabs invalid. those inputs call this function with an array of tab labels that should be marked invalid now.
     if (otherTabs) {
-      _.forEach(otherTabs, (othertab) => {
-        this.setValid(othertab, false)
+      _.forEach(otherTabs, (otherTab) => {
+        console.log(otherTab)
+        this.setValid(otherTab, false)
       })
     }
   },
@@ -331,50 +332,37 @@ export var formStore = {
 
   /* Getters & Setters */
 
-  /* Schools, Departments & Subfields */
-  // our 'messy state' flag
-  // from here, you should be able to save the new school selection
-  // but your program and embargo tabs are now invalid. you can navigate to the program tab, but maybe you get an error message next to departments (and embargoes) and it tells you to save your school.
-  savedAndSelectedSchoolsMatch(){
+  savedAndSelectedSchoolsMatch () {
     return this.schools.selected === this.savedData['school']
   },
-
   getSelectedSchool () {
-    return this.schools.selected
-  },
-
-  getSavedOrSelectedSchool () {
-    if (this.selectedSchool === undefined) {
-      this.selectedSchool = ''
-    }
-    return this.selectedSchool.length === 0 ?
-    this.savedData['school'] : this.schools.selected
-  },
-  getSavedSchool () {
-    return this.savedData['school']
+    if (this.savedData['school']) {
+      return this.savedData['school']
+     } else {
+      return this.selectedSchool
+     }
   },
   setSelectedSchool (school) {
     this.schools.selected = school
+    this.savedData['school'] = school
   },
 
   getSelectedDepartment () {
-    return this.selectedDepartment
-  },
-
-  getSavedOrSelectedDepartment () {
-    return this.selectedDepartment.length === 0 ? this.savedData['department'] : this.selectedDepartment
-  },
-
-  getSavedDepartment () {
-    return this.savedData['department']
+    if (this.savedData['department']) {
+      return this.savedData['department']
+     } else {
+      return this.selectedDepartment
+     }
   },
 
   setSelectedDepartment (department) {
     this.selectedDepartment = department
+    this.savedData['department'] = department
   },
   clearDepartment(){
     this.selectedDepartment = ''
     this.savedData['department'] = ''
+    console.log(this.savedData['department'])
   },
   clearDepartments(){
     this.departments = []
@@ -382,6 +370,7 @@ export var formStore = {
   getDepartments (selectedSchool) {
     axios.get(selectedSchool).then(response => {
       this.departments = response.data
+      this.departments.unshift({label: 'Select a Department', disabled: 'disabled', selected: 'true'})
     })
   },
   loadDepartments () {
