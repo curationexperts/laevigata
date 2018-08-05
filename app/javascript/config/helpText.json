@@ -1,0 +1,9 @@
+{
+  "aboutMe":  "It's time to submit your thesis or dissertation! Let's begin with some basic information.",
+  "myProgram": "Tell us a little bit more about the specifics of your program.",
+  "myAdvisor": "Please provide some details about the people who supervised your submission. If your committee chair, thesis advisor, or committee members are not affiliated with Emory, select 'Non-Emory' and enter their organization.",
+  "myEtd": "Please describe your primary submission document.",
+  "keywords": "Please provide some additional information about your submission.",
+  "embargo": "You have the option to restrict access to your thesis or dissertation for a limited time. First, select whether you would like to apply an embargo and how long you would like it to apply. Then select which parts of your record to include in the embargo. If you are unsure whether to embargo your ETD, consult with your thesis advisor or committee chair.",
+  "submit": "Please take a moment to review all your answers before submitting your document(s) to your department or school for approval.  Afer you submit your document(s), your school will be notified and staff will review your submission for acceptance."
+}

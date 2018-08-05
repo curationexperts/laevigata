@@ -1,0 +1,10 @@
+{
+  "emory": [{"value": "None - open access immediately", "selected": "selected"},
+    {"value": "6 Months"}, {"value": "1 Year"}, {"value": "2 Years"}],
+  "candler": [{"value": "None - open access immediately", "selected": "selected"},
+    {"value": "6 Months"}, {"value": "1 Year"}, {"value": "2 Years"}],
+  "laney": [{"value": "None - open access immediately", "selected": "selected"}, {"value": "6 Months"},
+    {"value": "1 Year"}, {"value": "2 Years"}, {"value": "6 Years"}],
+  "rollins": [{"value": "None - open access immediately", "selected": "selected"},
+    {"value": "6 Months"}, {"value": "1 Year"}, {"value": "2 Years"}]
+}
