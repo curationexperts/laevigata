@@ -4,6 +4,12 @@ module HyraxHelper
   include Hyrax::HyraxHelperBehavior
 
   ##
+  # override behavior from `Hyrax::EmbargoHelper`
+  def assets_under_embargo
+    @assets_under_embargo ||= EtdEmbargoService.assets_under_embargo
+  end
+
+  ##
   # override behavior from `Hyrax::AbilityHelper`
   def visibility_options(variant)
     options = [
