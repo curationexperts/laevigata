@@ -4,7 +4,7 @@
       <h1>Submit Your Thesis or Dissertation</h1>
     <ul class="nav navtabs" v-if="allowTabSave()">
       <li v-for="(value, index) in sharedState.tabs" v-bind:key="index">
-        <button type="button" class="tab" v-bind:class="{ disabled: value.disabled }" v-on:click="setCurrentStep(value.label, $event)">{{ value.label }} 
+        <button type="button" class="tab" v-bind:class="{ disabled: value.disabled }" v-on:click="setCurrentStep(value.label, $event)">{{ value.label }}
          <i class="fa fa-check-circle" aria-hidden="true" v-if="sharedState.isValid(index)" ></i>
         </button>
       </li>
@@ -46,14 +46,14 @@
             </div>
             <div v-else-if="input.label === 'Table of Contents'">
               <label>{{ input.label }}</label>
-              <richTextEditor :parentLabel="input.label" 
-              v-bind:parentValue="input.value" :parentIndex="input.index" 
+              <richTextEditor :parentLabel="input.label"
+              v-bind:parentValue="input.value" :parentIndex="input.index"
               parentName="etd[table_of_contents]"></richTextEditor>
             </div>
             <div v-else-if="input.label === 'Abstract'">
               <label>{{ input.label }}</label>
-              <richTextEditor :parentLabel="input.label" 
-              v-bind:parentValue="input.value" :parentIndex="input.index" 
+              <richTextEditor :parentLabel="input.label"
+              v-bind:parentValue="input.value" :parentIndex="input.index"
               parentName="etd[abstract]"></richTextEditor>
             </div>
 

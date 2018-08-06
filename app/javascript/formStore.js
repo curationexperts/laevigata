@@ -346,14 +346,9 @@ export var formStore = {
 
   /* End of Schools, Departments & Subfields */
 
-  getFiles () {
-    var filesInfo = _.map(this.files, function (f) {
-      var file = {}
-      file['name'] = `${f[0].name}`
-      file['id'] = `${f[0].id}`
-      return file
-    })
-    return filesInfo
+  getPrimaryFile(){
+    if (this.files[0] === undefined) return
+    return JSON.stringify(this.files[0][0])
   },
 
   getGraduationDate () {
@@ -398,6 +393,41 @@ export var formStore = {
   },
   /* end Getters & Setters */
 
+  addFileData () {
+    if (this.savedData['files']) {
+      var parsedFiles = this.tryParseJSON(this.savedData['files'])
+      // we have a legit parsed file object
+      if (!(_.isError(parsedFiles))){
+        // if there's nothing in the the files array, just go ahead
+        if (this.files.length === 0) {
+          this.files.push([parsedFiles])
+          this.savedData['files'] = [parsedFiles]
+        // make sure we don't add a duplicate
+        } else {
+          _.forEach(this.files[0], (f)=>{
+            if (f.id !== parsedFiles.id){
+              // TODO:
+              // might not be the place to put the data into an array.
+              // we might need each parsed object to be an array
+              this.files.push([parsedFiles])
+              this.savedData['files'] = [parsedFiles]
+            }
+          })
+        }
+      }
+    }
+  },
+  tryParseJSON(str){
+    return _.attempt(JSON.parse.bind(null, str));
+  },
+  removeSavedFile(deleteUrl){
+    //TODO: this assumes files contains only one object, and returns it
+    if (this.savedData['files'].deleteUrl === deleteUrl){
+      //delete it
+      // console.log('match')
+    }
+  },
+
   savedData: {},
   formData: undefined,
   setFormData (formElement) {
@@ -406,8 +436,6 @@ export var formStore = {
     formData.append(this.etdPrefix('school'), this.getSelectedSchool())
     formData.append(this.etdPrefix('department'), this.getSelectedDepartment())
 
-    formData.append(this.etdPrefix('files[]'), this.getFiles())
-
     this.formData = formData
   },
   loadSavedData () {
@@ -415,6 +443,7 @@ export var formStore = {
     if (el && el.hasAttribute('data-in-progress-etd')) {
       this.savedData = JSON.parse(el.dataset.inProgressEtd)
     }
+    this.addFileData()
     if (Object.keys(this.savedData).length > 0) {
       this.setIpeId(this.savedData['ipe_id'])
       this.setEtdId(this.savedData['etd_id'])
