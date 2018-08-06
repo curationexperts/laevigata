@@ -1,7 +1,7 @@
 <template>
   <div>
     <label for="school">School</label>
-    <select id="school" class="form-control" v-model="selected" aria-required="true" v-on:change="clearDepartmentAndSubfields, sharedState.setValid('About Me', false, ['My Program', 'Embargoes'])">
+    <select id="school" class="form-control" v-model="selected" aria-required="true" v-on:change="clearDepartmentAndSubfields(), sharedState.setValid('About Me', false, ['My Program', 'Embargo'])">
       <option v-for="school in this.sharedState.schools.options" v-bind:value="school.value" v-bind:key='school.value' :selected='school.selected' :disabled='school.disabled'>
         {{ school.text }}
       </option>
@@ -49,7 +49,7 @@ export default {
     selected() {
       //this executes when the component is rendered the first time and when the change event fires (user selects something)
       this.fetchData();
-      if (!this.sharedState.savedAndSelectedSchoolsMatch()){
+      if (this.sharedState.messySchoolState()){
         this.sharedState.errors.push({"schoolDeptMismatch": ''})
       }
     }

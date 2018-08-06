@@ -44,6 +44,8 @@ class InProgressEtd < ApplicationRecord
     new_data = add_no_embargoes(new_data)
     existing_data = remove_stale_embargo_data(existing_data, new_data)
     new_data = keep_last_completed_step(existing_data, new_data)
+
+    new_data = keep_school_has_changed(existing_data, new_data)
     resulting_data = existing_data.merge(new_data)
     self.data = resulting_data.to_json
     resulting_data
@@ -68,6 +70,17 @@ class InProgressEtd < ApplicationRecord
 
   def keep_last_completed_step(existing_data, new_data)
     new_data[:currentStep] = existing_data['currentStep'] if existing_data.keys.include?('currentStep') && existing_data['currentStep'] >= new_data[:currentStep]
+    new_data
+  end
+
+  def keep_school_has_changed(existing_data, new_data)
+    return new_data unless etd_id.blank?
+    if existing_data['school'].blank? || new_data[:school].blank?
+      new_data[:schoolHasChanged] = false
+      return new_data
+    end
+
+    new_data[:schoolHasChanged] = new_data[:school] != existing_data['school'] ? true : false
     new_data
   end
 

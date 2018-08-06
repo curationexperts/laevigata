@@ -167,7 +167,7 @@ describe InProgressEtd do
       end
 
       it 'has the ID in the data' do
-        expect(parsed_data).to eq('ipe_id' => in_progress_etd.id)
+        expect(parsed_data).to eq('ipe_id' => in_progress_etd.id, "schoolHasChanged" => false)
       end
     end
   end
@@ -188,7 +188,8 @@ describe InProgressEtd do
       it 'adds the new data to the old data' do
         expect(resulting_data).to eq({
           'title' => 'The Old Title',
-          'creator' => 'A Student'
+          'creator' => 'A Student',
+          "schoolHasChanged" => false
         })
       end
     end
@@ -197,7 +198,8 @@ describe InProgressEtd do
       let(:new_data) { { 'title': 'The New Title' } }
       it 'changes the existing data' do
         expect(resulting_data).to eq({
-          'title' => 'The New Title'
+          'title' => 'The New Title',
+          "schoolHasChanged" => false
         })
       end
     end
@@ -207,7 +209,8 @@ describe InProgressEtd do
       let(:old_data) { { 'currentStep': '4' } }
       it 'preserves the highest currentStep' do
         expect(resulting_data).to eq({
-          'currentStep' => '4'
+          'currentStep' => '4',
+          "schoolHasChanged" => false
         })
       end
     end
@@ -217,7 +220,8 @@ describe InProgressEtd do
       let(:old_data) { { 'currentStep': '1' } }
       it 'preserves the highest currentStep' do
         expect(resulting_data).to eq({
-          'currentStep' => '3'
+          'currentStep' => '3',
+          "schoolHasChanged" => false
         })
       end
     end
@@ -227,8 +231,43 @@ describe InProgressEtd do
       let(:old_data) { { 'currentStep': '2' } }
       it 'preserves the highest currentStep' do
         expect(resulting_data).to eq({
-          'currentStep' => '2'
+          'currentStep' => '2',
+          "schoolHasChanged" => false
         })
+      end
+    end
+
+    context 'with an old school and a new school' do
+      let(:new_data) { { 'school': 'laney' } }
+      let(:old_data) { { 'school': 'candler', 'schoolHasChanged': false } }
+
+      it 'sets the schoolHasChanged flag to true' do
+        expect(resulting_data).to eq({
+          'school' => 'laney',
+          'schoolHasChanged' => true
+        })
+      end
+    end
+
+    context 'with a new school but no old school' do
+      let(:new_data) { { 'school': 'laney' } }
+      let(:old_data) { { 'schoolHasChanged': false } }
+      it 'sets the schoolHasChanged flag to false' do
+        expect(resulting_data).to eq({
+          'school' => 'laney',
+          'schoolHasChanged' => false
+        })
+      end
+
+      context 'with no new school but an old school' do
+        let(:new_data) { {} }
+        let(:old_data) { { 'schoolHasChanged': false, 'school': 'laney' } }
+        it 'sets the schoolHasChanged flag to false' do
+          expect(resulting_data).to eq({
+            'school' => 'laney',
+            'schoolHasChanged' => false
+          })
+        end
       end
     end
 
@@ -238,7 +277,8 @@ describe InProgressEtd do
 
       it 'changes the existing data without duplicating data' do
         expect(resulting_data).to eq({
-          'title' => 'The New Title'
+          'title' => 'The New Title',
+          "schoolHasChanged" => false
         })
       end
     end
@@ -251,7 +291,8 @@ describe InProgressEtd do
         it "removes the old no_embargoes parameter and adds the new embargo lengths and types" do
           expect(resulting_data).to eq({
             'embargo_length' => '1 Year',
-            'embargo_type' => 'Files'
+            'embargo_type' => 'Files',
+            "schoolHasChanged" => false
           })
         end
       end
@@ -263,7 +304,8 @@ describe InProgressEtd do
         it "preserves the no_embargoes and adds the new embargo_length data" do
           expect(resulting_data).to eq({
             'embargo_length' => 'None - open access immediately',
-            'no_embargoes' => '1'
+            'no_embargoes' => '1',
+            "schoolHasChanged" => false
           })
         end
       end
@@ -275,7 +317,8 @@ describe InProgressEtd do
         it 'sets new embargo length and type and does not set no_embargoes' do
           expect(resulting_data).to eq({
             'embargo_length' => '2 Years',
-            'embargo_type' => 'files_embargoed, toc_embargoed'
+            'embargo_type' => 'files_embargoed, toc_embargoed',
+            "schoolHasChanged" => false
           })
         end
       end
@@ -288,7 +331,8 @@ describe InProgressEtd do
         it 'removes old embargo lengths and types and sets no_embargoes' do
           expect(resulting_data).to eq({
             'embargo_length' => 'None - open access immediately',
-            'no_embargoes' => '1'
+            'no_embargoes' => '1',
+            "schoolHasChanged" => false
           })
         end
       end
@@ -299,7 +343,8 @@ describe InProgressEtd do
 
       it 'keeps the old data' do
         expect(resulting_data).to eq({
-          'title' => 'The Old Title'
+          'title' => 'The Old Title',
+          "schoolHasChanged" => false
         })
       end
     end
@@ -328,7 +373,7 @@ describe InProgressEtd do
       let(:new_data) { {} }
 
       it 'returns empty hash' do
-        expect(resulting_data).to eq({})
+        expect(resulting_data).to eq({ "schoolHasChanged" => false })
       end
     end
   end

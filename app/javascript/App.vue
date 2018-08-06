@@ -31,6 +31,9 @@
               <section class='errorMessage' v-if="sharedState.hasError('schoolDeptMismatch')">
                   <p>You have not saved the school that is currently selected in 'About Me'. No departments are available.</p>
               </section>
+              <section class='errorMessage' v-if="sharedState.getSchoolHasChanged() === true">
+                  <p>You have saved a school that does not match your saved Department. </p>
+              </section>
             </div>
             <div v-else-if="input.label === 'subfield'">
               <subfield></subfield>
@@ -203,8 +206,6 @@ export default {
     // this executes only the first time the page is loaded (before adding it to the dom), so we need the freshest saved data we have, and we use it to set the state of the tabs.
     this.sharedState.loadSavedData()
     this.sharedState.loadTabs()
-    this.sharedState.loadDepartments()
-    // load schools?
   },
   beforeMount () {
     // this is loaded every time the form changes (whenever the component changes and before the native DOM is updated)
