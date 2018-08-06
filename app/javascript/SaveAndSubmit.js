@@ -21,8 +21,15 @@ export default class SaveAndSubmit {
     var ignoreSet = ['etd[currentTab]', 'etd[currentStep]','etd[schoolHasChanged]']
 
     for (var key of this.formData.keys()) {
+      // add supplementalFilesMetadata to ignore set
+      if (ourTab === "My Files") {
+        if (_.includes(key, 'etd[supplemental_file_metadata]')){
+          ignoreSet.push(key)
+        }
+      }
       // strip array off key for easy comparison
       key = _.replace(key, '[]', '')
+
       // if the form key does not match anything in ourKeys
       if ( !(_.includes(ourKeys, key)) ) {
         // and it is not in the ignore set
@@ -34,6 +41,7 @@ export default class SaveAndSubmit {
   }
   saveTab () {
     this.formData.append("etd[files]", this.formStore.getPrimaryFile())
+    //this.formData.append("etd[supplemental_files_metadata]",  this.formStore.getSupplementalFilesMetadata())
     // the client sends a param the server uses to track whether an old school matches a new school
     this.formData.append('etd[schoolHasChanged]', this.formStore.savedData['schoolHasChanged'])
     this.rejectOtherTabKeys()
