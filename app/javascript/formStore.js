@@ -288,8 +288,8 @@ export var formStore = {
     if (this.selectedSchool === undefined) {
       this.selectedSchool = ''
     }
-    return this.selectedSchool.length === 0 ?
-      this.savedData['school'] : this.schools.selected
+    return this.selectedSchool.length === 0
+      ? this.savedData['school'] : this.schools.selected
   },
   getSavedSchool () {
     return this.savedData['school']
@@ -297,28 +297,21 @@ export var formStore = {
   setSelectedSchool (school) {
     this.schools.selected = school
   },
-
   getSelectedDepartment () {
     return this.selectedDepartment
   },
-
   getSavedOrSelectedDepartment () {
     return this.selectedDepartment.length === 0 ? this.savedData['department'] : this.selectedDepartment
   },
-
   getSavedDepartment () {
     return this.savedData['department']
   },
-
   setSelectedDepartment (department) {
     this.selectedDepartment = department
   },
   clearDepartment () {
     this.selectedDepartment = ''
     this.savedData['department'] = ''
-  },
-  clearDepartments () {
-    this.departments = []
   },
   getDepartments (selectedSchool) {
     axios.get(selectedSchool).then(response => {
@@ -327,8 +320,8 @@ export var formStore = {
   },
   loadDepartments () {
     if (this.savedData['department'] !== undefined) {
-      var school_endpoint = '/authorities/terms/local/' + this.savedData['school'] + '_programs'
-      this.getDepartments(school_endpoint)
+      var schoolEndpoint = '/authorities/terms/local/' + this.savedData['school'] + '_programs'
+      this.getDepartments(schoolEndpoint)
     }
   },
   getSelectedSubfield () {
@@ -341,9 +334,11 @@ export var formStore = {
     this.selectedSubfield = subfield
   },
   getSubfields () {
-    axios.get(this.subfieldEndpoints[this.selectedDepartment]).then((response) => {
-      this.subfields = response.data
-    })
+    if (this.subfieldEndpoints[this.selectedDepartment]) {
+      axios.get().then((response) => {
+        this.subfields = response.data
+      })
+    }
   },
   clearSubfields () {
     this.subfields = []
