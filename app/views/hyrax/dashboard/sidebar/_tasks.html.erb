@@ -12,7 +12,7 @@
     <% end %>
   <% end %>
 
-  <% if can? :read, :admin_dashboard %>
+  <% if can? :edit, Hydra::AccessControls::Embargo %>
     <%= menu.nav_link(hyrax.embargoes_path) do %>
       <span class="fa fa-flag"></span> <span class="sidebar-action-text"><%= t('hyrax.embargoes.index.manage_embargoes') %></span>
     <% end %>

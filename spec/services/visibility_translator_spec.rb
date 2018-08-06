@@ -55,4 +55,59 @@ describe VisibilityTranslator do
       end
     end
   end
+
+  describe '#visibility=' do
+    let(:obj) { FactoryBot.create(:etd, visibility: restricted) }
+
+    it 'can set visibility of object to open' do
+      expect { translator.visibility = open }
+        .to change { obj.visibility }
+        .to open
+    end
+
+    context 'when the work has no embargo' do
+      it 'cannot set visibility of object to file restricted level' do
+        expect { translator.visibility = described_class::FILES_EMBARGOED }
+          .to raise_error ArgumentError
+      end
+
+      it 'cannot set visibility of object to toc restricted level' do
+        expect { translator.visibility = described_class::TOC_EMBARGOED }
+          .to raise_error ArgumentError
+      end
+
+      it 'cannot set visibility of object to all restricted level' do
+        expect { translator.visibility = described_class::ALL_EMBARGOED }
+          .to raise_error ArgumentError
+      end
+    end
+
+    context 'when the work is under embargo' do
+      let(:obj) do
+        FactoryBot.create(:tomorrow_expiration,
+                          files_embargoed: false,
+                          toc_embargoed:   false)
+      end
+
+      it 'can set visibility of object to file restricted level' do
+        expect { translator.visibility = described_class::FILES_EMBARGOED }
+          .to change { obj.visibility }
+          .to described_class::FILES_EMBARGOED
+      end
+
+      it 'can set visibility of object to toc restricted level' do
+        expect { translator.visibility = described_class::TOC_EMBARGOED }
+          .to change { obj.visibility }
+          .to described_class::TOC_EMBARGOED
+      end
+
+      it 'can set visibility of object to all restricted level' do
+        translator.visibility = described_class::FILES_EMBARGOED
+
+        expect { translator.visibility = described_class::ALL_EMBARGOED }
+          .to change { obj.visibility }
+          .to described_class::ALL_EMBARGOED
+      end
+    end
+  end
 end

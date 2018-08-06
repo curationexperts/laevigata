@@ -18,6 +18,12 @@ class FileSet < ActiveFedora::Base
     index.as :facetable
   end
 
+  ##
+  # @return [AdminSet, nil]
+  def admin_set
+    parent&.admin_set
+  end
+
   def original?
     pcdm_use == ORIGINAL
   end

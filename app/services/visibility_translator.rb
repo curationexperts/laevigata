@@ -17,9 +17,10 @@
 #
 # @see Hydra::AccessControls::Visibility
 class VisibilityTranslator
-  ALL_EMBARGOED   = 'embargo; all'.freeze
-  FILES_EMBARGOED = 'embargo; file'.freeze
-  TOC_EMBARGOED   = 'embargo; toc + file'.freeze
+  ALL_EMBARGOED   = 'all_restricted'.freeze
+  FILES_EMBARGOED = 'files_restricted'.freeze
+  TOC_EMBARGOED   = 'toc_restricted'.freeze
+  OPEN            = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
 
   attr_accessor :obj
 
@@ -32,11 +33,58 @@ class VisibilityTranslator
   end
 
   def visibility
-    return VisibilityProxy.new(obj).visibility unless obj.under_embargo?
-    return ALL_EMBARGOED                       if     obj.abstract_embargoed
-    return TOC_EMBARGOED                       if     obj.toc_embargoed
+    return proxy.visibility unless obj.under_embargo?
+    return ALL_EMBARGOED    if     obj.abstract_embargoed
+    return TOC_EMBARGOED    if     obj.toc_embargoed
 
     FILES_EMBARGOED
+  end
+
+  def visibility=(value)
+    case value
+    when FILES_EMBARGOED
+      raise(InvalidVisibilityError.new('Invalid embargo visibility level:', value, obj)) unless
+        obj.under_embargo?
+
+      obj.files_embargoed    = true
+      obj.toc_embargoed      = false
+      obj.abstract_embargoed = false
+      proxy.visibility       = OPEN
+    when TOC_EMBARGOED
+      raise(InvalidVisibilityError.new('Invalid embargo visibility level:', value, obj)) unless
+        obj.under_embargo?
+
+      obj.files_embargoed    = true
+      obj.toc_embargoed      = true
+      obj.abstract_embargoed = false
+      proxy.visibility       = OPEN
+    when ALL_EMBARGOED
+      raise(InvalidVisibilityError.new('Invalid embargo visibility level:', value, obj)) unless
+        obj.under_embargo?
+
+      obj.files_embargoed    = true
+      obj.toc_embargoed      = true
+      obj.abstract_embargoed = true
+      proxy.visibility       = OPEN
+    else
+      proxy.visibility = value
+    end
+  end
+
+  def proxy
+    VisibilityProxy.new(obj)
+  end
+
+  class InvalidVisibilityError < ArgumentError
+    def initialize(msg = 'Invalid visibility level:', level = nil, obj = nil)
+      @level = level
+      @obj   = obj
+      @msg   = msg + " #{level}\nNo embargo is set on #{obj ? obj.id : 'the object'}."
+    end
+
+    def message
+      @msg
+    end
   end
 
   ##
@@ -57,6 +105,7 @@ class VisibilityTranslator
     include Hydra::AccessControls::Visibility
 
     def_delegator :@original, :read_groups
+    def_delegator :@original, :set_read_groups
 
     def initialize(original)
       @original = original

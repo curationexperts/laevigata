@@ -431,4 +431,110 @@ RSpec.describe Etd do
       its(:degree_granting_institution) { is_expected.to eq "http://id.loc.gov/vocabulary/organizations/geu" }
     end
   end
+
+  describe '#visibility' do
+    subject(:etd) { described_class.new }
+
+    let(:all)        { VisibilityTranslator::ALL_EMBARGOED }
+    let(:files)      { VisibilityTranslator::FILES_EMBARGOED }
+    let(:open)       { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
+    let(:restricted) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
+    let(:toc)        { VisibilityTranslator::TOC_EMBARGOED }
+
+    it 'is restricted by default' do
+      expect(etd.visibility).to eq restricted
+    end
+
+    context 'when under full embargo' do
+      subject(:etd) { FactoryBot.create(:sample_data_with_everything_embargoed) }
+
+      it 'is embargo (all)' do
+        expect(etd.visibility).to eq all
+      end
+    end
+
+    context 'when under file-only embargo' do
+      subject(:etd) { FactoryBot.create(:sample_data_with_only_files_embargoed) }
+
+      it 'is embargo (file)' do
+        expect(etd.visibility).to eq files
+      end
+    end
+
+    context 'when under toc embargo' do
+      subject(:etd) do
+        FactoryBot.create(:sample_data_with_only_files_embargoed, toc_embargoed: true)
+      end
+
+      it 'is embargo (toc + file)' do
+        expect(etd.visibility).to eq toc
+      end
+    end
+
+    context 'when restricted' do
+      subject(:etd) { FactoryBot.create(:etd, visibility: restricted) }
+
+      it 'is restricted' do
+        expect(etd.visibility).to eq restricted
+      end
+    end
+  end
+
+  describe '#visibility=' do
+    subject(:etd) { FactoryBot.create(:etd, visibility: restricted) }
+
+    let(:all)        { VisibilityTranslator::ALL_EMBARGOED }
+    let(:files)      { VisibilityTranslator::FILES_EMBARGOED }
+    let(:open)       { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
+    let(:restricted) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
+    let(:toc)        { VisibilityTranslator::TOC_EMBARGOED }
+
+    it 'can set to open' do
+      expect { etd.visibility = open }
+        .to change { etd.visibility }
+        .to open
+    end
+
+    context 'with no embargo set' do
+      it 'cannot set to file restricted access' do
+        expect { etd.visibility = files }.to raise_error ArgumentError
+      end
+
+      it 'cannot set to toc restricted access' do
+        expect { etd.visibility = toc }.to raise_error ArgumentError
+      end
+
+      it 'cannot set to all restricted access' do
+        expect { etd.visibility = all }.to raise_error ArgumentError
+      end
+    end
+
+    context 'with an embargo' do
+      subject(:etd) do
+        FactoryBot.create(:tomorrow_expiration,
+                          files_embargoed: false,
+                          toc_embargoed:   false)
+      end
+
+      it 'can set to file restricted access' do
+        expect { etd.visibility = files }
+          .to change { etd.visibility }
+          .to files
+      end
+
+      it 'can set to toc restricted access' do
+        expect { etd.visibility = toc }
+          .to change { etd.visibility }
+          .to toc
+      end
+
+      it 'can set to all restricted access' do
+        etd.visibility = files
+
+        expect { etd.visibility = all }
+          .to change { etd.visibility }
+          .to all
+      end
+    end
+  end
 end

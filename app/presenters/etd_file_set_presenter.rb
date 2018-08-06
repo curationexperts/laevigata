@@ -14,4 +14,8 @@ class EtdFileSetPresenter < Hyrax::FileSetPresenter
   def permission_badge
     ""
   end
+
+  def link_name
+    first_title
+  end
 end

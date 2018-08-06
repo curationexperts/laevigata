@@ -19,7 +19,10 @@ class EtdFactory
 
   def attach_primary_pdf_file
     uf = Hyrax::UploadedFile.create(file: File.open(primary_pdf_file), pcdm_use: FileSet::PRIMARY)
-    AttachFilesToWorkJob.perform_now(etd, [uf])
+
+    AttachFilesToWorkJob
+      .perform_now(etd, [uf], **FileSetVisibilityAttributeBuilder.new(work: etd).build)
+
     primary_file_set = etd.ordered_members.to_a.first
     primary_file_set.embargo = etd.embargo
     primary_file_set.save
@@ -29,7 +32,7 @@ class EtdFactory
     return unless supplemental_files && supplemental_files.count > 0
     supplemental_files.each do |sf|
       uf = Hyrax::UploadedFile.create(file: File.open(sf), pcdm_use: FileSet::SUPPLEMENTARY)
-      AttachFilesToWorkJob.perform_now(etd, [uf])
+      AttachFilesToWorkJob.perform_now(etd, [uf], **FileSetVisibilityAttributeBuilder.new(work: etd).build)
     end
     mark_supplemental_files
   end

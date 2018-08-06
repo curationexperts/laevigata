@@ -1,6 +1,28 @@
 require 'rails_helper'
 
 RSpec.describe FileSet do
+  subject(:file_set) { described_class.new }
+
+  describe '#admin_set' do
+    it 'has no admin_set of its own' do
+      expect(file_set.admin_set).to be_nil
+    end
+
+    context 'when it belongs to a work' do
+      let(:etd)       { FactoryBot.build(:etd, admin_set: admin_set) }
+      let(:admin_set) { FactoryBot.create(:admin_set) }
+
+      before do
+        etd.ordered_members << file_set
+        etd.save
+      end
+
+      it 'gives the admin_set for the parent work' do
+        expect(file_set.admin_set).to eq admin_set
+      end
+    end
+  end
+
   context 'with a new FileSet' do
     its(:pcdm_use) { is_expected.to be_nil }
     its(:embargo_length) { is_expected.to be_nil }
