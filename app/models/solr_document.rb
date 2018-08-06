@@ -139,4 +139,14 @@ class SolrDocument
   def proquest_submission_date
     self[Solrizer.solr_name('proquest_submission_date')]
   end
+
+  def visibility
+    VisibilityTranslator
+      .new(obj: self)
+      .visibility
+  end
+
+  def under_embargo?
+    embargo_release_date.present?
+  end
 end

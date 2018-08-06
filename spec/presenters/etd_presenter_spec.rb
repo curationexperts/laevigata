@@ -253,5 +253,33 @@ describe EtdPresenter do
     it { is_expected.to delegate_method(:requires_permissions).to(:solr_document) }
     it { is_expected.to delegate_method(:other_copyrights).to(:solr_document) }
     it { is_expected.to delegate_method(:patents).to(:solr_document) }
+
+    describe '#permission_badge' do
+      it 'shows Open Access' do
+        expect(presenter.permission_badge).to include 'Open Access'
+      end
+
+      context 'when under embargo' do
+        subject(:etd) do
+          FactoryBot.create(:tomorrow_expiration,
+                            files_embargoed: false,
+                            toc_embargoed:   false)
+        end
+
+        it 'is under embargo' do
+          expect(presenter.permission_badge).to include 'All Restricted'
+        end
+
+        it 'reflects file level embargo' do
+          etd.visibility = VisibilityTranslator::FILES_EMBARGOED
+          expect(presenter.permission_badge).to include 'Files'
+        end
+
+        it 'reflects toc level embargo' do
+          etd.visibility = VisibilityTranslator::TOC_EMBARGOED
+          expect(presenter.permission_badge).to include 'ToC'
+        end
+      end
+    end
   end
 end
