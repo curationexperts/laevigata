@@ -86,13 +86,14 @@
         <tbody>
           <tr v-for="(files, key) in sharedState.supplementalFiles" v-bind:key="key">
 
-            <td><input type="text" :value="files.name" class="form-control" disabled />
+            <td><input type="text" :value="sharedState.supplementalFiles[key].filename" class="form-control" disabled />
             <input type='hidden' :value="files.name" :name="supplementalFileName(key)"></td>
-            <td><input :name="supplementalFileTitleName(key)" type="text" class="form-control" v-on:change="sharedState.setValid('My Files', false)"/></td>
-            <td><input :name="supplementalFileDescriptionName(key)" type="text" class="form-control" v-on:change="sharedState.setValid('My Files', false)"/></td>
+            <td><input :name="supplementalFileTitleName(key)" type="text" class="form-control" :value="sharedState.supplementalFiles[key].title" v-on:change="sharedState.setValid('My Files', false)"/></td>
+            <td><input :name="supplementalFileDescriptionName(key)" type="text" class="form-control" :value="sharedState.supplementalFiles[key].description" v-on:change="sharedState.setValid('My Files', false)"/></td>
             <td>
               <select :name="supplementalFileTypeName(key)" class="form-control file-type" v-on:change="sharedState.setValid('My Files', false)">
-                <option selected="selected" disabled="disabled">Please select a file type</option>
+                <option v-if="sharedState.supplementalFiles[key].file_type" selected="selected" :value="sharedState.supplementalFiles[key].file_type">{{sharedState.supplementalFiles[key].file_type}}</option>
+                <option v-else selected="selected" disabled="disabled">Please select a file type</option>
                 <option>Text</option>
                 <option>Sound</option>
                 <option>Video</option>
@@ -141,7 +142,7 @@ export default {
   mounted () {
     var folderId = '0'
     var accessToken = window.location.search.split('&access_token=')[1]
-    
+
     if (accessToken) {
       var filePicker = new Box.FilePicker()
 
@@ -160,11 +161,11 @@ export default {
           csrfToken: this.sharedState.token,
           formStore: this.sharedState
       })
-      
-      boxFileUploader.getUrlFromBox() 
+
+      boxFileUploader.getUrlFromBox()
       filePicker.hide()
       })
-    } 
+    }
   },
   methods: {
     onFileChange(e) {
