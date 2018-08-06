@@ -21,8 +21,7 @@ RSpec.feature 'Laney Graduate School two step approval workflow',
       w.setup
       attributes_for_actor = { uploaded_files: [file.id] }
       env = Hyrax::Actors::Environment.new(etd, ::Ability.new(depositing_user), attributes_for_actor)
-      middleware = Hyrax::DefaultMiddlewareStack.build_stack.build(Hyrax::Actors::Terminator.new)
-      middleware.create(env)
+      Hyrax::CurationConcern.actor.create(env)
     end
 
     scenario "an approver reviews and approves a work" do
