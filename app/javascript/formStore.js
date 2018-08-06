@@ -410,6 +410,14 @@ export var formStore = {
   },
   /* end Getters & Setters */
 
+  addSupplementalFileMetadata () {
+    if (this.savedData['supplemental_file_metadata']) {
+      _.forEach(this.savedData['supplemental_file_metadata'], (sfm) => {
+        this.supplementalFiles.push({ filename: sfm.filename, title: sfm.title, description: sfm.description, file_type: sfm.file_type })
+      })
+    }
+  },
+
   addFileData () {
     if (this.savedData['files']) {
       var parsedFiles = this.tryParseJSON(this.savedData['files'])
@@ -468,6 +476,7 @@ export var formStore = {
       this.savedData = JSON.parse(el.dataset.inProgressEtd)
     }
     this.addFileData()
+    this.addSupplementalFileMetadata()
     if (Object.keys(this.savedData).length > 0) {
       this.setIpeId(this.savedData['ipe_id'])
       this.setEtdId(this.savedData['etd_id'])
