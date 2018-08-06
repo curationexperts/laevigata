@@ -31,6 +31,15 @@ class EtdPresenter < Hyrax::WorkShowPresenter
     Hyrax::EtdMemberPresenterFactory.new(solr_document, current_ability, request)
   end
 
+  ##
+  # Override `PresentsAttributes` to Use the custom `EtdPermissionBadge` class,
+  # adding view support for custom Etd visibilities (embargo levels).
+  #
+  # @return [Class]
+  def permission_badge_class
+    EtdPermissionBadge
+  end
+
   # Given an ARK in the identifier field, return an Emory permanent_url
   def permanent_url
     return nil unless identifier && identifier.first && identifier.first.match(/^ark/)
