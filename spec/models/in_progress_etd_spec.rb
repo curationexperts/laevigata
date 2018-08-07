@@ -299,11 +299,11 @@ describe InProgressEtd do
 
       context 'with existing no_embargoes and new no_embargoes' do
         let(:old_data) { { no_embargoes: '1' } }
-        let(:new_data) { { 'embargo_length': 'None - open access immediately' } }
+        let(:new_data) { { 'embargo_length': described_class::NO_EMBARGO } }
 
         it "preserves the no_embargoes and adds the new embargo_length data" do
           expect(resulting_data).to eq({
-            'embargo_length' => 'None - open access immediately',
+            'embargo_length' => described_class::NO_EMBARGO,
             'no_embargoes' => '1',
             "schoolHasChanged" => false
           })
@@ -326,11 +326,11 @@ describe InProgressEtd do
       context 'with existing embargoes and new no embargo data' do
         let(:old_data) { { 'embargo_length': '1 Year', 'embargo_type': 'files_embargoed' } }
 
-        let(:new_data) { { 'embargo_length': 'None - open access immediately' } }
+        let(:new_data) { { 'embargo_length': described_class::NO_EMBARGO } }
 
         it 'removes old embargo lengths and types and sets no_embargoes' do
           expect(resulting_data).to eq({
-            'embargo_length' => 'None - open access immediately',
+            'embargo_length' => described_class::NO_EMBARGO,
             'no_embargoes' => '1',
             "schoolHasChanged" => false
           })
