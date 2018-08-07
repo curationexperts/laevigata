@@ -352,7 +352,7 @@ export var formStore = {
   },
   getSubfields () {
     if (this.subfieldEndpoints[this.selectedDepartment]) {
-      axios.get().then((response) => {
+      axios.get(this.subfieldEndpoints[this.selectedDepartment]).then((response) => {
         this.subfields = response.data
       })
     }
