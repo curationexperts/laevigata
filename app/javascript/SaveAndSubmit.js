@@ -50,7 +50,6 @@ export default class SaveAndSubmit {
     // the client sends a param the server uses to track whether an old school matches a new school
     this.formData.append('etd[schoolHasChanged]', this.formStore.savedData['schoolHasChanged'])
     this.rejectOtherTabKeys()
-
     axios
       .patch(this.formStore.getUpdateRoute(), this.formData, {
         config: { headers: { 'Content-Type': 'multipart/form-data' } }
@@ -90,9 +89,11 @@ export default class SaveAndSubmit {
       })
   }
   submitEtd () {
+    // we want the latest data from the server loaded into the form only when ready to submit for publication
     this.formStore.loadSavedData()
     // submit as form data
     this.formStore.savedData['school'] = this.formStore.getSchoolText(this.formStore.savedData['school'])
+
     var uploadedFilesIds = []
     uploadedFilesIds.push(`${this.formStore.files[0][0].id}`)
     _.forEach(this.formStore.supplementalFiles, (sf) => {

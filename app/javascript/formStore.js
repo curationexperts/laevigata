@@ -212,6 +212,7 @@ export var formStore = {
     var school = _.find(this.schools.options, (school) => { return school.value === schoolKey })
     return school.text
   },
+
   getNextStep () {
     return parseInt(this.savedData['currentStep']) + 1
   },
@@ -417,18 +418,9 @@ export var formStore = {
       })
   },
   /* end Getters & Setters */
-
-  addSupplementalFileMetadata () {
-    if (this.savedData['supplemental_file_metadata']) {
-      _.forEach(this.savedData['supplemental_file_metadata'], (sfm) => {
-        this.supplementalFiles.push({ filename: sfm.filename, title: sfm.title, description: sfm.description, file_type: sfm.file_type })
-      })
-    }
-  },
-
   addFileData () {
-    if (this.savedData['files']) {
-      var parsedFiles = this.tryParseJSON(this.savedData['files'])
+    if (_.has(this.savedData, 'files') && this.savedData['files'] !== "undefined") {
+    var parsedFiles = this.tryParseJSON(this.savedData['files'])
       // we have a legit parsed file object
       if (!(_.isError(parsedFiles))){
         // if there's nothing in the the files array, just go ahead
@@ -473,9 +465,10 @@ export var formStore = {
   },
   removeSavedFile(deleteUrl){
     //TODO: this assumes files contains only one object, and returns it
-    if (this.savedData['files'].deleteUrl === deleteUrl){
-      //delete it
-      // console.log('match')
+    // TODO: rename files primaryFile
+    var file = this.tryParseJSON(this.savedData['files'])
+    if (file['deleteUrl'] === deleteUrl){
+      delete this.savedData.files
     }
   },
 
@@ -485,12 +478,9 @@ export var formStore = {
     var formData = new FormData(formElement)
     // these needs to be whatever is current
     formData.append(this.etdPrefix('school'), this.getSelectedSchool())
-    formData.append(this.etdPrefix('files[]'), this.getPrimaryFile())
-    // consider this 999 we should not send this unless we have it
-    // also do we still use this form anywhere?
 
     if (this.getSelectedDepartment() !== '' && this.getSelectedDepartment() !== undefined ){
-      console.log('sel dept', this.getSelectedDepartment())
+      // console.log('sel dept', this.getSelectedDepartment())
       formData.append(this.etdPrefix('department'), this.getSelectedDepartment())
     }
 
@@ -523,7 +513,6 @@ export var formStore = {
       formData: this.formData
     })
     if (this.allowTabSave()) {
-      this.submitted = true
       saveAndSubmit.submitEtd()
     } else {
       this.submitted = true
