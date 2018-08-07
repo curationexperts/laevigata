@@ -53,9 +53,17 @@ class GraduationJob < ActiveJob::Base
 
   def update_embargo_release_date
     return unless @work.embargo_length
-    @work.embargo.embargo_release_date = GraduationJob.embargo_length_to_embargo_release_date(@work.degree_awarded, @work.embargo_length)
+    embargo_release_date = GraduationJob.embargo_length_to_embargo_release_date(@work.degree_awarded, @work.embargo_length)
+    @work.embargo.embargo_release_date = embargo_release_date
     @work.embargo.save
+    @work.file_sets.each do |fs|
+      fs.embargo.embargo_release_date = embargo_release_date
+      fs.embargo.save
+    end
     Rails.logger.warn "Graduation Job: ETD #{@work.id} embargo release date set to #{@work.embargo.embargo_release_date}"
+  rescue => e
+    Rails.logger.error "Error updating embargo release date for work #{work}: #{e}"
+    Honeybadger.notify("Error updating embargo release date for work #{work}: #{e}")
   end
 
   def send_notifications
