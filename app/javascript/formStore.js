@@ -5,6 +5,7 @@ import MemberList from './lib/MemberList'
 import ChairList from './lib/ChairList'
 import KeywordList from './lib/KeywordList'
 import PartneringAgencyList from './lib/PartneringAgencyList'
+import BoxFilePickerMode from './lib/BoxFilePickerMode'
 
 // Configuration imports
 import copyrightQuestions from './config/copyrightQuestions.json'
@@ -13,6 +14,7 @@ import embargoContents from './config/embargoContents.json'
 import embargoLengths from './config/embargoLengths.json'
 import schools from './config/schools.json'
 import helpText from './config/helpText.json'
+
 export var formStore = {
   tabs: {
     about_me: {
@@ -158,6 +160,7 @@ export var formStore = {
   copyrightQuestions: copyrightQuestions,
   committeeChairs: new ChairList(),
   committeeMembers: new MemberList(),
+  boxFilePickerMode: new BoxFilePickerMode(),
   agreement: false,
   submitted: false,
   files: [],

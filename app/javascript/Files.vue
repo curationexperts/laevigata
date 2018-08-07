@@ -51,7 +51,7 @@
       <label class="btn btn-primary" for="add-file"><span class='glyphicon glyphicon-plus'></span>
       Add your thesis or dissertation file from your computer
       </label>
-      <a class="btn btn-primary" :href="boxOAuthUrl()"><span class="glyphicon glyphicon-plus"></span> Add your thesis or dissertation file from Box</a>
+      <button type="button" class="btn btn-primary" @click="boxOAuth('primary')"><span class="glyphicon glyphicon-plus"></span> Add your thesis or dissertation file from Box</button>
     </div>
 
     <div v-if="sharedState.files[0]">
@@ -114,7 +114,7 @@
       <label class="btn btn-primary" for="add-supplemental-file"><span class='glyphicon glyphicon-plus'></span>
       Add a supplemental file from your computer
       </label>
-      <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add a supplemental file from Box</button>
+      <button type="button" class="btn btn-primary" @click="boxOAuth('supplemental')"><span class="glyphicon glyphicon-plus"></span> Add a supplemental file from Box</button>
     </div>
     </section>
   </div>
@@ -212,6 +212,11 @@ export default {
       })
       supplementalFileDelete.deleteFile()
       this.sharedState.setValid('My Files', false)
+  },
+  boxOAuth(mode) {
+    this.sharedState.boxFilePickerMode.setMode(mode)
+    console.log('setting mode')
+    window.location = this.boxOAuthUrl()
   },
   boxOAuthUrl () {
     return `https://account.box.com/api/oauth2/authorize?response_type=code&client_id=${boxClientId()}&redirect_uri${window.location.origin}/auth/box&state=${this.sharedState.ipeId}`
