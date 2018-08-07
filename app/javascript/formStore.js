@@ -488,6 +488,7 @@ export var formStore = {
       formData: this.formData
     })
     if (this.allowTabSave()) {
+      this.submitted = true
       saveAndSubmit.submitEtd()
     } else {
       this.submitted = true
