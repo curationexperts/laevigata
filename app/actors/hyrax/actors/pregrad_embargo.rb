@@ -14,6 +14,9 @@ module Hyrax
         def pregraduation_embargo_attributes(env)
           return {} unless env.attributes.key?(:embargo_length)
 
+          return handle_malformed_data(env) if
+            env.attributes.fetch(:embargo_length, nil) == InProgressEtd::NO_EMBARGO
+
           open = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
           embargo = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
 
@@ -21,6 +24,25 @@ module Hyrax
             visibility:                embargo,
             visibility_after_embargo:  open,
             visibility_during_embargo: open }
+        end
+
+        ##
+        # When creating an `Etd` with no embargo, `InProgressEtd` passes a
+        # particular string (`InProgressEtd::NO_EMBARGO'). For the moment, we
+        # need to handle
+        #
+        # @todo rework callers to avoid passing this "malformed" data. We
+        #   shouldn't need to interpret strings passed to this value until
+        #   graduation.
+        def handle_malformed_data(env)
+          warn "#{self.class} is cleaning up non-date data passed to the " \
+               ":embargo_length attribute. #{env.attributes[:embargo_length]} " \
+               "is being interpreted as a request for no embargo on " \
+               "#{env.attributes[:title]}."
+
+          env.attributes.delete(:embargo_length)
+
+          {}
         end
     end
   end
