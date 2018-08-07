@@ -21,9 +21,12 @@ export default class SaveAndSubmit {
     var ignoreSet = ['etd[currentTab]', 'etd[currentStep]','etd[schoolHasChanged]']
 
     for (var key of this.formData.keys()) {
-      // add supplementalFilesMetadata to ignore set
+      // add supplementalFiles and supplementalFilesMetadata to ignore set
       if (ourTab === "My Files") {
         if (_.includes(key, 'etd[supplemental_file_metadata]')){
+          ignoreSet.push(key)
+        }
+        if (_.includes(key, 'etd[supplemental_files]')){
           ignoreSet.push(key)
         }
       }
@@ -40,12 +43,13 @@ export default class SaveAndSubmit {
     }
   }
   saveTab () {
+    // files are special
     this.formData.append("etd[files]", this.formStore.getPrimaryFile())
-    //this.formData.append("etd[supplemental_files_metadata]",  this.formStore.getSupplementalFilesMetadata())
+    this.formData.append("etd[supplemental_files]", this.formStore.getSupplementalFiles())
+
     // the client sends a param the server uses to track whether an old school matches a new school
     this.formData.append('etd[schoolHasChanged]', this.formStore.savedData['schoolHasChanged'])
     this.rejectOtherTabKeys()
-
     axios
       .patch(this.formStore.getUpdateRoute(), this.formData, {
         config: { headers: { 'Content-Type': 'multipart/form-data' } }
@@ -85,9 +89,11 @@ export default class SaveAndSubmit {
       })
   }
   submitEtd () {
+    // we want the latest data from the server loaded into the form only when ready to submit for publication
     this.formStore.loadSavedData()
     // submit as form data
     this.formStore.savedData['school'] = this.formStore.getSchoolText(this.formStore.savedData['school'])
+
     var uploadedFilesIds = []
     uploadedFilesIds.push(`${this.formStore.files[0][0].id}`)
     _.forEach(this.formStore.supplementalFiles, (sf) => {

@@ -5,6 +5,7 @@ import MemberList from './lib/MemberList'
 import ChairList from './lib/ChairList'
 import KeywordList from './lib/KeywordList'
 import PartneringAgencyList from './lib/PartneringAgencyList'
+import BoxFilePickerMode from './lib/BoxFilePickerMode'
 
 // Configuration imports
 import copyrightQuestions from './config/copyrightQuestions.json'
@@ -13,6 +14,7 @@ import embargoContents from './config/embargoContents.json'
 import embargoLengths from './config/embargoLengths.json'
 import schools from './config/schools.json'
 import helpText from './config/helpText.json'
+
 export var formStore = {
   tabs: {
     about_me: {
@@ -158,6 +160,7 @@ export var formStore = {
   copyrightQuestions: copyrightQuestions,
   committeeChairs: new ChairList(),
   committeeMembers: new MemberList(),
+  boxFilePickerMode: new BoxFilePickerMode(),
   agreement: false,
   submitted: false,
   files: [],
@@ -210,6 +213,7 @@ export var formStore = {
     var school = _.find(this.schools.options, (school) => { return school.value === schoolKey })
     return school.text
   },
+
   getNextStep () {
     return parseInt(this.savedData['currentStep']) + 1
   },
@@ -369,6 +373,11 @@ export var formStore = {
     return JSON.stringify(this.files[0][0])
   },
 
+  getSupplementalFiles(){
+    if (this.supplementalFiles === undefined || this.supplementalFiles.length === 0) return
+    return JSON.stringify(this.supplementalFiles)
+  },
+
   getGraduationDate () {
     return this.savedData['graduation_date']
   },
@@ -409,8 +418,6 @@ export var formStore = {
         console.log(err)
       })
   },
-  /* end Getters & Setters */
-
   addSupplementalFileMetadata () {
     if (this.savedData['supplemental_file_metadata']) {
       _.forEach(this.savedData['supplemental_file_metadata'], (sfm) => {
@@ -431,8 +438,8 @@ export var formStore = {
     }
   },
   addFileData () {
-    if (this.savedData['files']) {
-      var parsedFiles = this.tryParseJSON(this.savedData['files'])
+    if (_.has(this.savedData, 'files') && this.savedData['files'] !== "undefined") {
+    var parsedFiles = this.tryParseJSON(this.savedData['files'])
       // we have a legit parsed file object
       if (!(_.isError(parsedFiles))){
         // if there's nothing in the the files array, just go ahead
@@ -454,14 +461,33 @@ export var formStore = {
       }
     }
   },
+  addSupplementalFiles () {
+    if (this.savedData['supplemental_files']){
+      var parsedFiles = this.tryParseJSON(this.savedData['supplemental_files'])
+      // we have a legit parsed file array of objects
+      if (!(_.isError(parsedFiles))){
+        // check for duplicates
+        _.forEach(parsedFiles, (psf) => {
+          var file = _.find(this.supplementalFiles, function(sf) {
+            return sf.deleteUrl === psf.deleteUrl
+          })
+          // add only if it isn't there
+          if ( !(_.isObject(file)) ) {
+            this.supplementalFiles.push(psf)
+          }
+        })
+      }
+    }
+  },
   tryParseJSON(str){
     return _.attempt(JSON.parse.bind(null, str));
   },
   removeSavedFile(deleteUrl){
     //TODO: this assumes files contains only one object, and returns it
-    if (this.savedData['files'].deleteUrl === deleteUrl){
-      //delete it
-      // console.log('match')
+    // TODO: rename files primaryFile
+    var file = this.tryParseJSON(this.savedData['files'])
+    if (file['deleteUrl'] === deleteUrl){
+      delete this.savedData.files
     }
   },
 
@@ -471,12 +497,9 @@ export var formStore = {
     var formData = new FormData(formElement)
     // these needs to be whatever is current
     formData.append(this.etdPrefix('school'), this.getSelectedSchool())
-    formData.append(this.etdPrefix('files[]'), this.getPrimaryFile())
-    // consider this 999 we should not send this unless we have it
-    // also do we still use this form anywhere?
 
     if (this.getSelectedDepartment() !== '' && this.getSelectedDepartment() !== undefined ){
-      console.log('sel dept', this.getSelectedDepartment())
+      // console.log('sel dept', this.getSelectedDepartment())
       formData.append(this.etdPrefix('department'), this.getSelectedDepartment())
     }
 
@@ -488,7 +511,7 @@ export var formStore = {
       this.savedData = JSON.parse(el.dataset.inProgressEtd)
     }
     this.addFileData()
-    this.addSupplementalFileMetadata()
+    this.addSupplementalFiles()
     if (Object.keys(this.savedData).length > 0) {
       this.setIpeId(this.savedData['ipe_id'])
       this.setEtdId(this.savedData['etd_id'])
@@ -509,7 +532,6 @@ export var formStore = {
       formData: this.formData
     })
     if (this.allowTabSave()) {
-      this.submitted = true
       saveAndSubmit.submitEtd()
     } else {
       this.submitted = true

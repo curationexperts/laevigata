@@ -275,7 +275,6 @@ export default {
     },
     onSubmit (event) {
       this.sharedState.setFormData(event.target)
-      this.sharedState.loadSavedData(event.target)
       if (this.readyForReview()){
         console.log('ready for review')
         this.reviewTabs()
