@@ -364,7 +364,8 @@ export var formStore = {
   /* End of Schools, Departments & Subfields */
 
   getPrimaryFile(){
-    if (this.files[0] === undefined) return
+    // console.log(this.files, this.files[0])
+    if (this.files.length === 0 || this.files[0] === undefined) return
     return JSON.stringify(this.files[0][0])
   },
 
@@ -412,14 +413,19 @@ export var formStore = {
 
   addSupplementalFileMetadata () {
     if (this.savedData['supplemental_file_metadata']) {
+      // check for duplicates
       _.forEach(this.savedData['supplemental_file_metadata'], (sfm) => {
-        this.supplementalFiles.push({ filename: sfm.filename, title: sfm.title, description: sfm.description, file_type: sfm.file_type })
+        var file = _.find(this.supplementalFiles, function(o) { return o.filename === sfm.filename })
+        // add only if it isn't there
+        if ( !(file) ){
+          this.supplementalFiles.push({ filename: sfm.filename, title: sfm.title, description: sfm.description, file_type: sfm.file_type })
+        }
       })
     }
   },
-
   addFileData () {
-    if (this.savedData['files']) {
+    if (_.has(this.savedData, 'files') && this.savedData['files'] !== "undefined") {
+      // console.log('this.savedData files is not undefined')
       var parsedFiles = this.tryParseJSON(this.savedData['files'])
       // we have a legit parsed file object
       if (!(_.isError(parsedFiles))){
@@ -447,9 +453,10 @@ export var formStore = {
   },
   removeSavedFile(deleteUrl){
     //TODO: this assumes files contains only one object, and returns it
-    if (this.savedData['files'].deleteUrl === deleteUrl){
-      //delete it
-      // console.log('match')
+    // TODO: rename files primaryFile
+    var file = this.tryParseJSON(this.savedData['files'])
+    if (file['deleteUrl'] === deleteUrl){
+      delete this.savedData.files
     }
   },
 
@@ -459,12 +466,9 @@ export var formStore = {
     var formData = new FormData(formElement)
     // these needs to be whatever is current
     formData.append(this.etdPrefix('school'), this.getSelectedSchool())
-    formData.append(this.etdPrefix('files[]'), this.getPrimaryFile())
-    // consider this 999 we should not send this unless we have it
-    // also do we still use this form anywhere?
 
     if (this.getSelectedDepartment() !== '' && this.getSelectedDepartment() !== undefined ){
-      console.log('sel dept', this.getSelectedDepartment())
+      // console.log('sel dept', this.getSelectedDepartment())
       formData.append(this.etdPrefix('department'), this.getSelectedDepartment())
     }
 
@@ -475,8 +479,9 @@ export var formStore = {
     if (el && el.hasAttribute('data-in-progress-etd')) {
       this.savedData = JSON.parse(el.dataset.inProgressEtd)
     }
+    // console.log('load Saved Data about to call add File Data')
     this.addFileData()
-    this.addSupplementalFileMetadata()
+    // this.addSupplementalFileMetadata()
     if (Object.keys(this.savedData).length > 0) {
       this.setIpeId(this.savedData['ipe_id'])
       this.setEtdId(this.savedData['etd_id'])
