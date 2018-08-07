@@ -19,6 +19,21 @@ describe Hyrax::Actors::PregradEmbargo do
       expect { middleware.create(env) }.not_to change { env.attributes }
     end
 
+    context 'with a specific string passed from InProgressEtd' do
+      let(:attributes) do
+        { 'title' => ['good fun'],
+          'creator' => ['Sneddon, River'],
+          'school' => ['Emory College'],
+          'embargo_length' => InProgressEtd::NO_EMBARGO }
+      end
+
+      it 'does not apply an embargo' do
+        expect { middleware.create(env) }
+          .to change { env.attributes }
+          .to attributes.except('embargo_length')
+      end
+    end
+
     context 'with a requested embargo' do
       let(:six_years_from_today) { Time.zone.today + 6.years }
 

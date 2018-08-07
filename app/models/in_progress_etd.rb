@@ -19,6 +19,8 @@
 # the data on the `Etd` record that it represents.
 
 class InProgressEtd < ApplicationRecord
+  NO_EMBARGO = 'None - open access immediately'
+
   after_create :add_id_to_data_store
 
   # custom validators check for presence of tab-determined set of fields based on presence of tab-identifying data
@@ -54,17 +56,17 @@ class InProgressEtd < ApplicationRecord
   # currently the EtdForm uses the boolean param "no_embargoes", so we need to send or remove it (seems a good candidate for refactoring in EtdForm)
 
   def add_no_embargoes(new_data)
-    resulting_data = new_data[:embargo_length] == 'None - open access immediately' ? new_data.merge("no_embargoes" => "1") : nil
+    resulting_data = new_data[:embargo_length] == NO_EMBARGO ? new_data.merge("no_embargoes" => "1") : nil
 
     resulting_data.nil? ? new_data : resulting_data
   end
 
-  # Remove embargo_type, if new_data[:embargo_length] == 'None - open access immediately'
-  # Remove no_embargoes if new_data[:embargo_length] != 'None - open access immediately'
+  # Remove embargo_type, if new_data[:embargo_length] == NO_EMBARGO
+  # Remove no_embargoes if new_data[:embargo_length] != NO_EMBARGO
 
   def remove_stale_embargo_data(existing_data, new_data)
-    existing_data.delete('no_embargoes') if existing_data.keys.include?('no_embargoes') && new_data[:embargo_length] != 'None - open access immediately'
-    existing_data.delete('embargo_type') if new_data[:embargo_length] == 'None - open access immediately' && existing_data.keys.include?('embargo_type')
+    existing_data.delete('no_embargoes') if existing_data.keys.include?('no_embargoes') && new_data[:embargo_length] != NO_EMBARGO
+    existing_data.delete('embargo_type') if new_data[:embargo_length] == NO_EMBARGO && existing_data.keys.include?('embargo_type')
     existing_data
   end
 
