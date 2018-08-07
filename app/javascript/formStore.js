@@ -378,6 +378,7 @@ export var formStore = {
     return JSON.stringify(this.supplementalFiles)
   },
 
+
   getGraduationDate () {
     return this.savedData['graduation_date']
   },
@@ -420,13 +421,6 @@ export var formStore = {
   },
   addSupplementalFileMetadata () {
     if (this.savedData['supplemental_file_metadata']) {
-      _.forEach(this.savedData['supplemental_file_metadata'], (sfm) => {
-        this.supplementalFiles.push({ filename: sfm.filename, title: sfm.title, description: sfm.description, file_type: sfm.file_type })
-      })
-    }
-  },
-  addSupplementalFileMetadata () {
-    if (this.savedData['supplemental_file_metadata']) {
       // check for duplicates
       _.forEach(this.savedData['supplemental_file_metadata'], (sfm) => {
         var file = _.find(this.supplementalFilesMetadata, function(o) { return o.filename === sfm.filename })
@@ -435,6 +429,24 @@ export var formStore = {
           this.supplementalFilesMetadata.push({ filename: sfm.filename, title: sfm.title, description: sfm.description, file_type: sfm.file_type })
         }
       })
+    }
+  },
+  addSupplementalFiles () {
+    if (this.savedData['supplemental_files']){
+      var parsedFiles = this.tryParseJSON(this.savedData['supplemental_files'])
+      // we have a legit parsed file array of objects
+      if (!(_.isError(parsedFiles))){
+        // check for duplicates
+        _.forEach(parsedFiles, (psf) => {
+          var file = _.find(this.supplementalFiles, function(sf) {
+            return sf.deleteUrl === psf.deleteUrl
+          })
+          // add only if it isn't there
+          if ( !(_.isObject(file)) ) {
+            this.supplementalFiles.push(psf)
+          }
+        })
+      }
     }
   },
   addFileData () {
@@ -461,24 +473,6 @@ export var formStore = {
       }
     }
   },
-  addSupplementalFiles () {
-    if (this.savedData['supplemental_files']){
-      var parsedFiles = this.tryParseJSON(this.savedData['supplemental_files'])
-      // we have a legit parsed file array of objects
-      if (!(_.isError(parsedFiles))){
-        // check for duplicates
-        _.forEach(parsedFiles, (psf) => {
-          var file = _.find(this.supplementalFiles, function(sf) {
-            return sf.deleteUrl === psf.deleteUrl
-          })
-          // add only if it isn't there
-          if ( !(_.isObject(file)) ) {
-            this.supplementalFiles.push(psf)
-          }
-        })
-      }
-    }
-  },
   tryParseJSON(str){
     return _.attempt(JSON.parse.bind(null, str));
   },
@@ -489,6 +483,33 @@ export var formStore = {
     if (file['deleteUrl'] === deleteUrl){
       delete this.savedData.files
     }
+  },
+  removeSavedSupplementalFile (deleteUrl) {
+    var files = this.savedData['supplementalFiles']
+    var supplemental_file = _.find(files, (f) =>{
+      return f.deleteUrl === deleteUrl
+    })
+
+    if (_.isObject(supplemental_file)) {
+      var filteredFiles = _.filter(this.savedData['supplementalFiles'], (f) => {
+        return f.deleteUrl !== deleteUrl
+      })
+      console.log('filteredFiles', filteredFiles)
+      this.savedData['supplementalFiles'] = filteredFiles
+    }
+  },
+
+  removeSavedSupplementalFileMetadata(id){
+    var metadata = this.savedData['supplementalFilesMetadata']
+    var supplemental_metadata = _.find(metadata, (f) =>{
+      return f.id === id
+    })
+    if (_.isObject(supplemental_metadata)) {
+      var filteredFiles = _.filter(this.savedData['supplementalFilesMetadata'], (f) => {
+        return f.id !== id
+      })
+    }
+    this.savedData['supplementalFilesMetadata'] = filteredFiles
   },
 
   savedData: {},
@@ -512,6 +533,7 @@ export var formStore = {
     }
     this.addFileData()
     this.addSupplementalFiles()
+    this.addSupplementalFileMetadata()
     if (Object.keys(this.savedData).length > 0) {
       this.setIpeId(this.savedData['ipe_id'])
       this.setEtdId(this.savedData['etd_id'])

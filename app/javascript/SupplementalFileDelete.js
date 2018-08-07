@@ -12,5 +12,7 @@ export default class SupplementalFileDelete extends FileDelete {
     )
     console.log(filteredFiles)
     this.formStore.supplementalFiles = filteredFiles
+    this.formStore.removeSavedSupplementalFile(this.deleteUrl)
+    this.formStore.removeSavedSupplementalFileMetadata(this.id)
   }
 }
