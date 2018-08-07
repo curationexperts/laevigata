@@ -368,6 +368,11 @@ export var formStore = {
     return JSON.stringify(this.files[0][0])
   },
 
+  getSupplementalFiles(){
+    if (this.supplementalFiles === undefined || this.supplementalFiles.length === 0) return
+    return JSON.stringify(this.supplementalFiles)
+  },
+
   getGraduationDate () {
     return this.savedData['graduation_date']
   },
@@ -442,6 +447,24 @@ export var formStore = {
       }
     }
   },
+  addSupplementalFiles () {
+    if (this.savedData['supplemental_files']){
+      var parsedFiles = this.tryParseJSON(this.savedData['supplemental_files'])
+      // we have a legit parsed file array of objects
+      if (!(_.isError(parsedFiles))){
+        // check for duplicates
+        _.forEach(parsedFiles, (psf) => {
+          var file = _.find(this.supplementalFiles, function(sf) {
+            return sf.deleteUrl === psf.deleteUrl
+          })
+          // add only if it isn't there
+          if ( !(_.isObject(file)) ) {
+            this.supplementalFiles.push(psf)
+          }
+        })
+      }
+    }
+  },
   tryParseJSON(str){
     return _.attempt(JSON.parse.bind(null, str));
   },
@@ -476,7 +499,7 @@ export var formStore = {
       this.savedData = JSON.parse(el.dataset.inProgressEtd)
     }
     this.addFileData()
-    this.addSupplementalFileMetadata()
+    this.addSupplementalFiles()
     if (Object.keys(this.savedData).length > 0) {
       this.setIpeId(this.savedData['ipe_id'])
       this.setEtdId(this.savedData['etd_id'])
