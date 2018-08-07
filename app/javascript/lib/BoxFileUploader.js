@@ -1,3 +1,4 @@
+import { formStore } from '../formStore'
 export default class BoxFileUploader {
   constructor (options) {
     this.boxAccessToken = options.boxAccessToken
@@ -30,9 +31,17 @@ export default class BoxFileUploader {
     xhr.send(formData)
     xhr.onreadystatechange = () => {
       if (xhr.readyState === XMLHttpRequest.DONE) {
-        this.sharedState.files.push(
-          JSON.parse(xhr.responseText).files
-        )
+        if (formStore.boxFilePickerMode.mode === 'primary') {
+          this.sharedState.files.push(
+            JSON.parse(xhr.responseText).files
+          )
+        }
+
+        if (formStore.boxFilePickerMode.mode === 'supplemental') {
+          this.sharedState.supplementalFiles.push(
+            JSON.parse(xhr.responseText).files
+          )
+        }
       }
     }
   }
