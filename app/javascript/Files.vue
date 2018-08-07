@@ -204,7 +204,6 @@ export default {
       this.sharedState.setValid('My Files', false)
     },
     deleteSupplementalFile(deleteUrl) {
-      console.log(deleteUrl)
      var supplementalFileDelete = new SupplementalFileDelete({
         deleteUrl: deleteUrl,
         token: this.sharedState.token,

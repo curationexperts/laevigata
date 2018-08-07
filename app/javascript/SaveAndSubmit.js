@@ -41,11 +41,9 @@ export default class SaveAndSubmit {
   }
   saveTab () {
     this.formData.append("etd[files]", this.formStore.getPrimaryFile())
-    //this.formData.append("etd[supplemental_files_metadata]",  this.formStore.getSupplementalFilesMetadata())
     // the client sends a param the server uses to track whether an old school matches a new school
     this.formData.append('etd[schoolHasChanged]', this.formStore.savedData['schoolHasChanged'])
     this.rejectOtherTabKeys()
-
     axios
       .patch(this.formStore.getUpdateRoute(), this.formData, {
         config: { headers: { 'Content-Type': 'multipart/form-data' } }

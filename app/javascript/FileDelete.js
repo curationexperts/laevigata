@@ -13,8 +13,8 @@ export default class FileDelete {
     const filteredFiles = this.formStore.files.filter(
       file => file[0].deleteUrl !== this.deleteUrl
     )
+    console.log('filtered files: ', filteredFiles)
     this.formStore.files = filteredFiles
-    //TODO: we need a remove from savedFiles function
-    //this.formStore.removeSavedFile(this.deleteUrl)
+    this.formStore.removeSavedFile(this.deleteUrl)
   }
 }
