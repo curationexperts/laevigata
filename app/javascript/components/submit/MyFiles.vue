@@ -1,7 +1,47 @@
 <template>
   <section>   
     <h4>My Files</h4>
-    <!-- TODO: We need some kind of info about the files in sharedState.savedData -->
+    <table class="table table-striped metadata">
+      <thead>
+        <tr>
+          <th>
+           Your Thesis or Dissertation
+          </th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr>
+        <td>{{ primaryFile.name }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <h5>Supplemental Files</h5>
+    <table class="table table-striped metadata">
+      <thead>
+        <tr>
+          <th>
+            Filename
+          </th>
+          <th>
+            Title
+          </th>
+          <th>
+            Description
+          </th>
+          <th>
+            Type
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="supplementalFile in supplementalFiles">
+          <td>{{ supplementalFile.filename }}</td>
+          <td>{{ supplementalFile.title }}</td>
+          <td>{{ supplementalFile.description }}</td>
+          <td>{{ supplementalFile.type }}</td>
+        </tr>
+      </tbody>
+    </table>
   </section>
 </template>
 
@@ -12,7 +52,8 @@ import { formStore } from '../../formStore'
 export default {
   data() {
     return {
-      sharedState: formStore
+      supplementalFiles: formStore.savedData.supplemental_file_metadata,
+      primaryFile: JSON.parse(formStore.savedData.files)
     }
   }
 }
