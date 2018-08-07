@@ -214,7 +214,7 @@ export default {
       this.sharedState.setValid('My Files', false)
   },
   boxOAuthUrl () {
-    return `https://account.box.com/api/oauth2/authorize?response_type=code&client_id=${boxClientId()}&redirect_uri=http://localhost:3000/auth/box&state=${this.sharedState.ipeId}`
+    return `https://account.box.com/api/oauth2/authorize?response_type=code&client_id=${boxClientId()}&redirect_uri${window.location.origin}/auth/box&state=${this.sharedState.ipeId}`
   },
   supplementalFileTitleName (key) {
     return `etd[supplemental_file_metadata][${key}]title`
