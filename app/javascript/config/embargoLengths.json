@@ -1,10 +1,10 @@
 {
   "emory": [{"value": "None - open access immediately", "selected": "selected"},
-    {"value": "6 Months"}, {"value": "1 Year"}, {"value": "2 Years"}],
+    {"value": "6 months"}, {"value": "1 year"}, {"value": "2 years"}],
   "candler": [{"value": "None - open access immediately", "selected": "selected"},
-    {"value": "6 Months"}, {"value": "1 Year"}, {"value": "2 Years"}],
-  "laney": [{"value": "None - open access immediately", "selected": "selected"}, {"value": "6 Months"},
-    {"value": "1 Year"}, {"value": "2 Years"}, {"value": "6 Years"}],
+    {"value": "6 months"}, {"value": "1 year"}, {"value": "2 years"}],
+  "laney": [{"value": "None - open access immediately", "selected": "selected"}, {"value": "6 months"},
+    {"value": "1 year"}, {"value": "2 years"}, {"value": "6 years"}],
   "rollins": [{"value": "None - open access immediately", "selected": "selected"},
-    {"value": "6 Months"}, {"value": "1 Year"}, {"value": "2 Years"}]
+    {"value": "6 months"}, {"value": "1 year"}, {"value": "2 years"}]
 }

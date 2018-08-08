@@ -18,7 +18,7 @@ export default class SaveAndSubmit {
       return `etd[${ok}]`
     })
     // keys in the form we always want to send to server
-    var ignoreSet = ['etd[currentTab]', 'etd[currentStep]','etd[schoolHasChanged]']
+    var ignoreSet = ['etd[currentTab]', 'etd[currentStep]','etd[schoolHasChanged]', 'etd[embargo_length]', 'etd[embargo_type]']
 
     for (var key of this.formData.keys()) {
       // add supplementalFiles and supplementalFilesMetadata to ignore set

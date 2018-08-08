@@ -163,6 +163,8 @@ export var formStore = {
   boxFilePickerMode: new BoxFilePickerMode(),
   agreement: false,
   submitted: false,
+  selectedEmbargo: 'None - open access immediately',
+  selectedEmbargoContents: '',
   files: [],
   supplementalFiles: [],
   supplementalFilesMetadata: [],
@@ -303,13 +305,33 @@ export var formStore = {
   getSelectedSchool () {
     return this.schools.selected
   },
-
   getSavedOrSelectedSchool () {
     if (this.selectedSchool === undefined) {
       this.selectedSchool = ''
     }
     return this.selectedSchool.length === 0
       ? this.savedData['school'] : this.schools.selected
+  },
+  setSelectedEmbargo (embargo) {
+    this.selectedEmbargo = embargo
+  },
+  setSelectedEmbargoContents (contents) {
+    this.selectedEmbargoContents = contents
+  },
+  getSelectedEmbargo () {
+    if (this.savedData['embargo_length']) {
+      return this.savedData['embargo_length']
+    } else {
+      return this.selectedEmbargo
+    }
+  },
+  getSelectedEmbargoContents () {
+    if (this.selectedEmbargoContents) {
+      return this.selectedEmbargoContents
+    }
+    if (this.savedData['embargo_type']) {
+      return this.savedData['embargo_type']
+    }
   },
   getSavedSchool () {
     return this.savedData['school']
@@ -400,7 +422,7 @@ export var formStore = {
     }
   },
   getEmbargoLengths () {
-    return this.embargoLengths[this.schools.selected]
+    return this.embargoLengths[this.getSavedOrSelectedSchool()]
   },
   getEmbargoContents () {
     return this.embargoContents
