@@ -30,6 +30,7 @@ class InProgressEtd < ApplicationRecord
   validates_with MyAdvisorValidator
   validates_with KeywordValidator
   validates_with EmbargoValidator
+  validates_with MyFilesValidator
 
   # @param new_data [Hash, HashWithIndifferentAccess] New data to add to the existing data store.
   # @return [Hash] The resulting hash, with new data added to old data.

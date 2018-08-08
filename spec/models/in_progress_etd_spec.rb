@@ -145,6 +145,28 @@ describe InProgressEtd do
     end
   end
 
+  describe "My Files" do
+    context "with valid data" do
+      let(:data) do
+        { currentTab: "My Files", files: {} }
+      end
+
+      it "is valid" do
+        expect(in_progress_etd).to be_valid
+      end
+    end
+
+    context "with invalid data" do
+      let(:data) do
+        { currentTab: "My Files", files: "undefined" }
+      end
+
+      it "is valid" do
+        expect(in_progress_etd).not_to be_valid
+      end
+    end
+  end
+
   # TODO: the validator needs to be adjusted for real embargo front end tab
   describe "Embargo" do
     let(:data) do

@@ -21,7 +21,7 @@ describe('Files.vue', () => {
   it('has two labels ', () => {
     const wrapper = shallowMount(Files, {
     })
-    
+
     expect(wrapper.findAll('label')).toHaveLength(2)
   })
 
@@ -42,6 +42,14 @@ describe('Files.vue', () => {
     formStore.files = []
 
     expect(wrapper.vm.getPrimaryFile()).toEqual(undefined)
+  })
+
+  it('displays an error when saved with no primary file exists', () => {
+    const wrapper = shallowMount(Files, { })
+    formStore.files = []
+    formStore.errors = [{"files" : ["A thesis or dissertation file is required"]}]
+
+    expect(wrapper.find('section.errorMessage').text()).toBe('A thesis or dissertation file is required')
   })
 
   it('when the file is a Hyrax::UploadedFile, isUploadedFile() returns true', () => {
@@ -80,4 +88,3 @@ describe('Files.vue', () => {
     expect(wrapper.html()).not.toContain('123_my_super_unique_id')
   })
 })
-
