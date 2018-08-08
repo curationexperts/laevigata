@@ -33,7 +33,6 @@ export default {
   // this keeps track of whether the user has a saved school, and can use it to load departments, or whether the user has a mismatch between a newly selected school and a saved one, in which case the user is told of the problem.
   beforeMount: function(){
     if (this.sharedState.messySchoolState()){
-      this.sharedState.clearDepartments()
       this.sharedState.clearDepartment()
       this.sharedState.clearSubfields()
     } else if (this.sharedState.getSavedSchool()) {
@@ -45,8 +44,12 @@ export default {
   mounted: function (){
     this.$nextTick(function () {
       //this is to handle the case of a saved department
-      // console.log('mounted', this.sharedState.getSavedDepartment())
-      this.selected = this.sharedState.getSavedDepartment()
+      if (_.has(this.sharedState.savedData, 'etd_id')){
+        var selectedArray = this.sharedState.getSavedDepartment()
+        this.selected = selectedArray[0]
+      } else {
+        this.selected = this.sharedState.getSavedDepartment()
+      }
     })
   }
 };

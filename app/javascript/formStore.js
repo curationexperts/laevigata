@@ -216,6 +216,13 @@ export var formStore = {
     return school.text
   },
 
+  getSchoolValue (schoolKey) {
+    console.log('schoolvalue', schoolKey)
+    var school = _.find(this.schools.options, (school) => { return school.text === schoolKey })
+
+    return school.value
+  },
+
   getNextStep () {
     return parseInt(this.savedData['currentStep']) + 1
   },
@@ -295,10 +302,18 @@ export var formStore = {
   },
 
   messySchoolState(){
-    if (this.schools.selected === "") {
-      return false
+    if (_.has(this.savedData, 'etd_id')) {
+      if (this.schools.selected === "") {
+        return false
+      } else {
+        return this.schools.selected !== this.getSchoolText(this.savedData['school'])
+      }
     } else {
-      return this.schools.selected !== this.savedData['school']
+      if (this.schools.selected === "") {
+        return false
+      } else {
+        return this.schools.selected !== this.savedData['school']
+      }
     }
   },
 
@@ -576,6 +591,7 @@ export var formStore = {
       formData: this.formData
     })
     if (this.allowTabSave()) {
+      this.submitted = true
       saveAndSubmit.submitEtd()
     } else {
       this.submitted = true
