@@ -1,23 +1,38 @@
 {
-  "presets": ["es2015",
-    ["env", {
-      "modules": false,
-      "targets": {
-        "browsers": "> 1%",
-        "uglify": true
-      },
-      "useBuiltIns": true
-    }]
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false,
+        "targets": {
+          "browsers": "> 1%",
+          "uglify": true
+        },
+        "useBuiltIns": true
+      }
+    ]
   ],
   "plugins": [
     "syntax-dynamic-import",
     "transform-object-rest-spread",
-    ["transform-class-properties", { "spec": true }],
+    [
+      "transform-class-properties",
+      {
+        "spec": true
+      }
+    ]
   ],
   "env": {
     "test": {
       "presets": [
-        ["env", { "targets": { "node": "current" }}]
+        [
+          "env",
+          {
+            "targets": {
+              "browsers": ["cover 99.5% in US"]
+            }
+          }
+        ]
       ]
     }
   }
