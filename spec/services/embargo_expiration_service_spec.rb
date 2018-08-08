@@ -78,13 +78,22 @@ describe EmbargoExpirationService, :clean do
 
   context "#expire_embargoes" do
     let(:etd) { FactoryBot.create(:tomorrow_expiration) }
+    let(:file_set) { FactoryBot.create(:primary_file_set) }
+    let(:embargo) { FactoryBot.create(:embargo, embargo_release_date: Time.zone.tomorrow) }
     let(:service) { described_class.new(Time.zone.tomorrow) }
 
-    before { etd.embargo_visibility! }
+    before do
+      etd.ordered_members << file_set
+      file_set.embargo = embargo
+      file_set.visibility = "restricted"
+      etd.embargo_visibility!
+    end
 
     it "removes the embargo for each object whose expiration date has been reached" do
       expect(etd.embargo_release_date).to eq(Time.zone.tomorrow)
+      expect(etd.file_sets.first.embargo.embargo_release_date).to eq(Time.zone.tomorrow)
       expect(etd.under_embargo?).to eq true
+      expect(etd.file_sets.first.under_embargo?).to eq true
       service.expire_embargoes
       etd.reload
       # etd.embargo_history should have a log message like this:
@@ -93,13 +102,21 @@ describe EmbargoExpirationService, :clean do
       # Visibility during embargo was authenticated and intended visibility after embargo was open"
       expect(etd.embargo_history.last).to match(/deactivated/)
       expect(etd.under_embargo?).to eq false
+      expect(etd.file_sets.first.embargo).to be_nil
     end
 
-    it "changes the embargo permissions" do
+    it "changes the work's visibility" do
       expect { service.expire_embargoes }
         .to change { etd.reload.visibility }
         .from(etd.visibility)
         .to(etd.visibility_after_embargo)
+    end
+
+    it "changes the attached file_set's visibility" do
+      expect { service.expire_embargoes }
+        .to change { etd.file_sets.first.reload.visibility }
+        .from("restricted")
+        .to(etd.file_sets.first.embargo.visibility_after_embargo)
     end
 
     context "when the embargo is not expired" do

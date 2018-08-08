@@ -94,6 +94,11 @@ class EmbargoExpirationService
       expiration.deactivate_embargo!
       expiration.embargo.save
       expiration.save
+      expiration.file_sets.each do |fs|
+        fs.visibility = expiration.visibility
+        fs.deactivate_embargo!
+        fs.save
+      end
     end
   end
 
