@@ -8,40 +8,6 @@ export default class SaveAndSubmit {
     this.formStore = formStore
   }
 
-  rejectOtherTabKeys(){
-    // keys in our tab
-    var ourTab = this.formData.get("etd[currentTab]")
-    var inputs = _.find(this.formStore.tabs, (t) => {
-      return t.label === ourTab }).inputs
-    // formatted for easy comparison
-    var ourKeys = _.map(Object.keys(inputs), (ok) => {
-      return `etd[${ok}]`
-    })
-    // keys in the form we always want to send to server
-    var ignoreSet = ['etd[currentTab]', 'etd[currentStep]','etd[schoolHasChanged]', 'etd[embargo_length]', 'etd[embargo_type]']
-
-    for (var key of this.formData.keys()) {
-      // add supplementalFiles and supplementalFilesMetadata to ignore set
-      if (ourTab === "My Files") {
-        if (_.includes(key, 'etd[supplemental_file_metadata]')){
-          ignoreSet.push(key)
-        }
-        if (_.includes(key, 'etd[supplemental_files]')){
-          ignoreSet.push(key)
-        }
-      }
-      // strip array off key for easy comparison
-      key = _.replace(key, '[]', '')
-
-      // if the form key does not match anything in ourKeys
-      if ( !(_.includes(ourKeys, key)) ) {
-        // and it is not in the ignore set
-        if ( !(_.includes(ignoreSet, key)) ) {
-          this.formData.delete(key)
-        }
-      }
-    }
-  }
   saveTab () {
     // files are special
     this.formData.append("etd[files]", this.formStore.getPrimaryFile())
@@ -49,7 +15,6 @@ export default class SaveAndSubmit {
 
     // the client sends a param the server uses to track whether an old school matches a new school
     this.formData.append('etd[schoolHasChanged]', this.formStore.savedData['schoolHasChanged'])
-    this.rejectOtherTabKeys()
     axios
       .patch(this.formStore.getUpdateRoute(), this.formData, {
         config: { headers: { 'Content-Type': 'multipart/form-data' } }
