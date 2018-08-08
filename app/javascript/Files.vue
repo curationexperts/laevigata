@@ -88,11 +88,11 @@
 
             <td><input type="text" :value="sharedState.supplementalFiles[key].filename" class="form-control" disabled />
             <input type='hidden' :value="files.name" :name="supplementalFileName(key)"></td>
-            <td><input :name="supplementalFileTitleName(key)" type="text" class="form-control" :value="sharedState.supplementalFiles[key].title" v-on:change="sharedState.setValid('My Files', false)"/></td>
-            <td><input :name="supplementalFileDescriptionName(key)" type="text" class="form-control" :value="sharedState.supplementalFiles[key].description" v-on:change="sharedState.setValid('My Files', false)"/></td>
+            <td><input :name="supplementalFileTitleName(key)" type="text" class="form-control" :value="getSavedTitle(key)" v-on:change="sharedState.setValid('My Files', false)"/></td>
+            <td><input :name="supplementalFileDescriptionName(key)" type="text" class="form-control" :value="getSavedDescription(key)" v-on:change="sharedState.setValid('My Files', false)"/></td>
             <td>
               <select :name="supplementalFileTypeName(key)" class="form-control file-type" v-on:change="sharedState.setValid('My Files', false)">
-                <option v-if="sharedState.supplementalFiles[key].file_type" selected="selected" :value="sharedState.supplementalFiles[key].file_type">{{sharedState.supplementalFiles[key].file_type}}</option>
+                <option v-if="sharedState.supplementalFiles[key].file_type" selected="selected" :value="getSavedFileType(key)">{{getSavedFileType(key)}}</option>
                 <option v-else selected="selected" disabled="disabled">Please select a file type</option>
                 <option>Text</option>
                 <option>Sound</option>
@@ -204,7 +204,6 @@ export default {
       this.sharedState.setValid('My Files', false)
     },
     deleteSupplementalFile(deleteUrl) {
-      console.log(deleteUrl)
      var supplementalFileDelete = new SupplementalFileDelete({
         deleteUrl: deleteUrl,
         token: this.sharedState.token,
@@ -232,6 +231,21 @@ export default {
   },
   supplementalFileName (key) {
     return `etd[supplemental_file_metadata][${key}]filename`
+  },
+  getSavedTitle(key){
+    if (this.sharedState.supplementalFilesMetadata[key] !== undefined) {
+      return this.sharedState.supplementalFilesMetadata[key].title
+    }
+  },
+  getSavedDescription(key){
+    if (this.sharedState.supplementalFilesMetadata[key] !== undefined) {
+      return this.sharedState.supplementalFilesMetadata[key].description
+    }
+  },
+  getSavedFileType(key){
+    if (this.sharedState.supplementalFilesMetadata[key] !== undefined) {
+      return this.sharedState.supplementalFilesMetadata[key].file_type
+    }
   }
   }
 }

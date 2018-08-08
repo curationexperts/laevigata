@@ -165,6 +165,7 @@ export var formStore = {
   submitted: false,
   files: [],
   supplementalFiles: [],
+  supplementalFilesMetadata: [],
   departments: [],
   selectedDepartment: '',
   selectedSubfield: '',
@@ -417,7 +418,25 @@ export var formStore = {
         console.log(err)
       })
   },
-  /* end Getters & Setters */
+  addSupplementalFileMetadata () {
+    if (this.savedData['supplemental_file_metadata']) {
+      _.forEach(this.savedData['supplemental_file_metadata'], (sfm) => {
+        this.supplementalFiles.push({ filename: sfm.filename, title: sfm.title, description: sfm.description, file_type: sfm.file_type })
+      })
+    }
+  },
+  addSupplementalFileMetadata () {
+    if (this.savedData['supplemental_file_metadata']) {
+      // check for duplicates
+      _.forEach(this.savedData['supplemental_file_metadata'], (sfm) => {
+        var file = _.find(this.supplementalFilesMetadata, function(o) { return o.filename === sfm.filename })
+        // add only if it isn't there
+        if ( !(_.isObject(file)) ) {
+          this.supplementalFilesMetadata.push({ filename: sfm.filename, title: sfm.title, description: sfm.description, file_type: sfm.file_type })
+        }
+      })
+    }
+  },
   addFileData () {
     if (_.has(this.savedData, 'files') && this.savedData['files'] !== "undefined") {
     var parsedFiles = this.tryParseJSON(this.savedData['files'])
