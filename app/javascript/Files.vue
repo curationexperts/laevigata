@@ -176,7 +176,6 @@ export default {
         formData: this.getFormData()
       })
       fileUploader.uploadFile()
-      // 999
       formStore.setValid('My Files', false)
     },
     onSupplementalFileChange(e) {

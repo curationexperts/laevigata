@@ -391,6 +391,37 @@ describe InProgressEtd do
       end
     end
 
+    context 'an ETD with files attached' do
+      let(:ipe) { described_class.new(etd_id: etd.id) }
+      let(:etd) {
+        work = FactoryBot.build(:etd, etd_attrs)
+        # Attach primary PDF
+        work.ordered_members << primary_pdf_fs
+        work.representative = primary_pdf_fs
+        work.thumbnail = primary_pdf_fs
+        work.save!
+        work
+      }
+      let(:etd_attrs) { { title: ['My ETD'] } }
+
+      let(:primary_pdf_path) { File.join(fixture_path, 'joey', 'joey_thesis.pdf') }
+      let(:primary_pdf_fs) do
+        File.open(primary_pdf_path) do |local_file|
+          FactoryBot.create(:primary_file_set, content: local_file, label: 'joey_thesis.pdf')
+        end
+      end
+
+      it 'includes the file info in the JSON datastore' do
+        expect(JSON.parse(refreshed_data['files'])).to eq({
+          'id' => primary_pdf_fs.id,
+          'name' => 'joey_thesis.pdf',
+          'size' => primary_pdf_fs.file_size.first,
+          'deleteUrl' => "/concern/file_sets/#{primary_pdf_fs.id}",
+          'deleteType' => 'DELETE'
+        })
+      end
+    end
+
     context 'with stale data in data store' do
       let(:stale_data) { { title: ['Stale Title from IPE'], partnering_agency: ['Stale parter agency'] } }
 
