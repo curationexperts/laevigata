@@ -86,13 +86,13 @@
         <tbody>
           <tr v-for="(files, key) in sharedState.supplementalFiles" v-bind:key="key">
 
-            <td><input type="text" :value="sharedState.supplementalFiles[key].filename" class="form-control" disabled />
+            <td><input type="text" :value="sharedState.supplementalFilesMetadata[key].filename" class="form-control" disabled />
             <input type='hidden' :value="files.name" :name="supplementalFileName(key)"></td>
             <td><input :name="supplementalFileTitleName(key)" type="text" class="form-control" :value="getSavedTitle(key)" v-on:change="sharedState.setValid('My Files', false)"/></td>
             <td><input :name="supplementalFileDescriptionName(key)" type="text" class="form-control" :value="getSavedDescription(key)" v-on:change="sharedState.setValid('My Files', false)"/></td>
             <td>
               <select :name="supplementalFileTypeName(key)" class="form-control file-type" v-on:change="sharedState.setValid('My Files', false)">
-                <option v-if="sharedState.supplementalFiles[key].file_type" selected="selected" :value="getSavedFileType(key)">{{getSavedFileType(key)}}</option>
+                <option v-if="sharedState.supplementalFilesMetadata[key].file_type" selected="selected" :value="getSavedFileType(key)">{{getSavedFileType(key)}}</option>
                 <option v-else selected="selected" disabled="disabled">Please select a file type</option>
                 <option>Text</option>
                 <option>Sound</option>

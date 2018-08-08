@@ -5,7 +5,7 @@
 /* gloabl createXHRmock */
 
 import SupplementalFileDelete from '../SupplementalFileDelete'
-
+import { formStore } from '../formStore'
 const mockXHR = {
   open: jest.fn(),
   send: jest.fn(),
@@ -19,7 +19,7 @@ describe('SupplementalFileDelete', () => {
     var fileDelete = new SupplementalFileDelete({
       deleteUrl: 'http://example.com/delete',
       token: 'token',
-      formStore: { supplementalFiles: [] }
+      formStore: formStore
     })
     fileDelete.deleteFile()
     expect(mockXHR.open).toBeCalledWith('DELETE', 'http://example.com/delete', true)
