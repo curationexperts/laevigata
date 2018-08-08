@@ -3,6 +3,8 @@
     <h4>Embargoes</h4>
     <h5>Embargo Length</h5>
     <div>{{ sharedState.savedData.embargo_length }}</div>
+    <h5>Embargo Type</h5>
+    <div>{{ humanReadableEmbargoContents(sharedState.savedData.embargo_type) }}</div>
   </section>
 </template>
 
@@ -14,6 +16,17 @@ export default {
   data() {
     return {
       sharedState: formStore
+    }
+  },
+  methods: {
+    humanReadableEmbargoContents(type) {
+      try {
+      var readableType = this.sharedState.embargoContents.filter((embargo) => { return embargo.value === type })[0].text
+      } catch(error) {
+        console.log(error)
+      }
+      if (readableType)
+      return readableType
     }
   }
 }
