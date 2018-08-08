@@ -1,11 +1,11 @@
   <template>
     <div> 
-        <div v-if="typeof parentValue === 'String' || 'string' || 'undefined'">
+        <div v-if="typeof parentValue != 'object'">
           <quill-editor :options="editorOptions" ref="myTextEditor" v-model="inputValue" v-on:change="sharedState.setValid('My Etd', false)">
           </quill-editor>
           <input type="hidden" class="quill-hidden-field" :name="parentName" v-model="inputValue" />
         </div>
-        <div v-else>
+        <div v-if="typeof parentValue === 'object'">
           <quill-editor :options="editorOptions" ref="myTextEditor" v-model="inputValue[0]" v-on:change="sharedState.setValid('My Etd', false)">
           </quill-editor>
         <input type="hidden" class="quill-hidden-field" :name="parentName" v-model="inputValue[0]" />
