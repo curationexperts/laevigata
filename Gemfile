@@ -18,7 +18,8 @@ gem 'dotenv-rails'
 gem 'factory_bot_rails' # Needed so we can load fixtures for demos in production
 gem 'ffaker' # Needed so we can load fixtures for demos in production
 gem 'hydra-role-management'
-gem 'hyrax', '~> 2.1.0'
+# gem 'hyrax', '~> 2.1.0'
+gem 'hyrax', github: 'samvera/hyrax', branch: 'master'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
 # Use jquery as the JavaScript library
