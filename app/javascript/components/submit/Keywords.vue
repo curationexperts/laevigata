@@ -10,11 +10,17 @@
       <div> {{ keyword }} </div>
     </div>
    <h5>Copyright Questions</h5>
-    <ul>
-      <li>Additional copyrights: {{ sharedState.savedData.additional_copyrights }}</li>
-      <li>Requires Permission: {{ sharedState.savedData.requires_permission }} </li>
-      <li>Patents: {{ sharedState.savedData.patents }}</li>
-    </ul>
+    <div>
+      <div class="well">
+        Fair Use: <b>{{ onToYes(sharedState.savedData.additional_copyrights) }}</b>
+      </div>
+      <div class="well">
+        Additional Copyrights: <b>{{ onToYes(sharedState.savedData.requires_permissions) }}</b>
+      </div>
+      <div class="well">
+        Patents: <b>{{ onToYes(sharedState.savedData.patents) }}</b>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -26,6 +32,16 @@ export default {
   data() {
     return {
       sharedState: formStore
+    }
+  },
+  methods: {
+    onToYes(string) {
+      if (string === 'on') {
+        return 'Yes'
+      }
+      if (string === 'off') {
+        return 'No'
+      }
     }
   }
 }
