@@ -6,23 +6,20 @@
     <h5>Language</h5>
     <div>{{ sharedState.savedData.language }}</div>
     <h5>Abstract</h5>
-    <div>{{ abstract }}</div>
+    <div v-html="abstract">{{ abstract }}</div>
     <h5>Table of Contents</h5>
-    <div>{{ tableOfContents }}</div>
+    <div v-html="tableOfContents">{{ tableOfContents }}</div>
   </section>
 </template>
 
 <script>
 import Vue from "vue"
 import { formStore } from '../../formStore'
-import HtmlStripper from '../../HtmlStripper'
 
 export default {
   data() {
     return {
-      sharedState: formStore,
-      abstract: new HtmlStripper({ html: formStore.savedData.abstract }).strippedHtml(),
-      tableOfContents: new HtmlStripper({ html: formStore.savedData.table_of_contents }).strippedHtml()
+      sharedState: formStore
     }
   }
 }
