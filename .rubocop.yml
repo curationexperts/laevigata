@@ -113,6 +113,9 @@ Style/CommentAnnotation:
 Style/FileName:
   Enabled: true
 
+Style/IfUnlessModifier:
+  Enabled: false
+
 Style/Semicolon:
   Enabled: false
 
