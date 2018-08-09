@@ -95,6 +95,8 @@
                 <option v-if="getSavedFileType(key)" selected="selected" :value="getSavedFileType(key)">{{getSavedFileType(key)}}</option>
                 <option v-else selected="selected" disabled="disabled">Please select a file type</option>
                 <option>Text</option>
+                <option>Dataset</option>
+                <option>Image</option>
                 <option>Sound</option>
                 <option>Video</option>
                 <option>Software</option>
