@@ -32,6 +32,7 @@ module Hyrax
     # my embargo terms
     self.terms += [:embargo_length]
     self.terms += [:embargo_release_date]
+    self.terms += [:embargo_type]
     self.terms += [:files_embargoed]
     self.terms += [:abstract_embargoed]
     self.terms += [:toc_embargoed]

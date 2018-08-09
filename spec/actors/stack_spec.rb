@@ -95,14 +95,14 @@ describe Hyrax::CurationConcern do
           expect(etd.file_sets.first).to have_attributes visibility: open
         end
 
-        context 'and files_embargoed is true' do
+        context 'and embargo_type contains files_embargoed' do
           let(:attributes) do
             { 'title' => ['good fun'],
               'creator' => ['Sneddon, River'],
               'school' => ['Emory College'],
               'embargo_length' => '6 months',
               'uploaded_files' => [uploaded_file.id],
-              'files_embargoed' => true }
+              'embargo_type' =>  "files_embargoed, toc_embargoed, abstract_embargoed" }
           end
 
           it 'sets the file embargo' do
