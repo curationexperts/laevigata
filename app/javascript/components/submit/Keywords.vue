@@ -10,17 +10,32 @@
       <div> {{ keyword }} </div>
     </div>
    <h5>Copyright Questions</h5>
-    <div>
-      <div class="well">
-        Fair Use: <b>{{ onToYes(sharedState.savedData.additional_copyrights) }}</b>
-      </div>
-      <div class="well">
-        Additional Copyrights: <b>{{ onToYes(sharedState.savedData.requires_permissions) }}</b>
-      </div>
-      <div class="well">
-        Patents: <b>{{ onToYes(sharedState.savedData.patents) }}</b>
-      </div>
-    </div>
+    <ul>
+      <li><b>Additional copyrights:</b> 
+        <p v-if="Boolean(Number(sharedState.savedData.additional_copyrights))">
+          Yes, my thesis or dissertation contains copyrighted material.
+        </p>
+        <p v-else>
+          No, my thesis or dissertation does not contain copyrighted material.
+        </p>
+      </li>
+      <li><b>Requires Permission:</b>
+        <p v-if="Boolean(Number(sharedState.savedData.requires_permissions))">
+         Yes, my thesis or dissertation requires additional permissions.
+        </p>
+        <p v-else>
+          No, my thesis or dissertation does not require additional permissions.
+        </p>
+      </li>
+      <li><b>Patents:</b> 
+        <p v-if="Boolean(Number(sharedState.savedData.patents))">
+          Yes, my thesis or dissertation contains patentable material.
+        </p>
+        <p v-else>
+          No, my thesis or dissertation does not contain patentable material.
+        </p>    
+      </li>
+    </ul>
   </section>
 </template>
 
