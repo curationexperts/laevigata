@@ -7,11 +7,12 @@ class EtdPermissionBadge < Hyrax::PermissionBadge
     toc_restricted: "label-warning",
     all_restricted: "label-warning",
     open: "label-success",
-    restricted: "label-danger"
+    restricted: "label-danger",
+    unknown: "label-danger"
   }.freeze
 
   def initialize(visibility)
-    @visibility = visibility.to_sym
+    @visibility = visibility ? visibility.to_sym : "unknown".to_sym
   end
 
   private
