@@ -94,16 +94,16 @@ everywhere. To create a new superuser, add the user's email address to the `conf
 
 Note: Do *not* run `bin/setup` except the very first time you setup the application, or if you need to wipe out everything in your development instance. It will wipe your database but leave your AdminSets in place, making a huge mess that you can't easily recover from.
 
-## Local Browse Everything (Box integration)
+## Browse Everything (Box integration)
 
-If you want to be able to test against remote uploads, e.g., with Box, set up Browse everything
-locally:
+These instructions work for setting up a key either for a server or for local
+testing.
 
 1. Go to `https://app.box.com/developers/console/newapp` and log in as yourself (this will
   be your personal developer account credentials)
 1. Select 'custom application' and hit 'next'
 1. Select 'Standard OAuth 2.0 (User Authentication)' and hit 'next'
-1. Give your app a unique name (e.g., "laevigata-bess") and it will give you a url like:
+1. Give your app a unique name (e.g., "laevigata-yourname" or "etd-staging-upgrade") and it will give you a url like:
 ```
 curl https://api.box.com/2.0/folders/0 -H \
 "Authorization: Bearer lCuEl1KbmQzIQut6HVFR3IlZ4TkAaCMK"
@@ -111,11 +111,20 @@ curl https://api.box.com/2.0/folders/0 -H \
 1. Go to `https://app.box.com/developers/console`
 1. Click on your app name, and then on the 'Configuration' tab on the left.
 1. In a box labeled OAuth 2.0 Credentials you will see your OAuth credentials. You'll need these.
-1. Set the `OAuth 2.0 Redirect URI` value to
-  `http://localhost:3000/auth/box/` (for NEW_UI_ENABLED=true) or
-  `http://localhost:3000` (for NEW_UI_ENABLED=false)
-  (or where ever you run your local development instance)
+1. If `NEW_UI_ENABLED=true`:
+  1. Set the `OAuth 2.0 Redirect URI` value to
+  `https://SERVER_NAME/auth/box/` (with the slash at the end) Or, if this is your local dev box, the value might be `http://localhost:3000/auth/box/`
+  1. Set the CORS domain to `https://SERVER_NAME/auth/box` (without the slash at the end) Or, if this is your local dev box, the value might be `http://localhost:3000/auth/box`
+1. If `NEW_UI_ENABLED=false`:
+  1. Set the `OAuth 2.0 Redirect URI` value to `https://SERVER_NAME` or `http://localhost:3000`
+  1. Leave the CORS domain blank
 1. Save changes
+
+### Adding box credentials to a server
+Add the credentials you just made to the `.env.production` file on the server where the application is running. Ideally, add them to ansible so they are maintained in
+version control and the server can be re-built with these credentials in place.
+
+### Adding box credentials locally
 1. Follow these instructions: https://github.com/samvera/browse-everything/wiki/Configuring-browse-everything
   1. `rails g browse_everything:config`
   2. copy the `client_id` and `client_secret` from box into your newly created `config/browse_everything_providers.yml` file and uncomment the `box` section
