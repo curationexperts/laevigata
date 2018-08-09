@@ -1,3 +1,4 @@
+import { isSafari11 } from './lib/isSafari11'
 export default class FileUploader {
   constructor (options) {
     this.formStore = options.formStore
@@ -7,6 +8,9 @@ export default class FileUploader {
   }
 
   uploadFile () {
+    if (isSafari11()) {
+      this.formData.delete('supplemental_files[]')
+    }
     var files = this.event.target.files || this.event.dataTransfer.files
     if (!files.length) return
     var xhr = new XMLHttpRequest()

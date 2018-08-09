@@ -1,6 +1,10 @@
 import FileUploader from './FileUploader'
+import { isSafari11 } from './lib/isSafari11'
 export default class SupplementalFileUploader extends FileUploader {
   uploadFile () {
+    if (isSafari11()) {
+      this.formData.delete('primary_files[]')
+    }
     var files = this.event.target.files || this.event.dataTransfer.files
     if (!files.length) return
     var xhr = new XMLHttpRequest()
