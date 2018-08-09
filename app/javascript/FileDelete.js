@@ -9,6 +9,7 @@ export default class FileDelete {
     var xhr = new XMLHttpRequest()
     xhr.open('DELETE', this.deleteUrl, true)
     xhr.setRequestHeader('X-CSRF-Token', this.token)
+    xhr.setRequestHeader('Accept', 'application/json')
     xhr.send(null)
     const filteredFiles = this.formStore.files.filter(
       file => file[0].deleteUrl !== this.deleteUrl

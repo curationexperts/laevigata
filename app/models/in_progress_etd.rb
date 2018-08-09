@@ -121,8 +121,23 @@ class InProgressEtd < ApplicationRecord
     end
     new_data['committee_chair_attributes'] = chairs unless chairs.blank?
 
+    primary_file = file_for_refresh(etd.primary_file_fs.first)
+    new_data['files'] = primary_file unless primary_file.blank?
+
     self.data = new_data.to_json
     save!
+  end
+
+  # Information about the file that the JavaScript needs for display and to render the 'Remove' button.
+  def file_for_refresh(file_set)
+    return if file_set.blank?
+    {
+      'id' => file_set.id,
+      'name' => file_set.label,
+      'size' => file_set.file_size.first,
+      'deleteUrl' => Rails.application.class.routes.url_helpers.hyrax_file_set_path(file_set),
+      'deleteType' => 'DELETE'
+    }.to_json
   end
 
   # All the fields that this model needs to know,
