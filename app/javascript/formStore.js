@@ -212,8 +212,10 @@ export var formStore = {
     }
   },
   getSchoolText (schoolKey) {
-    var school = _.find(this.schools.options, (school) => { return school.value === schoolKey })
-    return school.text
+    if (schoolKey) {
+      var school = _.find(this.schools.options, (school) => { return school.value === schoolKey })
+      return school.text
+    }
   },
 
   getSchoolValue (schoolKey) {

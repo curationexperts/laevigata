@@ -4,7 +4,7 @@
     <h5 class="submit-heading">Student Name</h5>
     <div> {{ sharedState.savedData.creator }} </div>
     <h5>School</h5>
-    <div> {{ sharedState.savedData.school }} </div>
+    <div> {{ sharedState.getSchoolText(sharedState.savedData.school) }} </div>
     <h5>Graduation Date</h5>
     <div> {{ sharedState.savedData.graduation_date }} </div>
     <h5>Post-Graduation Email</h5>
