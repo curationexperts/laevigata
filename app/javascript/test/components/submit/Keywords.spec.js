@@ -3,11 +3,18 @@
 /* global expect */
 import { shallowMount } from '@vue/test-utils'
 import Keywords from '../../../components/submit/Keywords'
+import { formStore } from '../../../formStore'
 
+formStore.savedData.additional_copyrights = '1'
+formStore.savedData.requires_permissions = '0'
+formStore.savedData.patents = '1'
 describe('Embargo.vue', () => {
   it('has the correct label', () => {
     const wrapper = shallowMount(Keywords, {
     })
-    expect(wrapper.html()).toContain('Keywords')
+
+    expect(wrapper.html()).toContain(`Yes, my thesis or dissertation contains copyrighted material.`)
+    expect(wrapper.html()).toContain(`No, my thesis or dissertation does not require additional permissions.`)
+    expect(wrapper.html()).toContain(`Yes, my thesis or dissertation contains patentable material.`)
   })
 })

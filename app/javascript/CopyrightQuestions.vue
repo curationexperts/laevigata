@@ -5,11 +5,18 @@
         <div class="well" v-for="question in sharedState.copyrightQuestions" v-bind:key="question.name">
             <label :for="question.name">{{ question.label }}</label>
             <p>{{ question.text }}</p>
-           <div class="form-inline">
-            <label>Yes <input :id="question.name" class="checkbox copyright-checkbox" :name="question.name" type="checkbox" v-model="question.choice"
-            true-value="yes" false-value="no">
-            </label>
-            </div>
+            <select v-if="question.name == 'etd[additional_copyrights]'" @change="sharedState.setCopyrights()" class="form-control" v-model="copyrights" :id="question.name" :name="question.name">
+                <option value="0">No, my thesis or dissertation does not contain copyrighted material.</option>
+                <option value="1">Yes, my thesis or dissertation contains copyrighted material.</option>
+            </select>
+            <select v-if="question.name == 'etd[requires_permissions]'" @change="sharedState.setPermissions()" class="form-control" v-model="permissions" :id="question.name" :name="question.name">
+                <option value="0">No, my thesis or dissertation does not require additional permissions.</option>
+                <option value="1">Yes, my thesis or dissertation requires additional permissions.</option>
+            </select>
+            <select v-if="question.name == 'etd[patents]'" class="form-control" @change="sharedState.setPatents()" v-model="patents" :id="question.name" :name="question.name">
+                <option value="0">No, my thesis or dissertation does not contain patentable material.</option>
+                <option value="1">Yes, my thesis or dissertation contains patentable material.</option>
+            </select>
         </div>
       </div>
     </section>
@@ -22,6 +29,9 @@ import { formStore } from './formStore'
 export default {
  data() {
      return {
+         permissions: formStore.getPermissions() || formStore.savedData.requires_permissions,
+         copyrights: formStore.getCopyrights() || formStore.savedData.additional_copyrights,
+         patents: formStore.getPatents() ||formStore.savedData.patents,
          sharedState: formStore
      }
  }
@@ -31,13 +41,5 @@ export default {
 <style scoped>
 .copyright-checkbox {
     margin-left: 1em;
-}
-
-input[type=checkbox]
-{
-  -ms-transform: scale(2); 
-  -moz-transform: scale(2);
-  -webkit-transform: scale(2);
-  -o-transform: scale(2);
 }
 </style>
