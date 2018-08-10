@@ -11,7 +11,7 @@ module HyraxHelper
 
   ##
   # override behavior from `Hyrax::AbilityHelper`
-  def visibility_options(variant)
+  def visibility_options(variant, opts = {})
     options = [
       Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC,
       VisibilityTranslator::FILES_EMBARGOED,
@@ -22,8 +22,16 @@ module HyraxHelper
 
     case variant
     when :restrict
-      options.delete_at(0)
+      options.delete_at(4) # Private is not a valid embargo option
+      options.delete_at(0) # Public is not a valid embargo option
+      # If there is a current_visibility passed, ensure it is
+      # the first option in the list
+      if opts[:current_visibility]
+        options.delete(opts[:current_visibility])
+        options << opts[:current_visibility]
+      end
       options.reverse!
+
     when :loosen
       options = [Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC]
     end
