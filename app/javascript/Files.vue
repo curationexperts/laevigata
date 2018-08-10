@@ -54,7 +54,7 @@
       <button type="button" class="btn btn-primary" @click="boxOAuth('primary')"><span class="glyphicon glyphicon-plus"></span> Add your thesis or dissertation file from Box</button>
     </div>
 
-    <div v-if="sharedState.files[0]">
+    <div v-if="isUploadedFile(getPrimaryFile())">
       <input type="hidden" name="uploaded_files[]" :value="sharedState.files[0][0].id" />
     </div>
     <!-- TODO: the final param to hyrax needs to be uploaded_files but this name should probly be supp_files-->
@@ -130,6 +130,7 @@ import SupplementalFileDelete from './SupplementalFileDelete'
 import SupplementalFileUploader from './SupplementalFileUploader'
 import axios from 'axios'
 import BoxFileUploader from './lib/BoxFileUploader'
+import _ from 'lodash'
 
 export default {
   data() {
@@ -170,6 +171,21 @@ export default {
     }
   },
   methods: {
+    // Determine if the file is a Hyrax::UploadedFile
+    // or a ::FileSet that has already been saved.
+    // They will have different paths in the deleteURL
+    isUploadedFile(file) {
+      if (file) {
+        return _.includes(file.deleteUrl, 'uploads')
+      } else {
+        return false
+      }
+    },
+    getPrimaryFile() {
+      if (this.sharedState.files[0] && this.sharedState.files[0][0]) {
+        return this.sharedState.files[0][0]
+      }
+    },
     onFileChange(e) {
       var fileUploader = new FileUploader({
         formStore: this.sharedState,
