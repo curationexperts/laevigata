@@ -92,6 +92,10 @@ class SolrDocument
     self[Solrizer.solr_name('graduation_year')]
   end
 
+  def hidden?
+    self[Solrizer.solr_name('hidden?', type: :boolean)]
+  end
+
   def school
     self[Solrizer.solr_name('school')]
   end

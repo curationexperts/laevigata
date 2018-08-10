@@ -21,4 +21,10 @@ RSpec.describe EtdIndexer do
     # Index both committee members and chairs for faceting
     expect(solr_doc['committee_names_sim']).to contain_exactly('Jackson, Henrietta, Starfleet Academy', 'Matsumoto, Yukihiro', 'Yurchenko, Alice, Peace University')
   end
+
+  it 'indexes hidden status' do
+    etd.hidden = true
+
+    expect(solr_doc['hidden?_bsi']).to be true
+  end
 end

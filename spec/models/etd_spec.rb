@@ -495,6 +495,14 @@ RSpec.describe Etd do
         .to open
     end
 
+    it 'can be private when hidden' do
+      etd.visibility = restricted
+
+      expect { etd.hidden = true }
+        .not_to change { etd.visibility }
+        .from restricted
+    end
+
     context 'with no embargo set' do
       it 'cannot set to file restricted access' do
         expect { etd.visibility = files }.to raise_error ArgumentError
@@ -534,6 +542,13 @@ RSpec.describe Etd do
         expect { etd.visibility = all }
           .to change { etd.visibility }
           .to all
+      end
+
+      it 'uses original implemenation when hidden' do
+        expect { etd.hidden = true }
+          .to change { etd.visibility }
+          .from(all)
+          .to open
       end
     end
   end

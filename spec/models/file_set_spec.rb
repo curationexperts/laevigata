@@ -23,6 +23,25 @@ RSpec.describe FileSet do
     end
   end
 
+  describe '#hidden' do
+    it 'is false without a parent' do
+      expect(file_set).not_to be_hidden
+    end
+
+    context 'when it belongs to a work' do
+      let(:etd) { FactoryBot.build(:etd, hidden: true) }
+
+      before do
+        etd.ordered_members << file_set
+        etd.save
+      end
+
+      it 'gives the hidden status for the parent work' do
+        expect(file_set).to be_hidden
+      end
+    end
+  end
+
   context 'with a new FileSet' do
     its(:pcdm_use) { is_expected.to be_nil }
     its(:embargo_length) { is_expected.to be_nil }
