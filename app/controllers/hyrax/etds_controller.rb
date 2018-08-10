@@ -42,7 +42,7 @@ module Hyrax
     # Overriding this method avoids redirects to confirmation pages when
     # updating the visibility and permissions of a work.
     def after_update_response
-      return enforce_file_visibility(curation_concern) if
+      enforce_file_visibility(curation_concern) if
         curation_concern.file_sets.present? &&
         (permissions_changed? || curation_concern.visibility_changed?)
 
