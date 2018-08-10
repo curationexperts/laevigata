@@ -24,6 +24,13 @@ class FileSet < ActiveFedora::Base
     parent&.admin_set
   end
 
+  ##
+  # @return [Boolean]
+  def hidden?
+    # rubocop:disable Style/DoubleNegation
+    !!parent&.hidden?
+  end
+
   def original?
     pcdm_use == ORIGINAL
   end

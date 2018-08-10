@@ -24,6 +24,15 @@ RSpec.describe ::SolrDocument, type: :model do
     end
   end
 
+  describe '#hidden?' do
+    subject(:solr_doc) { described_class.new(etd.to_solr) }
+    let(:etd)          { FactoryBot.build(:etd, hidden: true) }
+
+    it 'is hidden' do
+      expect(solr_doc).to be_hidden
+    end
+  end
+
   describe '#visibility' do
     subject(:solr_doc) { described_class.new(etd.to_solr) }
     let(:etd)          { FactoryBot.build(:etd) }

@@ -21,6 +21,14 @@ describe VisibilityTranslator do
       expect(translator.visibility).to eq open
     end
 
+    context 'when the etd is hidden' do
+      before { obj.hidden = true }
+
+      it 'gives the original implementation' do
+        expect(translator.visibility).to eq open
+      end
+    end
+
     context 'when under full embargo' do
       let(:obj) { FactoryBot.create(:sample_data_with_everything_embargoed) }
 
@@ -52,6 +60,14 @@ describe VisibilityTranslator do
 
       it 'is restricted' do
         expect(translator.visibility).to eq restricted
+      end
+    end
+
+    context 'when the etd is hidden' do
+      before { obj.hidden = true }
+
+      it 'gives the original implementation' do
+        expect(translator.visibility).to eq open
       end
     end
   end
