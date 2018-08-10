@@ -114,7 +114,7 @@ curl https://api.box.com/2.0/folders/0 -H \
 1. If `NEW_UI_ENABLED=true`:
   1. Set the `OAuth 2.0 Redirect URI` value to
   `https://SERVER_NAME/auth/box/` (with the slash at the end) Or, if this is your local dev box, the value might be `http://localhost:3000/auth/box/`
-  1. Set the CORS domain to `https://SERVER_NAME/auth/box` (without the slash at the end) Or, if this is your local dev box, the value might be `http://localhost:3000/auth/box`
+  1. Set the CORS domain to `https://SERVER_NAME` (without a slash at the end) Or, if this is your local dev box, the value might be `http://localhost:3000`
 1. If `NEW_UI_ENABLED=false`:
   1. Set the `OAuth 2.0 Redirect URI` value to `https://SERVER_NAME` or `http://localhost:3000`
   1. Leave the CORS domain blank
