@@ -75,11 +75,13 @@ export default {
     };
   },
   mounted() {
-    this.$nextTick(() => {
+      this.sharedState.committeeChairs.load(
+        this.sharedState.savedData["committee_chair_attributes"]
+      )
+
       this.sharedState.committeeMembers.load(
         this.sharedState.savedData["committee_members_attributes"]
-      );
-    });
+      )
   },
   methods: {
     chairNameAttr(chair) {
