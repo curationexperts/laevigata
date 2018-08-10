@@ -1,19 +1,19 @@
 <template>
   <div>
     <label for="school">School</label>
-    <select id="school" class="form-control" v-model="selected" aria-required="true" v-on:change="clearDepartmentAndSubfields(), sharedState.setValid('About Me', false, ['My Program', 'Embargo'])">
+    <select v-if="!this.sharedState.getSavedOrSelectedSchool()" id="school" class="form-control" v-model="selected" aria-required="true" v-on:change="clearDepartmentAndSubfields(), sharedState.setValid('About Me', false, ['My Program', 'Embargo'])">
       <option v-for="school in this.sharedState.schools.options" v-bind:value="school.value" v-bind:key='school.value' :selected='school.selected' :disabled='school.disabled'>
         {{ school.text }}
       </option>
     </select>
+    <div v-if="this.sharedState.getSavedOrSelectedSchool()">
+      <b>{{ this.sharedState.getSchoolText(this.sharedState.getSavedOrSelectedSchool()) }}</b>
+    </div>
   </div>
 </template>
 
 <script>
-import Vue from "vue"
-import axios from "axios"
-import VueAxios from "vue-axios"
-import App from "./App"
+import _ from 'lodash'
 import { formStore } from './formStore'
 
 export default {
