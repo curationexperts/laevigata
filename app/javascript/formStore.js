@@ -419,24 +419,6 @@ export var formStore = {
     if (this.supplementalFiles === undefined || this.supplementalFiles.length === 0) return
     return JSON.stringify(this.supplementalFiles)
   },
-  setCopyrights () {
-    this.copyrights = Number(!this.copyrights)
-  },
-  setPermissions () {
-    this.permissions = Number(!this.permissions)
-  },
-  setPatents () {
-    this.patents = Number(!this.patents)
-  },
-  getCopyrights () {
-    return `${this.copyrights}`
-  },
-  getPermissions () {
-    return `${this.permissions}`
-  },
-  getPatents () {
-    return `${this.patents}`
-  },
   getGraduationDate () {
     return this.savedData['graduation_date']
   },
