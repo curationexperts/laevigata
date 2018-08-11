@@ -10,9 +10,8 @@
 </template>
 
 <script>
-import Vue from "vue";
-import App from "./App";
 import { formStore } from "./formStore";
+import _ from 'lodash'
 
 export default {
   data() {
@@ -38,17 +37,17 @@ export default {
     } else if (this.sharedState.getSavedSchool()) {
       this.sharedState.loadDepartments()
     } else {
-      // console.log('beforeMount else')
+      this.selected = this.sharedState.getSavedOrSelectedSchool()
     }
   },
   mounted: function (){
     this.$nextTick(function () {
       //this is to handle the case of a saved department
       if (_.has(this.sharedState.savedData, 'etd_id')){
-        var selectedArray = this.sharedState.getSavedDepartment()
+        var selectedArray = this.sharedState.getSavedOrSelectedDepartment()
         this.selected = selectedArray[0]
       } else {
-        this.selected = this.sharedState.getSavedDepartment()
+        this.selected = this.sharedState.getSavedOrSelectedDepartment()
       }
     })
   }
