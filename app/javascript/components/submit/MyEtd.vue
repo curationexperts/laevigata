@@ -6,9 +6,9 @@
     <h5>Language</h5>
     <div>{{ sharedState.savedData.language }}</div>
     <h5>Abstract</h5>
-    <div v-html="abstract">{{ abstract }}</div>
+    <div v-html="sharedState.savedData.abstract"></div>
     <h5>Table of Contents</h5>
-    <div v-html="tableOfContents">{{ tableOfContents }}</div>
+    <div v-html="sharedState.savedData['table_of_contents']"></div>
   </section>
 </template>
 
