@@ -22,9 +22,10 @@ export default class BoxFileUploader {
 
   postToUploads (boxResponse) {
     const formData = new FormData()
-    formData.set('primary_files', [this.event[0].name])
-    formData.set('filename', [this.event[0].name])
-    formData.set('remote_url', boxResponse.location)
+    formData.append('primary_files', [this.event[0].name])
+    formData.append('filename', [this.event[0].name])
+    formData.append('remote_url', boxResponse.location)
+
     var xhr = new XMLHttpRequest()
     xhr.open('POST', '/uploads')
     xhr.setRequestHeader('X-CSRF-Token', this.csrfToken)
@@ -39,7 +40,7 @@ export default class BoxFileUploader {
 
         if (formStore.boxFilePickerMode.mode === 'supplemental') {
           this.sharedState.supplementalFiles.push(
-            JSON.parse(xhr.responseText).files
+            JSON.parse(xhr.responseText).files[0]
           )
         }
       }
