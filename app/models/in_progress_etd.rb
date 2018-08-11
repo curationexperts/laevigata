@@ -108,18 +108,46 @@ class InProgressEtd < ApplicationRecord
 
     all_simple_fields.each do |field|
       new_value = etd.send field
-      new_data[field] = new_value unless new_value.blank?
+      # Fedora returns arrays for these -- we aren't using arrays in the form
+      # so this needs to use an array accessor
+      new_data[field] = new_value[0] unless new_value.blank?
     end
 
-    members = etd.committee_members.inject([]) do |member_list, person|
-      member_list << { name: person.name, affiliation: person.affiliation }
-    end
-    new_data['committee_members_attributes'] = members unless members.blank?
+    new_data['embargo_length'] = etd.embargo_length
+    new_data['keyword'] = etd.keyword
+    new_data['department'] = etd.department
+    new_data['research_field'] = etd.research_field
+    new_data['other_copyrights'] = etd.other_copyrights
+    new_data['patents'] = etd.patents
+    new_data['requires_permissions'] = etd.requires_permissions
 
-    chairs = etd.committee_chair.inject([]) do |member_list, person|
-      member_list << { name: person.name, affiliation: person.affiliation }
+    em_type = EmbargoTypeFromAttributes.new(etd.files_embargoed, etd.toc_embargoed, etd.abstract_embargoed)
+    new_data['embargo_type'] = em_type.s
+
+    etd_members = etd.members.map { |chair| JSON.parse(chair.to_json) }.map { |values| { name: values["name"], affiliation: values["affiliation"] } }.uniq
+
+    members = []
+    etd_members.each do |member|
+      if member[:affiliation] != 'Emory University'
+        members.push(name: member[:name], affiliation: member[:affiliation], affiliation_type: 'Non-Emory')
+      end
+      if member[:affiliation] == 'Emory University'
+        members.push(name: member[:name], affiliation: member[:affiliation], affiliation_type: 'Emory University')
+      end
     end
-    new_data['committee_chair_attributes'] = chairs unless chairs.blank?
+    new_data['committee_members_attributes'] = members.uniq unless members.blank?
+
+    etd_chairs = etd.committee_chair.map { |chair| JSON.parse(chair.to_json) }.map { |values| { name: values["name"], affiliation: values["affiliation"] } }.uniq
+    chairs = []
+    etd_chairs.each do |chair|
+      if chair[:affiliation] != ['Emory University']
+        chairs.push(name: chair[:name], affiliation: chair[:affiliation], affiliation_type: 'Non-Emory')
+      end
+      if chair[:affiliation] == ['Emory University']
+        chairs.push(name: chair[:name], affiliation: chair[:affiliation], affiliation_type: 'Emory University')
+      end
+    end
+    new_data['committee_chair_attributes'] = chairs.uniq unless chairs.blank?
 
     primary_file = file_for_refresh(etd.primary_file_fs.first)
     new_data['files'] = primary_file unless primary_file.blank?

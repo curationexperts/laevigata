@@ -423,12 +423,28 @@ describe InProgressEtd do
     end
 
     context 'with stale data in data store' do
-      let(:stale_data) { { title: ['Stale Title from IPE'], partnering_agency: ['Stale parter agency'] } }
+      let(:stale_data) {
+        {
+        title: 'Stale Title from IPE',
+        partnering_agency: ['Stale parter agency'],
+        embargo_length: '1000 years',
+        department: ['Some'],
+        other_copyrights: 'true',
+        requires_permissions: 'true',
+        patents: 'true',
+        research_field: 'Cryptozoology'
+        }
+      }
 
       let(:new_data) do
         { 'title' => ['New ETD Title'],
+          'embargo_length' => '1000 years',
           'keyword' => ['new keyword'],
-          'committee_members_attributes' => [{ 'name' => ['Arthur'], 'affiliation' => ['Emory University'] }],
+          'department' => ['Some'],
+          'other_copyrights' => 'true',
+          'requires_permissions' => 'true',
+          'patents' => 'true',
+          'research_field' => ['Cryptozoology'],
           'committee_chair_attributes' => [{ 'name' => ['Morgan'], 'affiliation' => ['Another University'] }, { 'name' => ['Merlin'], 'affiliation' => ['Emory University'] }] }
       end
 
@@ -436,8 +452,14 @@ describe InProgressEtd do
       let(:ipe) { described_class.new(etd_id: etd.id, data: stale_data.to_json) }
 
       it 'replaces the stale data with updated data' do
-        expect(refreshed_data.except('committee_chair_attributes', 'ipe_id', 'etd_id')).to eq new_data.except('committee_chair_attributes')
-        expect(refreshed_data['committee_chair_attributes']).to contain_exactly *new_data['committee_chair_attributes']
+        expect(refreshed_data.except('committee_chair_attributes', 'ipe_id', 'etd_id', 'title', 'embargo_type')).to eq new_data.except('committee_chair_attributes', 'title', 'embargo_type')
+        expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Another University/)
+        expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Merlin/)
+        expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Emory University/)
+        expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Morgan/)
+        # Test for affiliation_type, which we need for the form
+        expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Non-Emory/)
+        expect(refreshed_data['title']).to eq new_data['title'][0]
         expect(refreshed_data['ipe_id']).to eq ipe.id
         expect(refreshed_data['etd_id']).to eq etd.id
       end

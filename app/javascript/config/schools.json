@@ -1,16 +1,16 @@
 {
-  "candler":
+  "Candler School of Theology":
     "/authorities/terms/local/candler_programs",
-  "emory": "/authorities/terms/local/emory_programs",
-  "laney": "/authorities/terms/local/laney_programs",
-  "rollins":
+  "Emory College": "/authorities/terms/local/emory_programs",
+  "Laney Graduate School": "/authorities/terms/local/laney_programs",
+  "Rollins School of Public Health":
     "/authorities/terms/local/rollins_programs",
   "selected": "",
   "options": [
     { "text": "Select a School", "value": "", "disabled": "disabled", "selected": "selected" },
-    { "text": "Candler School of Theology", "value": "candler" },
-    { "text": "Emory College", "value": "emory" },
-    { "text": "Laney Graduate School", "value": "laney" },
-    { "text": "Rollins School of Public Health", "value": "rollins" }
+    { "text": "Candler School of Theology", "value": "Candler School of Theology" },
+    { "text": "Emory College", "value": "Emory College" },
+    { "text": "Laney Graduate School", "value": "Laney Graduate School" },
+    { "text": "Rollins School of Public Health", "value": "Rollins School of Public Health" }
   ]
 }
