@@ -51,7 +51,7 @@
       <label class="btn btn-primary" for="add-file"><span class='glyphicon glyphicon-plus'></span>
       Add your thesis or dissertation file from your computer
       </label>
-      <button type="button" class="btn btn-primary" @click="boxOAuth('primary')"><span class="glyphicon glyphicon-plus"></span> Add your thesis or dissertation file from Box</button>
+      <button v-if="sharedState.allowPrimaryBoxUpload" type="button" class="btn btn-primary" @click="boxOAuth('primary')"><span class="glyphicon glyphicon-plus"></span> Add your thesis or dissertation file from Box</button>
     </div>
 
     <div v-if="isUploadedFile(getPrimaryFile())">

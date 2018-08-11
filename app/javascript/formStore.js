@@ -157,7 +157,7 @@ export var formStore = {
       return `/in_progress_etds/${this.ipeId}`
     }
   },
-  copyrights: 0,
+  allowPrimaryBoxUpload: false,
   permissions: 0,
   patents: 0,
   copyrightQuestions: copyrightQuestions,
