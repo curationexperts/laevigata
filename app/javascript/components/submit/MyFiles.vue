@@ -38,7 +38,7 @@
           <td>{{ supplementalFile.filename }}</td>
           <td>{{ supplementalFile.title }}</td>
           <td>{{ supplementalFile.description }}</td>
-          <td>{{ supplementalFile.type }}</td>
+          <td>{{ supplementalFile.file_type }}</td>
         </tr>
       </tbody>
     </table>
