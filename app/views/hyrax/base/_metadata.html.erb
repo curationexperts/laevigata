@@ -17,7 +17,7 @@
     <%= presenter.attribute_to_html(:keyword, label: "Keywords", render_as: :faceted) %>
     <%= presenter.attribute_to_html(:committee_chair_name, label: "Committee Chair / Thesis Advisor", render_as: :faceted) %>
     <%= presenter.attribute_to_html(:committee_members_names, label: "Committee Members", render_as: :faceted) %>
-    <%= presenter.attribute_to_html(:partnering_agency, label: "Partnering Agencies", render_as: :faceted) %>
+    <%= presenter.attribute_to_html(:partnering_agency, label: "Partnering Agencies", render_as: :faceted) if presenter.school.first =~ /Rollins/ %>
     <%= presenter.attribute_to_html(:permanent_url, label: "Permanent URL") %>
     <%= presenter.attribute_to_html(:rights_statement, render_as: :rights_statement, html_dl: true) %>
     <% if presenter.current_ability_is_approver? %>
