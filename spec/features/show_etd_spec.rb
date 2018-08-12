@@ -34,8 +34,7 @@ RSpec.feature 'Display ETD metadata', :clean, integration: true do
       "subfield",
       "keyword",
       "committee_chair_name",
-      "committee_members_names",
-      "partnering_agency"
+      "committee_members_names"
     ]
   end
 
@@ -78,6 +77,7 @@ RSpec.feature 'Display ETD metadata', :clean, integration: true do
     end
     expect(page).to have_content "Rural Clinics in Georgia (GIS shapefile showing rural clinics)"
     expect(page).to have_content "Photographer (a portrait of the artist)"
+    expect(page).not_to have_content etd.partnering_agency.first # Partnering agency should only display for Rollins
 
     expect(page).not_to have_content I18n.t("hyrax.works.requires_permissions_label")
     expect(page).not_to have_content I18n.t("hyrax.works.other_copyrights_label")
