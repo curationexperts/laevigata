@@ -5,7 +5,7 @@ import { shallowMount } from '@vue/test-utils'
 import CopyrightQuestions from 'CopyrightQuestions'
 import { formStore } from '../formStore'
 
-formStore.savedData.additional_copyrights = 1
+formStore.savedData.other_copyrights = 1
 formStore.savedData.requires_permissions = 0
 formStore.savedData.patents = 1
 
@@ -14,7 +14,7 @@ describe('CopyrightQuestions.vue', () => {
     const wrapper = shallowMount(CopyrightQuestions, {
     })
 
-    expect(wrapper.html()).toContain(`etd[additional_copyrights]`)
+    expect(wrapper.html()).toContain(`etd[other_copyrights]`)
     expect(wrapper.html()).toContain(`etd[requires_permissions]`)
     expect(wrapper.html()).toContain(`etd[patents]`)
   })

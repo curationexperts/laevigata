@@ -117,6 +117,9 @@ class InProgressEtd < ApplicationRecord
     new_data['keyword'] = etd.keyword
     new_data['department'] = etd.department
     new_data['research_field'] = etd.research_field
+    new_data['other_copyrights'] = etd.other_copyrights
+    new_data['patents'] = etd.patents
+    new_data['requires_permissions'] = etd.requires_permissions
 
     members = etd.committee_members.inject([]) do |member_list, person|
       member_list << { name: person.name, affiliation_type: person.affiliation[0] }
