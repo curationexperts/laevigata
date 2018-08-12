@@ -48,25 +48,12 @@ export default {
     fetchData() {
       axios.get(this.researchFieldsEndpoint).then(response => {
         this.researchFields = response.data
-        this.setSelecteds(data)
       })
     },
-    setSelecteds(data){
-      var selectedResearchFields = this.sharedState.getSavedResearchFields()
-        _.forEach(selectedResearchFields, function(selected){
-        if (selected.length > 0) {
-          _.forEach(data, function(o){
-            if (o.id == selected){
-              o.selected = 'selected'
-              this.selectedFields.push(o)
-            }
-          })
-        }
-      })
-    }
   },
   created() {
     this.fetchData()
+    this.sharedState.getSavedResearchFields()  
   }
 }
 </script>

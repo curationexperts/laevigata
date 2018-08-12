@@ -108,16 +108,23 @@ class InProgressEtd < ApplicationRecord
 
     all_simple_fields.each do |field|
       new_value = etd.send field
-      new_data[field] = new_value unless new_value.blank?
+      # Fedora returns arrays for these -- we aren't using arrays in the form
+      # so this needs to use an array accessor
+      new_data[field] = new_value[0] unless new_value.blank?
     end
 
+    new_data['embargo_length'] = etd.embargo_length
+    new_data['keyword'] = etd.keyword
+    new_data['department'] = etd.department
+    new_data['research_field'] = etd.research_field
+
     members = etd.committee_members.inject([]) do |member_list, person|
-      member_list << { name: person.name, affiliation: person.affiliation }
+      member_list << { name: person.name, affiliation_type: person.affiliation[0] }
     end
     new_data['committee_members_attributes'] = members unless members.blank?
 
     chairs = etd.committee_chair.inject([]) do |member_list, person|
-      member_list << { name: person.name, affiliation: person.affiliation }
+      member_list << { name: person.name, affiliation_type: person.affiliation[0] }
     end
     new_data['committee_chair_attributes'] = chairs unless chairs.blank?
 
