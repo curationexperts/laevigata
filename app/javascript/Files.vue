@@ -2,7 +2,6 @@
   <div>
     <section class="thesis-file">
     <h2>Add Your Thesis or Dissertation File</h2>
-    <div id="box-picker"></div>
     <div v-if="accessToken">
       <link rel="stylesheet" href="https://cdn01.boxcdn.net/platform/elements/4.4.0/en-US/picker.css" />
     </div>
@@ -72,6 +71,7 @@
       You may upload as many supplemental files as you like. No single file should exceed 2.5 GB.
       If you have a file larger than 2.5 GB, contact the ETD team at <a href="mailto:etd-help@LISTSERV.CC.EMORY.EDU">etd-help@LISTSERV.CC.EMORY.EDU</a> for help.
     </div>
+    <div id="box-picker"></div>
     <div v-if="sharedState.supplementalFiles.length > 0" class="file-row form-inline">
       <table class="table table-striped metadata">
         <thead>
@@ -85,8 +85,7 @@
         </thead>
         <tbody>
           <tr v-for="(files, key) in sharedState.supplementalFiles" v-bind:key="key">
-
-            <td><input type="text" :value="getSavedFileName(key)" class="form-control" disabled />
+            <td><input type="text" :value="files.name" class="form-control" disabled />
             <input type='hidden' :value="files.name" :name="supplementalFileName(key)"></td>
             <td><input :name="supplementalFileTitleName(key)" type="text" class="form-control" :value="getSavedTitle(key)" v-on:change="sharedState.setValid('My Files', false)"/></td>
             <td><input :name="supplementalFileDescriptionName(key)" type="text" class="form-control" :value="getSavedDescription(key)" v-on:change="sharedState.setValid('My Files', false)"/></td>
@@ -103,8 +102,7 @@
               </select>
             </td>
             <td>
-              {{ files.deleteUrl }}
-              <button type="button" class="btn btn-danger remove-btn" @click="deleteSupplementalFile(files.deleteUrl)">
+              <button type="button" class="btn btn-danger remove-btn" @click="deleteSupplementalFile(files.deleteUrl, key)">
               <span class="glyphicon glyphicon-trash"></span> Remove this file</button>
             </td>
           </tr>
@@ -220,13 +218,13 @@ export default {
       fileDelete.deleteFile()
       this.sharedState.setValid('My Files', false)
     },
-    deleteSupplementalFile(deleteUrl) {
+    deleteSupplementalFile(deleteUrl, key) {
      var supplementalFileDelete = new SupplementalFileDelete({
         deleteUrl: deleteUrl,
         token: this.sharedState.token,
         formStore: this.sharedState
       })
-      supplementalFileDelete.deleteFile()
+      supplementalFileDelete.deleteFile(key)
       this.sharedState.setValid('My Files', false)
   },
   boxOAuth(mode) {

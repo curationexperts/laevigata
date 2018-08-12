@@ -1,6 +1,6 @@
 import FileDelete from './FileDelete'
 export default class SupplementalFileDelete extends FileDelete {
-  deleteFile () {
+  deleteFile (key) {
     console.log(this.deleteUrl)
     var xhr = new XMLHttpRequest()
     xhr.open('DELETE', this.deleteUrl, true)
@@ -17,6 +17,6 @@ export default class SupplementalFileDelete extends FileDelete {
     this.formStore.supplementalFiles = filteredFiles
     this.formStore.supplementalFilesMetadata = filteredMetadata
     this.formStore.removeSavedSupplementalFile(this.deleteUrl)
-    this.formStore.removeSavedSupplementalFileMetadata(this.id)
+    this.formStore.removeSavedSupplementalFileMetadata(key)
   }
 }

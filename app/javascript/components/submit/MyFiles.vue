@@ -15,6 +15,7 @@
         </tr>
       </tbody>
     </table>
+  <div v-if="Object.keys(supplementalFiles).length > 0">
     <h5>Supplemental Files</h5>
     <table class="table table-striped metadata">
       <thead>
@@ -42,6 +43,7 @@
         </tr>
       </tbody>
     </table>
+  </div>
   </section>
 </template>
 
