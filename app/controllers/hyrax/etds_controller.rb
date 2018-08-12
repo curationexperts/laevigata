@@ -68,23 +68,12 @@ module Hyrax
       sanitize_input(params)
       merge_selected_files_hashes(params) if params["selected_files"]
 
-      if Rails.application.config_for(:new_ui).fetch('enabled', false)
-        new_ui_update_behavior
-      else # old UI behavior
+      # If the new ui is not enabled, keep these legacy behaviors
+      unless Rails.application.config_for(:new_ui).fetch('enabled', false)
         update_supplemental_files
         update_committee_members
-        super
       end
-    end
-
-    def new_ui_update_behavior
-      if actor.update(actor_environment)
-        path = main_app.hyrax_etd_path(curation_concern)
-        render json: { redirectPath: path }, status: :ok
-      else
-        raise "TODO: Error path is not implemented yet"
-        # render json: { errors: curation_concern.errors.messages }, status: 422
-      end
+      super
     end
 
     # Override from Hyrax:app/controllers/concerns/hyrax/curation_concern_controller.rb
@@ -103,8 +92,8 @@ module Hyrax
     # Any fields coming in through tinymce are likely to be full of ms word
     # type markup that we don't want. Sanitize it.
     def sanitize_input(params)
-      params["etd"]["abstract"] = ::InputSanitizer.sanitize(params["etd"]["abstract"])
-      params["etd"]["table_of_contents"] = ::InputSanitizer.sanitize(params["etd"]["table_of_contents"])
+      params["etd"]["abstract"] = ::InputSanitizer.sanitize(params["etd"]["abstract"]) if params["etd"]["abstract"]
+      params["etd"]["table_of_contents"] = ::InputSanitizer.sanitize(params["etd"]["table_of_contents"]) if params["etd"]["table_of_contents"]
     end
 
     def update_committee_members
