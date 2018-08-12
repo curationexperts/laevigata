@@ -1,10 +1,10 @@
 {
-  "emory": [{"value": "None - open access immediately", "selected": "selected"},
+  "Emory College": [{"value": "None - open access immediately", "selected": "selected"},
     {"value": "6 months"}, {"value": "1 year"}, {"value": "2 years"}],
-  "candler": [{"value": "None - open access immediately", "selected": "selected"},
+  "Candler School of Theology": [{"value": "None - open access immediately", "selected": "selected"},
     {"value": "6 months"}, {"value": "1 year"}, {"value": "2 years"}],
-  "laney": [{"value": "None - open access immediately", "selected": "selected"}, {"value": "6 months"},
+  "Laney Graduate School": [{"value": "None - open access immediately", "selected": "selected"}, {"value": "6 months"},
     {"value": "1 year"}, {"value": "2 years"}, {"value": "6 years"}],
-  "rollins": [{"value": "None - open access immediately", "selected": "selected"},
+  "Rollins School of Public Health": [{"value": "None - open access immediately", "selected": "selected"},
     {"value": "6 months"}, {"value": "1 year"}, {"value": "2 years"}]
 }

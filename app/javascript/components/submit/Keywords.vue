@@ -1,5 +1,5 @@
 <template>
-  <section>   
+  <section>
     <h4>Keywords</h4>
     <h5>Research Fields</h5>
     <div v-for="(researchField, index) in sharedState.savedData.research_field">
@@ -11,8 +11,8 @@
     </div>
    <h5>Copyright Questions</h5>
     <ul>
-      <li><b>Additional copyrights:</b> 
-        <p v-if="Boolean(Number(sharedState.savedData.additional_copyrights))">
+      <li><b>Additional copyrights:</b>
+        <p v-if="sharedState.savedData.other_copyrights === 'true'">
           Yes, my thesis or dissertation contains copyrighted material.
         </p>
         <p v-else>
@@ -20,20 +20,20 @@
         </p>
       </li>
       <li><b>Requires Permission:</b>
-        <p v-if="Boolean(Number(sharedState.savedData.requires_permissions))">
+        <p v-if="sharedState.savedData.requires_permissions === 'true'">
          Yes, my thesis or dissertation requires additional permissions.
         </p>
         <p v-else>
           No, my thesis or dissertation does not require additional permissions.
         </p>
       </li>
-      <li><b>Patents:</b> 
-        <p v-if="Boolean(Number(sharedState.savedData.patents))">
+      <li><b>Patents:</b>
+        <p v-if="sharedState.savedData.patents === 'true'">
           Yes, my thesis or dissertation contains patentable material.
         </p>
         <p v-else>
           No, my thesis or dissertation does not contain patentable material.
-        </p>    
+        </p>
       </li>
     </ul>
   </section>

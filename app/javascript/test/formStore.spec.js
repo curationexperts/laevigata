@@ -4,10 +4,10 @@
 
 import { formStore } from '../formStore'
 
-formStore.getSavedOrSelectedSchool = jest.fn(() => {return 'emory'})
+formStore.getSavedOrSelectedSchool = jest.fn(() => {return 'Emory College'})
 describe('formStore', () => {
   it('returns the correct embargo length based on the selected school', () => {
-    formStore.setSelectedSchool('emory')
+    formStore.setSelectedSchool('Emory College')
     expect(formStore.getEmbargoLengths()).toEqual([{ value: 'None - open access immediately', selected: 'selected' },
     { value: '6 months' }, { value: '1 year' }, { value: '2 years' }])
   })

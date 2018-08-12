@@ -206,9 +206,9 @@ export default {
     // this executes only the first time the page is loaded (before adding it to the dom), so we need the freshest saved data we have, and we use it to set the state of the tabs.
     this.sharedState.loadSavedData()
     this.sharedState.loadTabs()
-    this.sharedState.copyrights = Number(this.sharedState.savedData.additional_copyrights) || this.sharedState.copyrights
-    this.sharedState.permissions = Number(this.sharedState.savedData.requires_permissions) || this.sharedState.permissions
-    this.sharedState.patents = Number(this.sharedState.savedData.patents) || this.sharedState.patents
+    this.sharedState.other_copyrights = this.sharedState.savedData.other_copyrights || this.sharedState.other_copyrights
+    this.sharedState.requires_permissions = this.sharedState.savedData.requires_permissions || this.sharedState.requires_permissions
+    this.sharedState.patents = this.sharedState.savedData.patents || this.sharedState.patents
   },
   beforeMount () {
     // this is loaded every time the form changes (whenever the component changes and before the native DOM is updated)
