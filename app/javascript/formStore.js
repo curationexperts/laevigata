@@ -191,10 +191,8 @@ export var formStore = {
   getSavedLanguage () {
     return this.savedData['language']
   },
-  getSchoolKeyFromName (name) {
-    return this.schools.options.filter((option) => { return option.text === name })[0].value
-  },
-  getSchoolHasChanged () {
+
+  getSchoolHasChanged(){
     return this.savedData['schoolHasChanged']
   },
 
@@ -386,8 +384,7 @@ export var formStore = {
   },
   loadDepartments () {
     if (this.savedData['department'] !== undefined) {
-      var schoolEndpoint = this.schools[this.savedData['school']]
-      console.log(schoolEndpoint)
+      var schoolEndpoint = '/authorities/terms/local/' + this.savedData['school'] + '_programs'
       this.getDepartments(schoolEndpoint)
     }
   },
@@ -427,6 +424,9 @@ export var formStore = {
   },
   getSavedDegree () {
     return this.savedData['degree']
+  },
+  getSavedLanguage () {
+    return this.savedData['language']
   },
   getSubmittingType () {
     return this.savedData['submitting_type']
@@ -567,7 +567,6 @@ export var formStore = {
     this.formData = formData
   },
   loadSavedData () {
-    console.log('load saved data?')
     var el = document.getElementById('saved_data')
     if (el && el.hasAttribute('data-in-progress-etd')) {
       this.savedData = JSON.parse(el.dataset.inProgressEtd)

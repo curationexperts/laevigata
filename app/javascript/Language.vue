@@ -33,6 +33,10 @@ export default {
     getSelected(data){
       var selected = this.sharedState.getSavedLanguage()
       if (selected !== undefined) {
+        //TODO: the model should return strings not arrays 
+        if(_.has(this.sharedState.savedData, 'etd_id')){
+          selected = selected[0]
+        }
         this.selected = selected
       } else {
         data.unshift({ "value": "", "active": true, "label": "Select a Language", "disabled":"disabled" ,"selected": "selected"})
