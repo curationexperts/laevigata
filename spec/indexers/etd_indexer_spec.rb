@@ -12,13 +12,13 @@ RSpec.describe EtdIndexer do
     )
   end
   let(:cm_attrs) do
-    [{ name: 'Jackson, Henrietta' },
+    [{ name: 'Jackson, Henrietta', affiliation: "Starfleet Academy" },
      { name: 'Matsumoto, Yukihiro' }]
   end
-  let(:cc_attrs) { [{ name: 'Yurchenko, Alice' }] }
+  let(:cc_attrs) { [{ name: 'Yurchenko, Alice', affiliation: "Peace University" }] }
 
   it 'indexes the fields needed for search and faceting' do
     # Index both committee members and chairs for faceting
-    expect(solr_doc['committee_names_sim']).to contain_exactly('Jackson, Henrietta', 'Matsumoto, Yukihiro', 'Yurchenko, Alice')
+    expect(solr_doc['committee_names_sim']).to contain_exactly('Jackson, Henrietta, Starfleet Academy', 'Matsumoto, Yukihiro', 'Yurchenko, Alice, Peace University')
   end
 end

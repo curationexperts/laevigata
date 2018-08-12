@@ -159,7 +159,7 @@ RSpec.describe Etd do
     end
     it "has committee_chair_name indexed so its accessible from the presenter" do
       expect(etd.committee_chair_name.count).to eq 1
-      expect(etd.committee_chair_name.include?('Treadway, Michael T')).to eq true
+      expect(etd.committee_chair_name.include?('Treadway, Michael T, Emory University')).to eq true
     end
     it "has committee_members which are CommitteeMember objects" do
       expect(etd.committee_members.first).to be_instance_of CommitteeMember
@@ -167,11 +167,11 @@ RSpec.describe Etd do
     end
     it "has committee_members_names indexed so they're accessible from the presenter" do
       expect(etd.committee_members_names.count).to eq 2
-      expect(etd.committee_members_names.include?("Craighead, W Edward")).to eq true
+      expect(etd.committee_members_names.include?("Craighead, W Edward, Emory University")).to eq true
     end
 
     it "updates committee_member_names when committee_members are edited" do
-      expect(etd.committee_members_names).to contain_exactly("Craighead, W Edward", "Manns, Joseph")
+      expect(etd.committee_members_names).to contain_exactly("Craighead, W Edward, Emory University", "Manns, Joseph, Emory University")
       cm = etd.committee_members.select { |m| m.name.first.match(/Manns/) }.first
       cm.name = ['New Name']
       cm.persist!
@@ -182,15 +182,15 @@ RSpec.describe Etd do
       expect(etd.committee_members.map(&:name).flatten)
         .to contain_exactly(["Craighead, W Edward"], ["New Name"])
       expect(etd.committee_members_names)
-        .to contain_exactly("Craighead, W Edward", "New Name")
+        .to contain_exactly("Craighead, W Edward, Emory University", "New Name, Emory University")
     end
 
     it "updates committee_chair_name when committee_chair is edited" do
-      expect(etd.committee_chair_name).to contain_exactly('Treadway, Michael T')
+      expect(etd.committee_chair_name).to contain_exactly('Treadway, Michael T, Emory University')
       etd.committee_chair.first.name = ['New Name']
       etd.save!
       etd.reload # Make sure the new data is persisted
-      expect(etd.committee_chair_name).to contain_exactly('New Name')
+      expect(etd.committee_chair_name).to contain_exactly('New Name, Emory University')
     end
   end
 
