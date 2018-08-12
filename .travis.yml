@@ -50,7 +50,7 @@ rvm:
 script:
 - RAILS_ENV=test ./bin/rails db:migrate
 - RAILS_ENV=test ./bin/rails webpacker:compile
-- xvfb-run -a bundle exec rake ci[$TEST_SUITE]
+- travis_wait xvfb-run -a bundle exec rake ci[$TEST_SUITE]
 services:
 - redis-server
 sudo: false

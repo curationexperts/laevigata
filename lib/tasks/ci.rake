@@ -5,6 +5,7 @@ unless Rails.env.production?
   require "solr_wrapper"
   require "fcrepo_wrapper"
   require 'solr_wrapper/rake_task'
+  require 'resolv-replace'
 
   desc "Run Continuous Integration"
   task :ci, [:test_suite] do |task, args|
