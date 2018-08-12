@@ -5,10 +5,10 @@ import { shallowMount } from '@vue/test-utils'
 import Keywords from '../../../components/submit/Keywords'
 import { formStore } from '../../../formStore'
 
-formStore.savedData.additional_copyrights = '1'
-formStore.savedData.requires_permissions = '0'
-formStore.savedData.patents = '1'
-describe('Embargo.vue', () => {
+formStore.savedData.other_copyrights = 'true'
+formStore.savedData.requires_permissions = 'false'
+formStore.savedData.patents = 'true'
+describe('Keywords.vue', () => {
   it('has the correct label', () => {
     const wrapper = shallowMount(Keywords, {
     })

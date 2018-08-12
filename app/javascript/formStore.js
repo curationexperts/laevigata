@@ -158,8 +158,9 @@ export var formStore = {
     }
   },
   allowPrimaryBoxUpload: false,
-  permissions: 0,
-  patents: 0,
+  other_copyrights: 'false',
+  requires_permissions: 'false',
+  patents: 'false',
   copyrightQuestions: copyrightQuestions,
   committeeChairs: new ChairList(),
   committeeMembers: new MemberList(),
@@ -198,11 +199,11 @@ export var formStore = {
     return this.savedData['schoolHasChanged']
   },
 
-  isValid(tab){
+  isValid (tab) {
     return this.tabs[`${tab}`].valid
   },
 
-  setValid(tab, validity, otherTabs){
+  setValid (tab, validity, otherTabs) {
     _.forEach(this.tabs, (t) => {
       // passing in the object or the label is ok
       if (t === tab || t.label === tab) {
@@ -248,11 +249,11 @@ export var formStore = {
           this.tabs[tab].valid = false
         }
         // rather than complicate condition above, just adjust my program if it is invalid
-        if (this.savedData['schoolHasChanged'] === true){
+        if (this.savedData['schoolHasChanged'] === true) {
           this.tabs.my_program.valid = false
         }
 
-        if (this.tabs[tab].step === this.getNextStep()){
+        if (this.tabs[tab].step === this.getNextStep()) {
           this.tabs[tab].currentStep = true
           this.tabs[tab].valid = false
         } else {
@@ -308,15 +309,15 @@ export var formStore = {
     return this.schools.selected === this.savedData['school']
   },
 
-  messySchoolState(){
+  messySchoolState () {
     if (_.has(this.savedData, 'etd_id')) {
-      if (this.schools.selected === "") {
+      if (this.schools.selected === '') {
         return false
       } else {
         return this.schools.selected !== this.getSchoolText(this.savedData['school'])
       }
     } else {
-      if (this.schools.selected === "") {
+      if (this.schools.selected === '') {
         return false
       } else {
         return this.schools.selected !== this.savedData['school']
@@ -377,7 +378,7 @@ export var formStore = {
   },
   clearDepartment () {
     this.selectedDepartment = ''
-    delete this.savedData.department;
+    delete this.savedData.department
   },
   getDepartments (selectedSchool) {
     axios.get(selectedSchool).then(response => {
@@ -413,12 +414,12 @@ export var formStore = {
 
   /* End of Schools, Departments & Subfields */
 
-  getPrimaryFile(){
+  getPrimaryFile () {
     if (this.files[0] === undefined) return
     return JSON.stringify(this.files[0][0])
   },
 
-  getSupplementalFiles(){
+  getSupplementalFiles () {
     if (this.supplementalFiles === undefined || this.supplementalFiles.length === 0) return
     return JSON.stringify(this.supplementalFiles)
   },
@@ -463,26 +464,26 @@ export var formStore = {
     if (this.savedData['supplemental_file_metadata']) {
       // check for duplicates
       _.forEach(this.savedData['supplemental_file_metadata'], (sfm) => {
-        var file = _.find(this.supplementalFilesMetadata, function(o) { return o.filename === sfm.filename })
+        var file = _.find(this.supplementalFilesMetadata, function (o) { return o.filename === sfm.filename })
         // add only if it isn't there
-        if ( !(_.isObject(file)) ) {
+        if (!(_.isObject(file))) {
           this.supplementalFilesMetadata.push({ filename: sfm.filename, title: sfm.title, description: sfm.description, file_type: sfm.file_type })
         }
       })
     }
   },
   addSupplementalFiles () {
-    if (this.savedData['supplemental_files']){
+    if (this.savedData['supplemental_files']) {
       var parsedFiles = this.tryParseJSON(this.savedData['supplemental_files'])
       // we have a legit parsed file array of objects
-      if (!(_.isError(parsedFiles))){
+      if (!(_.isError(parsedFiles))) {
         // check for duplicates
         _.forEach(parsedFiles, (psf) => {
-          var file = _.find(this.supplementalFiles, function(sf) {
+          var file = _.find(this.supplementalFiles, function (sf) {
             return sf.deleteUrl === psf.deleteUrl
           })
           // add only if it isn't there
-          if ( !(_.isObject(file)) ) {
+          if (!(_.isObject(file))) {
             this.supplementalFiles.push(psf)
           }
         })
@@ -490,18 +491,18 @@ export var formStore = {
     }
   },
   addFileData () {
-    if (_.has(this.savedData, 'files') && this.savedData['files'] !== "undefined") {
-    var parsedFiles = this.tryParseJSON(this.savedData['files'])
+    if (_.has(this.savedData, 'files') && this.savedData['files'] !== 'undefined') {
+      var parsedFiles = this.tryParseJSON(this.savedData['files'])
       // we have a legit parsed file object
-      if (!(_.isError(parsedFiles))){
+      if (!(_.isError(parsedFiles))) {
         // if there's nothing in the the files array, just go ahead
         if (this.files.length === 0) {
           this.files.push([parsedFiles])
           this.savedData['files'] = [parsedFiles]
         // make sure we don't add a duplicate
         } else {
-          _.forEach(this.files[0], (f)=>{
-            if (f.id !== parsedFiles.id){
+          _.forEach(this.files[0], (f) => {
+            if (f.id !== parsedFiles.id) {
               // TODO:
               // might not be the place to put the data into an array.
               // we might need each parsed object to be an array
@@ -513,20 +514,20 @@ export var formStore = {
       }
     }
   },
-  tryParseJSON(str){
-    return _.attempt(JSON.parse.bind(null, str));
+  tryParseJSON (str) {
+    return _.attempt(JSON.parse.bind(null, str))
   },
-  removeSavedFile(deleteUrl){
-    //TODO: this assumes files contains only one object, and returns it
+  removeSavedFile (deleteUrl) {
+    // TODO: this assumes files contains only one object, and returns it
     // TODO: rename files primaryFile
     var file = this.tryParseJSON(this.savedData['files'])
-    if (file['deleteUrl'] === deleteUrl){
+    if (file['deleteUrl'] === deleteUrl) {
       delete this.savedData.files
     }
   },
   removeSavedSupplementalFile (deleteUrl) {
     var files = this.savedData['supplementalFiles']
-    var supplemental_file = _.find(files, (f) =>{
+    var supplemental_file = _.find(files, (f) => {
       return f.deleteUrl === deleteUrl
     })
 
@@ -539,9 +540,9 @@ export var formStore = {
     }
   },
 
-  removeSavedSupplementalFileMetadata(id){
+  removeSavedSupplementalFileMetadata (id) {
     var metadata = this.savedData['supplementalFilesMetadata']
-    var supplemental_metadata = _.find(metadata, (f) =>{
+    var supplemental_metadata = _.find(metadata, (f) => {
       return f.id === id
     })
     if (_.isObject(supplemental_metadata)) {
@@ -559,7 +560,7 @@ export var formStore = {
     // these needs to be whatever is current
     formData.append(this.etdPrefix('school'), this.getSelectedSchool())
 
-    if (this.getSelectedDepartment() !== '' && this.getSelectedDepartment() !== undefined ){
+    if (this.getSelectedDepartment() !== '' && this.getSelectedDepartment() !== undefined) {
       // console.log('sel dept', this.getSelectedDepartment())
       formData.append(this.etdPrefix('department'), this.getSelectedDepartment())
     }
