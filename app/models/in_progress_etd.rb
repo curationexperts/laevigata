@@ -117,7 +117,8 @@ class InProgressEtd < ApplicationRecord
     new_data['keyword'] = etd.keyword
     new_data['department'] = etd.department
     new_data['research_field'] = etd.research_field
-
+    em_type = EmbargoTypeFromAttributes.new(etd.files_embargoed, etd.toc_embargoed, etd.abstract_embargoed)
+    new_data['embargo_type'] = em_type.s
     members = etd.committee_members.inject([]) do |member_list, person|
       member_list << { name: person.name, affiliation_type: person.affiliation[0] }
     end
