@@ -39,4 +39,9 @@ class CommitteeMember < ActiveTriples::Resource
   def first_name
     name.first.split(", ").last
   end
+
+  def name_and_affiliation
+    return name.first + ", " + affiliation.first unless affiliation.empty?
+    name.first
+  end
 end

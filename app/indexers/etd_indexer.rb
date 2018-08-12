@@ -6,8 +6,8 @@ class EtdIndexer < Hyrax::WorkIndexer
   end
 
   def committee_names
-    object.committee_members.map(&:name).map(&:to_a).flatten +
-      object.committee_chair.map(&:name).map(&:to_a).flatten
+    object.committee_members.map(&:name_and_affiliation).flatten +
+      object.committee_chair.map(&:name_and_affiliation).flatten
   end
 
   def rdf_service
