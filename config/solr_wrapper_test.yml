@@ -2,6 +2,7 @@
 version: 6.6.2
 download_dir: /var/tmp
 port: 8985
+verbose: true
 instance_dir: tmp/solr-test
 collection:
     persist: false
