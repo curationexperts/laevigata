@@ -15,7 +15,7 @@ import embargoLengths from './config/embargoLengths.json'
 import schools from './config/schools.json'
 import helpText from './config/helpText.json'
 
-export var formStore = {
+export const formStore = {
   tabs: {
     about_me: {
       label: 'About Me',
@@ -225,7 +225,6 @@ export var formStore = {
   },
 
   getSchoolValue (schoolKey) {
-    console.log('schoolvalue', schoolKey)
     var school = _.find(this.schools.options, (school) => { return school.text === schoolKey })
 
     return school.value
@@ -301,39 +300,18 @@ export var formStore = {
   /* Getters & Setters */
 
   /* Schools, Departments & Subfields */
-  // our 'messy state' flag
-  // from here, you should be able to save the new school selection
-
-  // but your program and embargo tabs are now invalid. you can navigate to the program tab, but maybe you get an error message next to departments (and embargoes) and it tells you to save your school.
-  savedAndSelectedSchoolsMatch () {
-    return this.schools.selected === this.savedData['school']
-  },
-
-  messySchoolState () {
-    if (_.has(this.savedData, 'etd_id')) {
-      if (this.schools.selected === '') {
-        return false
-      } else {
-        return this.schools.selected !== this.getSchoolText(this.savedData['school'])
-      }
-    } else {
-      if (this.schools.selected === '') {
-        return false
-      } else {
-        return this.schools.selected !== this.savedData['school']
-      }
-    }
-  },
-
   getSelectedSchool () {
     return this.schools.selected
   },
   getSavedOrSelectedSchool () {
-    if (this.selectedSchool === undefined) {
-      this.selectedSchool = ''
+    if (localStorage.getItem('school')) {
+      return localStorage.getItem('school')
+    } 
+    if (this.savedData['school']) {
+      return  this.savedData['school']
+    } else {
+      return ''
     }
-    return this.selectedSchool.length === 0
-      ? this.savedData['school'] : this.schools.selected
   },
   setSelectedEmbargo (embargo) {
     this.selectedEmbargo = embargo
@@ -361,12 +339,15 @@ export var formStore = {
   },
   setSelectedSchool (school) {
     this.schools.selected = school
+    localStorage.setItem('school', school)
   },
   getSelectedDepartment () {
     return this.selectedDepartment
   },
 
   getSavedOrSelectedDepartment () {
+    console.log(this.selectedDepartment)
+    console.log(this.savedData['department'])
     return this.selectedDepartment.length === 0 ? this.savedData['department'] : this.selectedDepartment
   },
 
@@ -376,10 +357,7 @@ export var formStore = {
   setSelectedDepartment (department) {
     this.selectedDepartment = department
   },
-  clearDepartment () {
-    this.selectedDepartment = ''
-    delete this.savedData.department
-  },
+
   getDepartments (selectedSchool) {
     axios.get(selectedSchool).then(response => {
       this.departments = response.data
@@ -388,7 +366,7 @@ export var formStore = {
   loadDepartments () {
     if (this.savedData['department'] !== undefined) {
       var schoolEndpoint = this.schools[this.savedData['school']]
-      console.log(schoolEndpoint)
+      
       this.getDepartments(schoolEndpoint)
     }
   },
@@ -456,8 +434,6 @@ export var formStore = {
     axios.get('/authorities/terms/local/partnering_agencies')
       .then((response) => {
         this.partneringAgencyChoices = response.data
-      }).catch((err) => {
-        console.log(err)
       })
   },
   addSupplementalFileMetadata () {
@@ -527,25 +503,24 @@ export var formStore = {
   },
   removeSavedSupplementalFile (deleteUrl) {
     var files = this.savedData['supplementalFiles']
-    var supplemental_file = _.find(files, (f) => {
+    var supplementalFile = _.find(files, (f) => {
       return f.deleteUrl === deleteUrl
     })
 
-    if (_.isObject(supplemental_file)) {
+    if (_.isObject(supplementalFile)) {
       var filteredFiles = _.filter(this.savedData['supplementalFiles'], (f) => {
         return f.deleteUrl !== deleteUrl
       })
-      console.log('filteredFiles', filteredFiles)
       this.savedData['supplementalFiles'] = filteredFiles
     }
   },
 
   removeSavedSupplementalFileMetadata (id) {
     var metadata = this.savedData['supplementalFilesMetadata']
-    var supplemental_metadata = _.find(metadata, (f) => {
+    var supplementalMetadata = _.find(metadata, (f) => {
       return f.id === id
     })
-    if (_.isObject(supplemental_metadata)) {
+    if (_.isObject(supplementalMetadata)) {
       var filteredFiles = _.filter(this.savedData['supplementalFilesMetadata'], (f) => {
         return f.id !== id
       })
@@ -557,18 +532,9 @@ export var formStore = {
   formData: undefined,
   setFormData (formElement) {
     var formData = new FormData(formElement)
-    // these needs to be whatever is current
-    formData.append(this.etdPrefix('school'), this.getSelectedSchool())
-
-    if (this.getSelectedDepartment() !== '' && this.getSelectedDepartment() !== undefined) {
-      // console.log('sel dept', this.getSelectedDepartment())
-      formData.append(this.etdPrefix('department'), this.getSelectedDepartment())
-    }
-
     this.formData = formData
   },
   loadSavedData () {
-    console.log('load saved data?')
     var el = document.getElementById('saved_data')
     if (el && el.hasAttribute('data-in-progress-etd')) {
       this.savedData = JSON.parse(el.dataset.inProgressEtd)

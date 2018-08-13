@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="files">
     <section class="thesis-file">
     <h2>Add Your Thesis or Dissertation File</h2>
     <div v-if="accessToken">
@@ -193,6 +193,7 @@ export default {
       })
       fileUploader.uploadFile()
       formStore.setValid('My Files', false)
+      
     },
     onSupplementalFileChange(e) {
         var supplementalFileUploader = new SupplementalFileUploader({
@@ -203,6 +204,9 @@ export default {
       })
       supplementalFileUploader.uploadFile()
       formStore.setValid('My Files', false)
+
+      localStorage.setItem('suppFiles', this.supplementalFiles)
+      localStorage.setItem('suppFilesMetadata', this.supplementalFilesMetadata)
     },
     getFormData() {
       var form = document.getElementById('vue_form')
@@ -229,7 +233,7 @@ export default {
   },
   boxOAuth(mode) {
     this.sharedState.boxFilePickerMode.setMode(mode)
-    console.log('setting mode')
+    
     window.location = this.boxOAuthUrl()
   },
   boxOAuthUrl () {

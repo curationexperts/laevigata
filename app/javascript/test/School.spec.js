@@ -8,6 +8,9 @@ import axios from 'axios'
 import { formStore } from 'formStore'
 
 jest.mock('axios')
+window.localStorage = jest.fn()
+window.localStorage.getItem = jest.fn()
+window.localStorage.setItem = jest.fn()
 
 describe('School.vue', () => {
   const resp = {data: [{'id': 'Candler School of Theology'}]}
@@ -25,7 +28,8 @@ describe('School.vue', () => {
 
     const wrapper = mount(School, {
     })
+  
     wrapper.vm.$data.sharedState.schools.options = [{"text":"Select a School","value":"","disabled":"disabled","selected":"selected"},{"text":"Candler School of Theology","value":"candler"},{"text":"Emory College","value":"emory"},{"text":"Laney Graduate School","value":"laney"},{"text":"Rollins School of Public Health","value":"rollins"}]
-    expect(wrapper.html()).toContain(`<div><label for=\"school\">School</label> <!----> <div><b>Candler School of Theology</b></div></div>`)
+    expect(wrapper.html()).toContain(`<div><label for=\"school\">School</label> <!----> <div><input type=\"hidden\" name=\"etd[school]\" value=\"Candler School of Theology\"> <b>Candler School of Theology</b></div></div>`)
   })
 })

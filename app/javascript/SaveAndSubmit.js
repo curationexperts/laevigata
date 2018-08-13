@@ -13,8 +13,6 @@ export default class SaveAndSubmit {
     this.formData.append("etd[files]", this.formStore.getPrimaryFile())
     this.formData.append("etd[supplemental_files]", this.formStore.getSupplementalFiles())
 
-    // the client sends a param the server uses to track whether an old school matches a new school
-    this.formData.append('etd[schoolHasChanged]', this.formStore.savedData['schoolHasChanged'])
     axios
       .patch(this.formStore.getUpdateRoute(), this.formData, {
         config: { headers: { 'Content-Type': 'multipart/form-data' } }
@@ -50,14 +48,13 @@ export default class SaveAndSubmit {
         this.formStore.loadTabs()
       })
       .catch(error => {
-        console.log('an error', error)
+        
       })
   }
   submitEtd () {
     // we want the latest data from the server loaded into the form only when ready to submit for publication
     this.formStore.loadSavedData()
     // submit as form data
-    this.formStore.savedData['school'] = this.formStore.getSchoolText(this.formStore.savedData['school'])
 
     var uploadedFilesIds = []
     uploadedFilesIds.push(`${this.formStore.files[0][0].id}`)
@@ -68,11 +65,12 @@ export default class SaveAndSubmit {
     var savedDataToSubmit = { 'etd': this.formStore.savedData, 'uploaded_files': uploadedFilesIds }
     axios.post('/concern/etds', savedDataToSubmit)
       .then(response => {
+        localStorage.removeItem('school')
         window.location = response.request.responseURL
       })
       .catch(e => {
         this.errors.push(e)
-        console.log('an error', e)
+        
       })
   }
   updateEtd () {
@@ -86,7 +84,7 @@ export default class SaveAndSubmit {
       })
       .catch(e => {
         // this.errors.push(e)
-        console.log('an error', e)
+        
       })
   }
 }

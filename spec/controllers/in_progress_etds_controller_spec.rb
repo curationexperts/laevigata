@@ -63,6 +63,15 @@ RSpec.describe InProgressEtdsController, type: :controller do
       end
     end
 
+    describe 'DELETE DESTROY' do
+      before { ipe }
+      it 'redirects to login' do
+        delete :destroy, params: { id: ipe.id }
+        expect(InProgressEtd.all.size).to eq(0)
+        expect(response).to redirect_to(root_url)
+      end
+    end
+
     describe 'PATCH UPDATE' do
       let(:new_title) { ['New Title from Update'] }
 
@@ -123,6 +132,13 @@ RSpec.describe InProgressEtdsController, type: :controller do
     describe 'PATCH UPDATE' do
       it 'redirects to login' do
         patch :update, params: { id: ipe.id, in_progress_etd: { title: ['New Title from Update'] } }
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+
+    describe 'DELETE DESTROY' do
+      it 'redirects to login' do
+        delete :destroy, params: { id: ipe.id }
         expect(response).to redirect_to(new_user_session_path)
       end
     end

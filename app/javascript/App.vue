@@ -9,7 +9,7 @@
         </button>
       </li>
     </ul>
-    <form role="form" id="vue_form" :action="sharedState.getUpdateRoute()" method="patch" @submit.prevent="onSubmit">
+    <form role="form" id="vue_form" :action="sharedState.getUpdateRoute()" :method="formMethod" @submit.prevent="onSubmit">
       <div v-for="value in sharedState.tabs" v-bind:key="value.label">
         <div class="tab-content form-group" v-if="(value.currentStep && allowTabSave()) || !allowTabSave()">
           <h2> {{ value.label }} </h2>
@@ -139,6 +139,7 @@
           <input name="etd[currentTab]" type="hidden" :value="value.label" />
           <input name="etd[currentStep]" type="hidden" :value="value.step" />
           <button v-if="allowTabSave() && !sharedState.tabs.submit.currentStep" type="submit" class="btn btn-default" autofocus>Save and Continue</button>
+          <button id="delete" data-toggle="tooltip" title="This will delete your progress and return you to the home page. You will need to begin the submission process again if you click here!" type="button" @click="changeFormMethod()" class="btn btn-danger">Start Over</button>
         </div>
       </div>
     </form>
@@ -148,6 +149,7 @@
 
 <script>
 import _ from "lodash"
+import axios from 'axios'
 import { formStore } from "./formStore"
 import School from "./School"
 import Department from './Department'
@@ -179,7 +181,8 @@ export default {
       tabInputs: [],
       files: [],
       deleteableFiles: [],
-      lastCompletedStep: 0
+      lastCompletedStep: 0,
+      formMethod: 'patch'
     }
   },
   components: {
@@ -219,6 +222,17 @@ export default {
   // If student is editing an ETD that has already been persisted to fedora,
   // don't allow student to save record on individual tabs.  This is because
   // we want to save to the Etd, not the InProgressEtd.
+  changeFormMethod() {
+    axios.delete(this.sharedState.getUpdateRoute())
+         .then((response) => { 
+                localStorage.removeItem('school')
+                window.location = '/'
+          })
+        .catch(() => {
+                localStorage.removeItem('school')
+                window.location = '/'
+          })
+  },
   allowTabSave () {
     if (this.sharedState.etdId) {
       return false
@@ -279,10 +293,10 @@ export default {
     onSubmit (event) {
       this.sharedState.setFormData(event.target)
       if (this.readyForReview()){
-        console.log('ready for review')
+        
         this.reviewTabs()
       } else if (this.readyForSubmission()){
-        console.log('ready for submission')
+        
         this.submitForPublication()
       } else {
         this.saveTab()
@@ -357,5 +371,9 @@ input {
 
 .errorMessage {
   color: red;
+}
+
+#delete {
+  float: right;
 }
 </style>
