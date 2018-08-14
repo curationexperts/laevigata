@@ -86,6 +86,7 @@ module Importer
 
     def stack_actors
       [Hyrax::Actors::CreateWithFilesActor,
+       Hyrax::Actors::FileVisibilityAttributesActor,
        Hyrax::Actors::CollectionsMembershipActor,
        Hyrax::Actors::AddToWorkActor,
        Hyrax::Actors::AttachMembersActor,
