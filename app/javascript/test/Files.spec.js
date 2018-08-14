@@ -76,8 +76,7 @@ describe('Files.vue', () => {
     const wrapper = mount(Files, { })
     const fakeFileData = { deleteUrl: '/uploads/123', id: '123_my_super_unique_id' }
     formStore.files = [[fakeFileData]]
-
-    expect(wrapper.html()).toContain('123_my_super_unique_id')
+    expect(wrapper.find('input[name=uploaded_files\\[\\]]').attributes().value).toBe('123_my_super_unique_id')
   })
 
   it('when the file is a ::FileSet, the uploaded_files doesn\'t contain the record ID', () => {
@@ -87,4 +86,25 @@ describe('Files.vue', () => {
 
     expect(wrapper.html()).not.toContain('123_my_super_unique_id')
   })
+
+  it('student can edit metadata fields for newly uploaded files', () => {
+    const wrapper = mount(Files, { })
+    const fakeFileData = { deleteUrl: '/uploads/123', id: '123_my_super_unique_id' }
+    formStore.supplementalFiles = [fakeFileData]
+
+    expect(wrapper.find('input[name=etd\\[supplemental_file_metadata\\]\\[0\\]title]').attributes().disabled).toBe(undefined)
+    expect(wrapper.find('input[name=etd\\[supplemental_file_metadata\\]\\[0\\]description]').attributes().disabled).toBe(undefined)
+    expect(wrapper.find('select[name=etd\\[supplemental_file_metadata\\]\\[0\\]file_type]').attributes().disabled).toBe(undefined)
+  })
+
+  it('student cannot edit metadata fields for previously uploaded files', () => {
+    const wrapper = mount(Files, { })
+    const fakeFileData = { deleteUrl: '/concern/file_sets/123', id: '123_my_super_unique_id' }
+    formStore.supplementalFiles = [fakeFileData]
+
+    expect(wrapper.find('input[name=etd\\[supplemental_file_metadata\\]\\[0\\]title]').attributes().disabled).toBe('disabled')
+    expect(wrapper.find('input[name=etd\\[supplemental_file_metadata\\]\\[0\\]description]').attributes().disabled).toBe('disabled')
+    expect(wrapper.find('select[name=etd\\[supplemental_file_metadata\\]\\[0\\]file_type]').attributes().disabled).toBe('disabled')
+  })
+
 })

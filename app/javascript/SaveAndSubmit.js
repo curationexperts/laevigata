@@ -68,6 +68,7 @@ export default class SaveAndSubmit {
       axios.post('/concern/etds', savedDataToSubmit)
         .then(response => {
           localStorage.removeItem('school')
+          localStorage.removeItem('files')
           window.location = response.request.responseURL
         })
         .catch(e => {

@@ -421,6 +421,9 @@ describe InProgressEtd do
         work.ordered_members << primary_pdf_fs
         work.representative = primary_pdf_fs
         work.thumbnail = primary_pdf_fs
+        # Attach supplemental files
+        work.ordered_members << supp_1_fs
+        work.ordered_members << supp_2_fs
         work.save!
         work
       }
@@ -433,6 +436,20 @@ describe InProgressEtd do
         end
       end
 
+      let(:supp_1_path) { File.join(fixture_path, 'nasa.jpeg') }
+      let(:supp_1_fs) do
+        File.open(supp_1_path) do |local_file|
+          FactoryBot.create(:supplemental_file_set, content: local_file, label: 'nasa.jpeg', file_type: 'Image', title: ['Supp File 1 Title'], description: ['Supp File 1 Desc'])
+        end
+      end
+
+      let(:supp_2_path) { File.join(fixture_path, 'magic_warrior_cat.jpg') }
+      let(:supp_2_fs) do
+        File.open(supp_2_path) do |local_file|
+          FactoryBot.create(:supplemental_file_set, content: local_file, label: 'magic_warrior_cat.jpg', file_type: 'Image', title: ['Supp File 2 Title'], description: ['Supp File 2 Desc'])
+        end
+      end
+
       it 'includes the file info in the JSON datastore' do
         expect(JSON.parse(refreshed_data['files'])).to eq({
           'id' => primary_pdf_fs.id,
@@ -441,6 +458,38 @@ describe InProgressEtd do
           'deleteUrl' => "/concern/file_sets/#{primary_pdf_fs.id}",
           'deleteType' => 'DELETE'
         })
+
+        expect(JSON.parse(refreshed_data['supplemental_files'])).to contain_exactly(
+          {
+            'id' => supp_1_fs.id,
+            'name' => 'nasa.jpeg',
+            'size' => supp_1_fs.file_size.first,
+            'deleteUrl' => "/concern/file_sets/#{supp_1_fs.id}",
+            'deleteType' => 'DELETE'
+          },
+          {
+            'id' => supp_2_fs.id,
+            'name' => 'magic_warrior_cat.jpg',
+            'size' => supp_2_fs.file_size.first,
+            'deleteUrl' => "/concern/file_sets/#{supp_2_fs.id}",
+            'deleteType' => 'DELETE'
+          }
+        )
+
+        expect(refreshed_data['supplemental_file_metadata']).to contain_exactly(
+          {
+            'filename' => 'nasa.jpeg',
+            'title' => ['Supp File 1 Title'],
+            'description' => ['Supp File 1 Desc'],
+            'file_type' => 'Image'
+          },
+          {
+            'filename' => 'magic_warrior_cat.jpg',
+            'title' => ['Supp File 2 Title'],
+            'description' => ['Supp File 2 Desc'],
+            'file_type' => 'Image'
+          }
+        )
       end
     end
 

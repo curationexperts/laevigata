@@ -56,9 +56,10 @@
     <div v-if="isUploadedFile(getPrimaryFile())">
       <input type="hidden" name="uploaded_files[]" :value="sharedState.files[0][0].id" />
     </div>
-    <!-- TODO: the final param to hyrax needs to be uploaded_files but this name should probly be supp_files-->
-    <div v-if="sharedState.supplementalFiles[0]">
-      <input type="hidden" name="uploaded_files[]" :value="sharedState.supplementalFiles[0].id" />
+    <div v-for="(suppFiles, key) in sharedState.supplementalFiles">
+      <div v-if="isUploadedFile(sharedState.supplementalFiles[key])">
+        <input type="hidden" name="uploaded_files[]" :value="sharedState.supplementalFiles[key].id" />
+      </div>
     </div>
     <section class='errorMessage' v-if="sharedState.hasError('files')">
         <p>{{ sharedState.getErrorMessage('files').files[0] }}</p>
@@ -89,10 +90,10 @@
           <tr v-for="(files, key) in sharedState.supplementalFiles" v-bind:key="key">
             <td><input type="text" :value="files.name" class="form-control" disabled />
             <input type='hidden' :value="files.name" :name="supplementalFileName(key)"></td>
-            <td><input :name="supplementalFileTitleName(key)" type="text" class="form-control" :value="getSavedTitle(key)"/></td>
-            <td><input :name="supplementalFileDescriptionName(key)" type="text" class="form-control" :value="getSavedDescription(key)" /></td>
+            <td><input :name="supplementalFileTitleName(key)" type="text" class="form-control" :value="getSavedTitle(key)" :disabled="!isUploadedFile(sharedState.supplementalFiles[key])"/></td>
+            <td><input :name="supplementalFileDescriptionName(key)" type="text" class="form-control" :value="getSavedDescription(key)" :disabled="!isUploadedFile(sharedState.supplementalFiles[key])" /></td>
             <td>
-              <select :name="supplementalFileTypeName(key)" class="form-control file-type" v-on:change="sharedState.setValid('My Files', false)">
+              <select :name="supplementalFileTypeName(key)" class="form-control file-type" v-on:change="sharedState.setValid('My Files', false)" :disabled="!isUploadedFile(sharedState.supplementalFiles[key])">
                 <option v-if="getSavedFileType(key)" selected="selected" :value="getSavedFileType(key)">{{getSavedFileType(key)}}</option>
                 <option v-else selected="selected" disabled="disabled">Please select a file type</option>
                 <option>Text</option>
