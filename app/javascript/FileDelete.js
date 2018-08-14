@@ -16,5 +16,6 @@ export default class FileDelete {
     )
     this.formStore.files = filteredFiles
     this.formStore.removeSavedFile(this.deleteUrl)
+    localStorage.removeItem('files')
   }
 }

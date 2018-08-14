@@ -6,6 +6,9 @@ import { mount } from '@vue/test-utils'
 import Files from 'Files'
 import { formStore } from 'formStore'
 
+window.localStorage = jest.fn()
+window.localStorage.getItem = jest.fn((value) => { return undefined })
+
 describe('Files.vue', () => {
   global.Box = { FilePicker: function() {}}
   global.boxClientId = function() {}
@@ -22,6 +25,10 @@ describe('Files.vue', () => {
     expect(wrapper.findAll('label')).toHaveLength(2)
   })
 
+  it('checks for some JSON in localStorage files', () => {
+    expect(window.localStorage.getItem).toBeCalledWith('files')
+  })
+  
   it('when primary file is present, it returns primary file', () => {
     const wrapper = shallowMount(Files, { })
     const fakeFileData = { id: 'fake file object' }
