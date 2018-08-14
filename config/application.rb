@@ -28,6 +28,9 @@ module Laevigata
       Dir.glob(Rails.root + "app/**/*_decorator*.rb").each do |c|
         require_dependency(c)
       end
+
+      # This lets us override some of the code from Hyrax::FileSetsController
+      Hyrax::FileSetsController.prepend ::FileSetsControllerBehavior
     end
   end
 end
