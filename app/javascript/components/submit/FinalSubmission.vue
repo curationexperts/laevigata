@@ -3,10 +3,16 @@
     <div v-if="sharedState.getUserAgreement()">   
       <input v-if="!sharedState.submitted" type="button" class="btn btn-primary" value="Submit Your Thesis or Dissertation" @click="sharedState.submit()"/>
     </div>
-    <div v-if="sharedState.submitted">
+    <div v-if="sharedState.submitted && !sharedState.failedSubmission">
       <div class="alert alert-info">
         <span class="glyphicon glyphicon-info-sign"></span>
         <span aria-live="polite"> Submitting Your Thesis or Dissertation </span><span class="glyphicon glyphicon-refresh spinning"></span>
+      </div>
+    </div>  
+    <div v-if="sharedState.submitted && sharedState.failedSubmission">
+      <div class="alert alert-danger">
+        <span class="glyphicon glyphicon-exclamation-sign"></span>
+        <span aria-live="polite"> There was a problem submitting your thesis or dissertation.</span>
       </div>
     </div>  
   </div>
