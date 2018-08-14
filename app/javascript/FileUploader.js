@@ -21,6 +21,7 @@ export default class FileUploader {
         this.formStore.files.push(
           JSON.parse(xhr.responseText).files
         )
+       localStorage.setItem('files', xhr.responseText)
       }
     }
     xhr.send(this.formData)

@@ -1,5 +1,5 @@
 <template>
-  <div id="files">
+  <div>
     <section class="thesis-file">
     <h2>Add Your Thesis or Dissertation File</h2>
     <div v-if="accessToken">
@@ -140,6 +140,11 @@ export default {
       accessToken: window.location.search.split('&access_token=')[1]
     }
   },
+  created() {
+    if (localStorage.getItem('files')) {
+      this.sharedState.files = [[JSON.parse(localStorage.getItem('files')).files[0]]]
+    }
+  },
   mounted () {
     var folderId = '0'
     var accessToken = window.location.search.split('&access_token=')[1]
@@ -164,7 +169,6 @@ export default {
       })
 
       boxFileUploader.getUrlFromBox()
-      filePicker.hide()
       })
     }
   },
@@ -193,7 +197,6 @@ export default {
       })
       fileUploader.uploadFile()
       formStore.setValid('My Files', false)
-      
     },
     onSupplementalFileChange(e) {
         var supplementalFileUploader = new SupplementalFileUploader({
@@ -204,9 +207,6 @@ export default {
       })
       supplementalFileUploader.uploadFile()
       formStore.setValid('My Files', false)
-
-      localStorage.setItem('suppFiles', this.supplementalFiles)
-      localStorage.setItem('suppFilesMetadata', this.supplementalFilesMetadata)
     },
     getFormData() {
       var form = document.getElementById('vue_form')
