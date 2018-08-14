@@ -31,6 +31,10 @@ export default {
     getSelected(data){
       var selected = this.sharedState.getSavedDegree()
       if (selected !== undefined) {
+        //if we are editing etds, we might have a legacy term that is not in our list. Add it to the top and make it selected if so.
+        if (this.sharedState.allowTabSave() === false){
+          data.unshift({ "value": selected, "active": true, "label": selected, "selected": "selected"})
+        }
         _.forEach(data, function(o){
           if (o.id == selected){
             o.selected = 'selected'
