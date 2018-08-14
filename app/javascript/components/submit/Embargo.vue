@@ -23,7 +23,7 @@ export default {
       try {
       var readableType = this.sharedState.embargoContents.filter((embargo) => { return embargo.value === type })[0].text
       } catch(error) {
-        console.log(error)
+        
       }
       if (readableType)
       return readableType

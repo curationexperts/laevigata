@@ -124,6 +124,8 @@ class InProgressEtd < ApplicationRecord
     em_type = EmbargoTypeFromAttributes.new(etd.files_embargoed, etd.toc_embargoed, etd.abstract_embargoed)
     new_data['embargo_type'] = em_type.s
 
+    # This code allows you to display and add chairs and members on the
+    # edit form, but not remove them.
     etd_members = etd.members.map { |chair| JSON.parse(chair.to_json) }.map { |values| { name: values["name"], affiliation: values["affiliation"] } }.uniq
 
     members = []

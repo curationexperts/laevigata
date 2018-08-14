@@ -2,7 +2,7 @@
   <section>   
     <h4>My Program</h4>
     <h5>Department</h5>
-    <div> {{ sharedState.getSelectedDepartment() }} </div>
+    <div> {{ sharedState.getSavedOrSelectedDepartment() }} </div>
     <div v-if="sharedState.getSubfields()">
           <h5>Subfield</h5>
       <div> {{ sharedState.getSubfields() }} </div>

@@ -5,6 +5,11 @@ export default class SupplementalFileUploader extends FileUploader {
     if (isSafari11()) {
       this.formData.delete('primary_files[]')
     }
+    // this should not submit a school 
+    try {
+      this.formData.delete('etd[school]')
+    } catch (error) {}
+
     var files = this.event.target.files || this.event.dataTransfer.files
     if (!files.length) return
     var xhr = new XMLHttpRequest()
@@ -12,7 +17,6 @@ export default class SupplementalFileUploader extends FileUploader {
     xhr.setRequestHeader('X-CSRF-Token', this.token)
     xhr.onreadystatechange = () => {
       if (xhr.readyState === XMLHttpRequest.DONE) {
-        console.log(xhr.responseText)
         this.formStore.supplementalFiles.push(
           JSON.parse(xhr.responseText).files[0]
         )

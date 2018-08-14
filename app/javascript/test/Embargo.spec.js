@@ -5,6 +5,9 @@ import { shallowMount } from '@vue/test-utils'
 import Embargo from 'Embargo'
 import { formStore } from '../formStore'
 
+window.localStorage = jest.fn()
+window.localStorage.getItem = jest.fn((value) => { return 'laney' } )
+
 describe('Embargo.vue', () => {
   it('has the correct html', () => {
     const wrapper = shallowMount(Embargo, {
@@ -16,6 +19,7 @@ describe('Embargo.vue', () => {
       const wrapper = shallowMount(Embargo, {
       })
       formStore.schools.selected = 'laney'
+      formStore.savedData.schools = 'laney'
       formStore.savedData['embargo_length'] = '6 Years'
     })
 

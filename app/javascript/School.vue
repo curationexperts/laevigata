@@ -1,12 +1,13 @@
 <template>
   <div>
     <label for="school">School</label>
-    <select v-if="!this.sharedState.getSavedOrSelectedSchool()" id="school" class="form-control" v-model="selected" aria-required="true" v-on:change="clearDepartmentAndSubfields(), sharedState.setValid('About Me', false, ['My Program', 'Embargo'])">
+    <select v-if="!this.sharedState.getSavedOrSelectedSchool()" id="school" class="form-control" v-model="selected" aria-required="true" v-on:change="sharedState.setValid('About Me', false, ['My Program', 'Embargo'])">
       <option v-for="school in this.sharedState.schools.options" v-bind:value="school.value" v-bind:key='school.value' :selected='school.selected' :disabled='school.disabled'>
         {{ school.text }}
       </option>
     </select>
     <div v-if="this.sharedState.getSavedOrSelectedSchool()">
+      <input type="hidden" name="etd[school]" :value="this.sharedState.getSchoolText(this.sharedState.getSavedOrSelectedSchool())" />
       <b>{{ this.sharedState.getSchoolText(this.sharedState.getSavedOrSelectedSchool()) }}</b>
     </div>
   </div>
@@ -39,9 +40,7 @@ export default {
     this.$nextTick(function () {
       //this needs to be saved or selected
       var selected = this.sharedState.getSavedOrSelectedSchool()
-      if(selected === undefined){
-        selected = ''
-      }
+
       // TODO: fix model to return string not array
       if (_.has(this.sharedState.savedData, 'etd_id')){
         var schoolValue = this.sharedState.getSchoolValue(selected[0])
@@ -53,10 +52,7 @@ export default {
   watch: {
     selected() {
       //this executes when the component is rendered the first time and when the change event fires (user selects something)
-      this.fetchData();
-      if (this.sharedState.messySchoolState()){
-        this.sharedState.errors.push({"schoolDeptMismatch": ''})
-      }
+      this.fetchData()
     }
   }
 };

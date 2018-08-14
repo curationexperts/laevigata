@@ -4,6 +4,10 @@
 
 import { formStore } from '../formStore'
 
+window.localStorage = jest.fn()
+window.localStorage.getItem = jest.fn()
+window.localStorage.setItem = jest.fn()
+
 formStore.getSavedOrSelectedSchool = jest.fn(() => {return 'Emory College'})
 describe('formStore', () => {
   it('returns the correct embargo length based on the selected school', () => {

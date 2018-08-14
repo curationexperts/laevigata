@@ -35,6 +35,14 @@ class InProgressEtdsController < ApplicationController
     end
   end
 
+  def destroy
+    @in_progress_etd = InProgressEtd.find(params[:id])
+    authorize! :update, @in_progress_etd
+    @in_progress_etd.destroy
+
+    redirect_to root_url
+  end
+
   private
 
     def current_step(data)
