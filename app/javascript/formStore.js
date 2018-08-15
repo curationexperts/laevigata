@@ -368,9 +368,20 @@ export const formStore = {
   },
 
   getDepartments (selectedSchool) {
-    axios.get(selectedSchool).then(response => {
-      this.departments = response.data
-    })
+    if (!this.allowTabSave()) {
+      var savedValue = { "value": this.getSavedDepartment()[0], "active": true, "label": this.getSavedDepartment()[0], "selected": "selected" }
+      axios.get(selectedSchool).then(response => {
+        this.departments = response.data
+        if (!this.allowTabSave()) {
+          this.departments.unshift(savedValue)
+        }
+      })
+      return savedValue
+    } else {
+      axios.get(selectedSchool).then(response => {
+        this.departments = response.data
+      })
+    }
   },
   loadDepartments () {
     if (this.savedData['department'] !== undefined) {
