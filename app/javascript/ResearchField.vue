@@ -47,13 +47,20 @@ export default {
     },
     fetchData() {
       axios.get(this.researchFieldsEndpoint).then(response => {
-        this.researchFields = response.data
+        var data = response.data
+        if(this.sharedState.allowTabSave() === false){
+          //TODO: confirm this value is ok for label in the absence of a real one
+          _.forEach(this.sharedState.getSavedResearchFields(), (srf) => {
+            data.unshift({'id': srf, 'active': true, 'label': srf})
+          } )
+        }
+        this.researchFields = data
       })
     },
   },
   created() {
     this.fetchData()
-    this.sharedState.getSavedResearchFields()  
+    this.sharedState.getSavedResearchFields()
   }
 }
 </script>
