@@ -93,7 +93,7 @@ export default class SaveAndSubmit {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === XMLHttpRequest.DONE) {
         if (xhr.status === 200) {
-        window.location = xhr.getResponseHeader('Location')
+          window.location = JSON.parse(xhr.response).redirectPath
         } else {
          formStore.failedSubmission = true
         }

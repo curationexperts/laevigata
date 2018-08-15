@@ -30,6 +30,45 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs, :clean do
   end
 
   describe "#update" do
+    let(:default_attrs) do
+      { depositor: user.user_key,
+        title: ['Another great thesis by Frodo'],
+        school: ['Emory College'],
+        department: ['Art History'] }
+    end
+    let(:etd) do
+      FactoryBot.build(:etd, default_attrs)
+    end
+
+    before do
+      workflow_setup.setup
+      etd.assign_admin_set
+
+      # Create the ETD record
+      env = Hyrax::Actors::Environment.new(etd, ::Ability.new(user), {})
+      middleware = Hyrax::DefaultMiddlewareStack.build_stack.build(Hyrax::Actors::Terminator.new)
+      middleware.create(env)
+
+      # Approver requests changes, so student will be able to edit the ETD
+      change_workflow_status(etd, "request_changes", approver)
+
+      etd.reload
+    end
+
+    context 'new data submitted from the form' do
+      it 'updates the ETD and returns json redirect path' do
+        patch :update, params: { id: etd, etd: { title: 'New Title' }, request_from_form: 'true' }
+
+        etd.reload
+        expect(etd.title).to eq ['New Title']
+
+        redir_path = JSON.parse(response.body)['redirectPath'].split('?').first
+        expect(redir_path).to eq main_app.hyrax_etd_path(etd).split('?').first
+      end
+    end
+  end
+
+  describe "#update (old UI)" do
     before(:all) do
       new_ui = Rails.application.config_for(:new_ui).fetch('enabled', false)
       skip("These specs should only be run for the old UI") if new_ui

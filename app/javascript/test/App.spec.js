@@ -124,6 +124,11 @@ describe('App.vue', () => {
   })
 
   describe('Edit form:', () => {
+    it('contains hidden flag needed on back end', () => {
+      const wrapper = shallowMount(App, { })
+      expect(wrapper.contains('input[name=request_from_form][value=true]')).toBe(true)
+    })
+
     it('with an associated ETD record, renders the form without tabs', () => {
       const wrapper = shallowMount(App, { })
       wrapper.vm.$data.sharedState.setEtdId('123')
