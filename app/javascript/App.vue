@@ -136,7 +136,9 @@
           <input name="etd[currentTab]" type="hidden" :value="value.label" />
           <input name="etd[currentStep]" type="hidden" :value="value.step" />
           <button v-if="allowTabSave() && !sharedState.tabs.submit.currentStep" type="submit" class="btn btn-default" autofocus>Save and Continue</button>
-          <button id="delete" data-toggle="tooltip" title="This will delete your progress and return you to the home page. You will need to begin the submission process again if you click here!" type="button" @click="changeFormMethod()" class="btn btn-danger">Start Over</button>
+          <div v-if="allowTabSave()">
+            <button id="delete" data-toggle="tooltip" title="This will delete your progress and return you to the home page. You will need to begin the submission process again if you click here!" type="button" @click="changeFormMethod()" class="btn btn-danger">Start Over</button>
+          </div>
         </div>
       </div>
     </form>

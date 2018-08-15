@@ -86,11 +86,19 @@ export default class SaveAndSubmit {
     var form = document.getElementById('vue_form')
     var formData = new FormData(form)
 
-    axios.patch(`/concern/etds/${this.formStore.etdId}`, formData)
-      .then(response => {
-        window.location = response.data.redirectPath
-      })
-      .catch(e => {
-      })
+    var xhr = new XMLHttpRequest()
+    xhr.open('PATCH', `/concern/etds/${this.formStore.etdId}`, true)
+    xhr.setRequestHeader('X-CSRF-Token', this.token)
+    xhr.setRequestHeader('Accept', 'application/json')
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+        window.location = xhr.getResponseHeader('Location')
+        } else {
+         formStore.failedSubmission = true
+        }
+      }
+    }
+    xhr.send(formData)
   }
 }
