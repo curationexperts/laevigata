@@ -474,7 +474,9 @@ describe InProgressEtd do
       let(:ipe) { described_class.new(etd_id: etd.id, data: stale_data.to_json) }
 
       it 'replaces the stale data with updated data' do
-        expect(refreshed_data.except('committee_chair_attributes', 'ipe_id', 'etd_id', 'title', 'embargo_type')).to eq new_data.except('committee_chair_attributes', 'title', 'embargo_type')
+        expect(
+          refreshed_data.except('committee_chair_attributes', 'ipe_id', 'etd_id', 'title', 'embargo_type', 'partnering_agency')
+          ).to eq new_data.except('committee_chair_attributes', 'title', 'embargo_type', 'partnering_agency')
         expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Another University/)
         expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Merlin/)
         expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Emory University/)

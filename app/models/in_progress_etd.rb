@@ -121,6 +121,7 @@ class InProgressEtd < ApplicationRecord
     new_data['other_copyrights'] = etd.other_copyrights
     new_data['patents'] = etd.patents
     new_data['requires_permissions'] = etd.requires_permissions
+    new_data['partnering_agency'] = etd.partnering_agency
 
     em_type = EmbargoTypeFromAttributes.new(etd.files_embargoed, etd.toc_embargoed, etd.abstract_embargoed)
     new_data['embargo_type'] = em_type.s

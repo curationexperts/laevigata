@@ -221,7 +221,7 @@ export default {
   // we want to save to the Etd, not the InProgressEtd.
   changeFormMethod() {
     axios.delete(this.sharedState.getUpdateRoute())
-         .then((response) => { 
+         .then((response) => {
                 localStorage.removeItem('school')
                 window.location = '/'
           })
@@ -290,10 +290,10 @@ export default {
     onSubmit (event) {
       this.sharedState.setFormData(event.target)
       if (this.readyForReview()){
-        
+
         this.reviewTabs()
       } else if (this.readyForSubmission()){
-        
+
         this.submitForPublication()
       } else {
         this.saveTab()

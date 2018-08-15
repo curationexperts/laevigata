@@ -14,6 +14,7 @@ import embargoContents from './config/embargoContents.json'
 import embargoLengths from './config/embargoLengths.json'
 import schools from './config/schools.json'
 import helpText from './config/helpText.json'
+import PartneringAgency from './lib/PartneringAgency';
 
 export const formStore = {
   tabs: {
@@ -386,7 +387,6 @@ export const formStore = {
   loadDepartments () {
     if (this.savedData['department'] !== undefined) {
       var schoolEndpoint = this.schools[this.savedData['school']]
-      
       this.getDepartments(schoolEndpoint)
     }
   },
@@ -400,10 +400,23 @@ export const formStore = {
     this.selectedSubfield = subfield
   },
   getSubfields () {
-    if (this.subfieldEndpoints[this.selectedDepartment]) {
-      axios.get(this.subfieldEndpoints[this.selectedDepartment]).then((response) => {
-        this.subfields = response.data
-      })
+    const dept = this.getSavedOrSelectedDepartment()
+    const endpoints = this.subfieldEndpoints
+    const endpoint = endpoints[dept]
+    if (endpoints[dept] || formStore.subfieldsEdit) {
+      if (!this.allowTabSave()) {
+        axios.get(endpoint).then((response) => {
+          this.clearSubfields()
+          this.subfields = response.data
+          this.subfields.unshift({ 'id': this.savedData['subfield'], 'active': true, 'label': this.savedData['subfield'], 'selected': 'selected' })
+        })
+        return true
+      } else {
+        axios.get(endpoint).then((response) => {
+          this.clearSubfields()
+          this.subfields = response.data
+        })
+      }
     }
   },
   clearSubfields () {
