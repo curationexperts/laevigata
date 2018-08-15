@@ -289,6 +289,14 @@ export const formStore = {
     })
     return hasError
   },
+
+  getErrorMessage(key){
+    var error = _.find(this.errors, key)
+    if (_.isObject(error)) {
+      return error
+    }
+  },
+
   etdPrefix (index) {
     return 'etd[' + index + ']'
   },

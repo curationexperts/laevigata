@@ -43,9 +43,6 @@
             </div>
             <div v-else-if="input.label === 'files'">
               <files></files>
-              <section class='errorMessage' v-if="sharedState.hasError(index)">
-                  <p>{{ input.label }} is required</p>
-              </section>
             </div>
             <div v-else-if="input.label === 'Table of Contents'">
               <label>{{ input.label }}</label>

@@ -60,7 +60,9 @@
     <div v-if="sharedState.supplementalFiles[0]">
       <input type="hidden" name="uploaded_files[]" :value="sharedState.supplementalFiles[0].id" />
     </div>
-
+    <section class='errorMessage' v-if="sharedState.hasError('files')">
+        <p>{{ sharedState.getErrorMessage('files').files[0] }}</p>
+    </section>
     </section>
     <section class="optional-files">
     <h2>Add Optional Supplemental Files</h2>
@@ -87,8 +89,8 @@
           <tr v-for="(files, key) in sharedState.supplementalFiles" v-bind:key="key">
             <td><input type="text" :value="files.name" class="form-control" disabled />
             <input type='hidden' :value="files.name" :name="supplementalFileName(key)"></td>
-            <td><input :name="supplementalFileTitleName(key)" type="text" class="form-control" :value="getSavedTitle(key)" v-on:change="sharedState.setValid('My Files', false)"/></td>
-            <td><input :name="supplementalFileDescriptionName(key)" type="text" class="form-control" :value="getSavedDescription(key)" v-on:change="sharedState.setValid('My Files', false)"/></td>
+            <td><input :name="supplementalFileTitleName(key)" type="text" class="form-control" :value="getSavedTitle(key)"/></td>
+            <td><input :name="supplementalFileDescriptionName(key)" type="text" class="form-control" :value="getSavedDescription(key)" /></td>
             <td>
               <select :name="supplementalFileTypeName(key)" class="form-control file-type" v-on:change="sharedState.setValid('My Files', false)">
                 <option v-if="getSavedFileType(key)" selected="selected" :value="getSavedFileType(key)">{{getSavedFileType(key)}}</option>
@@ -206,7 +208,6 @@ export default {
         formData: this.getFormData()
       })
       supplementalFileUploader.uploadFile()
-      formStore.setValid('My Files', false)
     },
     getFormData() {
       var form = document.getElementById('vue_form')
@@ -339,5 +340,9 @@ export default {
 
 .metadata td {
   vertical-align: middle;
+}
+
+.errorMessage {
+  color: red;
 }
 </style>
