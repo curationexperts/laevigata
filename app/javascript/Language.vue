@@ -33,6 +33,9 @@ export default {
     getSelected(data){
       var selected = this.sharedState.getSavedLanguage()
       if (selected !== undefined) {
+        if (this.sharedState.allowTabSave() === false){
+          data.unshift({ "value": selected, "active": true, "label": selected, "selected": "selected"})
+        }
         this.selected = selected
       } else {
         data.unshift({ "value": "", "active": true, "label": "Select a Language", "disabled":"disabled" ,"selected": "selected"})
