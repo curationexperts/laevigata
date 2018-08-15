@@ -355,8 +355,6 @@ export const formStore = {
   },
 
   getSavedOrSelectedDepartment () {
-    console.log(this.selectedDepartment)
-    console.log(this.savedData['department'])
     return this.selectedDepartment.length === 0 ? this.savedData['department'] : this.selectedDepartment
   },
 
@@ -368,9 +366,14 @@ export const formStore = {
   },
 
   getDepartments (selectedSchool) {
+    var savedValue = { "value": this.getSavedDepartment()[0], "active": true, "label": this.getSavedDepartment()[0], "selected": "selected" }
     axios.get(selectedSchool).then(response => {
       this.departments = response.data
+      if (!this.allowTabSave()) {
+        this.departments.unshift(savedValue)
+      }
     })
+    return savedValue
   },
   loadDepartments () {
     if (this.savedData['department'] !== undefined) {

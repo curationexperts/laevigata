@@ -10,6 +10,15 @@ window.localStorage.setItem = jest.fn()
 
 formStore.getSavedOrSelectedSchool = jest.fn(() => {return 'Emory College'})
 describe('formStore', () => {
+
+  it('loads the saved department as the first choice', () => {
+
+    formStore.allowTabSave = jest.fn(() => { return false })
+    formStore.getSavedDepartment = jest.fn(() => { return ['African Studies'] })
+    formStore.getDepartments()
+    expect(formStore.getDepartments()).toEqual({'active': true, 'label': 'African Studies', 'selected': 'selected', 'value': 'African Studies'})
+  })
+
   it('returns the correct embargo length based on the selected school', () => {
     formStore.setSelectedSchool('Emory College')
     expect(formStore.getEmbargoLengths()).toEqual([{ value: 'None - open access immediately', selected: 'selected' },
