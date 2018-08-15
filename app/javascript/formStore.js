@@ -157,6 +157,7 @@ export const formStore = {
       return `/in_progress_etds/${this.ipeId}`
     }
   },
+  failedSubmission: false,
   allowPrimaryBoxUpload: false,
   other_copyrights: 'false',
   requires_permissions: 'false',

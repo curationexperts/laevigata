@@ -10,8 +10,8 @@ export default class SaveAndSubmit {
 
   saveTab () {
     // files are special
-    this.formData.append("etd[files]", this.formStore.getPrimaryFile())
-    this.formData.append("etd[supplemental_files]", this.formStore.getSupplementalFiles())
+    this.formData.append('etd[files]', this.formStore.getPrimaryFile())
+    this.formData.append('etd[supplemental_files]', this.formStore.getSupplementalFiles())
 
     axios
       .patch(this.formStore.getUpdateRoute(), this.formData, {
@@ -48,30 +48,38 @@ export default class SaveAndSubmit {
         this.formStore.loadTabs()
       })
       .catch(error => {
-        
+        console.log(error)
       })
   }
   submitEtd () {
-    // we want the latest data from the server loaded into the form only when ready to submit for publication
-    this.formStore.loadSavedData()
-    // submit as form data
+    try {
+      // we want the latest data from the server loaded into the form only when ready to submit for publication
+      this.formStore.loadSavedData()
+      // submit as form data
 
-    var uploadedFilesIds = []
-    uploadedFilesIds.push(`${this.formStore.files[0][0].id}`)
-    _.forEach(this.formStore.supplementalFiles, (sf) => {
-      uploadedFilesIds.push(`${sf.id}`)
-    })
-    axios.defaults.headers.common['X-CSRF-Token'] = this.formStore.token
-    var savedDataToSubmit = { 'etd': this.formStore.savedData, 'uploaded_files': uploadedFilesIds }
-    axios.post('/concern/etds', savedDataToSubmit)
-      .then(response => {
-        localStorage.removeItem('school')
-        window.location = response.request.responseURL
+      var uploadedFilesIds = []
+      uploadedFilesIds.push(`${this.formStore.files[0][0].id}`)
+      _.forEach(this.formStore.supplementalFiles, (sf) => {
+        uploadedFilesIds.push(`${sf.id}`)
       })
-      .catch(e => {
-        this.errors.push(e)
-        
-      })
+      axios.defaults.headers.common['X-CSRF-Token'] = this.formStore.token
+      var savedDataToSubmit = { 'etd': this.formStore.savedData, 'uploaded_files': uploadedFilesIds }
+
+      axios.post('/concern/etds', savedDataToSubmit)
+        .then(response => {
+          localStorage.removeItem('school')
+          window.location = response.request.responseURL
+        })
+        .catch(e => {
+          this.formStore.submitEtd = true
+          this.formStore.failedSubmission = true
+          this.errors.push(e)
+        })
+
+    } catch (error) {
+      this.formStore.failedSubmission = true
+      this.formStore.submitEtd = true
+    }
   }
   updateEtd () {
     axios.defaults.headers.common['X-CSRF-Token'] = this.formStore.token
@@ -83,8 +91,6 @@ export default class SaveAndSubmit {
         window.location = response.data.redirectPath
       })
       .catch(e => {
-        // this.errors.push(e)
-        
       })
   }
 }
