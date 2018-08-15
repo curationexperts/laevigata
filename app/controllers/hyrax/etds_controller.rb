@@ -74,7 +74,22 @@ module Hyrax
         update_supplemental_files
         update_committee_members
       end
-      super
+
+      if params['request_from_form'] == 'true'
+        update_with_response_for_form
+      else
+        super
+      end
+    end
+
+    def update_with_response_for_form
+      if actor.update(actor_environment)
+        path = main_app.hyrax_etd_path(curation_concern)
+        render json: { redirectPath: path }, status: :ok
+      else
+        render json: { errors: 'ERROR: Unable to save the ETD' }, status: 422
+        # TODO: render json: { errors: curation_concern.errors.messages }, status: 422
+      end
     end
 
     # Override from Hyrax:app/controllers/concerns/hyrax/curation_concern_controller.rb
