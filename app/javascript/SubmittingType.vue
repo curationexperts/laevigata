@@ -34,6 +34,9 @@ export default {
     getSelected(data){
       var selected = this.sharedState.getSubmittingType()
       if (selected !== undefined) {
+        if (this.sharedState.allowTabSave() === false){
+          data.unshift({ "value": selected, "active": true, "label": selected, "selected": "selected"})
+        }
         _.forEach(data, function(o){
           if (o.id == selected){
             o.selected = 'selected'
