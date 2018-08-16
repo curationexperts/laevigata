@@ -7,7 +7,7 @@
         Chair name: {{ chair.name[0] }}
         </li>
         <li> 
-        Affiliation: {{ chair.affiliation_type }}
+          <affiliation v-bind:member="chair"></affiliation>
         </li>
       </ul>
     </div>
@@ -17,7 +17,7 @@
         Member Name: {{ member.name[0] }}
         </li>
         <li> 
-        Affiliation: {{ member.affiliation_type }}
+          <affiliation v-bind:member="member"></affiliation>
         </li>
       </ul>
     </div>
@@ -25,15 +25,18 @@
 </template>
 
 <script>
-import Vue from "vue"
-import { formStore } from "../../formStore"
-
+import Vue from 'vue'
+import { formStore } from '../../formStore'
+import Affiliation from './Affiliation'
 export default {
   data() {
     return {
       sharedState: formStore
     }
-  }
+  },
+   components: {
+    affiliation: Affiliation
+    }
 }
 </script>
 <style scoped>
