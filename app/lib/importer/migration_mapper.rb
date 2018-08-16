@@ -43,7 +43,7 @@ module Importer
        :graduation_year, :keyword, :partnering_agency, :post_graduation_email,
        :research_field, :research_field_id, :school, :subfield,
        :submitting_type, :table_of_contents, :abstract_embargoed,
-       :files_embargoed, :toc_embargoed]
+       :files_embargoed, :toc_embargoed, :visibility]
     end
 
     def supplementary_files
@@ -261,6 +261,10 @@ module Importer
                    .children.to_s
 
       Array.wrap(HtmlSanitizer.sanitize(contents))
+    end
+
+    def visibility
+      Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
     end
 
     class RepositoryObject
