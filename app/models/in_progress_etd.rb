@@ -127,7 +127,7 @@ class InProgressEtd < ApplicationRecord
 
     # This code allows you to display and add chairs and members on the
     # edit form, but not remove them.
-    etd_members = etd.members.map { |chair| JSON.parse(chair.to_json) }.map { |values| { name: values["name"], affiliation: values["affiliation"] } }.uniq
+    etd_members = etd.committee_members.map { |member| JSON.parse(member.to_json) }.map { |values| { name: values["name"], affiliation: values["affiliation"] } }.uniq
 
     members = []
     etd_members.each do |member|
