@@ -26,7 +26,7 @@ describe Hyrax::CurationConcern do
   subject(:actor) { described_class.actor }
 
   let(:ability)    { ::Ability.new(user) }
-  let(:etd)        { FactoryBot.build(:etd) }
+  let(:etd)        { FactoryBot.build(:etd, visibility: 'restricted') }
   let(:terminator) { Hyrax::Actors::Terminator.new }
   let(:user)       { FactoryBot.create(:user) }
   let(:env)        { Hyrax::Actors::Environment.new(etd, ability, attributes) }
@@ -42,6 +42,12 @@ describe Hyrax::CurationConcern do
       expect { actor.create(env) }
         .to change { etd.persisted? }
         .to true
+    end
+
+    it 'sets visibility to open' do
+      expect { actor.create(env) }
+        .to change { etd.visibility }
+        .to Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
     end
 
     context 'with a requested embargo' do
