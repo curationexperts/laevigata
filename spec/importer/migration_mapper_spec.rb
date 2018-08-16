@@ -21,7 +21,7 @@ RSpec.describe Importer::MigrationMapper do
        :graduation_year, :keyword, :partnering_agency, :post_graduation_email,
        :research_field, :research_field_id, :school, :subfield,
        :submitting_type, :table_of_contents, :abstract_embargoed,
-       :files_embargoed, :toc_embargoed]
+       :files_embargoed, :toc_embargoed, :visibility]
     end
   end
 

@@ -77,6 +77,13 @@ RSpec.describe Importer::AsynchronousRecordImporter, :clean do
                               'Sectors across Lebanon and Jordan'
       end
 
+      it 'has open visibility' do
+        importer.import(record: record)
+
+        expect(Etd.last.visibility)
+          .to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+      end
+
       it 'has a primary file' do
         importer.import(record: record)
 
