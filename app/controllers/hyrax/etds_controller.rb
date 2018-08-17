@@ -69,8 +69,9 @@ module Hyrax
       translate_embargo_string(params)
       merge_selected_files_hashes(params) if params["selected_files"]
 
-      # If the new ui is not enabled, keep these legacy behaviors
-      unless Rails.application.config_for(:new_ui).fetch('enabled', false)
+      if Rails.application.config_for(:new_ui).fetch('enabled', false)
+        apply_file_metadata(params)
+      else # If the new ui is not enabled, keep these legacy behaviors
         update_supplemental_files
         update_committee_members
       end

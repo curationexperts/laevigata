@@ -55,6 +55,35 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs, :clean do
       etd.reload
     end
 
+    context 'adding a new supplemental file' do
+      let(:uf) { FactoryBot.create(:uploaded_file, :supplementary, title: ['old uf title'], user_id: user.id) }
+
+      let(:supp_file_meta) do
+        { "0" => {
+          "filename" => "joey_thesis.pdf",
+          "title" => "new uf title",
+          "description" => "uf desc",
+          "file_type" => "Image"
+        } }
+      end
+
+      before do
+        # For this test we don't need to create the actual Etd record, so stub out the actor.
+        test_actor = double(update: true)
+        allow(Hyrax::CurationConcern).to receive(:actor).and_return(test_actor)
+        allow(controller).to receive(:actor_environment)
+
+        patch :update, params: { id: etd, etd: { supplemental_file_metadata: supp_file_meta }, uploaded_files: [uf.id], request_from_form: 'true' }
+        uf.reload
+      end
+
+      it 'updates the Hyrax::UploadedFile record with the metadata, so that metadata will be applied when the file is attached to the Etd record' do
+        expect(uf.title).to eq 'new uf title'
+        expect(uf.description).to eq 'uf desc'
+        expect(uf.file_type).to eq 'Image'
+      end
+    end
+
     context 'new data submitted from the form' do
       it 'updates the ETD and returns json redirect path' do
         patch :update, params: { id: etd, etd: { title: 'New Title' }, request_from_form: 'true' }
