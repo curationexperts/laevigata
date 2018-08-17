@@ -43,12 +43,11 @@ export default {
       axios
         .delete(this.sharedState.getUpdateRoute())
         .then(response => {
-          console.log(this.sharedState.getUpdateRoute())
-          localStorage.removeItem("school")
+          localStorage.clear()
           window.location = "/"
         })
         .catch(() => {
-          localStorage.removeItem("school")
+          localStorage.clear()
           window.location = "/"
         })
     }

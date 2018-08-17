@@ -147,9 +147,11 @@ export default {
     }
   },
   created() {
-    if (localStorage.getItem('files')) {
-      this.sharedState.files = [[JSON.parse(localStorage.getItem('files')).files[0]]]
-    }
+     if (formStore.allowTabSave()) {
+     if (localStorage.getItem('files')) {
+        this.sharedState.files = [[JSON.parse(localStorage.getItem('files')).files[0]]]
+      }
+     }
   },
   mounted () {
     var folderId = '0'

@@ -33,4 +33,16 @@ describe('School.vue', () => {
     expect(wrapper.html()).not.toContain('<select')
     expect(wrapper.html()).toContain(`Candler School of Theology`)
   })
+
+  it('does not let you change in the edit screen', () => {
+    formStore.savedData.school = 'candler'
+
+    const wrapper = mount(School, {
+    })
+  
+    formStore.allowTabSave = jest.fn(() => {return false})
+    wrapper.vm.$data.sharedState.schools.options = [{"text":"Select a School","value":"","disabled":"disabled","selected":"selected"},{"text":"Candler School of Theology","value":"candler"},{"text":"Emory College","value":"emory"},{"text":"Laney Graduate School","value":"laney"},{"text":"Rollins School of Public Health","value":"rollins"}]
+    expect(wrapper.html()).not.toContain('<button')
+    expect(wrapper.html()).toContain(`Candler School of Theology`)
+  })
 })
