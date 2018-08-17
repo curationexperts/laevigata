@@ -30,6 +30,7 @@ describe('School.vue', () => {
     })
   
     wrapper.vm.$data.sharedState.schools.options = [{"text":"Select a School","value":"","disabled":"disabled","selected":"selected"},{"text":"Candler School of Theology","value":"candler"},{"text":"Emory College","value":"emory"},{"text":"Laney Graduate School","value":"laney"},{"text":"Rollins School of Public Health","value":"rollins"}]
-    expect(wrapper.html()).toContain(`<div><label for=\"school\">School</label> <!----> <div><input type=\"hidden\" name=\"etd[school]\" value=\"Candler School of Theology\"> <b>Candler School of Theology</b></div></div>`)
+    expect(wrapper.html()).not.toContain('<select')
+    expect(wrapper.html()).toContain(`Candler School of Theology`)
   })
 })
