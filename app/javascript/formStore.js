@@ -317,7 +317,7 @@ export const formStore = {
   getSavedOrSelectedSchool () {
     if (localStorage.getItem('school')) {
       return localStorage.getItem('school')
-    } 
+    }
     if (this.savedData['school']) {
       return  this.savedData['school']
     } else {
@@ -357,8 +357,6 @@ export const formStore = {
   },
 
   getSavedOrSelectedDepartment () {
-    console.log(this.selectedDepartment)
-    console.log(this.savedData['department'])
     return this.selectedDepartment.length === 0 ? this.savedData['department'] : this.selectedDepartment
   },
 
@@ -388,6 +386,7 @@ export const formStore = {
   loadDepartments () {
     if (this.savedData['department'] !== undefined) {
       var schoolEndpoint = this.schools[this.savedData['school']]
+
       this.getDepartments(schoolEndpoint)
     }
   },
@@ -470,6 +469,11 @@ export const formStore = {
         this.partneringAgencyChoices = response.data
       })
   },
+
+  setSupplementalFileMetadata (key, field, newValue) {
+    this.supplementalFilesMetadata[key][field] = newValue
+  },
+
   addSupplementalFileMetadata () {
     if (this.savedData['supplemental_file_metadata']) {
       // check for duplicates

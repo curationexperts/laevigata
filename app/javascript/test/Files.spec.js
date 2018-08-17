@@ -28,7 +28,7 @@ describe('Files.vue', () => {
   it('checks for some JSON in localStorage files', () => {
     expect(window.localStorage.getItem).toBeCalledWith('files')
   })
-  
+
   it('when primary file is present, it returns primary file', () => {
     const wrapper = shallowMount(Files, { })
     const fakeFileData = { id: 'fake file object' }
@@ -107,4 +107,46 @@ describe('Files.vue', () => {
     expect(wrapper.find('select[name=etd\\[supplemental_file_metadata\\]\\[0\\]file_type]').attributes().disabled).toBe('disabled')
   })
 
+  it('stores supplemental metadata for each file', () => {
+    const wrapper = mount(Files, { })
+    const fakeFileData = { deleteUrl: '/concern/file_sets/abc', id: 'abc_my_super_unique_id' }
+    const moreFakeFileData = { deleteUrl: '/concern/file_sets/def', id: 'def_my_super_unique_id' }
+    formStore.supplementalFiles = [fakeFileData, moreFakeFileData]
+
+    const title = wrapper.find('input[name=etd\\[supplemental_file_metadata\\]\\[0\\]title]')
+
+    title.value = "Great Title"
+    title.trigger('input')
+    title.trigger('keyup.enter')
+
+    wrapper.find('#add-supplemental-file').trigger('click')
+
+    expect(title.value).toBe("Great Title")
+  })
+
+  it('removes supplemental metadata when student removes supplemental file', () => {
+    const mockXHR = {
+      open: jest.fn(),
+      send: jest.fn(),
+      setRequestHeader: jest.fn()
+    }
+    window.XMLHttpRequest = jest.fn(() => mockXHR)
+
+    const wrapper = mount(Files, { })
+    const fakeFileData = { deleteUrl: '/concern/file_sets/abc', id: 'abc_my_super_unique_id' }
+    const moreFakeFileData = { deleteUrl: '/concern/file_sets/def', id: 'def_my_super_unique_id' }
+
+    const supplementalData = {'title': 'One'}
+    const moreSupplementalData = {'title': 'Two'}
+
+    formStore.supplementalFiles = [fakeFileData, moreFakeFileData]
+    formStore.supplementalFilesMetadata = [supplementalData, moreSupplementalData]
+
+    wrapper.vm.deleteSupplementalFile(fakeFileData.deleteUrl, 0)
+    
+    const remainingFiles = formStore.supplementalFiles.length
+    const remainingMetadata = formStore.supplementalFilesMetadata.length
+    expect(remainingFiles).toEqual(1)
+    expect(remainingMetadata).toEqual(1)
+  })
 })

@@ -90,10 +90,13 @@
           <tr v-for="(files, key) in sharedState.supplementalFiles" v-bind:key="key">
             <td><input type="text" :value="files.name" class="form-control" disabled />
             <input type='hidden' :value="files.name" :name="supplementalFileName(key)"></td>
-            <td><input :name="supplementalFileTitleName(key)" type="text" class="form-control" :value="getSavedTitle(key)" :disabled="!isUploadedFile(sharedState.supplementalFiles[key])"/></td>
-            <td><input :name="supplementalFileDescriptionName(key)" type="text" class="form-control" :value="getSavedDescription(key)" :disabled="!isUploadedFile(sharedState.supplementalFiles[key])" /></td>
+
+            <td><input :name="supplementalFileTitleName(key)" type="text" class="form-control" :value="getSavedTitle(key)" :disabled="!isUploadedFile(sharedState.supplementalFiles[key])" @change="onMetadataChange(key, $event)" /></td>
+
+            <td><input :name="supplementalFileDescriptionName(key)" type="text" class="form-control" :value="getSavedDescription(key)" :disabled="!isUploadedFile(sharedState.supplementalFiles[key])" @change="onMetadataChange(key, $event)" /></td>
+
             <td>
-              <select :name="supplementalFileTypeName(key)" class="form-control file-type" v-on:change="sharedState.setValid('My Files', false)" :disabled="!isUploadedFile(sharedState.supplementalFiles[key])">
+              <select :name="supplementalFileTypeName(key)" class="form-control file-type" @change="onMetadataChange(key, $event)" :disabled="!isUploadedFile(sharedState.supplementalFiles[key])">
                 <option v-if="getSavedFileType(key)" selected="selected" :value="getSavedFileType(key)">{{getSavedFileType(key)}}</option>
                 <option v-else selected="selected" disabled="disabled">Please select a file type</option>
                 <option>Text</option>
@@ -210,6 +213,10 @@ export default {
       })
       supplementalFileUploader.uploadFile()
     },
+    onMetadataChange(key, e) {
+      var fieldName = e.target.name.replace(`etd[supplemental_file_metadata][${key}]`, '')
+      this.sharedState.setSupplementalFileMetadata(key, fieldName, e.target.value)
+    },
     getFormData() {
       var form = document.getElementById('vue_form')
       var formData = new FormData(form)
@@ -235,7 +242,7 @@ export default {
   },
   boxOAuth(mode) {
     this.sharedState.boxFilePickerMode.setMode(mode)
-    
+
     window.location = this.boxOAuthUrl()
   },
   boxOAuthUrl () {

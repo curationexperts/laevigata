@@ -11,12 +11,9 @@ export default class SupplementalFileDelete extends FileDelete {
     const filteredFiles = this.formStore.supplementalFiles.filter(
       file => file.deleteUrl !== this.deleteUrl
     )
-    const filteredMetadata = this.formStore.supplementalFilesMetadata.filter(
-      file => file.id !== this.id
-    )
 
     this.formStore.supplementalFiles = filteredFiles
-    this.formStore.supplementalFilesMetadata = filteredMetadata
+    this.formStore.supplementalFilesMetadata.splice(key, 1);
     this.formStore.removeSavedSupplementalFile(this.deleteUrl)
     this.formStore.removeSavedSupplementalFileMetadata(key)
   }
