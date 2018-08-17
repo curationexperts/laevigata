@@ -67,8 +67,7 @@ export default class SaveAndSubmit {
 
       axios.post('/concern/etds', savedDataToSubmit)
         .then(response => {
-          localStorage.removeItem('school')
-          localStorage.removeItem('files')
+          localStorage.clear()
           window.location = response.request.responseURL
         })
         .catch(e => {
@@ -94,6 +93,7 @@ export default class SaveAndSubmit {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === XMLHttpRequest.DONE) {
         if (xhr.status === 200) {
+          localStorage.clear()  
           window.location = JSON.parse(xhr.response).redirectPath
         } else {
          formStore.failedSubmission = true

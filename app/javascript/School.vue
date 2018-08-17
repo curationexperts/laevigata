@@ -13,7 +13,9 @@
         <div class="no-edit-school-name well">
           <b>{{ this.sharedState.getSchoolText(this.sharedState.getSavedOrSelectedSchool()) }}</b>
         </div>
-        <button type="button" class="start-over-button btn btn-danger btn-xs" @click="sharedState.showStartOver = true">Start Over With a New School</button>
+        <div v-if="this.sharedState.allowTabSave()">
+          <button type="button" class="start-over-button btn btn-danger btn-xs" @click="sharedState.showStartOver = true">Start Over With a New School</button>
+        </div>
       </div>
     </div>
     <start-over-modal></start-over-modal>
