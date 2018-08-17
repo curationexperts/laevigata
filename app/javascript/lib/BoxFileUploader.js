@@ -42,6 +42,13 @@ export default class BoxFileUploader {
           this.sharedState.supplementalFiles.push(
             JSON.parse(xhr.responseText).files[0]
           )
+          this.sharedState.supplementalFilesMetadata.push(
+            { filename: JSON.parse(xhr.responseText).files[0]['name'],
+              title: '',
+              description: '',
+              file_type: ''
+            }
+          )
         }
       }
     }
