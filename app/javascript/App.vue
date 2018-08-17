@@ -137,6 +137,7 @@
           <input name="etd[currentStep]" type="hidden" :value="value.step" />
           <input name="request_from_form" type="hidden" value="true" />
           <button v-if="allowTabSave() && !sharedState.tabs.submit.currentStep" type="submit" class="btn btn-default" autofocus>Save and Continue</button>
+          
         </div>
       </div>
     </form>
@@ -167,6 +168,7 @@ import Submit from './Submit'
 import UserAgreement from './components/submit/UserAgreement'
 import AboutMe from './components/submit/AboutMe'
 import RichTextEditor from './components/RichTextEditor'
+import StartOverModal from './components/StartOverModal'
 var token = document
   .querySelector('meta[name="csrf-token"]')
   .getAttribute("content")
@@ -200,7 +202,7 @@ export default {
     partneringAgency: PartneringAgency,
     submit: Submit,
     userAgreement: UserAgreement,
-    richTextEditor: RichTextEditor
+    richTextEditor: RichTextEditor,
   },
   created () {
     // this executes only the first time the page is loaded (before adding it to the dom), so we need the freshest saved data we have, and we use it to set the state of the tabs.
@@ -219,17 +221,6 @@ export default {
   // If student is editing an ETD that has already been persisted to fedora,
   // don't allow student to save record on individual tabs.  This is because
   // we want to save to the Etd, not the InProgressEtd.
-  changeFormMethod() {
-    axios.delete(this.sharedState.getUpdateRoute())
-         .then((response) => {
-                localStorage.removeItem('school')
-                window.location = '/'
-          })
-        .catch(() => {
-                localStorage.removeItem('school')
-                window.location = '/'
-          })
-  },
   allowTabSave () {
     if (this.sharedState.etdId) {
       return false

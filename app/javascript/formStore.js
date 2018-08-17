@@ -160,6 +160,7 @@ export const formStore = {
   },
   failedSubmission: false,
   allowPrimaryBoxUpload: false,
+  showStartOver: false,
   other_copyrights: 'false',
   requires_permissions: 'false',
   patents: 'false',
