@@ -20,6 +20,13 @@ export default class SupplementalFileUploader extends FileUploader {
         this.formStore.supplementalFiles.push(
           JSON.parse(xhr.responseText).files[0]
         )
+        this.formStore.supplementalFilesMetadata.push(
+          { filename: JSON.parse(xhr.responseText).files[0]['name'],
+            title: '',
+            description: '',
+            file_type: ''
+          }
+        )
       }
     }
     xhr.send(this.formData)
