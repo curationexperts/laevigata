@@ -77,6 +77,8 @@ module Hyrax
       end
 
       if params['request_from_form'] == 'true'
+        reset_committee_chairs
+        reset_committee_members
         update_with_response_for_form
       else
         super
@@ -260,6 +262,26 @@ module Hyrax
     end
 
     private
+
+        def reset_committee_chairs
+          return unless params['request_from_form']
+          etd = Etd.find(params['id'])
+          etd.committee_chair = []
+          etd.committee_chair_attributes = []
+          etd.committee_chair_name = []
+          etd.save!
+          etd.reload
+        end
+
+        def reset_committee_members
+          return unless params['request_from_form']
+          etd = Etd.find(params['id'])
+          etd.committee_members = []
+          etd.committee_members_attributes = []
+          etd.committee_members_names= []
+          etd.save!
+          etd.reload
+      end
 
       def translate_embargo_string(params)
         return unless params['etd']['embargo_type']

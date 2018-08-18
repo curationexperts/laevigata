@@ -132,10 +132,10 @@ class InProgressEtd < ApplicationRecord
 
     members = []
     etd_members.each do |member|
-      if member[:affiliation] != 'Emory University'
+      if member[:affiliation] != ['Emory University']
         members.push(name: member[:name], affiliation: member[:affiliation], affiliation_type: 'Non-Emory')
       end
-      if member[:affiliation] == 'Emory University'
+      if member[:affiliation] == ['Emory University']
         members.push(name: member[:name], affiliation: member[:affiliation], affiliation_type: 'Emory University')
       end
     end
