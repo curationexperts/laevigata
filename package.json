@@ -8,6 +8,7 @@
     "caniuse-lite": "^1.0.30000865",
     "css-loader": "^1.0.0",
     "eslint": "^5.0.1",
+    "formdata-polyfill": "^3.0.11",
     "lodash": "^4.17.10",
     "vue": "^2.5.16",
     "vue-axios": "^2.1.1",
