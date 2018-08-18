@@ -1,14 +1,16 @@
 import axios from 'axios'
 import { formStore } from './formStore'
+import { formDataNoBlankFiles } from './lib/formDataNoBlankFiles'
+import { isSafari11 } from './lib/isSafari11'
 
 export default class SaveAndSubmit {
-  constructor (options) {
+  constructor(options) {
     this.token = options.token
     this.formData = options.formData
     this.formStore = formStore
   }
 
-  saveTab () {
+  saveTab() {
     // files are special
     this.formData.append('etd[files]', this.formStore.getPrimaryFile())
     this.formData.append('etd[supplemental_files]', this.formStore.getSupplementalFiles())
@@ -37,7 +39,7 @@ export default class SaveAndSubmit {
         this.formStore.setValid(response.data.tab_name, false)
       })
   }
-  reviewTabs () {
+  reviewTabs() {
     axios.get(this.formStore.getUpdateRoute(), { config: { headers: { 'Content-Type': 'application/json' } } })
       .then(response => {
         // TODO: confirm this is correct: response.data.in_progress_etd
@@ -51,7 +53,7 @@ export default class SaveAndSubmit {
         console.log(error)
       })
   }
-  submitEtd () {
+  submitEtd() {
     try {
       // we want the latest data from the server loaded into the form only when ready to submit for publication
       this.formStore.loadSavedData()
@@ -81,10 +83,14 @@ export default class SaveAndSubmit {
       this.formStore.submitEtd = true
     }
   }
-  updateEtd () {
+  updateEtd() {
     axios.defaults.headers.common['X-CSRF-Token'] = this.formStore.token
-    var form = document.getElementById('vue_form')
-    var formData = new FormData(form)
+    if (isSafari11()) {
+      var formData = formDataNoBlankFiles('vue_form')
+    } else {
+      const formElement = document.getElementById('vue_form')
+      formData = new FormData(formElement)
+    }
 
     var xhr = new XMLHttpRequest()
     xhr.open('PATCH', `/concern/etds/${this.formStore.etdId}`, true)
@@ -93,10 +99,10 @@ export default class SaveAndSubmit {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === XMLHttpRequest.DONE) {
         if (xhr.status === 200) {
-          localStorage.clear()  
+          localStorage.clear()
           window.location = JSON.parse(xhr.response).redirectPath
         } else {
-         formStore.failedSubmission = true
+          formStore.failedSubmission = true
         }
       }
     }
