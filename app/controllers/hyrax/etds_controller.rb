@@ -263,24 +263,24 @@ module Hyrax
 
     private
 
-        def reset_committee_chairs
-          return unless params['request_from_form']
-          etd = Etd.find(params['id'])
-          etd.committee_chair = []
-          etd.committee_chair_attributes = []
-          etd.committee_chair_name = []
-          etd.save!
-          etd.reload
-        end
+      def reset_committee_chairs
+        return unless params['request_from_form']
+        etd = Etd.find(params['id'])
+        etd.committee_chair = []
+        etd.committee_chair_attributes = []
+        etd.committee_chair_name = []
+        etd.save!
+        etd.reload
+      end
 
-        def reset_committee_members
-          return unless params['request_from_form']
-          etd = Etd.find(params['id'])
-          etd.committee_members = []
-          etd.committee_members_attributes = []
-          etd.committee_members_names= []
-          etd.save!
-          etd.reload
+      def reset_committee_members
+        return unless params['request_from_form']
+        etd = Etd.find(params['id'])
+        etd.committee_members = []
+        etd.committee_members_attributes = []
+        etd.committee_members_names = []
+        etd.save!
+        etd.reload
       end
 
       def translate_embargo_string(params)
