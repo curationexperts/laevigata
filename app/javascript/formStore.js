@@ -27,7 +27,7 @@ export const formStore = {
       currentStep: true,
       step: 0,
       inputs: {
-        creator: { label: 'Student Name', value: [] },
+        creator: { label: 'Student Name', value: [], placeholder: 'Last Name, First Name' },
         school: { label: 'School', value: [] },
         graduation_date: { label: 'Graduation Date', value: [] },
         post_graduation_email: { label: 'Post-Graduation Email', value: [] }
