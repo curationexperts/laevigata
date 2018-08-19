@@ -30,7 +30,7 @@ export const formStore = {
         creator: { label: 'Student Name', value: [], placeholder: 'Last Name, First Name' },
         school: { label: 'School', value: [] },
         graduation_date: { label: 'Graduation Date', value: [] },
-        post_graduation_email: { label: 'Post-Graduation Email', value: [] }
+        post_graduation_email: { label: 'Post-Graduation Email', value: [], placeholder: 'name@example.com', type: 'email' }
       }
     },
     my_program: {
