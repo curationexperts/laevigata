@@ -32,10 +32,15 @@ class VisibilityTranslator
     new(obj: obj).visibility
   end
 
+  # There are visibility bugs caused by setting the value of obj.abstract_embargoed
+  # to "true" (a String) instead of true (a Boolean). This is only true for works
+  # created in Hyrax 1.x, but it's enough of our content under management that we need
+  # to account for it.
+  # When checking whether a value is true, check whether it has a "true" string too.
   def visibility
     return proxy.visibility if obj.hidden? || !obj.under_embargo?
-    return ALL_EMBARGOED    if obj.abstract_embargoed
-    return TOC_EMBARGOED    if obj.toc_embargoed
+    return ALL_EMBARGOED    if obj.abstract_embargoed.to_s == "true"
+    return TOC_EMBARGOED    if obj.toc_embargoed.to_s == "true"
 
     FILES_EMBARGOED
   end
