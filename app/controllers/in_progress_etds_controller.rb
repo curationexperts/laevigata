@@ -15,10 +15,16 @@ class InProgressEtdsController < ApplicationController
   # Note: There is no 'create' action because the 'new' action does 'find or create'.
 
   def edit
-    @in_progress_etd = InProgressEtd.find(params[:id])
-    authorize! :update, @in_progress_etd
-    @in_progress_etd.refresh_from_etd!
-    @data = @in_progress_etd.data
+    if current_user.nil?
+      redirect_to new_user_session_path
+    else
+      @in_progress_etd = InProgressEtd.find(params[:id])
+      authorize! :update, @in_progress_etd
+      @in_progress_etd.refresh_from_etd!
+      @data = @in_progress_etd.data
+    end
+  rescue ActiveRecord::RecordNotFound
+    redirect_to root_url
   end
 
   # The Vue.js form uses this action to update the record.
