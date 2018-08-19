@@ -1,4 +1,11 @@
 <div id="root">
+<noscript>
+  <div class="alert alert-danger">
+    <span class="glyphicon glyphicon-remove-sign"> </span>
+    NOTE: The Thesis and Dissertation submission system requires JavaScript. 
+    Please enable JavaScript or make your submission using a public computer provided by the University.
+  </div>
+</noscript>
 <!-- This tag holds the rails instance variable with the data from the in_progress_etd model, making it accessible to the js. However, we could have used an axios get request to get this data instead of relying on the instance variable, and that might be preferable in the future. -->
 <%= tag.div id: 'saved_data', data: { in_progress_etd: @data } %>
   <app></app>
