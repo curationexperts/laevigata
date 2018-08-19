@@ -121,7 +121,7 @@
             </div>
             <div v-else>
               <label :for="input.label">{{ input.label }}</label>
-              <input :id="input.label" class="form-control" :ref="index" :name="sharedState.etdPrefix(index)" v-model="input.value" v-on:change="sharedState.setValid(value.label, false)">
+              <input :id="input.label" class="form-control" :placeholder='input.placeholder' :ref="index" :name="sharedState.etdPrefix(index)" v-model="input.value" v-on:change="sharedState.setValid(value.label, false)">
               <section role="alert" class='errorMessage' v-if="sharedState.hasError(index)">
                   <p>{{ input.label }} is required</p>
               </section>
