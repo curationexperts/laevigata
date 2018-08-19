@@ -384,11 +384,8 @@ export const formStore = {
     }
   },
   loadDepartments () {
-    if (this.savedData['department'] !== undefined) {
-      var schoolEndpoint = this.schools[this.savedData['school']]
-
-      this.getDepartments(schoolEndpoint)
-    }
+    var schoolEndpoint = this.schools[this.getSavedOrSelectedSchool()]
+    this.getDepartments(schoolEndpoint)
   },
   getSelectedSubfield () {
     if (this.selectedSubfield === undefined) {
