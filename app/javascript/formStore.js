@@ -340,9 +340,10 @@ export const formStore = {
   getSelectedEmbargoContents () {
     if (this.selectedEmbargoContents) {
       return this.selectedEmbargoContents
-    }
-    if (this.savedData['embargo_type']) {
+    } else if (this.savedData['embargo_type']) {
       return this.savedData['embargo_type']
+    } else {
+      return 'files_embargoed'
     }
   },
   getSavedSchool () {
@@ -459,7 +460,11 @@ export const formStore = {
     this.agreement = !this.agreement
   },
   getUserAgreement () {
-    return this.agreement
+    if (!this.allowTabSave()) {
+      return true
+    } else {
+      return this.agreement
+    }
   },
   getPartneringChoices () {
     axios.get('/authorities/terms/local/partnering_agencies')
