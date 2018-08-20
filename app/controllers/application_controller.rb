@@ -30,9 +30,9 @@ class ApplicationController < ActionController::Base
 
   # Override from Hyrax
   # Provide a place for Devise to send the user to after signing in
-  # Send newly signed in users to the submission form
+  # Send newly signed in users to the main screen
   def user_root_path
-    new_hyrax_etd_path
+    root_path
   end
 
   rescue_from ActionController::RoutingError do |exception|
