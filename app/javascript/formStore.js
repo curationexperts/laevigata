@@ -340,9 +340,10 @@ export const formStore = {
   getSelectedEmbargoContents () {
     if (this.selectedEmbargoContents) {
       return this.selectedEmbargoContents
-    }
-    if (this.savedData['embargo_type']) {
+    } else if (this.savedData['embargo_type']) {
       return this.savedData['embargo_type']
+    } else {
+      return 'files_embargoed'
     }
   },
   getSavedSchool () {
@@ -374,12 +375,13 @@ export const formStore = {
         this.departments = response.data
         if (!this.allowTabSave()) {
           this.departments.unshift(savedValue)
-        }
+        } 
       })
       return savedValue
     } else {
       axios.get(selectedSchool).then(response => {
         this.departments = response.data
+        this.departments.unshift({ "value": 1, "active": true, "label": "Select a Department", "disabled":"disabled" ,"selected": "selected"})
       })
     }
   },
@@ -458,7 +460,11 @@ export const formStore = {
     this.agreement = !this.agreement
   },
   getUserAgreement () {
-    return this.agreement
+    if (!this.allowTabSave()) {
+      return true
+    } else {
+      return this.agreement
+    }
   },
   getPartneringChoices () {
     axios.get('/authorities/terms/local/partnering_agencies')
