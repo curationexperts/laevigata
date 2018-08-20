@@ -2,14 +2,14 @@
 <div>
   <div v-if="sharedState.getSavedOrSelectedSchool() === 'Rollins School of Public Health'">
     <label>Partnering Agency
-    <div v-for="partneringAgency in sharedState.partneringAgencies.partneringAgencies()">
+    <div class="agency-container" v-for="partneringAgency in sharedState.partneringAgencies.partneringAgencies()">
     <select name="etd[partnering_agency][]" class="form-control" v-model="partneringAgency.value">
       <option>{{ partneringAgency.value }}</option>
       <option v-for="agency in sharedState.partneringAgencyChoices">
         {{ agency.id }}
       </option>
     </select>
-    <button type="button" class="btn btn-danger remove-partner" @click="sharedState.partneringAgencies.remove(partneringAgency)">
+    <button type="button" class="btn btn-danger remove-partner agency-remove" @click="sharedState.partneringAgencies.remove(partneringAgency)">
       <span class="glyphicon glyphicon-trash"></span> Remove This Partnering Agency</button>
     </div>
     </label>
@@ -46,11 +46,17 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.agency-container {
+  display: inline-flex;
+}
+
 .add-partner {
   margin-top: 1em;
 }
 .remove-partner {
+  margin-left: .5em;
+  max-width: 300px;
   margin-bottom: 1em;
 }
 select {
