@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div v-if="sharedState.getUserAgreement()">   
-      <input v-if="!sharedState.submitted" type="button" class="btn btn-primary" value="Submit Your Thesis or Dissertation" @click="sharedState.submit()"/>
-    </div>
+    <input v-if="!sharedState.submitted" :disabled="!sharedState.getUserAgreement()" type="button" class="btn btn-primary" value="Submit Your Thesis or Dissertation" @click="sharedState.submit()"/>
     <div v-if="sharedState.submitted && !sharedState.failedSubmission">
       <div class="alert alert-info">
         <span class="glyphicon glyphicon-info-sign"></span>
