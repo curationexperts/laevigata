@@ -49,4 +49,8 @@ describe('formStore', () => {
    formStore.allowTabSave = jest.fn(() => { return false })
    expect(formStore.getSubfields()).toEqual(true)
  })
+
+  it('returns files_embargoed as the default type', () => {
+    expect(formStore.getSelectedEmbargoContents()).toEqual('files_embargoed')
+  })
 })
