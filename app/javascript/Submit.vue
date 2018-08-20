@@ -1,5 +1,5 @@
 <template>
-  <section>   
+  <section>
     <aboutMe></aboutMe>
     <myProgram></myProgram>
     <myAdvisor></myAdvisor>
@@ -33,7 +33,7 @@ export default {
     myProgram: MyProgram,
     myAdvisor: MyAdvisor,
     myEtd: MyEtd,
-    Keywords: Keywords,
+    keywords: Keywords,
     myFiles: MyFiles,
     embargo: Embargo,
     userAgreement: UserAgreement

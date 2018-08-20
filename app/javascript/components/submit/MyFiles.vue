@@ -1,5 +1,5 @@
 <template>
-  <section>   
+  <section>
     <h4>My Files</h4>
     <table class="table table-striped metadata">
       <thead>
@@ -7,7 +7,7 @@
           <th>
            Your Thesis or Dissertation
           </th>
-          </tr>
+        </tr>
       </thead>
       <tbody>
         <tr>
@@ -15,7 +15,7 @@
         </tr>
       </tbody>
     </table>
-  <div v-if="Object.keys(supplementalFiles).length > 0">
+  <div v-if="supplementalFiles && Object.keys(supplementalFiles).length > 0">
     <h5>Supplemental Files</h5>
     <table class="table table-striped metadata">
       <thead>
