@@ -24,4 +24,13 @@ describe('Department.vue', () => {
     wrapper.vm.$data.selected = formStore.getSavedOrSelectedDepartment()
     expect(wrapper.html()).toContain('Divinity')
   })
+  it('has a disabled default ', () => {
+    const wrapper = mount(Department, {
+    })
+    formStore.departments = [{ "value": 1, "active": true, "label": "Select a Department", "disabled":"disabled" ,"selected": "selected"}]
+    wrapper.vm.$data.school = "Candler School of Theology"
+    formStore.getSavedOrSelectedDepartment = () => { return false }
+    wrapper.vm.$data.selected = 'Select a Department'
+    expect(wrapper.html()).toContain('disabled')
+  })
 })
