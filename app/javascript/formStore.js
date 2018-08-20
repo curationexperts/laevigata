@@ -340,9 +340,10 @@ export const formStore = {
   getSelectedEmbargoContents () {
     if (this.selectedEmbargoContents) {
       return this.selectedEmbargoContents
-    }
-    if (this.savedData['embargo_type']) {
+    } else if (this.savedData['embargo_type']) {
       return this.savedData['embargo_type']
+    } else {
+      return 'files_embargoed'
     }
   },
   getSavedSchool () {
