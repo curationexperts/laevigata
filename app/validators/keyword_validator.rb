@@ -2,7 +2,7 @@ class KeywordValidator < ActiveModel::Validator
   def validate(record)
     return unless current_tab?(record)
     ::Hyrax::EtdForm.keyword_terms.each do |field|
-      record.errors.add(field, "#{field} is required") if parsed_data(record)[field.to_s].blank?
+      record.errors.add(field, "#{field} is required") if parsed_data(record)[field.to_s].blank? || parsed_data(record)[field.to_s].first.blank?
     end
   end
 
