@@ -10,7 +10,7 @@
     </p>
     <div class="well">
       <label class="form-inline">
-        <input type="checkbox" @change="sharedState.setUserAgreement()" />
+        <input type="checkbox" v-model="checked" @change="sharedState.setUserAgreement()" />
          I HAVE READ AND AGREE TO THE SUBMISSION AGREEMENT
      </label>
     </div>
@@ -27,11 +27,15 @@ import FinalSubmission from './FinalSubmission'
 export default {
   data() {
     return {
+      checked: formStore.getUserAgreement(),
       sharedState: formStore
     }
   },
   components: { 
     finalSubmission: FinalSubmission
+  },
+  mounted() {
+
   }
 }
 </script>
