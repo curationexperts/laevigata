@@ -1,10 +1,19 @@
 {
+  "Anthropology and Religion":  "/authorities/terms/local/religion_programs",
   "Biological and Biomedical Sciences": "/authorities/terms/local/biological_programs",
-  "Biostatistics": "/authorities/terms/local/biostatistics_programs",
   "Biostatistics and Bioinformatics": "/authorities/terms/local/biostatistics_programs",
+  "Biostatistics": "/authorities/terms/local/biostatistics_programs",
   "Business": "/authorities/terms/local/business_programs",
   "Environmental Sciences": "/authorities/terms/local/environmental_programs",
+  "Environmental Studies": "/authorities/terms/local/environmental_programs",
   "Epidemiology": "/authorities/terms/local/epidemiology_programs",
+  "Executive Masters of Public Health - MPH": "/authorities/terms/local/executive_programs",
+  "Philosophy and Religion": "/authorities/terms/local/religion_programs",
   "Psychology": "/authorities/terms/local/psychology_programs",
-  "Executive Masters of Public Health - MPH": "/authorities/terms/local/executive_programs"
+  "Religion": "/authorities/terms/local/religion_programs",
+  "Religion and Anthropology": "/authorities/terms/local/religion_programs",
+  "Religion and Classical Civilization": "/authorities/terms/local/religion_programs",
+  "Religion and History": "/authorities/terms/local/religion_programs",
+  "Religion and Sociology": "/authorities/terms/local/religion_programs",
+  "Sociology and Religion": "/authorities/terms/local/religion_programs"
 }
