@@ -2,7 +2,7 @@
   <div>
     <label for="department">Department</label>
     <select name="etd[department]" class="form-control" id="department" v-model="selected" aria-required="true" v-on:change="sharedState.clearSubfields(), sharedState.setSelectedDepartment(selected), sharedState.setValid('My Program', false)">
-      <option v-for="department in sharedState.departments" v-bind:value="department.label" v-bind:key="department.label">
+      <option v-for="department in sharedState.departments" v-bind:value="department.label" v-bind:key="department.label" :disabled="department.disabled">
         {{ department.label }}
       </option>
     </select>
@@ -39,6 +39,9 @@ export default {
         this.selected = selectedArray[0]
       } else {
         this.selected = this.sharedState.getSavedOrSelectedDepartment()
+        if (!this.selected) {
+          this.selected = 'Select a Department'
+        }
       }
     })
   }

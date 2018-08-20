@@ -374,12 +374,13 @@ export const formStore = {
         this.departments = response.data
         if (!this.allowTabSave()) {
           this.departments.unshift(savedValue)
-        }
+        } 
       })
       return savedValue
     } else {
       axios.get(selectedSchool).then(response => {
         this.departments = response.data
+        this.departments.unshift({ "value": 1, "active": true, "label": "Select a Department", "disabled":"disabled" ,"selected": "selected"})
       })
     }
   },
