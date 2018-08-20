@@ -1,11 +1,15 @@
 <template>
-  <section>   
+  <section>
     <h4>My Program</h4>
     <h5>Department</h5>
     <div> {{ sharedState.getSavedOrSelectedDepartment() }} </div>
     <div v-if="sharedState.getSubfields()">
           <h5>Subfield</h5>
       <div> {{ sharedState.getSubfields() }} </div>
+    </div>
+    <div v-if="sharedState.getSavedOrSelectedSchool() === 'Rollins School of Public Health'">
+      <h5>Partnering Agencies</h5>
+      <div> {{ sharedState.savedData['partnering_agency'].join(', ') }} </div>
     </div>
     <h5>Degree</h5>
     <div> {{ sharedState.getSavedDegree() }} </div>
