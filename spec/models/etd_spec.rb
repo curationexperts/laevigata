@@ -192,6 +192,22 @@ RSpec.describe Etd do
       etd.reload # Make sure the new data is persisted
       expect(etd.committee_chair_name).to contain_exactly('New Name, Emory University')
     end
+
+    it "updates committee_members_names when committee members are deleted" do
+      expect(etd.committee_members_names).to contain_exactly("Manns, Joseph, Emory University", "Craighead, W Edward, Emory University")
+      etd.committee_members = nil
+      etd.save!
+      etd.reload # Make sure the new data is persisted
+      expect(etd.committee_members_names).to eq []
+    end
+
+    it "updates committee_chair_name when committee chairs are deleted" do
+      expect(etd.committee_chair_name).to eq ['Treadway, Michael T, Emory University']
+      etd.committee_chair = nil
+      etd.save!
+      etd.reload # Make sure the new data is persisted
+      expect(etd.committee_chair_name).to eq []
+    end
   end
 
   context "committee members" do

@@ -55,6 +55,43 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs, :clean do
       etd.reload
     end
 
+    context 'editing or removing committee members and chairs' do
+      let(:etd) { FactoryBot.build(:etd, default_attrs.merge(committee_chair_attributes: [arthur, lancelot], committee_members_attributes: [morgan, guin])) }
+
+      let(:arthur) { { name: ['Arthur'], affiliation: ['Emory University'] } }
+      let(:lancelot) { { name: ['Lancelot'], affiliation: ['Another University'] } }
+      let(:morgan) { { name: ['Morgan'], affiliation: ['Emory University'] } }
+      let(:guin) { { name: ['Guinevere'], affiliation: ['Another University'] } }
+
+      let(:new_attrs) do
+        {
+          committee_chair_attributes: { '0' => new_arthur },
+          committee_members_attributes: { '0' => new_morgan }
+        }
+      end
+
+      let(:new_arthur) { { name: ['Arthur (edited)'], affiliation: ['Edited University'] } }
+      let(:new_morgan) { { name: ['Morgan (edited)'], affiliation: ['Emory University'] } }
+
+      before do
+        new_ui = Rails.application.config_for(:new_ui).fetch('enabled', false)
+        skip('This spec will fail if not using new UI') unless new_ui
+
+        patch :update, params: { id: etd, etd: new_attrs, request_from_form: 'true' }
+        etd.reload # Test persisted state
+      end
+
+      it 'updates committee members and chairs' do
+        expect(etd.committee_chair.count).to eq 1
+        expect(etd.committee_chair.first.name).to eq ['Arthur (edited)']
+        expect(etd.committee_chair.first.affiliation).to eq ['Edited University']
+
+        expect(etd.committee_members.count).to eq 1
+        expect(etd.committee_members.first.name).to eq ['Morgan (edited)']
+        expect(etd.committee_members.first.affiliation).to eq ['Emory University']
+      end
+    end
+
     context 'adding a new supplemental file' do
       let(:uf) { FactoryBot.create(:uploaded_file, :supplementary, title: ['old uf title'], user_id: user.id) }
 

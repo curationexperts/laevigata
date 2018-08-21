@@ -209,12 +209,10 @@ class Etd < ActiveFedora::Base
   end
 
   def index_committee_chair_name
-    return unless committee_chair && committee_chair.first
     self.committee_chair_name = committee_chair.map(&:name_and_affiliation)
   end
 
   def index_committee_members_names
-    return unless committee_members && committee_members.first
     self.committee_members_names = committee_members.map(&:name_and_affiliation)
   end
 

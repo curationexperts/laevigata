@@ -77,6 +77,8 @@ module Hyrax
       end
 
       if params['request_from_form'] == 'true'
+        curation_concern.committee_chair = nil
+        curation_concern.committee_members = nil
         update_with_response_for_form
       else
         super
