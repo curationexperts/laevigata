@@ -3,10 +3,10 @@
   <div v-if="sharedState.getSavedOrSelectedSchool() === 'Rollins School of Public Health'">
     <label>Partnering Agency
     <div  v-if="sharedState.partneringAgencies.partneringAgencies()">
-      <input name="etd[partnering_agency][]" type="hidden" value="No partnering agency." />
+      <input name="etd[partnering_agency][]" type="hidden" value="Does not apply (no collaborating organization)" />
     </div>
     <div class="agency-container" v-for="partneringAgency in sharedState.partneringAgencies.partneringAgencies()">
-    <div v-if="partneringAgency.value != 'No partnering agency.'">
+    <div v-if="partneringAgency.value != 'Does not apply (no collaborating organization)'">
     <select name="etd[partnering_agency][]" class="form-control" v-model="partneringAgency.value">
       <option>{{ partneringAgency.value }}</option>
       <option v-for="agency in sharedState.partneringAgencyChoices">
@@ -24,7 +24,7 @@
     </div>
   </div>
   <div v-else>
-    <input name="etd[partnering_agency][]" type="hidden" value="No partnering agency." />
+    <input name="etd[partnering_agency][]" type="hidden" value="Does not apply (no collaborating organization)" />
   </div>
 </div>
 </template>
