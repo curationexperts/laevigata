@@ -44,13 +44,14 @@ describe('formStore', () => {
     ])
   })
 
- it('returns a previously saved subfield the list', () => {
-   formStore.subfieldsEdit = true
-   formStore.allowTabSave = jest.fn(() => { return false })
-   expect(formStore.getSubfields()).toEqual(true)
- })
+  it('returns a previously saved subfield the list', () => {
+    formStore.subfieldsEdit = true
+    formStore.allowTabSave = jest.fn(() => { return false })
+    expect(formStore.getSubfields()).toEqual(true)
+  })
 
-  it('returns files_embargoed as the default type', () => {
-    expect(formStore.getSelectedEmbargoContents()).toEqual('files_embargoed')
+  it('returns true for user agreement when on the edit form', () => {
+    formStore.allowTabSave = jest.fn(() => { return false })
+    expect(formStore.getUserAgreement()).toEqual(true)
   })
 })
