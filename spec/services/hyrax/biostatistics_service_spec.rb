@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe Hyrax::BiostatisticsService do
   before do
@@ -11,7 +11,7 @@ RSpec.describe Hyrax::BiostatisticsService do
 
   describe "#select_all_options" do
     it "has a select list" do
-      expect(service.select_all_options).to include(["Public Health Informatics - MSPH", "Public Health Informatics - MSPH"])
+      expect(service.select_all_options).to include(["Public Health Informatics - MSPH", "Public Health Informatics"])
     end
   end
 end
