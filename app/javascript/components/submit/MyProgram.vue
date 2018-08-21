@@ -3,9 +3,9 @@
     <h4>My Program</h4>
     <h5>Department</h5>
     <div> {{ sharedState.getSavedOrSelectedDepartment() }} </div>
-    <div v-if="sharedState.getSubfields()">
+    <div v-if="sharedState.getSelectedSubfield() && sharedState.getSelectedSubfield().length > 0">
           <h5>Subfield</h5>
-      <div> {{ sharedState.getSubfields() }} </div>
+      <div> {{ sharedState.getSelectedSubfield () }} </div>
     </div>
     <div v-if="sharedState.getSavedOrSelectedSchool() === 'Rollins School of Public Health'">
       <h5>Partnering Agencies</h5>
