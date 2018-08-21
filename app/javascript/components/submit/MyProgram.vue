@@ -9,7 +9,7 @@
     </div>
     <div v-if="sharedState.getSavedOrSelectedSchool() === 'Rollins School of Public Health'">
       <h5>Partnering Agencies</h5>
-      <div> {{ sharedState.savedData['partnering_agency'].join(', ') }} </div>
+      <div> {{ managePartneringAgency() }} </div>
     </div>
     <h5>Degree</h5>
     <div> {{ sharedState.getSavedDegree() }} </div>
@@ -26,6 +26,24 @@ export default {
   data() {
     return {
       sharedState: formStore
+    }
+  },
+  methods: {
+    managePartneringAgency: function(){
+      // if there is anything besides 'does not apply', remove 'does not apply'
+      let agencies = ''
+      if (this.sharedState.savedData['partnering_agency'].length >= 2) {
+
+        const validPartneringAgency =   this.sharedState.savedData['partnering_agency'].filter(
+          item => item != "Does not apply (no collaborating organization)")
+
+        if (validPartneringAgency) {
+          agencies = validPartneringAgency.join(', ')
+        }
+      } else {
+        agencies = this.sharedState.savedData['partnering_agency'].join(', ')
+      }
+      return agencies
     }
   }
 }
