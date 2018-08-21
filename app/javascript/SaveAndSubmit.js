@@ -12,8 +12,22 @@ export default class SaveAndSubmit {
 
   saveTab() {
     // files are special
-    this.formData.append('etd[files]', this.formStore.getPrimaryFile())
-    this.formData.append('etd[supplemental_files]', this.formStore.getSupplementalFiles())
+
+    if (this.formStore.getPrimaryFile()) {
+      this.formData.append('etd[files]', this.formStore.getPrimaryFile())
+    } else {
+      if (isSafari11()) {
+        this.formData.delete('primary_files[]')
+      }
+    }
+
+    if (this.formStore.getSupplementalFiles()) {
+      this.formData.append('etd[supplemental_files]', this.formStore.getSupplementalFiles())
+    } else {
+      if (isSafari11()) {
+        this.formData.delete('supplemental_files[]')
+      }
+    }
 
     axios
       .patch(this.formStore.getUpdateRoute(), this.formData, {
