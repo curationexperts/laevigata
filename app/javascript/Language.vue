@@ -38,7 +38,8 @@ export default {
         }
         this.selected = selected
       } else {
-        data.unshift({ "value": "", "active": true, "label": "Select a Language", "disabled":"disabled" ,"selected": "selected"})
+        this.selected = 'Select a Language'
+        data.unshift({ "value": "Select a Language", "active": true, "label": "Select a Language", "disabled":"disabled" ,"selected": "selected"})
       }
       return data
     }
