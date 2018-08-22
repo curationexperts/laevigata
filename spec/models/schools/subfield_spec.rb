@@ -5,8 +5,8 @@ require 'rails_helper'
 RSpec.describe Schools::Subfield, type: :model do
   let(:school) { Schools::School.new('Rollins School of Public Health') }
   let(:dept) { Schools::Department.new(school, 'Epidemiology') }
-  let(:subfield_id) { 'Global Epidemiology - MPH & MSPH' }
-  let(:subfield_label) { 'Global Epidemiology' }
+  let(:subfield_id) { 'Global Epidemiology' }
+  let(:subfield_label) { 'Global Epidemiology - MPH & MSPH' }
   let(:subfield) { described_class.new(school, dept, subfield_id) }
 
   describe 'init' do
