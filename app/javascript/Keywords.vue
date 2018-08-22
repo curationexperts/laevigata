@@ -4,7 +4,7 @@
     <div id="keywords">
       <div class="form-inline keyword" v-for="keyword in sharedState.keywords.keywords()">
         <input type="text" class="form-control" name="etd[keyword][]" v-model="keyword.value" v-on:change="sharedState.setValid('Keywords', false)"/>
-        <button type="button" class="btn btn-default remove-btn" @click="sharedState.keywords.remove(keyword), sharedState.setValid('Keywords', false)">
+        <button type="button" class="btn btn-danger remove-btn" @click="sharedState.keywords.remove(keyword), sharedState.setValid('Keywords', false)">
           <span class="glyphicon glyphicon-trash"></span>  Remove This Keyword</button>
         <br/>
       </div>

@@ -1,12 +1,12 @@
 <template>
 <div>
   <div v-if="sharedState.getSavedOrSelectedSchool() === 'Rollins School of Public Health'">
-    <label>Partnering Agency
+    <label>Partnering Agency</label>
     <div  v-if="sharedState.partneringAgencies.partneringAgencies()">
       <input name="etd[partnering_agency][]" type="hidden" value="Does not apply (no collaborating organization)" />
     </div>
-    <div class="agency-container" v-for="partneringAgency in sharedState.partneringAgencies.partneringAgencies()">
-    <div v-if="partneringAgency.value != 'Does not apply (no collaborating organization)'">
+    <div v-for="partneringAgency in sharedState.partneringAgencies.partneringAgencies()">
+    <div class="agency-container" v-if="partneringAgency.value != 'Does not apply (no collaborating organization)'">
     <select name="etd[partnering_agency][]" class="form-control" v-model="partneringAgency.value">
       <option>{{ partneringAgency.value }}</option>
       <option v-for="agency in sharedState.partneringAgencyChoices">
@@ -17,7 +17,6 @@
       <span class="glyphicon glyphicon-trash"></span> Remove This Partnering Agency</button>
     </div>
     </div>
-    </label>
     <div>
       <button type="button" class="btn btn-default add-partner" @click="sharedState.partneringAgencies.addEmpty()">
       <span class="glyphicon glyphicon-plus"></span> Add Another Partnering Agency</button>
@@ -55,7 +54,6 @@ export default {
 .agency-container {
   display: inline-flex;
 }
-
 .add-partner {
   margin-top: 1em;
 }

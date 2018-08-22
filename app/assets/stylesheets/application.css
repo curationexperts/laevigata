@@ -14,6 +14,6 @@
  *= require openseadragon 
  *= require etd
  *= require schools
- *= require_tree ./emory/ 
+ *= require emory
  *= require_self
  */

@@ -17,7 +17,6 @@
 }
 
 .navbar {
-    font-family:$label-font-family;
     ul {
         li {
             display: inline-block;
@@ -37,10 +36,6 @@
     }
 
 } 
-
-.nav-tabs {
-    font-family: $label-font-family;
-}
 
 #search-form-header {
     margin-top: 1em;

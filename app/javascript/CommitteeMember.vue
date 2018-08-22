@@ -5,10 +5,10 @@
             You have not selected a chair or committee members. Please
             use the buttons below to add them to your submission.
         </div>
-        <div v-for="chair in sharedState.committeeChairs.chairs()" v-bind:value="chair.name">
+        <div class="member-container" v-for="chair in sharedState.committeeChairs.chairs()" v-bind:value="chair.name">
             <div class="well">
             <h4>Committee Chair</h4>
-            <label>Committee Chairs's Affiliation
+            <label>Committee Chairs' Affiliation</label>
                   <select v-model="chair.affiliationType" class="form-control" :name="chairAffiliationTypeAttr(chair)" v-on:change="sharedState.setValid('My Advisor', false)">
                     <option disabled selected>
                         Select an affiliation
@@ -16,11 +16,8 @@
                     <option>Emory University</option>
                     <option>Non-Emory</option>
                 </select>
-            </label>
-
-            <label>Committee Chairs's Name
+            <label>Committee Chairs' Name</label>
             <input :name="chairNameAttr(chair)" type="text" class="form-control" v-model="chair.name" v-on:change="sharedState.setValid('My Advisor', false)"/>
-            </label>
 
             <div v-if="chair.affiliationType === 'Non-Emory'">
                 {{ chair.affliation }}
@@ -28,15 +25,14 @@
                 <input :name="chairAffiliationAttr(chair)" type="text" class="form-control" v-model="chair.affiliation" v-on:change="sharedState.setValid('My Advisor', false)"/>
             </label>
             </div>
-            <button type="button" class="btn btn-default" @click="sharedState.committeeChairs.remove(chair), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-trash"></span> Remove Committee Chair</button>
+            <button type="button" class="btn btn-danger" @click="sharedState.committeeChairs.remove(chair), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-trash"></span> Remove Committee Chair</button>
         </div>
         </div>
         <button type="button" class="btn btn-default" @click="sharedState.committeeChairs.addEmpty(), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-plus"></span> Add a Committee Chair</button>
-
-         <div v-for="member in sharedState.committeeMembers.members()" v-bind:value="member.name">
+         <div class="member-container" v-for="member in sharedState.committeeMembers.members()" v-bind:value="member.name">
             <div class="well">
             <h4>Committee Member</h4>
-            <label>Committee Member's Affiliation
+            <label>Committee Member's Affiliation</label>
                   <select v-model="member.affiliationType" class="form-control" :name="memberAffiliationTypeAttr(member)" v-on:change="sharedState.setValid('My Advisor', false)">
                     <option disabled selected>
                         Select an affiliation
@@ -44,11 +40,9 @@
                     <option>Emory University</option>
                     <option>Non-Emory</option>
                 </select>
-            </label>
 
-            <label>Committee Member's Name
+            <label>Committee Member's Name</label>
             <input :name="memberNameAttr(member)" type="text" class="form-control" v-model="member.name" v-on:change="sharedState.setValid('My Advisor', false)"/>
-            </label>
 
             <div v-if="member.affiliationType === 'Non-Emory'">
                 {{ member.affliation }}
@@ -56,7 +50,7 @@
                 <input :name="memberAffiliationAttr(member)" type="text" class="form-control" v-model="member.affiliation" v-on:change="sharedState.setValid('My Advisor', false)"/>
             </label>
             </div>
-            <button type="button" class="btn btn-default" @click="sharedState.committeeMembers.remove(member), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-trash"></span> Remove Committee Member</button>
+            <button type="button" class="btn btn-danger" @click="sharedState.committeeMembers.remove(member), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-trash"></span> Remove Committee Member</button>
         </div>
         </div>
         <button type="button" class="btn btn-default" @click="sharedState.committeeMembers.addEmpty(), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-plus"></span> Add a Committee Member</button>
@@ -124,5 +118,13 @@ export default {
 
 select {
   margin-bottom: 1em;
+}
+
+.member-container {
+  max-width: 350px;
+}
+
+.member-container label {
+  display: block;
 }
 </style>

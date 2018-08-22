@@ -1,6 +1,10 @@
 @import 'fonts';
 @import 'colors';
 
+.btn:focus,.btn:active {
+    outline: none !important;
+ }
+
 .btn-link.add, .btn-link.remove {
     margin-top: 0;
     margin-bottom: 1em;
@@ -29,9 +33,6 @@
     background-color: $button-hover-blue;
 }
 
-.btn, .controls-add-text {
-    font-family:$label-font-family;
-}
 
 .btn-primary, input[type=submit].active {
     background-color: $button-primary-blue;
@@ -47,4 +48,31 @@
     padding:0;
 }
 
+.btn-link.add:hover, .btn-link.remove:hover {
+    background-color: $button-hover-blue;
+}
+
+.btn-default {
+    background-color: #ebebeb;
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0.25), rgba(255,255,255,0));
+}
+.btn-danger {
+    background-color: $button-danger-background;
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0.25), rgba(255,255,255,0));
+    border-color: #a94442;
+}
+
+.btn-danger:hover {
+    @extend .btn-primary;
+    background-color: #913a38;
+    background-image:none;
+}
+
+input[type=button] {
+    font-family: $font-family-sans-serif;
+}
+
+a.btn {
+    font-family: $font-family-sans-serif;
+}
 
