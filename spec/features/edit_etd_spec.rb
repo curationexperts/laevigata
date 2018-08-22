@@ -8,6 +8,12 @@ RSpec.feature 'Edit an existing ETD',
               :clean,
               integration: true,
               workflow: { admin_sets_config: 'spec/fixtures/config/emory/laney_admin_sets.yml' } do
+
+  before(:all) do
+    new_ui = Rails.application.config_for(:new_ui).fetch('enabled', false)
+    skip("This test won't work if NEW_UI_ENABLED=true") if new_ui
+  end
+
   let(:approver) { User.find_by_uid("tezprox") }
   let(:student) { create :user }
 

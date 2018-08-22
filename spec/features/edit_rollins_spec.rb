@@ -6,6 +6,12 @@ include Warden::Test::Helpers
 RSpec.feature 'Edit an existing ETD',
               integration: true,
               workflow: { admin_sets_config: 'spec/fixtures/config/emory/epidemiology_admin_sets.yml' } do
+
+  before(:all) do
+    new_ui = Rails.application.config_for(:new_ui).fetch('enabled', false)
+    skip("This test won't work if NEW_UI_ENABLED=true") if new_ui
+  end
+
   let(:approver) { User.where(uid: "epidemiology_admin").first }
   let(:student) { create :user }
 

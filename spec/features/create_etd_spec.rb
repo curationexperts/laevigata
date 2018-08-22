@@ -4,10 +4,13 @@ require 'rails_helper'
 include Warden::Test::Helpers
 
 RSpec.feature 'Create an Etd', :clean, integration: true do
+  let(:new_ui) { Rails.application.config_for(:new_ui).fetch('enabled', false) }
+
   let(:student) { create :user }
 
   context 'a logged in user' do
     before do
+      skip("This test won't work if NEW_UI_ENABLED=true") if new_ui
       login_as student
       visit("/concern/etds/new")
     end
@@ -37,6 +40,8 @@ RSpec.feature 'Create an Etd', :clean, integration: true do
     let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
 
     before do
+      skip("This test won't work if NEW_UI_ENABLED=true") if new_ui
+
       # Don't run background jobs during the spec
       allow(ActiveJob::Base).to receive_messages(perform_later: nil, perform_now: nil)
 

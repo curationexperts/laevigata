@@ -3,6 +3,11 @@ require 'workflow_setup'
 include Warden::Test::Helpers
 
 RSpec.feature 'Create an Etd', :clean, integration: true do
+  before(:all) do
+    new_ui = Rails.application.config_for(:new_ui).fetch('enabled', false)
+    skip("This test won't work if NEW_UI_ENABLED=true") if new_ui
+  end
+
   let(:user) { create :user }
 
   context 'a logged in (non-admin) user' do
