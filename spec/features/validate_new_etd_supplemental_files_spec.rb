@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.feature 'Form Validation: "Supplemental Files" tab', integration: true do
+  before(:all) do
+    new_ui = Rails.application.config_for(:new_ui).fetch('enabled', false)
+    skip("This test won't work if NEW_UI_ENABLED=true") if new_ui
+  end
+
   let(:student) { create :user }
 
   context 'a student (non-admin user)' do

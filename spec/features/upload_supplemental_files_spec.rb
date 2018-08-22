@@ -2,6 +2,11 @@ require 'rails_helper'
 include Warden::Test::Helpers
 
 RSpec.feature 'Supplemental files', integration: true do
+  before(:all) do
+    new_ui = Rails.application.config_for(:new_ui).fetch('enabled', false)
+    skip("This test won't work if NEW_UI_ENABLED=true") if new_ui
+  end
+
   let(:user) { create :user }
   context 'logged in user uploads Supplemental files' do
     before do

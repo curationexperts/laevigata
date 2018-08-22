@@ -31,7 +31,12 @@ RSpec.feature 'Using Controlled Vocabularies', :workflow, integration: true do
                  user: user)
   end
 
-  before { login_as admin }
+  before do
+    new_ui = Rails.application.config_for(:new_ui).fetch('enabled', false)
+    skip("This test won't work if NEW_UI_ENABLED=true") if new_ui
+
+    login_as admin
+  end
 
   scenario 'has existing value selected' do
     visit edit_hyrax_etd_path(etd)
