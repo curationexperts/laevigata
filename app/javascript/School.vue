@@ -14,7 +14,7 @@
           <b>{{ this.sharedState.getSchoolText(this.sharedState.getSavedOrSelectedSchool()) }}</b>
         </div>
         <div v-if="this.sharedState.allowTabSave()">
-          <button type="button" class="start-over-button btn btn-danger btn-xs" @click="sharedState.showStartOver = true">Start Over With a New School</button>
+          <button type="button" class="start-over-button btn btn-danger" @click="sharedState.showStartOver = true">Start Over With a New School</button>
         </div>
       </div>
     </div>
@@ -80,11 +80,6 @@ select {
 }
 
 .no-edit-school-name {
-  float: left;
-}
-
-.start-over-button {
-  margin-left: .5em;
-  margin-top: 1.5em;
+  margin-bottom: .5em;
 }
 </style>

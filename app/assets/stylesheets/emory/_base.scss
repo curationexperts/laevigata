@@ -2,7 +2,6 @@
 @import 'colors';
 
 body {
-    font-family: $base-font-family;
     font-size: 12px;
     color: $emory-web-text;
     min-width: 100%;
@@ -12,20 +11,12 @@ body {
     margin-top:1.5em;
 }
 
-h1,h2,h3,h4 {
-    font-family: $heading-font-family;
-}
-
 .main-header h1.admin-users-page-title{
   margin-top: 20px;
 }
 
 h4 {
     font-weight:bold;
-}
-
-label,legend, .requirements {
-    font-family:$label-font-family;
 }
 
 

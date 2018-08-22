@@ -61,8 +61,8 @@
         <input type="hidden" name="uploaded_files[]" :value="sharedState.supplementalFiles[key].id" />
       </div>
     </div>
-    <section class='errorMessage' v-if="sharedState.hasError('files')">
-        <p>{{ sharedState.getErrorMessage('files').files[0] }}</p>
+    <section class='errorMessage alert alert-danger' v-if="sharedState.hasError('files')">
+        <p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ sharedState.getErrorMessage('files').files[0] }}</p>
     </section>
     </section>
     <section class="optional-files">
@@ -350,9 +350,5 @@ export default {
 
 .metadata td {
   vertical-align: middle;
-}
-
-.errorMessage {
-  color: red;
 }
 </style>

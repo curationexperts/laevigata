@@ -9,8 +9,8 @@
           <quill-editor :options="editorOptions" ref="myTextEditor" v-model="inputValue[0]" v-on:change="sharedState.setValid('My Etd', false)">
           </quill-editor>
         <input type="hidden" class="quill-hidden-field" :name="parentName" v-model="inputValue[0]" />
-        <section class='errorMessage' v-if="sharedState.hasError(parentIndex)">
-           <p>{{parentLabel}} is required</p>
+        <section class='errorMessage alert alert-danger' v-if="sharedState.hasError(parentIndex)">
+           <p><span class="glyphicon glyphicon-exclamation-sign"></span> {{parentLabel}} is required</p>
         </section>
         </div>
     </div>

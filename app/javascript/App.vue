@@ -19,26 +19,26 @@
           <div v-for="(input, index) in value.inputs" v-bind:key="index">
             <div v-if="input.label === 'School'">
               <school></school>
-              <section class='errorMessage' v-if="sharedState.hasError(index)">
-                  <p>{{ input.label }} is required</p>
+              <section class='errorMessage alert alert-danger' v-if="sharedState.hasError(index)">
+                  <p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'Department'">
               <department></department>
-              <section class='errorMessage' v-if="sharedState.hasError(index)">
-                  <p>{{ input.label }} is required</p>
+              <section class='errorMessage alert alert-danger' v-if="sharedState.hasError(index)">
+                  <p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ input.label }} is required</p>
               </section>
-              <section class='errorMessage' v-if="sharedState.hasError('schoolDeptMismatch')">
-                  <p>You have not saved the school that is currently selected in 'About Me'. No departments are available.</p>
+              <section class='errorMessage alert alert-danger' v-if="sharedState.hasError('schoolDeptMismatch')">
+                  <p><span class="glyphicon glyphicon-exclamation-sign"></span> You have not saved the school that is currently selected in 'About Me'. No departments are available.</p>
               </section>
-              <section class='errorMessage' v-if="sharedState.getSchoolHasChanged() === true">
-                  <p>You have saved a school that does not match your saved Department. </p>
+              <section class='errorMessage alert alert-danger' v-if="sharedState.getSchoolHasChanged() === true">
+                  <p><span class="glyphicon glyphicon-exclamation-sign"></span> You have saved a school that does not match your saved Department. </p>
               </section>
             </div>
             <div v-else-if="input.label === 'subfield'">
               <subfield></subfield>
-              <section class='errorMessage' v-if="sharedState.hasError(index)">
-                  <p>{{ input.label }} is required</p>
+              <section class='errorMessage alert alert-danger' v-if="sharedState.hasError(index)">
+                  <p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'files'">
@@ -59,35 +59,35 @@
 
              <div v-else-if="input.label === 'Graduation Date'">
               <graduationDate></graduationDate>
-              <section class='errorMessage' v-if="sharedState.hasError(index)">
-                  <p>{{ input.label }} is required</p>
+              <section class='errorMessage alert alert-danger' v-if="sharedState.hasError(index)">
+                  <p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'Submitting Type'">
               <submittingType></submittingType>
-              <section class='errorMessage' v-if="sharedState.hasError(index)">
-                  <p>{{ input.label }} is required</p>
+              <section class='errorMessage alert alert-danger' v-if="sharedState.hasError(index)">
+                  <p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'Committee Member'">
               <committeeMember></committeeMember>
-              <section class='errorMessage' v-if="sharedState.hasError('committee_chair_attributes')">
-                  <p>At least one Committee Chair is required</p>
+              <section class='errorMessage alert alert-danger' v-if="sharedState.hasError('committee_chair_attributes')">
+                  <p><span class="glyphicon glyphicon-exclamation-sign"></span> At least one Committee Chair is required</p>
               </section>
-              <section class='errorMessage' v-if="sharedState.hasError('committee_members_attributes')">
-                  <p>At least one Committee Member is required</p>
+              <section class='errorMessage alert alert-danger' v-if="sharedState.hasError('committee_members_attributes')">
+                  <p><span class="glyphicon glyphicon-exclamation-sign"></span> At least one Committee Member is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'Degree'">
               <degree></degree>
-              <section class='errorMessage' v-if="sharedState.hasError(index)">
-                  <p>{{ input.label }} is required</p>
+              <section class='errorMessage alert alert-danger' v-if="sharedState.hasError(index)">
+                  <p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'Research Field'">
               <researchField></researchField>
-              <section role="alert" class='errorMessage' v-if="sharedState.hasError(index)">
-                  <p>{{ input.label }} is required</p>
+              <section role="alert" class='errorMessage alert alert-danger' v-if="sharedState.hasError(index)">
+                  <p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'Embargo'">
@@ -98,8 +98,8 @@
             </div>
             <div v-else-if="input.label === 'Keyword'">
               <keywords></keywords>
-              <section role="alert" class='errorMessage' v-if="sharedState.hasError(index)">
-                  <p>{{ input.label }} is required</p>
+              <section role="alert" class='errorMessage alert alert-danger' v-if="sharedState.hasError(index)">
+                  <p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'Copyright & Patents'">
@@ -107,8 +107,8 @@
             </div>
             <div v-else-if="input.label === 'Language'">
               <language></language>
-              <section role="alert" class='errorMessage' v-if="sharedState.hasError(index)">
-                  <p>{{ input.label }} is required</p>
+              <section role="alert" class='errorMessage alert alert-danger' v-if="sharedState.hasError(index)">
+                  <p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ input.label }} is required</p>
               </section>
             </div>
             <div v-else-if="input.label === 'Submit'">
@@ -122,8 +122,8 @@
             <div v-else>
               <label :for="input.label">{{ input.label }}</label>
               <input :id="input.label" :type="input.type" class="form-control" :placeholder='input.placeholder' :ref="index" :name="sharedState.etdPrefix(index)" v-model="input.value" v-on:change="sharedState.setValid(value.label, false)">
-              <section role="alert" class='errorMessage' v-if="sharedState.hasError(index)">
-                  <p>{{ input.label }} is required</p>
+              <section role="alert" class='errorMessage alert alert-danger' v-if="sharedState.hasError(index)">
+                  <p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ input.label }} is required</p>
               </section>
             </div>
           </div>
@@ -136,7 +136,7 @@
           <input name="etd[currentTab]" type="hidden" :value="value.label" />
           <input name="etd[currentStep]" type="hidden" :value="value.step" />
           <input name="request_from_form" type="hidden" value="true" />
-          <button v-if="allowTabSave() && !sharedState.tabs.submit.currentStep" type="submit" class="btn btn-default" autofocus>Save and Continue</button>
+          <button v-if="allowTabSave() && !sharedState.tabs.submit.currentStep" type="submit" class="btn btn-primary" autofocus>Save and Continue</button>
           
         </div>
       </div>
@@ -314,7 +314,6 @@ li {
 ul li button {
   display: block;
   line-height: 1.3em;
-  font-family: 'PT Sans', sans-serif;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-bottom: 0;
   box-shadow: 1px 1px 0.5px rgba(0, 0, 0, 0.06);
@@ -355,10 +354,6 @@ ul li button:hover {
 
 input {
   margin-bottom: 1em;
-}
-
-.errorMessage {
-  color: red;
 }
 
 #delete {

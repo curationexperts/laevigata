@@ -1,0 +1,23 @@
+/* Windows and Linux don't include PT family fonts like OSX */ 
+@import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Sans+Narrow:400,700|PT+Serif');
+@import 'variables';
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-family-headings;
+}
+
+p {
+  font-family: $font-family-serif;
+}
+
+button {
+  font-family: $font-family-sans-serif;
+}
+
+label {
+  font-family: $font-family-headings;
+}
+
+label.btn {
+  font-family: $font-family-sans-serif;
+}
