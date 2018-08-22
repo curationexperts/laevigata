@@ -26,6 +26,15 @@ class AttachFilesToWorkJob < Hyrax::ApplicationJob
       actor.attach_to_work(work, metadata)
       uploaded_file.update(file_set_uri: actor.file_set.uri)
     end
+    # If the Depositor already has edit rights, make sure those get applied to
+    # any newly added files. These methods get called correctly when a work is
+    # first returned to a depositor for changes, but they do not otherwise get called for
+    # subsequent file changes. This fixes a bug where a user can only replace their
+    # files once.
+    if in_edit_state?(work)
+      Hyrax::Workflow::GrantEditToDepositor.call(target: work.reload)
+      InheritPermissionsJob.perform_now(work)
+    end
   rescue VirusDetectedError
     Rails.logger.error "Virus encountered while processing work #{work.id}."
 
@@ -41,6 +50,19 @@ class AttachFilesToWorkJob < Hyrax::ApplicationJob
   class VirusDetectedError < RuntimeError; end
 
   private
+
+    # Does the work already have a workflow assigned? And if so,
+    # is it already in a state where the depositor can edit it?
+    # If both of those are true, then we want to ensure the
+    # depositor can also edit all attached filesets.
+    def in_edit_state?(work)
+      return false unless work && work.to_sipity_entity
+      Hyrax::Workflow::PermissionQuery
+        .scope_permitted_workflow_actions_available_for_current_state(
+          user: User.find_by_user_key(work.depositor),
+          entity: work.to_sipity_entity
+        ).pluck(:name).include?("request_review")
+    end
 
     def virus_check!(uploaded_file)
       return unless Hydra::Works::VirusCheckerService.file_has_virus?(uploaded_file.file)
