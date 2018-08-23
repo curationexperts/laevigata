@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="displayEmbargoFields()">
   <label for="embargo-length">Requested Embargo Length</label>
   <select v-model="selectedEmbargo" name="etd[embargo_length]" aria-required="true" class="form-control" id="embargo-length" v-on:change="sharedState.setSelectedEmbargo(selectedEmbargo), sharedState.setValid('Embargo', false)">
     <option v-for="length in embargoLengths" :value="length.value" :selected="length.selected" :disabled="length.disabled">
@@ -13,8 +13,12 @@
         {{ content.text }}
       </option>
     </select>
-    </div>
   </div>
+</div>
+
+<div v-else>
+  This form cannot be used to edit the embargo after graduation.  Please contact your department if you would like modify the embargo.
+</div>
 </template>
 
 <script>
@@ -30,7 +34,16 @@ export default {
       embargoLengths: formStore.getEmbargoLengths(formStore.getSavedOrSelectedSchool()),
       sharedState: formStore
     }
+  },
+methods: {
+  displayEmbargoFields () {
+    if (this.sharedState.getDegreeAwarded()) {
+      return false
+    } else {
+      return true
+    }
   }
+}
 }
 </script>
 

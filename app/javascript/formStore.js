@@ -456,6 +456,9 @@ export const formStore = {
   getEmbargoContents () {
     return this.embargoContents
   },
+  getDegreeAwarded () {
+    return this.savedData['degree_awarded']
+  },
   setUserAgreement () {
     this.agreement = !this.agreement
   },

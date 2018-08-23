@@ -14,6 +14,14 @@ describe('Embargo.vue', () => {
     })
     expect(wrapper.html()).toContain(`<select name="etd[embargo_length]" aria-required="true" id="embargo-length" class="form-control"></select>`)
   })
+
+  it("After student has graduated, they can't edit embargo fields", () => {
+    const wrapper = shallowMount(Embargo, { })
+    formStore.savedData = { 'degree_awarded': 'August 23, 2018' }
+
+    expect(wrapper.html()).toContain('This form cannot be used to edit the embargo after graduation.')
+  })
+
   describe('Embargo saved display', () => {
     beforeEach(() => {
       const wrapper = shallowMount(Embargo, {

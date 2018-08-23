@@ -114,6 +114,7 @@ class InProgressEtd < ApplicationRecord
       new_data[field] = new_value[0] unless new_value.blank?
     end
 
+    new_data['degree_awarded'] = etd.degree_awarded # Needed by javascript
     new_data['embargo_length'] = etd.embargo_length
     new_data['keyword'] = etd.keyword
     new_data['department'] = etd.department
