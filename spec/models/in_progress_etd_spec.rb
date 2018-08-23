@@ -158,10 +158,10 @@ describe InProgressEtd do
 
     context "with invalid data" do
       let(:data) do
-        { currentTab: "My Files", files: "undefined" }
+        { currentTab: "My Files", files: nil }
       end
 
-      it "is valid" do
+      it "is not valid" do
         expect(in_progress_etd).not_to be_valid
       end
     end
