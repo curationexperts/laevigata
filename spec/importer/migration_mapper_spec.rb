@@ -17,7 +17,7 @@ RSpec.describe Importer::MigrationMapper do
     let(:expected_fields) do
       [:pid, :title, :embargo_lift_date, :abstract, :committee_chair_attributes,
        :committee_members_attributes, :creator, :date_created, :degree, :degree_awarded,
-       :degree_granting_institution, :department, :email, :legacy_id,
+       :degree_granting_institution, :department, :email, :language, :legacy_id,
        :graduation_year, :keyword, :partnering_agency, :post_graduation_email,
        :research_field, :research_field_id, :school, :subfield,
        :submitting_type, :table_of_contents, :abstract_embargoed,
@@ -152,6 +152,12 @@ RSpec.describe Importer::MigrationMapper do
                                                 "Institutions",
                                                 "Middle East",
                                                 "Palestinian Refugees"
+    end
+  end
+
+  describe '#language' do
+    it 'has a language' do
+      expect(mapper.language).to contain_exactly('English')
     end
   end
 
