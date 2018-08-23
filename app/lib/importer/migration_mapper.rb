@@ -39,7 +39,7 @@ module Importer
     def fields
       [:pid, :title, :embargo_lift_date, :abstract, :committee_chair_attributes,
        :committee_members_attributes, :creator, :date_created, :degree, :degree_awarded,
-       :degree_granting_institution, :department, :email, :legacy_id,
+       :degree_granting_institution, :department, :email, :language, :legacy_id,
        :graduation_year, :keyword, :partnering_agency, :post_graduation_email,
        :research_field, :research_field_id, :school, :subfield,
        :submitting_type, :table_of_contents, :abstract_embargoed,
@@ -198,6 +198,13 @@ module Importer
       mods_node
         .xpath('./mods:subject[@authority="keyword"]/mods:topic', NAMESPACES)
         .map(&:content)
+    end
+
+    def language
+      lang = mods_node
+               .xpath('./mods:language/mods:languageTerm[@type="text"]', NAMESPACES)
+               .map(&:content)
+      lang.empty? ? ['English'] : lang
     end
 
     def legacy_id
