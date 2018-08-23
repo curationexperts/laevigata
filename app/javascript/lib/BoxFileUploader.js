@@ -20,9 +20,13 @@ export default class BoxFileUploader {
     }
   }
 
+  getFileFieldName () {
+    return 'primary_files'
+  }
+
   postToUploads (boxResponse) {
     const formData = new FormData()
-    formData.append('primary_files', [this.event[0].name])
+    formData.append(this.getFileFieldName(), [this.event[0].name])
     formData.append('filename', [this.event[0].name])
     formData.append('remote_url', boxResponse.location)
 

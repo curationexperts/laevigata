@@ -9,7 +9,6 @@
     You can only upload one file to represent your thesis or dissertation. This file should not contain any signatures or other personally identifying
     information. PDF/A is a better version for preservation and for that reason we recommend you upload a PDF/A file, but it is not required.
     For help converting your manuscript to PDF/A, please contact <a href="http://it.emory.edu/studentdigitallife/">Student Digital Life</a>.</span>
-    <div class="alert alert-info"><span class="glyphicon glyphicon-info-sign"></span> Please add files larger than 100MB with Box.</div>
     <div class="file-details" v-for="(files, key) in sharedState.files" v-bind:key="key">
       <div class="file-row form-inline" v-for="file in files" v-bind:key="file.deleteUrl">
         <h3>Your File</h3>
@@ -115,6 +114,7 @@
         </tbody>
       </table>
     </div>
+    <div class="alert alert-info"><span class="glyphicon glyphicon-info-sign"></span> Please add files larger than 100MB with Box.</div>
     <div class="form-inline">
       <input class="input-file btn-primary" id="add-supplemental-file" name="supplemental_files[]" type="file" ref="fileInput" @change="onSupplementalFileChange"/>
       <label class="btn btn-primary" for="add-supplemental-file"><span class='glyphicon glyphicon-plus'></span>
@@ -133,7 +133,7 @@ import FileDelete from './FileDelete'
 import SupplementalFileDelete from './SupplementalFileDelete'
 import SupplementalFileUploader from './SupplementalFileUploader'
 import axios from 'axios'
-import BoxFileUploader from './lib/BoxFileUploader'
+import BoxSupplementalFileUploader from './lib/BoxSupplementalFileUploader'
 import _ from 'lodash'
 
 export default {
@@ -169,7 +169,7 @@ export default {
       })
 
       filePicker.addListener('choose', (event) => {
-        var boxFileUploader = new BoxFileUploader({
+        var boxFileUploader = new BoxSupplementalFileUploader({
           boxAccessToken: accessToken,
           event: event,
           csrfToken: this.sharedState.token,
