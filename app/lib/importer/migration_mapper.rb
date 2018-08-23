@@ -124,6 +124,7 @@ module Importer
         attrs[count] = {}
         attrs[count][:netid]       = [member.attribute('ID')&.value].compact
         attrs[count][:affiliation] = member.xpath('./mods:affiliation').map(&:content)
+        attrs[count][:affiliation] = ['Emory University'] if attrs[count][:affiliation].empty?
         attrs[count][:name]        = member.xpath('./mods:displayForm')
                                        .map(&:content).reject { |name| name == ', ' }
         count += 1
@@ -137,6 +138,7 @@ module Importer
         attrs[count] = {}
         attrs[count][:netid]       = [member.attribute('ID')&.value].compact
         attrs[count][:affiliation] = member.xpath('./mods:affiliation').map(&:content)
+        attrs[count][:affiliation] = ['Emory University'] if attrs[count][:affiliation].empty?
         attrs[count][:name]        = member.xpath('./mods:displayForm')
                                        .map(&:content).reject { |name| name == ', ' }
         count += 1

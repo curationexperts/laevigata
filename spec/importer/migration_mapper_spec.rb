@@ -89,11 +89,21 @@ RSpec.describe Importer::MigrationMapper do
       expect(mapper.committee_chair_attributes[0][:name])
         .to contain_exactly 'Conner, Richard'
     end
+
+    it 'has emory affiliation' do
+      expect(mapper.committee_chair_attributes[0][:affiliation])
+        .to contain_exactly 'Emory University'
+    end
   end
 
   describe '#committee_members_attributes' do
     it 'adds all committee members' do
       expect(mapper.committee_members_attributes.count).to eq 4
+    end
+
+    it 'has emory affiliation' do
+      expect(mapper.committee_members_attributes[0][:affiliation])
+        .to contain_exactly 'Emory University'
     end
   end
 
