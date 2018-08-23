@@ -1,7 +1,7 @@
 class MyFilesValidator < ActiveModel::Validator
   def validate(record)
     return unless current_tab?(record)
-    record.errors.add('files', "A thesis or dissertation file is required") if parsed_data(record)['files'] == 'undefined'
+    record.errors.add('files', "A thesis or dissertation file is required") if parsed_data(record)['files'].nil?
   end
 
   def parsed_data(record)
