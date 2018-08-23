@@ -352,6 +352,10 @@ ul li button:hover {
   margin-bottom: 1.5em;
 }
 
+.fa-check-circle {
+  color: #008000;
+}
+
 input {
   margin-bottom: 1em;
 }
