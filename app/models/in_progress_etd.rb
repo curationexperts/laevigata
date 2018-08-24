@@ -47,11 +47,20 @@ class InProgressEtd < ApplicationRecord
     new_data = add_no_embargoes(new_data)
     existing_data = remove_stale_embargo_data(existing_data, new_data)
     new_data = keep_last_completed_step(existing_data, new_data)
-
     new_data = keep_school_has_changed(existing_data, new_data)
+    new_data = strip_blank_fields(new_data)
+
     resulting_data = existing_data.merge(new_data)
     self.data = resulting_data.to_json
     resulting_data
+  end
+
+  def strip_blank_fields(new_data)
+    new_data.each do |key, value|
+      next unless value.respond_to?(:reject)
+      new_data[key] = value.reject { |v| v.blank? }
+    end
+    new_data
   end
 
   # currently the EtdForm uses the boolean param "no_embargoes", so we need to send or remove it (seems a good candidate for refactoring in EtdForm)
@@ -72,6 +81,7 @@ class InProgressEtd < ApplicationRecord
   end
 
   def keep_last_completed_step(existing_data, new_data)
+    return new_data unless new_data[:currentStep]
     new_data[:currentStep] = existing_data['currentStep'] if existing_data.keys.include?('currentStep') && existing_data['currentStep'] >= new_data[:currentStep]
     new_data
   end
