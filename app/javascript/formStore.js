@@ -63,7 +63,8 @@ export const formStore = {
       }
     },
     my_etd: {
-      label: 'My ETD',
+      label: 'My Etd',
+      displayName: 'My ETD',
       help_text: helpText.myEtd,
       disabled: true,
       valid: '',
