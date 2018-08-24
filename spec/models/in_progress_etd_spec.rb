@@ -398,6 +398,27 @@ describe InProgressEtd do
         expect(resulting_data).to eq({ "schoolHasChanged" => false })
       end
     end
+
+    context 'with blank values' do
+      let(:old_data) do
+        { 'title' => 'The Old Title',
+          'keyword' => ['old keyword'] }
+      end
+
+      let(:new_data) do
+        { 'partnering_agency' => ['', 'partner 1'],
+          'keyword' => ['', nil] }
+      end
+
+      it 'removes the blank fields' do
+        expect(resulting_data).to eq({
+          'title' => 'The Old Title',
+          'schoolHasChanged' => false,
+          'partnering_agency' => ['partner 1'],
+          'keyword' => []
+        })
+      end
+    end
   end
 
   describe '#refresh_from_etd!' do

@@ -3,7 +3,7 @@
   <div v-if="sharedState.getSavedOrSelectedSchool() === 'Rollins School of Public Health'">
     <label>Partnering Agency</label>
     <div  v-if="sharedState.partneringAgencies.partneringAgencies()">
-      <input name="etd[partnering_agency][]" type="hidden" value="Does not apply (no collaborating organization)" />
+      <input name="etd[partnering_agency][]" type="hidden" value="" />
     </div>
     <div v-for="partneringAgency in sharedState.partneringAgencies.partneringAgencies()">
     <div class="agency-container" v-if="partneringAgency.value != 'Does not apply (no collaborating organization)'">
@@ -23,7 +23,7 @@
     </div>
   </div>
   <div v-else>
-    <input name="etd[partnering_agency][]" type="hidden" value="Does not apply (no collaborating organization)" />
+    <input name="etd[partnering_agency][]" type="hidden" value="" />
   </div>
 </div>
 </template>
