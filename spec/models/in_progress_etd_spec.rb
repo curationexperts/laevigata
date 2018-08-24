@@ -421,6 +421,63 @@ describe InProgressEtd do
         })
       end
     end
+
+    context 'with committee chair, but no committee members' do
+      let(:old_data) do
+        { 'title' => 'The Old Title',
+          'committee_members_attributes' => { "0" => { "name" => ["member 1"] } } }
+      end
+
+      let(:new_data) do
+        { 'committee_chair_attributes' => { "0" => { "name" => ["chair 1"] } } }
+      end
+
+      it 'removes existing committee members' do
+        expect(resulting_data).to eq({
+          'title' => 'The Old Title',
+          'schoolHasChanged' => false,
+          'committee_chair_attributes' => { "0" => { "name" => ["chair 1"] } },
+          'committee_members_attributes' => []
+        })
+      end
+    end
+
+    context 'with committee chair, and committee members' do
+      let(:old_data) do
+        { 'title' => 'The Old Title',
+          'committee_members_attributes' => { "0" => { "name" => ["old member 1"] } } }
+      end
+
+      let(:new_data) do
+        { 'committee_chair_attributes' => { "0" => { "name" => ["chair 1"] } },
+          'committee_members_attributes' => { "0" => { "name" => ["new member 1"] } } }
+      end
+
+      it 'updates the committee members data' do
+        expect(resulting_data).to eq({
+          'title' => 'The Old Title',
+          'schoolHasChanged' => false,
+          'committee_chair_attributes' => { "0" => { "name" => ["chair 1"] } },
+          'committee_members_attributes' => { "0" => { "name" => ["new member 1"] } }
+        })
+      end
+    end
+
+    context 'with no committee chair, and no committee members' do
+      let(:old_data) do
+        { 'title' => 'The Old Title',
+          'committee_members_attributes' => { "0" => { "name" => ["member 1"] } } }
+      end
+      let(:new_data) { { 'title' => 'new title' } }
+
+      it 'keeps existing committee members' do
+        expect(resulting_data).to eq({
+          'title' => 'new title',
+          'schoolHasChanged' => false,
+          'committee_members_attributes' => { "0" => { "name" => ["member 1"] } }
+        })
+      end
+    end
   end
 
   describe '#refresh_from_etd!' do
