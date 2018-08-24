@@ -11,6 +11,22 @@ window.localStorage.setItem = jest.fn()
 formStore.getSavedOrSelectedSchool = jest.fn(() => {return 'Emory College'})
 describe('formStore', () => {
 
+  // If you change a tab's label, make sure to find
+  // all the places in the code (both front-end and
+  // back-end) that use that label.  If you just want
+  // to change the text on a tab, don't change the
+  // label, use displayName instead.
+  it('has correct labels', () => {
+    expect(formStore.tabs.about_me.label).toEqual('About Me')
+    expect(formStore.tabs.my_program.label).toEqual('My Program')
+    expect(formStore.tabs.my_advisor.label).toEqual('My Advisor')
+    expect(formStore.tabs.my_etd.label).toEqual('My Etd')
+    expect(formStore.tabs.keywords.label).toEqual('Keywords')
+    expect(formStore.tabs.my_files.label).toEqual('My Files')
+    expect(formStore.tabs.embargo.label).toEqual('Embargo')
+    expect(formStore.tabs.submit.label).toEqual('Submit')
+  })
+
   it('loads the saved department as the first choice', () => {
 
     formStore.allowTabSave = jest.fn(() => { return false })
