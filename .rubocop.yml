@@ -26,6 +26,9 @@ Style/SafeNavigation:
   Enabled: false
 # END; Disabled in move to 2.3 sytax linter
 
+Style/SymbolProc:
+  Enabled: false
+
 Layout/SpaceAroundOperators:
   Exclude:
     - 'spec/fixtures/form_submission_params/*'

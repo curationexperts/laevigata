@@ -407,13 +407,15 @@ describe InProgressEtd do
 
       let(:new_data) do
         { 'partnering_agency' => ['', 'partner 1'],
-          'keyword' => ['', nil] }
+          'keyword' => ['', nil],
+          'committee_members_attributes' => { "0" => { "name" => ["member 1"] } } }
       end
 
       it 'removes the blank fields' do
         expect(resulting_data).to eq({
           'title' => 'The Old Title',
           'schoolHasChanged' => false,
+          'committee_members_attributes' => { "0" => { "name" => ["member 1"] } },
           'partnering_agency' => ['partner 1'],
           'keyword' => []
         })

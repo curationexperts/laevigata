@@ -58,7 +58,7 @@ class InProgressEtd < ApplicationRecord
   def strip_blank_fields(new_data)
     new_data.each do |key, value|
       next unless value.respond_to?(:reject)
-      new_data[key] = value.reject(&:blank?)
+      new_data[key] = value.reject { |v| v.blank? }
     end
     new_data
   end
