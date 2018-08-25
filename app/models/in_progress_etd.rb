@@ -49,10 +49,25 @@ class InProgressEtd < ApplicationRecord
     new_data = keep_last_completed_step(existing_data, new_data)
     new_data = keep_school_has_changed(existing_data, new_data)
     new_data = strip_blank_fields(new_data)
+    remove_blank_members(new_data)
 
     resulting_data = existing_data.merge(new_data)
     self.data = resulting_data.to_json
     resulting_data
+  end
+
+  # If we see the committee_chair_attributes key in
+  # the new_data, then we know that we are
+  # submitting data from the 'My Advisor' tab, so
+  # if (optional) committee members field is
+  # missing from the keys, we can assume the student
+  # deleted all the committee members off the form,
+  # and then we should delete the members from the
+  # cached data on the model.
+  def remove_blank_members(new_data)
+    return unless new_data.key?('committee_chair_attributes')
+    return unless new_data['committee_members_attributes'].blank?
+    new_data['committee_members_attributes'] = []
   end
 
   def strip_blank_fields(new_data)
