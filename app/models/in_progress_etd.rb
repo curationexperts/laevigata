@@ -39,6 +39,15 @@ class InProgressEtd < ApplicationRecord
   # of metadata, so, for example, we can't assume that
   # the absence of a key means that a field should be
   # deleted.
+  # This method has evolved and uses knowledge of
+  # which metadata fields come from which tabs on
+  # the edit form to delete or transform some of the
+  # fields.  Time to refactor?  Instead of polluting
+  # the back end code with knowledge about the form,
+  # we could change the form to always submit all the
+  # data from each tab, including blank fields.
+  # Blank fields should be first-class data, just like
+  # populated fields.
   def add_data(new_data)
     json_data = data || {}.to_json
     existing_data = JSON.parse(json_data)
@@ -50,14 +59,29 @@ class InProgressEtd < ApplicationRecord
     new_data = keep_school_has_changed(existing_data, new_data)
     new_data = strip_blank_fields(new_data)
     remove_blank_members(new_data)
+    remove_blank_supp_files(new_data)
 
     resulting_data = existing_data.merge(new_data)
     self.data = resulting_data.to_json
     resulting_data
   end
 
+  # If we see the 'files' key in the new_data, then
+  # we assume that we are submitting data from the
+  # 'My Files' tab, so if the (optional) fields for
+  # supplemental files aren't present, we can assume
+  # the student deleted all the supplemental files
+  # from the form, so we should also delete those
+  # files from the cached data on the model.
+  def remove_blank_supp_files(new_data)
+    return unless new_data.key?('files')
+    return unless new_data['supplemental_files'].blank?
+    new_data['supplemental_files'] = nil
+    new_data['supplemental_file_metadata'] = nil
+  end
+
   # If we see the committee_chair_attributes key in
-  # the new_data, then we know that we are
+  # the new_data, then we assume that we are
   # submitting data from the 'My Advisor' tab, so
   # if (optional) committee members field is
   # missing from the keys, we can assume the student

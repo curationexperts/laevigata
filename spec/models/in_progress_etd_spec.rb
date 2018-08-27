@@ -478,6 +478,70 @@ describe InProgressEtd do
         })
       end
     end
+
+    context 'with files, but without supplemental_files' do
+      let(:old_data) do
+        { 'title' => 'The Old Title',
+          'supplemental_files' => 'old supp files json data',
+          'supplemental_file_metadata' => 'old supp metadata' }
+      end
+
+      let(:new_data) do
+        { 'files' => 'json data for primary file' }
+      end
+
+      it 'deletes existing data for supplemental files' do
+        expect(resulting_data).to eq({
+          'title' => 'The Old Title',
+          'schoolHasChanged' => false,
+          'files' => 'json data for primary file',
+          'supplemental_files' => nil,
+          'supplemental_file_metadata' => nil
+        })
+      end
+    end
+
+    context 'with files and supplemental_files fields' do
+      let(:old_data) do
+        { 'title' => 'The Old Title',
+          'supplemental_files' => 'old supp files json data',
+          'supplemental_file_metadata' => 'old supp metadata' }
+      end
+
+      let(:new_data) do
+        { 'files' => 'json data for primary file',
+          'supplemental_files' => 'new supp files json data',
+          'supplemental_file_metadata' => 'new supp metadata' }
+      end
+
+      it 'updates data for supplemental files' do
+        expect(resulting_data).to eq({
+          'title' => 'The Old Title',
+          'schoolHasChanged' => false,
+          'files' => 'json data for primary file',
+          'supplemental_files' => 'new supp files json data',
+          'supplemental_file_metadata' => 'new supp metadata'
+        })
+      end
+    end
+
+    context 'without files or supplemental_files fields' do
+      let(:old_data) do
+        { 'title' => 'The Old Title',
+          'supplemental_files' => 'old supp files json data',
+          'supplemental_file_metadata' => 'old supp metadata' }
+      end
+      let(:new_data) { { 'title' => 'new title' } }
+
+      it 'keeps existing data for supplemental files' do
+        expect(resulting_data).to eq({
+          'title' => 'new title',
+          'schoolHasChanged' => false,
+          'supplemental_files' => 'old supp files json data',
+          'supplemental_file_metadata' => 'old supp metadata'
+        })
+      end
+    end
   end
 
   describe '#refresh_from_etd!' do
