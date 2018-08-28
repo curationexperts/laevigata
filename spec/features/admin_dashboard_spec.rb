@@ -5,6 +5,19 @@ RSpec.feature 'Admin dashboard',
               integration: true,
               workflow: { admin_sets_config: 'spec/fixtures/config/emory/candler_admin_sets.yml' } do
 
+  context 'as a student user' do
+    let(:user) { FactoryBot.create(:nongraduated_user) }
+
+    before do
+      login_as user
+      visit '/dashboard'
+    end
+
+    scenario 'does not have manage embargo' do
+      expect(page).not_to have_link 'Manage Embargoes'
+    end
+  end
+
   context 'as an admin user' do
     let(:user) { FactoryBot.create(:admin) }
 
