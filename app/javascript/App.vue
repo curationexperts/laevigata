@@ -12,7 +12,7 @@
     <form role="form" id="vue_form" :action="sharedState.getUpdateRoute()" :method="formMethod" @submit.prevent="onSubmit">
       <div v-for="value in sharedState.tabs" v-bind:key="value.label">
         <div class="tab-content form-group" v-if="(value.currentStep && allowTabSave()) || !allowTabSave()">
-          <h2> {{ value.label }} </h2>
+          <h2> {{ value.displayName || value.label }} </h2>
           <section aria-live="assertive">
             {{ value.help_text }}
           </section>
