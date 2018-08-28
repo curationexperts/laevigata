@@ -115,12 +115,13 @@
       </table>
     </div>
     <div class="alert alert-info"><span class="glyphicon glyphicon-info-sign"></span> Please add files larger than 100MB with Box.</div>
+    <div v-if="sharedState.preventBoxSupplementalUpload" class="alert alert-warning" id="box-warning"><span class="glyphicon glyphicon-warning-sign"></span> Save and Continue before uploading any (more) files from Box.</div>
     <div class="form-inline">
       <input class="input-file btn-primary" id="add-supplemental-file" name="supplemental_files[]" type="file" ref="fileInput" @change="onSupplementalFileChange"/>
       <label class="btn btn-primary" for="add-supplemental-file"><span class='glyphicon glyphicon-plus'></span>
       Add a supplemental file from your computer
       </label>
-      <button type="button" class="btn btn-primary" @click="boxOAuth('supplemental')"><span class="glyphicon glyphicon-plus"></span> Add a supplemental file from Box</button>
+      <button :disabled="sharedState.preventBoxSupplementalUpload" type="button" class="btn btn-primary" @click="boxOAuth('supplemental')"><span class="glyphicon glyphicon-plus"></span> Add a supplemental file from Box</button>
     </div>
     </section>
   </div>
@@ -148,9 +149,9 @@ export default {
   },
   created() {
      if (formStore.allowTabSave()) {
-     if (localStorage.getItem('files')) {
-        this.sharedState.files = [[JSON.parse(localStorage.getItem('files')).files[0]]]
-      }
+       if (localStorage.getItem('files')) {
+          this.sharedState.files = [[JSON.parse(localStorage.getItem('files')).files[0]]]
+        }
      }
   },
   mounted () {
@@ -167,14 +168,19 @@ export default {
         logoUrl: 'box',
         canCreateNewFolder: false
       })
+      filePicker.addListener('cancel', (event) => {
+        filePicker.hide()
+      })
 
       filePicker.addListener('choose', (event) => {
         var boxFileUploader = new BoxSupplementalFileUploader({
           boxAccessToken: accessToken,
           event: event,
           csrfToken: this.sharedState.token,
-          formStore: this.sharedState
+          formStore: this.sharedState,
+          filePicker: filePicker
       })
+
 
       boxFileUploader.getUrlFromBox()
       })

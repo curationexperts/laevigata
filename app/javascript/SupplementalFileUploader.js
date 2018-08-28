@@ -5,7 +5,7 @@ export default class SupplementalFileUploader extends FileUploader {
     if (isSafari11()) {
       this.formData.delete('primary_files[]')
     }
-    // this should not submit a school 
+    // this should not submit a school
     try {
       this.formData.delete('etd[school]')
     } catch (error) {}
@@ -27,6 +27,7 @@ export default class SupplementalFileUploader extends FileUploader {
             file_type: ''
           }
         )
+        this.formStore.disableBoxForSupplementalFiles()
       }
     }
     xhr.send(this.formData)
