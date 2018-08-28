@@ -16,10 +16,10 @@ class EtdIndexer < Hyrax::WorkIndexer
 
   class IndexingService < Hyrax::BasicMetadataIndexer
     self.stored_fields +=
-      [:abstract, :email, :post_graduation_email, :hidden?]
+      [:abstract, :email, :post_graduation_email, :table_of_contents, :hidden?]
 
     self.stored_and_facetable_fields +=
-      [:creator, :graduation_year, :table_of_contents, :files_embargoed,
+      [:creator, :graduation_year, :files_embargoed,
        :abstract_embargoed, :toc_embargoed]
   end
 end
