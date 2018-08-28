@@ -123,6 +123,9 @@
       </label>
       <button :disabled="sharedState.preventBoxSupplementalUpload" type="button" class="btn btn-primary" @click="boxOAuth('supplemental')"><span class="glyphicon glyphicon-plus"></span> Add a supplemental file from Box</button>
     </div>
+    <section class='errorMessage alert alert-danger' v-if="sharedState.hasError('supplementalFiles')">
+        <p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ sharedState.getErrorMessage('supplementalFiles').supplementalFiles[0] }}</p>
+    </section>
     </section>
   </div>
 </template>

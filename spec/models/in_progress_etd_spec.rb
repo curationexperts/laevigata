@@ -148,7 +148,17 @@ describe InProgressEtd do
   describe "My Files" do
     context "with valid data" do
       let(:data) do
-        { currentTab: "My Files", files: {} }
+        { currentTab: "My Files", "files": {} }
+      end
+
+      it "is valid" do
+        expect(in_progress_etd).to be_valid
+      end
+    end
+
+    context "with a supplemental file and complete metadata" do
+      let(:data) do
+        { currentTab: "My Files", "files": {}, "supplemental_files": ["file.jpg"], "supplemental_file_metadata": { "0": { "title": "Silent Spring", "description": "Ecology", "file_type": "Image" } } }
       end
 
       it "is valid" do
@@ -159,6 +169,36 @@ describe InProgressEtd do
     context "with invalid data" do
       let(:data) do
         { currentTab: "My Files", files: nil }
+      end
+
+      it "is not valid" do
+        expect(in_progress_etd).not_to be_valid
+      end
+    end
+
+    context "with a supplemental file but no metadata" do
+      let(:data) do
+        { currentTab: "My Files", files: {}, supplemental_files: ["file.jpg"] }
+      end
+
+      it "is not valid" do
+        expect(in_progress_etd).not_to be_valid
+      end
+    end
+
+    context "with a supplemental file but incomplete metadata" do
+      let(:data) do
+        { currentTab: "My Files", "files": {}, "supplemental_files": ["file.jpg"], "supplemental_file_metadata": { "0": { "description": "Ecology", "file_type": "Image" } } }
+      end
+
+      it "is not valid" do
+        expect(in_progress_etd).not_to be_valid
+      end
+    end
+
+    context "with a supplemental file but empty metadata" do
+      let(:data) do
+        { currentTab: "My Files", "files": {}, "supplemental_files": ["file.jpg"], "supplemental_file_metadata": { "0": { title: "", "description": "Ecology", "file_type": "Image" } } }
       end
 
       it "is not valid" do
