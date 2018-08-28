@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 describe EtdEmbargoService do
-  describe '.assets_under_embargo' do
+  describe '.assets_under_embargo', :clean do
     before { FactoryBot.create(:etd) }
 
     context 'when no works are under embargo' do
@@ -11,7 +11,7 @@ describe EtdEmbargoService do
       end
     end
 
-    context 'when there are embargoed etds', :clean do
+    context 'when there are embargoed etds' do
       let(:embargoed_etd) do
         FactoryBot.create(:sample_data_with_everything_embargoed)
       end
