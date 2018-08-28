@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class FetchRemoteFileJob < ApplicationJob
-  queue_as Hyrax.config.ingest_queue_name
+  queue_as :ingest
 
   # Fetch the remote file from Box and store it in a
   # local file on the hard drive.
