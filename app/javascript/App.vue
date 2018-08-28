@@ -49,12 +49,18 @@
               <richTextEditor :parentLabel="input.label"
               v-bind:parentValue="input.value" :parentIndex="input.index"
               parentName="etd[table_of_contents]"></richTextEditor>
+              <section class='errorMessage alert alert-danger' v-if="sharedState.hasError(index)">
+                  <p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ input.label }} is required</p>
+              </section>
             </div>
             <div v-else-if="input.label === 'Abstract'">
               <label>{{ input.label }}</label>
               <richTextEditor :parentLabel="input.label"
               v-bind:parentValue="input.value" :parentIndex="input.index"
               parentName="etd[abstract]"></richTextEditor>
+              <section class='errorMessage alert alert-danger' v-if="sharedState.hasError(index)">
+                  <p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ input.label }} is required</p>
+              </section>              
             </div>
 
              <div v-else-if="input.label === 'Graduation Date'">
@@ -137,7 +143,7 @@
           <input name="etd[currentStep]" type="hidden" :value="value.step" />
           <input name="request_from_form" type="hidden" value="true" />
           <button v-if="allowTabSave() && !sharedState.tabs.submit.currentStep" type="submit" class="btn btn-primary" autofocus>Save and Continue</button>
-          
+
         </div>
       </div>
     </form>

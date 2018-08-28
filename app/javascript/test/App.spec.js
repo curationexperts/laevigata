@@ -98,6 +98,7 @@ describe('App.vue', () => {
     })
   })
 
+
   describe('Tabs reflect saved progress', () => {
     beforeEach(() => {
       const wrapper = shallowMount(App, {
@@ -121,6 +122,26 @@ describe('App.vue', () => {
       expect(wrapper.vm.$data.sharedState.tabs.my_advisor.currentStep).toBe(true)
     })
 
+  })
+  describe('Abstract and TOC validation', () => {
+    it('displays their error messages', () => {
+      const wrapper = shallowMount(App, {
+      })
+      wrapper.vm.$data.sharedState.tabs.about_me.complete = true
+      wrapper.vm.$data.sharedState.tabs.my_program.complete = true
+      wrapper.vm.$data.sharedState.tabs.my_advisor.complete = true
+      wrapper.vm.$data.sharedState.tabs.my_advisor.currentStep = false
+      wrapper.vm.$data.sharedState.tabs.my_etd.complete = false
+      wrapper.vm.$data.sharedState.tabs.my_etd.currentStep = true
+      wrapper.vm.$data.sharedState.tabs.keywords.complete = false
+      wrapper.vm.$data.sharedState.tabs.my_files.complete = false
+      wrapper.vm.$data.sharedState.tabs.embargo.complete = false
+
+      wrapper.vm.$data.sharedState.hasError = jest.fn((value) => { return true })
+
+      expect(wrapper.html()).toContain('Table of Contents is required')
+      expect(wrapper.html()).toContain('Abstract is required')      
+    })
   })
 
   describe('Edit form:', () => {
