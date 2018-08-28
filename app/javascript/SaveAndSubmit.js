@@ -41,6 +41,8 @@ export default class SaveAndSubmit {
 
         // populate form in order to use its inputs
         this.formStore.loadSavedData()
+        // upon any successful tab save, this flag becomes true
+        this.formStore.enableBoxForSupplementalFiles()
 
         this.formStore.setValid(response.data.tab_name, true)
         this.formStore.setComplete(response.data.tab_name)

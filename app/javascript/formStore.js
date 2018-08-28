@@ -376,7 +376,7 @@ export const formStore = {
         this.departments = response.data
         if (!this.allowTabSave()) {
           this.departments.unshift(savedValue)
-        } 
+        }
       })
       return savedValue
     } else {
@@ -475,6 +475,14 @@ export const formStore = {
       .then((response) => {
         this.partneringAgencyChoices = response.data
       })
+  },
+  preventBoxSupplementalUpload: false,
+  disableBoxForSupplementalFiles () {
+    this.preventBoxSupplementalUpload = true
+  },
+
+  enableBoxForSupplementalFiles () {
+    this.preventBoxSupplementalUpload = false
   },
 
   setSupplementalFileMetadata (key, field, newValue) {

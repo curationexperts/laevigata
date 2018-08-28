@@ -5,6 +5,7 @@ export default class BoxFileUploader {
     this.event = options.event
     this.csrfToken = options.csrfToken
     this.sharedState = options.formStore
+    this.filePicker = options.filePicker
   }
 
   getUrlFromBox () {
@@ -54,6 +55,8 @@ export default class BoxFileUploader {
             }
           )
         }
+        this.sharedState.disableBoxForSupplementalFiles()
+        this.filePicker.hide()
       }
     }
   }
