@@ -5,7 +5,7 @@
     <div> {{ sharedState.getSavedOrSelectedDepartment() }} </div>
     <div v-if="sharedState.getSelectedSubfield() && sharedState.getSelectedSubfield().length > 0">
           <h5>Subfield</h5>
-      <div> {{ sharedState.getSelectedSubfield () }} </div>
+      <div> {{ sharedState.getSubfieldLabelFromId(sharedState.getSelectedSubfield()) }} </div>
     </div>
     <div v-if="sharedState.getSavedOrSelectedSchool() === 'Rollins School of Public Health'">
       <h5>Partnering Agencies</h5>
@@ -25,7 +25,8 @@ import { formStore } from '../../formStore'
 export default {
   data() {
     return {
-      sharedState: formStore
+      sharedState: formStore,
+      subfields:  formStore.getSubfields()
     }
   },
   methods: {

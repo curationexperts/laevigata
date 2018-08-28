@@ -70,4 +70,9 @@ describe('formStore', () => {
     formStore.allowTabSave = jest.fn(() => { return false })
     expect(formStore.getUserAgreement()).toEqual(true)
   })
+
+  it('returns the correct label for a subfield when given the id', () => {
+    formStore.subfields = [{ 'id': 'Biostatistics', 'label': 'Biostatistics - MPH & MSPH', 'active': true }, { 'id': 'Public Health Informatics', 'label': 'Public Health Informatics - MSPH', 'active': true }]
+    expect(formStore.getSubfieldLabelFromId('Public Health Informatics')).toEqual('Public Health Informatics - MSPH')
+  })
 })
