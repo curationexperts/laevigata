@@ -394,7 +394,7 @@ export const formStore = {
     if (this.selectedSubfield === undefined) {
       this.selectedSubfield = ''
     }
-    return this.selectedSubfield.length === 0 ? this.savedData['subfield'] : this.selectedSubfield
+    return this.selectedSubfield.length === 0 ? this.subfields[this.savedData['subfield']] : this.selectedSubfield
   },
   setSelectedSubfield (subfield) {
     this.selectedSubfield = subfield
@@ -422,7 +422,9 @@ export const formStore = {
   clearSubfields () {
     this.subfields = []
   },
-
+  getSubfieldLabelFromId (id) {
+    return this.subfields.filter((subfield) => { return subfield.id === id })[0].label
+  },
   /* End of Schools, Departments & Subfields */
 
   getPrimaryFile () {
