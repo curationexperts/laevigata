@@ -88,6 +88,9 @@ class Etd < ActiveFedora::Base
   end
 
   def files_embargoed=(value)
+    Rails.logger.warn("Setting #{__method__} to #{value} is deprecated. Casting to `true`.") if
+      ['true', 'TRUE'].include?(value)
+
     super(EMBARGO_TRUTHINESS_VALUES.include?(value))
   end
 
@@ -100,6 +103,9 @@ class Etd < ActiveFedora::Base
   end
 
   def abstract_embargoed=(value)
+    Rails.logger.warn("Setting #{__method__} to #{value} is deprecated. Casting to `true`.") if
+      ['true', 'TRUE'].include?(value)
+
     super(EMBARGO_TRUTHINESS_VALUES.include?(value))
   end
 
@@ -112,6 +118,9 @@ class Etd < ActiveFedora::Base
   end
 
   def toc_embargoed=(value)
+    Rails.logger.warn("Setting #{__method__} to #{value} is deprecated. Casting to `true`.") if
+      ['true', 'TRUE'].include?(value)
+
     super(EMBARGO_TRUTHINESS_VALUES.include?(value))
   end
 
