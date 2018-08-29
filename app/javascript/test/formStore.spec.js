@@ -75,4 +75,9 @@ describe('formStore', () => {
     formStore.subfields = [{ 'id': 'Biostatistics', 'label': 'Biostatistics - MPH & MSPH', 'active': true }, { 'id': 'Public Health Informatics', 'label': 'Public Health Informatics - MSPH', 'active': true }]
     expect(formStore.getSubfieldLabelFromId('Public Health Informatics')).toEqual('Public Health Informatics - MSPH')
   })
+
+  it('returns the correct label for a department name when given the id', () => {
+    formStore.departments = [{ 'id': 'Some Id', 'label': 'Some Label', 'active': true }]
+    expect(formStore.getDepartmentLabelFromId('Some Id')).toEqual('Some Label')
+  })
 })

@@ -390,6 +390,10 @@ export const formStore = {
     var schoolEndpoint = this.schools[this.getSavedOrSelectedSchool()]
     this.getDepartments(schoolEndpoint)
   },
+  getDepartmentLabelFromId (id) {
+    console.log(this.departments)
+    return this.departments.filter((department) => { return department.id === id })[0].label
+  },
   getSelectedSubfield () {
     if (this.selectedSubfield === undefined) {
       this.selectedSubfield = ''
