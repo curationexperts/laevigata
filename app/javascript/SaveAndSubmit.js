@@ -91,7 +91,7 @@ export default class SaveAndSubmit {
         .catch(e => {
           this.formStore.submitEtd = true
           this.formStore.failedSubmission = true
-          this.errors.push(e)
+          this.formStore.errors.push(e.response.data.errors)
         })
 
     } catch (error) {
