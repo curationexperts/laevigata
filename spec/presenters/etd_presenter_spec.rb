@@ -23,7 +23,7 @@ describe EtdPresenter do
         end
         it "returns the toc if the toc is not under embargo" do
           allow(presenter).to receive(:current_ability_is_approver?).and_return(false)
-          expect(etd.toc_embargoed).to eq nil
+          expect(etd.toc_embargoed).to be_falsey
           expect(presenter.toc_with_embargo_check).to eq etd.table_of_contents.first
         end
 
@@ -79,7 +79,7 @@ describe EtdPresenter do
             described_class.new(SolrDocument.new(etd.to_solr), ability)
           end
           it "returns the toc if it is not under embargo" do
-            expect(etd.toc_embargoed).to eq nil
+            expect(etd.toc_embargoed).to be_falsey
             expect(presenter.toc_with_embargo_check).to eq etd.table_of_contents.first
           end
           context "pre-graduation" do
@@ -128,7 +128,7 @@ describe EtdPresenter do
         end
         before { allow(presenter).to receive(:current_ability_is_approver?).and_return(false) }
         it "returns the abstract if it is not under embargo" do
-          expect(etd.abstract_embargoed).to eq nil
+          expect(etd.abstract_embargoed).to be_falsey
           expect(presenter.abstract_with_embargo_check).to eq etd.abstract.first
         end
         context "with an abstract embargo pre-graduation" do
@@ -158,7 +158,7 @@ describe EtdPresenter do
           described_class.new(SolrDocument.new(etd.to_solr), ability)
         end
         it "returns the abstract if it is not under embargo" do
-          expect(etd.abstract_embargoed).to eq nil
+          expect(etd.abstract_embargoed).to be_falsey
           expect(presenter.abstract_with_embargo_check).to eq etd.abstract.first
         end
 

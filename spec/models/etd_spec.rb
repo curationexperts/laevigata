@@ -73,18 +73,21 @@ RSpec.describe Etd do
 
   context "three kinds of embargo" do
     let(:etd) { FactoryBot.build(:etd) }
+
     it "#files_embargoed" do
-      expect(etd.files_embargoed).to eq nil
+      expect(etd.files_embargoed).to be_falsey
       etd.files_embargoed = true
       expect(etd.files_embargoed).to eq true
     end
+
     it "#abstract_embargoed" do
-      expect(etd.abstract_embargoed).to eq nil
+      expect(etd.abstract_embargoed).to be_falsey
       etd.abstract_embargoed = true
       expect(etd.abstract_embargoed).to eq true
     end
+
     it "#toc_embargoed" do
-      expect(etd.toc_embargoed).to eq nil
+      expect(etd.toc_embargoed).to be_falsey
       etd.toc_embargoed = true
       expect(etd.toc_embargoed).to eq true
     end

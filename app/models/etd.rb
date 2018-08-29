@@ -4,6 +4,8 @@ class Etd < ActiveFedora::Base
   include ::ProquestBehaviors
   include ::Hyrax::WorkBehavior
 
+  EMBARGO_TRUTHINESS_VALUES = [true, 'true', 'TRUE'].freeze
+
   # Change this to restrict which works can be added as a child.
   # self.valid_child_concerns = []
 
@@ -85,12 +87,45 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable, :facetable
   end
 
+  def files_embargoed=(value)
+    Rails.logger.warn("Setting #{__method__} to #{value} is deprecated. Casting to `true`.") if
+      ['true', 'TRUE'].include?(value)
+
+    super(EMBARGO_TRUTHINESS_VALUES.include?(value))
+  end
+
+  def files_embargoed
+    EMBARGO_TRUTHINESS_VALUES.include?(super)
+  end
+
   property :abstract_embargoed, predicate: "http://purl.org/spar/pso/embargoed#abstract", multiple: false do |index|
     index.as :stored_searchable
   end
 
+  def abstract_embargoed=(value)
+    Rails.logger.warn("Setting #{__method__} to #{value} is deprecated. Casting to `true`.") if
+      ['true', 'TRUE'].include?(value)
+
+    super(EMBARGO_TRUTHINESS_VALUES.include?(value))
+  end
+
+  def abstract_embargoed
+    EMBARGO_TRUTHINESS_VALUES.include?(super)
+  end
+
   property :toc_embargoed, predicate: "http://purl.org/spar/pso/embargoed#toc", multiple: false do |index|
     index.as :stored_searchable, :facetable
+  end
+
+  def toc_embargoed=(value)
+    Rails.logger.warn("Setting #{__method__} to #{value} is deprecated. Casting to `true`.") if
+      ['true', 'TRUE'].include?(value)
+
+    super(EMBARGO_TRUTHINESS_VALUES.include?(value))
+  end
+
+  def toc_embargoed
+    EMBARGO_TRUTHINESS_VALUES.include?(super)
   end
 
   property :embargo_length, predicate: "http://purl.org/spar/fabio/hasEmbargoDuration", multiple: false do |index|
