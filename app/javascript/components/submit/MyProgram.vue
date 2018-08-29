@@ -2,7 +2,7 @@
   <section>
     <h4>My Program</h4>
     <h5>Department</h5>
-    <div> {{ sharedState.getSavedOrSelectedDepartment() }} </div>
+    <div> {{ sharedState.getDepartmentLabelFromId(sharedState.getSavedOrSelectedDepartment()) }} </div>
     <div v-if="sharedState.getSelectedSubfield() && sharedState.getSelectedSubfield().length > 0">
           <h5>Subfield</h5>
       <div> {{ sharedState.getSubfieldLabelFromId(sharedState.getSelectedSubfield()) }} </div>
@@ -26,7 +26,8 @@ export default {
   data() {
     return {
       sharedState: formStore,
-      subfields:  formStore.getSubfields()
+      subfields:  formStore.getSubfields(),
+      departments: formStore.loadDepartments()
     }
   },
   methods: {
