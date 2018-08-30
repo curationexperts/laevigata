@@ -112,8 +112,9 @@ module Hyrax
         render json: { errors: curation_concern.errors.messages }, status: 422
       end
     rescue StandardError => error
-      render json: { errors: error.to_s }, status: 422
       Rails.logger.error("Create from IPE error: #{error}, current_user: #{current_user}")
+      Honeybadger.notify(error, error_message: "current_user = #{current_user} #{error.message}")
+      render json: { errors: error.to_s }, status: 422
     end
 
     # Override from Hyrax:app/controllers/concerns/hyrax/curation_concern_controller.rb
