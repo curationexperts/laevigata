@@ -71,7 +71,7 @@
       These files could be video, research data, securely zipped software, or other materials. Please group your supplemental files
       so you can select and upload them all at once. Once uploaded, <strong>you are required to add additional metadata for each</strong>.
       You may upload as many supplemental files as you like. No single file should exceed 2.5 GB.
-      If you have a file larger than 2.5 GB, contact the ETD team at <a href="mailto:etd-help@LISTSERV.CC.EMORY.EDU">etd-help@LISTSERV.CC.EMORY.EDU</a> for help.
+      If you have a file larger than 2.5 GB, contact the ETD team using the <a href="http://sco.library.emory.edu/etds/help-form.html" target="_blank">Help Form</a>.
     </div>
     <div id="box-picker"></div>
     <div v-if="sharedState.supplementalFiles.length > 0" class="file-row form-inline">
