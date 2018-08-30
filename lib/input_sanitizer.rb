@@ -30,6 +30,7 @@ class InputSanitizer
         ]
       }
     )
-    CGI.unescapeHTML(clean_html.to_s)
+    # The final gsub removes any control characters.
+    CGI.unescapeHTML(clean_html.to_s).gsub!(/\p{Cc}/, "")
   end
 end
