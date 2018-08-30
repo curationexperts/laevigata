@@ -21,7 +21,11 @@ module Hyrax
       merge_selected_files_hashes(params) if params["selected_files"]
       update_supplemental_files
       update_committee_members
-      super
+      if params['etd'].fetch('ipe_id', false)
+        create_with_response_for_form
+      else
+        super
+      end
     end
 
     def after_create_response
@@ -93,6 +97,23 @@ module Hyrax
         render json: { errors: 'ERROR: Unable to save the ETD' }, status: 422
         # TODO: render json: { errors: curation_concern.errors.messages }, status: 422
       end
+    end
+
+    # we return unprocessable entity for Etd-creation errors
+
+    # a record without school and department params will cause a Runtime error during the creation of an admin set
+
+    # if any other StandardErrors occur, we want to catch them, log them and display a friendly message to the user
+
+    def create_with_response_for_form
+      if actor.create(actor_environment)
+        after_create_response
+      else
+        render json: { errors: curation_concern.errors.messages }, status: 422
+      end
+    rescue StandardError => error
+      render json: { errors: error.to_s }, status: 422
+      Rails.logger.error("Create from IPE error: #{error}, current_user: #{current_user}")
     end
 
     # Override from Hyrax:app/controllers/concerns/hyrax/curation_concern_controller.rb

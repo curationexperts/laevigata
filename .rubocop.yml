@@ -97,6 +97,7 @@ RSpec/MessageSpies:
   Exclude:
     - 'spec/controllers/hyrax/admin/workflows_controller_spec.rb'
     - 'spec/actors/primary_file_title_actor_spec.rb'
+    - 'spec/controllers/hyrax/etds_controller_spec.rb'
 
 RSpec/MultipleExpectations:
   Enabled: false

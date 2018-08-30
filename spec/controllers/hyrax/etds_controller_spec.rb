@@ -378,6 +378,36 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs, :clean do
             post :create, params: { etd: { ipe_id: ipe.id } }
           }.to change { Etd.count }.by(0)
         end
+
+        it "returns a 422 status to the user" do
+          post :create, params: { etd: { ipe_id: ipe.id } }
+
+          expect(response.status).to eq(422)
+        end
+
+        it "returns a json error to the user" do
+          post :create, params: { etd: { ipe_id: ipe.id } }
+
+          expect(response.body).to include('errors')
+        end
+      end
+
+      context "when a StandardError is raised" do
+        let(:actor) { double(create: false) }
+
+        it "returns an error message to the user" do
+          allow(actor).to receive(:create).and_raise('Cannot find admin set config where school = and department = ')
+          post :create, params: { etd: { ipe_id: ipe.id } }
+
+          expect(response.body).to include('Cannot find admin set config where school = and department = ')
+        end
+
+        it "logs the error and user" do
+          allow(actor).to receive(:create).and_raise('StandardError')
+          expect(Rails.logger).to receive(:error).with("Create from IPE error: StandardError, current_user: #{user}")
+
+          post :create, params: { etd: { ipe_id: ipe.id } }
+        end
       end
     end
   end
