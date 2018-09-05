@@ -21,8 +21,6 @@ env:
   - COVERALLS_PARALLEL=true
   - QMAKE=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
   matrix:
-  - NEW_UI_ENABLED=false NO_COVERAGE=true TEST_SUITE=unit
-  - NEW_UI_ENABLED=false NO_COVERAGE=true TEST_SUITE=integration
   - NEW_UI_ENABLED=true NO_COVERAGE=true TEST_SUITE=unit
   - NEW_UI_ENABLED=true NO_COVERAGE=true TEST_SUITE=integration
 install:
