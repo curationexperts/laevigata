@@ -391,8 +391,9 @@ export const formStore = {
     this.getDepartments(schoolEndpoint)
   },
   getDepartmentLabelFromId (id) {
-    console.log(this.departments)
-    return this.departments.filter((department) => { return department.id === id })[0].label
+    if(this.departments.length > 0){
+      return this.departments.filter((department) => { return department.id === id })[0].label
+    }
   },
   getSelectedSubfield () {
     if (this.selectedSubfield === undefined) {
@@ -427,7 +428,9 @@ export const formStore = {
     this.subfields = []
   },
   getSubfieldLabelFromId (id) {
-    return this.subfields.filter((subfield) => { return subfield.id === id })[0].label
+    if (this.subfields.length > 0){
+      return this.subfields.filter((subfield) => { return subfield.id === id })[0].label
+    }
   },
   /* End of Schools, Departments & Subfields */
 
