@@ -16,6 +16,20 @@ RSpec.describe InProgressEtdsController, type: :controller do
   context 'logged in as a student' do
     before { sign_in student }
 
+    context 'GET NEW - read only mode' do
+      before { allow(Flipflop).to receive(:read_only?).and_return(true) }
+
+      it "displays read only message" do
+        get :new
+        expect(flash[:alert]).to eq("This system is in read-only mode for maintenance. No submissions or edits can be made at this time.")
+      end
+
+      it "does not display form" do
+        get :new
+        expect(response.body).not_to include('Submit Your Thesis or Dissertation')
+      end
+    end
+
     context 'GET NEW - when the student has no previously saved record' do
       before { InProgressEtd.destroy_all }
 
