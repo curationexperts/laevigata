@@ -48,8 +48,8 @@ GEM
       activesupport (>= 3.0.0)
       rdf (>= 2.0.2, < 4.0)
       rdf-vocab (>= 2.0, < 4.0)
-    active_encode (0.1.1)
-      activesupport
+    active_encode (0.2)
+      rails
     activejob (5.1.6)
       activesupport (= 5.1.6)
       globalid (>= 0.3.6)
@@ -79,17 +79,17 @@ GEM
     awesome_nested_set (3.1.4)
       activerecord (>= 4.0.0, < 5.3)
     aws-eventstream (1.0.1)
-    aws-partitions (1.102.0)
-    aws-sdk-core (3.25.0)
+    aws-partitions (1.103.0)
+    aws-sdk-core (3.27.0)
       aws-eventstream (~> 1.0)
       aws-partitions (~> 1.0)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-kms (1.7.0)
-      aws-sdk-core (~> 3)
+    aws-sdk-kms (1.9.0)
+      aws-sdk-core (~> 3, >= 3.26.0)
       aws-sigv4 (~> 1.0)
-    aws-sdk-s3 (1.17.1)
-      aws-sdk-core (~> 3, >= 3.21.2)
+    aws-sdk-s3 (1.19.0)
+      aws-sdk-core (~> 3, >= 3.26.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.0)
     aws-sigv4 (1.0.3)
@@ -359,7 +359,7 @@ GEM
       hydra-file_characterization (~> 0.3, >= 0.3.3)
       hydra-pcdm (>= 0.9)
       om (~> 3.1)
-    hyrax (2.2.2)
+    hyrax (2.2.3)
       active-fedora (~> 11.5, >= 11.5.2)
       almond-rails (~> 0.1)
       awesome_nested_set (~> 3.1)
@@ -592,7 +592,7 @@ GEM
     public_suffix (3.0.3)
     pul_uv_rails (2.0.1)
     puma (3.11.4)
-    qa (2.0.1)
+    qa (2.1.1)
       activerecord-import
       deprecation
       faraday
@@ -932,7 +932,7 @@ DEPENDENCIES
   ffaker
   honeybadger (~> 3.1)
   hydra-role-management
-  hyrax (~> 2.2.0)
+  hyrax (~> 2.2.3)
   hyrax-spec
   jasmine
   jbuilder
