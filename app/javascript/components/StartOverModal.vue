@@ -11,13 +11,13 @@
           <p aria-live="polite">
             Starting over your submission will erase any previously saved data and allow you to choose a new school for your submission if needed.
           </p>
-          <div v-if="sharedState.submitted && !sharedState.failedSubmission">
+          <div v-if="removeSpinner">
             <div class="alert alert-danger">
               <span class="glyphicon glyphicon-info-sign">Removing your Submission </span>
               <span class="glyphicon glyphicon-refresh spinning"></span>
             </div>
           </div>
-          <div v-if="!sharedState.submitted">
+          <div>
             <button @click="changeFormMethod()" type="button" class="btn btn-danger">Start Over With a New Submission</button>
             <button @click="sharedState.showStartOver = false" type="button" class="btn btn-primary">Go Back to my Current Submission</button>
           </div>
@@ -34,12 +34,14 @@ import { formStore } from "../formStore"
 export default {
   data() {
     return {
-      sharedState: formStore
+      sharedState: formStore,
+      removeSpinner: false
     }
   },
   methods: {
     changeFormMethod() {
-      this.sharedState.submitted = true;
+      this.sharedState.submitted = true
+      this.removeSpinner = true
       axios
         .delete(this.sharedState.getUpdateRoute())
         .then(response => {
