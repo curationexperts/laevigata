@@ -21,9 +21,8 @@
 
             <div v-if="chair.affiliationType === 'Non-Emory'">
                 {{ chair.affliation }}
-            <label>Affiliation
+            <label>Affiliation</label>
                 <input :name="chairAffiliationAttr(chair)" type="text" class="form-control" v-model="chair.affiliation" v-on:change="sharedState.setValid('My Advisor', false)"/>
-            </label>
             </div>
             <button type="button" class="btn btn-danger" @click="sharedState.committeeChairs.remove(chair), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-trash"></span> Remove Committee Chair</button>
         </div>
@@ -45,9 +44,8 @@
 
             <div v-if="member.affiliationType === 'Non-Emory'">
                 {{ member.affliation }}
-            <label>Affiliation
+            <label>Affiliation</label>
                 <input :name="memberAffiliationAttr(member)" type="text" class="form-control" v-model="member.affiliation" v-on:change="sharedState.setValid('My Advisor', false)"/>
-            </label>
             </div>
             <button type="button" class="btn btn-danger" @click="sharedState.committeeMembers.remove(member), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-trash"></span> Remove Committee Member</button>
         </div>
