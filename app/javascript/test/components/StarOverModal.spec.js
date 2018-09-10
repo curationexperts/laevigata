@@ -19,11 +19,12 @@ describe('StartOverModal.vue', () => {
     expect(wrapper.html()).toEqual(undefined)
   })
 
-  it('shows a spinner if submitted is true', () => {
+  it('shows a spinner if removeSpinner is true', () => {
     formStore.showStartOver = true
-    formStore.submitted = true
     const wrapper = shallowMount(StartOverModal, {
     })
+    wrapper.vm.changeFormMethod()
+    
     expect(wrapper.html()).toContain('Removing your Submission ')
   })
 })
