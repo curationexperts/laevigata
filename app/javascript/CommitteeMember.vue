@@ -6,7 +6,7 @@
             use the buttons below to add them to your submission.
         </div>
         <div class="member-container" v-for="chair in sharedState.committeeChairs.chairs()" v-bind:value="chair.name">
-            <div class="well">
+            <div class="well member-box">
             <h4>Committee Chair</h4>
             <label>Committee Chairs' Affiliation</label>
                   <select v-model="chair.affiliationType" class="form-control" :name="chairAffiliationTypeAttr(chair)" v-on:change="sharedState.setValid('My Advisor', false)">
@@ -28,9 +28,9 @@
             <button type="button" class="btn btn-danger" @click="sharedState.committeeChairs.remove(chair), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-trash"></span> Remove Committee Chair</button>
         </div>
         </div>
-        <button type="button" class="btn btn-default" @click="sharedState.committeeChairs.addEmpty(), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-plus"></span> Add a Committee Chair</button>
+        <button type="button" class="add-member btn btn-default" @click="sharedState.committeeChairs.addEmpty(), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-plus"></span> Add a Committee Chair</button>
          <div class="member-container" v-for="member in sharedState.committeeMembers.members()" v-bind:value="member.name">
-            <div class="well">
+            <div class="well member-box">
             <h4>Committee Member</h4>
             <label>Committee Member's Affiliation</label>
                   <select v-model="member.affiliationType" class="form-control" :name="memberAffiliationTypeAttr(member)" v-on:change="sharedState.setValid('My Advisor', false)">
@@ -53,7 +53,7 @@
             <button type="button" class="btn btn-danger" @click="sharedState.committeeMembers.remove(member), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-trash"></span> Remove Committee Member</button>
         </div>
         </div>
-        <button type="button" class="btn btn-default" @click="sharedState.committeeMembers.addEmpty(), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-plus"></span> Add a Committee Member</button>
+        <button type="button" class="btn btn-default add-member" @click="sharedState.committeeMembers.addEmpty(), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-plus"></span> Add a Committee Member</button>
     </div>
 </template>
 
@@ -111,20 +111,28 @@ export default {
 
 <style scoped>
 .btn {
-  margin: 0;
-  margin-top: 1em;
-  margin-bottom: 1em;
+
 }
 
 select {
-  margin-bottom: 1em;
-}
-
-.member-container {
-  max-width: 350px;
 }
 
 .member-container label {
-  display: block;
+  display: inline;
+}
+
+.member-box {
+  display: inline-flex;
+}
+
+.member-box > * {
+  margin-left: 1em;
+}
+
+
+
+.add-member {
+  maring-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 </style>
