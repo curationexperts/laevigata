@@ -28,7 +28,6 @@
             <button type="button" class="btn btn-danger" @click="sharedState.committeeChairs.remove(chair), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-trash"></span> Remove Committee Chair</button>
         </div>
         </div>
-        <button type="button" class="add-member btn btn-default" @click="sharedState.committeeChairs.addEmpty(), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-plus"></span> Add a Committee Chair</button>
          <div class="member-container" v-for="member in sharedState.committeeMembers.members()" v-bind:value="member.name">
             <div class="well member-box">
             <h4>Committee Member</h4>
@@ -53,7 +52,10 @@
             <button type="button" class="btn btn-danger" @click="sharedState.committeeMembers.remove(member), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-trash"></span> Remove Committee Member</button>
         </div>
         </div>
-        <button type="button" class="btn btn-default add-member" @click="sharedState.committeeMembers.addEmpty(), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-plus"></span> Add a Committee Member</button>
+        <div class="form-inline">
+          <button type="button" class="add-member btn btn-default add-member-buttons" @click="sharedState.committeeChairs.addEmpty(), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-plus"></span> Add a Committee Chair</button>
+          <button type="button" class="btn btn-default add-member add-member-buttons" @click="sharedState.committeeMembers.addEmpty(), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-plus"></span> Add a Committee Member</button>
+        </div>
     </div>
 </template>
 
@@ -111,7 +113,10 @@ export default {
 
 <style scoped>
 .btn {
-
+  display: block;
+  min-width: 225px;
+  max-width: 225px;
+  max-height: 35px;
 }
 
 select {
@@ -129,10 +134,16 @@ select {
   margin-left: 1em;
 }
 
-
-
+.member-box h4 {
+  margin-left: initial;
+}
 .add-member {
   maring-top: 0.5em;
   margin-bottom: 0.5em;
+}
+
+.add-member-buttons {
+  min-width:200px;
+  text-align:left;
 }
 </style>
