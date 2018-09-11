@@ -23,6 +23,37 @@ RSpec.describe FileSet do
     end
   end
 
+  describe '#visibility' do
+    subject(:file_set) { FactoryBot.build(:file_set, visibility: open) }
+
+    let(:open)       { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
+    let(:restricted) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
+
+    it 'can set to restricted' do
+      expect { file_set.visibility = restricted }
+        .to change { file_set.visibility }
+        .to restricted
+    end
+
+    it 'sets visibility to restricted for file restricted' do
+      expect { file_set.visibility = VisibilityTranslator::FILES_EMBARGOED }
+        .to change { file_set.visibility }
+        .to restricted
+    end
+
+    it 'sets visibility to restricted for toc restricted' do
+      expect { file_set.visibility = VisibilityTranslator::TOC_EMBARGOED }
+        .to change { file_set.visibility }
+        .to restricted
+    end
+
+    it 'sets visibility to restricted for all restricted' do
+      expect { file_set.visibility = VisibilityTranslator::ALL_EMBARGOED }
+        .to change { file_set.visibility }
+        .to restricted
+    end
+  end
+
   describe '#hidden' do
     it 'is false without a parent' do
       expect(file_set).not_to be_hidden

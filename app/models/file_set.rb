@@ -6,6 +6,26 @@ class FileSet < ActiveFedora::Base
   SUPPLEMENTARY = 'supplementary'.freeze
   SUPPLEMENTAL  = 'supplementary'.freeze
 
+  ##
+  # @!attribute [rw] visibility_translator_class
+  #   @return [Class]
+  attr_writer :visibility_translator_class
+
+  ##
+  # @return [Class]
+  def visibility_translator_class
+    @visibility_translator_class ||= FileSetVisibilityTranslator
+  end
+
+  ##
+  # @return [VisibilityTranslator]
+  def visibility_translator
+    visibility_translator_class.new(obj: self)
+  end
+
+  delegate :visibility,  to: :visibility_translator
+  delegate :visibility=, to: :visibility_translator
+
   property :embargo_length, predicate: "http://purl.org/spar/fabio/hasEmbargoDuration", multiple: false do |index|
     index.as :displayable
   end
