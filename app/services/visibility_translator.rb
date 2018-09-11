@@ -22,8 +22,13 @@ class VisibilityTranslator
   TOC_EMBARGOED   = 'toc_restricted'.freeze
   OPEN            = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
 
+  ##
+  # @!attribute [rw] obj
+  #   @return [FileSet]
   attr_accessor :obj
 
+  ##
+  # @param [FileSet] obj
   def initialize(obj:)
     self.obj = obj
   end
