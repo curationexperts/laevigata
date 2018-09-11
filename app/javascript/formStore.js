@@ -359,7 +359,13 @@ export const formStore = {
   },
 
   getSavedOrSelectedDepartment () {
-    return this.selectedDepartment.length === 0 ? this.savedData['department'] : this.selectedDepartment
+    var savedDepartment = ""
+    if (_.isArray(this.savedData['department'])){
+      savedDepartment = this.savedData['department'][0]
+    } else {
+      savedDepartment = this.savedData['department']
+    }
+    return this.selectedDepartment.length === 0 ? savedDepartment : this.selectedDepartment
   },
 
   getSavedDepartment () {

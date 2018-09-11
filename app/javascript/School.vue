@@ -50,15 +50,7 @@ export default {
   },
   mounted: function() {
     this.$nextTick(function() {
-      //this needs to be saved or selected
-      var selected = this.sharedState.getSavedOrSelectedSchool()
-
-      // TODO: fix model to return string not array
-      if (_.has(this.sharedState.savedData, 'etd_id')) {
-        var schoolValue = this.sharedState.getSchoolValue(selected[0])
-        selected = schoolValue
-      }
-      this.selected = selected
+      this.selected = this.sharedState.getSavedOrSelectedSchool()
     })
   },
   watch: {
