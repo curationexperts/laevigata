@@ -55,7 +55,7 @@ export default {
   display: inline-flex;
 }
 .add-partner {
-  margin-top: 1em;
+  margin-bottom: 1em;
 }
 .remove-partner {
   margin-left: .5em;

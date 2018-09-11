@@ -1,8 +1,8 @@
 <template>
     <section aria-labelledby="copyright-questions">
     <h4 id="copyright-questions">Please review the following copyright questions.</h4>
-      <div>
-        <div class="well" v-for="question in sharedState.copyrightQuestions" v-bind:key="question.name">
+      <div class="well">
+        <div v-for="question in sharedState.copyrightQuestions" v-bind:key="question.name">
             <label :for="question.name">{{ question.label }}</label>
             <p>{{ question.text }}</p>
             <select v-if="question.name == 'etd[other_copyrights]'" class="form-control" v-model="sharedState.other_copyrights" :id="question.name" :name="question.name">

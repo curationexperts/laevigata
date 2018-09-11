@@ -6,11 +6,9 @@
         <input type="text" class="form-control" name="etd[keyword][]" v-model="keyword.value" v-on:change="sharedState.setValid('Keywords', false)"/>
         <button type="button" class="btn btn-danger remove-btn" @click="sharedState.keywords.remove(keyword), sharedState.setValid('Keywords', false)">
           <span class="glyphicon glyphicon-trash"></span>  Remove This Keyword</button>
-        <br/>
       </div>
     </div>
-    <br/>
-    <button type="button" class="btn btn-default" @click="sharedState.keywords.addEmpty(), sharedState.setValid('Keywords', false)"><span class="glyphicon glyphicon-plus"></span> Add a Keyword</button>
+    <button type="button" class="btn btn-default add-keyword" @click="sharedState.keywords.addEmpty(), sharedState.setValid('Keywords', false)"><span class="glyphicon glyphicon-plus"></span> Add a Keyword</button>
   </div>
 </template>
 
@@ -41,5 +39,9 @@ export default {
 
 .remove-btn { 
   margin-top: 0;
+}
+
+.add-keyword {
+  margin-bottom:.5em;
 }
 </style>
