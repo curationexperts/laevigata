@@ -9,6 +9,7 @@
     You can only upload one file to represent your thesis or dissertation. This file should not contain any signatures or other personally identifying
     information. PDF/A is a better version for preservation and for that reason we recommend you upload a PDF/A file, but it is not required.
     For help converting your manuscript to PDF/A, please contact <a href="http://it.emory.edu/studentdigitallife/">Student Digital Life</a>.</span>
+    <div class="alert alert-info"><span class="glyphicon glyphicon-info-sign"></span> Please be patient, it might take a while for the system to process your files. While that is happening, it is safe to continue working on your submission.</div>
     <div class="file-details" v-for="(files, key) in sharedState.files" v-bind:key="key">
       <div class="file-row form-inline" v-for="file in files" v-bind:key="file.deleteUrl">
         <h3>Your File</h3>
