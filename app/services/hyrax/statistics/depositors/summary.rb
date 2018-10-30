@@ -55,7 +55,8 @@ module Hyrax
           end
 
           def date_query
-            Hyrax::QueryService.new.build_date_query(start_dt, end_dt) unless start_dt.blank?
+            # QueryService was renamed to Statistics::QueryService in Hyrax-2.0.0 update
+            Hyrax::Statistics::QueryService.new.build_date_query(start_dt, end_dt) unless start_dt.blank?
           end
       end
     end
