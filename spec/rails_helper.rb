@@ -46,6 +46,14 @@ Capybara::Webkit.configure do |config|
   config.raise_javascript_errors = true
   config.allow_url("fonts.gstatic.com")
   config.allow_url("fonts.googleapis.com")
+  # URLs below are called by libwizard ETD help contact form
+  config.allow_url("emory.libwizard.com")
+  config.allow_url("api.libsurveys.com")
+  config.allow_url("code.jquery.com")
+  config.allow_url("maxcdn.bootstrapcdn.com")
+  config.allow_url("ajax.googleapis.com")
+  config.allow_url("template.library.emory.edu")
+  config.allow_url("cdnjs.cloudflare.com")
 end
 
 # Require support files
