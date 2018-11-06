@@ -10,7 +10,7 @@ module Hyrax
       end
 
       def message
-        "#{user.display_name} has added a comment to #{title} (#{link_to work_id, document_url}): \n\n #{comment}"
+        "#{user.display_name} has added a comment to #{title} (#{link_to work_id, document_url}) deposited by #{depositor.display_name}: \n\n #{comment}"
       end
     end
   end

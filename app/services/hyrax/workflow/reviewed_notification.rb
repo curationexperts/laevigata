@@ -10,7 +10,7 @@ module Hyrax
       end
 
       def message
-        "#{title} (#{link_to work_id, document_url}) has completed initial review and is awaiting final approval. #{comment}"
+        "#{title} (#{link_to work_id, document_url}) deposited by #{depositor.display_name} has completed initial review and is awaiting final approval. #{comment}"
       end
     end
   end

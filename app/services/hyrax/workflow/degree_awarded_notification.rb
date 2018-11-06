@@ -12,7 +12,7 @@ module Hyrax
       end
 
       def message
-        "The degree associated with #{title} (#{link_to document_url, document_url}) has been awarded."
+        "The degree associated with #{title} (#{link_to document_url, document_url}) deposited by #{depositor.display_name} has been awarded."
       end
     end
   end

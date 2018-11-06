@@ -12,7 +12,7 @@ module Hyrax
       end
 
       def message
-        "The work titled \"#{title}\" has been approved by #{user.display_name}.
+        "The work titled \"#{title}\" deposited by #{depositor.display_name} has been approved by #{user.display_name}.
 
         Comments (if any):
          #{comment}
