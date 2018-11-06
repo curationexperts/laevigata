@@ -77,7 +77,7 @@ RSpec.feature 'Laney Graduate School two step approval workflow',
 
       # Check notifications for approving user
       visit("/notifications?locale=en")
-      expect(page).to have_content "#{etd.title.first} (#{etd.id}) has completed initial review and is awaiting final approval."
+      expect(page).to have_content "#{etd.title.first} (#{etd.id}) deposited by #{depositing_user.display_name} has completed initial review and is awaiting final approval."
 
       # The approving user marks the etd as approved
       subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
@@ -104,18 +104,18 @@ RSpec.feature 'Laney Graduate School two step approval workflow',
 
       # Check notifications for approving user
       visit("/notifications?locale=en")
-      expect(page).to have_content "#{etd.title.first}\" has been approved by"
-      expect(page).to have_content "#{etd.title.first} (#{etd.id}) was hidden by"
+      expect(page).to have_content "#{etd.title.first}\" deposited by #{depositing_user.display_name} has been approved by"
+      expect(page).to have_content "#{etd.title.first} (#{etd.id}) deposited by #{depositing_user.display_name} was hidden by"
       expect(page).to have_content "hiding for reasons"
-      expect(page).to have_content "#{etd.title.first} (#{etd.id}) was unhidden by"
+      expect(page).to have_content "#{etd.title.first} (#{etd.id}) deposited by #{depositing_user.display_name} was unhidden by"
       expect(page).to have_content "unhiding for reasons"
 
       # Check notifications for depositor again
       logout
       login_as depositing_user
       visit("/notifications?locale=en")
-      expect(page).to have_content "#{etd.title.first} (#{etd.id}) has completed initial review and is awaiting final approval."
-      expect(page).to have_content "#{etd.title.first}\" has been approved by"
+      expect(page).to have_content "#{etd.title.first} (#{etd.id}) deposited by #{depositing_user.display_name} has completed initial review and is awaiting final approval."
+      expect(page).to have_content "#{etd.title.first}\" deposited by #{depositing_user.display_name} has been approved by"
 
       # Depositing user should be able to see their work, even if it hasn't been approved yet
       visit("/concern/etds/#{etd.id}")

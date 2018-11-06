@@ -10,7 +10,7 @@ module Hyrax
       end
 
       def message
-        "#{title} (#{link_to work_id, document_url}) was hidden by #{user.display_name}  #{comment}"
+        "#{title} (#{link_to work_id, document_url}) deposited by #{depositor.display_name} was hidden by #{user.display_name}  #{comment}"
       end
 
       def users_to_notify
