@@ -55,6 +55,7 @@ RSpec.describe Hyrax::EtdForm do
         expect(params["files_embargoed"]).to eq "false"
         expect(params["abstract_embargoed"]).to eq "false"
         expect(params["toc_embargoed"]).to eq "false"
+        expect(params["embargo_length"]).to eq ""
       end
     end
   end
