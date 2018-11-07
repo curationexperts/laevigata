@@ -121,6 +121,8 @@ module Hyrax
       params["files_embargoed"] = "false"
       params["abstract_embargoed"] = "false"
       params["toc_embargoed"] = "false"
+      params["toc_embargoed"] = "false"
+      params["embargo_length"] = ""
     end
 
     # Select the correct affiliation type for committee member
