@@ -82,6 +82,9 @@ RSpec.feature 'Display ETD metadata', :clean, integration: true do
     expect(page).not_to have_content I18n.t("hyrax.works.requires_permissions_label")
     expect(page).not_to have_content I18n.t("hyrax.works.other_copyrights_label")
     expect(page).not_to have_content I18n.t("hyrax.works.patents_label")
+
+    # User email
+    expect(page).not_to have_content("Email: ")
   end
 
   scenario 'logged in approver sees copyright info' do
@@ -92,6 +95,9 @@ RSpec.feature 'Display ETD metadata', :clean, integration: true do
     expect(page).to have_content I18n.t("hyrax.works.requires_permissions_label")
     expect(page).to have_content I18n.t("hyrax.works.other_copyrights_label")
     expect(page).to have_content I18n.t("hyrax.works.patents_label")
+
+    # User email
+    expect(page).to have_content "Email: "
 
     # Embargo questions
     expect(find('li.attribute-files_embargoed')).to have_content false

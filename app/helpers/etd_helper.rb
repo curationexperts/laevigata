@@ -33,6 +33,11 @@ module EtdHelper
     end
   end
 
+  def post_graduation_email(f)
+    etd = Etd.find(f)
+    etd.post_graduation_email.first
+  end
+
     private
 
       def departments(school)
