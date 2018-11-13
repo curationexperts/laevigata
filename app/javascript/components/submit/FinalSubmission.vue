@@ -10,7 +10,7 @@
     <div v-if="sharedState.submitted && sharedState.failedSubmission">
       <div class="alert alert-danger">
         <span class="glyphicon glyphicon-exclamation-sign"></span>
-        <span aria-live="polite"> There was a problem submitting your thesis or dissertation: {{ sharedState.errors.join(', ') }}. Please contact the ETD team at <a href="mailto:etd-help@LISTSERV.CC.EMORY.EDU">etd-help@LISTSERV.CC.EMORY.EDU</a> for help.</span>
+        <span aria-live="polite"> There was a problem submitting your thesis or dissertation: {{ sharedState.errors.join(', ') }}. Please contact the ETD team using the <a href="/contact" target="_blank">Help Form</a>.</span>
       </div>
     </div>
   </div>
