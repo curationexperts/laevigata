@@ -517,7 +517,7 @@ GEM
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
-    loofah (2.2.2)
+    loofah (2.2.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.6.6.rc1)
@@ -551,7 +551,7 @@ GEM
     noid-rails (3.0.0)
       actionpack (>= 5.0.0, < 6)
       noid (~> 0.9)
-    nokogiri (1.8.4)
+    nokogiri (1.8.5)
       mini_portile2 (~> 2.3.0)
     nokogumbo (1.5.0)
       nokogiri
@@ -601,7 +601,7 @@ GEM
       nokogiri (~> 1.6)
       rails (~> 5.0)
       rdf
-    rack (2.0.5)
+    rack (2.0.6)
     rack-protection (2.0.1)
       rack
     rack-proxy (0.6.4)
@@ -984,4 +984,4 @@ RUBY VERSION
    ruby 2.4.2p198
 
 BUNDLED WITH
-   1.16.2
+   1.16.6
