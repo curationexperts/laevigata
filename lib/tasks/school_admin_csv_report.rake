@@ -15,7 +15,7 @@
 #   The format is a string `PhD`.
 #
 # == Returns:
-# A CSV report with headers `Creator`, `Advisor(s)`, `Committee Memeber(s)`, `Date`, `Program`
+# A CSV report with headers `Creator`, `Advisor(s)`, `Committee Memeber(s)`, `Partnering Agencies`, `Date`, `Program`
 # format.
 #
 # @example
@@ -32,16 +32,17 @@ namespace :emory do
     etds = Etd.where(degree: args.degree, school: args.school)
     academic_year = ['Fall ' + args.year_start.to_s, 'Spring ' + args.year_end.to_s, 'Summer ' + args.year_end.to_s, 'Fall ' + args.year_end.to_s]
     CSV.open("csv_report.csv", "wb", write_headers: true,
-                                     headers: ["Creator", "Advisor", "Committee Members", "Date", "Program"]) do |csv|
+                                     headers: ["Creator", "Advisor", "Committee Members", "Partnering Agencies", "Date", "Program"]) do |csv|
       etds.each do |etd|
         creator = etd.creator.to_a
         chair = etd.committee_chair_name.to_a.join("; ")
         members = etd.committee_members_names.to_a.join("; ")
+        agencies = etd.partnering_agency.to_a.join("; ")
         date =  etd.date_uploaded.to_date
         program = etd.research_field.to_a
         if academic_year.include? etd.graduation_year
           puts etd.title
-          csv << [creator.first, chair, members, date, program.first]
+          csv << [creator.first, chair, members, agencies, date, program.first]
         end
       end
     end
