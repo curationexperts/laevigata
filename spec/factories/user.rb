@@ -43,6 +43,10 @@ FactoryBot.define do
       ppid { "P0000002" }
     end
 
+    factory :another_nongraduated_user do
+      ppid { "P0000004" }
+    end
+
     trait :guest do
       guest true
     end
