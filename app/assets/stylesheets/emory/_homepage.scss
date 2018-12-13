@@ -6,7 +6,7 @@
 
 .background-container {
   height: 100px;
-  background-image: url(/assets/emory-wall-f4e8525….jpg);
+  background-image: image-url('emory-wall.jpg');
   background-size: cover;
 
   @media screen and (min-width:768px) {
