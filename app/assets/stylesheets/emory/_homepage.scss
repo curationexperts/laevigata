@@ -1,3 +1,27 @@
+/*
+  Styles for Header Image
+  These sizes are very specific to the cropping the image based on its composition and content.
+  Any image replacement might require these dimensions to be tested and changed.
+*/
+
+.background-container {
+  height: 100px;
+  background-image: url(/assets/emory-wall-f4e8525….jpg);
+  background-size: cover;
+
+  @media screen and (min-width:768px) {
+    height: 200px;
+  }
+
+  @media screen and (min-width:1700px) {
+    height: 250px;
+  }
+
+  @media screen and (min-width:2000px) {
+    height: 300px;
+  }
+}
+
 .sumbit-my-etd {
   margin: 2em;
 }
