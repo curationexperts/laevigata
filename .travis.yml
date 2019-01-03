@@ -5,11 +5,6 @@ addons:
     - libqt5webkit5-dev
     - gstreamer1.0-plugins-base
     - gstreamer1.0-tools gstreamer1.0-x
-after_success:
-- |
-  if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then
-    bundle exec cap prod_upgrade deploy
-  fi
 cache:
   bundler: true
   directories:
@@ -28,6 +23,8 @@ install:
 - node -v
 - npm i -g yarn
 - yarn
+- gem update --system
+- gem install bundler
 - bundle install
 jdk:
 - oraclejdk8
@@ -45,6 +42,3 @@ script:
 services:
 - redis-server
 sudo: false
-before_install:
-- openssl aes-256-cbc -K $encrypted_8e88c8312d5a_key -iv $encrypted_8e88c8312d5a_iv
-  -in laevigata_deploy_rsa.enc -out laevigata_deploy_rsa -d
