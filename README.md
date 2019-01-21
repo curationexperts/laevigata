@@ -43,6 +43,13 @@ running as expected.**
 If an email address is bouncing, or if someone prefers not to receive email notifications,
 add the email address to the list in `config/emory/do_not_send.yml`
 
+## Copying embargo notification emails to a staff member
+
+To send a copy of all notification expiration emails to a staff member, add that
+person's uid to an environment variable called EMBARGO_NOTIFICATION_CC in the
+.env.production file on the production server (other servers are configured not to
+  send email).
+
 ## Developer Setup
 
 1. Change to your working directory for new development projects
