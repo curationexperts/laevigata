@@ -7,11 +7,16 @@ RSpec.describe Hyrax::Workflow::SixtyDayEmbargoNotification, :clean do
     ActionMailer::Base.deliveries.clear
   end
   let(:user) { FactoryBot.create(:user) }
+  let(:admin) { FactoryBot.create(:admin) }
   let(:etd) { FactoryBot.create(:etd, depositor: user.user_key, post_graduation_email: ["post@graduation.email"]) }
   let(:notification) { described_class.new(etd.id) }
   context "notifications" do
     it "sends notifications to the post-graduation email address" do
       expect(notification.recipients.pluck(:email)).to include(etd.post_graduation_email.first)
+    end
+    it "sends notifications to the list of people in EMBARGO_NOTIFICATION_CC" do
+      ENV['EMBARGO_NOTIFICATION_CC'] = admin.uid
+      expect(notification.recipients.pluck(:email)).to include(admin.email)
     end
     it "can be invoked at the Class level" do
       n = described_class.send_notification(etd.id)

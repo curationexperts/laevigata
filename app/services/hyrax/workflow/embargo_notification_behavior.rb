@@ -44,9 +44,13 @@ module Hyrax
           end
         end
 
-        # Send this to the depositor only
+        # Send this to the depositor and the uid specified in EMBARGO_NOTIFICATION_CC
         def recipients
-          Array.wrap(@user)
+          recipients = []
+          recipients << @user
+          cc = embargo_notification_cc
+          recipients << cc unless cc.nil?
+          recipients
         end
 
         # Get the full URL for email notifications
@@ -54,6 +58,12 @@ module Hyrax
         def document_url
           key = @work.model_name.singular_route_key
           Rails.application.routes.url_helpers.send(key + "_url", @work.id)
+        end
+
+        # EMBARGO_NOTIFICATION_CC should be set via an environment variable. It should be
+        # the uid of a user who should be copied on all embargo expiration notifications.
+        def embargo_notification_cc
+          ::User.find_by_uid(ENV['EMBARGO_NOTIFICATION_CC'])
         end
       end
     end
