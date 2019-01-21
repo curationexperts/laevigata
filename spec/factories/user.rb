@@ -8,7 +8,7 @@ FactoryBot.define do
     transient do
       # Allow for custom groups when a user is instantiated.
       # @example FactoryBot.create(:user, groups: 'admin')
-      groups []
+      groups { [] }
     end
 
     after(:build) do |user, evaluator|
@@ -22,7 +22,7 @@ FactoryBot.define do
     end
 
     factory :admin do
-      groups ['admin']
+      groups { ['admin'] }
 
       after(:create) do |user, evaluator|
         role = Role.find_or_create_by(name: 'admin')
@@ -32,7 +32,7 @@ FactoryBot.define do
     end
 
     factory :ateer do
-      email ["ateer@example.com"]
+      email { ["ateer@example.com"] }
     end
 
     factory :nongraduated_user do
@@ -44,7 +44,7 @@ FactoryBot.define do
     end
 
     trait :guest do
-      guest true
+      guest { true }
     end
   end
 end

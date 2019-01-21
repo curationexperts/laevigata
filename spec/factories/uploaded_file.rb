@@ -7,7 +7,7 @@ FactoryBot.define do
     factory :primary_uploaded_file, traits: [:primary]
 
     factory :remote_uploaded_file do
-      browse_everything_url 'http://example.com/remote/file.pdf'
+      browse_everything_url { 'http://example.com/remote/file.pdf' }
     end
 
     factory :supplementary_uploaded_file, traits: [:supplementary] do
