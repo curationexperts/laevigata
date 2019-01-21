@@ -13,20 +13,20 @@ FactoryBot.define do
     factory :public_collection, traits: [:public]
 
     trait :public do
-      visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+      visibility { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
     end
 
     factory :private_collection do
-      visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+      visibility { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
     end
 
     factory :institution_collection do
-      visibility Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED
+      visibility { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_AUTHENTICATED }
     end
 
     factory :named_collection do
-      title ['collection title']
-      description ['collection description']
+      title { ['collection title'] }
+      description { ['collection description'] }
     end
   end
 end
