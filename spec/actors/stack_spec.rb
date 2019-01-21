@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 # Integration tests for the full midddleware stack
-# rubocop:disable RSpec/FilePath
 describe Hyrax::CurationConcern do
   before(:context) do
     DatabaseCleaner.clean
