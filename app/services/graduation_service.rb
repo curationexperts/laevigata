@@ -81,7 +81,25 @@ class GraduationService
     false
   end
 
-  def self.disambiguate_registrar(_work, _records)
-    # TODO: Attempt to disambiguate Registrar records
+  # If there is more than one record matching the student, find the one that matches the degree code
+  # of the etd. If that record has it's degree awarded, graduate the etd.
+  def self.disambiguate_registrar(work, records)
+    degree_code_matches = records.select { |_key, value| value['degree code'] == work_degree(work.degree.first) }
+    if degree_code_matches.size == 1 && degree_code_matches.first[1]['degree status descr'] == 'Awarded'
+      return degree_code_matches.first[1]
+    end
+    nil
+  end
+
+  def self.work_degree(work_degree)
+    # This hash will map degree codes from laevigata to degrees in @registrar_data
+    degrees = { "Th.D." => "THD", "Ph.D." => "PHD", "DMin" => "DM", "D.N.P." => "DNP",
+                "M.A." => "MA", "M.S." => "MS", "M.Div." => "MDV", "M.T.S." => "MTS",
+                "M.P.H." => "MPH", "M.S.P.H." => "MSPH", "B.A." => "BA", "B.S." => "BS",
+                "B.B.A." => "BBA" }
+    # work_degree now has the work's degree as it is represented in @registrar_data
+    work_degree = degrees[work_degree]
+    # Return degree as it is in @registrar_data
+    work_degree
   end
 end
