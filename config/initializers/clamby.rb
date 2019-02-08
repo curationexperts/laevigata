@@ -6,7 +6,7 @@ if Rails.env.production?
     daemonize: true,
     error_clamscan_missing: true,
     error_file_missing: true,
-    error_file_virus: true,
+    error_file_virus: false, # we trigger a custom virus error, this setting will cause that to never trigger if true in prod
     fdpass: true
   )
 end
