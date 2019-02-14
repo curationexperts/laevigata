@@ -101,9 +101,9 @@ GEM
       i18n
     bcrypt (3.1.12)
     bindex (0.5.0)
-    bixby (1.0.0)
-      rubocop (~> 0.50, <= 0.52.1)
-      rubocop-rspec (~> 1.22, <= 1.22.2)
+    bixby (2.0.0.pre.beta1)
+      rubocop (= 0.63.1)
+      rubocop-rspec (= 1.31.0)
     blacklight (6.19.2)
       bootstrap-sass (~> 3.2)
       deprecation
@@ -432,6 +432,7 @@ GEM
     ice_nine (0.11.2)
     iiif_manifest (0.5.0)
       activesupport (>= 4)
+    jaro_winkler (1.5.2)
     jasmine (3.3.0)
       jasmine-core (~> 3.3.0)
       phantomjs
@@ -758,15 +759,16 @@ GEM
       rspec-mocks (~> 3.8.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
-    rubocop (0.52.1)
+    rubocop (0.63.1)
+      jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
-      parser (>= 2.4.0.2, < 3.0)
+      parser (>= 2.5, != 2.5.1.1)
       powerpack (~> 0.1)
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
-      unicode-display_width (~> 1.0, >= 1.0.1)
-    rubocop-rspec (1.22.2)
-      rubocop (>= 0.52.1)
+      unicode-display_width (~> 1.4.0)
+    rubocop-rspec (1.31.0)
+      rubocop (>= 0.60.0)
     ruby-box (1.15.0)
       addressable
       json
@@ -931,7 +933,7 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt (>= 3.1.12)
-  bixby
+  bixby (= 2.0.0.pre.beta1)
   byebug
   capistrano
   capistrano-bundler

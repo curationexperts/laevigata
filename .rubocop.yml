@@ -30,6 +30,9 @@ Style/SafeNavigation:
 Style/SymbolProc:
   Enabled: false
 
+Layout/AlignHash:
+  Enabled: false
+
 Layout/SpaceAroundOperators:
   Exclude:
     - 'spec/fixtures/form_submission_params/*'
