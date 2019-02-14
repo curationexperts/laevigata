@@ -2,6 +2,8 @@ require 'rails_helper'
 
 # Integration tests for the full midddleware stack
 describe Hyrax::CurationConcern do
+  subject(:actor) { described_class.actor }
+
   before(:context) do
     DatabaseCleaner.clean
     ActiveFedora::Cleaner.clean!
@@ -21,8 +23,6 @@ describe Hyrax::CurationConcern do
     DatabaseCleaner.clean
     ActiveFedora::Cleaner.clean!
   end
-
-  subject(:actor) { described_class.actor }
 
   let(:ability)    { ::Ability.new(user) }
   let(:etd)        { FactoryBot.build(:etd, visibility: 'restricted') }
