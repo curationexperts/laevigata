@@ -18,5 +18,10 @@ RSpec.describe Hyrax::Workflow::TodayEmbargoNotification, :clean do
       expect(n).to be_instance_of(described_class)
       expect(ActionMailer::Base.deliveries.map(&:subject)).to include(n.subject)
     end
+    it "doesn't truncate the message" do
+      expect(notification.message).to match(/Dear #{user.display_name}/)
+      expect(notification.message).to match(/#{etd.title.first}/)
+      expect(notification.message).to match(/proquest.com/)
+    end
   end
 end
