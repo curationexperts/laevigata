@@ -150,3 +150,7 @@ Style/BlockDelimiters:
 
 Style/IfUnlessModifier:
   Enabled: false
+
+RSpec/AnyInstance:
+  Exclude:
+    - 'spec/features/check_school_spec.rb'
