@@ -8,6 +8,7 @@ git_source(:github) do |repo_name|
 end
 
 gem 'bcrypt', '>= 3.1.12'
+gem "bootstrap-sass", ">= 3.4.1"
 gem 'clamby', '>= 1.2.5'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails'
