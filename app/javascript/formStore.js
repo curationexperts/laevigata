@@ -316,13 +316,16 @@ export const formStore = {
     return this.schools.selected
   },
   getSavedOrSelectedSchool () {
-    if (localStorage.getItem('school')) {
+    if (this.enableTabs() && localStorage.getItem('school')) {
       return localStorage.getItem('school')
     }
-    if (this.savedData['school']) {
+
+    if (this.enableTabs() && this.savedData['school']) {
       return  this.savedData['school']
-    } else {
-      return ''
+    }
+
+    if (!this.enableTabs()) {
+      return this.savedData['school']
     }
   },
   setSelectedEmbargo (embargo) {

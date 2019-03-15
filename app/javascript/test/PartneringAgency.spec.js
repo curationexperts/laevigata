@@ -8,7 +8,7 @@ import PartneringAgency from 'PartneringAgency'
 import { formStore } from '../formStore'
 
 window.localStorage = jest.fn()
-window.localStorage.getItem = jest.fn((value) =>{ return 'Rollins School of Public Health' })
+formStore.getSavedOrSelectedSchool = jest.fn((value) => { return 'Rollins School of Public Health' })
 formStore.partneringAgencies.partneringAgencies = jest.fn(() => { return true })
 
 describe('PartneringAgency.vue', () => {
