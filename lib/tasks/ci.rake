@@ -22,7 +22,6 @@ unless Rails.env.production?
       Rake::Task['webpacker:compile'].invoke
       Rake::Task['rubocop'].invoke
       Rake::Task['integration'].invoke
-      Rake::Task['js_ci'].invoke
     end
   end
 
@@ -32,6 +31,8 @@ unless Rails.env.production?
       Rake::Task['db:create'].invoke
       Rake::Task['db:migrate'].invoke
       Rake::Task['webpacker:compile'].invoke
+      # These are js unit tests
+      Rake::Task['js_ci'].invoke
       Rake::Task['unit'].invoke
     end
   end
