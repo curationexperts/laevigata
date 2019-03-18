@@ -9,6 +9,10 @@ Hyrax.config do |config|
   #   registry.add(name: 'captaining', description: 'For those that really like the front lines')
   # end
 
+  # Cannot enable realtime notifications atop Passenger + Apache.
+  # Notifications are managed via redis.
+  config.realtime_notifications = false
+
   # When an admin set is created, we need to activate a workflow.
   # The :default_active_workflow_name is the name of the workflow we will activate.
   # @see Hyrax::Configuration for additional details and defaults.
