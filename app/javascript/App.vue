@@ -60,7 +60,7 @@
               parentName="etd[abstract]"></richTextEditor>
               <section class='errorMessage alert alert-danger' v-if="sharedState.hasError(index)">
                   <p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ input.label }} is required</p>
-              </section>              
+              </section>
             </div>
 
              <div v-else-if="input.label === 'Graduation Date'">
@@ -175,9 +175,12 @@ import UserAgreement from './components/submit/UserAgreement'
 import AboutMe from './components/submit/AboutMe'
 import RichTextEditor from './components/RichTextEditor'
 import StartOverModal from './components/StartOverModal'
-var token = document
-  .querySelector('meta[name="csrf-token"]')
-  .getAttribute("content")
+
+const token = document.querySelector('meta[name=csrf-token]')
+if (token) {
+  const csrfToken = token.content
+  axios.defaults.headers.common['X-CSRF-Token'] = csrfToken
+}
 
 export default {
   data() {

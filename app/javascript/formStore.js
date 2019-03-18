@@ -316,15 +316,15 @@ export const formStore = {
     return this.schools.selected
   },
   getSavedOrSelectedSchool () {
-    if (this.enableTabs() && localStorage.getItem('school')) {
+    if (this.allowTabSave() && localStorage.getItem('school')) {
       return localStorage.getItem('school')
     }
 
-    if (this.enableTabs() && this.savedData['school']) {
-      return  this.savedData['school']
+    if (this.allowTabSave() && this.savedData['school']) {
+      return this.savedData['school']
     }
 
-    if (!this.enableTabs()) {
+    if (!this.allowTabSave()) {
       return this.savedData['school']
     }
   },

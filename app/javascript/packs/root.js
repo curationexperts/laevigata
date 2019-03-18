@@ -12,8 +12,11 @@ Vue.config.productionTip = false
 document.addEventListener('turbolinks:load', () => {
   var element = document.getElementById('root')
   if (element != null) {
-    let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-    axios.defaults.headers.common['X-CSRF-Token'] = token
+    const tokenDom = document.querySelector('meta[name=csrf-token]')
+    if (tokenDom) {
+      const csrfToken = tokenDom.content
+      axios.defaults.headers.common['X-CSRF-Token'] = csrfToken
+    }
 
     var app = new Vue({
       el: element,
