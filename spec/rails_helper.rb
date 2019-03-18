@@ -21,8 +21,6 @@ require 'active_fedora/cleaner'
 require 'capybara/rspec'
 require 'capybara/rails'
 require 'capybara-screenshot/rspec'
-require 'capybara/webkit'
-require 'database_cleaner'
 require 'hyrax/spec/factory_bot/build_strategies'
 require 'noid/rails/rspec'
 require 'ffaker'
@@ -36,24 +34,6 @@ VCR.configure do |config|
   config.cassette_library_dir = "#{::Rails.root}/spec/fixtures/vcr_cassettes"
   config.hook_into :webmock
   config.allow_http_connections_when_no_cassette = true
-end
-
-# capybara testing
-Capybara.javascript_driver = :webkit
-
-Capybara::Webkit.configure do |config|
-  # config.debug = true
-  config.raise_javascript_errors = true
-  config.allow_url("fonts.gstatic.com")
-  config.allow_url("fonts.googleapis.com")
-  # URLs below are called by libwizard ETD help contact form
-  config.allow_url("emory.libwizard.com")
-  config.allow_url("api.libsurveys.com")
-  config.allow_url("code.jquery.com")
-  config.allow_url("maxcdn.bootstrapcdn.com")
-  config.allow_url("ajax.googleapis.com")
-  config.allow_url("template.library.emory.edu")
-  config.allow_url("cdnjs.cloudflare.com")
 end
 
 # Require support files
@@ -74,12 +54,11 @@ RSpec.configure do |config|
 
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   ENV['REGISTRAR_DATA_PATH'] = "#{::Rails.root}/spec/fixtures/registrar_sample.json"
-  config.use_transactional_fixtures = false
+  config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
 
   config.before :suite do
     disable_production_minter!
-    DatabaseCleaner.clean_with(:truncation)
     ActiveFedora::Cleaner.clean!
   end
 
@@ -88,21 +67,11 @@ RSpec.configure do |config|
   end
 
   config.before clean: true do
-    DatabaseCleaner.clean
     ActiveFedora::Cleaner.clean!
   end
 
   config.after clean: true do
-    DatabaseCleaner.clean
     ActiveFedora::Cleaner.clean!
-  end
-
-  config.before do
-    DatabaseCleaner.strategy = :transaction
-  end
-
-  config.before js: true do
-    DatabaseCleaner.strategy = :truncation
   end
 
   config.before perform_jobs: true do
@@ -115,7 +84,6 @@ RSpec.configure do |config|
   end
 
   config.before(:example, :workflow) do |example|
-    DatabaseCleaner.clean
     ActiveFedora::Cleaner.clean!
 
     workflow_settings = example.metadata[:workflow].try(:to_h) || {}
@@ -131,18 +99,12 @@ RSpec.configure do |config|
   end
 
   config.after(:example, :workflow) do |example|
-    DatabaseCleaner.clean
     ActiveFedora::Cleaner.clean!
   end
 
   config.before do
-    DatabaseCleaner.start
     class_double("Clamby").as_stubbed_const
     allow(Clamby).to receive(:virus?).and_return(false)
-  end
-
-  config.append_after do
-    DatabaseCleaner.clean
   end
 
   config.include Devise::Test::ControllerHelpers, type: :controller
@@ -150,6 +112,14 @@ RSpec.configure do |config|
 
   config.include Warden::Test::Helpers, type: :feature
   config.after(:each, type: :feature) { Warden.test_reset! }
+
+  config.before(:each, type: :system) do
+    driven_by :rack_test
+  end
+
+  config.before(:each, type: :system, js: true) do
+    driven_by :selenium, using: :chrome, options: { args: ["headless", "disable-gpu", "no-sandbox", "disable-dev-shm-usage"] }
+  end
 
   # Gets around a bug in RSpec where helper methods that are defined in views aren't
   # getting scoped correctly and RSpec returns "does not implement" errors. So we

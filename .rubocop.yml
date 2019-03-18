@@ -156,4 +156,4 @@ Style/IfUnlessModifier:
 
 RSpec/AnyInstance:
   Exclude:
-    - 'spec/features/check_school_spec.rb'
+    - 'spec/system/check_school_spec.rb'
