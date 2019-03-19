@@ -1,10 +1,8 @@
 addons:
   apt:
     packages:
-    - qt5-default
-    - libqt5webkit5-dev
-    - gstreamer1.0-plugins-base
-    - gstreamer1.0-tools gstreamer1.0-x
+    - chromium-browser
+    - chromium-chromedriver
 cache:
   bundler: true
   directories:
@@ -16,10 +14,13 @@ dist: trusty
 env:
   global:
   - COVERALLS_PARALLEL=true
-  - QMAKE=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
   matrix:
   - NEW_UI_ENABLED=true NO_COVERAGE=true TEST_SUITE=unit
   - NEW_UI_ENABLED=true NO_COVERAGE=true TEST_SUITE=integration
+before_script:
+  - ln --symbolic /usr/lib/chromium-browser/chromedriver "${HOME}/bin/chromedriver"
+  - # start your web application and listen on `localhost`
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 install:
 - gem update --system
 - gem install bundler
@@ -36,7 +37,7 @@ notifications:
 rvm:
 - 2.4.2
 script:
-- xvfb-run -a bundle exec rake ci[$TEST_SUITE]
+- bundle exec rake ci[$TEST_SUITE]
 services:
 - redis-server
 sudo: false

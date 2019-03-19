@@ -1,3 +1,0 @@
-requirejs(["modules"], function(util) {
-
-});

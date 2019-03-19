@@ -7,7 +7,6 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem "actionview", ">= 5.1.6.2"
 gem 'bcrypt', '>= 3.1.12'
 gem "bootstrap-sass", ">= 3.4.1"
 gem 'clamby', '>= 1.2.5'
@@ -66,9 +65,8 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger
   # console
   gem 'byebug', platform: :mri
-  gem 'capybara'
+  gem 'capybara', '~> 2.13'
   gem 'capybara-screenshot'
-  gem 'capybara-webkit'
   gem 'coveralls', require: false
   gem 'database_cleaner'
   # gem 'factory_girl_rails'
@@ -82,6 +80,7 @@ group :development, :test do
   gem 'rspec-activemodel-mocks'
   gem 'rspec-its'
   gem 'rspec-rails', "~> 3.5"
+  gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'solr_wrapper', '>= 0.3'
   gem 'vcr'
