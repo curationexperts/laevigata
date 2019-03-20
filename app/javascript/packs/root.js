@@ -14,8 +14,8 @@ document.addEventListener('turbolinks:load', () => {
   if (element != null) {
     const tokenDom = document.querySelector('meta[name=csrf-token]')
     if (tokenDom) {
-      const csrfToken = tokenDom.content
-      axios.defaults.headers.common['X-CSRF-Token'] = csrfToken
+      const token = tokenDom.content
+      axios.defaults.headers.common['X-CSRF-Token'] = token
     }
 
     var app = new Vue({
