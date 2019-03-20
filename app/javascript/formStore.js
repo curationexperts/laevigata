@@ -355,7 +355,9 @@ export const formStore = {
   },
   setSelectedSchool (school) {
     this.schools.selected = school
-    localStorage.setItem('school', school)
+    if (this.allowTabSave()) {
+      localStorage.setItem('school', school)
+    }
   },
   getSelectedDepartment () {
     return this.selectedDepartment

@@ -176,10 +176,10 @@ import AboutMe from './components/submit/AboutMe'
 import RichTextEditor from './components/RichTextEditor'
 import StartOverModal from './components/StartOverModal'
 
-const token = document.querySelector('meta[name=csrf-token]')
-if (token) {
-  const csrfToken = token.content
-  axios.defaults.headers.common['X-CSRF-Token'] = csrfToken
+const tokenDom = document.querySelector('meta[name=csrf-token]')
+if (tokenDom) {
+  var token = tokenDom.content
+  axios.defaults.headers.common['X-CSRF-Token'] = token
 }
 
 export default {
