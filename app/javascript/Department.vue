@@ -3,7 +3,7 @@
     <!-- TODO: adding v-model='selected' enables the selected value to appear in the case of an ipe_etd, but it will not without it, with a hyrax etd. But we should refactor for a better solution. -->
     <label for="department">Department</label>
     <select name="etd[department]" class="form-control" id="department" aria-required="true" v-model="selected" v-on:change="sharedState.clearSubfields(), sharedState.setSelectedDepartment(selected), sharedState.setValid('My Program', false)">
-      <option v-for="department in sharedState.departments" v-bind:value="department.id" v-bind:key="department.label" :disabled="department.disabled">
+      <option v-for="department in sharedState.departments" v-bind:value="department.label" v-bind:key="department.label" :disabled="department.disabled">
         {{ department.label }}
       </option>
     </select>
@@ -11,7 +11,7 @@
   <div v-else>
     <label for="department">Department</label>
     <select name="etd[department]" class="form-control" id="department" aria-required="true" v-on:change="sharedState.clearSubfields(), sharedState.setSelectedDepartment(selected), sharedState.setValid('My Program', false)">
-      <option v-for="department in sharedState.departments" v-bind:value="department.id" v-bind:key="department.label" :disabled="department.disabled">
+      <option v-for="department in sharedState.departments" v-bind:value="department.label" v-bind:key="department.label" :disabled="department.disabled">
         {{ department.label }}
       </option>
     </select>
