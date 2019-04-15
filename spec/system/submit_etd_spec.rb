@@ -15,7 +15,7 @@ RSpec.describe "Logged in student can submit an ETD", :clean, type: :system do
       workflow_setup.setup
     end
 
-    scenario "eh", js: true do
+    scenario "submitting a new ETD", js: true do
       visit("/concern/etds/new")
 
       # About Me

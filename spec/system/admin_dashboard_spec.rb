@@ -3,6 +3,7 @@ include Warden::Test::Helpers
 
 RSpec.describe 'Admin dashboard',
                type: :system,
+               js: :true,
                integration: true,
                workflow: { admin_sets_config: 'spec/fixtures/config/emory/candler_admin_sets.yml' } do
 
@@ -33,7 +34,6 @@ RSpec.describe 'Admin dashboard',
       login_as user
       visit '/dashboard'
       click_on 'Manage Users'
-      expect(page).to have_content 'Last access'
     end
 
     scenario 'school config' do
@@ -60,6 +60,14 @@ RSpec.describe 'Admin dashboard',
     scenario 'editing an embargo' do
       visit '/dashboard'
       click_link 'Manage Embargoes'
+      # test that tabs are working correctly
+      click_link 'Expired Active Embargoes'
+      expect(page).to have_content('There are no expired embargoes')
+      click_link 'Deactivated Embargoes'
+      click_link 'All Active Embargoes'
+      # test that DataTables (sorting) is working correctly
+      execute_script("$('#DataTables_Table_1 > thead > tr > th:nth-child(4)').click()")
+      expect(page.html).to match(/sorting_asc/)
       click_link etd.first_title
       select 'Restricted; Files Only', from: 'etd_visibility_during_embargo'
       fill_in 'etd_embargo_release_date', with: '2199-01-01'
