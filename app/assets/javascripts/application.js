@@ -21,3 +21,4 @@
 //= require blacklight_gallery
 //= require cable
 //= require openseadragon
+//= require hyrax
