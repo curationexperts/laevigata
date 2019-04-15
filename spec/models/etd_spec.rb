@@ -25,6 +25,7 @@ RSpec.describe Etd do
   context "determining admin set" do
     let(:etd) { FactoryBot.build(:etd) }
     let(:epidemiology_admin_set) { FactoryBot.create(:admin_set, title: ["Epidemiology"]) }
+    let(:default_admin_set) { FactoryBot.create(:admin_set, title: ["Default Admin Set"]) }
     it "assigns the laney admin set when the school is laney" do
       etd.school = ["Laney Graduate School"]
       expect(etd.determine_admin_set).to eq "Laney Graduate School"
@@ -36,6 +37,13 @@ RSpec.describe Etd do
     it "assigns the emory college admin set when the school is emory college" do
       etd.school = ["Emory College"]
       expect(etd.determine_admin_set).to eq "Emory College"
+    end
+    # Works that were migrated from the previous system were put into the default admin set,
+    # and have been marked as published. If someone tries to edit them, we shouldn't try to put
+    # them in a different admin set.
+    it 'assigns the default admin set if the etd already uses the default admin set and has been published' do
+      etd.admin_set = default_admin_set
+      expect(etd.determine_admin_set).to eq "Default Admin Set"
     end
     it "assigns according to department for Rollins" do
       etd.school = ["Rollins School of Public Health"]
