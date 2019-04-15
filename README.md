@@ -118,13 +118,9 @@ curl https://api.box.com/2.0/folders/0 -H \
 1. Go to `https://app.box.com/developers/console`
 1. Click on your app name, and then on the 'Configuration' tab on the left.
 1. In a box labeled OAuth 2.0 Credentials you will see your OAuth credentials. You'll need these.
-1. If `NEW_UI_ENABLED=true`:
   1. Set the `OAuth 2.0 Redirect URI` value to
   `https://SERVER_NAME/auth/box/` (with the slash at the end) Or, if this is your local dev box, the value might be `http://localhost:3000/auth/box/`
   1. Set the CORS domain to `https://SERVER_NAME` (without a slash at the end) Or, if this is your local dev box, the value might be `http://localhost:3000`
-1. If `NEW_UI_ENABLED=false`:
-  1. Set the `OAuth 2.0 Redirect URI` value to `https://SERVER_NAME` or `http://localhost:3000`
-  1. Leave the CORS domain blank
 1. Save changes
 
 ### Adding box credentials to a server

@@ -27,16 +27,11 @@ Rails.application.routes.draw do
   mount Hyrax::Engine, at: '/'
   resources :welcome, only: 'index'
   root 'hyrax/homepage#index'
-  # While we work on new UI architecture, keep it accessible only when new_ui is true (see config/new_ui.yml).
 
-  if Rails.application.config_for('new_ui').fetch('enabled', false)
-    resources :in_progress_etds, except: [:create, :show, :index]
-    get '/concern/etds/new', to: redirect('in_progress_etds/new')
-    # Just in case we missed any edit links anywhere in the app, this redirect should make sure we always have the form from the new UI when we try to edit an ETD.
-    get '/concern/etds/:id/edit', to: redirect('in_progress_etds/new?etd_id=%{id}')
-  else
-    get '/concern/etds/new', to: 'hyrax/etds#new'
-  end
+  resources :in_progress_etds, except: [:create, :show, :index]
+  get '/concern/etds/new', to: redirect('in_progress_etds/new')
+  # Just in case we missed any edit links anywhere in the app, this redirect should make sure we always have the form from the new UI when we try to edit an ETD.
+  get '/concern/etds/:id/edit', to: redirect('in_progress_etds/new?etd_id=%{id}')
 
   curation_concerns_basic_routes
   concern :exportable, Blacklight::Routes::Exportable.new

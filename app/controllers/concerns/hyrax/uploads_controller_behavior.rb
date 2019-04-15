@@ -37,7 +37,6 @@ module Hyrax::UploadsControllerBehavior
   # with a filename (because the hyrax view assumes it
   # will be there).
   def hard_code_file
-    return unless Rails.application.config_for(:new_ui).fetch('enabled', false)
     return unless box_upload?
 
     filename = params['filename'] || "temporary_filename.pdf"
@@ -49,7 +48,6 @@ module Hyrax::UploadsControllerBehavior
 
   # Queue background job to fetch the file from Box
   def queue_box_download
-    return unless Rails.application.config_for(:new_ui).fetch('enabled', false)
     return unless box_upload?
 
     ::FetchRemoteFileJob.perform_later(@upload.id, params['remote_url'])

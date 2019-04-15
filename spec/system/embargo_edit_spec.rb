@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'workflow_setup'
 include Warden::Test::Helpers
 
-RSpec.describe 'edit an embargo', :perform_jobs, :js, :new_ui, integration: true, type: :system do
+RSpec.describe 'edit an embargo', :perform_jobs, :js, integration: true, type: :system do
   before(:all) do
     DatabaseCleaner.clean
     ActiveFedora::Cleaner.clean!

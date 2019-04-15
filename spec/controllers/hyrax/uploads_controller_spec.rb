@@ -34,11 +34,6 @@ describe Hyrax::UploadsController do
       end
 
       context "with a remote file from Box" do
-        before do
-          new_ui = Rails.application.config_for(:new_ui).fetch('enabled', false)
-          skip("These tests run only when NEW_UI_ENABLED") unless new_ui
-        end
-
         let(:filename) { 'my_remote_file.pdf' }
         let(:remote_url) { "http://example.com/my_remote_file.pdf" }
 

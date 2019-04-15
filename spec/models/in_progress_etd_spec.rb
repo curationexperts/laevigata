@@ -2,11 +2,6 @@ require 'rails_helper'
 
 describe InProgressEtd do
   let(:in_progress_etd) { described_class.new(data: data.to_json) }
-  before(:all) do
-    new_ui = Rails.application.config_for(:new_ui).fetch('enabled', false)
-
-    skip("InProgress ETD model tests run only when NEW_UI_ENABLED") unless new_ui
-  end
 
   describe "About Me" do
     context "with valid data" do

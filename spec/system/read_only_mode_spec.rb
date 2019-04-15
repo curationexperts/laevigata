@@ -5,8 +5,7 @@ include Warden::Test::Helpers
 
 RSpec.describe 'Read Only Mode', type: :system, integration: true do
   before(:all) do
-    new_ui = Rails.application.config_for(:new_ui).fetch('enabled', false)
-    skip("This test won't work if NEW_UI_ENABLED=true") if new_ui
+    skip("This test won't work if NEW_UI_ENABLED=true")
   end
 
   let(:student) { create :user }

@@ -3,11 +3,6 @@ require 'rails_helper'
 include Warden::Test::Helpers
 
 RSpec.feature 'Check for school', :clean, integration: true, js: true, type: :system do
-  before(:all) do
-    new_ui = Rails.application.config_for(:new_ui).fetch('enabled', false)
-    skip('This spec will fail if not using new UI') unless new_ui
-  end
-
   let(:user) { create :user }
 
   let(:approver) { User.where(uid: "tezprox").first }
