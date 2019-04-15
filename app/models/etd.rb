@@ -266,9 +266,19 @@ class Etd < ActiveFedora::Base
   # department it belongs to
   # @return [String] the name of an admin set
   def determine_admin_set(school = self.school, department = self.department)
+    return "Default Admin Set" if migrated?
     as_name = AdminSetChooser.new.determine_admin_set(school, department)
     raise "Cannot find admin set config where school = #{school.first} and department = #{department.first}" unless as_name
     as_name
+  end
+
+  # Works that were migrated from the previous system were put into the default admin set,
+  # and have been marked as published. When they are edited, they should stay in the default
+  # admin set -- we should not try to assign them to a different one based on their school and
+  # department.
+  def migrated?
+    return false unless self&.admin_set&.title&.first == "Default Admin Set"
+    true
   end
 
   # Assign an admin_set based on what is returned by #determine_admin_set
