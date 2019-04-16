@@ -11,7 +11,6 @@ class EtdPresenter < Hyrax::WorkShowPresenter
            :graduation_year,
            :language,
            :school,
-           :subfield,
            :partnering_agency,
            :research_field,
            :rights_statement,
@@ -26,6 +25,16 @@ class EtdPresenter < Hyrax::WorkShowPresenter
   # we want to override the permission_badge method in the FileSetPresenter class, because we handle embargos differently than Hyrax does.
   # Therefore we create an EtdFileSetPresenter that overwrites the permission_badge method,
   # and ensure the views get it by setting it as the file_presenter_class in the EtdMemberPresenterFactory, and creating an Etd member factory here.
+
+  def subfield
+    return unless solr_document['subfield_tesim']
+    id = solr_document['subfield_tesim'][0]
+    school = Schools::School.new(solr_document['school_tesim'][0])
+    dept = Schools::Department.new(school, solr_document['department_tesim'][0])
+
+    return unless dept.service
+    Schools::Subfield.new(school, dept, id).label
+  end
 
   def member_presenter_factory
     Hyrax::EtdMemberPresenterFactory.new(solr_document, current_ability, request)
