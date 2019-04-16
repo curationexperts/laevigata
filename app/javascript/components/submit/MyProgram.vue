@@ -3,7 +3,7 @@
     <h4>My Program</h4>
     <h5>Department</h5>
     <div> {{ sharedState.getDepartmentLabelFromId(sharedState.getSavedOrSelectedDepartment()) }} </div>
-    <div v-if="sharedState.getSelectedSubfield() && sharedState.getSelectedSubfield().length > 0">
+    <div v-if="sharedState.getSavedOrSelectedSubfield() && sharedState.getSavedOrSelectedSubfield().length > 0">
           <h5>Subfield</h5>
       <div> {{ sharedState.getSubfieldLabelFromId(sharedState.getSelectedSubfield()) }} </div>
     </div>

@@ -31,7 +31,6 @@ RSpec.describe 'Display ETD metadata', :clean, integration: true, type: :system 
       "degree",
       "submitting_type",
       "language",
-      "subfield",
       "keyword",
       "committee_chair_name",
       "committee_members_names"

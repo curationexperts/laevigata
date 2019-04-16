@@ -224,14 +224,13 @@ describe EtdPresenter do
     let(:degree) { ['MS'] }
     let(:department) { ['Religion'] }
     let(:school) { ['Laney Graduate School'] }
-    let(:subfield) { ['Ethics and Society'] }
     let(:partnering_agency) { ["Does not apply (no collaborating organization)"] }
     let(:submitting_type) { ["Honors Thesis"] }
     let(:research_field) { ['Toxicology'] }
     let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
     let :etd do
       Etd.new(title: title, creator: creator, keyword: keyword, degree: degree, department: department,
-              school: school, subfield: subfield, partnering_agency: partnering_agency, submitting_type: submitting_type,
+              school: school, partnering_agency: partnering_agency, submitting_type: submitting_type,
               research_field: research_field, visibility: visibility, requires_permissions: true, other_copyrights: false, patents: true)
     end
 
@@ -246,7 +245,6 @@ describe EtdPresenter do
     it { is_expected.to delegate_method(:degree).to(:solr_document) }
     it { is_expected.to delegate_method(:department).to(:solr_document) }
     it { is_expected.to delegate_method(:school).to(:solr_document) }
-    it { is_expected.to delegate_method(:subfield).to(:solr_document) }
     it { is_expected.to delegate_method(:partnering_agency).to(:solr_document) }
     it { is_expected.to delegate_method(:submitting_type).to(:solr_document) }
     it { is_expected.to delegate_method(:research_field).to(:solr_document) }

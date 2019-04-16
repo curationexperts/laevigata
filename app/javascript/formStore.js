@@ -14,7 +14,7 @@ import embargoContents from './config/embargoContents.json'
 import embargoLengths from './config/embargoLengths.json'
 import schools from './config/schools.json'
 import helpText from './config/helpText.json'
-import PartneringAgency from './lib/PartneringAgency';
+import PartneringAgency from './lib/PartneringAgency'
 
 export const formStore = {
   tabs: {
@@ -364,13 +364,13 @@ export const formStore = {
   },
 
   getSavedOrSelectedDepartment () {
-    var savedDepartment = ""
-    if (_.isArray(this.savedData['department'])){
-      savedDepartment = this.savedData['department'][0]
-    } else {
-      savedDepartment = this.savedData['department']
+    if (this.getSelectedDepartment().length > 0) {
+      return this.getSelectedDepartment()
     }
-    return this.selectedDepartment.length === 0 ? savedDepartment : this.selectedDepartment
+
+    if (this.getSelectedDepartment().length <= 0) {
+      return this.getSavedDepartment()
+    }
   },
 
   getSavedDepartment () {
@@ -406,11 +406,18 @@ export const formStore = {
       return this.departments.filter((department) => { return department.id === id })[0].label
     }
   },
-  getSelectedSubfield () {
+  getSavedOrSelectedSubfield () {
     if (this.selectedSubfield === undefined) {
       this.selectedSubfield = ''
     }
-    return this.selectedSubfield.length === 0 ? this.subfields[this.savedData['subfield']] : this.selectedSubfield
+
+    if (this.savedData['subfield'] && this.savedData['subfield'].length > 0) {
+      return this.savedData['subfield']
+    }
+
+    if (this.savedData['subfield'] && this.savedData['subfield'].length <= 0) {
+      return this.selectedSubfield
+    }
   },
   setSelectedSubfield (subfield) {
     this.selectedSubfield = subfield

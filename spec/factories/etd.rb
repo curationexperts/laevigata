@@ -92,7 +92,6 @@ FactoryBot.define do
       abstract { [] << FFaker::Lorem.paragraph }
       title { ["Sample Data: #{FFaker::Book.title}"] }
       department { ["Divinity"] }
-      subfield { ["Political Robotics"] }
       research_field { ["Artificial Intelligence", "Canadian Studies", "Folklore"] }
       degree { ["Th.D."] }
       submitting_type { ["Dissertation"] }
