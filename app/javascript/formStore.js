@@ -364,13 +364,13 @@ export const formStore = {
   },
 
   getSavedOrSelectedDepartment () {
-    var savedDepartment = ""
-    if (_.isArray(this.savedData['department'])){
-      savedDepartment = this.savedData['department'][0]
-    } else {
-      savedDepartment = this.savedData['department']
+    if (this.getSelectedDepartment().length > 0) {
+      return this.getSelectedDepartment()
     }
-    return this.selectedDepartment.length === 0 ? savedDepartment : this.selectedDepartment
+
+    if (this.getSelectedDepartment().length <= 0) {
+      return this.getSavedDepartment()
+    }
   },
 
   getSavedDepartment () {
@@ -406,11 +406,18 @@ export const formStore = {
       return this.departments.filter((department) => { return department.id === id })[0].label
     }
   },
-  getSelectedSubfield () {
+  getSavedOrSelectedSubfield () {
     if (this.selectedSubfield === undefined) {
       this.selectedSubfield = ''
     }
-    return this.selectedSubfield.length === 0 ? this.subfields[this.savedData['subfield']] : this.selectedSubfield
+
+    if (this.savedData['subfield'].length > 0) {
+      return this.savedData['subfield']
+    }
+
+    if (this.savedData['subfield'].length <= 0) {
+      return this.selectedSubfield
+    }
   },
   setSelectedSubfield (subfield) {
     this.selectedSubfield = subfield
