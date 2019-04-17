@@ -8,9 +8,6 @@ terms:
       term: Behavioral Sciences & Health Education - MPH
     - id: Biostatistics
       term: Biostatistics and Bioinformatics
-    - id: Biostatistics and Bioinformatics
-      term: Biostatistics and Bioinformatics
-      active: false
     - id: Environmental Health
       term: Environmental Health
     - id: Epidemiology
@@ -21,3 +18,12 @@ terms:
       term: Health Policy and Management - MSPH
     - id: Hubert Department of Global Health
       term: Hubert Department of Global Health - MPH
+    - id: Biostatistics and Bioinformatics
+      term: Biostatistics and Bioinformatics
+      active: false
+    - id: Career Masters of Public Health
+      term: Career Masters of Public Health
+      active: false
+    - id: Executive Masters of Public Health
+      term: Executive Masters of Public Health
+      active: false
