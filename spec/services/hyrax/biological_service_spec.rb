@@ -9,9 +9,9 @@ RSpec.describe Hyrax::BiologicalService do
 
   let(:service) { described_class.new }
 
-  describe "#select_all_options" do
+  describe "#select_active_options" do
     it "has a select list" do
-      expect(service.select_all_options).to include(["Cancer Biology", "Cancer Biology"])
+      expect(service.select_active_options).to include(["Cancer Biology", "Cancer Biology"])
     end
   end
 end

@@ -66,10 +66,10 @@ RSpec.describe Etd do
     # break the assignment of admin sets after ETD submission. If we change
     # anything about the program names, or add a new one, we must ensure
     # a corresponding admin set exists where that content will be routed.
-    it "can assign an admin set for every Rollins department except Environmental Health" do
+    it "can assign an admin set for every active Rollins department except Environmental Health" do
       # Get all options for Rollins departments
       config = YAML.safe_load(File.read(Rails.root.join('config', 'authorities', 'rollins_programs.yml')))
-      rollins_programs = config["terms"].map { |a| a["id"] }
+      rollins_programs = config["terms"].reject { |a| a["active"] == false }.map { |a| a["id"] }
       rollins_programs.each do |department|
         next if department == "Environmental Health"
         etd.school = ["Rollins School of Public Health"]

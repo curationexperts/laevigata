@@ -34,7 +34,8 @@ module Schools
 
     def department_ids
       return [] unless service
-      qa_terms = service.authority.all
+      # Only return active departments for the school listings
+      qa_terms = service.authority.all.select { |a| a["active"] == true }
       qa_terms.map { |terms| terms[:id] }
     end
 

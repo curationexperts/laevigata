@@ -79,11 +79,14 @@ RSpec.describe WorkflowSetup, :clean do
     it "has an array of all the admin_sets" do
       expect(w.admin_sets).to include("Laney Graduate School", "Emory College", "Candler School of Theology")
       config = YAML.safe_load(File.read(Rails.root.join('config', 'authorities', 'rollins_programs.yml')))
-      rollins_programs = config["terms"].map { |a| a["id"] }
+      rollins_programs = config["terms"].reject { |a| a["active"] == false }.map { |a| a["id"] }
       rollins_programs.each do |program_name|
         next if program_name == "Environmental Health"
         expect(w.admin_sets).to include(program_name)
       end
+    end
+    it 'does not have admin sets for inactive department values' do
+      expect(w.admin_sets).not_to include("Biostatistics and Bioinformatics", "Career Masters of Public Health", "Executive Masters of Public Health")
     end
     it "has config options for each admin_set" do
       expect(w.admin_set_config("Laney Graduate School")).to be_instance_of Hash

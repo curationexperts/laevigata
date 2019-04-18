@@ -33,7 +33,8 @@ export default {
       if (selected !== undefined) {
         //if we are editing etds, we might have a legacy term that is not in our list. Add it to the top and make it selected if so.
         if (this.sharedState.allowTabSave() === false){
-          data.unshift({ "value": selected, "active": true, "label": selected, "selected": "selected"})
+          data = data.filter(function(val) { if (val.active != false && val != selected) { return val } })
+          data.unshift({ "value": selected, "id": selected, "active": true, "label": selected, "selected": "selected"})
         }
         _.forEach(data, function(o){
           if (o.id == selected){
@@ -41,6 +42,7 @@ export default {
           }
         })
       } else {
+        data = data.filter(function(val) { if (val.active != false) { return val } })
         data.unshift({ "value": "", "active": true, "label": "Select a Degree", "disabled":"disabled" ,"selected": "selected"})
       }
       return data
