@@ -392,8 +392,8 @@ export const formStore = {
       return savedValue
     } else {
       axios.get(selectedSchool).then(response => {
-        this.departments = response.data
-        this.departments.unshift({ "value": 1, "active": true, "label": "Select a Department", "disabled":"disabled" ,"selected": "selected"})
+        this.departments = response.data.filter(function(val) { if (val.active != false) { return val } })
+        this.departments.unshift({ "value": 1, "active": true, "label": "Select a Department", "disabled":"disabled", "selected": "selected"})
       })
     }
   },

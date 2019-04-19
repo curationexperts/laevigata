@@ -25,3 +25,39 @@ terms:
       term: 'BS'
     - id: 'B.B.A.'
       term: 'BBA'
+    - id: 'ThD'
+      term: 'Th.D.'
+      active: false
+    - id: 'PhD'
+      term: 'PhD'
+      active: false
+    - id: 'DNP'
+      term: 'DNP'
+      active: false
+    - id: 'MA'
+      term: 'MA'
+      active: false
+    - id: 'MS'
+      term: 'MS'
+      active: false
+    - id: 'MDiv'
+      term: 'MDiv'
+      active: false
+    - id: 'MTS'
+      term: 'MTS'
+      active: false
+    - id: 'MPH'
+      term: 'MPH'
+      active: false
+    - id: 'MSPH'
+      term: 'MSPH'
+      active: false
+    - id: 'BA'
+      term: 'BA'
+      active: false
+    - id: 'BS'
+      term: 'BS'
+      active: false
+    - id: 'BBA'
+      term: 'BBA'
+      active: false

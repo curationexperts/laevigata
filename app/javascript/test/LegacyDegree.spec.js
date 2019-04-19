@@ -10,13 +10,14 @@ import axios from 'axios'
 jest.mock('axios')
 
 describe('Degree.vue Display Legacy Degree', () => {
-  const resp = {data: [{'id': 'Th.D.', 'label': 'Th.D.', 'active': true}]}
+  // resp == what questioning authority is returning
+  const resp = {data: [{'id': 'PhD', 'label': 'PhD', 'active': false}]}
   axios.get.mockResolvedValue(resp)
   beforeEach(() => {
     const wrapper = shallowMount(Degree, {
     })
     wrapper.vm.$data.sharedState.allowTabSave = jest.fn((value) => { return false } )
-    wrapper.vm.$data.sharedState.getSavedDegree = jest.fn((value) => { return 'phd' } )
+    wrapper.vm.$data.sharedState.getSavedDegree = jest.fn((value) => { return 'PhD' } )
     wrapper.vm.$data.degrees = resp.data
 
   })
@@ -25,6 +26,6 @@ describe('Degree.vue Display Legacy Degree', () => {
     const wrapper = shallowMount(Degree, {
     })
     wrapper.vm.getSelected(resp.data)
-    expect(resp.data).toContainEqual({"active": true, "label": "phd", "selected": "selected", "value": "phd"})
+    expect(resp.data).toContainEqual({"active": false, "id": "PhD", "label": "PhD"})
   })
 })
