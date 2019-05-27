@@ -13,10 +13,11 @@ const mockXHR = {
 
 window.XMLHttpRequest = jest.fn(() => mockXHR)
 window.localStorage = jest.fn()
-window.localStorage.clear = jest.fn(() => { return ''})
-window.localStorage.removeItem = jest.fn((value) => { return '' })
-describe('FileDelete', () => {
+window.localStorage.getItem = jest.fn()
+window.localStorage.setItem = jest.fn()
+window.localStorage.removeItem = jest.fn()
 
+describe('FileDelete', () => {
   it('makes an HTTP requst and remove the file from the state', () => {
     var fileDelete = new FileDelete({
       deleteUrl: 'http://example.com/delete',
@@ -24,7 +25,6 @@ describe('FileDelete', () => {
       formStore: formStore
     })
     fileDelete.deleteFile()
-    expect(window.localStorage.removeItem).toBeCalledWith('files')
     expect(mockXHR.open).toBeCalledWith('DELETE', 'http://example.com/delete', true)
   })
 })

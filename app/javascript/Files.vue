@@ -50,7 +50,6 @@
       <label class="btn btn-primary" for="add-file"><span class='glyphicon glyphicon-plus'></span>
       Add your thesis or dissertation file from your computer
       </label>
-      <button v-if="sharedState.allowPrimaryBoxUpload" type="button" class="btn btn-primary" @click="boxOAuth('primary')"><span class="glyphicon glyphicon-plus"></span> Add your thesis or dissertation file from Box</button>
     </div>
 
     <div v-if="isUploadedFile(getPrimaryFile())">
@@ -122,7 +121,7 @@
       <label class="btn btn-primary" for="add-supplemental-file"><span class='glyphicon glyphicon-plus'></span>
       Add a supplemental file from your computer
       </label>
-      <button :disabled="sharedState.preventBoxSupplementalUpload" type="button" class="btn btn-primary" @click="boxOAuth('supplemental')"><span class="glyphicon glyphicon-plus"></span> Add a supplemental file from Box</button>
+      <button :disabled="sharedState.preventBoxSupplementalUpload" type="button" class="btn btn-primary" @click="boxOAuth()"><span class="glyphicon glyphicon-plus"></span> Add a supplemental file from Box</button>
     </div>
     <section class='errorMessage alert alert-danger' v-if="sharedState.hasError('supplementalFiles')">
         <p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ sharedState.getErrorMessage('supplementalFiles').supplementalFiles[0] }}</p>
@@ -252,9 +251,7 @@ export default {
       supplementalFileDelete.deleteFile(key)
       this.sharedState.setValid('My Files', false)
   },
-  boxOAuth(mode) {
-    this.sharedState.boxFilePickerMode.setMode(mode)
-
+  boxOAuth () {
     window.location = this.boxOAuthUrl()
   },
   boxOAuthUrl () {
