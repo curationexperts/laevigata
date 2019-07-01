@@ -15,7 +15,7 @@ RSpec.describe "Logged in student can submit an ETD", :clean, type: :system, js:
       workflow_setup.setup
     end
 
-    scenario "submitting a new ETD" do
+    scenario "submitting a new ETD", js: true do
       visit("/concern/etds/new")
 
       # About Me
@@ -28,7 +28,7 @@ RSpec.describe "Logged in student can submit an ETD", :clean, type: :system, js:
 
       # My Program
       expect(page).to have_content('Department')
-      select 'Playwriting', from: 'Department'
+      select 'Environmental Sciences', from: 'Department'
       select 'MA', from: 'Degree'
       select 'Honors Thesis', from: 'Submission Type'
       click_on 'Save and Continue'
@@ -77,7 +77,7 @@ RSpec.describe "Logged in student can submit an ETD", :clean, type: :system, js:
       click_on 'Submit Your Thesis or Dissertation'
 
       expect(page).to have_content 'Submitting'
-      expect(page).to have_content 'Playwriting'
+      expect(page).to have_content 'Environmental Sciences'
     end
   end
 end
