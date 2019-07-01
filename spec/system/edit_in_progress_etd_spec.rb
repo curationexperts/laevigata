@@ -4,11 +4,6 @@ require 'rails_helper'
 include Warden::Test::Helpers
 
 RSpec.describe 'Edit an existing ETD', :clean, integration: true, type: :system do
-  before(:all) do
-    new_ui = Rails.application.config_for(:new_ui).fetch('enabled', false)
-    skip("This test only works if NEW_UI_ENABLED=true") unless new_ui
-  end
-
   context "no unauthorized users can see a student's in progress ETD" do
     let(:ipe) { FactoryBot.create(:in_progress_etd, user_ppid: depositor.ppid) }
     let(:depositor) { FactoryBot.create(:user) }

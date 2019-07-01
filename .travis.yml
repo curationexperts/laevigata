@@ -15,8 +15,8 @@ env:
   global:
   - COVERALLS_PARALLEL=true
   matrix:
-  - NEW_UI_ENABLED=true NO_COVERAGE=true TEST_SUITE=unit
-  - NEW_UI_ENABLED=true NO_COVERAGE=true TEST_SUITE=integration
+  - NO_COVERAGE=true TEST_SUITE=unit
+  - NO_COVERAGE=true TEST_SUITE=integration
 before_script:
   - ln --symbolic /usr/lib/chromium-browser/chromedriver "${HOME}/bin/chromedriver"
   - # start your web application and listen on `localhost`

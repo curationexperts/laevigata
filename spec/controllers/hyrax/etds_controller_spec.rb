@@ -74,9 +74,6 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs, :clean do
       let(:new_morgan) { { name: ['Morgan (edited)'], affiliation: ['Emory University'] } }
 
       before do
-        new_ui = Rails.application.config_for(:new_ui).fetch('enabled', false)
-        skip('This spec will fail if not using new UI') unless new_ui
-
         patch :update, params: { id: etd, etd: new_attrs, request_from_form: 'true' }
         etd.reload # Test persisted state
       end
@@ -98,9 +95,9 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs, :clean do
       let(:supp_file_meta) do
         { "0" => {
           "filename" => "joey_thesis.pdf",
-          "title" => "new uf title",
-          "description" => "uf desc",
-          "file_type" => "Image"
+            "title" => "new uf title",
+            "description" => "uf desc",
+            "file_type" => "Image"
         } }
       end
 
@@ -130,213 +127,6 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs, :clean do
 
         redir_path = JSON.parse(response.body)['redirectPath'].split('?').first
         expect(redir_path).to eq main_app.hyrax_etd_path(etd).split('?').first
-      end
-    end
-  end
-
-  describe "#update (old UI)" do
-    before(:all) do
-      new_ui = Rails.application.config_for(:new_ui).fetch('enabled', false)
-      skip("These specs should only be run for the old UI") if new_ui
-    end
-
-    let(:default_attrs) do
-      { depositor: user.user_key,
-        title: ['Another great thesis by Frodo'],
-        school: ['Emory College'],
-        department: ['Art History'] }
-    end
-    let(:attach_supp_files) { false }
-
-    let(:etd) do
-      FactoryBot.build(:etd, default_attrs)
-    end
-
-    before do
-      workflow_setup.setup
-      etd.assign_admin_set
-
-      # Add supplemental files if the test needs them
-      if attach_supp_files
-        supp_file = File.open("#{fixture_path}/magic_warrior_cat.jpg") { |file| Hyrax::UploadedFile.create(supp_file_attrs.merge(file: file)) }
-        attributes_for_actor = { uploaded_files: [supp_file.id] }
-      end
-
-      # Create the ETD record
-      env = Hyrax::Actors::Environment.new(etd, ::Ability.new(user), attributes_for_actor || {})
-      middleware = Hyrax::DefaultMiddlewareStack.build_stack.build(Hyrax::Actors::Terminator.new)
-      middleware.create(env)
-
-      # Approver requests changes, so student will be able to edit the ETD
-      change_workflow_status(etd, "request_changes", approver)
-
-      etd.reload
-    end
-
-    context 'with a new title' do
-      it "updates the ETD" do
-        expect {
-          patch :update, params: { id: etd, etd: { title: 'New Title' } }
-        }.to change { Etd.count }.by(0)
-
-        etd.reload
-        assert_redirected_to main_app.hyrax_etd_path(etd, locale: 'en')
-        expect(etd.title).to eq ['New Title']
-      end
-    end
-
-    context 'with no pre-existing supplemental files' do
-      context 'student checks "no supplemental files" checkbox' do
-        before do
-          patch :update, params: { id: etd, etd: { title: 'New Title', no_supplemental_files: '1' } }
-          etd.reload
-        end
-
-        it 'successfully updates the ETD' do
-          assert_redirected_to main_app.hyrax_etd_path(etd, locale: 'en')
-          expect(etd.title).to eq ['New Title']
-        end
-      end
-
-      context 'student adds supplemental files' do
-        let(:new_attrs) do
-          {
-            title: 'New Title',
-            "no_supplemental_files" => "0",
-            "supplemental_file_metadata" =>
-              { "0" => { filename: "magic_warrior_cat.jpg",
-                         title: "Magic Cat",
-                         description: "Cat desc",
-                         file_type: "Image" },
-                "1" => { filename: "rural_clinics.zip",
-                         title: "Rural Clinics",
-                         description: "Clinic desc",
-                         file_type: "Data" } }
-          }
-        end
-
-        before do
-          Hyrax::UploadedFile.delete_all
-          FactoryBot.create(:uploaded_file, id: 15, file: file2, user_id: user.id)
-          FactoryBot.create(:uploaded_file, id: 16, file: file3, user_id: user.id)
-        end
-
-        it 'adds the new supplemental files' do
-          expect {
-            patch :update,
-                  params: { id: etd,
-                            uploaded_files: ["15", "16"],
-                            etd: new_attrs }
-          }.to change { FileSet.count }.by(2)
-
-          etd.reload
-          assert_redirected_to main_app.hyrax_etd_path(etd, locale: 'en')
-          expect(etd.title).to eq ['New Title']
-
-          expect(etd.supplemental_files_fs.map(&:title)).to contain_exactly(["Magic Cat"], ["Rural Clinics"])
-          expect(etd.supplemental_files_fs.map(&:description)).to contain_exactly(["Cat desc"], ["Clinic desc"])
-          expect(etd.supplemental_files_fs.map(&:file_type)).to contain_exactly('Image', 'Data')
-        end
-      end
-    end
-
-    context 'with supplemental files' do
-      let(:attach_supp_files) { true }
-
-      context 'student adds another supplemental file' do
-        let(:new_attrs) do
-          {
-            title: 'New Title',
-            "no_supplemental_files" => "0",
-            "supplemental_file_metadata" =>
-              { "1" => { "filename" => "rural_clinics.zip",
-                         "title" => "Rural Clinics Shapefile",
-                         "description" => "rural clinics in Georgia",
-                         "file_type" => "Data" } }
-          }
-        end
-
-        before do
-          Hyrax::UploadedFile.delete_all
-          FactoryBot.create(:supplementary_uploaded_file, id: 16, file: file3, user_id: user.id)
-        end
-
-        it 'keeps existing files and adds new file' do
-          expect {
-            patch :update, params: {
-              id: etd,
-              uploaded_files: ["16"],
-              etd: new_attrs }
-          }.to change { FileSet.count }.by(1)
-
-          assert_redirected_to main_app.hyrax_etd_path(etd, locale: 'en')
-          etd.reload
-          expect(etd.title).to eq ['New Title']
-
-          expect(etd.supplemental_files_fs.map(&:title)).to contain_exactly(["supp file title"], ["Rural Clinics Shapefile"])
-          expect(etd.supplemental_files_fs.map(&:description)).to contain_exactly(["supp file desc"], ["rural clinics in Georgia"])
-          expect(etd.supplemental_files_fs.map(&:file_type)).to contain_exactly('Image', 'Data')
-        end
-      end
-
-      context 'student checks "no supplemental files" checkbox' do
-        let(:new_attrs) do
-          {
-            title: 'New Title',
-            "no_supplemental_files" => "1",
-            "supplemental_file_metadata" =>
-              { "0" => { filename: "magic_warrior_cat.jpg",
-                         title: "Magic Cat",
-                         description: "Cat desc",
-                         file_type: "Image" } }
-          }
-        end
-
-        before do
-          Hyrax::UploadedFile.delete_all
-          FactoryBot.create(:supplementary_uploaded_file, id: 16, file: file3, user_id: user.id)
-        end
-
-        # Even though the new_attrs contains 'supplemental_file_metadata' and params contains 'uploaded_files', those fields should get ignored because 'no_supplemental_files' should win.
-        it 'deletes the existing supplemental files' do
-          expect {
-            patch :update, params: {
-              id: etd,
-              uploaded_files: ["16"],
-              etd: new_attrs }
-          }.to change { FileSet.count }.by(-1)
-
-          assert_redirected_to main_app.hyrax_etd_path(etd, locale: 'en')
-          etd.reload
-          expect(etd.title).to eq ['New Title']
-          expect(etd.supplemental_files_fs).to eq []
-        end
-      end
-    end
-
-    context 'no committee members' do
-      let(:no_committee_members) { true }
-      context 'student checks "no committee members" checkbox' do
-        let(:new_attrs) do
-          {
-            "no_committee_members" => "1"
-          }
-        end
-        before do
-          etd.committee_members.build
-        end
-        it 'deletes the existing committee members' do
-          expect {
-            patch :update, params: {
-              id: etd,
-              etd: new_attrs }
-          }.to change { etd.committee_members_names.count }.by(0)
-
-          assert_redirected_to main_app.hyrax_etd_path(etd, locale: 'en')
-          etd.reload
-          expect(etd.committee_members).to eq []
-          expect(etd.committee_members_names).to eq []
-        end
       end
     end
   end

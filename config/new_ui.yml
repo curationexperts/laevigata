@@ -1,6 +1,0 @@
-development:
-  enabled: <%= ENV.fetch("NEW_UI_ENABLED", false) %>
-test:
-  enabled: <%= ENV.fetch("NEW_UI_ENABLED", false) %>
-production:
-  enabled: <%= ENV.fetch("NEW_UI_ENABLED", false) %>

@@ -3,11 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe InProgressEtdsController, type: :controller do
-  before(:all) do
-    new_ui = Rails.application.config_for(:new_ui).fetch('enabled', false)
-    skip("These tests run only when NEW_UI_ENABLED") unless new_ui
-  end
-
   let(:student) { FactoryBot.create(:user) }
   let(:another_user) { FactoryBot.create(:user) }
 
