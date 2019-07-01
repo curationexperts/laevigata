@@ -113,14 +113,6 @@ RSpec.configure do |config|
   config.include Warden::Test::Helpers, type: :feature
   config.after(:each, type: :feature) { Warden.test_reset! }
 
-  config.before(:each, type: :system) do
-    driven_by :rack_test
-  end
-
-  config.before(:each, type: :system, js: true) do
-    driven_by :selenium, using: :chrome, options: { args: ["headless", "disable-gpu", "no-sandbox", "disable-dev-shm-usage"] }
-  end
-
   # Gets around a bug in RSpec where helper methods that are defined in views aren't
   # getting scoped correctly and RSpec returns "does not implement" errors. So we
   # can disable verify_partial_doubles if a particular test is giving us problems.
