@@ -4,18 +4,18 @@ require "rails_helper"
 
 include Warden::Test::Helpers
 
-RSpec.describe "Logged in student can submit an ETD", :clean, type: :system do
+RSpec.describe "Logged in student can submit an ETD", :clean, type: :system, js: true do
   let(:student) { create :user }
   let(:pdf) { Rails.root.join('spec', 'fixtures', 'joey', 'joey_thesis.pdf') }
   let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
 
-  context 'a logged in user', js: true do
+  context 'a logged in user' do
     before do
       login_as student
       workflow_setup.setup
     end
 
-    scenario "submitting a new ETD", js: true do
+    scenario "submitting a new ETD" do
       visit("/concern/etds/new")
 
       # About Me
