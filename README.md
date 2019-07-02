@@ -13,7 +13,6 @@ or cherokee rose is the <a href="https://georgia.gov/georgia-facts-and-symbols">
 [![Build Status](https://travis-ci.org/curationexperts/laevigata.svg?branch=master)](https://travis-ci.org/curationexperts/laevigata)
 [![Coverage Status](https://coveralls.io/repos/github/curationexperts/laevigata/badge.svg?branch=master)](https://coveralls.io/github/curationexperts/laevigata?branch=master)
 [![Inline docs](http://inch-ci.org/github/curationexperts/laevigata.svg?branch=master)](http://inch-ci.org/github/curationexperts/laevigata)
-[![Stories in Ready](https://badge.waffle.io/curationexperts/laevigata.png?label=ready&title=Ready)](https://waffle.io/curationexperts/laevigata)
 
 </td></tr>
 </table>
