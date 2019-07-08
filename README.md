@@ -5,7 +5,7 @@
 <img alt="Rosa Laevigata image" src="app/assets/images/RosaLaevigata.jpg">
 </td><td>
 A repository for depositing, managing, and discovering
-Electronic Theses and Dissertations (ETDs).
+Emory Theses and Dissertations (ETDs).
 <a href="https://en.wikipedia.org/wiki/Rosa_laevigata"><em>Rosa Laevigata</em></a>
 or cherokee rose is the <a href="https://georgia.gov/georgia-facts-and-symbols">state flower of Georgia</a>.
 <br/><br/>
