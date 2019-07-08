@@ -25,6 +25,10 @@ export NO_COVERAGE=true
 export _JAVA_OPTIONS="-Xmx600m"
 
 # For hyrax config
-export UPLOAD_PATH=tmp/uploads
-export CACHE_PATH=tmp/uploads/cache
-export WORKING_PATH=tmp/uploads
+
+UPLOAD_PATH=tmp/uploads
+CACHE_PATH=tmp/uploads/cache
+WORKING_PATH=tmp/uploads
+
+# Set this to turn on Google Analytics
+# GA_TRACKING_CODE=U-99991
