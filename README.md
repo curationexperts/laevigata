@@ -66,6 +66,9 @@ person's uid to an environment variable called EMBARGO_NOTIFICATION_CC in the
    `npm install -g yarn`
 1. Install yarn dependencies
     `yarn install`
+1. Install ClamAV
+    This is required if you want to work with file uploads in your development environment.
+    See: [Installing ClamAV](https://www.clamav.net/documents/installing-clamav) for instructions.
 1. Start redis
     `redis-server &`
     *note:* use ` &` to start in the background, or run redis in a new terminal session
