@@ -5,12 +5,6 @@ class CatalogController < ApplicationController
   # This filter applies the hydra access controls
   before_action :enforce_show_permissions, only: :show
 
-  # If a requested url doesn't match any routes, send it here and raise a
-  # RoutingError, which gets caught by the ApplicationController
-  def catch_404
-    raise ActionController::RoutingError, params[:path]
-  end
-
   def self.uploaded_field
     solr_name('system_create', :stored_sortable, type: :date)
   end
