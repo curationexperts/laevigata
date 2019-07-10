@@ -1,4 +1,5 @@
 require_relative 'boot'
+require_relative 'exception_middleware'
 
 require 'rails/all'
 
@@ -19,7 +20,9 @@ module Laevigata
       g.test_framework :rspec, spec: true
     end
     config.active_job.queue_adapter = :sidekiq
+    config.middleware.use(::ExceptionMiddleware)
     config.autoload_paths += %W[#{config.root}/lib]
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
