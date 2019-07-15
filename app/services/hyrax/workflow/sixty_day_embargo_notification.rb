@@ -22,7 +22,7 @@ module Hyrax
         FOR AUTHORS WHO ALSO SUBMITTED TO PROQUEST:
         To extend your access restriction/embargo in the ProQuest database, you
         will need to contact ProQuest's Author Relations department to request
-        an extended access restriction/embargo in their database. You can reach them at 1-800-521-0600 ext. 77020
+        an extended access restriction/embargo in their database. You can reach them at 1-800-521-0600 ext. 2
         or via email at disspub@proquest.com<mailto:disspub@proquest.com>.
       )
       end
