@@ -17,6 +17,9 @@ RSpec.describe "Logged in student can submit an ETD", :clean, type: :system, js:
 
     scenario "submitting a new ETD", js: true do
       visit("/concern/etds/new")
+      expect(page).to have_content('School')
+      visit("/concern/etds/new") # refresh the page
+      expect(page).to have_content('School')
 
       # About Me
       expect(page).to have_content('Post-Graduation Email')
