@@ -23,6 +23,8 @@ RSpec.describe "Logged in student can submit an ETD", :clean, type: :system, js:
 
       # About Me
       expect(page).to have_content('Post-Graduation Email')
+      expect(page).to have_content('Please provide a post-graduation email address')
+
       fill_in 'Student Name', with: FFaker::Name.name
       select 'Emory College', from: 'School'
       select 'Spring 2018', from: 'Graduation Date'

@@ -29,7 +29,7 @@ export const formStore = {
         creator: { label: 'Student Name', value: [], placeholder: 'Last Name, First Name' },
         school: { label: 'School', value: [] },
         graduation_date: { label: 'Graduation Date', value: [] },
-        post_graduation_email: { label: 'Post-Graduation Email', value: [], placeholder: 'name@example.com', type: 'email' }
+        post_graduation_email: { label: 'Post-Graduation Email', value: [], placeholder: 'name@example.com', type: 'email', help_text: `<span class="glyphicon glyphicon-info-sign"></span> Please provide a post-graduation email address so that we can communicate with you about embargo information. This email address will be shared with your school in periodic automatic reports. If you do not want your email shared in these reports, please contact <a href="mailto:scholcomm@listserv.cc.emory.edu">scholcomm@listserv.cc.emory.edu</a>.` }
       }
     },
     my_program: {
@@ -311,19 +311,17 @@ export const formStore = {
 
   /* Schools, Departments & Subfields */
   getSelectedSchool () {
-    return this.schools.selected
+    if (this.schools.selected) {
+      return this.schools.selected
+    } else {
+      return ''
+    }
   },
   getSavedOrSelectedSchool () {
-    if (this.allowTabSave() && localStorage.getItem('school')) {
-      return localStorage.getItem('school')
-    }
-
-    if (this.allowTabSave() && this.savedData['school']) {
+    if (this.savedData['school']) {
       return this.savedData['school']
-    }
-
-    if (!this.allowTabSave()) {
-      return this.savedData['school']
+    } else {
+      return this.getSelectedSchool()
     }
   },
   setSelectedEmbargo (embargo) {
@@ -353,11 +351,7 @@ export const formStore = {
   },
   setSelectedSchool (school) {
     this.schools.selected = school
-    if (this.allowTabSave()) {
-      if (school) {
-        localStorage.setItem('school', school)
-      }
-    }
+
   },
   getSelectedDepartment () {
     return this.selectedDepartment
@@ -392,8 +386,9 @@ export const formStore = {
       return savedValue
     } else {
       axios.get(selectedSchool).then(response => {
-        this.departments = response.data.filter(function(val) { if (val.active != false) { return val } })
-        this.departments.unshift({ "value": 1, "active": true, "label": "Select a Department", "disabled":"disabled", "selected": "selected"})
+        const departmentsFromQA = response.data.filter(function(val) { if (val.active != false) { return val } })
+        departmentsFromQA.unshift({ "value": 'Select a Department', "active": true, "label": "Select a Department", "id": 'Select a Department',  "disabled":"disabled", "selected": "selected"})
+        this.departments = departmentsFromQA
       })
     }
   },
