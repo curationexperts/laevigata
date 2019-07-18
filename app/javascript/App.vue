@@ -127,6 +127,11 @@
             </div>
             <div v-else>
               <label :for="input.label">{{ input.label }}</label>
+
+              <section role="alert" class='alert alert-info' v-if="input.help_text">
+                  <p><div v-html="input.help_text"></div></p>
+               </section>
+
               <input :id="input.label" :type="input.type" class="form-control" :placeholder='input.placeholder' :ref="index" :name="sharedState.etdPrefix(index)" v-model="input.value" v-on:change="sharedState.setValid(value.label, false)">
               <section role="alert" class='errorMessage alert alert-danger' v-if="sharedState.hasError(index)">
                   <p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ input.label }} is required</p>
