@@ -567,7 +567,7 @@ GEM
     noid-rails (3.0.1)
       actionpack (>= 5.0.0, < 6)
       noid (~> 0.9)
-    nokogiri (1.10.1)
+    nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
     nokogumbo (1.5.0)
       nokogiri
@@ -960,7 +960,7 @@ DEPENDENCIES
   loofah (~> 2.2, >= 2.2.1)
   mail (= 2.6.6.rc1)
   net-sftp
-  nokogiri (>= 1.8.4)
+  nokogiri (>= 1.10.4)
   okcomputer
   omniauth-shibboleth (~> 1.2, >= 1.2.1)
   pg (~> 1.0)
