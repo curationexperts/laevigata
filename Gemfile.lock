@@ -591,7 +591,7 @@ GEM
     parallel (1.14.0)
     parser (2.6.0.0)
       ast (~> 2.4.0)
-    pg (0.21.0)
+    pg (1.1.4)
     phantomjs (2.1.1.0)
     posix-spawn (0.3.13)
     power_converter (0.1.2)
@@ -960,10 +960,10 @@ DEPENDENCIES
   loofah (~> 2.2, >= 2.2.1)
   mail (= 2.6.6.rc1)
   net-sftp
-  nokogiri (>= 1.8.2)
+  nokogiri (>= 1.8.4)
   okcomputer
   omniauth-shibboleth (~> 1.2, >= 1.2.1)
-  pg (~> 0.21)
+  pg (~> 1.0)
   pry
   pry-byebug
   puma
