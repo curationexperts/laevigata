@@ -1,5 +1,11 @@
 <div class="home_share_work row">
   <div class="col-sm-12 text-center">
+    <a href="https://www.youtube.com/watch?v=eoGfVaI4NhU" class="btn btn-primary">
+      <i class="glyphicon glyphicon-film"></i> Submission Instructions
+    </a>
+    <p><a href="http://sco.library.emory.edu/etds/faq.html">Frequently Asked Questions</a></p>
+  </div>
+  <div class="col-sm-12 text-center">
     <%= link_to new_polymorphic_path([main_app, Etd]),
         class: 'btn btn-primary', data: { turbolinks: false } do %>
     <i class="glyphicon glyphicon-upload"></i> <%= t('hyrax.share_button') %>
