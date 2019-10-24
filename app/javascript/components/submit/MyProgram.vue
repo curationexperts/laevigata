@@ -5,7 +5,7 @@
     <div> {{ sharedState.getDepartmentLabelFromId(sharedState.getSavedOrSelectedDepartment()) }} </div>
     <div v-if="sharedState.getSavedOrSelectedSubfield() && sharedState.getSavedOrSelectedSubfield().length > 0">
           <h5>Subfield</h5>
-      <div> {{ sharedState.getSubfieldLabelFromId(sharedState.getSelectedSubfield()) }} </div>
+      <div> {{ sharedState.getSubfieldLabelFromId(sharedState.getSavedOrSelectedSubfield()) }} </div>
     </div>
     <div v-if="sharedState.getSavedOrSelectedSchool() === 'Rollins School of Public Health'">
       <h5>Partnering Agencies</h5>
