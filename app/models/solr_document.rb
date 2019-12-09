@@ -68,6 +68,10 @@ class SolrDocument
     self[Solrizer.solr_name('committee_members_names')]
   end
 
+  def date_uploaded
+    ActiveSupport::TimeZone['US/Eastern'].parse(fetch('date_uploaded_dtsi', ''))
+  end
+
   def degree
     self[Solrizer.solr_name('degree')]
   end
