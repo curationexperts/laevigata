@@ -33,6 +33,16 @@ RSpec.describe ::SolrDocument, type: :model do
     end
   end
 
+  describe '#date_uploaded' do
+    subject(:solr_doc) { described_class.new(etd.to_solr) }
+    let(:etd)          { FactoryBot.build(:etd, hidden: true) }
+
+    it 'returns the date uploaded as EST' do
+      etd.date_uploaded = '01/01/2019 3 AM'.to_date.in_time_zone.to_s
+      expect(solr_doc.date_uploaded).to eq('2018-12-31 19:00:00 -0500')
+    end
+  end
+
   describe '#visibility' do
     subject(:solr_doc) { described_class.new(etd.to_solr) }
     let(:etd)          { FactoryBot.build(:etd) }
