@@ -8,7 +8,8 @@ class ApplicationController < ActionController::Base
   # Adds Hyrax behaviors into the application controller
   include Hyrax::Controller
   include Hyrax::ThemedLayoutController
-
+  include HttpAuthConcern
+  
   # Check to see if we're in read_only mode
   before_action :check_read_only, except: [:show, :index]
 
