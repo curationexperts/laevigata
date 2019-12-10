@@ -61,7 +61,7 @@ group :production do
 end
 
 group :development, :test do
-  gem 'bixby', '2.0.0-beta1' # bixby == the hydra community's rubocop rules
+  gem 'bixby' # bixby == the hydra community's rubocop rules
   # Call 'byebug' anywhere in the code to stop execution and get a debugger
   # console
   gem 'byebug', platform: :mri
