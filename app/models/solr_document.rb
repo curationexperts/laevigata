@@ -68,6 +68,10 @@ class SolrDocument
     self[Solrizer.solr_name('committee_members_names')]
   end
 
+  def date_modified
+    ActiveSupport::TimeZone['US/Eastern'].parse(fetch('date_modified_dtsi', ''))
+  end
+
   def date_uploaded
     ActiveSupport::TimeZone['US/Eastern'].parse(fetch('date_uploaded_dtsi', ''))
   end
