@@ -20,7 +20,8 @@
                     "methods": [
                       "Hyrax::Workflow::DeactivateObject",
                       "Hyrax::Workflow::RevokeEditFromDepositor",
-                      "Hyrax::Workflow::GrantReadToDepositor"
+                      "Hyrax::Workflow::GrantReadToDepositor",
+                      "Hyrax::Workflow::GrantEditToApprovers"
                     ]
                 },
                 {
@@ -35,7 +36,8 @@
                         }
                     ],
                     "methods": [
-                        "Hyrax::Workflow::DeactivateObject"
+                        "Hyrax::Workflow::DeactivateObject",
+                        "Hyrax::Workflow::GrantEditToApprovers"
                     ]
                 },
 
