@@ -12,7 +12,7 @@ jobs:
                 default: 2.0.1
         environment:
           DATABASE_NAME: circle_test
-          DATABASE_USERNAME: laevigata
+          # DATABASE_USERNAME: laevigata
           POSTGRES_DB: circle_test
           POSTGRES_HOST: 127.0.0.1
           POSTGRES_USER: postgres
