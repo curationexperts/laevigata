@@ -78,9 +78,9 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'rspec', "~> 3.5"
   gem 'rspec-activemodel-mocks'
-  gem 'rspec_junit_formatter'
   gem 'rspec-its'
   gem 'rspec-rails', "~> 3.5"
+  gem 'rspec_junit_formatter'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'solr_wrapper', '>= 0.3'
