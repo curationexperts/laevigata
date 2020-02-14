@@ -80,6 +80,7 @@ group :development, :test do
   gem 'rspec-activemodel-mocks'
   gem 'rspec-its'
   gem 'rspec-rails', "~> 3.5"
+  gem 'rspec_junit_formatter'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'solr_wrapper', '>= 0.3'
