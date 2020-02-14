@@ -10,7 +10,7 @@ Emory Theses and Dissertations (ETDs).
 or cherokee rose is the <a href="https://georgia.gov/georgia-facts-and-symbols">state flower of Georgia</a>.
 <br/><br/>
 
-[![Build Status](https://travis-ci.org/curationexperts/laevigata.svg?branch=master)](https://travis-ci.org/curationexperts/laevigata)
+[![CircleCI](https://circleci.com/gh/curationexperts/laevigata/tree/master.svg?style=svg)](https://circleci.com/gh/curationexperts/laevigata/tree/master)
 [![Coverage Status](https://coveralls.io/repos/github/curationexperts/laevigata/badge.svg?branch=master)](https://coveralls.io/github/curationexperts/laevigata?branch=master)
 [![Inline docs](http://inch-ci.org/github/curationexperts/laevigata.svg?branch=master)](http://inch-ci.org/github/curationexperts/laevigata)
 
