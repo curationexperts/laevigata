@@ -37,7 +37,7 @@ gem 'pg', '~> 1.0'
 gem 'rails', '~> 5.1'
 gem 'rsolr', '~> 1.0'
 gem 'rubyzip'
-gem 'sanitize', '~> 4.6', '>= 4.6.3'
+gem 'sanitize', '~> 5.2'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 gem 'sidekiq'
