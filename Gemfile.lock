@@ -575,8 +575,8 @@ GEM
       noid (~> 0.9)
     nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
-    nokogumbo (1.5.0)
-      nokogiri
+    nokogumbo (2.0.2)
+      nokogiri (~> 1.8, >= 1.8.4)
     oauth (0.5.4)
     oauth2 (1.4.4)
       faraday (>= 0.8, < 2.0)
@@ -782,10 +782,10 @@ GEM
     safe_yaml (1.0.5)
     samvera-nesting_indexer (2.0.0)
       dry-equalizer
-    sanitize (4.6.6)
+    sanitize (5.2.1)
       crass (~> 1.0.2)
-      nokogiri (>= 1.4.4)
-      nokogumbo (~> 1.4)
+      nokogiri (>= 1.8.0)
+      nokogumbo (~> 2.0)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -985,7 +985,7 @@ DEPENDENCIES
   rspec-rails (~> 3.5)
   rspec_junit_formatter
   rubyzip
-  sanitize (~> 4.6, >= 4.6.3)
+  sanitize (~> 5.2)
   sass-rails (~> 5.0)
   selenium-webdriver
   shoulda-matchers
