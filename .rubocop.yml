@@ -76,6 +76,8 @@ Metrics/LineLength:
     - 'spec/services/hyrax/workflow/pending_approval_notification_spec.rb'
     - 'spec/features/rollins_workflow_etd_spec.rb'
     - 'app/inputs/fields_without_blank.rb'
+    - 'spec/factories/solr_document.rb'
+    - 'spec/presenters/etd_file_set_presenter_spec.rb'
 
 Metrics/PerceivedComplexity:
   Enabled: false
