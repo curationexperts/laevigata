@@ -7,12 +7,10 @@ include Warden::Test::Helpers
 RSpec.describe "Logged in student can submit an ETD", :clean, type: :system, js: true do
   let(:student) { create :user }
   let(:pdf) { Rails.root.join('spec', 'fixtures', 'joey', 'joey_thesis.pdf') }
-  let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
 
   context 'a logged in user' do
     before do
       login_as student
-      workflow_setup.setup
     end
 
     scenario "submitting a new ETD", js: true do
@@ -58,7 +56,6 @@ RSpec.describe "Logged in student can submit an ETD", :clean, type: :system, js:
       first('div[contenteditable="true"].ql-editor').send_keys FFaker::CheesyLingo.paragraph
       find(:xpath, '//*[@id="vue_form"]/div[4]/div/div[4]/div/div/div/div/div[2]/div[1]').send_keys FFaker::CheesyLingo.paragraph
       click_on 'Save and Continue'
-
       # Keywords
       expect(page).to have_content('Select a Research Field')
       execute_script("document.querySelector('select:nth-child(3)').selectedIndex = 1")
@@ -68,12 +65,13 @@ RSpec.describe "Logged in student can submit an ETD", :clean, type: :system, js:
       # Using the default copyright questions
 
       # File Upload
+      expect(page).to have_content("My Files")
       page.attach_file('primary_files[]', pdf, make_visible: true)
       expect(page).to have_content 'Save and Continue'
+      sleep(3)
       click_on 'Save and Continue'
 
       # Embargoes
-
       select '6 months', from: 'Requested Embargo Length'
       click_on 'Save and Continue'
 
