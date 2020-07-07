@@ -1,19 +1,22 @@
 {
   "dependencies": {
     "@rails/webpacker": "^4",
+    "acorn": "^6.4.1",
     "axios": "^0.19.0",
     "caniuse-lite": "^1.0.30000865",
     "core-js": "2",
     "css-loader": "^1.0.0",
     "formdata-polyfill": "^3.0.11",
+    "kind-of": "^6.0.3",
     "lodash": "^4.17.13",
+    "minimist": "^0.2.1",
     "postcss-cssnext": "^3.1.0",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.1",
-    "vue-quill-editor": "^3.0.6",
-    "vue-turbolinks": "^2.0.3",
     "vue-loader": "^15.7.0",
-    "vue-template-compiler": "^2.6.10"
+    "vue-quill-editor": "^3.0.6",
+    "vue-template-compiler": "^2.6.10",
+    "vue-turbolinks": "^2.0.3"
   },
   "scripts": {
     "test": "jest"
