@@ -58,17 +58,13 @@ gem 'xray-rails'
 gem 'yard'
 
 group :development, :test do
-  gem 'bixby' # bixby == the hydra community's rubocop rules
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger
-  # console
+  gem 'bixby'
   gem 'byebug', platform: :mri
   gem 'capybara'
   gem 'capybara-screenshot'
   gem 'coveralls', require: false
   gem 'database_cleaner'
-  # gem 'factory_girl_rails'
   gem 'fcrepo_wrapper'
-  # gem 'ffaker'
   gem 'hyrax-spec'
   gem 'jasmine' # Needed for testing forms
   gem 'launchy'

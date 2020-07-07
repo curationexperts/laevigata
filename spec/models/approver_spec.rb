@@ -5,7 +5,6 @@ require 'rails_helper'
 RSpec.describe Approver,
                type: :model,
                workflow: { admin_sets_config: 'spec/fixtures/config/emory/admin_sets_small.yml' } do
-
   let(:superusers) { ['admin_set_owner', 'superman001', 'wonderwoman001', 'tezprox'] }
 
   describe '::for_admin_set' do

@@ -1,8 +1,10 @@
+inherit_from: .rubocop_todo.yml
+
 inherit_gem:
   bixby: bixby_default.yml
 
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.6
   Exclude:
     - 'db/**/*'
     - 'script/**/*'
@@ -30,7 +32,7 @@ Style/SafeNavigation:
 Style/SymbolProc:
   Enabled: false
 
-Layout/AlignHash:
+Layout/HashAlignment:
   Enabled: false
 
 Layout/SpaceAroundOperators:
@@ -45,7 +47,7 @@ Layout/MultilineHashBraceLayout:
   Exclude:
     - 'spec/controllers/hyrax/etds_controller_spec.rb'
 
-Layout/IndentHash:
+Layout/FirstHashElementIndentation:
   Exclude:
     - 'spec/models/in_progress_etd_spec.rb'
 
@@ -70,7 +72,7 @@ Metrics/ClassLength:
 Metrics/CyclomaticComplexity:
   Enabled: false
 
-Metrics/LineLength:
+Layout/LineLength:
   Exclude:
     - 'spec/fixtures/form_submission_params/*'
     - 'spec/services/hyrax/workflow/pending_approval_notification_spec.rb'
@@ -112,10 +114,6 @@ RSpec/NotToNot:
   Exclude:
     - 'spec/models/ability_spec.rb'
 
-Style/BracesAroundHashParameters:
-  Exclude:
-    - 'spec/models/in_progress_etd_spec.rb'
-
 Style/CommentAnnotation:
   Enabled: false
 
@@ -125,7 +123,7 @@ Style/Semicolon:
 Layout/MultilineMethodCallIndentation:
   Enabled: false
 
-Layout/AlignParameters:
+Layout/ParameterAlignment:
   Exclude:
     - 'app/models/etd.rb'
     - 'spec/controllers/hyrax/etds_controller_spec.rb'

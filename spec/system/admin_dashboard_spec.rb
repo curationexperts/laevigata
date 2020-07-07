@@ -6,7 +6,6 @@ RSpec.describe 'Admin dashboard',
                js: :true,
                integration: true,
                workflow: { admin_sets_config: 'spec/fixtures/config/emory/candler_admin_sets.yml' } do
-
   context 'as a student user' do
     let(:user) { FactoryBot.create(:nongraduated_user) }
 
