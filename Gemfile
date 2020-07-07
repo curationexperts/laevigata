@@ -7,6 +7,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+gem "activesupport", ">= 5.2.4.3"
 gem 'bcrypt', '>= 3.1.12'
 gem "bootstrap-sass", ">= 3.4.1"
 gem 'clamby', '>= 1.2.5'
@@ -20,7 +21,7 @@ gem 'factory_bot_rails' # Needed so we can load fixtures for demos in production
 gem 'ffaker' # Needed so we can load fixtures for demos in production
 gem 'honeybadger'
 gem 'hydra-role-management'
-gem 'hyrax', '~> 2.5.1'
+gem 'hyrax', '~> 2.8.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
 # Use jquery as the JavaScript library
@@ -35,7 +36,7 @@ gem 'okcomputer'
 gem 'omniauth-shibboleth', '~> 1.2', '>= 1.2.1'
 gem 'pg', '~> 1.0'
 gem 'rack', '>= 2.1.4'
-gem 'rails', '~> 5.1'
+gem 'rails'
 gem 'rsolr', '~> 1.0'
 gem 'rubyzip'
 gem 'sanitize', '~> 5.2'
