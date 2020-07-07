@@ -1,0 +1,9 @@
+unreleased=true
+future-release=v2.6.0
+enhancement-labels=enhancement
+bug-labels=bug
+pr-label=**Technical Enhancements:**
+enhancement_prefix=**New Features:**
+security-labels=dependencies
+user=curationexperts
+project=laevigata

@@ -136,3 +136,9 @@ version control and the server can be re-built with these credentials in place.
   3. The generator will try to add the BrowseEverything mount to your `config/routes.rb` file.
   This already exists in Laevigata, so remove the line it added.
 1. Save everything and restart your rails server and you should be good to go!
+
+## Releasing
+
+1. Update `.github_changelog_generator` file with the version number you're about to release
+2. Generate release notes by running: `github_changelog_generator --token 7bd18e1197af58ab4e1b2d68dd5e6d52b9774f1f --max-issues 1`
+3. Commit these changes to the repo, and copy-and-paste the release notes from the CHANGELOG.md file.

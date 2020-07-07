@@ -84,11 +84,10 @@ group :development do
   gem 'capistrano-passenger'
   gem 'capistrano-rails'
   gem 'capistrano-sidekiq', '~> 0.20.0'
+  gem 'github_changelog_generator'
   gem 'listen', '~> 3.0.5'
   gem 'pry'
   gem 'pry-byebug'
-  # Spring speeds up development by keeping your application running in the
-  # background. Read more: https://github.com/rails/spring
   gem 'puma'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
