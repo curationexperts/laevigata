@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 inherit_gem:
   bixby: bixby_default.yml
 
@@ -70,7 +72,7 @@ Metrics/ClassLength:
 Metrics/CyclomaticComplexity:
   Enabled: false
 
-Metrics/LineLength:
+Layout/LineLength:
   Exclude:
     - 'spec/fixtures/form_submission_params/*'
     - 'spec/services/hyrax/workflow/pending_approval_notification_spec.rb'
