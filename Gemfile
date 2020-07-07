@@ -20,7 +20,7 @@ gem 'factory_bot_rails' # Needed so we can load fixtures for demos in production
 gem 'ffaker' # Needed so we can load fixtures for demos in production
 gem 'honeybadger'
 gem 'hydra-role-management'
-gem 'hyrax', '~> 2.5.1'
+gem 'hyrax', '~> 2.8'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
 # Use jquery as the JavaScript library
@@ -35,21 +35,17 @@ gem 'okcomputer'
 gem 'omniauth-shibboleth', '~> 1.2', '>= 1.2.1'
 gem 'pg', '~> 1.0'
 gem 'rack', '>= 2.1.4'
-gem 'rails', '~> 5.1'
+gem 'rails'
 gem 'rsolr', '~> 1.0'
 gem 'rubyzip'
 gem 'sanitize', '~> 5.2'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 gem 'sidekiq'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
 gem 'tinymce-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 gem 'twitter-bootstrap-rails'
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 gem 'webpacker', '~> 4'
