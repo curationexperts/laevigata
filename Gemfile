@@ -18,6 +18,7 @@ gem 'devise-guests', '~> 0.5'
 gem 'dotenv-rails'
 gem 'factory_bot_rails' # Needed so we can load fixtures for demos in production
 gem 'ffaker' # Needed so we can load fixtures for demos in production
+gem 'honeybadger'
 gem 'hydra-role-management'
 gem 'hyrax', '~> 2.5.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -55,10 +56,6 @@ gem 'webpacker', '~> 4'
 gem 'whenever', require: false
 gem 'xray-rails'
 gem 'yard'
-
-group :production do
-  gem 'honeybadger', '~> 3.1'
-end
 
 group :development, :test do
   gem 'bixby' # bixby == the hydra community's rubocop rules
