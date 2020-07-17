@@ -24,14 +24,6 @@ class GraduationJob < ActiveJob::Base
     @work.save
   end
 
-  # Given a graduation date and an embargo length, calculate the embargo_release_date.
-  # This assumes embargo_length values like "6 months", "2 months", "6 years"
-  def self.embargo_length_to_embargo_release_date(graduation_date, embargo_length)
-    number, units = embargo_length.split(" ")
-    graduation_date = Date.parse(graduation_date) if graduation_date.class == String
-    graduation_date + Integer(number).send(units.to_sym)
-  end
-
   # @param [Date] graduation_date
   def record_degree_awarded_date(graduation_date)
     @work.degree_awarded = graduation_date
@@ -53,7 +45,7 @@ class GraduationJob < ActiveJob::Base
 
   def update_embargo_release_date
     return unless @work.embargo_length
-    embargo_release_date = GraduationJob.embargo_length_to_embargo_release_date(@work.degree_awarded, @work.embargo_length)
+    embargo_release_date = GraduationHelper.embargo_length_to_embargo_release_date(@work.degree_awarded, @work.embargo_length)
     @work.embargo.embargo_release_date = embargo_release_date
     @work.embargo.save
     @work.file_sets.each do |fs|
