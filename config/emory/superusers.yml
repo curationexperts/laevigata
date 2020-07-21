@@ -1,5 +1,6 @@
 superusers:
   database:
    - bess
+   - rkadel
   shibboleth:
    - tezprox # tezprox
