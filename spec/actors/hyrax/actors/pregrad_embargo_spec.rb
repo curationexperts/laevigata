@@ -19,7 +19,15 @@ describe Hyrax::Actors::PregradEmbargo do
       expect { middleware.create(env) }.not_to change { env.attributes }
     end
 
-    context 'with a specific string passed from InProgressEtd' do
+    # InProgressEtd::NO_EMBARGO == "None - open access immediately"
+    # InProgressEtd passes "None - open access immediately" in the `embargo_length` field
+    # when the user is not requesting an embargo on their work.
+    # This represents a change in the previously expected behavior.
+    # Previously, we expected that if there was no embargo requested at deposit time,
+    # the `embargo_length` field would simply be blank. We are compensating for
+    # this change by removing the `embargo_length` attribute from the attributes
+    # traversing the actor stack.
+    context 'with InProgressEtd::NO_EMBARGO passed from InProgressEtd' do
       let(:attributes) do
         { 'title' => ['good fun'],
           'creator' => ['Sneddon, River'],
@@ -27,10 +35,10 @@ describe Hyrax::Actors::PregradEmbargo do
           'embargo_length' => InProgressEtd::NO_EMBARGO }
       end
 
-      it 'does not apply an embargo' do
-        expect { middleware.create(env) }
-          .to change { env.attributes }
-          .to attributes.except('embargo_length')
+      it "removes the embargo_length attribute" do
+        expect(env.attributes["embargo_length"]).to eq InProgressEtd::NO_EMBARGO
+        middleware.create(env)
+        expect(env.attributes["embargo_length"]).to eq nil
       end
     end
 
