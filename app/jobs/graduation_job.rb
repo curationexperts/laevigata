@@ -45,6 +45,7 @@ class GraduationJob < ActiveJob::Base
 
   def update_embargo_release_date
     return unless @work.embargo_length
+    return unless @work.embargo
     embargo_release_date = GraduationHelper.embargo_length_to_embargo_release_date(@work.degree_awarded, @work.embargo_length)
     @work.embargo.embargo_release_date = embargo_release_date
     @work.embargo.save
