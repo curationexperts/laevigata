@@ -6,7 +6,7 @@ require 'rails_helper'
 # * update the embargo release date to the user's graduation date plus
 #   their requested embargo length
 # * send notifications
-describe GraduationJob, integration: true do
+describe GraduationJob, :clean, integration: true do
   before(:context) do
     workflow_settings = { superusers_config: "#{fixture_path}/config/emory/superusers.yml",
                           admin_sets_config: "#{fixture_path}/config/emory/candler_admin_sets.yml",
