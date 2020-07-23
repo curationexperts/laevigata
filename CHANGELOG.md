@@ -1,5 +1,25 @@
 # Changelog
 
+## [v2.6.1](https://github.com/curationexperts/laevigata/tree/v2.6.1) (2020-07-23)
+
+[Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.6.0...v2.6.1)
+
+**Security fixes:**
+
+- Bump lodash from 4.17.13 to 4.17.19 [\#2029](https://github.com/curationexperts/laevigata/pull/2029) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+**Closed issues:**
+
+- Rebuild ETD production server & fix any volume issues [\#2026](https://github.com/curationexperts/laevigata/issues/2026)
+- Release latest laevigata [\#2008](https://github.com/curationexperts/laevigata/issues/2008)
+
+**Technical Enhancements:**
+
+- Do not attempt to update the embargo if there is no embargo [\#2033](https://github.com/curationexperts/laevigata/pull/2033) ([bess](https://github.com/bess))
+- Refactor test to make it more clear [\#2032](https://github.com/curationexperts/laevigata/pull/2032) ([bess](https://github.com/bess))
+- handle "None" embargo length in graduation job [\#2030](https://github.com/curationexperts/laevigata/pull/2030) ([fnibbit](https://github.com/fnibbit))
+- Update solr version in development and test [\#2025](https://github.com/curationexperts/laevigata/pull/2025) ([bess](https://github.com/bess))
+
 ## [v2.6.0](https://github.com/curationexperts/laevigata/tree/v2.6.0) (2020-07-07)
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.5.3...v2.6.0)
@@ -37,6 +57,7 @@
 
 **Technical Enhancements:**
 
+- Update release process [\#2024](https://github.com/curationexperts/laevigata/pull/2024) ([bess](https://github.com/bess))
 - Moves submission form links to SCO website [\#2023](https://github.com/curationexperts/laevigata/pull/2023) ([rotated8](https://github.com/rotated8))
 - Upgrade bixby [\#2019](https://github.com/curationexperts/laevigata/pull/2019) ([bess](https://github.com/bess))
 - Refactor to cache solr documents for better performance [\#2014](https://github.com/curationexperts/laevigata/pull/2014) ([bess](https://github.com/bess))
@@ -232,19 +253,10 @@
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.4.0...v2.4.1)
 
-**Fixed bugs:**
-
-- Re-enable coveralls reporting [\#1921](https://github.com/curationexperts/laevigata/issues/1921)
-- Error updating embargo release date for work [\#1918](https://github.com/curationexperts/laevigata/issues/1918)
-
 **Security fixes:**
 
 - Bump lodash from 4.17.11 to 4.17.13 [\#1930](https://github.com/curationexperts/laevigata/pull/1930) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump lodash.template from 4.4.0 to 4.5.0 [\#1928](https://github.com/curationexperts/laevigata/pull/1928) ([dependabot[bot]](https://github.com/apps/dependabot))
-
-**Closed issues:**
-
-- Run July registrar data [\#1920](https://github.com/curationexperts/laevigata/issues/1920)
 
 **Technical Enhancements:**
 
@@ -254,21 +266,10 @@
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.3.5...v2.4.0)
 
-**Security fixes:**
-
-- Bump yard from 0.9.18 to 0.9.20 [\#1919](https://github.com/curationexperts/laevigata/pull/1919) ([dependabot[bot]](https://github.com/apps/dependabot))
-
-**Closed issues:**
-
-- \[Emory laevigata qa/production\] Notice: Error updating embargo release date for work Scavenger Receptor Expression is Differentially Affected by DNAzyme-Gold Nanoparticle Conjugates in a Lung Model: invalid value for Integer\(\): "None" [\#1917](https://github.com/curationexperts/laevigata/issues/1917)
-
 **Technical Enhancements:**
 
 - Add ability to set GA code with ENV variable [\#1925](https://github.com/curationexperts/laevigata/pull/1925) ([little9](https://github.com/little9))
 - Update README with clamav instructions [\#1924](https://github.com/curationexperts/laevigata/pull/1924) ([little9](https://github.com/little9))
-- Fix coveralls reporting [\#1923](https://github.com/curationexperts/laevigata/pull/1923) ([little9](https://github.com/little9))
-- Rebrand application name [\#1922](https://github.com/curationexperts/laevigata/pull/1922) ([mark-dce](https://github.com/mark-dce))
-- Environmental Studies --\> Environmental Sciences [\#1916](https://github.com/curationexperts/laevigata/pull/1916) ([bess](https://github.com/bess))
 
 ## [v2.3.5](https://github.com/curationexperts/laevigata/tree/v2.3.5) (2019-06-04)
 

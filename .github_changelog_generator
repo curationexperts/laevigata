@@ -1,5 +1,6 @@
 unreleased=true
-future-release=v2.6.0
+future-release=v2.6.1
+max-issues=12
 enhancement-labels=enhancement
 bug-labels=bug
 pr-label=**Technical Enhancements:**
