@@ -7,19 +7,8 @@ require 'rails_helper'
 #   their requested embargo length
 # * send notifications
 describe GraduationJob, :clean, integration: true do
-  before(:context) do
-    workflow_settings = { superusers_config: "#{fixture_path}/config/emory/superusers.yml",
-                          admin_sets_config: "#{fixture_path}/config/emory/candler_admin_sets.yml",
-                          log_location:      "/dev/null" }
-
-    setup_args = [workflow_settings[:superusers_config],
-                  workflow_settings[:admin_sets_config],
-                  workflow_settings[:log_location]]
-
-    WorkflowSetup.new(*setup_args).setup
-  end
-
   context "a student with a requested embargo", :perform_jobs do
+    let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null") }
     let(:user)       { FactoryBot.create(:user) }
     let(:ability)    { ::Ability.new(user) }
     let(:env)        { Hyrax::Actors::Environment.new(Etd.new, ability, attributes) }
@@ -45,6 +34,7 @@ describe GraduationJob, :clean, integration: true do
     let(:open)       { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
     let(:restricted) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
     before do
+      w.setup
       allow(Hyrax::Workflow::DegreeAwardedNotification).to receive(:send_notification)
       ActiveJob::Base.queue_adapter.filter = [AttachFilesToWorkJob]
       Hyrax::CurationConcern.actor.create(env)
