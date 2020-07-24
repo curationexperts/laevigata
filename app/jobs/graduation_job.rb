@@ -12,10 +12,18 @@ class GraduationJob < ActiveJob::Base
 
   # @param [String] work_id - the id of the work object
   # @param [Date] the student's graduation date
+  # We should never publish an ETD unless it has been approved.
   def perform(work_id, graduation_date = Time.zone.today.to_s)
-    Rails.logger.warn "Graduation Job: ETD #{work_id} graduation recorded as #{graduation_date}"
     @work = Etd.find(work_id)
+    workflow_state = @work.to_sipity_entity.workflow_state_name
+    unless workflow_state == "approved"
+      Rails.logger.error("ETD #{@work.id}: Tried to publish a work that wasn't approved.")
+      Honeybadger.notify("ETD #{@work.id}: Tried to publish a work that wasn't approved.")
+      return
+    end
+    Rails.logger.warn "Graduation Job: ETD #{work_id} graduation recorded as #{graduation_date}"
     record_degree_awarded_date(graduation_date)
+    remove_erroneous_embargo
     update_embargo_release_date
     update_depositor_email
     publish_object
@@ -43,6 +51,19 @@ class GraduationJob < ActiveJob::Base
     Rails.logger.error "ETD #{@work.id}: Could not update post-graduation email address because could not find user with id #{@work.depositor}"
   end
 
+  # Some ETDs that should be open acess are instead having a PregradEmbargo applied.
+  # If a work has no embargo_length, and files_embargoed is false, remove its embargo
+  def remove_erroneous_embargo
+    return unless @work.embargo_length.nil? || @work.embargo_length == InProgressEtd::NO_EMBARGO
+    return unless @work.files_embargoed == false
+    return unless @work.embargo
+    @work.deactivate_embargo!
+    @work.embargo.save!
+    @work.embargo = nil
+    @work.save!
+    @work.reload
+  end
+
   def update_embargo_release_date
     return unless @work.embargo_length
     return unless @work.embargo
@@ -62,8 +83,8 @@ class GraduationJob < ActiveJob::Base
     end
     Rails.logger.warn "Graduation Job: ETD #{@work.id} embargo release date set to #{@work.embargo.embargo_release_date}"
   rescue => e
-    Rails.logger.error "Error updating embargo release date for work #{@work}: #{e}"
-    Honeybadger.notify("Error updating embargo release date for work #{@work}: #{e}")
+    Rails.logger.error "ETD #{@work.id}: Error updating embargo release date for work #{@work}: #{e}"
+    Honeybadger.notify("ETD #{@work.id}: Error updating embargo release date for work #{@work}: #{e}")
   end
 
   def send_notifications

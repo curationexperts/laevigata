@@ -9,6 +9,7 @@ require 'rails_helper'
 describe GraduationJob, :clean, integration: true do
   context "a student with a requested embargo", :perform_jobs do
     let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null") }
+    let(:approving_user) { User.find_by(uid: "candleradmin") }
     let(:user)       { FactoryBot.create(:user) }
     let(:ability)    { ::Ability.new(user) }
     let(:env)        { Hyrax::Actors::Environment.new(Etd.new, ability, attributes) }
@@ -41,15 +42,36 @@ describe GraduationJob, :clean, integration: true do
     end
     it "performs the graduation process" do
       etd = Etd.last
+
+      # Check that the ETD has the expected state before the graduation job runs
       expect(etd.degree_awarded).to eq nil
       expect(etd.embargo.embargo_release_date).to eq six_years_from_today
       expect(etd.embargo_length).to eq "6 months"
+      expect(etd.visibility).to eq "all_restricted"
       expect(etd.reload.file_sets.first.embargo)
         .to have_attributes embargo_release_date: six_years_from_today,
                             visibility_during_embargo: restricted,
                             visibility_after_embargo: open
       expect(etd.file_sets.first)
         .to have_attributes visibility: restricted
+      expect(etd.to_sipity_entity.workflow_state_name).to eq "pending_approval"
+
+      # Try to run the graduation job against a work in the "pending_approval" workflow state.
+      # It shouldn't do anything except log an error, since we never want to publish
+      # a work that hasn't been approved.
+      graduation_job = described_class.new
+      graduation_job.perform(etd.id, Time.zone.tomorrow)
+      etd.reload
+      expect(etd.degree_awarded).to eq nil
+      expect(etd.to_sipity_entity.workflow_state_name).to eq "pending_approval"
+
+      # The approving user marks the etd as approved
+      subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
+      sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
+      Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: nil)
+      expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "approved"
+
+      # Now run the graduation job again, and this time it should publish the ETD.
       graduation_job = described_class.new
       graduation_job.perform(etd.id, Time.zone.tomorrow)
       etd.reload
@@ -58,8 +80,11 @@ describe GraduationJob, :clean, integration: true do
       expect(etd.degree_awarded).to eq Time.zone.tomorrow
 
       # An object must be "published" and "active" to be publicly visible
-      expect(etd.to_sipity_entity.workflow_state_name).to eq "published"
+      expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "published"
       expect(etd.state).to eq Vocab::FedoraResourceStatus.active
+
+      # The visibility should be the same
+      expect(etd.visibility).to eq "all_restricted"
 
       # The User object should now have the post_graduation_email, to be used
       # for sending post-graduation notifications (e.g., for embargo expiration)
