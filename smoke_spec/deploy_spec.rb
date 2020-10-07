@@ -9,10 +9,9 @@ hostname = ENV['ETD_HOST']
 # @ssl_context.verify_mode = OpenSSL::SSL::VERIFY_NONE
 ssl_context = OpenSSL::SSL::SSLContext.new
 ssl_context.verify_mode = OpenSSL::SSL::VERIFY_NONE
-front_page_url = "https://#{username}:#{password}@#{hostname}"
 
 RSpec.describe "The ETD server at #{hostname}", type: :feature do
-  let (:uri) {"https://#{username}:#{password}@#{hostname}"}
+  let(:uri) { "https://#{username}:#{password}@#{hostname}" }
   it "loads the front page" do
     visit uri
     expect(page).to have_content("Emory Theses and Dissertations")
