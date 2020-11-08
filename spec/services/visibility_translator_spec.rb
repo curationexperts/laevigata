@@ -35,6 +35,18 @@ describe VisibilityTranslator do
       it 'is open access' do
         expect(translator.visibility).to eq described_class::OPEN
       end
+
+      it 'logs an error when state is inconsistent' do
+        allow(Rails.logger).to receive(:error)
+
+        # none of the booleans should be true if there is no embargo requested
+        obj.abstract_embargoed = true
+        obj.files_embargoed = false
+        obj.embargo_length = 'None - open access immediately'
+
+        expect(translator.visibility).to eq described_class::OPEN
+        expect(Rails.logger).to have_received(:error).with("Inconsistent embargo values in ID: #{obj.id}")
+      end
     end
 
     context 'when under full embargo' do
@@ -42,6 +54,19 @@ describe VisibilityTranslator do
 
       it 'is embargo (all)' do
         expect(translator.visibility).to eq described_class::ALL_EMBARGOED
+      end
+
+      it 'restricts the object when state is inconsistent' do
+        allow(Rails.logger).to receive(:error)
+
+        # one or more of the booleans should be true if there is a non-zero embargo length requested
+        obj.abstract_embargoed = false
+        obj.toc_embargoed = false
+        obj.files_embargoed = false
+        obj.embargo_length = '6 - Months'
+
+        expect(translator.visibility).to eq described_class::RESTRICTED
+        expect(Rails.logger).to have_received(:error).with("Invalid embargo values. Returning RESTRICTED for ID: #{obj.id}")
       end
     end
 
