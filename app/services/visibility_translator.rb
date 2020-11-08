@@ -46,8 +46,9 @@ class VisibilityTranslator
     return proxy.visibility if obj.hidden? || !obj.under_embargo?
     return ALL_EMBARGOED    if obj.abstract_embargoed.to_s == "true"
     return TOC_EMBARGOED    if obj.toc_embargoed.to_s == "true"
+    return FILES_EMBARGOED  if obj.files_embargoed.to_s == "true"
 
-    FILES_EMBARGOED
+    OPEN
   end
 
   def visibility=(value)

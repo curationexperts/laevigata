@@ -29,6 +29,14 @@ describe VisibilityTranslator do
       end
     end
 
+    context 'when not under embargo' do
+      let(:obj) { FactoryBot.create(:sample_data_with_nothing_embargoed) }
+
+      it 'is open access' do
+        expect(translator.visibility).to eq described_class::OPEN
+      end
+    end
+
     context 'when under full embargo' do
       let(:obj) { FactoryBot.create(:sample_data_with_everything_embargoed) }
 
