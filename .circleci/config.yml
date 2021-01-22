@@ -6,7 +6,7 @@ jobs:
         parameters:
             ruby_version:
                 type: string
-                default: 2.5.3
+                default: 2.7.2
             bundler_version:
                 type: string
                 default: 2.0.1
@@ -61,4 +61,4 @@ workflows:
     ci:
         jobs:
             - build:
-                name: ruby2-5-3
+                name: ruby2-7-2
