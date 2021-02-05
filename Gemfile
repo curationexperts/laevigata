@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '~> 2.4'
+ruby '2.7.2'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
@@ -32,7 +32,8 @@ gem 'mail', '2.6.6.rc1'
 gem 'net-sftp'
 gem 'nokogiri', '>= 1.10.4'
 gem 'okcomputer'
-gem 'omniauth-shibboleth', '~> 1.2', '>= 1.2.1'
+gem 'omniauth', '< 2.0.0'
+gem 'omniauth-shibboleth', '~> 1.3'
 gem 'pg', '~> 1.0'
 gem 'rack', '>= 2.1.4'
 gem 'rails'
