@@ -1,5 +1,39 @@
 # Changelog
 
+## [v2.7.0](https://github.com/curationexperts/laevigata/tree/v2.7.0) (2021-02-10)
+
+[Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.6.1...v2.7.0)
+
+**Security fixes:**
+
+- Bump carrierwave from 1.3.1 to 1.3.2 [\#2081](https://github.com/curationexperts/laevigata/pull/2081) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump ini from 1.3.5 to 1.3.8 [\#2074](https://github.com/curationexperts/laevigata/pull/2074) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump nokogiri from 1.10.10 to 1.11.0 [\#2073](https://github.com/curationexperts/laevigata/pull/2073) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump dot-prop from 4.2.0 to 4.2.1 [\#2072](https://github.com/curationexperts/laevigata/pull/2072) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump axios from 0.19.0 to 0.21.1 [\#2070](https://github.com/curationexperts/laevigata/pull/2070) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump http-proxy from 1.17.0 to 1.18.1 [\#2059](https://github.com/curationexperts/laevigata/pull/2059) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump node-sass from 4.12.0 to 4.14.1 [\#2058](https://github.com/curationexperts/laevigata/pull/2058) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump quill from 1.3.6 to 1.3.7 [\#2057](https://github.com/curationexperts/laevigata/pull/2057) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump elliptic from 6.4.1 to 6.5.3 [\#2041](https://github.com/curationexperts/laevigata/pull/2041) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+**Closed issues:**
+
+- Investigate ETD Outage 10/24/2020 07:51:03 AM [\#2066](https://github.com/curationexperts/laevigata/issues/2066)
+- Unable to login with TEZPROX admin account for ETDs [\#2060](https://github.com/curationexperts/laevigata/issues/2060)
+- Investigate ETD Outage 2020-08-30 at 11:43am  [\#2056](https://github.com/curationexperts/laevigata/issues/2056)
+- From Freshdesk: ETD Data Dump [\#2042](https://github.com/curationexperts/laevigata/issues/2042)
+- Do not pin darlingtonia to master [\#2039](https://github.com/curationexperts/laevigata/issues/2039)
+- Investigate ETD Outage - 07/16/2020 09:10:05 PM UTC + 8/2\(8/1?\) [\#2031](https://github.com/curationexperts/laevigata/issues/2031)
+
+**Technical Enhancements:**
+
+- Update supplemental file upload interface to remove Box [\#2079](https://github.com/curationexperts/laevigata/pull/2079) ([fnibbit](https://github.com/fnibbit))
+- Updating ruby to the latest supported version. [\#2078](https://github.com/curationexperts/laevigata/pull/2078) ([fnibbit](https://github.com/fnibbit))
+- Update config.yml for ruby 2.7.2 [\#2077](https://github.com/curationexperts/laevigata/pull/2077) ([fnibbit](https://github.com/fnibbit))
+- Set up basic framework for deployment/smoke test [\#2062](https://github.com/curationexperts/laevigata/pull/2062) ([fnibbit](https://github.com/fnibbit))
+- Clean spec to prevent intermittent test failures [\#2036](https://github.com/curationexperts/laevigata/pull/2036) ([bess](https://github.com/bess))
+- Refactor of graduation job test [\#2035](https://github.com/curationexperts/laevigata/pull/2035) ([bess](https://github.com/bess))
+
 ## [v2.6.1](https://github.com/curationexperts/laevigata/tree/v2.6.1) (2020-07-23)
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.6.0...v2.6.1)
@@ -15,6 +49,7 @@
 
 **Technical Enhancements:**
 
+- Prep for v1.6.1 release [\#2034](https://github.com/curationexperts/laevigata/pull/2034) ([bess](https://github.com/bess))
 - Do not attempt to update the embargo if there is no embargo [\#2033](https://github.com/curationexperts/laevigata/pull/2033) ([bess](https://github.com/bess))
 - Refactor test to make it more clear [\#2032](https://github.com/curationexperts/laevigata/pull/2032) ([bess](https://github.com/bess))
 - handle "None" embargo length in graduation job [\#2030](https://github.com/curationexperts/laevigata/pull/2030) ([fnibbit](https://github.com/fnibbit))
@@ -183,93 +218,30 @@
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.4.4...v2.4.5)
 
-**Closed issues:**
-
-- Full data dump for Doug Goans [\#1949](https://github.com/curationexperts/laevigata/issues/1949)
-- Upgrade to pg \> 1.0 [\#1946](https://github.com/curationexperts/laevigata/issues/1946)
-
 **Technical Enhancements:**
 
 - Upgrade nokogiri again for security fix [\#1952](https://github.com/curationexperts/laevigata/pull/1952) ([bess](https://github.com/bess))
 - Upgrade nokogiri and pg [\#1951](https://github.com/curationexperts/laevigata/pull/1951) ([bess](https://github.com/bess))
-- Replaces the logo to reflect the new application name. [\#1950](https://github.com/curationexperts/laevigata/pull/1950) ([rotated8](https://github.com/rotated8))
 
 ## [v2.4.4](https://github.com/curationexperts/laevigata/tree/v2.4.4) (2019-07-25)
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.4.3...v2.4.4)
 
-**Closed issues:**
-
-- Production release for 2.4.2 [\#1944](https://github.com/curationexperts/laevigata/issues/1944)
-
-**Technical Enhancements:**
-
-- Update unauthorized image placeholder [\#1947](https://github.com/curationexperts/laevigata/pull/1947) ([mark-dce](https://github.com/mark-dce))
-
 ## [v2.4.3](https://github.com/curationexperts/laevigata/tree/v2.4.3) (2019-07-25)
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.4.2...v2.4.3)
-
-**Fixed bugs:**
-
-- Wrong Timestamp on Review Submissions Tab [\#1939](https://github.com/curationexperts/laevigata/issues/1939)
-- Refreshing the "About Me" tab should not remove the "School" selector [\#1937](https://github.com/curationexperts/laevigata/issues/1937)
-
-**Closed issues:**
-
-- Post-Graduation Email: Language Change  [\#1936](https://github.com/curationexperts/laevigata/issues/1936)
-
-**Technical Enhancements:**
-
-- Add a placeholder image for unauthorized file access [\#1945](https://github.com/curationexperts/laevigata/pull/1945) ([mark-dce](https://github.com/mark-dce))
 
 ## [v2.4.2](https://github.com/curationexperts/laevigata/tree/v2.4.2) (2019-07-18)
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.4.1...v2.4.2)
 
-**Fixed bugs:**
-
-- Filtering stats report produces an error [\#1935](https://github.com/curationexperts/laevigata/issues/1935)
-- Some ETDs cannot display because they do not seem to have a department value populated in solr [\#1933](https://github.com/curationexperts/laevigata/issues/1933)
-
-**Security fixes:**
-
-- Bump mini\_magick from 4.9.3 to 4.9.5 [\#1943](https://github.com/curationexperts/laevigata/pull/1943) ([dependabot[bot]](https://github.com/apps/dependabot))
-
-**Closed issues:**
-
-- Approver Updates [\#1940](https://github.com/curationexperts/laevigata/issues/1940)
-- Production Laevigata Release [\#1929](https://github.com/curationexperts/laevigata/issues/1929)
-- startup order: apache should start after solr and fedora [\#1927](https://github.com/curationexperts/laevigata/issues/1927)
-
-**Technical Enhancements:**
-
-- Format date in workflow admin page [\#1942](https://github.com/curationexperts/laevigata/pull/1942) ([little9](https://github.com/little9))
-- Add instructions to email address field [\#1941](https://github.com/curationexperts/laevigata/pull/1941) ([little9](https://github.com/little9))
-- Fix error caused by not selecting school and refreshing [\#1938](https://github.com/curationexperts/laevigata/pull/1938) ([little9](https://github.com/little9))
-- Update the extension for ProQuest's phone number. [\#1932](https://github.com/curationexperts/laevigata/pull/1932) ([rotated8](https://github.com/rotated8))
-
 ## [v2.4.1](https://github.com/curationexperts/laevigata/tree/v2.4.1) (2019-07-11)
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.4.0...v2.4.1)
 
-**Security fixes:**
-
-- Bump lodash from 4.17.11 to 4.17.13 [\#1930](https://github.com/curationexperts/laevigata/pull/1930) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump lodash.template from 4.4.0 to 4.5.0 [\#1928](https://github.com/curationexperts/laevigata/pull/1928) ([dependabot[bot]](https://github.com/apps/dependabot))
-
-**Technical Enhancements:**
-
-- Ignore RecordNotFound exception [\#1926](https://github.com/curationexperts/laevigata/pull/1926) ([little9](https://github.com/little9))
-
 ## [v2.4.0](https://github.com/curationexperts/laevigata/tree/v2.4.0) (2019-07-08)
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.3.5...v2.4.0)
-
-**Technical Enhancements:**
-
-- Add ability to set GA code with ENV variable [\#1925](https://github.com/curationexperts/laevigata/pull/1925) ([little9](https://github.com/little9))
-- Update README with clamav instructions [\#1924](https://github.com/curationexperts/laevigata/pull/1924) ([little9](https://github.com/little9))
 
 ## [v2.3.5](https://github.com/curationexperts/laevigata/tree/v2.3.5) (2019-06-04)
 
@@ -437,15 +409,15 @@
 
 ## [v1.6.1](https://github.com/curationexperts/laevigata/tree/v1.6.1) (2018-04-26)
 
-[Full Changelog](https://github.com/curationexperts/laevigata/compare/v1.6...v1.6.1)
-
-## [v1.6](https://github.com/curationexperts/laevigata/tree/v1.6) (2018-04-25)
-
-[Full Changelog](https://github.com/curationexperts/laevigata/compare/v1.6.0...v1.6)
+[Full Changelog](https://github.com/curationexperts/laevigata/compare/v1.6.0...v1.6.1)
 
 ## [v1.6.0](https://github.com/curationexperts/laevigata/tree/v1.6.0) (2018-04-25)
 
-[Full Changelog](https://github.com/curationexperts/laevigata/compare/v1.5.3...v1.6.0)
+[Full Changelog](https://github.com/curationexperts/laevigata/compare/v1.6...v1.6.0)
+
+## [v1.6](https://github.com/curationexperts/laevigata/tree/v1.6) (2018-04-25)
+
+[Full Changelog](https://github.com/curationexperts/laevigata/compare/v1.5.3...v1.6)
 
 ## [v1.5.3](https://github.com/curationexperts/laevigata/tree/v1.5.3) (2018-04-24)
 
