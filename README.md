@@ -57,7 +57,7 @@ person's uid to an environment variable called EMBARGO_NOTIFICATION_CC in the
     `git clone https://github.com/curationexperts/laevigata.git`
 1. Change to the application directory
     `cd laevigata`
-1. Use set your ruby version to **2.4.2** and the gemset of your choice
+1. Use set your ruby version to **2.7.2** and the gemset of your choice
     eg. `rvm use --create 2.4.2@laevigata`
 1. Install gem dependencies
     `bundle install`
@@ -77,13 +77,16 @@ person's uid to an environment variable called EMBARGO_NOTIFICATION_CC in the
     see the [Environment variables in development](#environment-variables-in-development) section for more details
 1. Read the section on 'Database Authentication' below and decide if you want to set up your environment for database authentication.
 1. Start the demo server in its own terminal session
-    `bin/rails hydra:server`
+    `bundle exec rake hydra:server`
 1. Start the webpack dev server
    `bin/webpack-dev-server`
 1. Run the first time setup script
     `bin/setup`
-1. Run the test suite
-    `bin/rails ci`
+1. Start up the test environment
+    `solr_wrapper --config config/solr_wrapper_test.yml`
+    `fcrepo_wrapper --config config/fcrepo_wrapper_test.yml`
+    and run the test suite
+    `bundle exec rspec`
 
 ## Database Authentication
 
