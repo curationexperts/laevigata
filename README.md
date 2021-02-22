@@ -57,7 +57,7 @@ person's uid to an environment variable called EMBARGO_NOTIFICATION_CC in the
     `git clone https://github.com/curationexperts/laevigata.git`
 1. Change to the application directory
     `cd laevigata`
-1. Use set your ruby version to **2.4.2** and the gemset of your choice
+1. Use set your ruby version to **2.7.2** and the gemset of your choice
     eg. `rvm use --create 2.4.2@laevigata`
 1. Install gem dependencies
     `bundle install`
@@ -77,13 +77,16 @@ person's uid to an environment variable called EMBARGO_NOTIFICATION_CC in the
     see the [Environment variables in development](#environment-variables-in-development) section for more details
 1. Read the section on 'Database Authentication' below and decide if you want to set up your environment for database authentication.
 1. Start the demo server in its own terminal session
-    `bin/rails hydra:server`
+    `bundle exec rake hydra:server`
 1. Start the webpack dev server
    `bin/webpack-dev-server`
 1. Run the first time setup script
     `bin/setup`
-1. Run the test suite
-    `bin/rails ci`
+1. Start up the test environment
+    `solr_wrapper --config config/solr_wrapper_test.yml`
+    `fcrepo_wrapper --config config/fcrepo_wrapper_test.yml`
+    and run the test suite
+    `bundle exec rspec`
 
 ## Database Authentication
 
@@ -102,40 +105,6 @@ A "superuser" can manage all admin_sets, edit all ETDs, and approve submissions
 everywhere. To create a new superuser, add the user's email address to the `config/emory/superusers.yml` file. Then run `rake db:seed` to reload the config. Until we get real authentication running, the password for all superusers is `123456`
 
 Note: Do *not* run `bin/setup` except the very first time you setup the application, or if you need to wipe out everything in your development instance. It will wipe your database but leave your AdminSets in place, making a huge mess that you can't easily recover from.
-
-## Browse Everything (Box integration)
-
-These instructions work for setting up a key either for a server or for local
-testing.
-
-1. Go to `https://app.box.com/developers/console/newapp` and log in as yourself (this will
-  be your personal developer account credentials)
-1. Select 'custom application' and hit 'next'
-1. Select 'Standard OAuth 2.0 (User Authentication)' and hit 'next'
-1. Give your app a unique name (e.g., "laevigata-yourname" or "etd-staging-upgrade") and it will give you a url like:
-```
-curl https://api.box.com/2.0/folders/0 -H \
-"Authorization: Bearer lCuEl1KbmQzIQut6HVFR3IlZ4TkAaCMK"
-```
-1. Go to `https://app.box.com/developers/console`
-1. Click on your app name, and then on the 'Configuration' tab on the left.
-1. In a box labeled OAuth 2.0 Credentials you will see your OAuth credentials. You'll need these.
-  1. Set the `OAuth 2.0 Redirect URI` value to
-  `https://SERVER_NAME/auth/box/` (with the slash at the end) Or, if this is your local dev box, the value might be `http://localhost:3000/auth/box/`
-  1. Set the CORS domain to `https://SERVER_NAME` (without a slash at the end) Or, if this is your local dev box, the value might be `http://localhost:3000`
-1. Save changes
-
-### Adding box credentials to a server
-Add the credentials you just made to the `.env.production` file on the server where the application is running. Ideally, add them to ansible so they are maintained in
-version control and the server can be re-built with these credentials in place.
-
-### Adding box credentials locally
-1. Follow these instructions: https://github.com/samvera/browse-everything/wiki/Configuring-browse-everything
-  1. `rails g browse_everything:config`
-  2. copy the `client_id` and `client_secret` from box into your newly created `config/browse_everything_providers.yml` file and uncomment the `box` section
-  3. The generator will try to add the BrowseEverything mount to your `config/routes.rb` file.
-  This already exists in Laevigata, so remove the line it added.
-1. Save everything and restart your rails server and you should be good to go!
 
 ## Releasing
 
