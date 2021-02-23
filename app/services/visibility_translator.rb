@@ -93,9 +93,10 @@ class VisibilityTranslator
   def embargo_length_none?(obj)
     # cast length to a String in case obj is a SolrDocument and obj.embargo_length is an arrray
     length = obj.embargo_length.to_s
-    if length && length.downcase.include?('none')
+    Rails.logger.warn "Treating nil embargo_length as open for ID: #{obj.id}" if length.empty?
+    if length.empty? || length.downcase.include?('none')
       if obj.abstract_embargoed.to_s == "true" || obj.toc_embargoed.to_s == "true" || obj.files_embargoed.to_s == "true"
-        Rails.logger.error "Inconsistent embargo values in ID: #{obj.id}"
+        Rails.logger.error "Boolean embargo values conflict with embargo_length in ID: #{obj.id}"
       end
 
       return true

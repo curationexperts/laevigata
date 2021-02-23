@@ -36,6 +36,17 @@ describe VisibilityTranslator do
         expect(translator.visibility).to eq described_class::OPEN
       end
 
+      it 'treats nil embargo_length as open access' do
+        allow(Rails.logger).to receive(:warn)
+
+        # handle cases where the UI has not saved the default select option
+        # TODO: Update UI validations to prevent this state from occurrring
+        obj.embargo_length = nil
+
+        expect(translator.visibility).to eq described_class::OPEN
+        expect(Rails.logger).to have_received(:warn).with("Treating nil embargo_length as open for ID: #{obj.id}")
+      end
+
       it 'logs an error when state is inconsistent' do
         allow(Rails.logger).to receive(:error)
 
@@ -45,7 +56,7 @@ describe VisibilityTranslator do
         obj.embargo_length = 'None - open access immediately'
 
         expect(translator.visibility).to eq described_class::OPEN
-        expect(Rails.logger).to have_received(:error).with("Inconsistent embargo values in ID: #{obj.id}")
+        expect(Rails.logger).to have_received(:error).with("Boolean embargo values conflict with embargo_length in ID: #{obj.id}")
       end
     end
 
