@@ -14,9 +14,11 @@
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
+/public/tmp/*
 fits.log
 !/log/.keep
 !/tmp/.keep
+!/public/tmp/.keep
 spec/fixtures/proquest/output.xml
 
 # Ignore Byebug command history file.
