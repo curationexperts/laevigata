@@ -17,6 +17,7 @@
 #
 # @see Hydra::AccessControls::Visibility
 class VisibilityTranslator
+  RESTRICTED      = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
   ALL_EMBARGOED   = 'all_restricted'.freeze
   FILES_EMBARGOED = 'files_restricted'.freeze
   TOC_EMBARGOED   = 'toc_restricted'.freeze
@@ -44,10 +45,14 @@ class VisibilityTranslator
   # When checking whether a value is true, check whether it has a "true" string too.
   def visibility
     return proxy.visibility if obj.hidden? || !obj.under_embargo?
+
+    return OPEN             if embargo_length_none?(obj)
     return ALL_EMBARGOED    if obj.abstract_embargoed.to_s == "true"
     return TOC_EMBARGOED    if obj.toc_embargoed.to_s == "true"
+    return FILES_EMBARGOED  if obj.files_embargoed.to_s == "true"
 
-    FILES_EMBARGOED
+    Rails.logger.error("Invalid embargo values. Returning RESTRICTED for ID: #{obj.id}")
+    RESTRICTED
   end
 
   def visibility=(value)
@@ -83,6 +88,21 @@ class VisibilityTranslator
 
   def proxy
     VisibilityProxy.new(obj)
+  end
+
+  def embargo_length_none?(obj)
+    # cast length to a String in case obj is a SolrDocument and obj.embargo_length is an arrray
+    length = obj.embargo_length.to_s
+    Rails.logger.warn "Treating nil embargo_length as open for ID: #{obj.id}" if length.empty?
+    if length.empty? || length.downcase.include?('none')
+      if obj.abstract_embargoed.to_s == "true" || obj.toc_embargoed.to_s == "true" || obj.files_embargoed.to_s == "true"
+        Rails.logger.error "Boolean embargo values conflict with embargo_length in ID: #{obj.id}"
+      end
+
+      return true
+    end
+
+    false
   end
 
   class InvalidVisibilityError < ArgumentError
