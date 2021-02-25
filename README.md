@@ -10,9 +10,9 @@ Emory Theses and Dissertations (ETDs).
 or cherokee rose is the <a href="https://georgia.gov/georgia-facts-and-symbols">state flower of Georgia</a>.
 <br/><br/>
 
-[![CircleCI](https://circleci.com/gh/curationexperts/laevigata/tree/master.svg?style=svg)](https://circleci.com/gh/curationexperts/laevigata/tree/master)
-[![Coverage Status](https://coveralls.io/repos/github/curationexperts/laevigata/badge.svg?branch=master)](https://coveralls.io/github/curationexperts/laevigata?branch=master)
-[![Inline docs](http://inch-ci.org/github/curationexperts/laevigata.svg?branch=master)](http://inch-ci.org/github/curationexperts/laevigata)
+[![CircleCI](https://circleci.com/gh/curationexperts/laevigata/tree/main.svg?style=svg)](https://circleci.com/gh/curationexperts/laevigata/tree/main)
+[![Coverage Status](https://coveralls.io/repos/github/curationexperts/laevigata/badge.svg?branch=main)](https://coveralls.io/github/curationexperts/laevigata?branch=main)
+[![Inline docs](http://inch-ci.org/github/curationexperts/laevigata.svg?branch=main)](http://inch-ci.org/github/curationexperts/laevigata)
 
 </td></tr>
 </table>
@@ -108,5 +108,3 @@ To send a copy of all notification expiration emails to a staff member, add that
 person's uid to an environment variable called EMBARGO_NOTIFICATION_CC in the
 .env.production file on the production server (other servers are configured not to
   send email).
-
-
