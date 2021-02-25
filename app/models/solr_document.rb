@@ -93,7 +93,7 @@ class SolrDocument
   end
 
   def embargo_length
-    self['embargo_length_ssm']
+    self['embargo_length_ssi']
   end
 
   def graduation_year
