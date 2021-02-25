@@ -29,11 +29,55 @@ describe VisibilityTranslator do
       end
     end
 
+    context 'when not under embargo' do
+      let(:obj) { FactoryBot.create(:sample_data_with_nothing_embargoed) }
+
+      it 'is open access' do
+        expect(translator.visibility).to eq described_class::OPEN
+      end
+
+      it 'treats nil embargo_length as open access' do
+        allow(Rails.logger).to receive(:warn)
+
+        # handle cases where the UI has not saved the default select option
+        # TODO: Update UI validations to prevent this state from occurrring
+        obj.embargo_length = nil
+
+        expect(translator.visibility).to eq described_class::OPEN
+        expect(Rails.logger).to have_received(:warn).with("Treating nil embargo_length as open for ID: #{obj.id}")
+      end
+
+      it 'logs an error when state is inconsistent' do
+        allow(Rails.logger).to receive(:error)
+
+        # none of the booleans should be true if there is no embargo requested
+        obj.abstract_embargoed = true
+        obj.files_embargoed = false
+        obj.embargo_length = 'None - open access immediately'
+
+        expect(translator.visibility).to eq described_class::OPEN
+        expect(Rails.logger).to have_received(:error).with("Boolean embargo values conflict with embargo_length in ID: #{obj.id}")
+      end
+    end
+
     context 'when under full embargo' do
       let(:obj) { FactoryBot.create(:sample_data_with_everything_embargoed) }
 
       it 'is embargo (all)' do
         expect(translator.visibility).to eq described_class::ALL_EMBARGOED
+      end
+
+      it 'restricts the object when state is inconsistent' do
+        allow(Rails.logger).to receive(:error)
+
+        # one or more of the booleans should be true if there is a non-zero embargo length requested
+        obj.abstract_embargoed = false
+        obj.toc_embargoed = false
+        obj.files_embargoed = false
+        obj.embargo_length = '6 - Months'
+
+        expect(translator.visibility).to eq described_class::RESTRICTED
+        expect(Rails.logger).to have_received(:error).with("Invalid embargo values. Returning RESTRICTED for ID: #{obj.id}")
       end
     end
 

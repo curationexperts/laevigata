@@ -125,8 +125,17 @@ FactoryBot.define do
         patents { "true" }
       end
 
+      factory :sample_data_with_nothing_embargoed do
+        title { ["Sample Data With Nothing Embargoed: #{FFaker::Book.title}"] }
+        embargo { FactoryBot.create(:embargo, embargo_release_date: (Time.zone.today + 14.days)) }
+        embargo_length { "None - open access immediately" }
+        files_embargoed { "false" }
+        abstract_embargoed { "false" }
+        toc_embargoed { "false" }
+      end
+
       factory :sample_data_with_everything_embargoed do
-        title { ["Sample Data With Full Embargo: #{FFaker::Book.title}"] }
+        title { ["Sample Data With Everything Embargoed: #{FFaker::Book.title}"] }
         embargo { FactoryBot.create(:embargo, embargo_release_date: (Time.zone.today + 14.days)) }
         embargo_length { "6 months" }
         files_embargoed { "true" }
