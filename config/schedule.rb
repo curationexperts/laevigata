@@ -19,12 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-# Weekly, check whether students have graduated and kick off
-# graduation jobs if so
-every :monday, at: '12:20am' do
-  rake "emory:graduation"
-end
-
 # Daily, check whether we sent anything to ProQuest and deliver
 # notifications if so
 every :day, at: '11:55pm' do
