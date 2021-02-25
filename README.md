@@ -83,9 +83,11 @@ Note: Do *not* run `bin/setup` except the very first time you setup the applicat
 
 ## Cron jobs in production
 
-There are certain cron jobs that are expected to run in production. These include graduation job,
-fixity audit, embargo expiration, and others. We use the `whenever` gem to manage these.
-If you need to make changes to the scheduled jobs, please update `config/schedule.rb` and the new crontab should be installed via capistrano when the code is deployed.
+There are certain cron jobs that are expected to run in production. These include embargo expiration, 
+proquest notifications and others. We use the `whenever` gem to manage these.
+
+If you need to make changes to the scheduled jobs, please update `config/schedule.rb` and 
+the new crontab should be installed via capistrano when the code is deployed.
 
 Please note that in order to run as expected, the PATH must be defined: run `crontab -e` as the `deploy` user and
 ensure these lines are at the top of your cron file:
