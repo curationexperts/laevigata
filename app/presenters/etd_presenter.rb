@@ -120,7 +120,7 @@ class EtdPresenter < Hyrax::WorkShowPresenter
         if degree_awarded
           "[Abstract embargoed until #{formatted_embargo_release_date}] "
         elsif embargo_length
-          "[Abstract embargoed until #{embargo_length.first} post-graduation] "
+          "[Abstract embargoed until #{embargo_length} post-graduation] "
         else
           "[Abstract embargoed until post-graduation] "
         end
@@ -154,7 +154,7 @@ class EtdPresenter < Hyrax::WorkShowPresenter
     if embargo_release_date && toc_embargoed
       admin_return_message +=
         if embargo_length && !degree_awarded
-          "[Table of contents embargoed until #{embargo_length.first} post-graduation] "
+          "[Table of contents embargoed until #{embargo_length} post-graduation] "
         elsif embargo_release_date
           "[Table of contents embargoed until #{formatted_embargo_release_date}] "
         else
