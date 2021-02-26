@@ -47,7 +47,7 @@ RSpec.describe Importer::MigrationMapper do
       .to_return(status: 200, body: author_foxml)
   end
 
-  after { WebMock.allow_net_connect! }
+  after { WebMock.allow_net_connect!(net_http_connect_on_start: true) }
 
   context 'with empty content' do
     let(:foxml) { '' }
