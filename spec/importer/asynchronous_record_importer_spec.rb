@@ -60,7 +60,7 @@ RSpec.describe Importer::AsynchronousRecordImporter, :clean do
                           "/dev/null").setup
       end
 
-      after { WebMock.allow_net_connect! }
+      after { WebMock.allow_net_connect!(net_http_connect_on_start: true) }
 
       it 'imports the record' do
         expect { importer.import(record: record) }

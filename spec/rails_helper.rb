@@ -27,7 +27,7 @@ require 'ffaker'
 require 'webmock/rspec'
 require 'vcr'
 
-WebMock.allow_net_connect!
+WebMock.allow_net_connect!(net_http_connect_on_start: true)
 
 VCR.configure do |config|
   config.ignore_hosts '127.0.0.1', 'localhost'
