@@ -88,7 +88,7 @@ workflows:
     version: 2
     ci:
         jobs:
-            - build:
-                name: ruby2-7-2
             - test:
                 name: jest-test
+            - build:
+                name: ruby2-7-2
