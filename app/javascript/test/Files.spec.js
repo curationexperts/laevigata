@@ -9,12 +9,10 @@ import { formStore } from 'formStore'
 window.localStorage = jest.fn()
 
 describe('Files.vue', () => {
-  global.Box = { FilePicker: function() {}}
-  global.boxClientId = function() {}
-  it('has 2 buttons when rendered', () => {
+  it('has 1 button when rendered', () => {
     const wrapper = shallowMount(Files, {
     })
-    expect(wrapper.findAll('button')).toHaveLength(1)
+    expect(wrapper.findAll('button')).toHaveLength(0)
   })
 
   it('has two labels ', () => {
@@ -138,7 +136,7 @@ describe('Files.vue', () => {
     formStore.supplementalFilesMetadata = [supplementalData, moreSupplementalData]
 
     wrapper.vm.deleteSupplementalFile(fakeFileData.deleteUrl, 0)
-    
+
     const remainingFiles = formStore.supplementalFiles.length
     const remainingMetadata = formStore.supplementalFilesMetadata.length
     expect(remainingFiles).toEqual(1)

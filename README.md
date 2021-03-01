@@ -54,8 +54,10 @@ or cherokee rose is the <a href="https://georgia.gov/georgia-facts-and-symbols">
 1. Start up the test environment
     `solr_wrapper --config config/solr_wrapper_test.yml`
     `fcrepo_wrapper --config config/fcrepo_wrapper_test.yml`
-    and run the test suite
+    and run the rspec test suite
     `bundle exec rspec`
+1. Run the Vue javascript tests
+    `yarn test`
 
 ## Database Authentication
 
@@ -83,10 +85,10 @@ Note: Do *not* run `bin/setup` except the very first time you setup the applicat
 
 ## Cron jobs in production
 
-There are certain cron jobs that are expected to run in production. These include embargo expiration, 
+There are certain cron jobs that are expected to run in production. These include embargo expiration,
 proquest notifications and others. We use the `whenever` gem to manage these.
 
-If you need to make changes to the scheduled jobs, please update `config/schedule.rb` and 
+If you need to make changes to the scheduled jobs, please update `config/schedule.rb` and
 the new crontab should be installed via capistrano when the code is deployed.
 
 Please note that in order to run as expected, the PATH must be defined: run `crontab -e` as the `deploy` user and
