@@ -46,11 +46,11 @@ jobs:
                 paths:
                     - ~/project/node_modules
 
-            - samvera/install_solr_core
-
             - run:
                 name: Run jest tests
                 command: yarn test
+
+            - samvera/install_solr_core
 
             - samvera/parallel_rspec
 
