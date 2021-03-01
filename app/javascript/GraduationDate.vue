@@ -1,11 +1,11 @@
 <template>
     <div>
-        <label for="graduation-date">Graduation Date</label>
-        <select id="graduation-date" name="etd[graduation_date]" class="form-control" aria-required="true">
-            <option v-for="graduationDate in graduationDates" v-bind:value="graduationDate.id"
-            v-bind:key='graduationDate.id' v-if="graduationDate.active" :disabled="graduationDate.disabled"
-            :selected="graduationDate.selected">
-                {{ graduationDate.label }}
+        <label for="graduation-term">Graduation Term</label>
+        <select id="graduation-term" name="etd[graduation_term]" class="form-control" aria-required="true">
+            <option v-for="graduationTerm in graduationTerms" v-bind:value="graduationTerm.id"
+            v-bind:key='graduationTerm.id' v-if="graduationTerm.active" :disabled="graduationTerm.disabled"
+            :selected="graduationTerm.selected">
+                {{ graduationTerm.label }}
             </option>
         </select>
     </div>
@@ -20,20 +20,20 @@ export default {
     return {
       sharedState: formStore,
       selected: '',
-      graduationDatesEndpoint: "/authorities/terms/local/graduation_dates",
-      graduationDates: {}
+      graduationTermsEndpoint: "/authorities/terms/local/graduation_terms",
+      graduationTerms: {}
     }
   },
   methods: {
     fetchData() {
-      axios.get(this.graduationDatesEndpoint).then(response => {
-        this.graduationDates = this.getSelected(response.data)
+      axios.get(this.graduationTermsEndpoint).then(response => {
+        this.graduationTerms = this.getSelected(response.data)
       }).catch(e => {
         console.log(e)
       })
     },
     getSelected(data){
-      var selected = this.sharedState.getGraduationDate()
+      var selected = this.sharedState.getGraduationTerm()
       if (selected !== undefined) {
         _.forEach(data, function(o){
           if (o.id == selected){
@@ -42,7 +42,7 @@ export default {
           }
         })
       } else {
-        data.unshift({ "value": "", "active": true, "label": "Select a Graduation Date", "disabled":"disabled", "selected":"selected" })
+        data.unshift({ "value": "", "active": true, "label": "Select a Graduation Term", "disabled":"disabled", "selected":"selected" })
       }
       return data
     }

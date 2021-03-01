@@ -63,8 +63,8 @@
               </section>
             </div>
 
-             <div v-else-if="input.label === 'Graduation Date'">
-              <graduationDate></graduationDate>
+             <div v-else-if="input.label === 'Graduation Term'">
+              <graduationTerm></graduationTerm>
               <section class='errorMessage alert alert-danger' v-if="sharedState.hasError(index)">
                   <p><span class="glyphicon glyphicon-exclamation-sign"></span> {{ input.label }} is required</p>
               </section>

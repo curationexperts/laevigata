@@ -6,7 +6,7 @@ describe InProgressEtd do
   describe "About Me" do
     context "with valid data" do
       let(:data) do
-        { currentTab: "About Me", creator: "Student", graduation_date: "tomorrow", post_graduation_email: "tester@test.com", school: "Laney Graduate School" }
+        { currentTab: "About Me", creator: "Student", graduation_term: "tomorrow", post_graduation_email: "tester@test.com", school: "Laney Graduate School" }
       end
 
       it "is valid" do
@@ -15,7 +15,7 @@ describe InProgressEtd do
     end
 
     context "with invalid data" do
-      let(:in_progress_etd) { described_class.new(data: { currentTab: "About Me", creator: "Student", graduation_date: "tomorrow", post_graduation_email: "", school: "" }.to_json) }
+      let(:in_progress_etd) { described_class.new(data: { currentTab: "About Me", creator: "Student", graduation_term: "tomorrow", post_graduation_email: "", school: "" }.to_json) }
 
       it "is not valid" do
         expect(in_progress_etd).not_to be_valid

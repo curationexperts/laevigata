@@ -1,12 +1,12 @@
 <template>
-  <section>   
+  <section>
     <h4>About Me</h4>
     <h5 class="submit-heading">Student Name</h5>
     <div> {{ sharedState.savedData.creator }} </div>
     <h5>School</h5>
     <div> {{ sharedState.getSchoolText(sharedState.savedData.school) }} </div>
     <h5>Graduation Date</h5>
-    <div> {{ sharedState.savedData.graduation_date }} </div>
+    <div> {{ sharedState.savedData.graduation_term }} </div>
     <h5>Post-Graduation Email</h5>
     <div> {{ sharedState.savedData.post_graduation_email }} </div>
   </section>
@@ -31,6 +31,6 @@ h4 {
 }
 h5 {
   font-weight: 700;
-  
+
 }
 </style>

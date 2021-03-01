@@ -5,7 +5,7 @@ module Hyrax
     include SingleValuedForm
     self.model_class = ::Etd
     # about me terms
-    self.terms += [:graduation_date]
+    self.terms += [:graduation_term]
     self.terms += [:post_graduation_email]
     self.terms += [:resource_type]
     self.terms += [:school]
@@ -37,12 +37,12 @@ module Hyrax
     self.terms += [:abstract_embargoed]
     self.terms += [:toc_embargoed]
 
-    self.single_valued_fields = [:title, :creator, :post_graduation_email, :submitting_type, :graduation_date, :degree, :subfield, :department, :school, :language, :abstract, :table_of_contents]
+    self.single_valued_fields = [:title, :creator, :post_graduation_email, :submitting_type, :graduation_term, :degree, :subfield, :department, :school, :language, :abstract, :table_of_contents]
 
     # methods for accessing new tab-determined sets of terms on new form tabs in new ui
 
     def self.about_me_terms
-      [:creator, :graduation_date, :post_graduation_email, :school]
+      [:creator, :graduation_term, :post_graduation_email, :school]
     end
 
     def self.my_program_terms
@@ -62,7 +62,7 @@ module Hyrax
     end
 
     def about_me_fields
-      [:creator, :graduation_date, :post_graduation_email]
+      [:creator, :graduation_term, :post_graduation_email]
     end
 
     def about_my_program_fields

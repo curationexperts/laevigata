@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_20_185001) do
+ActiveRecord::Schema.define(version: 2021_03_01_145856) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -149,7 +149,7 @@ ActiveRecord::Schema.define(version: 2018_07_20_185001) do
   create_table "in_progress_etds", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "email"
-    t.string "graduation_date"
+    t.string "graduation_term"
     t.string "submission_type"
     t.string "user_ppid"
     t.datetime "created_at", null: false

@@ -28,7 +28,7 @@ export const formStore = {
       inputs: {
         creator: { label: 'Student Name', value: [], placeholder: 'Last Name, First Name' },
         school: { label: 'School', value: [] },
-        graduation_date: { label: 'Graduation Date', value: [] },
+        graduation_term: { label: 'Graduation Term', value: [] },
         post_graduation_email: { label: 'Post-Graduation Email', value: [], placeholder: 'name@example.com', type: 'email', help_text: `<span class="glyphicon glyphicon-info-sign"></span> Please provide a post-graduation email address so that we can communicate with you about embargo information. This email address will be shared with your school in periodic automatic reports. If you do not want your email shared in these reports, please contact <a href="mailto:scholcomm@listserv.cc.emory.edu">scholcomm@listserv.cc.emory.edu</a>.` }
       }
     },
@@ -457,7 +457,7 @@ export const formStore = {
     return JSON.stringify(this.supplementalFiles)
   },
   getGraduationDate () {
-    return this.savedData['graduation_date']
+    return this.savedData['graduation_term']
   },
   getSavedDegree () {
     return this.savedData['degree']

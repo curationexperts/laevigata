@@ -6,6 +6,6 @@ module Schemas
     property :table_of_contents,     predicate: "http://purl.org/dc/terms/tableOfContents"
     property :creator,               predicate: "http://id.loc.gov/vocabulary/relators/aut"
     property :keyword,               predicate: "http://schema.org/keywords"
-    property :graduation_date,       predicate: "http://purl.org/dc/terms/issued"
+    property :graduation_term,       predicate: "http://purl.org/dc/terms/issued"
   end
 end
