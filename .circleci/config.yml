@@ -48,6 +48,10 @@ jobs:
 
             - samvera/install_solr_core
 
+            - run:
+                name: Run jest tests
+                command: yarn test
+
             - samvera/parallel_rspec
 
             - store_artifacts:
