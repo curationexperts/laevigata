@@ -1105,6 +1105,7 @@ DEPENDENCIES
   selenium-webdriver
   shoulda-matchers
   sidekiq
+  simplecov
   solr_wrapper (>= 0.3)
   spring
   spring-watcher-listen (~> 2.0.0)
