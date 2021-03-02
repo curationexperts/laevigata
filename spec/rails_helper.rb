@@ -1,8 +1,19 @@
 # frozen_string_literal: true
 
 unless ENV['NO_COVERAGE'] == 'true'
+  require 'simplecov'
   require 'coveralls'
-  Coveralls.wear!('rails')
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+                                                                   SimpleCov::Formatter::HTMLFormatter,
+                                                                   Coveralls::SimpleCov::Formatter
+                                                                 ])
+  SimpleCov.start 'rails' do
+    # Can filter out files from coverage reports, example below.
+    # add_filter 'app/controllers/metadata_samples_controller.rb'
+    add_filter "/test/"
+    add_filter "/spec/"
+    add_filter "README"
+  end
 end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'

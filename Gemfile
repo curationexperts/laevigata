@@ -73,6 +73,7 @@ group :development, :test do
   gem 'rspec_junit_formatter'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
+  gem 'simplecov', require: false
   gem 'solr_wrapper', '>= 0.3'
   gem 'vcr'
   gem 'webdrivers'
