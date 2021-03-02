@@ -55,10 +55,36 @@ jobs:
 
             - deploy:
                 command: curl -k https://coveralls.io/webhook?repo_token=${COVERALLS_REPO_TOKEN} -d "payload[build_num]=${CIRCLE_BUILD_NUM}&payload[status]=done"
+    test:
+      docker:
+        - image: cimg/ruby:2.7.2-node
+      steps:
+        - checkout
+
+        - run:
+            name: Get yarn version
+            command: echo $(yarn --version) >> "YARN_VERSION"
+
+        - restore_cache:
+            keys:
+                - v1-yarn-{{ checksum "yarn.lock" }}-{{ checksum "YARN_VERSION" }}
+
+        - run: yarn
+
+        - save_cache:
+            key: v1-yarn-{{ checksum "yarn.lock" }}-{{ checksum "YARN_VERSION" }}
+            paths:
+                - ~/project/node_modules
+
+        - run:
+            name: Run jest tests
+            command: yarn test
 
 workflows:
     version: 2
     ci:
         jobs:
+            - test:
+                name: jest-test
             - build:
                 name: ruby2-7-2
