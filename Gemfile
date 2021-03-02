@@ -71,9 +71,9 @@ group :development, :test do
   gem 'rspec-its'
   gem 'rspec-rails', "~> 3.5"
   gem 'rspec_junit_formatter'
-  gem 'simplecov', require: false
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
+  gem 'simplecov', require: false
   gem 'solr_wrapper', '>= 0.3'
   gem 'vcr'
   gem 'webdrivers'

@@ -4,9 +4,9 @@ unless ENV['NO_COVERAGE'] == 'true'
   require 'simplecov'
   require 'coveralls'
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-    SimpleCov::Formatter::HTMLFormatter,
-    Coveralls::SimpleCov::Formatter
-  ])
+                                                                   SimpleCov::Formatter::HTMLFormatter,
+                                                                   Coveralls::SimpleCov::Formatter
+                                                                 ])
   SimpleCov.start 'rails' do
     # Can filter out files from coverage reports, example below.
     # add_filter 'app/controllers/metadata_samples_controller.rb'
