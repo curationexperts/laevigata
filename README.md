@@ -57,7 +57,7 @@ or cherokee rose is the <a href="https://georgia.gov/georgia-facts-and-symbols">
     and run the rspec test suite
     `bundle exec rspec`
 1. Run the Vue javascript tests
-    `yarn test`
+    `yarn test`. In order to include coverage, run `yarn test --coverage`.
 
 ## Database Authentication
 
