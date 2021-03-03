@@ -4,6 +4,7 @@
     "acorn": "^6.4.1",
     "axios": "^0.21.1",
     "caniuse-lite": "^1.0.30000865",
+    "codecov": "^3.8.1",
     "core-js": "2",
     "css-loader": "^1.0.0",
     "formdata-polyfill": "^3.0.11",
@@ -41,6 +42,14 @@
       "app/javascript/test"
     ],
     "testResultsProcessor": "./node_modules/jest-junit-reporter",
+    "collectCoverageFrom": [
+      "app/javascript/*.{js,jsx,vue}"
+    ],
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
+    "coverageReporters": [
+      "lcov"
+    ],
     "verbose": true,
     "moduleFileExtensions": [
       "js",

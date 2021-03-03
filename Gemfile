@@ -59,6 +59,7 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'capybara'
   gem 'capybara-screenshot'
+  gem 'codecov', :require => false
   gem 'coveralls', require: false
   gem 'database_cleaner'
   gem 'fcrepo_wrapper'

@@ -3,8 +3,10 @@
 unless ENV['NO_COVERAGE'] == 'true'
   require 'simplecov'
   require 'coveralls'
+  require 'codecov'
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
                                                                    SimpleCov::Formatter::HTMLFormatter,
+                                                                   SimpleCov::Formatter::Codecov,
                                                                    Coveralls::SimpleCov::Formatter
                                                                  ])
   SimpleCov.start 'rails' do
