@@ -47,7 +47,9 @@ RSpec.describe 'edit an embargo', :perform_jobs, :js, integration: true, type: :
     FactoryBot.create :primary_uploaded_file, user_id: user.id
   end
   let(:six_years_from_today) { Time.zone.today + 6.years }
+  let(:eight_years_from_today) { Time.zone.today + 8.years }
   let(:approving_user) { User.find_by(uid: "candleradmin") }
+  let(:superuser) { User.find_by(uid: 'superman001') }
 
   before do
     allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
@@ -65,18 +67,31 @@ RSpec.describe 'edit an embargo', :perform_jobs, :js, integration: true, type: :
       .to have_attributes visibility: restricted
   end
 
-  scenario "Approver can change the embargo settings" do
+  scenario "A regular user cannot change the embargo settings after saving" do
+    login_as user
+    visit("/embargoes/#{etd.id}/edit")
+    expect(page).to have_content("You are not authorized to access this page.")
+  end
+
+  scenario "Approver cannot change the embargo settings" do
     login_as approving_user
+    visit("/embargoes/#{etd.id}/edit")
+    expect(page).to have_content("You are not authorized to access this page.")
+  end
+
+  scenario "Superuser can change the embargo settings" do
+    login_as superuser
     visit("/embargoes/#{etd.id}/edit")
     expect(find('#etd_visibility_during_embargo').find(:xpath, 'option[1]').text).to eq 'All Restricted'
     find('#etd_embargo_release_date')
-    fill_in 'etd_embargo_release_date', with: (Time.zone.today + 8.years).to_s, fill_options: { clear: :backspace }
+    fill_in 'etd_embargo_release_date', with: (eight_years_from_today).to_s, fill_options: { clear: :backspace }
     execute_script('$("form").submit()')
     expect(page).to have_current_path("/concern/etds/#{etd.id}?locale=en")
     expect(page).to have_content etd.title.first
     expect(page).to have_content "successfully updated"
     expect(page).to have_content etd.abstract.first
     expect(page).to have_content etd.table_of_contents.first
+    expect(etd.reload.embargo_release_date).to eq eight_years_from_today
     expect(etd.reload.file_sets.first.embargo.embargo_release_date).to eq etd.reload.embargo_release_date
   end
 end

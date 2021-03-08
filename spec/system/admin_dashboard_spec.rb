@@ -43,8 +43,8 @@ RSpec.describe 'Admin dashboard',
     end
   end
 
-  context 'as an approving user' do
-    let(:user)     { User.find_by(ppid: 'candleradmin') }
+  context 'as a superuser' do
+    let(:superuser) { User.find_by(uid: 'superman001') }
     let(:etd)      { FactoryBot.build(:sample_data_with_everything_embargoed) }
     let(:file_set) { FactoryBot.create(:public_pdf) }
 
@@ -53,7 +53,7 @@ RSpec.describe 'Admin dashboard',
       etd.representative = file_set
       etd.save
 
-      login_as user
+      login_as superuser
     end
 
     scenario 'editing an embargo' do
@@ -80,6 +80,25 @@ RSpec.describe 'Admin dashboard',
         .to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
       expect(etd.representative.embargo_release_date)
         .to eq Date.parse('2199-01-01')
+    end
+  end
+
+  context 'as an approving user' do
+    let(:approving_user)     { User.find_by(ppid: 'candleradmin') }
+    let(:etd)      { FactoryBot.build(:sample_data_with_everything_embargoed) }
+    let(:file_set) { FactoryBot.create(:public_pdf) }
+
+    before do
+      etd.ordered_members << file_set
+      etd.representative = file_set
+      etd.save
+
+      login_as approving_user
+    end
+
+    scenario 'editing an embargo' do
+      visit '/dashboard'
+      expect(page).not_to have_link 'Manage Embargoes'
     end
   end
 end
