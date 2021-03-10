@@ -84,7 +84,7 @@ RSpec.describe 'Admin dashboard',
   end
 
   context 'as an approving user' do
-    let(:approving_user)     { User.find_by(ppid: 'candleradmin') }
+    let(:approving_user) { User.find_by(ppid: 'candleradmin') }
     let(:etd)      { FactoryBot.build(:sample_data_with_everything_embargoed) }
     let(:file_set) { FactoryBot.create(:public_pdf) }
 

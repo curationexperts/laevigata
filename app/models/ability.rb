@@ -22,7 +22,6 @@ class Ability
     can [:update], Hydra::AccessControls::Embargo
   end
 
-
   def test_download(id)
     super || can_review_submissions?
   end

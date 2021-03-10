@@ -1013,6 +1013,7 @@ GEM
     vcr (6.0.0)
     warden (1.2.9)
       rack (>= 2.0.9)
+    warning (1.2.0)
     web-console (3.7.0)
       actionview (>= 5.0)
       activemodel (>= 5.0)
@@ -1114,6 +1115,7 @@ DEPENDENCIES
   twitter-bootstrap-rails
   uglifier (>= 1.3.0)
   vcr
+  warning
   web-console (>= 3.3.0)
   webdrivers
   webmock (~> 3.3)

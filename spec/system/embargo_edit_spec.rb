@@ -84,7 +84,7 @@ RSpec.describe 'edit an embargo', :perform_jobs, :js, integration: true, type: :
     visit("/embargoes/#{etd.id}/edit")
     expect(find('#etd_visibility_during_embargo').find(:xpath, 'option[1]').text).to eq 'All Restricted'
     find('#etd_embargo_release_date')
-    fill_in 'etd_embargo_release_date', with: (eight_years_from_today).to_s, fill_options: { clear: :backspace }
+    fill_in 'etd_embargo_release_date', with: eight_years_from_today.to_s, fill_options: { clear: :backspace }
     execute_script('$("form").submit()')
     expect(page).to have_current_path("/concern/etds/#{etd.id}?locale=en")
     expect(page).to have_content etd.title.first

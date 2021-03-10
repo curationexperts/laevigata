@@ -49,6 +49,7 @@ gem 'turbolinks', '~> 5'
 gem 'twitter-bootstrap-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
+gem 'warning'
 gem 'webpacker', '~> 4'
 gem 'whenever', require: false
 gem 'xray-rails'
