@@ -3,9 +3,9 @@
 require 'rails_helper'
 require 'workflow_setup'
 include Warden::Test::Helpers
-RSpec.describe Etd, :perform_jobs, :clean, workflow: { admin_sets_config: 'spec/fixtures/config/emory/laney_admin_sets.yml' } do
+RSpec.describe Etd do
   let(:etd) { FactoryBot.create(:ready_for_proquest_submission_phd) }
-  context "ProQuest submission" do
+  context "ProQuest submission", :perform_jobs, :clean, workflow: { admin_sets_config: 'spec/fixtures/config/emory/laney_admin_sets.yml' } do
     let(:proquest_dtd) { "#{fixture_path}/proquest/Dissertations_metadata48.dtd" }
     let(:output_xml) { "#{fixture_path}/proquest/output.xml" }
     let(:approving_user) { User.where(ppid: 'laneyadmin').first }
@@ -48,19 +48,11 @@ RSpec.describe Etd, :perform_jobs, :clean, workflow: { admin_sets_config: 'spec/
       doc = Nokogiri::XML(etd.export_proquest_xml)
       expect(doc.xpath('//DISS_para').count).to be > 0
     end
-    it "gets the page count of the primary PDF" do
+    it "returns valid required submission settings", :aggregate_failures do
       expect(etd.page_count).to eq "7"
-    end
-    it "gets the primary pdf filename" do
       expect(etd.primary_pdf_file_name).to eq "joey_thesis.pdf"
-    end
-    it "starts export package with upload_" do
       expect(etd.upload_file_id).to match(/^upload_/)
-    end
-    it "names data file according to ProQuest specs" do
       expect(etd.xml_filename).to match(/_DATA.xml/)
-    end
-    it "names the supplemental files dir as directed" do
       expect(etd.supplemental_files_directory).to match(/_Media/)
     end
     context "exporting packages" do
@@ -74,31 +66,23 @@ RSpec.describe Etd, :perform_jobs, :clean, workflow: { admin_sets_config: 'spec/
     end
   end
 
-  context "proquest embargo codes" do
-    it "no embargo" do
+  context "Embargo codes" do
+    it "transforms an embargo_length into a ProQuest embargo code", :aggregate_failures do
       etd.embargo_length = nil
       expect(etd.embargo_code).to eq 0
-    end
-    it "6 months" do
       etd.embargo_length = "6 months"
       expect(etd.embargo_code).to eq 1
-    end
-    it "1 year" do
       etd.embargo_length = "1 year"
       expect(etd.embargo_code).to eq 2
-    end
-    it "2 years" do
       etd.embargo_length = "2 years"
       expect(etd.embargo_code).to eq 3
-    end
-    it "6 years" do
       etd.embargo_length = "6 years"
       expect(etd.embargo_code).to eq 4
     end
   end
 
   context "abstract formatting" do
-    it "transforms tinymce output into something proquest can handle" do
+    it "transforms tinymce output into something proquest can handle", :aggregate_failures do
       tinymce_output = File.read("#{fixture_path}/proquest/tinymce_output.txt")
       doc = etd.mce_to_proquest(tinymce_output)
       expect(doc).not_to match(/textarea/)
@@ -118,7 +102,7 @@ RSpec.describe Etd, :perform_jobs, :clean, workflow: { admin_sets_config: 'spec/
   end
 
   context "Language codes" do
-    it "transforms a language string into a ProQuest expected language code" do
+    it "transforms a language string into a ProQuest expected language code", :aggregate_failures do
       etd.language = ["English"]
       expect(etd.proquest_language).to eq "EN"
       etd.language = ["French"]
@@ -129,7 +113,7 @@ RSpec.describe Etd, :perform_jobs, :clean, workflow: { admin_sets_config: 'spec/
   end
 
   context "proquest submission type" do
-    it "returns either 'masters' or 'doctoral'" do
+    it "returns either 'masters' or 'doctoral'", :aggregate_failures do
       etd.submitting_type = ["Master's Thesis"]
       expect(etd.proquest_submission_type).to eq "masters"
       etd.submitting_type = ["Dissertation"]
@@ -144,7 +128,7 @@ RSpec.describe Etd, :perform_jobs, :clean, workflow: { admin_sets_config: 'spec/
   end
 
   context "ProQuest research field" do
-    it "associates research codes" do
+    it "associates research codes", :aggregate_failures do
       expect(etd.proquest_code("Artificial Intelligence")).to eq "0800"
       expect(etd.proquest_code("Canadian Studies")).to eq "0385"
       expect(etd.proquest_code("Folklore")).to eq "0358"
@@ -164,7 +148,7 @@ RSpec.describe Etd, :perform_jobs, :clean, workflow: { admin_sets_config: 'spec/
       etd.choose_proquest_submission = [true]
       expect(etd.choose_proquest_submission.first).to eq(true)
     end
-    it "records the date the etd was submitted to proquest" do
+    it "records the date the etd was submitted to proquest", :aggregate_failures do
       expect(etd.proquest_submission_date).to be_empty
       expect(etd.proquest_submission_date.first.instance_of?(Date)).to eq(false)
       etd.proquest_submission_date = [Time.zone.today]
