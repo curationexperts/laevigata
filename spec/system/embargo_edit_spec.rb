@@ -75,6 +75,10 @@ RSpec.describe 'edit an embargo', :perform_jobs, :js, integration: true, type: :
 
   scenario "Approver cannot change the embargo settings" do
     login_as approving_user
+    expect(approving_user.reload.admin?).to eq false
+    expect(approving_user.reload.ability.can?(:manage, Hydra::AccessControls::Embargo)).to eq false
+    expect(approving_user.reload.ability.can?(:edit, Hydra::AccessControls::Embargo)).to eq false
+    expect(approving_user.reload.ability.can?(:update, Hydra::AccessControls::Embargo)).to eq false
     visit("/embargoes/#{etd.id}/edit")
     expect(page).to have_content("You are not authorized to access this page.")
   end

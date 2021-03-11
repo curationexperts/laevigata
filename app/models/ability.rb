@@ -14,8 +14,9 @@ class Ability
         approver_for?(admin_set: obj.admin_set)
       end
     end
-
+    # At this point approvers can't update, edit, or manage Hydra::AccessControls::Embargo
     return unless admin?
+    # Approvers don't hit this point in the code
     can [:create, :show, :add_user, :remove_user, :index, :edit, :update, :destroy], Role
     can [:destroy], ActiveFedora::Base
     can [:read], Schools::School
@@ -31,8 +32,9 @@ class Ability
     alias_action :file_manager, to: :update
 
     return if admin?
-
-    cannot :manage, Hydra::AccessControls::Embargo
+    # At this point approvers can't update, edit, or manage Hydra::AccessControls::Embargo
+    # current_user.ability.rules.map { |rule| rule if rule.subjects == [Hydra::AccessControls::Embargo] }.compact
+    cannot [:update, :edit, :manage, :index], Hydra::AccessControls::Embargo
     cannot :manage, Hydra::AccessControls::Lease
   end
 
