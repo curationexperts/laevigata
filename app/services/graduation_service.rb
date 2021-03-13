@@ -27,22 +27,19 @@ class GraduationService
     @registrar_data = JSON.parse(File.read(path_to_data))
   end
 
-  # Find all Etds in the 'approved' workflow state that do not yet have a degree_awarded value
+  # Find all Etds in the 'approved' workflow state that are eligible for graduation
   # @return [Array<Etd>] An Array of ETD objects
   def self.graduation_eligible_works
     eligible_works = []
-    problem_works = []
-    no_degree_yet = Etd.where(degree_awarded: nil).to_a
-    no_degree_yet.each do |etd|
-      begin
-        eligible_works << etd if etd.to_sipity_entity.workflow_state_name == 'approved'
-      rescue
-        problem_works << etd.id
+    # Use #search_in_batches to avoid timeouts in the case where there are a large number of ETDs
+    # that have been approved and are pending grqaduation (i.e. publication)
+    Etd.search_in_batches({ workflow_state_name_ssim: 'approved' }, batch_size: 50) do |batch|
+      batch.each do |doc|
+        eligible_works << Etd.find(doc['id'])
       end
     end
+
     Rails.logger.warn "Graduation service: There were #{eligible_works.count} ETDs eligible for graduation"
-    Rails.logger.warn "Graduation service: There were #{problem_works.count} where the workflow status could not be queried."
-    Rails.logger.error "Graduation service: Could not query workflow status for these works: #{problem_works.inspect}" if problem_works.count > 0
     eligible_works
   end
 
