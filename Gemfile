@@ -51,7 +51,6 @@ gem 'twitter-bootstrap-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'webpacker', '~> 4'
 gem 'whenever', require: false
-gem 'xray-rails'
 gem 'yard'
 
 group :development, :test do
@@ -96,6 +95,7 @@ group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere
   # in the code.
   gem 'web-console', '>= 3.3.0'
+  gem 'xray-rails'
 end
 
 extra_gems = "/opt/laevigata/shared/Gemfile.local"
