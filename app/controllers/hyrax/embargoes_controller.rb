@@ -2,7 +2,7 @@
 module Hyrax
   class EmbargoesController < ApplicationController
     include Hyrax::EmbargoesControllerBehavior
-    # Override edit method to check authorization 
+    # Override edit method to check authorization
     def edit
       add_breadcrumb t(:'hyrax.controls.home'), root_path
       add_breadcrumb t(:'hyrax.dashboard.breadcrumbs.admin'), hyrax.dashboard_path
