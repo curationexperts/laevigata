@@ -40,6 +40,7 @@ class WorkflowSetup
       @logger.debug "Attempting to make admin set for #{as}"
       make_admin_set_from_config(as)
     end
+    load_workflows
     everyone_can_deposit_everywhere
     give_superusers_superpowers
   end
@@ -208,14 +209,10 @@ class WorkflowSetup
   def make_admin_set(admin_set_title)
     if AdminSet.where(title_sim: admin_set_title).count > 0
       @logger.debug "AdminSet #{admin_set_title} already exists."
-      load_workflows # Load workflows even if the AdminSet exists already, in case new workflows have appeared
       return AdminSet.where(title_sim: admin_set_title).first
     end
-    a = AdminSet.new
-    a.title = [admin_set_title]
-    a.save
+    a = AdminSet.create(title: [admin_set_title])
     Hyrax::AdminSetCreateService.call(admin_set: a, creating_user: @admin_set_owner)
-    load_workflows # You must load_workflows after every AdminSet creation
     a
   end
 
