@@ -24,6 +24,7 @@ jobs:
         working_directory: ~/project
         parallelism: 4
         steps:
+
             - checkout
 
             - samvera/bundle:
