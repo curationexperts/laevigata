@@ -2,6 +2,9 @@
 
 ## Embargoes in Laevigata do not follow the normal Hyrax / Samvera pattern
 
+
+<!-- TODO: Remove this comment - Max, 3/15/2021-->
+
 Although Laevigata makes use of `hydra-access-controls` and uses the `Embargoable` module, its behavior departs significantly from the usual pattern.
 
 In Laevigata the expected embargo behavior is:
