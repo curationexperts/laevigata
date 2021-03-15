@@ -59,7 +59,8 @@ RSpec.describe 'Admin dashboard',
     scenario 'editing an embargo' do
       visit '/dashboard'
       click_link 'Manage Embargoes'
-      #check that breadcrumbs are present
+      expect(page).to have_content('All Active Embargoes')
+      # check that breadcrumbs are present
       expect(page).to have_link('Home')
       expect(page).to have_link('Dashboard')
       expect(page).to have_link('Manage Embargoes')
