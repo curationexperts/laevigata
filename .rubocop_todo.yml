@@ -19,19 +19,11 @@ Layout/IndentationConsistency:
 Layout/IndentationWidth:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: AllowForAlignment.
-Layout/SpaceBeforeFirstArg:
-  Exclude:
-    - 'spec/importer/laevigata_importer_spec.rb'
-
 # Offense count: 11
 # Cop supports --auto-correct.
 Performance/Detect:
   Exclude:
     - 'app/controllers/hyrax/etds_controller.rb'
-    - 'app/lib/importer/migration_mapper.rb'
     - 'app/models/etd.rb'
     - 'app/models/proquest_behaviors.rb'
     - 'spec/models/etd_spec.rb'
@@ -59,12 +51,6 @@ RSpec/RepeatedDescription:
   Exclude:
     - 'spec/forms/hyrax/etd_form_spec.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Rails/ActiveRecordAliases:
-  Exclude:
-    - 'app/lib/importer/migration_import_job.rb'
-
 # Offense count: 5
 # Cop supports --auto-correct.
 Rails/ApplicationJob:
@@ -73,20 +59,12 @@ Rails/ApplicationJob:
     - 'app/jobs/import_url_job.rb'
     - 'app/jobs/proquest_completion_job.rb'
     - 'app/jobs/proquest_job.rb'
-    - 'app/lib/importer/migration_import_job.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
 Rails/ApplicationRecord:
   Exclude:
     - 'app/models/hyrax/uploaded_file.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: NilOrEmpty, NotPresent, UnlessPresent.
-Rails/Blank:
-  Exclude:
-    - 'app/lib/importer/migration_mapper.rb'
 
 # Offense count: 4
 # Cop supports --auto-correct.
