@@ -1,5 +1,61 @@
 # Changelog
 
+## [v2.7.1](https://github.com/curationexperts/laevigata/tree/v2.7.1) (2021-03-17)
+
+[Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.7.0...v2.7.1)
+
+**Fixed bugs:**
+
+- Embargo visibility is not set correctly on newly created and submitted ETDs [\#2065](https://github.com/curationexperts/laevigata/issues/2065)
+
+**Closed issues:**
+
+- Review and merge PR for removing migration code [\#2131](https://github.com/curationexperts/laevigata/issues/2131)
+- Handle URI.escape/URI.unescape warnings [\#2108](https://github.com/curationexperts/laevigata/issues/2108)
+- Configure test coverage reporting [\#2107](https://github.com/curationexperts/laevigata/issues/2107)
+- Vue UI Test Suite [\#2102](https://github.com/curationexperts/laevigata/issues/2102)
+- Rename master branch --\> main [\#2091](https://github.com/curationexperts/laevigata/issues/2091)
+- Review and update README [\#2084](https://github.com/curationexperts/laevigata/issues/2084)
+- Document procedure for manually submitting and attaching large files [\#2080](https://github.com/curationexperts/laevigata/issues/2080)
+- Reserve Instance for Prod [\#2075](https://github.com/curationexperts/laevigata/issues/2075)
+- Address outstanding dependency updates \(Dependabot\) [\#2071](https://github.com/curationexperts/laevigata/issues/2071)
+- Update ETD Supplemental File upload option [\#2069](https://github.com/curationexperts/laevigata/issues/2069)
+- Update Ruby Version [\#2064](https://github.com/curationexperts/laevigata/issues/2064)
+- SPIKE: What are our options for attaching large files [\#2054](https://github.com/curationexperts/laevigata/issues/2054)
+- Spike: How viable does Vue appear to be as a framework?  [\#2053](https://github.com/curationexperts/laevigata/issues/2053)
+- Create a checklist of tasks that need to happen for the real cutover [\#2050](https://github.com/curationexperts/laevigata/issues/2050)
+- Cut and deploy our last \(hopefully?\) Ubuntu 16.04 release of Laevigata [\#2046](https://github.com/curationexperts/laevigata/issues/2046)
+- Remove legacy migration code to speed up CI [\#2040](https://github.com/curationexperts/laevigata/issues/2040)
+- Remove automated runs of the graduation job [\#2038](https://github.com/curationexperts/laevigata/issues/2038)
+
+**Technical Enhancements:**
+
+- Update hydra head [\#2132](https://github.com/curationexperts/laevigata/pull/2132) ([fnibbit](https://github.com/fnibbit))
+- Refactor workflow setup to improve performance [\#2130](https://github.com/curationexperts/laevigata/pull/2130) ([mark-dce](https://github.com/mark-dce))
+- Refactor the GraduationService for improved performance [\#2121](https://github.com/curationexperts/laevigata/pull/2121) ([mark-dce](https://github.com/mark-dce))
+- Remove obsolete diagnostic code for partials [\#2118](https://github.com/curationexperts/laevigata/pull/2118) ([mark-dce](https://github.com/mark-dce))
+- Only run expensive setup where needed in Proquest spec [\#2117](https://github.com/curationexperts/laevigata/pull/2117) ([mark-dce](https://github.com/mark-dce))
+- Handle additional GraduationHelper edge cases [\#2115](https://github.com/curationexperts/laevigata/pull/2115) ([mark-dce](https://github.com/mark-dce))
+- Clear date input field in embargo edit spec [\#2113](https://github.com/curationexperts/laevigata/pull/2113) ([fnibbit](https://github.com/fnibbit))
+- Upgrade jest to address downstream dependency vulnerability [\#2111](https://github.com/curationexperts/laevigata/pull/2111) ([maxkadel](https://github.com/maxkadel))
+- Ignore javascript tests from test coverage [\#2110](https://github.com/curationexperts/laevigata/pull/2110) ([maxkadel](https://github.com/maxkadel))
+- Add simplecov for formatting and ignoring files for test coverage [\#2106](https://github.com/curationexperts/laevigata/pull/2106) ([maxkadel](https://github.com/maxkadel))
+- Remove unused test directory [\#2105](https://github.com/curationexperts/laevigata/pull/2105) ([maxkadel](https://github.com/maxkadel))
+- Security fixes [\#2104](https://github.com/curationexperts/laevigata/pull/2104) ([maxkadel](https://github.com/maxkadel))
+- Js test suite [\#2103](https://github.com/curationexperts/laevigata/pull/2103) ([maxkadel](https://github.com/maxkadel))
+- Upgrading to ruby 2.7 caused some specs with capybara to fail [\#2100](https://github.com/curationexperts/laevigata/pull/2100) ([maxkadel](https://github.com/maxkadel))
+- Update README.md [\#2098](https://github.com/curationexperts/laevigata/pull/2098) ([mark-dce](https://github.com/mark-dce))
+- Remove scheduled runs of graduation rake task [\#2097](https://github.com/curationexperts/laevigata/pull/2097) ([fnibbit](https://github.com/fnibbit))
+- Prepare to change default branch from "master" to "main" [\#2096](https://github.com/curationexperts/laevigata/pull/2096) ([maxkadel](https://github.com/maxkadel))
+- Index `embargo\_length` as a singluar, searchable, stored value in Solr [\#2095](https://github.com/curationexperts/laevigata/pull/2095) ([mark-dce](https://github.com/mark-dce))
+- Remove duplicate attribute definitions [\#2094](https://github.com/curationexperts/laevigata/pull/2094) ([mark-dce](https://github.com/mark-dce))
+- Update VisibilityTranslator to handle various edge cases [\#2089](https://github.com/curationexperts/laevigata/pull/2089) ([mark-dce](https://github.com/mark-dce))
+- Update .gitignore to disregard all log and temp files and directories [\#2088](https://github.com/curationexperts/laevigata/pull/2088) ([mark-dce](https://github.com/mark-dce))
+- Update README [\#2087](https://github.com/curationexperts/laevigata/pull/2087) ([mark-dce](https://github.com/mark-dce))
+- Small updates to readme from starting up from scratch [\#2086](https://github.com/curationexperts/laevigata/pull/2086) ([maxkadel](https://github.com/maxkadel))
+- Update readme for ruby 2.7.2 and discontinuation of box.com integration [\#2085](https://github.com/curationexperts/laevigata/pull/2085) ([fnibbit](https://github.com/fnibbit))
+- Remove migration-related code [\#2063](https://github.com/curationexperts/laevigata/pull/2063) ([fnibbit](https://github.com/fnibbit))
+
 ## [v2.7.0](https://github.com/curationexperts/laevigata/tree/v2.7.0) (2021-02-10)
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.6.1...v2.7.0)
@@ -45,7 +101,6 @@
 **Closed issues:**
 
 - Rebuild ETD production server & fix any volume issues [\#2026](https://github.com/curationexperts/laevigata/issues/2026)
-- Release latest laevigata [\#2008](https://github.com/curationexperts/laevigata/issues/2008)
 
 **Technical Enhancements:**
 
@@ -65,163 +120,44 @@
 
 **Fixed bugs:**
 
-- Intermittent test failure:     Failure/Error: select '6 months', from: 'Requested Embargo Length' [\#2020](https://github.com/curationexperts/laevigata/issues/2020)
 - Ensure file has time to attach before moving on [\#2021](https://github.com/curationexperts/laevigata/pull/2021) ([bess](https://github.com/bess))
-
-**Security fixes:**
-
-- Update Honeybadger to latest [\#2017](https://github.com/curationexperts/laevigata/pull/2017) ([bess](https://github.com/bess))
-- Update yarn dependencies [\#2016](https://github.com/curationexperts/laevigata/pull/2016) ([bess](https://github.com/bess))
-- Update rack to address security issue [\#2015](https://github.com/curationexperts/laevigata/pull/2015) ([bess](https://github.com/bess))
-- Update capybara to address deprecation warnings [\#2013](https://github.com/curationexperts/laevigata/pull/2013) ([bess](https://github.com/bess))
-- Bump sanitize from 4.6.6 to 5.2.1 [\#2007](https://github.com/curationexperts/laevigata/pull/2007) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump websocket-extensions from 0.1.3 to 0.1.4 [\#2006](https://github.com/curationexperts/laevigata/pull/2006) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump websocket-extensions from 0.1.4 to 0.1.5 [\#2005](https://github.com/curationexperts/laevigata/pull/2005) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump kaminari from 1.2.0 to 1.2.1 [\#2004](https://github.com/curationexperts/laevigata/pull/2004) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump puma from 4.3.3 to 4.3.5 [\#2003](https://github.com/curationexperts/laevigata/pull/2003) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump acorn from 5.7.3 to 5.7.4 [\#1998](https://github.com/curationexperts/laevigata/pull/1998) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump puma from 4.3.1 to 4.3.3 [\#1997](https://github.com/curationexperts/laevigata/pull/1997) ([dependabot[bot]](https://github.com/apps/dependabot))
-
-**Closed issues:**
-
-- Restart ETDs when we notice it's down [\#2011](https://github.com/curationexperts/laevigata/issues/2011)
-- Test Box upload against Feb 2020 release of the code [\#2001](https://github.com/curationexperts/laevigata/issues/2001)
-- Update Emory SSL certs [\#1999](https://github.com/curationexperts/laevigata/issues/1999)
-- v2.5.3 release [\#1995](https://github.com/curationexperts/laevigata/issues/1995)
-- SSL certs will expire 9 May [\#1990](https://github.com/curationexperts/laevigata/issues/1990)
 
 **Technical Enhancements:**
 
 - Update release process [\#2024](https://github.com/curationexperts/laevigata/pull/2024) ([bess](https://github.com/bess))
 - Moves submission form links to SCO website [\#2023](https://github.com/curationexperts/laevigata/pull/2023) ([rotated8](https://github.com/rotated8))
-- Upgrade bixby [\#2019](https://github.com/curationexperts/laevigata/pull/2019) ([bess](https://github.com/bess))
-- Refactor to cache solr documents for better performance [\#2014](https://github.com/curationexperts/laevigata/pull/2014) ([bess](https://github.com/bess))
-- Updates graduation date options, adding the next four years. [\#2009](https://github.com/curationexperts/laevigata/pull/2009) ([rotated8](https://github.com/rotated8))
-- Changes the link to workshops [\#1996](https://github.com/curationexperts/laevigata/pull/1996) ([rotated8](https://github.com/rotated8))
 
 ## [v2.5.3](https://github.com/curationexperts/laevigata/tree/v2.5.3) (2020-02-14)
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.5.2...v2.5.3)
 
-**Technical Enhancements:**
-
-- Do not request tests in languages other than english [\#1993](https://github.com/curationexperts/laevigata/pull/1993) ([bess](https://github.com/bess))
-- Update README badge for circleci [\#1992](https://github.com/curationexperts/laevigata/pull/1992) ([bess](https://github.com/bess))
-- Circleci fixes [\#1991](https://github.com/curationexperts/laevigata/pull/1991) ([bess](https://github.com/bess))
-- Standardize capistrano deploy target names [\#1989](https://github.com/curationexperts/laevigata/pull/1989) ([maxkadel](https://github.com/maxkadel))
-
 ## [v2.5.2](https://github.com/curationexperts/laevigata/tree/v2.5.2) (2019-12-30)
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.5.1...v2.5.2)
-
-**Security fixes:**
-
-- Bump handlebars from 4.1.2 to 4.5.3 [\#1988](https://github.com/curationexperts/laevigata/pull/1988) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump rack from 2.0.7 to 2.0.8 [\#1987](https://github.com/curationexperts/laevigata/pull/1987) ([dependabot[bot]](https://github.com/apps/dependabot))
-
-**Closed issues:**
-
-- Laevigata production deploy 12/17 [\#1983](https://github.com/curationexperts/laevigata/issues/1983)
 
 ## [v2.5.1](https://github.com/curationexperts/laevigata/tree/v2.5.1) (2019-12-18)
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.5.0...v2.5.1)
 
-**Closed issues:**
-
-- Restrict access to etd-staging and -qa \(Due 12/18\) [\#1976](https://github.com/curationexperts/laevigata/issues/1976)
-
-**Technical Enhancements:**
-
-- Install older bundler on travis for Rails 5.1 [\#1985](https://github.com/curationexperts/laevigata/pull/1985) ([little9](https://github.com/little9))
-- Access date\_modified as EST [\#1984](https://github.com/curationexperts/laevigata/pull/1984) ([little9](https://github.com/little9))
-
 ## [v2.5.0](https://github.com/curationexperts/laevigata/tree/v2.5.0) (2019-12-10)
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.4.8...v2.5.0)
-
-**New Features:**
-
-- Password protect non-production instances [\#1982](https://github.com/curationexperts/laevigata/pull/1982) ([bess](https://github.com/bess))
-
-**Fixed bugs:**
-
-- Display date\_uploaded as EST [\#1981](https://github.com/curationexperts/laevigata/pull/1981) ([little9](https://github.com/little9))
-
-**Security fixes:**
-
-- Bump puma from 3.12.0 to 3.12.2 [\#1979](https://github.com/curationexperts/laevigata/pull/1979) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump rubyzip from 1.2.2 to 1.3.0 [\#1972](https://github.com/curationexperts/laevigata/pull/1972) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump loofah from 2.2.3 to 2.3.1 [\#1971](https://github.com/curationexperts/laevigata/pull/1971) ([dependabot[bot]](https://github.com/apps/dependabot))
-
-**Closed issues:**
-
-- Freshdesk: Emory November Registrar Data [\#1978](https://github.com/curationexperts/laevigata/issues/1978)
-- Force publish and add Legacy graduation dates to these SCO Created Legacy ETDs that were marked Inactive and did not migrate in 2018 [\#1977](https://github.com/curationexperts/laevigata/issues/1977)
-- Give Max access to Freshdesk [\#1975](https://github.com/curationexperts/laevigata/issues/1975)
-- Add Max to DCE hosting AWS [\#1974](https://github.com/curationexperts/laevigata/issues/1974)
-- Release v2.4.8 to production  [\#1970](https://github.com/curationexperts/laevigata/issues/1970)
-- Timestamp off on Review Submissions Page \(Due 11/21\) [\#1964](https://github.com/curationexperts/laevigata/issues/1964)
 
 ## [v2.4.8](https://github.com/curationexperts/laevigata/tree/v2.4.8) (2019-11-04)
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.4.7...v2.4.8)
 
-**Fixed bugs:**
-
-- Missing block on on Submission Review page [\#1963](https://github.com/curationexperts/laevigata/issues/1963)
-
-**Closed issues:**
-
-- Fix typo in admin uid [\#1968](https://github.com/curationexperts/laevigata/issues/1968)
-- Fix Emory production nightly backups [\#1966](https://github.com/curationexperts/laevigata/issues/1966)
-- Reviewer, Admin Changes [\#1965](https://github.com/curationexperts/laevigata/issues/1965)
-
-**Technical Enhancements:**
-
-- Changes the instructions button on the homepage. [\#1969](https://github.com/curationexperts/laevigata/pull/1969) ([rotated8](https://github.com/rotated8))
-
 ## [v2.4.7](https://github.com/curationexperts/laevigata/tree/v2.4.7) (2019-10-24)
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.4.6...v2.4.7)
-
-**Closed issues:**
-
-- Release v2.4.6 to production [\#1960](https://github.com/curationexperts/laevigata/issues/1960)
-- Run September registrar data [\#1959](https://github.com/curationexperts/laevigata/issues/1959)
-- ETD Data Dump [\#1957](https://github.com/curationexperts/laevigata/issues/1957)
-- CC Fran for emails [\#1956](https://github.com/curationexperts/laevigata/issues/1956)
-
-**Technical Enhancements:**
-
-- Fix for Rollins submission [\#1967](https://github.com/curationexperts/laevigata/pull/1967) ([little9](https://github.com/little9))
-- Updates homepage. [\#1961](https://github.com/curationexperts/laevigata/pull/1961) ([rotated8](https://github.com/rotated8))
 
 ## [v2.4.6](https://github.com/curationexperts/laevigata/tree/v2.4.6) (2019-09-19)
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.4.5...v2.4.6)
 
-**Security fixes:**
-
-- Bump devise from 4.6.1 to 4.7.1 [\#1955](https://github.com/curationexperts/laevigata/pull/1955) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump mixin-deep from 1.3.1 to 1.3.2 [\#1953](https://github.com/curationexperts/laevigata/pull/1953) ([dependabot[bot]](https://github.com/apps/dependabot))
-
-**Closed issues:**
-
-- Deploy v2.4.5 [\#1954](https://github.com/curationexperts/laevigata/issues/1954)
-
-**Technical Enhancements:**
-
-- Hard code fpici as an email cc default [\#1958](https://github.com/curationexperts/laevigata/pull/1958) ([bess](https://github.com/bess))
-
 ## [v2.4.5](https://github.com/curationexperts/laevigata/tree/v2.4.5) (2019-08-23)
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.4.4...v2.4.5)
-
-**Technical Enhancements:**
-
-- Upgrade nokogiri again for security fix [\#1952](https://github.com/curationexperts/laevigata/pull/1952) ([bess](https://github.com/bess))
-- Upgrade nokogiri and pg [\#1951](https://github.com/curationexperts/laevigata/pull/1951) ([bess](https://github.com/bess))
 
 ## [v2.4.4](https://github.com/curationexperts/laevigata/tree/v2.4.4) (2019-07-25)
 
