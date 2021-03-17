@@ -12,7 +12,6 @@ gem "bootstrap-sass", ">= 3.4.1"
 gem 'clamby', '>= 1.2.5'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails'
-gem 'darlingtonia', github: 'curationexperts/darlingtonia', branch: 'master'
 gem 'devise'
 gem 'devise-guests', '~> 0.5'
 gem 'dotenv-rails'
