@@ -36,7 +36,6 @@ gem 'omniauth-shibboleth', '~> 1.3'
 gem 'pg', '~> 1.0'
 gem 'rack', '>= 2.1.4'
 gem 'rails', '>= 5.2.4.5'
-gem 'rsolr', '~> 1.0'
 gem 'rubyzip'
 gem 'sanitize', '~> 5.2'
 # Use SCSS for stylesheets
@@ -48,7 +47,7 @@ gem 'turbolinks', '~> 5'
 gem 'twitter-bootstrap-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
-gem 'webpacker', '~> 4'
+gem 'webpacker'
 gem 'whenever', require: false
 gem 'yard'
 
