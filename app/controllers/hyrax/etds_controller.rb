@@ -111,7 +111,7 @@ module Hyrax
       render json: { errors: error.to_s }, status: 422
     end
 
-    # Override from Hyrax:app/controllers/concerns/hyrax/curation_concern_controller.rb
+    # Override from Hyrax:app/controllers/concerns/hyrax/works_controller_behavior.rb
     # Hyrax default behavior is that a user cannot see their own work if the document
     # is "suppressed", which means Hyrax::Workflow::ActivateObject has not been called.
     # In Emory's case, they do not want the object activated until the student has
