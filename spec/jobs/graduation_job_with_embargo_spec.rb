@@ -6,7 +6,7 @@ require 'rails_helper'
 # * update the embargo release date to the user's graduation date plus
 #   their requested embargo length
 # * send notifications
-describe GraduationJob, :clean, integration: true do
+describe GraduationJob, integration: true do
   context "a student with a requested embargo", :perform_jobs do
     let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null") }
     let(:user)       { FactoryBot.create(:user) }
@@ -38,9 +38,10 @@ describe GraduationJob, :clean, integration: true do
       allow(Hyrax::Workflow::DegreeAwardedNotification).to receive(:send_notification)
       ActiveJob::Base.queue_adapter.filter = [AttachFilesToWorkJob]
       Hyrax::CurationConcern.actor.create(env)
+      @etd_with_embargo_requested = env.curation_concern.id
     end
     it "performs the graduation process" do
-      etd = Etd.last
+      etd = Etd.find(@etd_with_embargo_requested)
       expect(etd.degree_awarded).to eq nil
       expect(etd.embargo.embargo_release_date).to eq six_years_from_today
       expect(etd.embargo_length).to eq "6 months"
