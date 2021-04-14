@@ -8,12 +8,12 @@ require 'rails_helper'
 # * send notifications
 describe GraduationJob, integration: true do
   context "a student with a requested embargo", :perform_jobs do
-    let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null") }
-    let(:user)       { FactoryBot.create(:user) }
-    let(:ability)    { ::Ability.new(user) }
-    let(:env)        { Hyrax::Actors::Environment.new(Etd.new, ability, attributes) }
-    let(:attributes) do
-      {
+    let(:workflow)    { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null") }
+    let(:user)        { FactoryBot.create(:user) }
+    let(:ability)     { ::Ability.new(user) }
+    let(:for_embargo) { Hyrax::Actors::Environment.new(Etd.new, ability, attributes) }
+    let(:attributes)  {
+      Hash[
         title: ['The Adventures of Cottontail Rabbit'],
         depositor: user.user_key,
         post_graduation_email: ['me@after.graduation.com'],
@@ -24,23 +24,24 @@ describe GraduationJob, integration: true do
         abstract_embargoed: true,
         toc_embargoed: true,
         embargo_length: '6 months',
-        uploaded_files: [uploaded_file.id]
-      }
-    end
-    let(:uploaded_file) do
-      FactoryBot.create :primary_uploaded_file, user_id: user.id
-    end
+        uploaded_files: [file.id]
+      ]
+    }
     let(:six_years_from_today) { Time.zone.today + 6.years }
-    let(:open)       { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
-    let(:restricted) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
+    let(:file)        { FactoryBot.create :primary_uploaded_file, user_id: user.id }
+    let(:open)        { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
+    let(:restricted)  { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
+
     before do
-      w.setup
+      workflow.setup
       allow(Hyrax::Workflow::DegreeAwardedNotification).to receive(:send_notification)
       ActiveJob::Base.queue_adapter.filter = [AttachFilesToWorkJob]
-      Hyrax::CurationConcern.actor.create(env)
-      @etd_with_embargo_requested = env.curation_concern.id
+      Hyrax::CurationConcern.actor.create(for_embargo)
+      @etd_with_embargo_requested = for_embargo.curation_concern.id
     end
+
     it "performs the graduation process" do
+      # Before the GraduationJob is run
       etd = Etd.find(@etd_with_embargo_requested)
       expect(etd.degree_awarded).to eq nil
       expect(etd.embargo.embargo_release_date).to eq six_years_from_today
@@ -55,6 +56,7 @@ describe GraduationJob, integration: true do
       graduation_job.perform(etd.id, Time.zone.tomorrow)
       etd.reload
 
+      # After the GraduationJob is run
       # The ETD should now have a degree_awarded date
       expect(etd.degree_awarded).to eq Time.zone.tomorrow
 
