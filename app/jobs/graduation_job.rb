@@ -21,7 +21,7 @@ class GraduationJob < ActiveJob::Base
     publish_object
     ProquestJob.perform_later(@work.id)
     send_notifications
-    @work.save
+    @work.save!
   end
 
   # @param [Date] graduation_date
@@ -60,6 +60,19 @@ class GraduationJob < ActiveJob::Base
       fs.embargo.embargo_release_date = embargo_release_date
       fs.embargo.save
     end
+
+    if embargo_release_date <= Time.zone.today
+      @work.visibility = @work.visibility_after_embargo if @work.visibility_after_embargo
+      @work.deactivate_embargo!
+      @work.embargo.save
+      @work.save
+      @work.file_sets.each do |fs|
+        fs.visibility = @work.visibility
+        fs.deactivate_embargo!
+        fs.save
+      end
+    end
+
     Rails.logger.warn "Graduation Job: ETD #{@work.id} embargo release date set to #{@work.embargo.embargo_release_date}"
   rescue => e
     Rails.logger.error "Error updating embargo release date for work #{@work}: #{e}"
