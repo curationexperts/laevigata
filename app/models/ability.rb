@@ -14,9 +14,7 @@ class Ability
         approver_for?(admin_set: obj.admin_set)
       end
     end
-
     return unless admin?
-
     can [:create, :show, :add_user, :remove_user, :index, :edit, :update, :destroy], Role
     can [:destroy], ActiveFedora::Base
     can [:read], Schools::School
@@ -30,9 +28,8 @@ class Ability
     alias_action :versions, to: :update
     alias_action :file_manager, to: :update
 
-    return if admin? || can_review_submissions?
-
-    cannot :index, Hydra::AccessControls::Embargo
+    return if admin?
+    cannot [:update, :edit, :manage, :index], Hydra::AccessControls::Embargo
     cannot :index, Hydra::AccessControls::Lease
   end
 
