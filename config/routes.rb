@@ -66,9 +66,6 @@ Rails.application.routes.draw do
 
   resources :schools, only: [:index, :show]
 
-  get '/auth/box', to: 'box_auth#auth'
-  post '/file/box', to: 'box_redirect#redirect_file'
-
   get 'error_404', to: 'pages#error_404'
   # If you go somewhere without a route, show a 404 page
   match '*path', via: :all, to: 'pages#error_404'
