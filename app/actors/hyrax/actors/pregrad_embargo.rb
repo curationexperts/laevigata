@@ -40,7 +40,7 @@ module Hyrax
                "is being interpreted as a request for no embargo on " \
                "#{env.attributes[:title]}."
 
-          env.attributes.delete(:embargo_length)
+          # env.attributes.delete(:embargo_length)
 
           {}
         end

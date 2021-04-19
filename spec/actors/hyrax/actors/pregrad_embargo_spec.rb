@@ -35,10 +35,10 @@ describe Hyrax::Actors::PregradEmbargo do
           'embargo_length' => InProgressEtd::NO_EMBARGO }
       end
 
-      it "removes the embargo_length attribute" do
+      it "does not remove the embargo_length attribute" do
         expect(env.attributes["embargo_length"]).to eq InProgressEtd::NO_EMBARGO
         middleware.create(env)
-        expect(env.attributes["embargo_length"]).to eq nil
+        expect(env.attributes["embargo_length"]).to eq InProgressEtd::NO_EMBARGO
       end
     end
 
