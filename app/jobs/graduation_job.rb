@@ -13,7 +13,7 @@ class GraduationJob < ActiveJob::Base
   # @param [String] work_id - the id of the work object
   # @param [Date] the student's graduation date
   def perform(work_id, graduation_date = Time.zone.today.to_s)
-    Rails.logger.warn "Graduation Job: ETD #{work_id} graduation recorded as #{graduation_date}"
+    Rails.logger.warn "ETD #{work_id} starting graduation process"
     @work = Etd.find(work_id)
     record_degree_awarded_date(graduation_date)
     update_embargo_release_date
@@ -22,6 +22,7 @@ class GraduationJob < ActiveJob::Base
     ProquestJob.perform_later(@work.id)
     send_notifications
     @work.save!
+    Rails.logger.warn "ETD #{work_id} finishing graduation process - degree awarded on #{@work.degree_awarded}"
   end
 
   # @param [Date] graduation_date
@@ -60,6 +61,7 @@ class GraduationJob < ActiveJob::Base
       fs.embargo.embargo_release_date = embargo_release_date
       fs.embargo.save
     end
+    Rails.logger.warn "ETD #{@work.id} embargo release date set to #{embargo_release_date}"
 
     if embargo_release_date <= Time.zone.today
       @work.visibility = @work.visibility_after_embargo if @work.visibility_after_embargo
@@ -71,9 +73,9 @@ class GraduationJob < ActiveJob::Base
         fs.deactivate_embargo!
         fs.save
       end
+      Rails.logger.warn "ETD #{@work.id} post-dated embargo deactivated"
     end
 
-    Rails.logger.warn "Graduation Job: ETD #{@work.id} embargo release date set to #{@work.embargo.embargo_release_date}"
   rescue => e
     Rails.logger.error "Error updating embargo release date for work #{@work}: #{e}"
     Honeybadger.notify("Error updating embargo release date for work #{@work}: #{e}")
@@ -88,10 +90,10 @@ class GraduationJob < ActiveJob::Base
   # Transition the workflow of this object to the "published" workflow state
   # This should also mark it as active.
   def publish_object
-    Rails.logger.warn "Graduation Job: Publishing ETD #{@work.id}"
     approving_user = ::User.find_by_uid(WorkflowSetup::ADMIN_SET_OWNER)
     subject = Hyrax::WorkflowActionInfo.new(@work, approving_user)
     sipity_workflow_action = PowerConverter.convert_to_sipity_action("publish", scope: subject.entity.workflow) { nil }
     Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "Published by graduation job #{Time.zone.today}")
+    Rails.logger.warn "ETD #{@work.id} published via WorkflowActionService"
   end
 end

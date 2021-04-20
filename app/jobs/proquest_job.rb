@@ -16,7 +16,7 @@ class ProquestJob < ActiveJob::Base
   def perform(work_id, transmit: true, cleanup: true, retransmit: false)
     @work = Etd.find(work_id)
     return unless ProquestJob.submit_to_proquest?(@work, retransmit)
-    Rails.logger.info "Submitting #{work_id} to ProQuest"
+    Rails.logger.info "ETD #{work_id} beginning submission to ProQuest"
     # 1. Create a directory. Done. See config/environments
     # 2. Write XML file there Done.
     # 3. Write PDF and supplementary files there. Done.
@@ -26,6 +26,7 @@ class ProquestJob < ActiveJob::Base
     transmit_file if transmit
     cleanup_file if cleanup
     ProquestCompletionJob.perform_later(work_id)
+    Rails.logger.info "ETD #{work_id} finished submission to ProQuest"
   end
 
   # Does this work meet the criteria required for ProQuest submission?
