@@ -80,7 +80,7 @@ Note: Do *not* run `bin/setup` except the very first time you setup the applicat
 ## Releasing
 
 1. Update `.github_changelog_generator` file with the version number you're about to release
-2. Generate release notes by running: `github_changelog_generator --token $YOUR_GITHUB_TOKEN --max-issues 1`
+2. Generate release notes by running: `github_changelog_generator --max-issues 1 --token $YOUR_GITHUB_TOKEN`
 3. Commit these changes to the repo, and copy-and-paste the release notes from the CHANGELOG.md file.
 
 ## Cron jobs in production
