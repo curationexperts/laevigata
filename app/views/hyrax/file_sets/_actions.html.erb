@@ -17,11 +17,12 @@
         <%= link_to 'Edit', edit_polymorphic_path([main_app, file_set]),
           { title: "Edit #{file_set}" } %>
       </li>
-
-      <li role="menuitem" tabindex="-1">
-        <%= link_to 'Versions',  edit_polymorphic_path([main_app, file_set], anchor: 'versioning_display'),
-          { title: "Display previous versions" } %>
-      </li>
+      <% if Flipflop.versions_link? %>
+        <li role="menuitem" tabindex="-1">
+          <%= link_to 'Versions',  edit_polymorphic_path([main_app, file_set], anchor: 'versioning_display'),
+            { title: "Display previous versions" } %>
+        </li>
+      <% end %>
     <% end %>
 
     <% if can?(:destroy, file_set.id) %>

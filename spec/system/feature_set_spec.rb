@@ -7,6 +7,7 @@ RSpec.describe 'Feature configuration', type: :system, integration: true do
       expect(Flipflop.proxy_deposit?).to eq false
       expect(Flipflop.transfer_works?).to eq false
       expect(Flipflop.batch_upload?).to eq false
+      expect(Flipflop.versions_link?).to eq false
     end
   end
 end
