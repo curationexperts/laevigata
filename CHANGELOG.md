@@ -1,13 +1,5 @@
 # Changelog
 
-
-## [v2.7.3](https://github.com/curationexperts/laevigata/tree/v2.7.3) (2021-05-25)
-
-[Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.7.2...v2.7.3)
-
-**Changelog Generator hangs**
-
-
 ## [v2.7.1](https://github.com/curationexperts/laevigata/tree/v2.7.1) (2021-03-17)
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.7.0...v2.7.1)
