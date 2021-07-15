@@ -32,7 +32,9 @@ RSpec.describe 'Display an ETD with embargoed content', :perform_jobs, :js, inte
   before do
     DatabaseCleaner.clean
     ActiveFedora::Cleaner.clean!
-
+    user
+    ability
+    env
     workflow_settings = { superusers_config: "#{fixture_path}/config/emory/superusers.yml",
                           admin_sets_config: "#{fixture_path}/config/emory/candler_admin_sets.yml",
                           log_location:      "/dev/null" }
@@ -114,8 +116,9 @@ RSpec.describe 'Display an ETD with embargoed content', :perform_jobs, :js, inte
     expect(page).to have_content "[Table of contents embargoed until #{formatted_embargo_release_date(etd)}"
     expect(page).to have_content etd.title.first
     expect(page).to have_link etd.title.first
-    click_on "Select an action"
-    expect(page).to have_link "Download"
+    expect(page).not_to have_content "Select an action"
+    # click_on "Select an action"
+    # expect(page).to have_link "Download"
   end
 
   scenario "viewed by unauthenticated user post-graduation" do
