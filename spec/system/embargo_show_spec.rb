@@ -129,7 +129,6 @@ RSpec.describe 'Display an ETD with embargoed content', :perform_jobs, :js, inte
     expect(page).to have_content "[Table of contents embargoed until #{formatted_embargo_release_date(etd)}"
     expect(page).to have_content etd.title.first
     expect(page).to have_link etd.title.first
-    expect(page).to have_content "Select an action"
     click_on "Select an action"
     expect(page).to have_link "Download"
   end
