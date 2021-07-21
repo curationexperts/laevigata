@@ -85,7 +85,7 @@ RSpec.describe 'Display an ETD with embargoed content', :perform_jobs, :js, inte
   end
 
   scenario "viewed by approver pre-graduation" do
-    allow(Flipflop).to receive(:versions_link?).and_return(false)
+    allow(Flipflop).to receive(:versions_and_edit_links?).and_return(false)
     etd.embargo_length = "6 months"
     etd.save
     expect(etd.degree_awarded).to eq nil
@@ -103,10 +103,11 @@ RSpec.describe 'Display an ETD with embargoed content', :perform_jobs, :js, inte
     click_on "Select an action"
     expect(page).to have_content "Download"
     expect(page).not_to have_content "Versions"
+    expect(page).not_to have_content "Edit"
   end
 
   scenario "viewed by approver with Versions enabled" do
-    allow(Flipflop).to receive(:versions_link?).and_return(true)
+    allow(Flipflop).to receive(:versions_and_edit_links?).and_return(true)
     etd.embargo_length = "6 months"
     etd.save
     login_as approving_user
@@ -114,6 +115,7 @@ RSpec.describe 'Display an ETD with embargoed content', :perform_jobs, :js, inte
     click_on "Select an action"
     expect(page).to have_content "Download"
     expect(page).to have_content "Versions"
+    expect(page).to have_content "Edit"
   end
 
   scenario "viewed by a school approver post-graduation" do
