@@ -35,6 +35,8 @@ or cherokee rose is the <a href="https://georgia.gov/georgia-facts-and-symbols">
    `npm install -g yarn`
 1. Install yarn dependencies
     `yarn install`
+    
+    *NOTE* node-sass is particular about node versions, see their [version support policy](https://github.com/sass/node-sass#node-version-support-policy) if you're having difficulty
 1. Install ClamAV
     This is required if you want to work with file uploads in your development environment.
     See: [Installing ClamAV](https://www.clamav.net/documents/installing-clamav) for instructions.
