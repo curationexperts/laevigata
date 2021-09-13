@@ -1,5 +1,19 @@
 # Changelog
 
+## [v2.8.2](https://github.com/curationexperts/laevigata/tree/v2.8.2) (2021-09-13)
+
+[Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.8.1...v2.8.2)
+
+**Security fixes:**
+
+- Bump url-parse from 1.4.7 to 1.5.3 [\#2164](https://github.com/curationexperts/laevigata/pull/2164) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump axios from 0.21.1 to 0.21.2 [\#2163](https://github.com/curationexperts/laevigata/pull/2163) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump path-parse from 1.0.6 to 1.0.7 [\#2161](https://github.com/curationexperts/laevigata/pull/2161) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump ssri from 6.0.1 to 6.0.2 [\#2156](https://github.com/curationexperts/laevigata/pull/2156) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump lodash from 4.17.20 to 4.17.21 [\#2155](https://github.com/curationexperts/laevigata/pull/2155) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump ws from 6.2.1 to 6.2.2 [\#2150](https://github.com/curationexperts/laevigata/pull/2150) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump dns-packet from 1.3.1 to 1.3.4 [\#2149](https://github.com/curationexperts/laevigata/pull/2149) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v2.8.1](https://github.com/curationexperts/laevigata/tree/v2.8.1) (2021-09-13)
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.8.0...v2.8.1)
@@ -79,9 +93,6 @@
 - Address outstanding dependency updates \(Dependabot\) [\#2071](https://github.com/curationexperts/laevigata/issues/2071)
 - Update ETD Supplemental File upload option [\#2069](https://github.com/curationexperts/laevigata/issues/2069)
 - Update Ruby Version [\#2064](https://github.com/curationexperts/laevigata/issues/2064)
-- SPIKE: What are our options for attaching large files [\#2054](https://github.com/curationexperts/laevigata/issues/2054)
-- Spike: How viable does Vue appear to be as a framework?  [\#2053](https://github.com/curationexperts/laevigata/issues/2053)
-- Create a checklist of tasks that need to happen for the real cutover [\#2050](https://github.com/curationexperts/laevigata/issues/2050)
 
 **Technical Enhancements:**
 
