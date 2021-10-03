@@ -38,7 +38,7 @@ gem 'rack', '>= 2.1.4'
 gem 'rails', '>= 5.2.4.5'
 gem 'rsolr', '~> 1.0'
 gem 'rubyzip'
-gem 'sanitize', '~> 5.2'
+gem 'sanitize', '~> 6.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 gem 'sidekiq'
