@@ -4,6 +4,8 @@ module Hyrax
     # Sets pregraduation embargo attributes for interpretation by the rest of
     # the stack.
     class PregradEmbargo < AbstractActor
+      DEFAULT_LENGTH = 500.years
+
       def create(env)
         env.attributes.merge!(pregraduation_embargo_attributes(env)) &&
           next_actor.create(env)
@@ -20,7 +22,7 @@ module Hyrax
           open = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
           embargo = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
 
-          { embargo_release_date:      (Time.zone.today + 6.years).to_s,
+          { embargo_release_date:      DEFAULT_LENGTH.from_now.to_date.to_s,
             visibility:                embargo,
             visibility_after_embargo:  open,
             visibility_during_embargo: open }
