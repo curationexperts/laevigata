@@ -46,7 +46,7 @@ RSpec.describe 'edit an embargo', :perform_jobs, :js, integration: true, type: :
   let(:uploaded_file) do
     FactoryBot.create :primary_uploaded_file, user_id: user.id
   end
-  let(:six_years_from_today) { Time.zone.today + 6.years }
+  let(:many_years_from_today) { Time.current.to_date + Hyrax::Actors::PregradEmbargo::DEFAULT_LENGTH }
   let(:eight_years_from_today) { Time.zone.today + 8.years }
   let(:approving_user) { User.find_by(uid: "candleradmin") }
   let(:superuser) { User.find_by(uid: 'superman001') }
@@ -57,10 +57,10 @@ RSpec.describe 'edit an embargo', :perform_jobs, :js, integration: true, type: :
     actor.create(env)
     etd.reload
     expect(etd.degree_awarded).to eq nil
-    expect(etd.embargo.embargo_release_date).to eq six_years_from_today
+    expect(etd.embargo.embargo_release_date).to eq many_years_from_today
     expect(etd.embargo_length).to eq "6 months"
     expect(etd.reload.file_sets.first.embargo)
-      .to have_attributes embargo_release_date: six_years_from_today,
+      .to have_attributes embargo_release_date: many_years_from_today,
                           visibility_during_embargo: restricted,
                           visibility_after_embargo: open
     expect(etd.file_sets.first)

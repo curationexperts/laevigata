@@ -43,7 +43,7 @@ describe Hyrax::Actors::PregradEmbargo do
     end
 
     context 'with a requested embargo' do
-      let(:six_years_from_today) { Time.zone.today + 6.years }
+      let(:many_years_from_today) { described_class::DEFAULT_LENGTH.from_now.to_date.to_s }
 
       let(:attributes) do
         { 'title' => ['good fun'],
@@ -63,7 +63,7 @@ describe Hyrax::Actors::PregradEmbargo do
       it 'sets pre-graduation embargo attributes' do
         expect { middleware.create(env) }
           .to change { env.attributes }
-          .to include embargo_release_date: six_years_from_today.to_s,
+          .to include embargo_release_date: many_years_from_today,
                       visibility_during_embargo: open,
                       visibility_after_embargo: open,
                       visibility: embargo

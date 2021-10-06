@@ -55,7 +55,7 @@ describe GraduationJob, :perform_jobs, integration: true do
     let(:two_months_ago)       { eight_months_ago + 6.months }
     let(:one_month_ago)        { 1.month.ago.beginning_of_day }
     let(:five_months_from_now) { one_month_ago + 6.months }
-    let(:six_years_from_today) { 6.years.from_now.beginning_of_day }
+    let(:many_years_from_today) { Hyrax::Actors::PregradEmbargo::DEFAULT_LENGTH.from_now.beginning_of_day }
 
     it "handles ETDs with embargos expiring in the future", :aggregate_failures do
       # Before the GraduationJob is run
@@ -63,10 +63,10 @@ describe GraduationJob, :perform_jobs, integration: true do
       id = for_embargo.curation_concern.id
       etd = Etd.find(id)
       expect(etd.degree_awarded).to eq nil
-      expect(etd.embargo.embargo_release_date).to eq six_years_from_today
+      expect(etd.embargo.embargo_release_date).to eq many_years_from_today
       expect(etd.embargo_length).to eq "6 months"
-      expect(etd.reload.file_sets.first.embargo)
-        .to have_attributes embargo_release_date: six_years_from_today,
+      expect(etd.file_sets.first.embargo)
+        .to have_attributes embargo_release_date: many_years_from_today,
                             visibility_during_embargo: restricted,
                             visibility_after_embargo: open
       expect(etd.file_sets.first)

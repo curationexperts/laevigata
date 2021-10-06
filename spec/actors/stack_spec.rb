@@ -57,7 +57,7 @@ describe Hyrax::CurationConcern do
           'embargo_length' => '6 months' }
       end
 
-      let(:six_years_from_today) { Time.zone.today + 6.years }
+      let(:many_years_from_today) { Time.current.to_date + Hyrax::Actors::PregradEmbargo::DEFAULT_LENGTH }
 
       let(:open)       { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
       let(:restricted) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
@@ -71,7 +71,7 @@ describe Hyrax::CurationConcern do
       it 'applies a pre-graduation embargo' do
         expect { actor.create(env) }
           .to change { etd.embargo }
-          .to have_attributes embargo_release_date: six_years_from_today,
+          .to have_attributes embargo_release_date: many_years_from_today,
                               visibility_during_embargo: open,
                               visibility_after_embargo: open
       end
@@ -114,7 +114,7 @@ describe Hyrax::CurationConcern do
             actor.create(env)
 
             expect(etd.reload.file_sets.first.embargo)
-              .to have_attributes embargo_release_date: six_years_from_today,
+              .to have_attributes embargo_release_date: many_years_from_today,
                                   visibility_during_embargo: restricted,
                                   visibility_after_embargo: open
 
