@@ -26,7 +26,7 @@ class FileSet < ActiveFedora::Base
   delegate :visibility,  to: :visibility_translator
   delegate :visibility=, to: :visibility_translator
 
-  property :embargo_length, predicate: "http://purl.org/spar/fabio/hasEmbargoDuration", multiple: false do |index|
+  property :requested_embargo_duration, predicate: "http://purl.org/spar/fabio/hasEmbargoDuration", multiple: false do |index|
     index.as :displayable
   end
 

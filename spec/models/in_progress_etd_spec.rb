@@ -343,7 +343,7 @@ describe InProgressEtd do
     describe 'no embargoes' do
       context 'with existing no_embargoes data and new embargo data' do
         let(:old_data) { { no_embargoes: '1' } }
-        let(:new_data) { { 'embargo_length': '1 Year', 'embargo_type': 'Files' } }
+        let(:new_data) { { requested_embargo_duration: '1 Year', 'embargo_type': 'Files' } }
 
         it "removes the old no_embargoes parameter and adds the new embargo lengths and types" do
           expect(resulting_data).to eq({
@@ -356,7 +356,7 @@ describe InProgressEtd do
 
       context 'with existing no_embargoes and new no_embargoes' do
         let(:old_data) { { no_embargoes: '1' } }
-        let(:new_data) { { 'embargo_length': described_class::NO_EMBARGO } }
+        let(:new_data) { { requested_embargo_duration: described_class::NO_EMBARGO } }
 
         it "preserves the no_embargoes and adds the new embargo_length data" do
           expect(resulting_data).to eq({
@@ -368,8 +368,8 @@ describe InProgressEtd do
       end
 
       context 'with existing embargoes and new embargo data' do
-        let(:old_data) { { 'embargo_length': '1 Year', 'embargo_type': 'files_embargoed' } }
-        let(:new_data) { { 'embargo_length': '2 Years', 'embargo_type': 'files_embargoed, toc_embargoed' } }
+        let(:old_data) { { requested_embargo_duration: '1 Year', 'embargo_type': 'files_embargoed' } }
+        let(:new_data) { { requested_embargo_duration: '2 Years', 'embargo_type': 'files_embargoed, toc_embargoed' } }
 
         it 'sets new embargo length and type and does not set no_embargoes' do
           expect(resulting_data).to eq({
@@ -381,9 +381,9 @@ describe InProgressEtd do
       end
 
       context 'with existing embargoes and new no embargo data' do
-        let(:old_data) { { 'embargo_length': '1 Year', 'embargo_type': 'files_embargoed' } }
+        let(:old_data) { { requested_embargo_duration: '1 Year', 'embargo_type': 'files_embargoed' } }
 
-        let(:new_data) { { 'embargo_length': described_class::NO_EMBARGO } }
+        let(:new_data) { { requested_embargo_duration: described_class::NO_EMBARGO } }
 
         it 'removes old embargo lengths and types and sets no_embargoes' do
           expect(resulting_data).to eq({
@@ -675,14 +675,14 @@ describe InProgressEtd do
     context 'with stale data in data store' do
       let(:stale_data) {
         {
-        title: 'Stale Title from IPE',
-        partnering_agency: ['Stale parter agency'],
-        embargo_length: '1000 years',
-        department: ['Some'],
-        other_copyrights: 'true',
-        requires_permissions: 'true',
-        patents: 'true',
-        research_field: 'Cryptozoology'
+          title: 'Stale Title from IPE',
+          partnering_agency: ['Stale parter agency'],
+          requested_embargo_duration: '1000 years',
+          department: ['Some'],
+          other_copyrights: 'true',
+          requires_permissions: 'true',
+          patents: 'true',
+          research_field: 'Cryptozoology'
         }
       }
 

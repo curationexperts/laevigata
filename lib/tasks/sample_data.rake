@@ -92,7 +92,7 @@ namespace :sample_data do
     upload1 = Hyrax::UploadedFile.create(user: user, file: file1, pcdm_use: 'primary')
     upload2 = Hyrax::UploadedFile.create(user: user, file: file2, pcdm_use: 'supplementary')
 
-    attributes_for_actor = { embargo_length: etd.embargo_length, uploaded_files: [upload1.id, upload2.id] }
+    attributes_for_actor = { requested_embargo_duration: etd.embargo_length, uploaded_files: [upload1.id, upload2.id] }
     env = Hyrax::Actors::Environment.new(etd, ability, attributes_for_actor)
     Hyrax::CurationConcern.actor.create(env)
 

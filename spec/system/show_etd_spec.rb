@@ -7,7 +7,7 @@ RSpec.describe 'Display ETD metadata', :clean, integration: true, type: :system 
     FactoryBot.create(:sample_data_with_copyright_questions,
                       partnering_agency: ["CDC"],
                       school: ["Candler School of Theology"],
-                      embargo_length: "6 months",
+                      requested_embargo_duration: "6 months",
                       files_embargoed: false,
                       toc_embargoed: nil,
                       abstract_embargoed: '')

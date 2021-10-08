@@ -30,7 +30,7 @@ module Hyrax
     self.terms += [:other_copyrights]
     self.terms += [:patents]
     # my embargo terms
-    self.terms += [:embargo_length]
+    self.terms += [:requested_embargo_duration]
     self.terms += [:embargo_release_date]
     self.terms += [:embargo_type]
     self.terms += [:files_embargoed]

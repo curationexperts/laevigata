@@ -164,7 +164,7 @@ describe EtdPresenter do
 
         context 'with an abstract embargo' do
           let(:degree_awarded) { nil }
-          let(:embargo_length) { '6 months' }
+          let(:requested_embargo_duration) { '6 months' }
 
           before do
             etd.embargo_length     = embargo_length
@@ -192,7 +192,7 @@ describe EtdPresenter do
           end
 
           context "but no #embargo_length" do
-            let(:embargo_length) { nil }
+            let(:requested_embargo_duration) { nil }
 
             it "displays the abstract with embargo_length" do
               expect(presenter.abstract_with_embargo_check)

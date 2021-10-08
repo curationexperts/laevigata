@@ -14,10 +14,10 @@ module Hyrax
       private
 
         def pregraduation_embargo_attributes(env)
-          return {} unless env.attributes.key?(:embargo_length)
+          return {} unless env.attributes.key?(:requested_embargo_duration)
 
           return handle_malformed_data(env) if
-            env.attributes.fetch(:embargo_length, nil) == InProgressEtd::NO_EMBARGO
+            env.attributes.fetch(:requested_embargo_duration, nil) == InProgressEtd::NO_EMBARGO
 
           open = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
           embargo = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO
@@ -38,7 +38,7 @@ module Hyrax
         #   graduation.
         def handle_malformed_data(env)
           warn "#{self.class} is cleaning up non-date data passed to the " \
-               ":embargo_length attribute. #{env.attributes[:embargo_length]} " \
+               ":embargo_length attribute. #{env.attributes[:requested_embargo_duration]} " \
                "is being interpreted as a request for no embargo on " \
                "#{env.attributes[:title]}."
 

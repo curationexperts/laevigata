@@ -128,7 +128,7 @@ class Etd < ActiveFedora::Base
     EMBARGO_TRUTHINESS_VALUES.include?(super)
   end
 
-  property :embargo_length, predicate: "http://purl.org/spar/fabio/hasEmbargoDuration", multiple: false do |index|
+  property :requested_embargo_duration, predicate: "http://purl.org/spar/fabio/hasEmbargoDuration", multiple: false do |index|
     index.as :stored_sortable
   end
 

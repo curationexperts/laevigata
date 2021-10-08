@@ -6,7 +6,7 @@ class EtdPresenter < Hyrax::WorkShowPresenter
            :degree,
            :degree_awarded,
            :department,
-           :embargo_length,
+           :requested_embargo_duration,
            :files_embargoed,
            :graduation_year,
            :language,

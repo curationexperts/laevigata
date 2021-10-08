@@ -30,7 +30,7 @@ describe GraduationJob, :perform_jobs, integration: true do
         files_embargoed: true,
         abstract_embargoed: true,
         toc_embargoed: true,
-        embargo_length: '6 months'
+        requested_embargo_duration: '6 months'
       ]
     }
     let(:open_access) {
@@ -38,7 +38,7 @@ describe GraduationJob, :perform_jobs, integration: true do
         files_embargoed: false,
         abstract_embargoed: false,
         toc_embargoed: false,
-        embargo_length: InProgressEtd::NO_EMBARGO
+        requested_embargo_duration: InProgressEtd::NO_EMBARGO
       ]
     }
 

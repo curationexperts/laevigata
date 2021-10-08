@@ -105,7 +105,7 @@ class InProgressEtd < ApplicationRecord
   # currently the EtdForm uses the boolean param "no_embargoes", so we need to send or remove it (seems a good candidate for refactoring in EtdForm)
 
   def add_no_embargoes(new_data)
-    resulting_data = new_data[:embargo_length] == NO_EMBARGO ? new_data.merge("no_embargoes" => "1") : nil
+    resulting_data = new_data[:requested_embargo_duration] == NO_EMBARGO ? new_data.merge("no_embargoes" => "1") : nil
 
     resulting_data.nil? ? new_data : resulting_data
   end
@@ -114,8 +114,8 @@ class InProgressEtd < ApplicationRecord
   # Remove no_embargoes if new_data[:embargo_length] != NO_EMBARGO
 
   def remove_stale_embargo_data(existing_data, new_data)
-    existing_data.delete('no_embargoes') if existing_data.keys.include?('no_embargoes') && new_data[:embargo_length] != NO_EMBARGO
-    existing_data.delete('embargo_type') if new_data[:embargo_length] == NO_EMBARGO && existing_data.keys.include?('embargo_type')
+    existing_data.delete('no_embargoes') if existing_data.keys.include?('no_embargoes') && new_data[:requested_embargo_duration] != NO_EMBARGO
+    existing_data.delete('embargo_type') if new_data[:requested_embargo_duration] == NO_EMBARGO && existing_data.keys.include?('embargo_type')
     existing_data
   end
 
