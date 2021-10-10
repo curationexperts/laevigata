@@ -28,6 +28,9 @@ doc
 # Ignore coverage report
 coverage
 
+# Ignore javascript test results
+test-report.xml
+
 # Ignore local ruby version manager config files
 .ruby-version
 .ruby-gemset
