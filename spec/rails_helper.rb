@@ -64,6 +64,12 @@ end
 RSpec.configure do |config|
   include Noid::Rails::RSpec
 
+  # Set the environment variable `SMOKE_TEST` to run slow running
+  # tests that provide additional information about configuration, integration
+  # with external services, or other checks that provide useful feedback,
+  # but don't impact core coverage
+  config.filter_run_excluding(smoke_test: true) unless ENV['SMOKE_TEST']
+
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   ENV['REGISTRAR_DATA_PATH'] = "#{::Rails.root}/spec/fixtures/registrar_sample.json"
   config.use_transactional_fixtures = true
