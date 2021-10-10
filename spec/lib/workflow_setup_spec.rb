@@ -234,7 +234,7 @@ RSpec.describe WorkflowSetup, :clean do
       end
     end
   end
-  context "creating all the admin sets" do
+  context "creating all the admin sets", smoke_test: true do
     let(:w) { described_class.new("#{fixture_path}/config/emory/superusers.yml", Rails.root.join('config', 'emory', 'admin_sets.yml'), "/dev/null") }
     it "doesn't miss any" do
       allow(w).to receive(:load_workflows)
