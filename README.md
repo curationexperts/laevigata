@@ -85,6 +85,15 @@ Note: Do *not* run `bin/setup` except the very first time you setup the applicat
 2. Generate release notes by running: `github_changelog_generator --token $YOUR_GITHUB_TOKEN --max-issues 1`
 3. Commit these changes to the repo, and copy-and-paste the release notes from the CHANGELOG.md file.
 
+## Smoke Tests
+Some long runnng tests and/or tests that test external systems have been filtered out of general runs of 
+the test suite.  Tests can be marked with `smoke_test: true` in the test definition to add them to this group.
+In order to run these tests, either run the test individually by name or line number or run the suite with
+the SMOKE_TEST environment variable set - e.g.
+```
+SMOKE_TEST=true bundle exec rspec
+```
+
 ## Cron jobs in production
 
 There are certain cron jobs that are expected to run in production. These include embargo expiration,
