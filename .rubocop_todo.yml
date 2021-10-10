@@ -35,7 +35,6 @@ Performance/Detect:
 Performance/RegexpMatch:
   Exclude:
     - 'app/actors/hyrax/actors/etd_actor.rb'
-    - 'app/jobs/import_url_job.rb'
     - 'lib/tasks/fix_collection_type_labels.rake'
 
 # Offense count: 3
@@ -56,7 +55,6 @@ RSpec/RepeatedDescription:
 Rails/ApplicationJob:
   Exclude:
     - 'app/jobs/graduation_job.rb'
-    - 'app/jobs/import_url_job.rb'
     - 'app/jobs/proquest_completion_job.rb'
     - 'app/jobs/proquest_job.rb'
 

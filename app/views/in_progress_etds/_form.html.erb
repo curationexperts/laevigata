@@ -11,19 +11,6 @@
   <app></app>
 </div>
 
-<!-- Assets for Box, look for a better way to do this in the future -->
-
-<!-- polyfill.io only loads the polyfills your browser needs -->
-<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Intl"></script>
-<!-- Latest version of the picker css for your locale -->
-<script src="https://cdn01.boxcdn.net/platform/elements/4.4.0/en-US/picker.js"></script>
-
-<script>
-function boxClientId () {
-  return '<%= ENV['BOX_OAUTH_CLIENT_ID'] %>'
-}
-</script>
-
 <%= javascript_pack_tag 'root' %>
 <%= stylesheet_pack_tag 'root' %>
 

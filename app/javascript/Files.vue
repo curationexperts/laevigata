@@ -135,7 +135,6 @@ import FileDelete from './FileDelete'
 import SupplementalFileDelete from './SupplementalFileDelete'
 import SupplementalFileUploader from './SupplementalFileUploader'
 import axios from 'axios'
-import BoxSupplementalFileUploader from './lib/BoxSupplementalFileUploader'
 import _ from 'lodash'
 
 export default {
@@ -154,38 +153,6 @@ export default {
           this.sharedState.files = [[JSON.parse(localStorage.getItem('files')).files[0]]]
         }
      }
-  },
-  mounted () {
-    var folderId = '0'
-    var accessToken = window.location.search.split('&access_token=')[1]
-
-    if (accessToken) {
-      var filePicker = new Box.FilePicker()
-
-      filePicker.show(folderId, accessToken, {
-        container: '#box-picker',
-        maxSelectable: 1,
-        canUpload: false,
-        logoUrl: 'box',
-        canCreateNewFolder: false
-      })
-      filePicker.addListener('cancel', (event) => {
-        filePicker.hide()
-      })
-
-      filePicker.addListener('choose', (event) => {
-        var boxFileUploader = new BoxSupplementalFileUploader({
-          boxAccessToken: accessToken,
-          event: event,
-          csrfToken: this.sharedState.token,
-          formStore: this.sharedState,
-          filePicker: filePicker
-      })
-
-
-      boxFileUploader.getUrlFromBox()
-      })
-    }
   },
   methods: {
     // Determine if the file is a Hyrax::UploadedFile
@@ -251,9 +218,6 @@ export default {
   },
   boxOAuth () {
     window.location = this.boxOAuthUrl()
-  },
-  boxOAuthUrl () {
-    return `https://account.box.com/api/oauth2/authorize?response_type=code&client_id=${boxClientId()}&redirect_uri${window.location.origin}/auth/box&state=${this.sharedState.ipeId}`
   },
   supplementalFileTitleName (key) {
     return `etd[supplemental_file_metadata][${key}]title`
