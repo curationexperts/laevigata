@@ -8,9 +8,6 @@ export ACTION_MAILER_PORT=##YOUR DATA HERE##
 export ACTION_MAILER_USER_NAME=##YOUR DATA HERE##
 export ACTION_MAILER_PASSWORD=##YOUR DATA HERE##
 
-export BOX_OAUTH_CLIENT_ID=##YOUR DATA HERE##
-export BOX_OAUTH_CLIENT_SECRET=##YOUR DATA HERE##
-
 export PROQUEST_NOTIFICATION_EMAIL=PQ-DissertationETD@proquest.com
 export REGISTRAR_DATA_PATH=/usr/local/projects/hyrax/laevigata/spec/fixtures/registrar_sample.json
 export FAKE_DATA=true
