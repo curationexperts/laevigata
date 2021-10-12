@@ -31,6 +31,9 @@
         <div class="col-md-12 form-actions">
           <% if curation_concern.embargo_release_date %>
             <%= f.submit t('.embargo_update'), class: 'btn btn-primary' %>
+            <%# This file overrides the following line in vanilla Hyrax because %>
+            <%# Emory has requested that we suppress the ability to deactivate embargoes early %>
+            <%# link_to t('.embargo_deactivate'), embargo_path(curation_concern), method: :delete, class: 'btn btn-danger' %>
           <% else %>
             <%= f.submit t('.embargo_apply'), class: 'btn btn-primary' %>
           <% end %>
