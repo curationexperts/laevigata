@@ -1,5 +1,7 @@
 <div class="form-inline">
   <%= visibility_badge(Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO) %>
+  # The following line differs from vanilla Hyrax by including current_visibility in the visibility_options that are displayed.
+  # see the override at app/helpers/hyrax_helper.rb:14
   <%= f.input :visibility_during_embargo, wrapper: :inline, collection: visibility_options(:restrict, current_visibility: curation_concern.visibility), include_blank: false %>
   <%= f.input :embargo_release_date, wrapper: :inline, input_html: { value: f.object.embargo_release_date || Date.tomorrow, class: 'datepicker' } %>
   <%= f.input :visibility_after_embargo, wrapper: :inline, collection: visibility_options(:loosen), include_blank: false %>
