@@ -88,9 +88,9 @@ RSpec.configure do |config|
     ActiveFedora::Cleaner.clean!
   end
 
-  config.after clean: true do
-    ActiveFedora::Cleaner.clean!
-  end
+  # config.after clean: true do
+  #   ActiveFedora::Cleaner.clean!
+  # end
 
   config.before perform_jobs: true do
     ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
@@ -116,9 +116,9 @@ RSpec.configure do |config|
     WorkflowSetup.new(*setup_args).setup
   end
 
-  config.after(:example, :workflow) do |example|
-    ActiveFedora::Cleaner.clean!
-  end
+  # config.after(:example, :workflow) do |example|
+  #   ActiveFedora::Cleaner.clean!
+  # end
 
   config.before do
     class_double("Clamby").as_stubbed_const
