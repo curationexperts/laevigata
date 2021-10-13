@@ -43,6 +43,7 @@ describe GraduationJob, :perform_jobs, integration: true do
     }
 
     before :all do
+      ActiveFedora::Cleaner.clean!
       WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null").setup
     end
 
