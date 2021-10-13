@@ -6,7 +6,7 @@ require 'rails_helper'
 # * update the embargo release date to the user's graduation date plus their requested embargo length
 # * expire the embargo if it has already passed (sometimes happens when graduation is delayed)
 # * send notifications
-describe GraduationJob, :perform_jobs, integration: true do
+describe GraduationJob, :perform_jobs, integration: true, clean: true do
   context "standard cases" do
     let(:user)        { FactoryBot.create(:user) }
     let(:ability)     { ::Ability.new(user) }
