@@ -58,7 +58,7 @@ describe GraduationJob, :perform_jobs, integration: true do
     let(:five_months_from_now) { one_month_ago + 6.months }
     let(:many_years_from_today) { Hyrax::Actors::PregradEmbargo::DEFAULT_LENGTH.from_now.beginning_of_day }
 
-    it "handles ETDs with embargos expiring in the future", :aggregate_failures do
+    it "handles ETDs with embargoes expiring in the future", :aggregate_failures do
       # Before the GraduationJob is run
       Hyrax::CurationConcern.actor.create(for_embargo)
       id = for_embargo.curation_concern.id
@@ -107,7 +107,7 @@ describe GraduationJob, :perform_jobs, integration: true do
       expect(Hyrax::Workflow::DegreeAwardedNotification).to have_received(:send_notification)
     end
 
-    it "handles ETDs with embargos ending before the job run", :aggregate_failures do
+    it "handles ETDs with embargoes ending before the job run", :aggregate_failures do
       Hyrax::CurationConcern.actor.create(for_embargo)
       etd_id = for_embargo.curation_concern.id
       graduation_job = described_class.new
@@ -129,7 +129,7 @@ describe GraduationJob, :perform_jobs, integration: true do
       expect(etd.file_sets.first).to have_attributes visibility: open
     end
 
-    it "handles ETDs without embargos", :aggregate_failures do
+    it "handles ETDs without embargoes", :aggregate_failures do
       Hyrax::CurationConcern.actor.create(no_embargo)
       etd_id = no_embargo.curation_concern.id
       graduation_job = described_class.new
@@ -143,6 +143,35 @@ describe GraduationJob, :perform_jobs, integration: true do
       expect(etd.embargo_length).to eq "None - open access immediately" # i.e. InProgressEtd::NO_EMBARGO
 
       # The etd should not have an embargo
+      expect(etd.embargo).to be_nil
+    end
+
+    it "handles ETDs with orphan pre-graduation-embargoes", :aggregate_failures do
+      Hyrax::CurationConcern.actor.create(for_embargo)
+      # Create an ETD with an embargo requested on submission
+      etd_id = for_embargo.curation_concern.id
+      # Student changes their mind and switches to open access publication before graduation
+      etd = Etd.find(etd_id)
+      etd.files_embargoed = false
+      etd.abstract_embargoed = false
+      etd.toc_embargoed = false
+      etd.embargo_length = InProgressEtd::NO_EMBARGO
+      etd.save
+
+      # Student graduates and the GraduationJob is run
+      graduation_job = described_class.new
+      graduation_job.perform(etd_id, one_month_ago)
+
+      # Reload the ETD and make sure it's in a discoverable state
+      etd = Etd.find(etd_id)
+      expect(etd.degree_awarded).to eq one_month_ago
+      expect(etd.to_sipity_entity.workflow_state_name).to eq "published"
+      expect(etd.suppressed?).to be_falsey
+      expect(etd.state).to eq Vocab::FedoraResourceStatus.active
+      expect(etd.file_sets.first).to have_attributes visibility: open
+      expect(etd.embargo_length).to eq "None - open access immediately" # i.e. InProgressEtd::NO_EMBARGO
+
+      # The published etd should not have any embargo
       expect(etd.embargo).to be_nil
     end
   end

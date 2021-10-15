@@ -10,6 +10,9 @@ require 'workflow_setup'
 class GraduationJob < ActiveJob::Base
   queue_as Hyrax.config.ingest_queue_name
 
+  PRIVATE = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
+  PUBLIC = Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
+
   # @param [String] work_id - the id of the work object
   # @param [Date] the student's graduation date
   def perform(work_id, graduation_date = Time.zone.today.to_s)
@@ -28,6 +31,7 @@ class GraduationJob < ActiveJob::Base
   # @param [Date] graduation_date
   def record_degree_awarded_date(graduation_date)
     @work.degree_awarded = graduation_date
+    @work.save
   end
 
   class UserNotFoundError < RuntimeError; end
@@ -44,37 +48,48 @@ class GraduationJob < ActiveJob::Base
     Rails.logger.error "ETD #{@work.id}: Could not update post-graduation email address because could not find user with id #{@work.depositor}"
   end
 
-  def update_embargo_release_date
-    return unless @work.embargo_length
-    return unless @work.embargo
-    embargo_release_date = GraduationHelper.embargo_length_to_embargo_release_date(@work.degree_awarded, @work.embargo_length)
-    @work.embargo.embargo_release_date = embargo_release_date
-    @work.embargo.save
+  # Completely remove an embargo, leaving the embargo_history unchanged
+  def delete_embargo
+    if @work.embargo
+      @work.embargo.delete
+      @work.save
+    end
     @work.file_sets.each do |fs|
-      if fs.embargo.nil?
-        fs.apply_embargo(
-          embargo_release_date,
-          Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE,
-          Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
-        )
-      end
-      fs.embargo.embargo_release_date = embargo_release_date
-      fs.embargo.save
+      next unless fs.embargo
+      fs.embargo.delete
+      fs.visibility = PUBLIC
+      fs.save
+    end
+  end
+
+  # Deactivate an embargo, leaving the prior embargo information in the embargo_history
+  def deactivate_embargo
+    @work.visibility = @work.visibility_after_embargo if @work.visibility_after_embargo
+    @work.deactivate_embargo!
+    @work.embargo.save
+    @work.save
+    @work.file_sets.each do |fs|
+      fs.visibility = @work.visibility
+      fs.deactivate_embargo!
+      fs.save
+    end
+    Rails.logger.warn "ETD #{@work.id} post-dated embargo deactivated"
+  end
+
+  def update_embargo_release_date
+    delete_embargo # remove any left-over pre-graduation embargo
+    return if @work.embargo_length == InProgressEtd::NO_EMBARGO || @work.embargo_length.nil?
+
+    # Apply the requested embargo calculated from the graduation date
+    embargo_release_date = GraduationHelper.embargo_length_to_embargo_release_date(@work.degree_awarded, @work.embargo_length)
+    @work.apply_embargo(embargo_release_date, PUBLIC, PUBLIC)
+    @work.file_sets.each do |fs|
+      fs.apply_embargo(embargo_release_date, PRIVATE, PUBLIC)
+      fs.save
     end
     Rails.logger.warn "ETD #{@work.id} embargo release date set to #{embargo_release_date}"
 
-    if embargo_release_date <= Time.zone.today
-      @work.visibility = @work.visibility_after_embargo if @work.visibility_after_embargo
-      @work.deactivate_embargo!
-      @work.embargo.save
-      @work.save
-      @work.file_sets.each do |fs|
-        fs.visibility = @work.visibility
-        fs.deactivate_embargo!
-        fs.save
-      end
-      Rails.logger.warn "ETD #{@work.id} post-dated embargo deactivated"
-    end
+    deactivate_embargo if embargo_release_date <= Time.zone.today
 
   rescue => e
     Rails.logger.error "Error updating embargo release date for work #{@work}: #{e}"
