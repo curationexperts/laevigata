@@ -29,28 +29,27 @@ RSpec.describe 'Display an ETD with embargoed content', :perform_jobs, :js, inte
   let(:many_years_from_today) { Time.current.to_date + Hyrax::Actors::PregradEmbargo::DEFAULT_LENGTH }
   let(:approving_user) { User.find_by(uid: "candleradmin") }
 
-  before do
-    DatabaseCleaner.clean
+  before :all do
     ActiveFedora::Cleaner.clean!
-    user
-    ability
-    env
-    workflow_settings = { superusers_config: "#{fixture_path}/config/emory/superusers.yml",
-                          admin_sets_config: "#{fixture_path}/config/emory/candler_admin_sets.yml",
-                          log_location:      "/dev/null" }
 
-    setup_args = [workflow_settings[:superusers_config],
-                  workflow_settings[:admin_sets_config],
-                  workflow_settings[:log_location]]
+    WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml",
+                      "#{fixture_path}/config/emory/candler_admin_sets.yml",
+                      "/dev/null").setup
+  end
 
-    WorkflowSetup.new(*setup_args).setup
+  before do
     allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
     allow(Hyrax::Workflow::DegreeAwardedNotification).to receive(:send_notification)
     actor.create(env)
     etd.reload
+  end
+
+  scenario "base etd has expected embargo values after creation", :aggregate_failures do
     expect(etd.degree_awarded).to eq nil
     expect(etd.embargo.embargo_release_date).to eq many_years_from_today
     expect(etd.embargo_length).to eq "6 months"
+    expect(etd.visibility).to eq "all_restricted"
+    expect(etd.visibility_translator.proxy.visibility).to eq "open"
     expect(etd.reload.file_sets.first.embargo)
       .to have_attributes embargo_release_date: many_years_from_today,
                           visibility_during_embargo: restricted,
@@ -59,10 +58,7 @@ RSpec.describe 'Display an ETD with embargoed content', :perform_jobs, :js, inte
       .to have_attributes visibility: restricted
   end
 
-  scenario "viewed by depositor pre-graduation" do
-    etd.embargo_length = "6 months"
-    etd.save
-    expect(etd.degree_awarded).to eq nil
+  scenario "viewed by depositor pre-graduation", :aggregate_failures do
     login_as user
     visit("/concern/etds/#{etd.id}")
     expect(page).to have_content "Abstract"
@@ -84,11 +80,8 @@ RSpec.describe 'Display an ETD with embargoed content', :perform_jobs, :js, inte
     # expect(page).to have_content "Download"
   end
 
-  scenario "viewed by approver pre-graduation" do
+  scenario "viewed by approver pre-graduation", :aggregate_failures do
     allow(Flipflop).to receive(:versions_and_edit_links?).and_return(false)
-    etd.embargo_length = "6 months"
-    etd.save
-    expect(etd.degree_awarded).to eq nil
     login_as approving_user
     visit("/concern/etds/#{etd.id}")
     expect(page).to have_content "Abstract"
@@ -106,10 +99,8 @@ RSpec.describe 'Display an ETD with embargoed content', :perform_jobs, :js, inte
     expect(page).not_to have_content "Edit"
   end
 
-  scenario "viewed by approver with Versions enabled" do
+  scenario "viewed by approver with Versions enabled", :aggregate_failures do
     allow(Flipflop).to receive(:versions_and_edit_links?).and_return(true)
-    etd.embargo_length = "6 months"
-    etd.save
     login_as approving_user
     visit("/concern/etds/#{etd.id}")
     click_on "Select an action"
@@ -118,46 +109,42 @@ RSpec.describe 'Display an ETD with embargoed content', :perform_jobs, :js, inte
     expect(page).to have_content "Edit"
   end
 
-  scenario "viewed by a school approver post-graduation" do
-    etd.degree_awarded = Date.parse("17-05-17").strftime("%d %B %Y")
-    etd.save
-    login_as approving_user
-    visit("/concern/etds/#{etd.id}")
-    expect(page).to have_content "Abstract"
-    expect(page).to have_content etd.abstract.first
-    expect(page).to have_content "[Abstract embargoed until #{formatted_embargo_release_date(etd)}"
-    expect(page).to have_content "Table of Contents"
-    expect(page).to have_content etd.table_of_contents.first
-    expect(page).to have_content "[Table of contents embargoed until #{formatted_embargo_release_date(etd)}"
-    expect(page).to have_content etd.title.first
-    expect(page).to have_link etd.title.first
-    click_on "Select an action"
-    expect(page).to have_link "Download"
-  end
-
-  scenario "viewed by unauthenticated user post-graduation" do
-    # The approving user marks the etd as approved
+  scenario "post graduation", :aggregate_failures do
+    # An approving user marks the etd as approved
     subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
     sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
     Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: nil)
     expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "approved"
+    # The student officially graduates
     GraduationJob.perform_now(etd.id)
-    etd.reload
+    expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "published"
+    etd.reload # to clear cached data in memory after approval & graudation processes
+
+    # viewed by any user - logged in or not
     visit("/concern/etds/#{etd.id}")
     expect(page).to have_content "Abstract"
-    expect(page).not_to have_content etd.abstract.first
     expect(page).to have_content "This abstract is under embargo until #{formatted_embargo_release_date(etd)}"
     expect(page).to have_content "Table of Contents"
-    expect(page).not_to have_content etd.table_of_contents.first
     expect(page).to have_content "This table of contents is under embargo until #{formatted_embargo_release_date(etd)}"
+
+    # viewed by an unauthenticated user should suppress abstract & toc text
+    visit("/concern/etds/#{etd.id}")
+    expect(page).not_to have_content etd.abstract.first
+    expect(page).not_to have_content etd.table_of_contents.first
     expect(page).not_to have_link etd.title.first
     expect(page).not_to have_content "Select an action"
-    # The below checks used to work, and broke with the upgrade to Hyrax 2.2.0
-    # Perhaps some change in capybara syntax? The behavior is still correct,
-    # and I'm commenting them out so as not to block the upgrade.
-    # TODO: Reinstate this test
-    # expect(page).to have_css "td.thumbnail/img[alt='No preview']" # "no preview" image
-    # expect(page).to have_css "img.representative-media[alt='No preview']" # "no preview" large image
+    expect(page).to have_css ".related-files .filename", text: 'File download under embargo'
+    expect(page).to have_css "img.representative-media[alt='Preview image embargoed']"
+
+    # viewed by an approver should display full abstract & toc
+    login_as approving_user
+    visit("/concern/etds/#{etd.id}")
+    expect(page).to have_content etd.abstract.first
+    expect(page).to have_content etd.table_of_contents.first
+    expect(page).to have_content etd.title.first
+    expect(page).to have_link etd.title.first
+    click_on "Select an action"
+    expect(page).to have_link "Download"
   end
 
   def formatted_embargo_release_date(etd)

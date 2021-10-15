@@ -1,7 +1,7 @@
 <% if presenter.files_embargo_check %>
-  <%= image_tag "No_Preview.png", class: "representative-media thumbnail" %>
+  <%= image_tag "No_Preview.png", class: "representative-media thumbnail", alt: "Preview image embargoed" %>
 <% elsif presenter.representative_id.present? && presenter.representative_presenter.present? %>
-  <%= media_display presenter.representative_presenter %>
+  <%= media_display presenter.representative_presenter, alt: "Preview image" %>
 <% else %>
-  <%= image_tag 'default.png', class: "canonical-image" %>
+  <%= image_tag 'default.png', class: "canonical-image", alt: "No preview image available" %>
 <% end %>
