@@ -80,7 +80,7 @@ everywhere. To create a new superuser, add the user's email address to the `conf
 Note: Do *not* run `bin/setup` except the very first time you setup the application, or if you need to wipe out everything in your development instance. It will wipe your database but leave your AdminSets in place, making a huge mess that you can't easily recover from.
 
 ## Releasing
-In order to run the GitHub Changelog Generatore, you will need a GitHub Access Token.  For more details
+In order to run the GitHub Changelog Generator, you will need a GitHub Access Token.  For more details
 see https://github.com/github-changelog-generator/github-changelog-generator#github-token
 1. Update `.github_changelog_generator` file with the version number you're about to release
 2. Generate release notes by running: `github_changelog_generator --token $CHANGELOG_GITHUB_TOKEN`
