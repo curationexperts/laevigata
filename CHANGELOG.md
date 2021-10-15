@@ -1,5 +1,42 @@
 # Changelog
 
+## [v2.8.3](https://github.com/curationexperts/laevigata/tree/v2.8.3) (2021-10-15)
+
+[Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.8.2...v2.8.3)
+
+**Fixed bugs:**
+
+- Fix flaky GraduationJob test [\#2183](https://github.com/curationexperts/laevigata/issues/2183)
+
+**Security fixes:**
+
+- Bump puma from 5.3.1 to 5.5.1 [\#2182](https://github.com/curationexperts/laevigata/pull/2182) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump sidekiq from 6.1.3 to 6.2.1 [\#2175](https://github.com/curationexperts/laevigata/pull/2175) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump nokogiri from 1.12.4 to 1.12.5 [\#2169](https://github.com/curationexperts/laevigata/pull/2169) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump tmpl from 1.0.4 to 1.0.5 [\#2168](https://github.com/curationexperts/laevigata/pull/2168) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+**Closed issues:**
+
+- Submit an ETD [\#2144](https://github.com/curationexperts/laevigata/issues/2144)
+- Remove dead code [\#2112](https://github.com/curationexperts/laevigata/issues/2112)
+
+**Technical Enhancements:**
+
+- Add additional embargo testing [\#2190](https://github.com/curationexperts/laevigata/pull/2190) ([mark-dce](https://github.com/mark-dce))
+- Speed up embargo tests [\#2189](https://github.com/curationexperts/laevigata/pull/2189) ([mark-dce](https://github.com/mark-dce))
+- Add a fix for the ETD publication bug [\#2187](https://github.com/curationexperts/laevigata/pull/2187) ([mark-dce](https://github.com/mark-dce))
+- Only run ActiveFedora cleaner once per example [\#2186](https://github.com/curationexperts/laevigata/pull/2186) ([mark-dce](https://github.com/mark-dce))
+- Fix flaky GraduationJob tests [\#2185](https://github.com/curationexperts/laevigata/pull/2185) ([mark-dce](https://github.com/mark-dce))
+- Remove legacy ETD submission form [\#2181](https://github.com/curationexperts/laevigata/pull/2181) ([mark-dce](https://github.com/mark-dce))
+- Remove additional config and code for cloud storage [\#2180](https://github.com/curationexperts/laevigata/pull/2180) ([mark-dce](https://github.com/mark-dce))
+- Remove file upload capability for Box.com [\#2179](https://github.com/curationexperts/laevigata/pull/2179) ([mark-dce](https://github.com/mark-dce))
+- Flag slow test as a smoke\_test [\#2178](https://github.com/curationexperts/laevigata/pull/2178) ([mark-dce](https://github.com/mark-dce))
+- Speed up contact page test [\#2177](https://github.com/curationexperts/laevigata/pull/2177) ([mark-dce](https://github.com/mark-dce))
+- Extend the pre-graduation embargo default to 500 years [\#2174](https://github.com/curationexperts/laevigata/pull/2174) ([mark-dce](https://github.com/mark-dce))
+- Update Nokogumbo version to address dependency warnings [\#2172](https://github.com/curationexperts/laevigata/pull/2172) ([mark-dce](https://github.com/mark-dce))
+- Update the default superusers created for local development environments [\#2170](https://github.com/curationexperts/laevigata/pull/2170) ([mark-dce](https://github.com/mark-dce))
+- Update Yarn packages to address various security alerts [\#2167](https://github.com/curationexperts/laevigata/pull/2167) ([mark-dce](https://github.com/mark-dce))
+
 ## [v2.8.2](https://github.com/curationexperts/laevigata/tree/v2.8.2) (2021-09-13)
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.8.1...v2.8.2)
@@ -76,10 +113,6 @@
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.7.0...v2.7.1)
 
-**Fixed bugs:**
-
-- Embargo visibility is not set correctly on newly created and submitted ETDs [\#2065](https://github.com/curationexperts/laevigata/issues/2065)
-
 **Closed issues:**
 
 - Review and merge PR for removing migration code [\#2131](https://github.com/curationexperts/laevigata/issues/2131)
@@ -87,12 +120,6 @@
 - Configure test coverage reporting [\#2107](https://github.com/curationexperts/laevigata/issues/2107)
 - Vue UI Test Suite [\#2102](https://github.com/curationexperts/laevigata/issues/2102)
 - Rename master branch --\> main [\#2091](https://github.com/curationexperts/laevigata/issues/2091)
-- Review and update README [\#2084](https://github.com/curationexperts/laevigata/issues/2084)
-- Document procedure for manually submitting and attaching large files [\#2080](https://github.com/curationexperts/laevigata/issues/2080)
-- Reserve Instance for Prod [\#2075](https://github.com/curationexperts/laevigata/issues/2075)
-- Address outstanding dependency updates \(Dependabot\) [\#2071](https://github.com/curationexperts/laevigata/issues/2071)
-- Update ETD Supplemental File upload option [\#2069](https://github.com/curationexperts/laevigata/issues/2069)
-- Update Ruby Version [\#2064](https://github.com/curationexperts/laevigata/issues/2064)
 
 **Technical Enhancements:**
 
@@ -119,36 +146,10 @@
 - Update .gitignore to disregard all log and temp files and directories [\#2088](https://github.com/curationexperts/laevigata/pull/2088) ([mark-dce](https://github.com/mark-dce))
 - Update README [\#2087](https://github.com/curationexperts/laevigata/pull/2087) ([mark-dce](https://github.com/mark-dce))
 - Small updates to readme from starting up from scratch [\#2086](https://github.com/curationexperts/laevigata/pull/2086) ([maxkadel](https://github.com/maxkadel))
-- Update readme for ruby 2.7.2 and discontinuation of box.com integration [\#2085](https://github.com/curationexperts/laevigata/pull/2085) ([fnibbit](https://github.com/fnibbit))
-- Remove migration-related code [\#2063](https://github.com/curationexperts/laevigata/pull/2063) ([fnibbit](https://github.com/fnibbit))
 
 ## [v2.7.0](https://github.com/curationexperts/laevigata/tree/v2.7.0) (2021-02-10)
 
 [Full Changelog](https://github.com/curationexperts/laevigata/compare/v2.6.1...v2.7.0)
-
-**Security fixes:**
-
-- Bump carrierwave from 1.3.1 to 1.3.2 [\#2081](https://github.com/curationexperts/laevigata/pull/2081) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump ini from 1.3.5 to 1.3.8 [\#2074](https://github.com/curationexperts/laevigata/pull/2074) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump nokogiri from 1.10.10 to 1.11.0 [\#2073](https://github.com/curationexperts/laevigata/pull/2073) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump dot-prop from 4.2.0 to 4.2.1 [\#2072](https://github.com/curationexperts/laevigata/pull/2072) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump axios from 0.19.0 to 0.21.1 [\#2070](https://github.com/curationexperts/laevigata/pull/2070) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump http-proxy from 1.17.0 to 1.18.1 [\#2059](https://github.com/curationexperts/laevigata/pull/2059) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump node-sass from 4.12.0 to 4.14.1 [\#2058](https://github.com/curationexperts/laevigata/pull/2058) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump quill from 1.3.6 to 1.3.7 [\#2057](https://github.com/curationexperts/laevigata/pull/2057) ([dependabot[bot]](https://github.com/apps/dependabot))
-
-**Closed issues:**
-
-- Investigate ETD Outage 10/24/2020 07:51:03 AM [\#2066](https://github.com/curationexperts/laevigata/issues/2066)
-- Unable to login with TEZPROX admin account for ETDs [\#2060](https://github.com/curationexperts/laevigata/issues/2060)
-- Investigate ETD Outage 2020-08-30 at 11:43am  [\#2056](https://github.com/curationexperts/laevigata/issues/2056)
-
-**Technical Enhancements:**
-
-- Update supplemental file upload interface to remove Box [\#2079](https://github.com/curationexperts/laevigata/pull/2079) ([fnibbit](https://github.com/fnibbit))
-- Updating ruby to the latest supported version. [\#2078](https://github.com/curationexperts/laevigata/pull/2078) ([fnibbit](https://github.com/fnibbit))
-- Update config.yml for ruby 2.7.2 [\#2077](https://github.com/curationexperts/laevigata/pull/2077) ([fnibbit](https://github.com/fnibbit))
-- Set up basic framework for deployment/smoke test [\#2062](https://github.com/curationexperts/laevigata/pull/2062) ([fnibbit](https://github.com/fnibbit))
 
 ## [v2.6.1](https://github.com/curationexperts/laevigata/tree/v2.6.1) (2020-07-23)
 
