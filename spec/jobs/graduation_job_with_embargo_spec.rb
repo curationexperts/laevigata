@@ -14,6 +14,7 @@ describe GraduationJob, :perform_jobs, integration: true do
     let(:no_embargo)  { Hyrax::Actors::Environment.new(Etd.new, ability, attributes.merge(open_access)) }
     let(:open)        { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
     let(:restricted)  { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
+    let(:embargoed)   { VisibilityTranslator::ALL_EMBARGOED }
     let(:attributes) {
       Hash[
         title: ['The Adventures of Cottontail Rabbit'],
@@ -95,6 +96,12 @@ describe GraduationJob, :perform_jobs, integration: true do
       # i.e. one month ago + 6 months = 5 months from now
       expect(etd.embargo.embargo_release_date).to eq five_months_from_now
       expect(etd.file_sets.first.embargo.embargo_release_date).to eq five_months_from_now
+
+      # The ETD should display the "All Restricted" badge
+      expect(etd.visibility).to eq embargoed
+
+      # The ETD should be discoverable and displayable
+      expect(etd.visibility_translator.proxy.visibility).to eq open
 
       # Attached files should be restricted during the embargo period
       expect(etd.file_sets.first).to have_attributes visibility: restricted
