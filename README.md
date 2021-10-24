@@ -26,8 +26,8 @@ or cherokee rose is the <a href="https://georgia.gov/georgia-facts-and-symbols">
     `git clone https://github.com/curationexperts/laevigata.git`
 1. Change to the application directory
     `cd laevigata`
-1. Set your ruby version to **2.7.2** and the gemset of your choice
-    eg. `rvm use --create 2.7.2@laevigata`
+1. Set your ruby version to **2.7.4** and the gemset of your choice
+    eg. `rvm use --create 2.7.4@laevigata`
 1. Install gem dependencies
     `bundle install`
 1. Ensure you have `yarn` installed:
