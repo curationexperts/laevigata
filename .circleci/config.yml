@@ -9,7 +9,7 @@ jobs:
                 default: 2.7.4
             bundler_version:
                 type: string
-                default: 2.0.1
+                default: 2.1.4
         environment:
           POSTGRES_DB: circle_test
           POSTGRES_HOST: 127.0.0.1
