@@ -40,12 +40,12 @@ jobs:
                 keys:
                     - v1-yarn-{{ checksum "yarn.lock" }}-{{ checksum "YARN_VERSION" }}
 
-            - run: yarn
+            - run: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
 
             - save_cache:
                 key: v1-yarn-{{ checksum "yarn.lock" }}-{{ checksum "YARN_VERSION" }}
                 paths:
-                    - ~/project/node_modules
+                    - ~/.cache/yarn
 
             - samvera/install_solr_core
 
