@@ -318,7 +318,7 @@ GEM
     fcrepo_wrapper (0.9.0)
       ruby-progressbar
     ffaker (2.17.0)
-    ffi (1.15.4)
+    ffi (1.15.5)
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
@@ -386,16 +386,14 @@ GEM
     hiredis (0.6.3)
     honeybadger (4.7.2)
     htmlentities (4.3.4)
-    http (4.4.1)
-      addressable (~> 2.3)
+    http (5.0.4)
+      addressable (~> 2.8)
       http-cookie (~> 1.0)
       http-form_data (~> 2.2)
-      http-parser (~> 1.2.0)
-    http-cookie (1.0.3)
+      llhttp-ffi (~> 0.4.0)
+    http-cookie (1.0.4)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
-    http-parser (1.2.3)
-      ffi-compiler (>= 1.0, < 2.0)
     http_logger (0.6.0)
     httpclient (2.8.3)
     hydra-access-controls (11.0.7)
@@ -613,6 +611,9 @@ GEM
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
+    llhttp-ffi (0.4.0)
+      ffi-compiler (~> 1.0)
+      rake (~> 13.0)
     logger (1.4.3)
     loofah (2.12.0)
       crass (~> 1.0.2)
@@ -876,7 +877,7 @@ GEM
       oauth2
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
-    rubyzip (2.3.0)
+    rubyzip (2.3.2)
     samvera-nesting_indexer (2.0.0)
       dry-equalizer
     sanitize (6.0.0)
@@ -932,7 +933,7 @@ GEM
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
     slop (4.9.1)
-    solr_wrapper (3.0.2)
+    solr_wrapper (3.1.2)
       http
       retriable
       ruby-progressbar
@@ -1007,7 +1008,7 @@ GEM
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.7.7)
+    unf_ext (0.0.8)
     unicode-display_width (1.7.0)
     unicode-types (1.6.0)
     vcr (6.0.0)
