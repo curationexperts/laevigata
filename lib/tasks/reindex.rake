@@ -2,7 +2,6 @@ namespace :hax do
   task :reindex => :environment do
     require 'active_fedora'
     require 'active_fedora/solr_service'
-    require 'active_fedora/indexing/descendant_fetcher'
     require 'reindexotron'
     z = Reindexotron.fetch_roots(ActiveFedora.fedora.base_uri)
 
