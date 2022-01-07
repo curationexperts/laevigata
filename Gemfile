@@ -13,7 +13,6 @@ gem 'clamby', '>= 1.2.5'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails'
 gem 'devise'
-gem 'parallel'
 gem 'devise-guests', '~> 0.5'
 gem 'dotenv-rails'
 gem 'factory_bot_rails' # Needed so we can load fixtures for demos in production
@@ -21,6 +20,7 @@ gem 'ffaker' # Needed so we can load fixtures for demos in production
 gem 'honeybadger'
 gem 'hydra-role-management'
 gem 'hyrax', '~> 2.9'
+gem 'parallel'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
 # Use jquery as the JavaScript library
