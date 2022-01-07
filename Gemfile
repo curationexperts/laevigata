@@ -13,6 +13,7 @@ gem 'clamby', '>= 1.2.5'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails'
 gem 'devise'
+gem 'parallel'
 gem 'devise-guests', '~> 0.5'
 gem 'dotenv-rails'
 gem 'factory_bot_rails' # Needed so we can load fixtures for demos in production
