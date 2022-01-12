@@ -1,4 +1,4 @@
-namespace :hax do
+namespace :index do
   task reindex: :environment do
     require 'active_fedora'
     require 'active_fedora/solr_service'
