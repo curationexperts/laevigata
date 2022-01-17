@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  samvera: samvera/circleci-orb@dev:c4dccf7
+    samvera: samvera/circleci-orb@dev:8975953
 jobs:
     build:
         parameters:
@@ -9,7 +9,7 @@ jobs:
                 default: 2.7.4
             bundler_version:
                 type: string
-                default: 2.0.1
+                default: 2.2.33
         environment:
           POSTGRES_DB: circle_test
           POSTGRES_HOST: 127.0.0.1
