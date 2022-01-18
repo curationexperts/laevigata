@@ -9,3 +9,9 @@ en:
       etd:
         name:               "ETD"
         description:        "Emory Theses and Dissertations"
+    embargoes:
+      list_expired_active_embargoes:
+        change_all: 'Include child objects'
+        deactivate: Release Embargo
+        deactivate_selected: Release Selected Embargoes
+        missing: There are no expired embargoes currently awaiting release.
