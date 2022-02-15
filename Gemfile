@@ -74,7 +74,7 @@ group :development, :test do
   gem 'simplecov', require: false
   gem 'solr_wrapper', '>= 0.3'
   gem 'vcr'
-  gem 'webdrivers'
+  gem 'webdrivers', require: false
   gem 'webmock', '~> 3.3'
 end
 
