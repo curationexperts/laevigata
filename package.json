@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@rails/webpacker": "^4",
+    "@rails/webpacker": "^5",
     "acorn": "^6.4.1",
     "axios": "^0.21.2",
     "braces": "^2.3.1",

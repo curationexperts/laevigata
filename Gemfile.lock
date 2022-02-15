@@ -1104,7 +1104,6 @@ DEPENDENCIES
   rubyzip
   sanitize (~> 6.0)
   sass-rails (~> 5.0)
-  selenium-webdriver
   shoulda-matchers
   sidekiq
   simplecov

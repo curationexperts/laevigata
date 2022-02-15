@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
-    samvera: samvera/circleci-orb@0.3.1
+    samvera: samvera/circleci-orb@dev:8975953
+    browser-tools: circleci/browser-tools@1.2.4
 jobs:
     build:
         parameters:
@@ -9,7 +10,7 @@ jobs:
                 default: 2.7.4
             bundler_version:
                 type: string
-                default: 2.0.1
+                default: 2.2.33
         environment:
           POSTGRES_DB: circle_test
           POSTGRES_HOST: 127.0.0.1
@@ -24,6 +25,8 @@ jobs:
         working_directory: ~/project
         parallelism: 4
         steps:
+            - browser-tools/install-chrome
+            - browser-tools/install-chromedriver
             - checkout
 
             - samvera/bundle:
