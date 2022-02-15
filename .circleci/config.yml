@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
     samvera: samvera/circleci-orb@dev:8975953
+    browser-tools: circleci/browser-tools@1.2.4
 jobs:
     build:
         parameters:
@@ -24,6 +25,8 @@ jobs:
         working_directory: ~/project
         parallelism: 4
         steps:
+            - browser-tools/install-chrome
+            - browser-tools/install-chromedriver
             - checkout
 
             - samvera/bundle:
