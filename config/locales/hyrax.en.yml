@@ -19,7 +19,7 @@ en:
         deactivate_selected: Release Selected Embargoes
         missing: There are no expired embargoes currently awaiting release.
     footer:
-      copyright_html: "<strong>Copyright &copy; 2017 Emory University</strong> Licensed under the Apache License, Version 2.0"
+      copyright_html: "<strong>Copyright &copy; %{year} Emory University</strong> Licensed under the Apache License, Version 2.0"
       service_html: A service of <a href="https://emory.edu/" class="navbar-link" target="_blank">Emory University</a>.
     active_consent_to_agreement: "I hereby grant to Emory University and its agents the non-exclusive license to archive, make accessible, and display, subject to any embargo restrictions I have specified above, my thesis or dissertation in whole or in part in all forms of media, now or hereafter known, including the display of the thesis or dissertation on the world wide web. I retain all ownership rights to the copyright of the thesis or dissertation. I also retain the right to use in future works (such as articles or books) all or part of this thesis or dissertation. I certify that my electronic submission is the version of my thesis/dissertation that was approved by my committee."
     base:
