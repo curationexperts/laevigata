@@ -1,7 +1,7 @@
 ---
-:static:
+static:
   Institution: Emory University
-:attributes:
+attributes:
   Title: title
   Author: creator
   Abstract: abstract
