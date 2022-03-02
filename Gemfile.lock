@@ -498,7 +498,7 @@ GEM
       tinymce-rails (~> 4.1)
     hyrax-spec (0.3.2)
       rspec (~> 3.6)
-    i18n (1.8.10)
+    i18n (1.10.0)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
     iiif_manifest (0.5.0)
@@ -617,7 +617,7 @@ GEM
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
     logger (1.4.3)
-    loofah (2.12.0)
+    loofah (2.14.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.6.6.rc1)
@@ -634,7 +634,7 @@ GEM
     mini_magick (4.11.0)
     mini_mime (1.1.1)
     mini_portile2 (2.8.0)
-    minitest (5.14.4)
+    minitest (5.15.0)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
@@ -652,7 +652,7 @@ GEM
     noid-rails (3.0.3)
       actionpack (>= 5.0.0, < 7)
       noid (~> 0.9)
-    nokogiri (1.13.2)
+    nokogiri (1.13.3)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     nokogumbo (2.0.5)
@@ -902,6 +902,8 @@ GEM
       addressable (>= 2.3.5)
       faraday (> 0.8, < 2.0)
     scanf (1.0.0)
+    schoolie (0.1.2)
+      actionview (~> 5)
     select2-rails (3.5.11)
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
@@ -1108,6 +1110,7 @@ DEPENDENCIES
   rubyzip
   sanitize (~> 6.0)
   sass-rails (~> 5.0)
+  schoolie (= 0.1.2)
   shoulda-matchers
   sidekiq
   simplecov

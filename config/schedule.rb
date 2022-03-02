@@ -27,6 +27,7 @@ end
 
 every :day, at: '2:20am' do
   rake "emory:embargo_expiration"
+  rake "schoolie:sitemap"
 end
 
 # Delete blacklight saved searches
