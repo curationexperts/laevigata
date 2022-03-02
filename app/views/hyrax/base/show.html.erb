@@ -1,4 +1,7 @@
 <% provide :page_title, @presenter.page_title %>
+<%content_for :head do%>
+  <%=schoolie_tags @presenter%>
+<%=end%>
 <div itemscope itemtype="http://schema.org/CreativeWork" class="row">
   <div class="col-xs-12">
     <header>
