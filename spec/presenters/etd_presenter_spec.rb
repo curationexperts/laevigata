@@ -59,7 +59,7 @@ describe EtdPresenter do
                 FactoryBot.build(:etd_with_toc,
                                  embargo_id:     embargo.id,
                                  toc_embargoed:  true,
-                                 degree_awarded: true)
+                                 degree_awarded: '2017-05-31')
               end
 
               it 'lists the embargo' do
