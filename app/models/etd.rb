@@ -152,7 +152,24 @@ class Etd < ActiveFedora::Base
   end
 
   property :degree_awarded, predicate: "http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted", multiple: false do |index|
-    index.as :stored_searchable, :facetable
+    index.as :stored_sortable
+  end
+
+  # override degree_awarded setter to always cast the value to a Date type object
+  def degree_awarded=(value)
+    case value
+    when Time, ActiveSupport::TimeWithZone
+      super(value.utc)
+    when Date
+      super(value.to_datetime.utc)
+    when String
+      Rails.logger.warn("Assigning #{__method__} to a string is deprecated. Casting to a Date.")
+      super(DateTime.parse(value).utc)
+    when NilClass
+      super(nil)
+    else
+      raise ArgumentError, "You attempted to set the property 'degree_awarded_date' for ETD id:#{id} to an unsupported value of type '#{value.class}'"
+    end
   end
 
   property :partnering_agency, predicate: "http://id.loc.gov/vocabulary/relators/ctb" do |index|

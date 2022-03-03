@@ -53,6 +53,16 @@ RSpec.describe ::SolrDocument, type: :model do
     end
   end
 
+  describe '#degree_awarded' do
+    subject(:solr_doc) { described_class.new(etd.to_solr) }
+    let(:etd)          { FactoryBot.build(:etd) }
+
+    it 'returns the degree_awarded in UTC' do
+      etd.degree_awarded = 'May 15, 1848'
+      expect(solr_doc.degree_awarded).to eq('1848-05-15T00:00:00Z')
+    end
+  end
+
   describe '#visibility' do
     subject(:solr_doc) { described_class.new(etd.to_solr) }
     let(:etd)          { FactoryBot.build(:etd) }
