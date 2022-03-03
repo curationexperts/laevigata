@@ -688,7 +688,7 @@ describe InProgressEtd do
 
       let(:new_data) do
         { 'title' => ['New ETD Title'],
-          'degree_awarded' => 'August 23, 2018',
+          'degree_awarded' => "2018-08-23T00:00:00.000+00:00",
           'embargo_length' => '1000 years',
           'keyword' => ['new keyword'],
           'department' => ['Some'],
