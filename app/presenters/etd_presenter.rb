@@ -4,7 +4,6 @@ class EtdPresenter < Hyrax::WorkShowPresenter
            :committee_chair_name,
            :committee_members_names,
            :degree,
-           :degree_awarded,
            :department,
            :embargo_length,
            :files_embargoed,
@@ -14,7 +13,6 @@ class EtdPresenter < Hyrax::WorkShowPresenter
            :partnering_agency,
            :research_field,
            :rights_statement,
-           :submitting_type,
            :table_of_contents,
            :toc_embargoed,
            :requires_permissions,
@@ -78,6 +76,16 @@ class EtdPresenter < Hyrax::WorkShowPresenter
     embargo_release_date.strftime("%d %B %Y")
   end
 
+  def degree_awarded
+    return "graduation pending" unless solr_document.degree_awarded
+    solr_document.degree_awarded.to_date.strftime("%d %B %Y")
+  end
+
+  def submitting_type
+    return "ETD" unless solr_document.submitting_type
+    solr_document.submitting_type.first
+  end
+
   def current_user_roles
     # Note: AdminSets need an exact, non-tokenized solr query. A query like
     # AdminSet.where(title: admin_set) is too broad and might match the wrong AdminSet,
@@ -117,7 +125,7 @@ class EtdPresenter < Hyrax::WorkShowPresenter
     admin_return_message = ""
     if embargo_release_date && abstract_embargoed
       admin_return_message +=
-        if degree_awarded
+        if solr_document.degree_awarded
           "[Abstract embargoed until #{formatted_embargo_release_date}] "
         elsif embargo_length
           "[Abstract embargoed until #{embargo_length} post-graduation] "
@@ -153,7 +161,7 @@ class EtdPresenter < Hyrax::WorkShowPresenter
     admin_return_message = ""
     if embargo_release_date && toc_embargoed
       admin_return_message +=
-        if embargo_length && !degree_awarded
+        if embargo_length && solr_document.degree_awarded.blank?
           "[Table of contents embargoed until #{embargo_length} post-graduation] "
         elsif embargo_release_date
           "[Table of contents embargoed until #{formatted_embargo_release_date}] "
