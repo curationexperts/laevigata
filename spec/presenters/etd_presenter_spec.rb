@@ -2,13 +2,38 @@
 require 'rails_helper'
 
 describe EtdPresenter do
+  let(:etd) { FactoryBot.build(:etd) }
+  let(:ability) { Ability.new(FactoryBot.build(:user)) }
+  let(:presenter) { described_class.new(SolrDocument.new(etd.to_solr), ability) }
+
+  context "pretty printing" do
+    context "#degree_awarded" do
+      it 'displays in a friendly format' do
+        etd.degree_awarded = Time.new(1960, 8, 23, 13, 30, 0, 0.00).utc
+        expect(presenter.degree_awarded).to eq "23 August 1960"
+      end
+
+      it 'handles nil' do
+        etd.degree_awarded = nil
+        expect(presenter.degree_awarded).to eq "graduation pending"
+      end
+    end
+
+    context "#submitting_type" do
+      it 'always returns the first value' do
+        etd.submitting_type = ["Fee", "Fee"] # duplicate values because RDF won't guarantee order
+        expect(presenter.submitting_type).to eq 'Fee'
+      end
+
+      it 'returns a placeholder value when empty' do
+        etd.submitting_type = nil
+        expect(presenter.submitting_type).to eq 'ETD'
+      end
+    end
+  end
+
   context "table of contents" do
     context "without a table of contents" do
-      let(:etd) { FactoryBot.build(:etd) }
-      let(:ability) { Ability.new(FactoryBot.build(:user)) }
-      let(:presenter) do
-        described_class.new(SolrDocument.new(etd.to_solr), ability)
-      end
       it "tells the user that no toc is available" do
         expect(etd.table_of_contents).to eq []
         expect(presenter.toc_with_embargo_check).to eq "No table of contents is available."
@@ -17,10 +42,6 @@ describe EtdPresenter do
     context "with a table of contents" do
       let(:etd) { FactoryBot.build(:etd_with_toc) }
       context "with a public user" do
-        let(:ability) { Ability.new(FactoryBot.build(:user)) }
-        let(:presenter) do
-          described_class.new(SolrDocument.new(etd.to_solr), ability)
-        end
         it "returns the toc if the toc is not under embargo" do
           allow(presenter).to receive(:current_ability_is_approver?).and_return(false)
           expect(etd.toc_embargoed).to be_falsey
@@ -28,13 +49,8 @@ describe EtdPresenter do
         end
 
         context "with a toc embargo" do
-          let(:etd) do
-            FactoryBot.build(:etd_with_toc, embargo_id: embargo.id, toc_embargoed: true)
-          end
-
-          let(:embargo) do
-            FactoryBot.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s)
-          end
+          let(:etd) { FactoryBot.build(:etd_with_toc, embargo_id: embargo.id, toc_embargoed: true) }
+          let(:embargo) { FactoryBot.create(:embargo, embargo_release_date: (DateTime.current + 14).to_s) }
 
           context "with a public user" do
             it "provides a toc unavailable message if the toc is under embargo" do
@@ -55,12 +71,12 @@ describe EtdPresenter do
             end
 
             context 'when the degree is awarded' do
-              let(:etd) do
+              let(:etd) {
                 FactoryBot.build(:etd_with_toc,
-                                 embargo_id:     embargo.id,
-                                 toc_embargoed:  true,
-                                 degree_awarded: '2017-05-31')
-              end
+                               embargo_id: embargo.id,
+                               toc_embargoed: true,
+                               degree_awarded: '2017-05-31')
+              }
 
               it 'lists the embargo' do
                 expect(presenter.toc_for_admin).to include(etd.table_of_contents.first)
@@ -75,9 +91,6 @@ describe EtdPresenter do
         end
         context "with an admin user" do
           let(:ability) { Ability.new(FactoryBot.build(:admin)) }
-          let(:presenter) do
-            described_class.new(SolrDocument.new(etd.to_solr), ability)
-          end
           it "returns the toc if it is not under embargo" do
             expect(etd.toc_embargoed).to be_falsey
             expect(presenter.toc_with_embargo_check).to eq etd.table_of_contents.first
@@ -109,11 +122,6 @@ describe EtdPresenter do
 
   context "abstract" do
     context "without an abstract" do
-      let(:etd) { FactoryBot.build(:etd) }
-      let(:ability) { Ability.new(FactoryBot.build(:user)) }
-      let(:presenter) do
-        described_class.new(SolrDocument.new(etd.to_solr), ability)
-      end
       it "tells the user that no abstract is available" do
         expect(etd.abstract).to eq []
         expect(presenter.abstract_with_embargo_check).to eq "No abstract is available."
@@ -122,10 +130,6 @@ describe EtdPresenter do
     context "with an abstract" do
       let(:etd) { FactoryBot.build(:etd_with_abstract) }
       context "with a public user" do
-        let(:ability) { Ability.new(FactoryBot.build(:user)) }
-        let(:presenter) do
-          described_class.new(SolrDocument.new(etd.to_solr), ability)
-        end
         before { allow(presenter).to receive(:current_ability_is_approver?).and_return(false) }
         it "returns the abstract if it is not under embargo" do
           expect(etd.abstract_embargoed).to be_falsey
@@ -154,9 +158,6 @@ describe EtdPresenter do
       end
       context "with an admin user" do
         let(:ability) { Ability.new(FactoryBot.build(:admin)) }
-        let(:presenter) do
-          described_class.new(SolrDocument.new(etd.to_solr), ability)
-        end
         it "returns the abstract if it is not under embargo" do
           expect(etd.abstract_embargoed).to be_falsey
           expect(presenter.abstract_with_embargo_check).to eq etd.abstract.first
@@ -206,10 +207,6 @@ describe EtdPresenter do
 
   context "embargoes" do
     let(:etd) { FactoryBot.build(:sample_data_with_everything_embargoed) }
-    let(:ability) { Ability.new(FactoryBot.build(:user)) }
-    let(:presenter) do
-      described_class.new(SolrDocument.new(etd.to_solr), ability)
-    end
     it "gets the embargo_release_date in a printable form" do
       expect(presenter.formatted_embargo_release_date).to eq((Time.zone.today + 14.days).strftime("%d %B %Y"))
     end
@@ -232,12 +229,6 @@ describe EtdPresenter do
       Etd.new(title: title, creator: creator, keyword: keyword, degree: degree, department: department,
               school: school, partnering_agency: partnering_agency, submitting_type: submitting_type,
               research_field: research_field, visibility: visibility, requires_permissions: true, other_copyrights: false, patents: true)
-    end
-
-    let(:ability) { Ability.new(user) }
-
-    let(:presenter) do
-      described_class.new(SolrDocument.new(etd.to_solr), nil)
     end
 
     # If the fields require no addition logic for display, you can simply delegate

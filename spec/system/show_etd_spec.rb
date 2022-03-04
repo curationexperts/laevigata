@@ -102,7 +102,7 @@ RSpec.describe 'Display ETD metadata', :clean, integration: true, type: :system 
     expect(find('li.attribute-files_embargoed')).to have_content false
     expect(find('li.attribute-toc_embargoed')).to have_content false
     expect(find('li.attribute-abstract_embargoed')).to have_content false
-    expect(page).to have_content "Length of Embargo"
+    expect(page).to have_css('.attribute-embargo_length', text: '6 months')
     logout
   end
 
