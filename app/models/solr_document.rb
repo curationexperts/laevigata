@@ -81,7 +81,7 @@ class SolrDocument
   end
 
   def degree_awarded
-    self['degree_awarded_dtsi']
+    self['degree_awarded_dtsi'] || self['degree_awarded_dtsim']&.first || self['degree_awarded_tesim']&.first
   end
 
   def department
