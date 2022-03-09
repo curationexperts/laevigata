@@ -4,6 +4,5 @@ static:
 attributes:
   Title: title
   Author: creator
-  Abstract: abstract
   Date: degree_awarded
   Type: submitting_type
