@@ -3,19 +3,18 @@ namespace :index do
     require 'active_fedora'
     require 'active_fedora/solr_service'
     require 'reindexotron'
-    z = Reindexotron.fetch_roots(ActiveFedora.fedora.base_uri)
 
-    Parallel.each(z.map { |x| x.object.to_s }, in_processes: 8) do |n|
-      Reindexotron.walk(n, []).each do |uri|
-        k = ActiveFedora::Base.find(ActiveFedora::Base.uri_to_id(uri)).to_solr
-        begin
-          puts "Indexing #{uri} in worker #{Parallel.worker_number}"
+    z = Reindexotron.fetch_roots(ActiveFedora.fedora.base_uri)
+    z = z.map { |x| x.object }.select { |x| x.is_a? RDF::URI }.map(&:to_s).reject { |x| x == ActiveFedora.fedora.base_uri }
+
+    Parallel.each(z, processors: 4) do |r|
+      Reindexotron.walk(r) do |uri|
+          k = ActiveFedora::Base.find(ActiveFedora::Base.uri_to_id(uri)).to_solr
           ActiveFedora::SolrService.add(k, softCommit: true)
-        rescue
+      rescue
           puts "error on #{k}: #{$ERROR_INFO.message}"
-        end
       end
     end
-    ActiveFedora::SolrService.commit
   end
+  ActiveFedora::SolrService.commit
 end
