@@ -7,14 +7,14 @@ namespace :schoolie do
     ids = JSON.parse(`curl -s '#{ENV.fetch("SOLR_URL")}/select?fq=workflow_state_name_ssim:(published%20OR%20approved)&fl=id,degree_awarded_dtsi&rows=15000&sort=degree_awarded_dtsi%20ASC'`)["response"]["docs"].map do |x| # rubocop:disable Layout/LineLength
       ["https://etd.library.emory.edu/concern/etds/#{x['id']}", (x['degree_awarded_dtsi']).to_s]
     end
-    builder = Nokogiri::XML::Builder.new do |xml|
-      xml.urlset("xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+    builder = Nokogiri::XML::Builder.new do |sitemap|
+      sitemap.urlset("xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
                  xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9",
                  "xsi:schemaLocation": "http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd") {
-                   ids.each { |u, d|
-                     xml.url {
-                       xml.loc u
-                       xml.lastmod d if d.present?
+                   ids.each { |url, date|
+                     sitemap.url {
+                       sitemap.loc url
+                       sitemap.lastmod date if date.present?
                      }
                    }
                  }
