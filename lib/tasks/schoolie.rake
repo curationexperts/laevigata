@@ -4,8 +4,13 @@ require "json"
 require 'nokogiri'
 namespace :schoolie do
   task sitemap: :environment do
-    ids = JSON.parse(`curl -s '#{ENV.fetch("SOLR_URL")}/select?fq=workflow_state_name_ssim:(published%20OR%20approved)&fl=id,degree_awarded_dtsi&rows=15000&sort=degree_awarded_dtsi%20ASC'`)["response"]["docs"].map do |x| # rubocop:disable Layout/LineLength
-      ["https://etd.library.emory.edu/concern/etds/#{x['id']}", (x['degree_awarded_dtsi']).to_s]
+    result = ActiveFedora::SolrService.query("has_model_ssim:Etd",
+                                             fq: "workflow_state_name_ssim:published",
+                                             fl: "id,degree_awarded_dtsi",
+                                             sort: "degree_awarded_dtsi ASC",
+                                             rows: 10_000)
+    ids = result.map do |x|
+      ["https://etd.library.emory.edu/concern/etds/#{x['id']}", x['degree_awarded_dtsi'].to_s]
     end
     builder = Nokogiri::XML::Builder.new do |sitemap|
       sitemap.urlset("xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
