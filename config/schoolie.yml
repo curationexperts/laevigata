@@ -1,8 +1,10 @@
 ---
 static:
-  Institution: Emory University
+  citation_dissertation_institution: Emory University
 attributes:
-  Title: title
-  Author: creator
-  Date: degree_awarded
-  Type: submitting_type
+  citation_title: title
+  citation_author: creator
+  citation_date: degree_awarded
+  citation_dissertation_type: submitting_type
+  citation_keywords: research_field
+  citation_pdf_url: permanent_url
