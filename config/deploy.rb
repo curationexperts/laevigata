@@ -59,6 +59,11 @@ namespace :deploy do
   after :finishing, :restart_apache do
     on roles(:app) do
       execute :sudo, :systemctl, :restart, :apache2
+      within current_path do
+        with rails_env: fetch(:rails_env) do
+          execute :bundle, :exec, :rails, :"schoolie:sitemap"
+        end
+      end
     end
   end
 end
