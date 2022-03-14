@@ -4,7 +4,6 @@ require "json"
 require 'nokogiri'
 namespace :schoolie do
   task sitemap: :environment do
-
     date_field = 'system_modified_dtsi'
     result = ActiveFedora::SolrService.query("has_model_ssim:Etd",
                                              fq: "workflow_state_name_ssim:published",
