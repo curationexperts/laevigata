@@ -77,6 +77,17 @@ RSpec.describe User, :clean do
         .not_to change { described_class.count }
     end
   end
+  context "active/inactive" do
+    let(:user) { FactoryBot.create(:user) }
+    it "has a deactivated field" do
+      expect(user.deactivated).to eq false
+    end
+
+    it "deactivates on destroy" do
+      expect(user.destroy).to be true
+      expect(user.reload.deactivated).to eq true
+    end
+  end
   context "user factories" do
     it "makes a user with expected shibboleth fields" do
       user = FactoryBot.create(:user)
