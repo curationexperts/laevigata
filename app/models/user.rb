@@ -64,6 +64,10 @@ class User < ApplicationRecord
     uid
   end
 
+  def destroy
+    update(deactivated: true) unless deactivated
+  end
+
   # Mailboxer (the notification system) needs the User object to respond to this method
   # in order to send emails
   def mailboxer_email(_object)
