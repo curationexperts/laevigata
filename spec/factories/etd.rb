@@ -52,7 +52,7 @@ FactoryBot.define do
       subfield { [] }
       degree { ['MA'] }
       language { ['English'] }
-      graduation_year { "2016" }
+      graduation_date { "Spring 1986" }
       abstract { [] << FFaker::Lorem.paragraph }
       table_of_contents { [] << FFaker::Lorem.paragraph }
       # 2017-08-21 is the actual date of this embargo expiration, but now that it
@@ -77,7 +77,7 @@ FactoryBot.define do
 
     factory :sample_data do
       creator { [] << "#{FFaker::Name.last_name}, #{FFaker::Name.first_name}" }
-      graduation_year { "2017" }
+      graduation_date { "2017" }
       school { ["Candler School of Theology"] }
       post_graduation_email { [] << FFaker::Internet.email }
       admin_set do

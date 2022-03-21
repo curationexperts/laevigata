@@ -80,8 +80,16 @@ class SolrDocument
     self[Solrizer.solr_name('degree')]
   end
 
+  # @return [DateTime] - the day recorded by the Registrar that a degree wqs granted - time value it typically truncated
+  # see `graduation_date` for the semester and year value used for faceting
   def degree_awarded
     self['degree_awarded_dtsi'] || self['degree_awarded_ssi'] || self['degree_awarded_dtsim']&.first || self['degree_awarded_tesim']&.first
+  end
+
+  # @return [String] - the semester and year (or just year for legacy records) of graduation - e.g. "2018", "Fall 2021"
+  # see `degree_awarded` for the timestamp representing the day the degree was recorded by the Emory Registrar
+  def graduation_date
+    self[Solrizer.solr_name('graduation_date', :stored_sortable)] || self[Solrizer.solr_name('graduation_date', :stored_searchable)]&.first
   end
 
   def department
@@ -94,10 +102,6 @@ class SolrDocument
 
   def embargo_length
     self['embargo_length_ssi']
-  end
-
-  def graduation_year
-    self[Solrizer.solr_name('graduation_year')]
   end
 
   def hidden?

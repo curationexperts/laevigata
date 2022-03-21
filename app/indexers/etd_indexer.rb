@@ -19,7 +19,7 @@ class EtdIndexer < Hyrax::WorkIndexer
       [:abstract, :email, :post_graduation_email, :table_of_contents, :hidden?]
 
     self.stored_and_facetable_fields +=
-      [:creator, :graduation_year, :files_embargoed,
+      [:creator, :graduation_date, :files_embargoed,
        :abstract_embargoed, :toc_embargoed]
   end
 end

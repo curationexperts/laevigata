@@ -23,7 +23,7 @@ RSpec.describe 'Display ETD metadata', :clean, integration: true, type: :system 
     [
       "title",
       "creator",
-      "graduation_year",
+      "graduation_date",
       "abstract",
       "table_of_contents",
       "school",

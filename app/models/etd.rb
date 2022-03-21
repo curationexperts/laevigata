@@ -57,10 +57,6 @@ class Etd < ActiveFedora::Base
     members.select(&:supplementary?)
   end
 
-  property :graduation_year, predicate: "http://purl.org/dc/terms/issued", multiple: false do |index|
-    index.as :stored_searchable, :facetable
-  end
-
   property :keyword, predicate: "http://schema.org/keywords" do |index|
     index.as :stored_searchable, :facetable
   end
@@ -71,10 +67,6 @@ class Etd < ActiveFedora::Base
 
   property :post_graduation_email, predicate: "http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#privateEmailAddress" do |index|
     index.as :displayable
-  end
-
-  property :graduation_date, predicate: "http://purl.org/dc/terms/issued" do |index|
-    index.as :stored_searchable, :facetable
   end
 
   # Boolean
@@ -151,6 +143,12 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable, :facetable
   end
 
+  # [String] representing the semester and year the student graduates; legacy records only have a year value
+  property :graduation_date, predicate: "http://purl.org/dc/terms/issued", multiple: false do |index|
+    index.as :stored_sortable, :facetable
+  end
+
+  # [Time] stores the day recorded by the Registrar on which a degree was awarded - typically truncates or ignores time portion of the value
   property :degree_awarded, predicate: "http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted", multiple: false do |index|
     index.as :stored_sortable
   end
@@ -220,6 +218,11 @@ class Etd < ActiveFedora::Base
   property :proquest_submission_date, predicate: "http://example.com/proquest_submission_date" do |index|
     index.as :stored_searchable
   end
+
+  property :abstract,              predicate: "http://purl.org/dc/terms/abstract"
+  property :table_of_contents,     predicate: "http://purl.org/dc/terms/tableOfContents"
+  property :creator,               predicate: "http://id.loc.gov/vocabulary/relators/aut"
+  property :legacy_id,             predicate: "http://id.loc.gov/vocabulary/identifiers/local"
 
   include ::Hyrax::BasicMetadata
   apply_schema Schemas::EmoryEtdSchema, Schemas::GeneratedResourceSchemaStrategy.new
