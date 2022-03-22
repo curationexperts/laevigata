@@ -51,14 +51,10 @@
               <% end %>
               <% if user.deactivated %>
                 <td>
-                  <%= link_to "Edit", main_app.edit_user_path(user.id) %>
-                  |
                   <%= link_to "Reactivate",  main_app.activate_path(id: user.id, deactivated: false), method: :put, data: {confirm: 'Are you sure you want to reactivate this user?'}%>
                 </td>
               <% else %>
                 <td>
-                  <%= link_to "Edit", main_app.edit_user_path(user.id) %>
-                  |
                   <%= link_to "Deactivate",  main_app.activate_path(id: user.id, deactivated: true), method: :put, data: {confirm: 'Are you sure you want to deactivate this user?'}%>
                 </td>
               <% end %>
