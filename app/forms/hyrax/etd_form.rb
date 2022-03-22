@@ -7,7 +7,6 @@ module Hyrax
     # about me terms
     self.terms += [:graduation_date]
     self.terms += [:post_graduation_email]
-    self.terms += [:resource_type]
     self.terms += [:school]
     self.terms += [:department]
     self.terms += [:subfield]
