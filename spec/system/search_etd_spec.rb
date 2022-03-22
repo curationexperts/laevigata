@@ -5,7 +5,7 @@ RSpec.feature 'Search for an ETD', type: :system, integration: true do
     FactoryBot.create(
       :etd,
       creator: ["Janakiramen, Helen"],
-      graduation_year: '2017',
+      graduation_date: 'Fall 2017',
       school: ["Candler School of Theology"],
       department: ["Robotics"],
       subfield: ["Political Robotics"],
@@ -51,7 +51,7 @@ RSpec.feature 'Search for an ETD', type: :system, integration: true do
       expect(page).not_to have_xpath("//h3", text: "Student Name")
       expect(page).not_to have_link(etd.creator.first, class: "facet_select")
       expect(page).to have_xpath("//h3", text: "Year")
-      expect(page).to have_link(etd.graduation_year.first, class: "facet_select")
+      expect(page).to have_link(etd.graduation_date, class: "facet_select")
       expect(page).to have_xpath("//h3", text: "School")
       expect(page).to have_link(etd.school.first, class: "facet_select")
       expect(page).to have_xpath("//h3", text: "Department")

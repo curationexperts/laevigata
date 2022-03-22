@@ -1,5 +1,7 @@
 module GraduationHelper
-  # Given a graduation date and an embargo length, calculate the embargo_release_date.
+  # Calculates the post-graduation embargo release date
+  # @param graduation_date [Date] - the date a degree is awarded
+  # @param requested_embargo [String] - the requested embargo length /\d+ [months|years]/
   def self.embargo_length_to_embargo_release_date(graduation_date, requested_embargo)
     if requested_embargo == InProgressEtd::NO_EMBARGO || requested_embargo.blank?
       # No post-graduation embargo to apply

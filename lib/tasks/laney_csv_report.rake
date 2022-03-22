@@ -17,8 +17,8 @@ namespace :emory do
         members = etd.committee_members_names.to_a
         date =  etd.date_uploaded.to_date
         program = etd.research_field.to_a
-        puts etd.graduation_year
-        if academic_year.include? etd.graduation_year
+        puts etd.graduation_date
+        if academic_year.include? etd.graduation_date
           csv << [creator.first, chair.first, members.first, date, program.first]
         end
       end

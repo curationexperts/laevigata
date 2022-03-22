@@ -146,12 +146,12 @@ RSpec.describe Etd do
     end
   end
 
-  context "graduation_year" do
+  context "graduation_date" do
     let(:etd) { FactoryBot.build(:etd) }
-    it "has graduation_year" do
-      etd.graduation_year = "2007"
+    it "has graduation_date" do
+      etd.graduation_date = "Winter 2007"
       expect(etd.resource.dump(:ttl)).to match(/purl.org\/dc\/terms\/issued/)
-      expect(etd.graduation_year).to eq "2007"
+      expect(etd.graduation_date).to eq "Winter 2007"
     end
   end
 
@@ -306,15 +306,6 @@ RSpec.describe Etd do
     it "has a post graduation email with the expected predicate" do
       etd.post_graduation_email = ['kandis@robellarkin.info']
       expect(etd.resource.dump(:ttl)).to match(/www.ebu.ch\/metadata\/ontologies\/ebucore\/ebucore\#privateEmailAddress/)
-    end
-  end
-
-  context "graduation_date" do
-    let(:etd) { FactoryBot.build(:etd) }
-    it "has a semester and year" do
-      etd.graduation_date = ["Spring 2019"]
-      expect(etd.resource.dump(:ttl)).to match(/purl.org\/dc\/terms\/issued/)
-      expect(etd.graduation_date).to eq ["Spring 2019"]
     end
   end
 

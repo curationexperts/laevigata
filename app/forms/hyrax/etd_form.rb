@@ -37,7 +37,7 @@ module Hyrax
     self.terms += [:abstract_embargoed]
     self.terms += [:toc_embargoed]
 
-    self.single_valued_fields = [:title, :creator, :post_graduation_email, :submitting_type, :graduation_date, :degree, :subfield, :department, :school, :language, :abstract, :table_of_contents]
+    self.single_valued_fields = [:title, :creator, :post_graduation_email, :submitting_type, :degree, :subfield, :department, :school, :language, :abstract, :table_of_contents]
 
     # methods for accessing new tab-determined sets of terms on new form tabs in new ui
 
