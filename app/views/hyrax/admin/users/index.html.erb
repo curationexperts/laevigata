@@ -4,7 +4,7 @@
 
 <div class="panel panel-default users-listing">
   <div class="panel-heading">
-      <%= t('hyrax.admin.users.index.describe_users_html', count: @presenter.user_count) %>
+    <%= t('hyrax.admin.users.index.describe_users_html', count: @presenter.user_count) %>
   </div>
 
   <div class="panel-body">
@@ -14,16 +14,20 @@
           <tr>
             <th><%= t('.display_name') %></th>
             <th><%= t('.id_label') %></th>
-            <th><%= t('.role_label') %></th>
-            <th><%= t('.access_label') %></th>
+            <th data-orderable="false"><%= t('.role_label') %></th>
+            <% if @presenter.show_last_access? %>
+              <th><%= t('.access_label') %></th>
+            <% end %>
+            <th data-orderable="false">Actions</th>
           </tr>
         </thead>
         <tbody>
           <% @presenter.users.each do |user| %>
             <tr>
-              <td><%= link_to hyrax.dashboard_profile_path(user) do %>
-                    <%= user.display_name %>
-                  <% end %>
+              <td>
+                <%= link_to hyrax.dashboard_profile_path(user) do %>
+                  <%= user.display_name %>
+                <% end %>
               </td>
               <td>
                 <%= link_to hyrax.dashboard_profile_path(user) do %>
@@ -31,17 +35,33 @@
                 <% end %>
               </td>
               <td><% roles = @presenter.user_roles(user) %>
-                  <ul><% roles.each do |role| %>
+                <ul>
+                  <% roles.each do |role| %>
                     <li><%= role %></li>
-                    <% end %>
-                  </ul>
+                  <% end %>
+                </ul>
               </td>
-              <td>
-                <%# in the case that a user is created who never signs in, this is necessary %>
-                <relative-time datetime="<%= @presenter.last_accessed(user).getutc.iso8601 %>" title="<%= @presenter.last_accessed(user).to_formatted_s(:standard) %>">
-                  <%= @presenter.last_accessed(user).to_formatted_s(:long_ordinal) %>
-                </relative-time>
-              </td>
+              <% if @presenter.show_last_access? %>
+                <td>
+                  <%# in the case that a user is created who never signs in, this is necessary %>
+                  <relative-time datetime="<%= @presenter.last_accessed(user).getutc.iso8601 %>" title="<%= @presenter.last_accessed(user).to_formatted_s(:standard) %>">
+                    <%= @presenter.last_accessed(user).to_formatted_s(:long_ordinal) %>
+                  </relative-time>
+                </td>
+              <% end %>
+              <% if user.deactivated %>
+                <td>
+                  <%= link_to "Edit", main_app.edit_user_path(user.id) %>
+                  |
+                  <%= link_to "Reactivate",  main_app.activate_path(id: user.id, deactivated: false), method: :put, data: {confirm: 'Are you sure you want to reactivate this user?'}%>
+                </td>
+              <% else %>
+                <td>
+                  <%= link_to "Edit", main_app.edit_user_path(user.id) %>
+                  |
+                  <%= link_to "Deactivate",  main_app.activate_path(id: user.id, deactivated: true), method: :put, data: {confirm: 'Are you sure you want to deactivate this user?'}%>
+                </td>
+              <% end %>
             </tr>
           <% end %>
         </tbody>
