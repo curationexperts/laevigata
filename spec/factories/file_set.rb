@@ -37,7 +37,6 @@ FactoryBot.define do
       end
       initialize_with { new(id: id) }
       read_groups { ["public"] }
-      resource_type { ["Dissertation"] }
       subject { %w[lorem ipsum dolor sit amet] }
       title { ["fake_document.pdf"] }
       before(:create) do |fs|
@@ -58,7 +57,6 @@ FactoryBot.define do
         id { "fixturewav" }
       end
       initialize_with { new(id: id) }
-      resource_type { ["Audio", "Dataset"] }
       read_groups { ["public"] }
       title { ["Fake Wav File.wav"] }
       subject { %w[sed do eiusmod tempor incididunt ut labore] }

@@ -219,13 +219,43 @@ class Etd < ActiveFedora::Base
     index.as :stored_searchable
   end
 
-  property :abstract,              predicate: "http://purl.org/dc/terms/abstract"
+  property :abstract,              predicate: ::RDF::Vocab::DC.abstract
+  property :keyword,               predicate: ::RDF::Vocab::SCHEMA.keywords
+  property :rights_statement,      predicate: ::RDF::Vocab::EDM.rights
+  property :language,              predicate: ::RDF::Vocab::DC11.language
   property :table_of_contents,     predicate: "http://purl.org/dc/terms/tableOfContents"
   property :creator,               predicate: "http://id.loc.gov/vocabulary/relators/aut"
   property :legacy_id,             predicate: "http://id.loc.gov/vocabulary/identifiers/local"
 
-  include ::Hyrax::BasicMetadata
-  apply_schema Schemas::EmoryEtdSchema, Schemas::GeneratedResourceSchemaStrategy.new
+  # The following properties would be included via
+  # # include ::Hyrax::BasicMetadata
+  # These properties are not used by the ETD application;
+  # however, the uncommented properties are required in order
+  # for solr document generation to succeed because they are
+  # currently hard-coded into Hyrax in
+  # https://github.com/samvera/hyrax/blob/v2.9.6/app/models/concerns/hyrax/solr_document/metadata.rb
+  #
+  # property :alternative_title, predicate: ::RDF::Vocab::DC.alternative
+  property :date_created, predicate: ::RDF::Vocab::DC.created
+  # property :label, predicate: ActiveFedora::RDF::Fcrepo::Model.downloadFilename, multiple: false
+  # property :relative_path, predicate: ::RDF::URI.new('http://scholarsphere.psu.edu/ns#relativePath'), multiple: false
+  property :import_url, predicate: ::RDF::URI.new('http://scholarsphere.psu.edu/ns#importUrl'), multiple: false
+  property :contributor, predicate: ::RDF::Vocab::DC11.contributor
+  property :description, predicate: ::RDF::Vocab::DC11.description
+  # property :access_right, predicate: ::RDF::Vocab::DC.accessRights
+  # property :description, predicate: ::RDF::Vocab::DC11.description
+  property :license, predicate: ::RDF::Vocab::DC.license, multiple: true
+  property :publisher, predicate: ::RDF::Vocab::DC11.publisher
+  property :subject, predicate: ::RDF::Vocab::DC.subject # see research_field which uses elements instead of terms namespace
+  property :identifier, predicate: ::RDF::Vocab::DC.identifier
+  property :based_near, predicate: ::RDF::Vocab::FOAF.based_near, class_name: Hyrax::ControlledVocabularies::Location
+  property :related_url, predicate: ::RDF::RDFS.seeAlso
+  property :bibliographic_citation, predicate: ::RDF::Vocab::DC.bibliographicCitation
+  property :resource_type, predicate: ::RDF::Vocab::DC.type
+  # property :rights_notes, predicate: ::RDF::URI.new('http://purl.org/dc/elements/1.1/rights'), multiple: true
+  property :source, predicate: ::RDF::Vocab::DC.source
+
+  # apply_schema Schemas::EmoryEtdSchema, Schemas::GeneratedResourceSchemaStrategy.new
 
   # accepts_nested_attributes_for can not be called until all
   # the properties are declared because it calls resource_class,
