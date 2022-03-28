@@ -8,7 +8,7 @@ namespace :schoolie do
     result = ActiveFedora::SolrService.query("has_model_ssim:Etd",
                                              fq: "workflow_state_name_ssim:published",
                                              fl: "id,#{date_field}",
-                                             sort: "degree_awarded_dtsi,system_create_dtsi ASC",
+                                             sort: "degree_awarded_dtsi DESC,system_create_dtsi DESC",
                                              rows: 20_000)
     ids = result.map do |x|
       ["https://etd.library.emory.edu/concern/etds/#{x['id']}", x[date_field].to_s]
