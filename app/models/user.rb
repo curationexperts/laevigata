@@ -64,6 +64,10 @@ class User < ApplicationRecord
     uid
   end
 
+  def active_for_authentication?
+    super && !deactivated
+  end
+
   def destroy
     update(deactivated: true) unless deactivated
   end

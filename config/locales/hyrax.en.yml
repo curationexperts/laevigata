@@ -81,3 +81,8 @@ en:
         text: 'Restricted; Files Only'
     contact_form:
       header: Help
+    admin:
+      users:
+        index:
+          actions_label: "Actions"
+          displayname_label: "Display Name"

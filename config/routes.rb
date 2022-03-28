@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   end
 
   devise_for :users, controllers: { omniauth_callbacks: "omniauth_callbacks" }
+  devise_scope :users do
+    put "activate", to: "users#activate"
+  end
 
   # Disable these routes if you are using Devise's
   # database_authenticatable in your development environment.
