@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   get '/concern/etds/new', to: redirect('in_progress_etds/new')
   # Just in case we missed any edit links anywhere in the app, this redirect should make sure we always have the form from the new UI when we try to edit an ETD.
   get '/concern/etds/:id/edit', to: redirect('in_progress_etds/new?etd_id=%{id}')
+  get '/private/:file_name', to: 'private_file#download', as: :private_file
 
   curation_concerns_basic_routes
   concern :exportable, Blacklight::Routes::Exportable.new
