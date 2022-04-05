@@ -5,6 +5,7 @@ attributes:
   citation_title: title
   citation_author: creator
   citation_date: degree_awarded
-  citation_dissertation_type: submitting_type
+  citation_type: submitting_type
+  dc.type: submitting_type
   citation_keywords: research_field
   citation_pdf_url: download_url
