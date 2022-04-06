@@ -1,7 +1,7 @@
 require 'yaml'
 
 namespace :emory do
-  task sync_users: :environment do
+  task update_approvers: :environment do
     approvers = YAML.safe_load(File.open(Rails.root.join('config', 'emory', 'admin_sets.yml')))
     supers = YAML.safe_load(File.open(Rails.root.join('config', 'emory', 'superusers.yml')))
     superusers = supers.values.first.values.flatten.map { |x| User.find_by(uid: x).to_sipity_agent }
