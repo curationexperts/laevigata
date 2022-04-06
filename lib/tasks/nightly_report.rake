@@ -20,7 +20,7 @@ namespace :emory do
             else
               k = etd.send(x)
               if k.is_a?(ActiveTriples::Relation)
-                k.map { k.first }.join('; ').tr("\n", ' ')
+                k.map { |r| r }.join('; ').tr("\n", ' ')
               elsif k.is_a?(String)
                 k.gsub('\n', ' ')
               else
