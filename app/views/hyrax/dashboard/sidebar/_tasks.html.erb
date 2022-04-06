@@ -17,3 +17,9 @@
       <span class="fa fa-flag"></span> <span class="sidebar-action-text"><%= t('hyrax.embargoes.index.manage_embargoes') %></span>
     <% end %>
   <% end %>
+
+  <% if current_user.admin? %>
+    <%= menu.nav_link(main_app.private_file_path("report.csv")) do %>
+      <span class="fa fa-flag"></span> <span class="sidebar-action-text"><%= t('download_report') %></span>
+    <% end %>
+  <% end %>

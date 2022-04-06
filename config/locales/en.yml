@@ -20,6 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  download_report: "Download Graduation Report"
   hello: "Hello world"
   mailboxer:
     message_mailer:
