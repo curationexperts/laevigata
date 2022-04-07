@@ -5,13 +5,3 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-
-puts
-puts "== Creating AdminSets and importing workflow =="
-puts
-
-require 'workflow_setup'
-# Our database has just been reset, so you MUST destroy and
-# re-create all AdminSets too
-w = WorkflowSetup.new
-w.setup
