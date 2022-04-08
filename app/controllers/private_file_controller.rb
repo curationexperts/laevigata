@@ -5,7 +5,7 @@ class PrivateFileController < ApplicationController
   def download
     filename = [params[:file_name], '.', params[:format]].join
     base, suffix = filename.split(".")
-    send_file(Rails.root.join("private", filename), filename: "#{base}_#{Time.now.strftime("%Y%m%d")}.#{suffix}")
+    send_file(Rails.root.join("private", filename), filename: "#{base}_#{Time.zone.now.strftime('%Y%m%d')}.#{suffix}")
   end
 
   private

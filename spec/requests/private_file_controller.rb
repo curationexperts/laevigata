@@ -32,7 +32,7 @@ RSpec.describe "/private", type: :request do
         get '/private/report.csv'
         expect(response).to be_successful
         expect(response.header['Content-type']).to eq "text/csv"
-        expect(response.header['Content-Disposition']).to eq "attachment; filename=\"report_#{Time.now.strftime("%Y%m%d")}.csv\""
+        expect(response.header['Content-Disposition']).to eq "attachment; filename=\"report_#{Time.zone.now.strftime('%Y%m%d')}.csv\""
         expect(response.header['Content-Transfer-Encoding']).to eq "binary"
       end
     end
