@@ -2,6 +2,8 @@ require 'yaml'
 
 namespace :emory do
   task update_approvers: :environment do
+    # create workflows
+    WorkflowSetup.new.setup
     approvers = YAML.safe_load(File.open(Rails.root.join('config', 'emory', 'admin_sets.yml')))
     supers = YAML.safe_load(File.open(Rails.root.join('config', 'emory', 'superusers.yml')))
     superusers = supers.values.first.values.flatten.map { |x| User.find_by(uid: x).to_sipity_agent }
@@ -14,8 +16,8 @@ namespace :emory do
               else
          []
               end
-      logger.info "updating #{as.title.first}"
-      x.active_workflow.update_responsibilities(role: approving_role, agents: users + superusers)
+      Rails.logger.info "updating #{as.title.first}"
+      as.active_workflow.update_responsibilities(role: approving_role, agents: users + superusers)
     end
   end
 end
