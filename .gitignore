@@ -38,6 +38,9 @@ test-report.xml
 # Ignore redis database saves
 **/dump.rdb
 
+# Ignore dynamically generated reports
+/private/**/*.csv
+
 # Don't check dotenv files into github
 .env
 .env.development
