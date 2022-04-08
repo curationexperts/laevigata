@@ -23,7 +23,7 @@
 # notifications if so
 every :day, at: '11:55pm' do
   rake "emory:proquest_notifications"
-  rake "emory:nightly_report"
+  rake "emory:etd_report"
 end
 
 every :day, at: '2:20am' do

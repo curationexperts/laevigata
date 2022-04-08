@@ -12,7 +12,6 @@ AllCops:
     - 'tmp/**/*'
     - 'config/initializers/explain_partials.rb'
     - 'node_modules/**/*'
-    - lib/tasks/laney_csv_report.rake
 
 # BEGIN; Disabled in move to 2.3 sytax linter
 Style/FrozenStringLiteralComment:

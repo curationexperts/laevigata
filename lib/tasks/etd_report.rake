@@ -1,6 +1,6 @@
 require 'csv'
 namespace :emory do
-  task nightly_report: [:environment] do
+  task etd_report: [:environment] do
     headers = %w[id uid creator title school department degree submitting_type
                  language subfield research_field keyword committee_chair committee_members
                  post_graduation_email degree_awarded graduation_date partnering_agency
