@@ -20,71 +20,81 @@ or cherokee rose is the <a href="https://georgia.gov/georgia-facts-and-symbols">
 
 ## Developer Setup
 
-1. Change to your working directory for new development projects
+1. Change to your working directory for new development projects  
     `cd .`
-1. Clone this repo
+2. Clone this repo  
     `git clone https://github.com/curationexperts/laevigata.git`
-1. Change to the application directory
+3. Change to the application directory  
     `cd laevigata`
-1. Set your ruby version to **2.7.4** and the gemset of your choice
-    eg. `rvm use --create 2.7.4@laevigata`
-1. Install gem dependencies
+4. Set your development environment ruby version to **2.7.4**  
+    eg. `rvm use --create 2.7.4@laevigata` or `rbenv local 2.7.4`
+5. Install gem dependencies  
     `bundle install`
-1. Ensure you have `yarn` installed:
-   `brew install yarn` or
-   `npm install -g yarn`
-1. Install yarn dependencies
+6. Ensure you have **yarn** installed  
+   `brew install yarn` or `npm install -g yarn`
+7. Install yarn dependencies  
     `yarn install`
     
     *NOTE* node-sass is particular about node versions, see their [version support policy](https://github.com/sass/node-sass#node-version-support-policy) if you're having difficulty
-1. Install ClamAV
+8. Install ClamAV  
     This is required if you want to work with file uploads in your development environment.
     See: [Installing ClamAV](https://www.clamav.net/documents/installing-clamav) for instructions.
-1. Start redis
+9. Start redis  
     `redis-server &`
     *note:* use ` &` to start in the background, or run redis in a new terminal session
-1. Setup environment variables for your development environment:
-    `cp dotenv.sample .env.development`,
-    see the [dotenv sample file](dotenv.sample) for environment variables you may need to set in your development environment.  
-1. Read the section on 'Database Authentication' below and decide if you want to set up your environment for database authentication.
-1. Start the demo server in its own terminal session
-    `bundle exec rake hydra:server`
-1. Start the webpack dev server
-   `bin/webpack-dev-server`
-1. Run the first time setup script
-    `bin/setup`
-1. Start up the test environment
-    `solr_wrapper --config config/solr_wrapper_test.yml`
-    `fcrepo_wrapper --config config/fcrepo_wrapper_test.yml`
-    and run the rspec test suite
-    `bundle exec rspec`
-1. Run the Vue javascript tests
-    `yarn test`. In order to include coverage, run `yarn test --coverage`.
+10. Setup environment variables for your development environment  
+     `cp dotenv.sample .env.development`,
+     see the [dotenv sample file](dotenv.sample) for environment variables you may need to set in your development environment.  
+11. Start the Rails server along with development instances of Solr & Fedora  
+     NOTE: you'll usually run this in its own terminal session  
+     `bundle exec rake hydra:server`
+12. Start the webpack dev server  
+    `bin/webpack-dev-server`
+13. Run the first time setup script  
+    `bin/setup`  
+    Note: Do *not* run `bin/setup` except the very first time you setup the application, 
+    or if you need to wipe out everything in your development instance. It will wipe your 
+    database but leave your AdminSets in place, making a huge mess that you can't easily recover from.
+14. Start up the test environment  
+     ```
+     solr_wrapper --config config/solr_wrapper_test.yml  
+     fcrepo_wrapper --config config/fcrepo_wrapper_test.yml
+     ```  
+     and run the rspec test suite  
+     `bundle exec rspec`
+15. Run the Vue javascript tests  
+     `yarn test`. In order to include coverage, run `yarn test --coverage`.
 
 ## Database Authentication
 
-In production, we use Shibboleth exclusively for user authentication.  However, authenticating to Shibboleth from your local development environment is not feasible.  Instead, you'll want to set up local database authentication.
+In production, we use Shibboleth exclusively for user authentication. 
+However, authenticating to Shibboleth from your local development environment is not feasible. 
+Instead, you'll want to set up local database authentication.
 
-To set your dev environment for database authentication, you need to set this environment variable:
-
+To set your dev environment for database authentication, you need to set this environment variable:  
 `export LAEVIGATA_DATABASE_AUTH=true`
 
 ## User and workflow setup
 
-Each Emory school has its own AdminSet, which determines the approval process for that
-school, and who can approve deposited ETDs. Running `rake db:seed` will create an AdminSet for each school in the schools.yml file, load the appropriate workflow, and set permissions such that any registered user can deposit. `rake db:seed` should be idempotent -- you can run it over and over again safely.
+Each Emory school, and each Rollins department, has its own AdminSet, which manages the approval
+workflow and approvers for that department or school.  To bootstrap a new environment run
+```
+rake emory:update_approvers
+```
+This will create an AdminSet for each school in the schools.yml file, load the appropriate workflow,
+and set permissions such that any registered user can deposit. The `emory:update_approvers` task is idempotent 
+-- you can run it over and over again safely.
+
+If you have a favorite username you like to use to login to the UI in your development environments, create 
+that user in your local development environment and add it to the database section in 
+your local copy of [config/emory/superusers.yml](https://github.com/curationexperts/laevigata/blob/main/config/emory/superusers.yml)
 
 A "superuser" can manage all admin_sets, edit all ETDs, and approve submissions
-everywhere. To create a new superuser, add the user's email address to the `config/emory/superusers.yml` file. Then run `rake db:seed` to reload the config. When using database authentication, the password for all superusers is `123456`.
+for any school or department.
 
-Note: Do *not* run `bin/setup` except the very first time you setup the application, or if you need to wipe out everything in your development instance. It will wipe your database but leave your AdminSets in place, making a huge mess that you can't easily recover from.
-
-## Releasing
-In order to run the GitHub Changelog Generator, you will need a GitHub Access Token.  For more details
-see https://github.com/github-changelog-generator/github-changelog-generator#github-token
-1. Update `.github_changelog_generator` file with the version number you're about to release
-2. Generate release notes by running: `github_changelog_generator --token $CHANGELOG_GITHUB_TOKEN`
-3. Commit these changes to the repo, and copy-and-paste the release notes from the CHANGELOG.md file.
+To update approvers or superusers in your development environment, update the appropriate file in [config/emory/](https://github.com/curationexperts/laevigata/blob/main/config/emory/)
+and run 'rake emory:update_approvers'.  Refer to the wiki for instruction on how to update approvers 
+and superusers in production.
 
 ## Smoke Tests
 Some long runnng tests and/or tests that test external systems have been filtered out of general runs of 
@@ -98,7 +108,7 @@ SMOKE_TEST=true bundle exec rspec
 ## Cron jobs in production
 
 There are certain cron jobs that are expected to run in production. These include embargo expiration,
-proquest notifications and others. We use the `whenever` gem to manage these.
+proquest notifications, etd report csv generation and others. We use the `whenever` gem to manage these.
 
 If you need to make changes to the scheduled jobs, please update `config/schedule.rb` and
 the new crontab should be installed via capistrano when the code is deployed.
