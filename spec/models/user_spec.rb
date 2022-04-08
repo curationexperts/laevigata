@@ -82,11 +82,13 @@ RSpec.describe User, :clean do
     let(:user) { FactoryBot.create(:user) }
     it "defaults to false for new users" do
       expect(user.deactivated).to eq false
+      expect(user.mailboxer_email(:foo)).not_to be_nil
     end
 
     it "set to true by User#destroy" do
       expect(user.destroy).to be true
       expect(user.reload.deactivated).to eq true
+      expect(user.mailboxer_email(:foo)).to be_nil
     end
 
     it "disables login when true" do
