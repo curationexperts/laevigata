@@ -2,7 +2,7 @@ require 'yaml'
 
 namespace :emory do
   task update_approvers: :environment do
-    #create workflows
+    # create workflows
     WorkflowSetup.new.setup
     approvers = YAML.safe_load(File.open(Rails.root.join('config', 'emory', 'admin_sets.yml')))
     supers = YAML.safe_load(File.open(Rails.root.join('config', 'emory', 'superusers.yml')))
