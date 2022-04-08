@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe "/private", type: :request do
   before :all do
     FileUtils.mkdir_p Rails.root.join("private")
-    FileUtils.touch Rails.root.join("private", "report.csv")
+    FileUtils.touch Rails.root.join("private", "etd_report.csv")
   end
   context "logged in but not admin" do
     let(:user) { FactoryBot.create(:user) }
@@ -29,7 +29,7 @@ RSpec.describe "/private", type: :request do
 
     describe "user index" do
       it "renders the links" do
-        get '/private/report.csv'
+        get '/private/etd_report.csv'
         expect(response).to be_successful
         expect(response.header['Content-type']).to eq "text/csv"
         expect(response.header['Content-Disposition']).to eq "attachment; filename=\"report_#{Time.zone.now.strftime('%Y%m%d')}.csv\""

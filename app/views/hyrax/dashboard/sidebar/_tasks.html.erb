@@ -19,7 +19,7 @@
   <% end %>
 
   <% if current_user.admin? %>
-    <%= menu.nav_link(main_app.private_file_path("report.csv")) do %>
-      <span class="fa fa-flag"></span> <span class="sidebar-action-text"><%= t('download_report') %></span>
+    <%= menu.nav_link(main_app.private_file_path("etd_report.csv")) do %>
+      <span class="fa fa-flag"></span> <span class="sidebar-action-text"><%= t('download_etd_report') %></span>
     <% end %>
   <% end %>
