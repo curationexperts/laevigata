@@ -14,8 +14,8 @@ class GraduationService
     GraduationService.graduation_eligible_works.each do |work|
       degree_awarded_date = GraduationService.check_degree_status(work)
       if degree_awarded_date
-        Rails.logger.warn "Graduation service: Awarding degree for ETD #{work.id} as of #{degree_awarded_date}"
-        GraduationJob.perform_now(work.id, degree_awarded_date.to_s)
+        Rails.logger.warn "Graduation service: Awarding degree for ETD #{work['id']} as of #{degree_awarded_date}"
+        GraduationJob.perform_now(work['id'], degree_awarded_date.to_s)
       end
     end
     remove_instance_variable(:@registrar_data)
@@ -28,15 +28,13 @@ class GraduationService
   end
 
   # Find all Etds in the 'approved' workflow state that are eligible for graduation
-  # @return [Array<Etd>] An Array of ETD objects
+  # @return [Array<SolrDocument>] An Array of SolrDocuments indexed for the matching ETDs
   def self.graduation_eligible_works
     eligible_works = []
     # Use #search_in_batches to avoid timeouts in the case where there are a large number of ETDs
-    # that have been approved and are pending grqaduation (i.e. publication)
+    # that have been approved and are pending graduation (i.e. publication)
     Etd.search_in_batches({ workflow_state_name_ssim: 'approved' }, batch_size: 50) do |batch|
-      batch.each do |doc|
-        eligible_works << Etd.find(doc['id'])
-      end
+      eligible_works.concat(batch.to_a)
     end
 
     Rails.logger.warn "Graduation service: There were #{eligible_works.count} ETDs eligible for graduation"
@@ -44,12 +42,12 @@ class GraduationService
   end
 
   # Check the degree status for the given work. If the degree has been awarded, return the relevant date.
-  # @param [Etd] work
+  # @param [SolrDocument] work - the SolrDocument indexed for the corresponding ETD
   # @return [Date] the date the degree was awarded, otherwise false
   def self.check_degree_status(work)
     return Time.zone.today.strftime('%Y-%m-%d') if Rails.env.development? || ENV['FAKE_DATA'] # Otherwise it will never find registrar data for our fake users
     # Find all records by this PPID
-    records = @registrar_data.select { |_k, v| v['public person id'] == work.depositor }
+    records = @registrar_data.select { |_k, v| v['public person id'] == work['depositor_ssim'].first }
     if records.count == 1
       # If one record is found, and it is awarded, return the status date.
       if records.values[0]['degree status descr'] == 'Awarded'
@@ -57,7 +55,7 @@ class GraduationService
       end
     elsif records.count.zero?
       # If no records are found, the student hasn't graduated yet.
-      Rails.logger.warn "Graduation service: ETD #{work.id} from depositor #{work.depositor} is eligible for graduation but has not appeared in registrar graduation data."
+      Rails.logger.warn "Graduation service: ETD #{work['id']} from depositor #{work['depositor_ssim'].first} is eligible for graduation but has not appeared in registrar graduation data."
     else
       # Multiple records
       status = Set.new(records.map { |_k, v| v['degree status descr'] })
@@ -74,14 +72,14 @@ class GraduationService
         end
       end
     end
-    # Degree not awarded, no record found, or too ambiguous to tell. Return false
-    false
+    # Degree not awarded, no record found, or too ambiguous to tell. Return nil
+    nil
   end
 
   # If there is more than one record matching the student, find the one that matches the degree code
   # of the etd. If that record has it's degree awarded, graduate the etd.
   def self.disambiguate_registrar(work, records)
-    degree_code_matches = records.select { |_key, value| value['degree code'] == work_degree(work.degree.first) }
+    degree_code_matches = records.select { |_key, value| value['degree code'] == work_degree(work['degree_tesim'].first) }
     if degree_code_matches.size == 1 && degree_code_matches.first[1]['degree status descr'] == 'Awarded'
       return degree_code_matches.first[1]
     end

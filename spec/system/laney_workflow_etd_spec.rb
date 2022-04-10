@@ -128,9 +128,8 @@ RSpec.feature 'Laney Graduate School two step approval workflow',
       visit("/concern/etds/#{etd.id}")
       expect(page).to have_content "The work is not currently available because it has not yet completed the publishing process"
 
-      # Run the graduation service
-      allow(GraduationService).to receive(:check_degree_status).and_return(Time.zone.today)
-      GraduationService.run
+      # Publish the ETD via the GraduationJob
+      GraduationJob.perform_now(etd.id, Time.zone.yesterday)
 
       # Now the work should be publicly visible
       visit("/concern/etds/#{etd.id}")

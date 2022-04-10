@@ -35,14 +35,14 @@ describe GraduationService, :clean do
   describe "#run" do
     it "finds all works in an approved state that do not yet have a degree_awarded value" do
       described_class.load_data('./spec/fixtures/registrar_sample.json')
-      expect(described_class.graduation_eligible_works.map(&:id)).to contain_exactly(graduated_etd.id, nongraduated_etd.id, double_degree_etd.id)
+      expect(described_class.graduation_eligible_works.map { |doc| doc['id'] }).to contain_exactly(graduated_etd.id, nongraduated_etd.id, double_degree_etd.id)
       described_class.remove_instance_variable(:@registrar_data)
     end
     it "checks the graduation status for a given work" do
       described_class.load_data('./spec/fixtures/registrar_sample.json')
-      expect(described_class.check_degree_status(graduated_etd)).to eq Date.new(2017, 5, 18)
-      expect(described_class.check_degree_status(nongraduated_etd)).to eq false
-      expect(described_class.check_degree_status(double_degree_etd)).to eq Date.new(2018, 1, 12)
+      expect(described_class.check_degree_status(graduated_etd.to_solr)).to eq Date.new(2017, 5, 18)
+      expect(described_class.check_degree_status(nongraduated_etd.to_solr)).to eq nil
+      expect(described_class.check_degree_status(double_degree_etd.to_solr)).to eq Date.new(2018, 1, 12)
       described_class.remove_instance_variable(:@registrar_data)
     end
     it "checks for new graduates" do
