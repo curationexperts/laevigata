@@ -15,7 +15,7 @@ class GraduationService
       degree_awarded_date = GraduationService.check_degree_status(work)
       if degree_awarded_date
         Rails.logger.warn "Graduation service: Awarding degree for ETD #{work.id} as of #{degree_awarded_date}"
-        GraduationJob.perform_later(work.id, degree_awarded_date.to_s)
+        GraduationJob.perform_now(work.id, degree_awarded_date.to_s)
       end
     end
     remove_instance_variable(:@registrar_data)

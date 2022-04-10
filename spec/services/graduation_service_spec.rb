@@ -46,9 +46,9 @@ describe GraduationService, :clean do
       described_class.remove_instance_variable(:@registrar_data)
     end
     it "checks for new graduates" do
-      allow(GraduationJob).to receive(:perform_later)
+      allow(GraduationJob).to receive(:perform_now)
       described_class.run('./spec/fixtures/registrar_sample.json')
-      expect(GraduationJob).to have_received(:perform_later).twice
+      expect(GraduationJob).to have_received(:perform_now).twice
     end
   end
 end
