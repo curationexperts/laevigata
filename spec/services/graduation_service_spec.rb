@@ -19,36 +19,34 @@ describe GraduationService, :clean do
     subject = Hyrax::WorkflowActionInfo.new(graduated_etd, approving_user)
     sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
     Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: nil)
-    expect(graduated_etd.to_sipity_entity.reload.workflow_state_name).to eq "approved"
     # Create and approve the nongraduated ETD
     subject = Hyrax::WorkflowActionInfo.new(nongraduated_etd, approving_user)
     sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
     Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: nil)
-    expect(nongraduated_etd.to_sipity_entity.reload.workflow_state_name).to eq "approved"
     # Create and approve graduated ETD with a user that is in school for another degree
     subject = Hyrax::WorkflowActionInfo.new(double_degree_etd, approving_user)
     sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
     Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: nil)
-    expect(double_degree_etd.to_sipity_entity.reload.workflow_state_name).to eq "approved"
   end
 
   describe "#run" do
     it "finds all works in an approved state that do not yet have a degree_awarded value" do
-      described_class.load_data('./spec/fixtures/registrar_sample.json')
-      expect(described_class.graduation_eligible_works.map(&:id)).to contain_exactly(graduated_etd.id, nongraduated_etd.id, double_degree_etd.id)
-      described_class.remove_instance_variable(:@registrar_data)
+      expect(graduated_etd.to_sipity_entity.reload.workflow_state_name).to eq "approved"
+      expect(nongraduated_etd.to_sipity_entity.reload.workflow_state_name).to eq "approved"
+      expect(double_degree_etd.to_sipity_entity.reload.workflow_state_name).to eq "approved"
+      grad_service = described_class.new('./spec/fixtures/registrar_sample.json')
+      expect(grad_service.graduation_eligible_works.map { |doc| doc['id'] }).to contain_exactly(graduated_etd.id, nongraduated_etd.id, double_degree_etd.id)
     end
     it "checks the graduation status for a given work" do
-      described_class.load_data('./spec/fixtures/registrar_sample.json')
-      expect(described_class.check_degree_status(graduated_etd)).to eq Date.new(2017, 5, 18)
-      expect(described_class.check_degree_status(nongraduated_etd)).to eq false
-      expect(described_class.check_degree_status(double_degree_etd)).to eq Date.new(2018, 1, 12)
-      described_class.remove_instance_variable(:@registrar_data)
+      grad_service = described_class.new('./spec/fixtures/registrar_sample.json')
+      expect(grad_service.check_degree_status(graduated_etd.to_solr)).to eq Date.new(2017, 5, 18)
+      expect(grad_service.check_degree_status(nongraduated_etd.to_solr)).to eq nil
+      expect(grad_service.check_degree_status(double_degree_etd.to_solr)).to eq Date.new(2018, 1, 12)
     end
     it "checks for new graduates" do
-      allow(GraduationJob).to receive(:perform_later)
+      allow(GraduationJob).to receive(:perform_now)
       described_class.run('./spec/fixtures/registrar_sample.json')
-      expect(GraduationJob).to have_received(:perform_later).twice
+      expect(GraduationJob).to have_received(:perform_now).twice
     end
   end
 end
