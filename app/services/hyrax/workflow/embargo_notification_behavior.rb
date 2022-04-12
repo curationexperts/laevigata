@@ -62,9 +62,8 @@ module Hyrax
 
         # EMBARGO_NOTIFICATION_CC should be set via an environment variable. It should be
         # the uid of a user who should be copied on all embargo expiration notifications.
-        # We are hard-coding fpici as a fallback default, just in case the environment variable ever gets un-set.
         def embargo_notification_cc
-          ::User.find_by_uid(ENV['EMBARGO_NOTIFICATION_CC'] || 'fpici')
+          ::User.find_by_uid!(ENV['EMBARGO_NOTIFICATION_CC']) if ENV['EMBARGO_NOTIFICATION_CC']
         end
       end
     end
