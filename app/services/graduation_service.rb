@@ -6,6 +6,8 @@
 # @example How to call this service
 #  GraduationService.run
 class GraduationService
+  attr_reader :status
+
   def self.run(registrar_data_path = ENV['REGISTRAR_DATA_PATH'])
     new(registrar_data_path).run
   end
@@ -15,19 +17,24 @@ class GraduationService
     raise "Cannot find registrar data at: #{registrar_data_path || 'no path provided'}" unless File.file?(registrar_data_path)
     Rails.logger.warn("Graduation service: Running graduation service with file #{registrar_data_path}")
     @registrar_data = JSON.parse(File.read(registrar_data_path))
+    @status = OpenStruct.new(overall: 'Not run')
   end
 
   # Find all ETDs that have been 'approved' but not yet 'published'
   # Match them to graduation records and check whether a degree has been awarded yet
   def run
     return unless @registrar_data
-    graduation_eligible_works.each do |work|
-      degree_awarded_date = check_degree_status(work)
-      if degree_awarded_date
-        Rails.logger.warn "Graduation service: Awarding degree for ETD #{work['id']} as of #{degree_awarded_date}"
-        GraduationJob.perform_now(work['id'], degree_awarded_date.to_s)
-      end
+    @status.overall = 'Running'
+    approved_etds = graduation_eligible_works
+    publishable_etds = lookup_registrar_status(approved_etds)
+    publishable_etds.each do |etd|
+      GraduationJob.perform_now(etd['id'], etd['degree_awarded_dtsi'])
+      Rails.logger.warn "Graduation service: Awarded degree for ETD #{etd['id']} as of #{etd['degree_awarded_dtsi']}"
     end
+    @status.degree_eligible_etds = approved_etds.count
+    @status.newly_published_etds = publishable_etds.count
+    @status.overall = 'Completed'
+    Rails.logger.warn "Graduation service: published #{@status.newly_published_etds} ETDs"
   end
 
   # Find all Etds in the 'approved' workflow state that are eligible for graduation
@@ -40,64 +47,63 @@ class GraduationService
       eligible_works.concat(batch)
     end
 
-    Rails.logger.warn "Graduation service: There were #{eligible_works.count} ETDs eligible for graduation"
+    Rails.logger.warn "Graduation service: There are #{eligible_works.count} ETDs eligible for graduation"
     eligible_works
   end
 
-  # Check the degree status for the given work. If the degree has been awarded, return the relevant date.
-  # @param [Hash] work - the Solr document Hash for the corresponding ETD
-  # @return [Date] the date the degree was awarded, otherwise nil
-  def check_degree_status(work)
-    return Time.zone.today.strftime('%Y-%m-%d') if Rails.env.development? || ENV['FAKE_DATA'] # Otherwise it will never find registrar data for our fake users
-    # Find all records by this PPID
-    records = @registrar_data.select { |_k, v| v['public person id'] == work['depositor_ssim'].first }
-    if records.count == 1
-      # If one record is found, and it is awarded, return the status date.
-      if records.values[0]['degree status descr'] == 'Awarded'
-        return Date.strptime(records.values[0]['degree status date'], '%Y-%m-%d')
-      end
-    elsif records.count.zero?
-      # If no records are found, the student hasn't graduated yet.
-      Rails.logger.warn "Graduation service: ETD #{work['id']} from depositor #{work['depositor_ssim'].first} is eligible for graduation but has not appeared in registrar graduation data."
-    else
-      # Multiple records
-      status = Set.new(records.map { |_k, v| v['degree status descr'] })
-      if status.size == 1 && status.include?('Awarded')
-        # If all degrees are awarded, return the most recent date.
-        award_dates = records.map { |_k, v| Date.strptime(v['degree status date'], '%Y-%m-%d') }
-        return award_dates.max
-      elsif status.size != 1
-        # Some, but not all degrees are awarded
-        record = disambiguate_registrar(work, records)
-        unless record.nil?
-          # Return the date from the relevant record.
-          return Date.strptime(record['degree status date'], '%Y-%m-%d')
-        end
+  # Check whether the ETD depositors appear in the registrar data,
+  # and return their graduation date if present
+  # @param [Array<Hash>] candidate_etds list to check depositor PPIDs from
+  # @return [Array<Hash>] similar list with graduation_date filled in for graduated students;
+  #   omits the ETD record if no corresponding graduation record was found
+  def lookup_registrar_status(candidate_etds)
+    # Generate the list of ppids for ETDs that are approved but not published
+    degree_candidates = candidate_etds.map { |doc| doc['depositor_ssim'].first }
+
+    # Create a hash of registrar data indexed by ppid and degree code
+    # Only include data for students from the candidate list (5~40 records vs. 10K records in the full data file)
+    # Assumes that each degree code can occur a maximum of once per student ppid
+    #
+    # example
+    # {"P0000002"=>{"B.S."=>"2017-05-18", "M.S."=>"2019-11-14"}, "P0000004"=>{"M.Div."=>"2018-01-12"}}
+    candidate_index = {}
+    @registrar_data.each do |_k, grad_record|
+      ppid = grad_record['public person id']
+      degree_code = DEGREE_MAP[grad_record['degree code']]
+      graduation_date = grad_record['degree status date']
+      if (degree_candidates.include? ppid) && degree_code && graduation_date
+        candidate_index[ppid] ||= {}
+        candidate_index[ppid][degree_code] = graduation_date
       end
     end
-    # Degree not awarded, no record found, or too ambiguous to tell. Return nil
-    nil
-  end
+    # Provide a default so we can pass unmatched ppids and degrees without errors
+    candidate_index.default = {}
 
-  # If there is more than one record matching the student, find the one that matches the degree code
-  # of the etd. If that record has it's degree awarded, graduate the etd.
-  def disambiguate_registrar(work, records)
-    degree_code_matches = records.select { |_key, value| value['degree code'] == work_degree(work['degree_tesim'].first) }
-    if degree_code_matches.size == 1 && degree_code_matches.first[1]['degree status descr'] == 'Awarded'
-      return degree_code_matches.first[1]
+    # Return only ETD records that have matching registrar records
+    # & update the record with the date if it exists
+    candidate_etds.select do |doc|
+      ppid = doc['depositor_ssim']&.first
+      degree = doc['degree_tesim']&.first
+      doc['degree_awarded_dtsi'] = candidate_index[ppid][degree]
     end
-    nil
   end
 
-  def work_degree(work_degree)
-    # This hash will map degree codes from laevigata to degrees in @registrar_data
-    degrees = { "Th.D." => "THD", "Ph.D." => "PHD", "DMin" => "DM", "D.N.P." => "DNP",
-                "M.A." => "MA", "M.S." => "MS", "M.Div." => "MDV", "M.T.S." => "MTS",
-                "M.P.H." => "MPH", "M.S.P.H." => "MSPH", "B.A." => "BA", "B.S." => "BS",
-                "B.B.A." => "BBA" }
-    # work_degree now has the work's degree as it is represented in @registrar_data
-    work_degree = degrees[work_degree]
-    # Return degree as it is in @registrar_data
-    work_degree
-  end
+  # DEGREE_MAP: Keys = Registrar degree codes; Values = corresponding Laevigata degree codes
+  # degree codes extracted from registrar_data*.json files:
+  # "BA", "BBA", "BS", "CRG", "DM", "DNP", "MA", "MDP", "MDV", "MPH", "MRL", "MRPL", "MS", "MSN", "MSPH", "MT", "MTS", "PHD"
+  DEGREE_MAP = {
+    "BA" => "B.A.",
+    "BBA" => "B.B.A.",
+    "BS" => "B.S.",
+    "DM" => "DMin",
+    "DNP" => "D.N.P.",
+    "MA" => "M.A.",
+    "MDV" => "M.Div.",
+    "MPH" => "M.P.H.",
+    "MS" => "M.S.",
+    "MSPH" => "M.S.P.H.",
+    "MTS" => "M.T.S.",
+    "PHD" => "Ph.D.",
+    "THD" => "Th.D."
+  }.freeze
 end
