@@ -15,14 +15,15 @@ class GraduationJob < ActiveJob::Base
 
   # @param [String] work_id - the id of the work object
   # @param [Date] the student's graduation date
-  def perform(work_id, graduation_date = Time.zone.today.to_s)
+  def perform(work_id, graduation_date = Time.zone.today.to_s, grad_record = nil)
+    return unless work_id
     Rails.logger.warn "ETD #{work_id} starting graduation process"
     @work = Etd.find(work_id)
     record_degree_awarded_date(graduation_date)
     update_embargo_release_date
     update_depositor_email
     publish_object
-    ProquestJob.perform_later(@work.id)
+    ProquestJob.perform_later(@work.id, grad_record) if ProquestJob.submit_to_proquest?(@work)
     send_notifications
     @work.save!
     Rails.logger.warn "ETD #{work_id} finishing graduation process - degree awarded on #{@work.degree_awarded}"

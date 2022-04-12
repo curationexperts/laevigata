@@ -13,15 +13,16 @@ class ProquestJob < ActiveJob::Base
   queue_as Hyrax.config.ingest_queue_name
 
   # @param [String] work_id - the id of the work object
-  def perform(work_id, transmit: true, cleanup: true, retransmit: false)
+  def perform(work_id, grad_record: nil, transmit: true, cleanup: true, retransmit: false)
     @work = Etd.find(work_id)
     return unless ProquestJob.submit_to_proquest?(@work, retransmit)
+    return unless grad_record
     Rails.logger.info "ETD #{work_id} beginning submission to ProQuest"
     # 1. Create a directory. Done. See config/environments
     # 2. Write XML file there Done.
     # 3. Write PDF and supplementary files there. Done.
     # 4. Zip the directory. Done. Tasks 1 - 4 encapsulated in export_zipped_proquest_package
-    @upload_file = @work.export_zipped_proquest_package
+    @upload_file = @work.export_zipped_proquest_package(grad_record)
     # 5. Transmit the zip to ProQuest
     transmit_file if transmit
     cleanup_file if cleanup

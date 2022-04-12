@@ -28,7 +28,7 @@ class GraduationService
     approved_etds = graduation_eligible_works
     publishable_etds = lookup_registrar_status(approved_etds)
     publishable_etds.each do |etd|
-      GraduationJob.perform_now(etd['id'], etd['degree_awarded_dtsi'])
+      GraduationJob.perform_now(etd['id'], etd['degree_awarded_dtsi'], etd['grad_record'])
       Rails.logger.warn "Graduation service: Awarded degree for ETD #{etd['id']} as of #{etd['degree_awarded_dtsi']}"
     end
     @status.degree_eligible_etds = approved_etds.count
@@ -55,55 +55,50 @@ class GraduationService
   # and return their graduation date if present
   # @param [Array<Hash>] candidate_etds list to check depositor PPIDs from
   # @return [Array<Hash>] similar list with graduation_date filled in for graduated students;
-  #   omits the ETD record if no corresponding graduation record was found
+  #   omits the ETD record if no corresponding graduation date was found
   def lookup_registrar_status(candidate_etds)
-    # Generate the list of ppids for ETDs that are approved but not published
-    degree_candidates = candidate_etds.map { |doc| doc['depositor_ssim'].first }
-
-    # Create a hash of registrar data indexed by ppid and degree code
-    # Only include data for students from the candidate list (5~40 records vs. 10K records in the full data file)
-    # Assumes that each degree code can occur a maximum of once per student ppid
-    #
-    # example
-    # {"P0000002"=>{"B.S."=>"2017-05-18", "M.S."=>"2019-11-14"}, "P0000004"=>{"M.Div."=>"2018-01-12"}}
-    candidate_index = {}
-    @registrar_data.each do |_k, grad_record|
-      ppid = grad_record['public person id']
-      degree_code = DEGREE_MAP[grad_record['degree code']]
-      graduation_date = grad_record['degree status date']
-      if (degree_candidates.include? ppid) && degree_code && graduation_date
-        candidate_index[ppid] ||= {}
-        candidate_index[ppid][degree_code] = graduation_date
-      end
+    registrar_matches = []
+    candidate_etds.each do |etd_doc|
+      ppid   = doc['depositor_ssim']&.first
+      school = SCHOOL_MAP(doc['school_tesim']&.first)
+      degree = DEGREE_MAP(doc['degree_tesim']&.first)
+      registrar_index = "#{ppid}-#{school}-#{degree}"
+      grad_record = @registrar_data[registrar_index]
+      etd_doc['degree_awarded_dtsi'] = grad_record['degree status date']
+      etd_doc['grad_record'] = grad_record
+      registrar_matches << etd_doc if grad_record['degree status date']
     end
-    # Provide a default so we can pass unmatched ppids and degrees without errors
-    candidate_index.default = {}
-
-    # Return only ETD records that have matching registrar records
-    # & update the record with the date if it exists
-    candidate_etds.select do |doc|
-      ppid = doc['depositor_ssim']&.first
-      degree = doc['degree_tesim']&.first
-      doc['degree_awarded_dtsi'] = candidate_index[ppid][degree]
-    end
+    registrar_matches
   end
 
-  # DEGREE_MAP: Keys = Registrar degree codes; Values = corresponding Laevigata degree codes
+  # DEGREE_MAP: Keys = Laevigata degree codes (degree_tesim); Values = corresponding Registrar degree codes
   # degree codes extracted from registrar_data*.json files:
   # "BA", "BBA", "BS", "CRG", "DM", "DNP", "MA", "MDP", "MDV", "MPH", "MRL", "MRPL", "MS", "MSN", "MSPH", "MT", "MTS", "PHD"
   DEGREE_MAP = {
-    "BA" => "B.A.",
-    "BBA" => "B.B.A.",
-    "BS" => "B.S.",
-    "DM" => "DMin",
-    "DNP" => "D.N.P.",
-    "MA" => "M.A.",
-    "MDV" => "M.Div.",
-    "MPH" => "M.P.H.",
-    "MS" => "M.S.",
-    "MSPH" => "M.S.P.H.",
-    "MTS" => "M.T.S.",
-    "PHD" => "Ph.D.",
-    "THD" => "Th.D."
+    "B.A." => "BA",
+    "B.B.A." => "BBA",
+    "B.S." => "BS",
+    "DMin" => "DM",
+    "D.N.P." => "DNP",
+    "M.A." => "MA",
+    "M.Div." => "MDV",
+    "M.P.H." => "MPH",
+    "M.S." => "MS",
+    "M.S.P.H." => "MSPH",
+    "M.T.S." => "MTS",
+    "Ph.D." => "PHD",
+    "Th.D." => "THD"
+  }.freeze
+
+  # ACAD_MAP: Keys = Laevigata school names (school_tesim); Values = corresponding 'acad career code' value
+  # acad career codes extracted from registrar_data*.json files:
+  # "GSAS", "UCOL", "THEO", "UBUS", "PUBH", "GNUR"
+  ACAD_MAP = {
+    "Laney Graduate School" => "GSAS",
+    "Emory College" => "UCOL",
+    "Candler School of Theology" => "THEO",
+    "Goizueta Business School" => "UBUS",
+    "Rollins School of Public Health" => "PUBH",
+    "Woodruff School of Nursing" => "GNUR"
   }.freeze
 end

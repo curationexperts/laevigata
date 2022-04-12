@@ -8,8 +8,10 @@ require 'zip/filesystem'
 
 module ProquestBehaviors
   # Export a zipped directory of an ETD in the format expected by ProQuest
+  # @param [Hash] grad_record a valid Reigstrar JSON record
   # @return [String] the full path of the exported .zip file
-  def export_zipped_proquest_package
+  def export_zipped_proquest_package(grad_record)
+    @registrar_data = grad_record
     FileUtils.mkdir_p export_directory
     output_file = "#{@export_directory}/#{upload_file_id}.zip"
     File.delete(output_file) if File.file? output_file
@@ -38,21 +40,8 @@ module ProquestBehaviors
     output_file
   end
 
-  # Given a ppid, load the configured JSON file of registrar data, return the portion
-  # relevant to the user in question
-  # @param [String] ppid
-  # @return [Hash]
-  def load_registrar_data_for_user(ppid)
-    ppid = "P0000001" if Rails.env.development? || ENV['FAKE_DATA'] # Otherwise it will never find registrar data for our fake users
-    registrar_hash = JSON.parse(File.read(ENV['REGISTRAR_DATA_PATH']))
-    @registrar_data = registrar_hash.select { |p| p.match(ppid) }.values.first
-    return @registrar_data if @registrar_data
-    Rails.logger.error "FAILURE TO EXPORT PROQUEST PACKAGE: Cannot find registrar data for user #{ppid} etd #{id}"
-    raise "Cannot find registrar data for user #{ppid} etd #{id}"
-  end
-
   def registrar_data
-    @registrar_data ||= load_registrar_data_for_user(depositor)
+    @registrar_data
   end
 
   def export_directory
