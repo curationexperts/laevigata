@@ -15,7 +15,7 @@ RSpec.describe Hyrax::Workflow::SixtyDayEmbargoNotification, :clean do
       expect(notification.recipients.pluck(:email)).to include(etd.post_graduation_email.first)
     end
     it "sends notifications to the list of people in EMBARGO_NOTIFICATION_CC" do
-      ENV['EMBARGO_NOTIFICATION_CC'] = admin.uid
+      stub_const('ENV', ENV.to_hash.merge('EMBARGO_NOTIFICATION_CC' => admin.uid))
       expect(notification.recipients.pluck(:email)).to include(admin.email)
     end
     it "can be invoked at the Class level" do
