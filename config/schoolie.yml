@@ -1,6 +1,6 @@
 ---
 static:
-  citation_dissertation_institution: Emory University
+  citation_institution: Emory University
 attributes:
   citation_title: title
   citation_author: creator
