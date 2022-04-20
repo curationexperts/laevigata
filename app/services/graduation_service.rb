@@ -85,6 +85,7 @@ class GraduationService
       ppid = doc['depositor_ssim']&.first
       degree = doc['degree_tesim']&.first
       doc['degree_awarded_dtsi'] = candidate_index[ppid][degree]
+      Rails.logger.debug "Graduation service: Matching ETD #{id} to registrar #{ppid}--#{degree} = #{candidate_index[ppid][degree] || 'no date found'}"
     end
   end
 
