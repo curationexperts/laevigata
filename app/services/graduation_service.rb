@@ -92,10 +92,10 @@ class GraduationService
     "Th.D." => "THD"
   }.freeze
 
-  # ACAD_MAP: Keys = Laevigata school names (school_tesim); Values = corresponding 'acad career code' value
+  # SCHOOL_MAP: Keys = Laevigata school names (school_tesim); Values = corresponding 'acad career code' value
   # acad career codes extracted from registrar_data*.json files:
   # "GSAS", "UCOL", "THEO", "UBUS", "PUBH", "GNUR"
-  ACAD_MAP = {
+  SCHOOL_MAP = {
     "Laney Graduate School" => "GSAS",
     "Emory College" => "UCOL",
     "Candler School of Theology" => "THEO",
