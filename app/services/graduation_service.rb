@@ -17,24 +17,20 @@ class GraduationService
     raise "Cannot find registrar data at: #{registrar_data_path || 'no path provided'}" unless File.file?(registrar_data_path)
     Rails.logger.warn("Graduation service: Running graduation service with file #{registrar_data_path}")
     @registrar_data = JSON.parse(File.read(registrar_data_path))
-    @status = OpenStruct.new(overall: 'Not run')
+    @registrar_data.default = {}
   end
 
   # Find all ETDs that have been 'approved' but not yet 'published'
   # Match them to graduation records and check whether a degree has been awarded yet
   def run
     return unless @registrar_data
-    @status.overall = 'Running'
     approved_etds = graduation_eligible_works
     publishable_etds = lookup_registrar_status(approved_etds)
     publishable_etds.each do |etd|
       GraduationJob.perform_now(etd['id'], etd['degree_awarded_dtsi'])
-      Rails.logger.warn "Graduation service: Awarded degree for ETD #{etd['id']} as of #{etd['degree_awarded_dtsi']}"
+      Rails.logger.warn "Graduation service:  - Awarded degree for ETD #{etd['id']} as of #{etd['degree_awarded_dtsi']}"
     end
-    @status.degree_eligible_etds = approved_etds.count
-    @status.newly_published_etds = publishable_etds.count
-    @status.overall = 'Completed'
-    Rails.logger.warn "Graduation service: published #{@status.newly_published_etds} ETDs"
+    Rails.logger.warn "Graduation service: Published #{publishable_etds.count} ETDs"
   end
 
   # Find all Etds in the 'approved' workflow state that are eligible for graduation
@@ -60,26 +56,28 @@ class GraduationService
     registrar_matches = []
     candidate_etds.each do |etd_solr_doc|
       ppid   = etd_solr_doc['depositor_ssim']&.first
-      school = SCHOOL_MAP(etd_solr_doc['school_tesim']&.first)
-      degree = DEGREE_MAP(etd_solr_doc['degree_tesim']&.first)
+      school = SCHOOL_MAP[ etd_solr_doc['school_tesim']&.first ]
+      degree = DEGREE_MAP[ etd_solr_doc['degree_tesim']&.first ]
       registrar_index = "#{ppid}-#{school}-#{degree}"
       grad_record = @registrar_data[registrar_index]
       etd_solr_doc['degree_awarded_dtsi'] = grad_record['degree status date']
       etd_solr_doc['grad_record'] = grad_record
       registrar_matches << etd_solr_doc if grad_record['degree status date']
-      Rails.logger.info "Graduation service: ETD #{etd_solr_doc['id']} has registrar index #{registrar_index} which has #{grad_record['degree status date'] || 'no degree date'}"
+      Rails.logger.info "Graduation service:   - ETD #{etd_solr_doc['id']} has registrar index #{registrar_index} with graduation date #{grad_record['degree status date'] || '(nil)'}"
     end
     Rails.logger.warn "Graduation service: There are #{registrar_matches.count} ETDs with recorded graduation dates"
     registrar_matches
   end
 
-  # DEGREE_MAP: Keys = Laevigata degree codes (degree_tesim); Values = corresponding Registrar degree codes
+  # DEGREE_MAP: Keys = Laevigata degree codes (degree_tesim); Values = corresponding Registrar academic program codes
   # degree codes extracted from registrar_data*.json files:
   # "BA", "BBA", "BS", "CRG", "DM", "DNP", "MA", "MDP", "MDV", "MPH", "MRL", "MRPL", "MS", "MSN", "MSPH", "MT", "MTS", "PHD"
+  # academic program codes extracted from registrar_data*.json files:
+  # {"BA"=>"LIBAS", "BBA"=>"BBA", "BS"=>"LIBAS", "CRG"=>"CRGGS", "DM"=>"DM", "DNP"=>"DNP", "MA"=>"MA", "MDP"=>"MDP", "MDV"=>"MDV", "MPH"=>"MPH", "MRPL"=>"MRPL", "MS"=>"MS", "MSN"=>"MSN", "MSPH"=>"MSPH", "MT"=>"MT", "MTS"=>"MTS", "PHD"=>"PHD"}
   DEGREE_MAP = {
-    "B.A." => "BA",
+    "B.A." => "LIBAS",
     "B.B.A." => "BBA",
-    "B.S." => "BS",
+    "B.S." => "LIBAS",
     "DMin" => "DM",
     "D.N.P." => "DNP",
     "M.A." => "MA",

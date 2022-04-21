@@ -116,6 +116,17 @@ FactoryBot.define do
         )
       end
 
+      factory :sample_data_undergrad do
+        title { ["Undergraduate Honors: #{FFaker::Book.title}"] }
+        school { ["Emory College"] }
+        admin_set do
+          AdminSet.where(title: "Emory College").first
+        end
+        department { ["Classics"] }
+        degree { ["B.A."] }
+        submitting_type { ["Honors Thesis"] }
+      end
+
       # this factory returns string values for booleans
       # because the solr_document methods return strings in the feature tests, although not from the application.
       factory :sample_data_with_copyright_questions do
