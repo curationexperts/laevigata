@@ -58,16 +58,16 @@ class GraduationService
   #   omits the ETD record if no corresponding graduation date was found
   def lookup_registrar_status(candidate_etds)
     registrar_matches = []
-    candidate_etds.each do |etd_doc|
-      ppid   = doc['depositor_ssim']&.first
-      school = SCHOOL_MAP(doc['school_tesim']&.first)
-      degree = DEGREE_MAP(doc['degree_tesim']&.first)
+    candidate_etds.each do |etd_solr_doc|
+      ppid   = etd_solr_doc['depositor_ssim']&.first
+      school = SCHOOL_MAP(etd_solr_doc['school_tesim']&.first)
+      degree = DEGREE_MAP(etd_solr_doc['degree_tesim']&.first)
       registrar_index = "#{ppid}-#{school}-#{degree}"
       grad_record = @registrar_data[registrar_index]
-      etd_doc['degree_awarded_dtsi'] = grad_record['degree status date']
-      etd_doc['grad_record'] = grad_record
-      registrar_matches << etd_doc if grad_record['degree status date']
-      Rails.logger.info "Graduation service: ETD #{etd_doc['id']} has registrar index #{registrar_index} which has #{grad_record['degree status date'] || 'no degree date'}"
+      etd_solr_doc['degree_awarded_dtsi'] = grad_record['degree status date']
+      etd_solr_doc['grad_record'] = grad_record
+      registrar_matches << etd_solr_doc if grad_record['degree status date']
+      Rails.logger.info "Graduation service: ETD #{etd_solr_doc['id']} has registrar index #{registrar_index} which has #{grad_record['degree status date'] || 'no degree date'}"
     end
     Rails.logger.warn "Graduation service: There are #{registrar_matches.count} ETDs with recorded graduation dates"
     registrar_matches
