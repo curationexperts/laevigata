@@ -47,7 +47,7 @@ class GraduationService
       eligible_works.concat(batch)
     end
 
-    Rails.logger.warn "Graduation service: There are #{eligible_works.count} ETDs eligible for graduation"
+    Rails.logger.warn "Graduation service: There are #{eligible_works.count} ETDs approved for graduation"
     eligible_works
   end
 
@@ -69,6 +69,7 @@ class GraduationService
       registrar_matches << etd_doc if grad_record['degree status date']
       Rails.logger.info "Graduation service: ETD #{etd_doc['id']} has registrar index #{registrar_index} which has #{grad_record['degree status date'] || 'no degree date'}"
     end
+    Rails.logger.warn "Graduation service: There are #{registrar_matches.count} ETDs with recorded graduation dates"
     registrar_matches
   end
 
