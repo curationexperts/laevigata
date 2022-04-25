@@ -64,14 +64,11 @@ class GraduationService
       when 'unmatched'
         id_matches = @registrar_data.select{ |k, _v| k.match ppid }
         if id_matches.count > 0
-          similar_records = "similar records with matching PPID:\n" +id_matches.keys.join(', ')
+          similar_records = "no match. Similar records with matching PPID: " +id_matches.map{|_k, v| "#{v['etd record key']} (#{v['degree status date']})" }.join(', ')
         else
           similar_records = "no records with matching PPID"
         end
-        Rails.logger.warn <<~MSG
-          Graduation service:   - ETD #{etd_solr_doc['id']} has registrar index #{registrar_index} with no exact match.
-             #{similar_records}
-        MSG
+        Rails.logger.warn "Graduation service:   - ETD #{etd_solr_doc['id']} gives `etd record key` #{registrar_index} with #{similar_records}"
       when /\d{4}-\d{2}-\d{2}/  # ISO Date string
         etd_solr_doc['degree_awarded_dtsi'] = grad_date
         etd_solr_doc['grad_record'] = grad_record
