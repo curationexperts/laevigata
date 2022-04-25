@@ -59,10 +59,10 @@ class GraduationService
       school = SCHOOL_MAP[ etd_solr_doc['school_tesim']&.first ]
       degree = DEGREE_MAP[ etd_solr_doc['degree_tesim']&.first ]
       registrar_index = "#{ppid}-#{school}-#{degree}"
-      grad_record = @registrar_data[registrar_index] || {'degree status date'=>'missing'}
-      grad_date = grad_record['degree status date']
+      grad_record = @registrar_data[registrar_index] || {'degree status date'=>'unmatched'}
+      grad_date = grad_record['degree status date'] || 'pending'
       case grad_date
-      when 'missing'
+      when 'unmatched'
         id_matches = @registrar_data.select{ |k, _v| k.match ppid }
         Rails.logger.warn <<~MSG
           Graduation service:   - ETD #{etd_solr_doc['id']} has registrar index #{registrar_index} with no exact match.
