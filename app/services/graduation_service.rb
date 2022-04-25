@@ -17,7 +17,6 @@ class GraduationService
     raise "Cannot find registrar data at: #{registrar_data_path || 'no path provided'}" unless File.file?(registrar_data_path)
     Rails.logger.warn("Graduation service: Running graduation service with file #{registrar_data_path}")
     @registrar_data = JSON.parse(File.read(registrar_data_path))
-    @registrar_data.default = {}
   end
 
   # Find all ETDs that have been 'approved' but not yet 'published'
@@ -64,14 +63,21 @@ class GraduationService
       case grad_date
       when 'unmatched'
         id_matches = @registrar_data.select{ |k, _v| k.match ppid }
+        if id_matched.count > 0
+          similar_records = "similar records with matching PPID:\n" +id_matches.keys.join(', ')
+        else
+          similar_records = "no records with matching PPID"
+        end
         Rails.logger.warn <<~MSG
           Graduation service:   - ETD #{etd_solr_doc['id']} has registrar index #{registrar_index} with no exact match.
-             similar records found for #{id_matches.map(&key).join(', ')}
+             #{similar_records}
         MSG
       when /\d{4}-\d{2}-\d{2}/  # ISO Date string
         etd_solr_doc['degree_awarded_dtsi'] = grad_date
         etd_solr_doc['grad_record'] = grad_record
         registrar_matches << etd_solr_doc if grad_record['degree status date']
+      when '', ' '
+        grad_date = 'pending' # registrar data matched, but "degree status date"=>" "
       end
       Rails.logger.info "Graduation service:   - ETD #{etd_solr_doc['id']} has registrar index #{registrar_index} with graduation date #{grad_date || '(nil)'}"
     end
