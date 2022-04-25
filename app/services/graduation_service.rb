@@ -63,7 +63,7 @@ class GraduationService
       case grad_date
       when 'unmatched'
         id_matches = @registrar_data.select{ |k, _v| k.match ppid }
-        if id_matched.count > 0
+        if id_matches.count > 0
           similar_records = "similar records with matching PPID:\n" +id_matches.keys.join(', ')
         else
           similar_records = "no records with matching PPID"
@@ -86,24 +86,24 @@ class GraduationService
   end
 
   # DEGREE_MAP: Keys = Laevigata degree codes (degree_tesim); Values = corresponding Registrar academic program codes
-  # degree codes extracted from registrar_data*.json files:
+  # degree codes extracted from live data show both id and term valued from https://github.com/curationexperts/laevigata/blob/main/config/authorities/degree.yml#L29
   # "BA", "BBA", "BS", "CRG", "DM", "DNP", "MA", "MDP", "MDV", "MPH", "MRL", "MRPL", "MS", "MSN", "MSPH", "MT", "MTS", "PHD"
   # academic program codes extracted from registrar_data*.json files:
   # {"BA"=>"LIBAS", "BBA"=>"BBA", "BS"=>"LIBAS", "CRG"=>"CRGGS", "DM"=>"DM", "DNP"=>"DNP", "MA"=>"MA", "MDP"=>"MDP", "MDV"=>"MDV", "MPH"=>"MPH", "MRPL"=>"MRPL", "MS"=>"MS", "MSN"=>"MSN", "MSPH"=>"MSPH", "MT"=>"MT", "MTS"=>"MTS", "PHD"=>"PHD"}
   DEGREE_MAP = {
-    "B.A." => "LIBAS",
-    "B.B.A." => "BBA",
-    "B.S." => "LIBAS",
-    "DMin" => "DM",
-    "D.N.P." => "DNP",
-    "M.A." => "MA",
-    "M.Div." => "MDV",
-    "M.P.H." => "MPH",
-    "M.S." => "MS",
-    "M.S.P.H." => "MSPH",
-    "M.T.S." => "MTS",
-    "Ph.D." => "PHD",
-    "Th.D." => "THD"
+    "B.A." => "LIBAS", "BA" => "LIBAS",
+    "B.B.A." => "BBA", "BBA" => "BBA",
+    "B.S." => "LIBAS", "BS" => "LIBAS",
+    "DMin" => "DM",    "D.Min" => "DM",
+    "D.N.P." => "DNP", "D.N.P." => "DNP",
+    "M.A." => "MA",    "MA" => "MA",
+    "M.Div." => "MDV", "MDiv" => "MDV",
+    "M.P.H." => "MPH", "MPH" => "MPH",
+    "M.S." => "MS",    "MS" => "MS",
+    "M.S.P.H." => "MSPH", "MSPH" => "MSPH",
+    "M.T.S." => "MTS", "MTS" => "MTS",
+    "Ph.D." => "PHD",  "PhD" => "PHD",
+    "Th.D." => "THD",  "ThD" => "THD"
   }.freeze
 
   # SCHOOL_MAP: Keys = Laevigata school names (school_tesim); Values = corresponding 'acad career code' value
