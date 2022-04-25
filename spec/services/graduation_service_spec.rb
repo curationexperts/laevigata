@@ -7,7 +7,7 @@ describe GraduationService, :clean do
   let(:nongraduated_user) { FactoryBot.create(:nongraduated_user) }
   let(:double_degree_user) { FactoryBot.create(:double_degree_user) }
   let(:approving_user) { User.where(uid: "candleradmin").first }
-  let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/admin_sets_small.yml", "/dev/null") }
+  let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/admin_sets_registrar_subset.yml", "/dev/null") }
   let(:graduated_etd) { FactoryBot.actor_create(:sample_data_undergrad, user: graduated_user) }
   let(:nongraduated_etd) { FactoryBot.actor_create(:sample_data, user: nongraduated_user) }
   # ETD for user that is graduated with one degree but is pursuing another degree with Emory

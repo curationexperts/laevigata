@@ -27,7 +27,7 @@ class GraduationService
     approved_etds = graduation_eligible_works
     publishable_etds = lookup_registrar_status(approved_etds)
     publishable_etds.each do |etd|
-      GraduationJob.perform_now(etd['id'], etd['degree_awarded_dtsi'])
+      # GraduationJob.perform_now(etd['id'], etd['degree_awarded_dtsi'])
       Rails.logger.warn "Graduation service:  - Awarded degree for ETD #{etd['id']} as of #{etd['degree_awarded_dtsi']}"
     end
     Rails.logger.warn "Graduation service: Published #{publishable_etds.count} ETDs"
@@ -59,11 +59,21 @@ class GraduationService
       school = SCHOOL_MAP[ etd_solr_doc['school_tesim']&.first ]
       degree = DEGREE_MAP[ etd_solr_doc['degree_tesim']&.first ]
       registrar_index = "#{ppid}-#{school}-#{degree}"
-      grad_record = @registrar_data[registrar_index]
-      etd_solr_doc['degree_awarded_dtsi'] = grad_record['degree status date']
-      etd_solr_doc['grad_record'] = grad_record
-      registrar_matches << etd_solr_doc if grad_record['degree status date']
-      Rails.logger.info "Graduation service:   - ETD #{etd_solr_doc['id']} has registrar index #{registrar_index} with graduation date #{grad_record['degree status date'] || '(nil)'}"
+      grad_record = @registrar_data[registrar_index] || {'degree status date'=>'missing'}
+      grad_date = grad_record['degree status date']
+      case grad_date
+      when 'missing'
+        id_matches = @registrar_data.select{ |k, _v| k.match ppid }
+        Rails.logger.warn <<~MSG
+          Graduation service:   - ETD #{etd_solr_doc['id']} has registrar index #{registrar_index} with no exact match.
+             similar records found for #{id_matches.map(&key).join(', ')}
+        MSG
+      when /\d{4}-\d{2}-\d{2}/  # ISO Date string
+        etd_solr_doc['degree_awarded_dtsi'] = grad_date
+        etd_solr_doc['grad_record'] = grad_record
+        registrar_matches << etd_solr_doc if grad_record['degree status date']
+      end
+      Rails.logger.info "Graduation service:   - ETD #{etd_solr_doc['id']} has registrar index #{registrar_index} with graduation date #{grad_date || '(nil)'}"
     end
     Rails.logger.warn "Graduation service: There are #{registrar_matches.count} ETDs with recorded graduation dates"
     registrar_matches
