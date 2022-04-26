@@ -24,7 +24,7 @@ class GraduationService
   def run
     return unless @registrar_data
     approved_etds = graduation_eligible_works
-    publishable_etds = lookup_registrar_status(approved_etds)
+    publishable_etds = confirm_registrar_status(approved_etds)
     publishable_etds.each do |etd|
       # GraduationJob.perform_now(etd['id'], etd['degree_awarded_dtsi'])
       Rails.logger.warn "Graduation service:  - Awarded degree for ETD #{etd['id']} as of #{etd['degree_awarded_dtsi']}"
@@ -51,48 +51,68 @@ class GraduationService
   # @param [Array<Hash>] candidate_etds list to check depositor PPIDs from
   # @return [Array<Hash>] similar list with graduation_date filled in for graduated students;
   #   omits the ETD record if no corresponding graduation date was found
-  def lookup_registrar_status(candidate_etds)
+  def confirm_registrar_status(candidate_etds)
     registrar_matches = []
     candidate_etds.each do |etd_solr_doc|
-      ppid   = etd_solr_doc['depositor_ssim']&.first
-      school = SCHOOL_MAP[ etd_solr_doc['school_tesim']&.first ]
-      degree = DEGREE_MAP[ etd_solr_doc['degree_tesim']&.first ]
-      registrar_index = "#{ppid}-#{school}-#{degree}"
-      grad_record = @registrar_data[registrar_index] || {'degree status date'=>'unmatched'}
-      grad_date = grad_record['degree status date'] || 'pending'
-      case grad_date
-      when 'unmatched'
-        id_matches = @registrar_data.select{ |k, _v| k.match ppid }
-        if id_matches.count > 0
-          similar_records = "no match. Similar records with matching PPID: " +id_matches.map{|_k, v| "#{v['etd record key']} (#{v['degree status date']})" }.join(', ')
-        else
-          similar_records = "no records with matching PPID"
-        end
-        Rails.logger.warn "Graduation service:   - ETD #{etd_solr_doc['id']} gives `etd record key` #{registrar_index} with #{similar_records}"
-      when /\d{4}-\d{2}-\d{2}/  # ISO Date string
-        etd_solr_doc['degree_awarded_dtsi'] = grad_date
-        etd_solr_doc['grad_record'] = grad_record
-        registrar_matches << etd_solr_doc if grad_record['degree status date']
-      when '', ' '
-        grad_date = 'pending' # registrar data matched, but "degree status date"=>" "
-      end
-      Rails.logger.info "Graduation service:   - ETD #{etd_solr_doc['id']} has registrar index #{registrar_index} with graduation date #{grad_date || '(nil)'}"
+      grad_date, grad_record = find_registrar_match(etd_solr_doc)
+      etd_solr_doc['degree_awarded_dtsi'] = grad_date
+      etd_solr_doc['grad_record'] = grad_record
+      registrar_matches << etd_solr_doc if grad_date
     end
     Rails.logger.warn "Graduation service: There are #{registrar_matches.count} ETDs with recorded graduation dates"
     registrar_matches
   end
 
+  def find_registrar_match(etd_solr_doc)
+    ppid = etd_solr_doc['depositor_ssim']&.first
+    school = SCHOOL_MAP[etd_solr_doc['school_tesim']&.first]
+    degree = DEGREE_MAP[etd_solr_doc['degree_tesim']&.first]
+
+    registrar_index = "#{ppid}-#{school}-#{degree}"
+    grad_record = @registrar_data[registrar_index] || { 'degree status descr' => 'Unmatched' }
+    grad_date = extract_date(grad_record)
+    log_registrar_match(etd_solr_doc, registrar_index, grad_record, grad_date)
+    [grad_date, grad_record]
+  end
+
+  def extract_date(grad_record)
+    return unless grad_record.is_a?(Hash)
+    degree_status_date = grad_record['degree status date']
+    match = degree_status_date&.match(/\d{4}-\d{2}-\d{2}/)
+    match.to_s if match
+  end
+
+  def log_registrar_match(etd_solr_doc, registrar_index, grad_record, grad_date)
+    case grad_record['degree status descr']
+    when /Awarded/i # exact match found with valid graduation date
+      msg = "with graduation date \"#{grad_date}\""
+    when /Unmatched/i # no match found in registrar data, look for similar records with matching PPID
+      ppid = etd_solr_doc['depositor_ssim']&.first
+      id_matches = @registrar_data.select { |k, _v| k.match ppid }
+      msg = if id_matches.count > 0
+        "has no match. Similar records with matching PPID: " + id_matches.map { |_k, v| "#{v['etd record key']} (#{v['degree status date']})" }.join(', ')
+            else
+        "has no records matching the PPID in registrar data"
+            end
+      Rails.logger.warn "Graduation service:   - ETD: #{etd_solr_doc['id']}, registrar key: #{registrar_index}, msg: " + msg
+    else # match found in registrar data, but no graduation date provided yet
+      msg = "has graduation pending"
+    end
+    Rails.logger.info "Graduation service:   - ETD: #{etd_solr_doc['id']}, registrar key: #{registrar_index}, msg: " + msg
+  end
+
   # DEGREE_MAP: Keys = Laevigata degree codes (degree_tesim); Values = corresponding Registrar academic program codes
-  # degree codes extracted from live data show both id and term valued from https://github.com/curationexperts/laevigata/blob/main/config/authorities/degree.yml#L29
+  # degree codes extracted from live data which currently include both id and term values from https://github.com/curationexperts/laevigata/blob/main/config/authorities/degree.yml#L29
   # "BA", "BBA", "BS", "CRG", "DM", "DNP", "MA", "MDP", "MDV", "MPH", "MRL", "MRPL", "MS", "MSN", "MSPH", "MT", "MTS", "PHD"
   # academic program codes extracted from registrar_data*.json files:
-  # {"BA"=>"LIBAS", "BBA"=>"BBA", "BS"=>"LIBAS", "CRG"=>"CRGGS", "DM"=>"DM", "DNP"=>"DNP", "MA"=>"MA", "MDP"=>"MDP", "MDV"=>"MDV", "MPH"=>"MPH", "MRPL"=>"MRPL", "MS"=>"MS", "MSN"=>"MSN", "MSPH"=>"MSPH", "MT"=>"MT", "MTS"=>"MTS", "PHD"=>"PHD"}
+  #   {"BA"=>"LIBAS", "BBA"=>"BBA", "BS"=>"LIBAS", "CRG"=>"CRGGS", "DM"=>"DM", "DNP"=>"DNP", "MA"=>"MA", "MDP"=>"MDP",
+  #    "MDV"=>"MDV", "MPH"=>"MPH", "MRPL"=>"MRPL", "MS"=>"MS", "MSN"=>"MSN", "MSPH"=>"MSPH", "MT"=>"MT", "MTS"=>"MTS", "PHD"=>"PHD"}
   DEGREE_MAP = {
     "B.A." => "LIBAS", "BA" => "LIBAS",
     "B.B.A." => "BBA", "BBA" => "BBA",
     "B.S." => "LIBAS", "BS" => "LIBAS",
     "DMin" => "DM",    "D.Min" => "DM",
-    "D.N.P." => "DNP", "D.N.P." => "DNP",
+    "D.N.P." => "DNP", "DNP" => "DNP",
     "M.A." => "MA",    "MA" => "MA",
     "M.Div." => "MDV", "MDiv" => "MDV",
     "M.P.H." => "MPH", "MPH" => "MPH",
