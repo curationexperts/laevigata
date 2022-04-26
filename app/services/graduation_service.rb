@@ -30,6 +30,7 @@ class GraduationService
       # GraduationJob.perform_now(etd['id'], etd['degree_awarded_dtsi'])
     end
     Rails.logger.warn "Graduation service: Published #{publishable_etds.count} ETDs"
+    Rails.logger.warn "Graduation service: Complete"
   end
 
   # Find all Etds in the 'approved' workflow state that are eligible for graduation
@@ -59,7 +60,7 @@ class GraduationService
       etd_solr_doc['grad_record'] = grad_record
       registrar_matches << etd_solr_doc if grad_date
     end
-    Rails.logger.warn "Graduation service: There are #{registrar_matches.count} ETDs with recorded graduation dates"
+    Rails.logger.warn "Graduation service: There are #{registrar_matches.count} approved ETDs recorded graduation dates"
     registrar_matches
   end
 
