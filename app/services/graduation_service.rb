@@ -27,7 +27,7 @@ class GraduationService
     publishable_etds = confirm_registrar_status(approved_etds)
     publishable_etds.each do |etd|
       Rails.logger.warn "Graduation service:  - Awarding degree for ETD #{etd['id']} as of #{etd['degree_awarded_dtsi']}"
-      # GraduationJob.perform_now(etd['id'], etd['degree_awarded_dtsi'])
+      GraduationJob.perform_now(etd['id'], etd['degree_awarded_dtsi'])
     end
     Rails.logger.warn "Graduation service: Published #{publishable_etds.count} ETDs"
     Rails.logger.warn "Graduation service: Complete"
@@ -95,7 +95,7 @@ class GraduationService
             else
         "PPID not found in registrar data"
             end
-      Rails.logger.warn "Graduation service:   - ETD: #{etd_solr_doc['id']}, registrar key: #{registrar_index}, msg: \"#{msg}\""
+      Rails.logger.warn "Graduation service:  - ETD: #{etd_solr_doc['id']}, registrar key: #{registrar_index}, msg: \"#{msg}\""
     else # match found in registrar data, but no graduation date provided yet
       msg = "graduation pending"
     end
