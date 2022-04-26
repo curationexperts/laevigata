@@ -78,7 +78,7 @@ describe GraduationService do
         etd_solr_doc['depositor_ssim'] = ['P1234567']
         allow(Rails.logger).to receive(:info)
         _grad_date, _grad_record = grad_service.find_registrar_match(etd_solr_doc)
-        expect(Rails.logger).to have_received(:info).with(/no records matching the PPID in registrar data/)
+        expect(Rails.logger).to have_received(:info).with(/PPID not found in registrar data/)
       end
       it 'returns nil graduation date' do
         grad_date, _grad_record = grad_service.find_registrar_match(etd_solr_doc)
