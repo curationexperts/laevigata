@@ -26,8 +26,8 @@ class GraduationService
     approved_etds = graduation_eligible_works
     publishable_etds = confirm_registrar_status(approved_etds)
     publishable_etds.each do |etd|
+      Rails.logger.warn "Graduation service:  - Awarding degree for ETD #{etd['id']} as of #{etd['degree_awarded_dtsi']}"
       # GraduationJob.perform_now(etd['id'], etd['degree_awarded_dtsi'])
-      Rails.logger.warn "Graduation service:  - Awarded degree for ETD #{etd['id']} as of #{etd['degree_awarded_dtsi']}"
     end
     Rails.logger.warn "Graduation service: Published #{publishable_etds.count} ETDs"
   end
@@ -85,20 +85,20 @@ class GraduationService
   def log_registrar_match(etd_solr_doc, registrar_index, grad_record, grad_date)
     case grad_record['degree status descr']
     when /Awarded/i # exact match found with valid graduation date
-      msg = "with graduation date \"#{grad_date}\""
+      msg = "awarded\", graduation_date: \"#{grad_date}"
     when /Unmatched/i # no match found in registrar data, look for similar records with matching PPID
       ppid = etd_solr_doc['depositor_ssim']&.first
       id_matches = @registrar_data.select { |k, _v| k.match ppid }
       msg = if id_matches.count > 0
-        "has no match. Similar records with matching PPID: " + id_matches.map { |_k, v| "#{v['etd record key']} (#{v['degree status date']})" }.join(', ')
+        "no match. Other records with matching PPID: " + id_matches.map { |_k, v| "#{v['etd record key']} (#{v['degree status date']})" }.join(', ')
             else
-        "has no records matching the PPID in registrar data"
+        "PPID not found in registrar data"
             end
-      Rails.logger.warn "Graduation service:   - ETD: #{etd_solr_doc['id']}, registrar key: #{registrar_index}, msg: " + msg
+      Rails.logger.warn "Graduation service:   - ETD: #{etd_solr_doc['id']}, registrar key: #{registrar_index}, msg: \"#{msg}\""
     else # match found in registrar data, but no graduation date provided yet
-      msg = "has graduation pending"
+      msg = "graduation pending"
     end
-    Rails.logger.info "Graduation service:   - ETD: #{etd_solr_doc['id']}, registrar key: #{registrar_index}, msg: " + msg
+    Rails.logger.info "Graduation service:  - ETD: #{etd_solr_doc['id']}, registrar_key: #{registrar_index}, msg: \"#{msg}\""
   end
 
   # DEGREE_MAP: Keys = Laevigata degree codes (degree_tesim); Values = corresponding Registrar academic program codes
