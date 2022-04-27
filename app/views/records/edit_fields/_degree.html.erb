@@ -1,4 +1,4 @@
-<% degree_service = Hyrax::DegreeService.new %>
+<% degree_service = Hyrax::QaSelectService.new('degree') %>
 <%= f.input :degree, as: :select,
     collection: degree_service.select_active_options,
     include_blank: true, required: true,
