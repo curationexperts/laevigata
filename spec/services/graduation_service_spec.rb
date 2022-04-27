@@ -7,8 +7,8 @@ describe GraduationService, :clean do
   let(:nongraduated_user) { FactoryBot.create(:nongraduated_user) }
   let(:double_degree_user) { FactoryBot.create(:double_degree_user) }
   let(:approving_user) { User.where(uid: "candleradmin").first }
-  let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/candler_admin_sets.yml", "/dev/null") }
-  let(:graduated_etd) { FactoryBot.actor_create(:sample_data, degree: ["B.S."], user: graduated_user) }
+  let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/admin_sets_registrar_subset.yml", "/dev/null") }
+  let(:graduated_etd) { FactoryBot.actor_create(:sample_data_undergrad, user: graduated_user) }
   let(:nongraduated_etd) { FactoryBot.actor_create(:sample_data, user: nongraduated_user) }
   # ETD for user that is graduated with one degree but is pursuing another degree with Emory
   let(:double_degree_etd) { FactoryBot.actor_create(:sample_data, degree: ["M.Div."], user: double_degree_user) }
@@ -50,18 +50,6 @@ describe GraduationService, :clean do
     it "finds approved etds" do
       grad_service = described_class.new('./spec/fixtures/registrar_sample.json')
       expect(grad_service.graduation_eligible_works.map { |doc| doc['id'] }).to contain_exactly(graduated_etd.id, nongraduated_etd.id, double_degree_etd.id)
-    end
-  end
-  describe "#status" do
-    it "provides statistics for a run", :aggregate_failures do
-      grad_service = described_class.new('./spec/fixtures/registrar_sample.json')
-
-      expect(grad_service.status.overall).to eq 'Not run'
-      grad_service.run
-      expect(grad_service.status.overall).to eq 'Completed'
-
-      expect(grad_service.status['degree_eligible_etds']).to eq 3
-      expect(grad_service.status['newly_published_etds']).to eq 2
     end
   end
 end
