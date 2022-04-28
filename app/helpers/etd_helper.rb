@@ -52,7 +52,7 @@ module EtdHelper
       end
 
       def partnering_agency_form_opts
-        partnering_service = PartnersService.new
+        partnering_service = Hyrax::QaSelectService.new('partnering_agencies')
         { as: :etd_multi_value_select,
           include_blank: true, label: "Partnering Agency", collection: partnering_service.select_all_options,
           input_html: { class: 'form-control' } }

@@ -1,4 +1,4 @@
-<% language_service = Hyrax::LanguageService.new %>
+<% language_service = Hyrax::QaSelectService.new('languages_list') %>
 <%= f.input :language, as: :select, hint: false,
     collection: language_service.select_active_options,
     include_blank: true, required: true,
