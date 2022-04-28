@@ -43,9 +43,9 @@ describe GraduationService, :clean do
       expect(double_degree_etd.to_sipity_entity.reload.workflow_state_name).to eq "published"
 
       # Persists graduation date
-      expect(graduated_etd.reload.degree_awarded).to eq Date.new(2017, 5, 18)
+      expect(graduated_etd.reload.degree_awarded).to eq '2017-05-18'.to_time
       expect(nongraduated_etd.reload.degree_awarded).to eq nil
-      expect(double_degree_etd.reload.degree_awarded).to eq Date.new(2018, 1, 12)
+      expect(double_degree_etd.reload.degree_awarded).to eq '2018-01-12'.to_time
     end
     it "finds approved etds" do
       grad_service = described_class.new('./spec/fixtures/registrar_sample.json')

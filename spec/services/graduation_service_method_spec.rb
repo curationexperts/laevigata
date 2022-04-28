@@ -5,14 +5,15 @@ describe GraduationService do
   let(:grad_service) { described_class.new('./spec/fixtures/registrar_sample.json') }
 
   describe "#extract_date" do
-    it "returns an ISO date format string" do
+    it "returns an Time class object" do
       grad_record = { 'degree status date' => '1938-10-30' }
-      expect(grad_service.extract_date(grad_record)).to eq '1938-10-30'
+      expect(grad_service.extract_date(grad_record)).to be_a_kind_of(Time)
+      expect(grad_service.extract_date(grad_record)).to eq '1938-10-30'.to_time
     end
 
-    it "returns only the ISO date portion of the data" do
+    it "returns only the ISO date portion of the string" do
       grad_record = { 'degree status date' => "Fall '38 (1938-10-30)" }
-      expect(grad_service.extract_date(grad_record)).to eq '1938-10-30'
+      expect(grad_service.extract_date(grad_record)).to eq '1938-10-30'.to_time
     end
 
     it "returns nil if an ISO date is not present" do
@@ -40,7 +41,7 @@ describe GraduationService do
       end
       it 'returns verified graduation dates' do
         grad_date = grad_service.find_registrar_match(etd_solr_doc)[0]
-        expect(grad_date).to eq '2017-03-16'
+        expect(grad_date).to eq '2017-03-16'.to_time
       end
       it 'logs match data', :aggregate_failures do
         allow(Rails.logger).to receive(:warn)
