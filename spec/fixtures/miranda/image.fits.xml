@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fits xmlns="http://hul.harvard.edu/ois/xml/ns/fits/fits_output" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://hul.harvard.edu/ois/xml/ns/fits/fits_output http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd" version="1.4.0" timestamp="4/30/22, 4:55 PM">
+  <identification status="SINGLE_RESULT">
+    <identity format="TIFF EXIF" mimetype="image/tiff" toolname="FITS" toolversion="1.4.0">
+      <tool toolname="Exiftool" toolversion="11.14" />
+    </identity>
+  </identification>
+  <fileinfo>
+    <size toolname="Jhove" toolversion="1.20.1">65240</size>
+    <filepath toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">/opt/laevigata/releases/20220427201230/./spec/fixtures/miranda/image.tif</filepath>
+    <filename toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">image.tif</filename>
+    <md5checksum toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">281f2f096822bc24fd8288e682bb84c2</md5checksum>
+    <fslastmodified toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">1651089127000</fslastmodified>
+  </fileinfo>
+  <filestatus />
+  <metadata>
+    <image>
+      <compressionScheme toolname="Exiftool" toolversion="11.14" status="SINGLE_RESULT">PackBits</compressionScheme>
+      <imageWidth toolname="Exiftool" toolversion="11.14" status="SINGLE_RESULT">256</imageWidth>
+      <imageHeight toolname="Exiftool" toolversion="11.14" status="SINGLE_RESULT">256</imageHeight>
+      <colorSpace toolname="Exiftool" toolversion="11.14" status="SINGLE_RESULT">BlackIsZero</colorSpace>
+      <orientation toolname="Exiftool" toolversion="11.14" status="SINGLE_RESULT">normal*</orientation>
+      <xSamplingFrequency toolname="Exiftool" toolversion="11.14" status="SINGLE_RESULT">72</xSamplingFrequency>
+      <ySamplingFrequency toolname="Exiftool" toolversion="11.14" status="SINGLE_RESULT">72</ySamplingFrequency>
+      <bitsPerSample toolname="Exiftool" toolversion="11.14" status="SINGLE_RESULT">8</bitsPerSample>
+      <samplesPerPixel toolname="Exiftool" toolversion="11.14" status="SINGLE_RESULT">1</samplesPerPixel>
+    </image>
+  </metadata>
+  <statistics fitsExecutionTime="1378">
+    <tool toolname="MediaInfo" toolversion="0.7.75" status="did not run" />
+    <tool toolname="OIS Audio Information" toolversion="0.1" status="did not run" />
+    <tool toolname="ADL Tool" toolversion="0.1" status="did not run" />
+    <tool toolname="VTT Tool" toolversion="0.1" status="did not run" />
+    <tool toolname="Droid" toolversion="6.4" executionTime="232" />
+    <tool toolname="Jhove" toolversion="1.20.1" executionTime="1268" />
+    <tool toolname="file utility" toolversion="5.38" executionTime="1246" />
+    <tool toolname="Exiftool" toolversion="11.14" executionTime="1315" />
+    <tool toolname="NLNZ Metadata Extractor" toolversion="3.6GA" status="did not run" />
+    <tool toolname="OIS File Information" toolversion="0.2" executionTime="204" />
+    <tool toolname="OIS XML Metadata" toolversion="0.2" status="did not run" />
+    <tool toolname="ffident" toolversion="0.2" executionTime="950" />
+    <tool toolname="Tika" toolversion="1.19.1" executionTime="628" />
+  </statistics>
+</fits>

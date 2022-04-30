@@ -1,0 +1,82 @@
+<fits xmlns="http://hul.harvard.edu/ois/xml/ns/fits/fits_output" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://hul.harvard.edu/ois/xml/ns/fits/fits_output http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd" version="1.4.0" timestamp="4/30/22, 4:50 PM">
+  <identification>
+    <identity format="Portable Document Format" mimetype="application/pdf" toolname="FITS" toolversion="1.4.0">
+      <tool toolname="Droid" toolversion="6.4" />
+      <tool toolname="Jhove" toolversion="1.20.1" />
+      <tool toolname="file utility" toolversion="5.38" />
+      <tool toolname="Exiftool" toolversion="11.14" />
+      <tool toolname="NLNZ Metadata Extractor" toolversion="3.6GA" />
+      <tool toolname="ffident" toolversion="0.2" />
+      <tool toolname="Tika" toolversion="1.19.1" />
+      <version toolname="Droid" toolversion="6.4" status="CONFLICT">1.3</version>
+      <version toolname="Jhove" toolversion="1.20.1" status="CONFLICT">1.4</version>
+      <externalIdentifier toolname="Droid" toolversion="6.4" type="puid">fmt/17</externalIdentifier>
+    </identity>
+  </identification>
+  <fileinfo>
+    <size toolname="Jhove" toolversion="1.20.1">63449</size>
+    <creatingApplicationName toolname="Tika" toolversion="1.19.1" status="SINGLE_RESULT">Mac OS X 10.12.5 Quartz PDFContext</creatingApplicationName>
+    <lastmodified toolname="Exiftool" toolversion="11.14" status="CONFLICT">2017:05:31 15:47:55Z</lastmodified>
+    <lastmodified toolname="Tika" toolversion="1.19.1" status="CONFLICT">2017-05-31T15:47:55Z</lastmodified>
+    <created toolname="Exiftool" toolversion="11.14" status="SINGLE_RESULT">2017:05:31 15:47:55Z</created>
+    <filepath toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">/opt/laevigata/releases/20220427201230/./spec/fixtures/joey/joey_thesis.pdf</filepath>
+    <filename toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">joey_thesis.pdf</filename>
+    <md5checksum toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">9518c4d666dfb6b174447644b4269077</md5checksum>
+    <fslastmodified toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">1651089127000</fslastmodified>
+  </fileinfo>
+  <filestatus>
+    <well-formed toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">true</well-formed>
+    <valid toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">false</valid>
+    <message toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">File header gives version as 1.4, but catalog dictionary gives version as 1.3 severity=info</message>
+    <message toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">edu.harvard.hul.ois.jhove.module.pdf.PdfInvalidException: Invalid destination object severity=error offset=32689</message>
+    <message toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">edu.harvard.hul.ois.jhove.module.pdf.PdfInvalidException: Invalid destination object severity=error offset=32575</message>
+    <message toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">edu.harvard.hul.ois.jhove.module.pdf.PdfInvalidException: Invalid destination object severity=error offset=32462</message>
+    <message toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">edu.harvard.hul.ois.jhove.module.pdf.PdfInvalidException: Invalid destination object severity=error offset=32352</message>
+    <message toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">edu.harvard.hul.ois.jhove.module.pdf.PdfInvalidException: Invalid destination object severity=error offset=32240</message>
+    <message toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">edu.harvard.hul.ois.jhove.module.pdf.PdfInvalidException: Invalid destination object severity=error offset=32125</message>
+    <message toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">edu.harvard.hul.ois.jhove.module.pdf.PdfInvalidException: Invalid destination object severity=error offset=32010</message>
+    <message toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">edu.harvard.hul.ois.jhove.module.pdf.PdfInvalidException: Invalid destination object severity=error offset=31895</message>
+    <message toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">edu.harvard.hul.ois.jhove.module.pdf.PdfInvalidException: Invalid destination object severity=error offset=31780</message>
+    <message toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">edu.harvard.hul.ois.jhove.module.pdf.PdfInvalidException: Invalid destination object severity=error offset=31665</message>
+  </filestatus>
+  <metadata>
+    <document>
+      <pageCount toolname="Jhove" toolversion="1.20.1">7</pageCount>
+      <isTagged toolname="NLNZ Metadata Extractor" toolversion="3.6GA" status="SINGLE_RESULT">no</isTagged>
+      <hasOutline toolname="Jhove" toolversion="1.20.1">no</hasOutline>
+      <hasAnnotations toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">yes</hasAnnotations>
+      <graphicsCount toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">1</graphicsCount>
+      <font toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">
+        <fontName>Merriweather-Black</fontName>
+      </font>
+      <font toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">
+        <fontName>Merriweather-BlackItalic</fontName>
+      </font>
+      <font toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">
+        <fontName>Merriweather-Italic</fontName>
+      </font>
+      <font toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">
+        <fontName>Merriweather-Regular</fontName>
+      </font>
+      <font toolname="Jhove" toolversion="1.20.1" status="SINGLE_RESULT">
+        <fontName>Montserrat-Bold</fontName>
+      </font>
+      <hasForms toolname="NLNZ Metadata Extractor" toolversion="3.6GA" status="SINGLE_RESULT">no</hasForms>
+    </document>
+  </metadata>
+  <statistics fitsExecutionTime="2204">
+    <tool toolname="MediaInfo" toolversion="0.7.75" status="did not run" />
+    <tool toolname="OIS Audio Information" toolversion="0.1" status="did not run" />
+    <tool toolname="ADL Tool" toolversion="0.1" status="did not run" />
+    <tool toolname="VTT Tool" toolversion="0.1" status="did not run" />
+    <tool toolname="Droid" toolversion="6.4" executionTime="641" />
+    <tool toolname="Jhove" toolversion="1.20.1" executionTime="1570" />
+    <tool toolname="file utility" toolversion="5.38" executionTime="1521" />
+    <tool toolname="Exiftool" toolversion="11.14" executionTime="1407" />
+    <tool toolname="NLNZ Metadata Extractor" toolversion="3.6GA" executionTime="1191" />
+    <tool toolname="OIS File Information" toolversion="0.2" executionTime="253" />
+    <tool toolname="OIS XML Metadata" toolversion="0.2" status="did not run" />
+    <tool toolname="ffident" toolversion="0.2" executionTime="1185" />
+    <tool toolname="Tika" toolversion="1.19.1" executionTime="2123" />
+  </statistics>
+</fits>

@@ -55,7 +55,6 @@ RSpec/RepeatedDescription:
 Rails/ApplicationJob:
   Exclude:
     - 'app/jobs/graduation_job.rb'
-    - 'app/jobs/proquest_completion_job.rb'
     - 'app/jobs/proquest_job.rb'
 
 # Offense count: 1

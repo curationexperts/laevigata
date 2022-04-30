@@ -3,12 +3,7 @@ require 'net/sftp'
 
 # Submit an ETD to ProQuest.
 # Called by GraduationJob.
-# This job will re-try until the submission has been completed. When it has
-# successfully completed ProQuest submission (i.e., when it finishes the
-# upload_file method without raising an exception) it calls the ProquestCompletionJob.
-# That way ProquestCompletionJob never gets called unless the submission has gone
-# through, and if it is delayed for some reason ProquestCompletionJob will record
-# when the upload actually happened, not just record the first time it was attempted.
+# This job will re-try until the submission has been completed.
 class ProquestJob < ActiveJob::Base
   queue_as Hyrax.config.ingest_queue_name
 
@@ -25,7 +20,8 @@ class ProquestJob < ActiveJob::Base
     # 5. Transmit the zip to ProQuest
     transmit_file(upload_file, work.upload_file_id) if transmit
     cleanup_file(upload_file) if cleanup
-    ProquestCompletionJob.perform_later(work_id)
+    work.proquest_submission_date = [Date.current]
+    work.save
     Rails.logger.info "ETD #{work_id} finished submission to ProQuest"
   end
 

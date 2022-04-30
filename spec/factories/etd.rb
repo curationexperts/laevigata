@@ -179,6 +179,11 @@ FactoryBot.define do
         degree_awarded { (Time.zone.today - 1.week).strftime('%Y-%m-%d') }
         submitting_type { [] << "Dissertation" }
         school { ["Laney Graduate School"] }
+        depositor do
+          u = User.new(uid: FFaker::Internet.user_name, ppid: 'P0000005', display_name: creator.first)
+          u.save
+          u.user_key
+        end
         admin_set do
           AdminSet.where(title: "Laney Graduate School").first
         end
