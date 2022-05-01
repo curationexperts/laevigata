@@ -54,24 +54,13 @@ describe ProquestJob, :clean do
       etd.state = Vocab::FedoraResourceStatus.active # simulates GraduationJob
       etd.save
     end
-    it "checks that this work meets the criteria for ProQuest PhD submission" do
-      expect(etd.school).to contain_exactly("Laney Graduate School")
-      expect(etd.degree).to contain_exactly("PhD")
-      expect(etd.to_sipity_entity.workflow_state_name).to eq "published"
-      expect(etd.proquest_submission_date).to be_empty
-      expect(etd.degree_awarded).to be_present
-      expect(described_class.submit_to_proquest?(etd)).to eq true
-    end
-    it "does not submit a hidden work", :aggregate_failures do
-      expect(described_class.submit_to_proquest?(etd)).to eq true
-      etd.hidden = true
-      expect(described_class.submit_to_proquest?(etd)).to eq false
-    end
-    it "performs", :aggregate_failures do
-      expect(described_class.submit_to_proquest?(etd)).to eq true
-      expect(etd.reload.proquest_submission_date).not_to be_present
-      described_class.perform_now(etd.id, transmit: false, cleanup: true, retransmit: true)
-      expect(etd.reload.proquest_submission_date).to eq [Date.current]
+    context "#perform" do
+      it "persists the submission date", :aggregate_failures do
+        expect(etd.submit_to_proquest?).to eq true
+        expect(etd.reload.proquest_submission_date).not_to be_present
+        described_class.perform_now(etd.id, transmit: false, cleanup: true, retransmit: true)
+        expect(etd.reload.proquest_submission_date).to eq [Date.current]
+      end
     end
   end
 end

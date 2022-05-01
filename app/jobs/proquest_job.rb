@@ -4,13 +4,15 @@ require 'net/sftp'
 # Submit an ETD to ProQuest.
 # Called by GraduationJob.
 # This job will re-try until the submission has been completed.
+# If SFTP transfer is true, then the job will retry until ProQuest
+# accepts the SFTP package.
 class ProquestJob < ActiveJob::Base
   queue_as Hyrax.config.ingest_queue_name
 
   # @param [String] work_id - the id of the work object
   def perform(work_id, transmit: true, cleanup: true, retransmit: false)
     work = Etd.find(work_id)
-    return unless ProquestJob.submit_to_proquest?(work, retransmit)
+    return unless work.submit_to_proquest?(retransmit)
     Rails.logger.info "ETD #{work_id} beginning submission to ProQuest"
     # 1. Create a directory. Done. See config/environments
     # 2. Write XML file there Done.
@@ -23,26 +25,6 @@ class ProquestJob < ActiveJob::Base
     work.proquest_submission_date = [Date.current]
     work.save
     Rails.logger.info "ETD #{work_id} finished submission to ProQuest"
-  end
-
-  # Does this work meet the criteria required for ProQuest submission?
-  # @param [ActiveFedora::Base] work - the work object
-  # @return [Boolean]
-  def self.submit_to_proquest?(work, retransmit = false)
-    # Do not submit hidden works
-    return false if work.hidden
-    # Condition 1: Is it from Laney Graduate School?
-    return false unless work.school.first == "Laney Graduate School"
-    # Condition 2: Has the student graduated?
-    return false unless work.to_sipity_entity.workflow_state_name == 'published'
-    # Condition 3: Has the degree been awarded?
-    return false unless work.degree_awarded
-    # Condition 4: Is this a PhD?
-    return true if work.degree.first.downcase.tr('.', '') == "phd"
-    # Has is already been submitted to ProQuest, or is this a re-submission?
-    return true if retransmit
-    return false unless work.proquest_submission_date.empty?
-    false
   end
 
   # Transmit the exported file to ProQuest SFTP server

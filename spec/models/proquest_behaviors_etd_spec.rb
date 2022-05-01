@@ -5,6 +5,7 @@ require 'workflow_setup'
 include Warden::Test::Helpers
 RSpec.describe Etd do
   let(:etd) { FactoryBot.create(:ready_for_proquest_submission_phd) }
+
   context "ProQuest submission", :perform_jobs, :clean, workflow: { admin_sets_config: 'spec/fixtures/config/emory/laney_admin_sets.yml' } do
     let(:proquest_dtd) { "#{fixture_path}/proquest/Dissertations_metadata48.dtd" }
     let(:output_xml) { "#{fixture_path}/proquest/output.xml" }
@@ -25,8 +26,8 @@ RSpec.describe Etd do
       subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
       sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
       Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "Preapproved")
-      etd.state = Vocab::FedoraResourceStatus.active # simulates GraduationJob
-      etd.save
+      sipity_workflow_action = PowerConverter.convert_to_sipity_action("publish", scope: subject.entity.workflow) { nil }
+      Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "Graduated")
       # Fake the data that would normally be created by CharacterizeJob
       primary_pdf_fs = etd.members.select { |a| a.pcdm_use == "primary" }.first
       page_count_predicate = "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#pageCount"
@@ -63,6 +64,28 @@ RSpec.describe Etd do
         expect(File.exist?(export_file)).to eq true
         File.delete(export_file)
       end
+    end
+  end
+
+  context "#submit_to_proquest?" do
+    it "does not error on non-sipity entities", :aggregate_failures do
+      expect(etd.to_sipity_entity).to be_nil
+      expect { etd.submit_to_proquest? }.not_to raise_error
+      expect(etd.submit_to_proquest?).to eq false
+    end
+    it "returns true if ETD meets submission criteria", :aggregate_failures do
+      etd.stub_chain(:to_sipity_entity, :workflow_state_name).and_return("published")
+      expect(etd.school).to contain_exactly("Laney Graduate School")
+      expect(etd.degree).to contain_exactly("PhD")
+      expect(etd.proquest_submission_date).to be_empty
+      expect(etd.degree_awarded).to be_present
+      expect(etd.submit_to_proquest?).to eq true
+    end
+    it "returns false for hidden ETDs", :aggregate_failures do
+      etd.stub_chain(:to_sipity_entity, :workflow_state_name).and_return("published")
+      expect(etd.submit_to_proquest?).to eq true
+      etd.hidden = true
+      expect(etd.submit_to_proquest?).to eq false
     end
   end
 
