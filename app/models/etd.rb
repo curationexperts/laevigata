@@ -154,15 +154,16 @@ class Etd < ActiveFedora::Base
   end
 
   # override degree_awarded setter to always cast the value to a Date type object
+  #   convert all values to UTC for compatibility with Solr - see https://solr.apache.org/guide/8_11/working-with-dates.html
   def degree_awarded=(value)
     case value
-    when Time, ActiveSupport::TimeWithZone
+    when Time
       super(value.utc)
     when Date
-      super(value.to_datetime.utc)
+      super(value.to_time.utc)
     when String
-      Rails.logger.warn("Assigning #{__method__} to a string is deprecated. Casting to a Date.")
-      super(DateTime.parse(value).utc)
+      Rails.logger.warn("Assigning #{__method__} to a string is deprecated. Casting to a Time class value.")
+      super(Date.parse(value).to_time.utc)
     when NilClass
       super(nil)
     else

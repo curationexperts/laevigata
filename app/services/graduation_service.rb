@@ -82,12 +82,12 @@ class GraduationService
 
   # Checks a registrar record for a valid graduation date
   # @param [Hash] grad_record - a single record from the registrar data feed
-  # @return [String] - the graduation date in ISO-date format if the student has graduated
+  # @return [Time] - the graduation date (with timezone offset) if the student has graduated
   def extract_date(grad_record)
     return unless grad_record.is_a?(Hash)
     degree_status_date = grad_record['degree status date']
     match = degree_status_date&.match(/\d{4}-\d{2}-\d{2}/)
-    match.to_s if match
+    match.to_s.to_time(:local) if match
   end
 
   # Log status data to assist auditing and reporting on this run of the GraduationService

@@ -1,6 +1,8 @@
 require 'rails_helper'
 require 'workflow_setup'
+require 'hydra/file_characterization'
 include Warden::Test::Helpers
+include ActiveJob::TestHelper
 
 describe ProquestJob, :clean do
   context "Laney PhD" do
@@ -9,10 +11,12 @@ describe ProquestJob, :clean do
     let(:user) { User.where(ppid: etd.depositor).first }
     let(:ability) { ::Ability.new(user) }
     let(:file1_path) { "#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf" }
+    let(:file1_fits) { "#{fixture_path}/spec/fixtures/joey/joey_thesis.fits.xml" }
     let(:file2_path) { "#{::Rails.root}/spec/fixtures/miranda/image.tif" }
+    let(:file2_fits) { "#{fixture_path}/spec/fixtures/miranda.fits.xml" }
     let(:upload1) do
       File.open(file1_path) do |file1|
-        Hyrax::UploadedFile.create(user: user, file: file1, pcdm_use: 'primary')
+        Hyrax::UploadedFile.create(user: user, file: file1, pcdm_use: FileSet::PRIMARY)
       end
     end
     let(:upload2) do
@@ -20,7 +24,7 @@ describe ProquestJob, :clean do
         Hyrax::UploadedFile.create(
           user: user,
           file: file2,
-          pcdm_use: 'supplementary',
+          pcdm_use: FileSet::SUPPLEMENTARY,
           description: 'Description of the supplementary file',
           file_type: 'Image'
         )
@@ -29,11 +33,19 @@ describe ProquestJob, :clean do
     let(:attributes_for_actor) { { uploaded_files: [upload1.id, upload2.id] } }
     let(:approving_user) { User.where(ppid: 'laneyadmin').first }
     before do
-      allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
+      # allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed in CI environment
+      # Stub out characterization to avoid system calls.
+      # Characterization needs to occur for files to be properly attached to file_sets.
+      allow(Hydra::FileCharacterization).to receive(:characterize).with(an_instance_of(File), "joey_thesis.pdf", :fits).and_return(file1_fits)
+      allow(Hydra::FileCharacterization).to receive(:characterize).with(an_instance_of(File), "image.tif", :fits).and_return(file2_fits)
       w.setup
       env = Hyrax::Actors::Environment.new(etd, ability, attributes_for_actor)
       middleware = Hyrax::DefaultMiddlewareStack.build_stack.build(Hyrax::Actors::Terminator.new)
       middleware.create(env)
+      perform_enqueued_jobs(except: CreateDerivativesJob) do
+        # We need to perform queued jobs to have the actual PDF attached to the fileset after characterization
+        AttachFilesToWorkJob.perform_now(etd, [upload1, upload2])
+      end
       subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
       sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
       Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "Preapproved")
@@ -42,27 +54,13 @@ describe ProquestJob, :clean do
       etd.state = Vocab::FedoraResourceStatus.active # simulates GraduationJob
       etd.save
     end
-    it "checks that this work meets the criteria for ProQuest PhD submission" do
-      expect(etd.school).to contain_exactly("Laney Graduate School")
-      expect(etd.degree).to contain_exactly("PhD")
-      expect(etd.to_sipity_entity.workflow_state_name).to eq "published"
-      expect(etd.proquest_submission_date).to be_empty
-      expect(etd.degree_awarded).to be_present
-      expect(described_class.submit_to_proquest?(etd)).to eq true
-    end
-    it "does not submit a hidden work" do
-      etd.hidden = true
-      etd.save
-      expect(etd.hidden).to eq true
-      expect(described_class.submit_to_proquest?(etd)).to eq false
-    end
-    # Just to make sure it runs without raising an error
-    # Currently failing in CI with a "Cannot find registrar data for user" error
-    # because of the way our tests are set up and I don't have time to refactor
-    # right now
-    it "performs" do
-      skip
-      described_class.perform_now(etd.id, transmit: false, cleanup: true, retransmit: true)
+    context "#perform" do
+      it "persists the submission date", :aggregate_failures do
+        expect(etd.submit_to_proquest?).to eq true
+        expect(etd.reload.proquest_submission_date).not_to be_present
+        described_class.perform_now(etd.id, transmit: false, cleanup: true, retransmit: true)
+        expect(etd.reload.proquest_submission_date).to eq [Date.current]
+      end
     end
   end
 end

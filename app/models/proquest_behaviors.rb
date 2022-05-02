@@ -66,6 +66,24 @@ module ProquestBehaviors
     creator.first.split(",").map(&:strip).map(&:downcase).join("_") + "_Media"
   end
 
+  # Determine whether the ETD meets the criteria for submission to ProQuest
+  # i.e. encapsulates business logic for submission criteria
+  def submit_to_proquest?(retransmit = false)
+    # Do not submit hidden works
+    return false if hidden
+    # Condition 1: Is it from Laney Graduate School?
+    return false unless school.first == "Laney Graduate School"
+    # Condition 2: Has the student graduated?
+    return false unless to_sipity_entity&.workflow_state_name == 'published'
+    # Condition 3: Has the degree been awarded?
+    return false unless degree_awarded
+    # Condition 4: Is this a PhD?
+    return false unless degree.first.downcase.tr('.', '') == "phd"
+    # Has is already been submitted to ProQuest, or is this a re-submission?
+    return false unless proquest_submission_date.empty? || retransmit
+    true
+  end
+
   # The actual zip file sent to Proquest must be named
   # upload_lastname_firstname_id.zip
   def upload_file_id

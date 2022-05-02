@@ -15,7 +15,7 @@ class GraduationJob < ActiveJob::Base
 
   # @param [String] work_id - the id of the work object
   # @param [Date] the student's graduation date
-  def perform(work_id, graduation_date = Time.zone.today.to_s)
+  def perform(work_id, graduation_date = Date.current)
     Rails.logger.warn "ETD #{work_id} starting graduation process"
     @work = Etd.find(work_id)
     record_degree_awarded_date(graduation_date)
