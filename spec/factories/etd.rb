@@ -36,8 +36,7 @@ FactoryBot.define do
     factory :ateer_etd do
       creator { ['Teer, Drew'] }
       depositor do
-        u = User.new(uid: FFaker::Internet.user_name, ppid: Noid::Rails::Service.new.mint, display_name: creator.first)
-        u.save
+        u = User.create!(uid: FFaker::Internet.user_name, ppid: Noid::Rails::Service.new.mint, display_name: creator.first)
         u.user_key
       end
       title { ['Investigating and Developing a Novel Implicit Measurement of Self-Esteem'] }
@@ -84,8 +83,7 @@ FactoryBot.define do
         AdminSet.where(title: "Candler School of Theology").first
       end
       depositor do
-        u = User.new(uid: FFaker::Internet.user_name, ppid: Noid::Rails::Service.new.mint, display_name: creator.first)
-        u.save
+        u = User.create!(uid: FFaker::Internet.user_name, ppid: Noid::Rails::Service.new.mint, display_name: creator.first)
         u.user_key
       end
       table_of_contents { [] << FFaker::Lorem.paragraph }
@@ -180,8 +178,7 @@ FactoryBot.define do
         submitting_type { [] << "Dissertation" }
         school { ["Laney Graduate School"] }
         depositor do
-          u = User.new(uid: FFaker::Internet.user_name, ppid: 'P0000005', display_name: creator.first)
-          u.save
+          u = User.create!(uid: FFaker::Internet.user_name, ppid: 'P0000005', display_name: creator.first)
           u.user_key
         end
         admin_set do
