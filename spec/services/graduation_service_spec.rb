@@ -120,6 +120,10 @@ describe GraduationService do
       Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: nil)
     end
 
+    it "finds approved etds" do
+      expect(grad_service.graduation_eligible_works.map { |doc| doc['id'] }).to contain_exactly(graduated_etd.id, nongraduated_etd.id, double_degree_etd.id)
+    end
+
     it "publishes approved & graduated etds", :aggregate_failures do
       expect(graduated_etd.to_sipity_entity.workflow_state_name).to eq "approved"
       expect(nongraduated_etd.to_sipity_entity.workflow_state_name).to eq "approved"
@@ -137,8 +141,22 @@ describe GraduationService do
       expect(nongraduated_etd.reload.degree_awarded).to eq nil
       expect(double_degree_etd.reload.degree_awarded).to eq '2018-01-12'.to_time
     end
-    it "finds approved etds" do
-      expect(grad_service.graduation_eligible_works.map { |doc| doc['id'] }).to contain_exactly(graduated_etd.id, nongraduated_etd.id, double_degree_etd.id)
+
+    it "passes registrar data to the GraduationJob" do
+      # This address should match the address data for "P0000002-UCOL-LIBAS" in the registrar sample data
+      home_address = {
+        "home address 1" =>            "321 Ash Way",
+        "home address city" =>         "Atlanta",
+        "home address state" =>        "GA",
+        "home address postal code" =>  "30301",
+        "home address country code" => "USA"
+      }
+      allow(GraduationJob).to receive(:perform_now)
+
+      grad_service.run
+
+      expect(GraduationJob).to have_received(:perform_now).exactly(2).times
+      expect(GraduationJob).to have_received(:perform_now).with(graduated_etd.id, a_kind_of(Time), hash_including(home_address))
     end
   end
 end

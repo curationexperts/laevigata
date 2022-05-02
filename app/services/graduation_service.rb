@@ -27,7 +27,7 @@ class GraduationService
     publishable_etds = confirm_registrar_status(approved_etds)
     publishable_etds.each do |etd|
       Rails.logger.warn "Graduation service:  - Awarding degree for ETD #{etd['id']} effective #{etd['degree_awarded_dtsi']}"
-      GraduationJob.perform_now(etd['id'], etd['degree_awarded_dtsi'])
+      GraduationJob.perform_now(etd['id'], etd['degree_awarded_dtsi'], etd['grad_record'])
     end
     Rails.logger.warn "GraduationService: Completed - Published #{publishable_etds.count} ETDs"
   end
@@ -56,7 +56,7 @@ class GraduationService
     candidate_etds.each do |etd_solr_doc|
       grad_date, grad_record = find_registrar_match(etd_solr_doc)
       etd_solr_doc['degree_awarded_dtsi'] = grad_date
-      etd_solr_doc['grad_record'] = grad_record
+      etd_solr_doc['grad_record'] = filter_address(grad_record)
       registrar_matches << etd_solr_doc if grad_date
     end
     Rails.logger.warn "GraduationService: There are #{registrar_matches.count} approved ETDs with recorded graduation dates"
@@ -114,6 +114,11 @@ class GraduationService
     end
 
     Rails.logger.warn "GraduationService:  - ETD: #{etd_solr_doc['id']}, registrar_key: #{registrar_index}, msg: \"#{msg}\""
+  end
+
+  # Return a filtered version of the grad record that only includes data required for potential Proquest submission
+  def filter_address(grad_record)
+    grad_record.slice('home address 1', 'home address 2', 'home address 3', 'home address city', 'home address state', 'home address postal code', 'home address country code')
   end
 
   # DEGREE_MAP: Keys = Laevigata degree codes (degree_tesim); Values = corresponding Registrar academic program codes
