@@ -73,7 +73,7 @@ jobs:
                 path: tmp/screenshots
 
             - coveralls/upload:
-                  path_to_lcov: ./coverage/lcov/laevigata.lcov
+                  path_to_lcov: ./coverage/lcov/project.lcov
 
 workflows:
     version: 2
