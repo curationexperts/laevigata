@@ -61,7 +61,6 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'capybara'
   gem 'capybara-screenshot'
-  gem 'coveralls', require: false
   gem 'database_cleaner'
   gem 'fcrepo_wrapper'
   gem 'hyrax-spec'
@@ -75,6 +74,7 @@ group :development, :test do
   gem 'rspec_junit_formatter'
   gem 'shoulda-matchers'
   gem 'simplecov', require: false
+  gem 'simplecov-lcov', require: false
   gem 'solr_wrapper', '>= 0.3'
   gem 'vcr'
   gem 'webdrivers', require: false
