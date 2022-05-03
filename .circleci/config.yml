@@ -2,6 +2,8 @@ version: 2.1
 orbs:
     samvera: samvera/circleci-orb@dev:8975953
     browser-tools: circleci/browser-tools@1.2.4
+    coveralls: coveralls/coveralls@1.0.6
+
 jobs:
     build:
         parameters:
@@ -70,8 +72,8 @@ jobs:
             - store_artifacts:
                 path: tmp/screenshots
 
-            - deploy:
-                command: curl -k https://coveralls.io/webhook?repo_token=${COVERALLS_REPO_TOKEN} -d "payload[build_num]=${CIRCLE_BUILD_NUM}&payload[status]=done"
+            - coveralls/upload:
+                  path_to_lcov: ./coverage/lcov/project.lcov
 
 workflows:
     version: 2
