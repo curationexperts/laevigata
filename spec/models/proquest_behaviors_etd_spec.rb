@@ -4,30 +4,38 @@ require 'rails_helper'
 require 'workflow_setup'
 include Warden::Test::Helpers
 RSpec.describe Etd do
-  let(:etd) { FactoryBot.create(:ready_for_proquest_submission_phd) }
+  let(:etd) { FactoryBot.build(:ready_for_proquest_submission_phd) }
 
-  context "ProQuest submission", :perform_jobs, :clean, workflow: { admin_sets_config: 'spec/fixtures/config/emory/laney_admin_sets.yml' } do
+  context "ProQuest submission", :perform_jobs, :clean do
     let(:proquest_dtd) { "#{fixture_path}/proquest/Dissertations_metadata48.dtd" }
     let(:output_xml) { "#{fixture_path}/proquest/output.xml" }
     let(:approving_user) { User.where(ppid: 'laneyadmin').first }
     let(:user) { User.where(ppid: etd.depositor).first }
     let(:ability) { ::Ability.new(user) }
     let(:upload1) { FactoryBot.create(:primary_uploaded_file, user_id: user.id) }
-    let(:upload2) { FactoryBot.create(:supplementary_uploaded_file, user_id: user.id) }
-    let(:attributes) { { uploaded_files: [upload1.id, upload2.id] } }
+    # TODO: add tests that check secondary files are included in Proquest export (should they be?)
+    # let(:upload2) { FactoryBot.create(:supplementary_uploaded_file, user_id: user.id) }
+    let(:attributes) { { uploaded_files: [upload1.id] } }
     let(:env) { Hyrax::Actors::Environment.new(etd, ability, attributes) }
     let(:terminator) { Hyrax::Actors::Terminator.new }
     let(:middleware) do
-      Hyrax::DefaultMiddlewareStack.build_stack.build(terminator)
+      stack = Hyrax::DefaultMiddlewareStack.build_stack
+      # Bypass AdminSet and Workflow processing to speed up tests
+      stack.middlewares.delete Hyrax::Actors::DefaultAdminSetActor
+      stack.middlewares.delete Hyrax::Actors::InitializeWorkflowActor
+      stack.build(terminator)
     end
     before do
+      etd.save
+      allow(described_class).to receive(:find).and_return(etd)
       allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
       middleware.create(env)
-      subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
-      sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
-      Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "Preapproved")
-      sipity_workflow_action = PowerConverter.convert_to_sipity_action("publish", scope: subject.entity.workflow) { nil }
-      Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "Graduated")
+
+      # Stub out calls that require expensive workflow setup
+      sipity_entity = double(Sipity::Entity)
+      allow(sipity_entity).to receive(:workflow_state_name).and_return('published')
+      allow(etd).to receive(:to_sipity_entity).and_return(sipity_entity)
+
       # Fake the data that would normally be created by CharacterizeJob
       primary_pdf_fs = etd.members.select { |a| a.pcdm_use == "primary" }.first
       page_count_predicate = "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#pageCount"
@@ -68,13 +76,17 @@ RSpec.describe Etd do
   end
 
   context "#submit_to_proquest?" do
+    let(:sipity_entity) { double(Sipity::Entity) }
+    before do
+      allow(sipity_entity).to receive(:workflow_state_name).and_return('published')
+      allow(etd).to receive(:to_sipity_entity).and_return(sipity_entity)
+    end
     it "does not error on non-sipity entities", :aggregate_failures do
-      expect(etd.to_sipity_entity).to be_nil
+      allow(etd).to receive(:to_sipity_entity).and_return(nil)
       expect { etd.submit_to_proquest? }.not_to raise_error
       expect(etd.submit_to_proquest?).to eq false
     end
     it "returns true if ETD meets submission criteria", :aggregate_failures do
-      etd.stub_chain(:to_sipity_entity, :workflow_state_name).and_return("published")
       expect(etd.school).to contain_exactly("Laney Graduate School")
       expect(etd.degree).to contain_exactly("PhD")
       expect(etd.proquest_submission_date).to be_empty
@@ -82,10 +94,37 @@ RSpec.describe Etd do
       expect(etd.submit_to_proquest?).to eq true
     end
     it "returns false for hidden ETDs", :aggregate_failures do
-      etd.stub_chain(:to_sipity_entity, :workflow_state_name).and_return("published")
       expect(etd.submit_to_proquest?).to eq true
       etd.hidden = true
       expect(etd.submit_to_proquest?).to eq false
+    end
+    it "returns false for previously submitted ETDs", :aggregate_failures do
+      expect(etd.submit_to_proquest?).to eq true
+      etd.proquest_submission_date = [Date.current]
+      expect(etd.submit_to_proquest?).to eq false
+    end
+    it "returns true when retransmitting previously submitted ETDs", :aggregate_failures do
+      expect(etd.submit_to_proquest?).to eq true
+      etd.proquest_submission_date = [Date.current]
+      expect(etd.submit_to_proquest?(:retransmit)).to eq true
+    end
+  end
+
+  context "#export_proquest_xml" do
+    home_address = {
+      "home address 1" =>            "321 Ash Way",
+      "home address city" =>         "Atlanta",
+      "home address state" =>        "GA",
+      "home address postal code" =>  "30301",
+      "home address country code" => "USA"
+    }
+
+    it "inserts address data from registrar", :aggregate_failures do
+      subject = etd.export_proquest_xml(home_address)
+      proquest_xml = Nokogiri::XML(subject)
+      expect(proquest_xml.xpath("//DISS_addrline").text).to eq '321 Ash Way'
+      expect(proquest_xml.xpath("//DISS_city").text).to eq 'Atlanta'
+      expect(proquest_xml.xpath("//DISS_country").text).to eq 'US'
     end
   end
 
@@ -155,13 +194,6 @@ RSpec.describe Etd do
       expect(etd.proquest_code("Artificial Intelligence")).to eq "0800"
       expect(etd.proquest_code("Canadian Studies")).to eq "0385"
       expect(etd.proquest_code("Folklore")).to eq "0358"
-    end
-  end
-
-  context "registrar data" do
-    it "can load registrar data from a configurable location" do
-      registrar_data = etd.load_registrar_data_for_user("P0000001")
-      expect(registrar_data["home address 1"]).to eq "123 Fake St"
     end
   end
 

@@ -9,13 +9,13 @@ require 'zip/filesystem'
 module ProquestBehaviors
   # Export a zipped directory of an ETD in the format expected by ProQuest
   # @return [String] the full path of the exported .zip file
-  def export_zipped_proquest_package
+  def export_zipped_proquest_package(registrar_data = {})
     FileUtils.mkdir_p export_directory
     output_file = "#{@export_directory}/#{upload_file_id}.zip"
     File.delete(output_file) if File.file? output_file
     Zip::File.open(output_file, Zip::File::CREATE) do |zip|
       zip.dir.mkdir(upload_file_id)
-      zip.file.open("#{upload_file_id}/#{xml_filename}", 'w') { |file| file.write(export_proquest_xml) }
+      zip.file.open("#{upload_file_id}/#{xml_filename}", 'w') { |file| file.write(export_proquest_xml(registrar_data)) }
       # The primary thesis file goes in the main directory
       zip.file.open("#{upload_file_id}/#{export_id}.pdf", "wb") do |saved_file|
         open(primary_pdf_file.uri, "rb") do |read_file|
@@ -36,23 +36,6 @@ module ProquestBehaviors
     end
     Rails.logger.info "ProQuest package created: #{output_file}"
     output_file
-  end
-
-  # Given a ppid, load the configured JSON file of registrar data, return the portion
-  # relevant to the user in question
-  # @param [String] ppid
-  # @return [Hash]
-  def load_registrar_data_for_user(ppid)
-    ppid = "P0000001" if Rails.env.development? || ENV['FAKE_DATA'] # Otherwise it will never find registrar data for our fake users
-    registrar_hash = JSON.parse(File.read(ENV['REGISTRAR_DATA_PATH']))
-    @registrar_data = registrar_hash.select { |p| p.match(ppid) }.values.first
-    return @registrar_data if @registrar_data
-    Rails.logger.error "FAILURE TO EXPORT PROQUEST PACKAGE: Cannot find registrar data for user #{ppid} etd #{id}"
-    raise "Cannot find registrar data for user #{ppid} etd #{id}"
-  end
-
-  def registrar_data
-    @registrar_data ||= load_registrar_data_for_user(depositor)
   end
 
   def export_directory
@@ -202,8 +185,7 @@ module ProquestBehaviors
     end
   end
 
-  def export_proquest_xml
-    @registrar_data = registrar_data
+  def export_proquest_xml(registrar_data = {})
     lastname, firstname = creator.first.split(", ")
     builder = Nokogiri::XML::Builder.new do |xml|
       xml.DISS_submission(publishing_option: "0", embargo_code: embargo_code) {
@@ -217,12 +199,12 @@ module ProquestBehaviors
             xml.DISS_contact(type: "future") {
               xml.DISS_contact_effdt Time.zone.today.strftime('%m/%d/%Y')
               xml.DISS_address {
-                xml.DISS_addrline "#{@registrar_data['home address 1']} #{@registrar_data['home address 2']} #{@registrar_data['home address 3']}".strip!
-                xml.DISS_city @registrar_data["home address city"]
-                xml.DISS_st @registrar_data["home address state"]
-                xml.DISS_pcode @registrar_data["home address postal code"]
+                xml.DISS_addrline "#{registrar_data['home address 1']} #{registrar_data['home address 2']} #{registrar_data['home address 3']}".strip!
+                xml.DISS_city registrar_data["home address city"]
+                xml.DISS_st registrar_data["home address state"]
+                xml.DISS_pcode registrar_data["home address postal code"]
                 # Only provide the first two letters of the country code
-                xml.DISS_country @registrar_data["home address country code"][0..1]
+                xml.DISS_country registrar_data["home address country code"]&.slice(0..1)
               }
               xml.DISS_email post_graduation_email.first
             }
