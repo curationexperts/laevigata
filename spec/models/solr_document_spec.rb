@@ -59,7 +59,7 @@ RSpec.describe ::SolrDocument, type: :model do
 
     it 'returns the degree_awarded in UTC' do
       etd.degree_awarded = 'May 15, 1848'
-      expect(solr_doc.degree_awarded).to eq('1848-05-15T00:00:00Z')
+      expect(solr_doc.degree_awarded).to match('1848-05-15T')
     end
   end
 
@@ -83,7 +83,7 @@ RSpec.describe ::SolrDocument, type: :model do
 
     context 'when under embargo' do
       subject(:etd) do
-        FactoryBot.create(:tomorrow_expiration,
+        FactoryBot.build(:tomorrow_expiration,
                           files_embargoed: false,
                           toc_embargoed:   false)
       end

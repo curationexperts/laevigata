@@ -688,7 +688,7 @@ describe InProgressEtd do
 
       let(:new_data) do
         { 'title' => ['New ETD Title'],
-          'degree_awarded' => "2018-08-23T00:00:00.000+00:00",
+          'degree_awarded' => '2018-08-23',
           'embargo_length' => '1000 years',
           'keyword' => ['new keyword'],
           'department' => ['Some'],
@@ -702,10 +702,11 @@ describe InProgressEtd do
       let(:etd) { Etd.create!(new_data) }
       let(:ipe) { described_class.new(etd_id: etd.id, data: stale_data.to_json) }
 
-      it 'replaces the stale data with updated data' do
+      it 'replaces the stale data with updated data', :aggregate_failures do
         expect(
-          refreshed_data.except('committee_chair_attributes', 'ipe_id', 'etd_id', 'title', 'embargo_type', 'partnering_agency')
-          ).to eq new_data.except('committee_chair_attributes', 'title', 'embargo_type', 'partnering_agency')
+          refreshed_data.except('committee_chair_attributes', 'ipe_id', 'etd_id', 'title', 'embargo_type', 'partnering_agency', 'degree_awarded')
+          ).to eq new_data.except('committee_chair_attributes', 'title', 'embargo_type', 'partnering_agency', 'degree_awarded')
+        expect(refreshed_data['degree_awarded']).to match(new_data['degree_awarded'])
         expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Another University/)
         expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Merlin/)
         expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Emory University/)
