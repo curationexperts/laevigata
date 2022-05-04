@@ -312,31 +312,34 @@ RSpec.describe Etd do
   context "#degree_awarded" do
     let(:etd) { FactoryBot.build(:etd) }
     it "has the expected RDF predicate" do
-      etd.degree_awarded = "July 10, 2017"
-      etd_json = JSON.parse(etd.resource.dump(:jsonld))
-      expected_predicate = "http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted"
-      expect(etd_json.first[expected_predicate].first["@value"]).to eq "2017-07-10T00:00:00+00:00"
+      Time.use_zone('America/New_York') do
+        etd.degree_awarded = "July 10, 2017"
+        etd_json = JSON.parse(etd.resource.dump(:jsonld))
+        expected_predicate = "http://dublincore.org/documents/dcmi-terms/#terms-dateAccepted"
+        expect(etd_json.first[expected_predicate].first["@value"]).to match(/2017-07-10/)
+      end
     end
     it "value controls #post_graduation? response" do
       expect(etd.post_graduation?).to eq false
       etd.degree_awarded = "10 July 2017"
       expect(etd.post_graduation?).to eq true
     end
-    it "returns a Date class object" do
+    it "returns a DateTime class object" do
       etd.degree_awarded = "10 July 2017"
-      expect(etd.degree_awarded).to be_a_kind_of Date
+      expect(etd.degree_awarded).to be_a_kind_of DateTime
     end
-    it "stores Dates in UTC" do
+    it "cast Dates from midnight local time to UTC" do
       tz = Time.zone # save the timezone before changing it
-      Time.zone = "Antarctica/McMurdo"
+      Time.zone = "Antarctica/McMurdo" # set the ruby local timezone explicitly
       etd.degree_awarded = Time.zone.iso8601("1984-01-01")
       expect(etd.degree_awarded.utc?).to eq true
       expect(etd.degree_awarded.iso8601).to eq "1983-12-31T11:00:00+00:00"
       Time.zone = tz # reset the timezone for the rest of the test suite
     end
-    it "casts string dates to Date objects" do
+    it "casts Strings from midnight local time to DateTime objects" do
       etd.degree_awarded = "July 10, 2017"
-      july2017 = DateTime.new(2017, 0o7, 10, 0, 0, 0)
+      local_zone = Time.now.zone
+      july2017 = DateTime.new(2017, 7, 10, 0, 0, 0, local_zone)
       expect(etd.degree_awarded).to eq july2017
     end
     it "handles all Date and Time like classes", :aggregate_failures do

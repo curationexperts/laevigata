@@ -30,6 +30,6 @@ RSpec.describe EtdIndexer do
 
   it 'indexes degree_awarded as a sortable date' do
     etd.degree_awarded = 'December 04, 2012'
-    expect(solr_doc['degree_awarded_dtsi']).to eq '2012-12-04T00:00:00Z'
+    expect(solr_doc['degree_awarded_dtsi']).to match('2012-12-04')
   end
 end
