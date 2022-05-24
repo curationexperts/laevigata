@@ -15,32 +15,29 @@
             </div>
             <div class="panel-body">
               <div class="table-responsive">
-                <table class="table table-striped datatable" id="usersTable">
+                <table class="table table-striped datatable user-info" id="usersTable">
                   <thead>
                   <tr>
-                    <th><%= t('.id_label') %></th>
-                    <th><%= t('.displayname_label') %></th>
-                    <th><%= t('.status') %></th>
+                    <th class='display-name'><%= t('.displayname_label') %></th>
+                    <th class='net-id'><%= t('.id_label') %></th>
+                    <th class='ppid'><%= t('.ppid_label') %></th>
                     <th data-orderable="false"><%= t('.role_label') %></th>
                     <% if @presenter.show_last_access? %>
-                      <th><%= t('.access_label') %></th>
+                      <th  class='access'><%= t('.access_label') %></th>
                     <% end %>
-                    <th data-orderable="false"><%= t('.actions_label') %></th>
+                    <th class='user-status'><%= t('.status') %></th>
+                    <th class='actions' data-orderable="false"><%= t('.actions_label') %></th>
                   </tr>
                   </thead>
                   <tbody>
                   <% @presenter.users.each do |user| %>
                     <tr>
-                      <td><%= link_to user.uid || "", hyrax.dashboard_profile_path(user) %></td>
                       <td><%= link_to user.display_name || "", hyrax.dashboard_profile_path(user) %></td>
-                      <td>
-                        <% if user.deactivated %>
-                          <span class='label label-danger'>deactivated</span>
-                        <% end %>
-                      </td>
+                      <td><%= link_to user.uid || "", hyrax.dashboard_profile_path(user) %></td>
+                      <td><%= link_to user.ppid || "", hyrax.dashboard_profile_path(user) %></td>
                       <td>
                         <% roles = @presenter.user_roles(user) %>
-                        <ul>
+                        <ul class="workflow-roles">
                           <% roles.each do |role| %>
                             <li><%= role %></li>
                           <% end %>
@@ -52,6 +49,11 @@
                           <%= @presenter.last_accessed(user).to_formatted_s(:long_ordinal) %>
                         </td>
                       <% end %>
+                      <td>
+                        <% if user.deactivated %>
+                          <span class='label label-danger'>deactivated</span>
+                        <% end %>
+                      </td>
                       <td>
                         <% if user.deactivated %>
                           <%= link_to "Reactivate",  main_app.activate_path(:id=>user.id, :deactivated=>false), :method=>:put, :data => {:confirm => 'Are you sure you want to reactivate the user?'}%>
