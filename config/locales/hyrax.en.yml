@@ -82,7 +82,15 @@ en:
     contact_form:
       header: Help
     admin:
+      workflow_roles:
+        index:
+          header:
+            name: Display Name
+            netid: NetID
+            user: PPID
       users:
         index:
-          actions_label: "Actions"
-          displayname_label: "Display Name"
+          actions_label: Actions
+          displayname_label: Display Name
+          id_label: NetID
+          ppid_label: PPID

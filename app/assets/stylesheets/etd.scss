@@ -136,3 +136,16 @@ input.update_child_embargoes {
   margin-top: 1rem;
   margin-right: 1rem;
 }
+
+table.user-info {
+  // break long system names like "executive_masters_public_health_admin"
+  overflow-wrap: anywhere;
+
+  .display-name { width: 15%; }
+  .net-id { width: 10%; }
+  .ppid { width: 10%; }
+  .roles { }
+  .access { width: 10%; }
+  .user-status { width: 8%; }
+  .actions { width: 8%; }
+}
