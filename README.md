@@ -79,10 +79,10 @@ To set your dev environment for database authentication, you need to set this en
 Each Emory school, and each Rollins department, has its own AdminSet, which manages the approval
 workflow and approvers for that department or school.  To bootstrap a new environment run
 ```
-rake emory:update_approvers
+rake emory:update_roles
 ```
 This will create an AdminSet for each school in the schools.yml file, load the appropriate workflow,
-and set permissions such that any registered user can deposit. The `emory:update_approvers` task is idempotent 
+and set permissions such that any registered user can deposit. The `emory:update_roles` task is idempotent 
 -- you can run it over and over again safely.
 
 If you have a favorite username you like to use to login to the UI in your development environments, create 
@@ -93,7 +93,7 @@ A "superuser" can manage all admin_sets, edit all ETDs, and approve submissions
 for any school or department.
 
 To update approvers or superusers in your development environment, update the appropriate file in [config/emory/](https://github.com/curationexperts/laevigata/blob/main/config/emory/)
-and run 'rake emory:update_approvers'.  Refer to the wiki for instruction on how to update approvers 
+and run 'rake emory:update_roles'.  Refer to the wiki for instruction on how to update approvers 
 and superusers in production.
 
 ## Smoke Tests
