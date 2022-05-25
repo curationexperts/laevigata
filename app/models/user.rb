@@ -43,6 +43,18 @@ class User < ApplicationRecord
   # doesn't pass us all the info we need to make a User object, do not make
   # blank one. Usually if the user just tries to log in again it will work.
   # @param [OmniAuth::AuthHash] auth
+  # @example auth = #<OmniAuth::AuthHash /
+  #                   credentials=#<OmniAuth::AuthHash> /
+  #                   extra=#<OmniAuth::AuthHash /
+  #                   raw_info=#<OmniAuth::AuthHash>> /
+  #                   info=#<OmniAuth::AuthHash::InfoHash /
+  #                          display_name="Test User" /
+  #                          name="User, Test" /
+  #                          uid="tuser"> /
+  #                   provider="shibboleth" /
+  #                   uid="P8675309">
+  # @note auth.uid contains the Emory PPID auth.info.uid contains the login name (i.e. NetID)
+  # @note laevigata uses the PPID for the devise user_key (instead of the NetID)
   def self.from_omniauth(auth)
     Rails.logger.debug "auth = #{auth.inspect}"
     raise User::NilShibbolethUserError.new("No uid", auth) if auth.uid.empty? || auth.info.uid.empty?
