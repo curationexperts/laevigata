@@ -14,6 +14,8 @@ namespace :emory do
         users = if approvers.key? as.title.first
                   uids = approvers[as.title.first][role.name] || []
                   uids.map { |x| User.find_by(uid: x).to_sipity_agent }
+                else
+                  []
                 end
         as.active_workflow.update_responsibilities(role: role, agents: users + superusers)
       end
