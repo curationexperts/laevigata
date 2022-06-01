@@ -3,18 +3,18 @@
     "@rails/webpacker": "^5",
     "acorn": "^6.4.1",
     "axios": "^0.21.2",
-    "braces": "^2.3.1",
+    "braces": "^3.0.2",
     "browserslist": "^4.16.5",
-    "color-string": "^1.5.5",
+    "color-string": "^1.9.1",
     "core-js": "2",
     "css-loader": "^1.0.0",
     "formdata-polyfill": "^3.0.11",
-    "glob-parent": "^5.1.2",
-    "is-svg": "^4.2.2",
+    "glob-parent": "^6.0.2",
+    "is-svg": "^4.3.2",
     "kind-of": "^6.0.3",
     "lodash": "^4.17.21",
     "minimist": "^1.2.6",
-    "postcss": "^8.2.13",
+    "postcss": "^8.4.14",
     "postcss-cssnext": "^3.1.0",
     "ssri": "^7.1.1",
     "tar": "^6.1.9",
@@ -27,7 +27,7 @@
     "vue-turbolinks": "^2.0.3",
     "webpack-cli": "^3.3.2",
     "ws": "^7.4.6",
-    "yargs-parser": "^13.1.2"
+    "yargs-parser": "^21.0.1"
   },
   "scripts": {
     "test": "jest"
