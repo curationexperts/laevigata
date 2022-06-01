@@ -21,6 +21,7 @@
                     <th class='display-name'><%= t('.displayname_label') %></th>
                     <th class='net-id'><%= t('.id_label') %></th>
                     <th class='ppid'><%= t('.ppid_label') %></th>
+                    <th class='email'><%= t('.email_label') %></th>
                     <th data-orderable="false"><%= t('.role_label') %></th>
                     <% if @presenter.show_last_access? %>
                       <th  class='access'><%= t('.access_label') %></th>
@@ -35,6 +36,7 @@
                       <td><%= link_to user.display_name || "", hyrax.dashboard_profile_path(user) %></td>
                       <td><%= link_to user.uid || "", hyrax.dashboard_profile_path(user) %></td>
                       <td><%= link_to user.ppid || "", hyrax.dashboard_profile_path(user) %></td>
+                      <td><%= link_to user.email || "", hyrax.dashboard_profile_path(user) %></td>
                       <td>
                         <% roles = @presenter.user_roles(user) %>
                         <ul class="workflow-roles">
