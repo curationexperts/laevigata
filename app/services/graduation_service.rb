@@ -65,7 +65,7 @@ class GraduationService
 
   # Search registrar data for a student record with matching PPID, School, and Degree
   # @param [Hash] etd_solr_doc - Solr doc hash for corresponding ETD record
-  # @return [String, Hash]
+  # @return Array[Time, Hash{String->String}]
   #     grad_date - ISO formatted date if the student has graduated;
   #     grad_record - the corresponding registrar record
   def find_registrar_match(etd_solr_doc)
@@ -73,8 +73,9 @@ class GraduationService
     school = SCHOOL_MAP[etd_solr_doc['school_tesim']&.first]
     degree = DEGREE_MAP[etd_solr_doc['degree_tesim']&.first]
     registrar_index = "#{ppid}-#{school}-#{degree}"
+    dual_major_index = "#{ppid}-UBUS-BBA" if school == 'UCOL' && degree == 'BBA'
 
-    grad_record = @registrar_data[registrar_index] || { 'degree status descr' => 'Unmatched' }
+    grad_record = @registrar_data[registrar_index] || @registrar_data[dual_major_index] || { 'degree status descr' => 'Unmatched' }
     grad_date = extract_date(grad_record)
     log_registrar_match(etd_solr_doc, registrar_index, grad_record, grad_date)
     [grad_date, grad_record]

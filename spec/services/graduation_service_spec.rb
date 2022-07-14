@@ -66,6 +66,13 @@ describe GraduationService do
         end
       end
     end
+    describe "for undergrad business dual majors" do
+      let(:etd_solr_doc) { { 'id' => 'MatchingETD', 'depositor_ssim' => ['P0000006'], 'school_tesim' => ['Emory College'], 'degree_tesim' => ['B.B.A.'] } }
+      it 'accepts UBUS as relaxed match for UCOL' do
+        grad_date = grad_service.find_registrar_match(etd_solr_doc)[0]
+        expect(grad_date).to eq '2022-05-25'.to_time
+      end
+    end
     describe "for non-matches" do
       let(:etd_solr_doc) { { 'id' => 'UnmatchedETD', 'depositor_ssim' => ['P0000004'], 'school_tesim' => ['Emory College'], 'degree_tesim' => ['B.S.'] } }
       it 'logs warnings for near matches with the same PPID', :aggregate_failures do
