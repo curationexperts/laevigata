@@ -15,7 +15,7 @@ class GraduationService
   # Load the provided file into a JSON hash for processing
   def initialize(registrar_data_path)
     raise "Cannot find registrar data at: #{registrar_data_path || 'no path provided'}" unless File.file?(registrar_data_path)
-    Rails.logger.warn "Graduation service: Running graduation service with file #{registrar_data_path}"
+    Rails.logger.warn("GraduationService") {"Running with file #{registrar_data_path}"}
     @registrar_data = JSON.parse(File.read(registrar_data_path))
     @graduation_report = GraduationReport.new
   end
@@ -25,15 +25,16 @@ class GraduationService
   def run
     return unless @registrar_data
     approved_etds = graduation_eligible_works
-    Rails.logger.warn "GraduationService: There are #{approved_etds.count} ETDs approved for graduation"
+    Rails.logger.warn("GraduationService") { "There are #{approved_etds.count} ETDs approved for graduation" }
     publishable_etds = confirm_registrar_status(approved_etds)
-    Rails.logger.warn "GraduationService: There are #{publishable_etds.count} approved ETDs with recorded graduation dates"
+    Rails.logger.warn("GraduationService") {"There are #{registrar_matches.count} approved ETDs with recorded graduation dates"}
+    Rails.logger.warn("GraduationService") { "Results saved to #{@graduation_report.filename}" }
     publishable_etds.each do |etd|
-      Rails.logger.warn "Graduation service:  - Awarding degree for ETD #{etd['id']} effective #{etd['degree_awarded_dtsi']}"
+      Rails.logger.warn("GraduationService")  {"Awarding degree for ETD #{etd['id']} effective #{etd['degree_awarded_dtsi']}"}
       GraduationJob.perform_now(etd['id'], etd['degree_awarded_dtsi'], etd['grad_record'])
     end
-    Rails.logger.warn "GraduationService: Completed - Published #{publishable_etds.count} ETDs"
-    Rails.logger.warn "Results saved to #{@graduation_report.filename}"
+    Rails.logger.warn("GraduationService") {"Completed - Published #{publishable_etds.count} ETDs"}
+    Rails.logger.warn("GraduationService") { "Results saved to #{@graduation_report.filename}" }
   end
 
   # Find all ETDs in the 'approved' workflow state that are eligible for graduation
@@ -65,8 +66,6 @@ class GraduationService
     end
 
     @graduation_report.export
-    Rails.logger.warn "Results saved to #{@graduation_report.filename}"
-
     registrar_matches
   end
 
@@ -136,7 +135,7 @@ class GraduationService
       results[:status] = :pending
     end
 
-    Rails.logger.warn "GraduationService:  #{results.to_json}"
+    Rails.logger.warn("GraduationService") { results.to_json }
     @graduation_report.log(results)
   end
 

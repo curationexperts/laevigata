@@ -45,11 +45,17 @@ describe GraduationService do
         expect(grad_record['degree status date']).to eq '2017-03-16'
       end
       it 'logs match data', :aggregate_failures do
-        allow(Rails.logger).to receive(:warn)
-        _grad_record = grad_service.find_registrar_match(etd_solr_doc)
-        expect(Rails.logger).to have_received(:warn).with(/MatchingETD/)
-        expect(Rails.logger).to have_received(:warn).with(/P0000003-UCOL-LIBAS/)
-        expect(Rails.logger).to have_received(:warn).with(/2017-03-16/)
+        # allow(Rails.logger).to receive(:warn).with("GraduationService")
+        expect(Rails.logger).to receive(:warn).with("GraduationService").ordered do |&block|
+          expect(block.call).to eq "Running with file ./spec/fixtures/registrar_sample.json"
+        end
+        expect(Rails.logger).to receive(:warn).with("GraduationService").ordered do |&block|
+          log_message = block.call
+          expect(log_message).to include "MatchingETD"
+          expect(log_message).to include "P0000003-UCOL-LIBAS"
+          expect(log_message).to include "2017-03-16"
+        end
+        grad_service.find_registrar_match(etd_solr_doc)
       end
       describe "pending graduation" do
         let(:etd_solr_doc) { { 'id' => 'MatchingETD', 'depositor_ssim' => ['P0000001'], 'school_tesim' => ['Laney Graduate School'], 'degree_tesim' => ['Ph.D.'] } }
@@ -59,7 +65,7 @@ describe GraduationService do
         end
         it 'logs match data', :aggregate_failures do
           allow(Rails.logger).to receive(:warn)
-          _grad_record = grad_service.find_registrar_match(etd_solr_doc)
+          grad_service.find_registrar_match(etd_solr_doc)
           expect(Rails.logger).to have_received(:warn).with(/MatchingETD/)
           expect(Rails.logger).to have_received(:warn).with(/P0000001-GSAS-PHD/)
           expect(Rails.logger).to have_received(:warn).with(/pending/)
