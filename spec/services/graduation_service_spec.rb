@@ -73,6 +73,18 @@ describe GraduationService do
         expect(grad_date).to eq '2022-05-25'.to_time
       end
     end
+    describe "for program mis-matchess" do
+      let(:etd_solr_doc) { { 'id' => 'SameSchoolDifferentProgram', 'depositor_ssim' => ['P0000005'], 'school_tesim' => ['Laney Graduate School'], 'degree_tesim' => ['M.A.'] } }
+      it 'logs warning and graduates', :aggregate_failures do
+        allow(Rails.logger).to receive(:warn)
+        _grad_date, _grad_record = grad_service.find_registrar_match(etd_solr_doc)
+        expect(Rails.logger).to have_received(:warn).with(/SameSchoolDifferentProgram/)
+        expect(Rails.logger).to have_received(:warn).with(/registrar_key: P0000005-GSAS-MA/)
+        expect(Rails.logger).to have_received(:warn).with(/matched_key: P0000005-GSAS-PHD/)
+        expect(Rails.logger).to have_received(:warn).with(/graduation_date: 2020-05-25/)
+      end
+    end
+
     describe "for non-matches" do
       let(:etd_solr_doc) { { 'id' => 'UnmatchedETD', 'depositor_ssim' => ['P0000004'], 'school_tesim' => ['Emory College'], 'degree_tesim' => ['B.S.'] } }
       it 'logs warnings for near matches with the same PPID', :aggregate_failures do
@@ -80,8 +92,8 @@ describe GraduationService do
         _grad_date, _grad_record = grad_service.find_registrar_match(etd_solr_doc)
         expect(Rails.logger).to have_received(:warn).with(/UnmatchedETD/)
         expect(Rails.logger).to have_received(:warn).with(/P0000004-UCOL-LIBAS/)
-        expect(Rails.logger).to have_received(:warn).with(/P0000004-THEO-MDV \(2018-01-12\)/)
-        expect(Rails.logger).to have_received(:warn).with(/P0000004-THEO-THD \(2020-05-23\)/)
+        expect(Rails.logger).to have_received(:warn).with(/P0000004-THEO-MDV/)
+        expect(Rails.logger).to have_received(:warn).with(/P0000004-THEO-THD/)
       end
       it 'logs when no matches exist' do
         etd_solr_doc['depositor_ssim'] = ['P1234567']
@@ -95,7 +107,7 @@ describe GraduationService do
       end
       it 'returns a dummy registrar record' do
         _grad_date, grad_record = grad_service.find_registrar_match(etd_solr_doc)
-        expect(grad_record).to eq({ 'degree status descr' => 'Unmatched' })
+        expect(grad_record).to include({ 'degree status descr' => 'Unmatched' })
       end
     end
   end
