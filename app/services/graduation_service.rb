@@ -65,18 +65,28 @@ class GraduationService
 
   # Search registrar data for a student record with matching PPID, School, and Degree
   # @param [Hash] etd_solr_doc - Solr doc hash for corresponding ETD record
-  # @return [String, Hash]
+  # @return Array[Time, Hash{String->String}]
   #     grad_date - ISO formatted date if the student has graduated;
   #     grad_record - the corresponding registrar record
   def find_registrar_match(etd_solr_doc)
-    ppid = etd_solr_doc['depositor_ssim']&.first
-    school = SCHOOL_MAP[etd_solr_doc['school_tesim']&.first]
-    degree = DEGREE_MAP[etd_solr_doc['degree_tesim']&.first]
-    registrar_index = "#{ppid}-#{school}-#{degree}"
+    ppid = etd_solr_doc['depositor_ssim']&.first || "no PPID present"
+    school = SCHOOL_MAP[etd_solr_doc['school_tesim']&.first] || "unrecognized school"
+    program = PROGRAM_MAP[etd_solr_doc['degree_tesim']&.first] || "unrecognized degree"
+    registrar_key = "#{ppid}-#{school}-#{program}"
+    dual_major_fragment = "#{ppid}-UBUS" # ignore program when checking for dual majors
+    school_fragment = "#{ppid}-#{school}" # check for student and school match
 
-    grad_record = @registrar_data[registrar_index] || { 'degree status descr' => 'Unmatched' }
+    # find potential matches in the registrar data
+    exact_match = @registrar_data[registrar_key]
+    school_match = @registrar_data.select { |k, _v| k.match school_fragment }.values.last unless exact_match
+    dual_major_match = @registrar_data.select { |k, _v| k.match dual_major_fragment }.values.last if school == 'UCOL' && !(exact_match || school_match)
+
+    # use the closest match in order of priority
+    grad_record = exact_match || school_match || dual_major_match || { 'degree status descr' => 'Unmatched', 'etd record key' => registrar_key }
+
+    # extract the graduation date if a degree has been awarded
     grad_date = extract_date(grad_record)
-    log_registrar_match(etd_solr_doc, registrar_index, grad_record, grad_date)
+    log_registrar_match(etd_solr_doc, registrar_key, grad_record, grad_date)
     [grad_date, grad_record]
   end
 
@@ -91,29 +101,31 @@ class GraduationService
   end
 
   # Log status data to assist auditing and reporting on this run of the GraduationService
-  def log_registrar_match(etd_solr_doc, registrar_index, grad_record, grad_date)
+  def log_registrar_match(etd_solr_doc, registrar_key, grad_record, grad_date)
+    actual_key = grad_record['etd record key']
+
     case grad_record['degree status descr']
 
     # Exact match found with valid graduation date
     when /Awarded/i
-      msg = "awarded\", graduation_date: \"#{grad_date}"
+      msg = "awarded\", graduation_date: #{grad_date.strftime('%Y-%m-%d')}"
+      msg += ", matched_key: #{actual_key}" if registrar_key != actual_key
 
     # No match found in registrar data, look for similar records with matching PPID
     when /Unmatched/i
+      msg = "PPID not found in registrar data"
+
+      # list any keys matching PPID for other schools
       ppid = etd_solr_doc['depositor_ssim']&.first
-      id_matches = @registrar_data.select { |k, _v| k.match ppid }
-      msg = if id_matches.count > 0
-              "no match. Other records with matching PPID: " + id_matches.map { |_k, v| "#{v['etd record key']} (#{v['degree status date']})" }.join(', ')
-            else
-              "PPID not found in registrar data"
-            end
+      ppid_matches = @registrar_data.select { |k, _v| k.match ppid }.keys
+      msg += ", similar_keys: #{ppid_matches.inspect}" if ppid_matches.count > 0
 
     # Match found in registrar data, but no graduation date present
     else
       msg = "graduation pending"
     end
 
-    Rails.logger.warn "GraduationService:  - ETD: #{etd_solr_doc['id']}, registrar_key: #{registrar_index}, msg: \"#{msg}\""
+    Rails.logger.warn "GraduationService:  - ETD: #{etd_solr_doc['id']}, registrar_key: #{registrar_key}, msg: \"#{msg}\""
   end
 
   # Return a filtered version of the grad record that only includes data required for potential Proquest submission
@@ -121,13 +133,14 @@ class GraduationService
     grad_record.slice('home address 1', 'home address 2', 'home address 3', 'home address city', 'home address state', 'home address postal code', 'home address country code')
   end
 
-  # DEGREE_MAP: Keys = Laevigata degree codes (degree_tesim); Values = corresponding Registrar academic program codes
+  # PROGRAM_MAP: Keys = Laevigata degree codes (degree_tesim); Values = corresponding Registrar academic program codes
+  # We're using program codes to match instead of degree codes because program codes are always present in registrar data
   # degree codes extracted from live data which currently include both id and term values from https://github.com/curationexperts/laevigata/blob/main/config/authorities/degree.yml#L29
   # "BA", "BBA", "BS", "CRG", "DM", "DNP", "MA", "MDP", "MDV", "MPH", "MRL", "MRPL", "MS", "MSN", "MSPH", "MT", "MTS", "PHD"
   # academic program codes extracted from registrar_data*.json files:
   #   {"BA"=>"LIBAS", "BBA"=>"BBA", "BS"=>"LIBAS", "CRG"=>"CRGGS", "DM"=>"DM", "DNP"=>"DNP", "MA"=>"MA", "MDP"=>"MDP",
   #    "MDV"=>"MDV", "MPH"=>"MPH", "MRPL"=>"MRPL", "MS"=>"MS", "MSN"=>"MSN", "MSPH"=>"MSPH", "MT"=>"MT", "MTS"=>"MTS", "PHD"=>"PHD"}
-  DEGREE_MAP = {
+  PROGRAM_MAP = {
     "B.A." => "LIBAS", "BA" => "LIBAS",
     "B.B.A." => "BBA", "BBA" => "BBA",
     "B.S." => "LIBAS", "BS" => "LIBAS",
