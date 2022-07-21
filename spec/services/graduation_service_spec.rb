@@ -82,7 +82,7 @@ describe GraduationService do
         expect(Rails.logger).to have_received(:warn).with(/SameSchoolDifferentProgram/)
         expect(Rails.logger).to have_received(:warn).with(/"registrar_key":"P0000005-GSAS-MA"/)
         expect(Rails.logger).to have_received(:warn).with(/"reconciled_key":"P0000005-GSAS-PHD"/)
-        expect(Rails.logger).to have_received(:warn).with(/"graduation_date":"2020-05-25"/)
+        expect(Rails.logger).to have_received(:warn).with(/"grad_date":"2020-05-25"/)
       end
     end
 

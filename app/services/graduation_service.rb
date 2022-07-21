@@ -25,14 +25,15 @@ class GraduationService
   def run
     return unless @registrar_data
     approved_etds = graduation_eligible_works
+    Rails.logger.warn "GraduationService: There are #{approved_etds.count} ETDs approved for graduation"
     publishable_etds = confirm_registrar_status(approved_etds)
+    Rails.logger.warn "GraduationService: There are #{publishable_etds.count} approved ETDs with recorded graduation dates"
     publishable_etds.each do |etd|
       Rails.logger.warn "Graduation service:  - Awarding degree for ETD #{etd['id']} effective #{etd['degree_awarded_dtsi']}"
       GraduationJob.perform_now(etd['id'], etd['degree_awarded_dtsi'], etd['grad_record'])
     end
     Rails.logger.warn "GraduationService: Completed - Published #{publishable_etds.count} ETDs"
     Rails.logger.warn "Results saved to #{@graduation_report.filename}"
-    @graduation_report.close
   end
 
   # Find all ETDs in the 'approved' workflow state that are eligible for graduation
@@ -45,7 +46,6 @@ class GraduationService
       eligible_works.concat(batch)
     end
 
-    Rails.logger.warn "GraduationService: There are #{eligible_works.count} ETDs approved for graduation"
     eligible_works
   end
 
@@ -63,7 +63,10 @@ class GraduationService
       etd_solr_doc['grad_record'] = filter_address(grad_record)
       registrar_matches << etd_solr_doc if grad_date
     end
-    Rails.logger.warn "GraduationService: There are #{registrar_matches.count} approved ETDs with recorded graduation dates"
+
+    @graduation_report.export
+    Rails.logger.warn "Results saved to #{@graduation_report.filename}"
+
     registrar_matches
   end
 
@@ -109,7 +112,7 @@ class GraduationService
     # Exact match found with valid graduation date
     when /Awarded/i
       actual_key = grad_record['etd record key']
-      results[:graduation_date] = grad_record['degree status date']
+      results[:grad_date] = grad_record['degree status date']
       if registrar_key == actual_key
         results[:status] = :published_exact
       else
@@ -179,7 +182,11 @@ class GraduationService
 end
 
 class GraduationReport
-  REPORT_FIELDS = [:status, :etd_id, :registrar_key, :reconciled_key, :grad_date, :similar_keys, :shibboleth_name, :submission_name, :title].freeze
+  REPORT_FIELDS = [:status, :etd_id, :registrar_key, :reconciled_key, :grad_date, :similar_keys, :shibboleth_name, :submission_name, :title, :link].freeze
+  STATUS_ORDER = [:unmatched, :published_reconciled, :published_exact, :pending].freeze
+  STATUS_INDEX = REPORT_FIELDS.index(:status)
+  REGISTRAR_KEY_INDEX = REPORT_FIELDS.index(:registrar_key)
+
   require 'csv'
   include Rails.application.routes.url_helpers
 
@@ -187,20 +194,38 @@ class GraduationReport
 
   def initialize
     @filename = Rails.root.join('log', "graduation-#{Time.current.strftime('%FT%T')}.csv")
-    @report = CSV.open(@filename, "w")
-    @report << REPORT_FIELDS + [:link]
+    @report_data = []
   end
 
-  def close
+  def export
+    @report = CSV.open(@filename, "w")
+    @report << REPORT_FIELDS.map(&:upcase)
+
+    # group records by status and sort within groups by report_key
+    STATUS_ORDER.each do |status|
+      status_group = @report_data.select { |row| row[STATUS_INDEX] == status }.sort_by { |a, b| report_key(a) <=> report_key(b) }
+      @report << blank_row if status_group.count > 0
+      status_group.each { |row| @report << row }
+    end
+
     @report.close
   end
 
   def log(**fields)
-    row = []
-    REPORT_FIELDS.each do |field_name|
-      row << fields[field_name]
-    end
-    row << hyrax_etd_url(fields[:etd_id])
-    @report << row
+    fields[:link] = hyrax_etd_url(fields[:etd_id])
+    row = REPORT_FIELDS.map { |field_name| fields[field_name] }
+    @report_data << row
+  end
+
+  private
+
+  # encapsulate the rules for sorting rows
+  def report_key(row)
+    ppid, school, program = row[REGISTRAR_KEY_INDEX]&.split('-')
+    "#{school}-#{program}-#{ppid}"
+  end
+
+  def blank_row
+    REPORT_FIELDS.map { |e| nil }
   end
 end
