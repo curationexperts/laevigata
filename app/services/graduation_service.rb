@@ -17,6 +17,7 @@ class GraduationService
     raise "Cannot find registrar data at: #{registrar_data_path || 'no path provided'}" unless File.file?(registrar_data_path)
     Rails.logger.warn "Graduation service: Running graduation service with file #{registrar_data_path}"
     @registrar_data = JSON.parse(File.read(registrar_data_path))
+    @graduation_report = GraduationReport.new
   end
 
   # Find all ETDs that have been 'approved' but not yet 'published'
@@ -30,6 +31,8 @@ class GraduationService
       GraduationJob.perform_now(etd['id'], etd['degree_awarded_dtsi'], etd['grad_record'])
     end
     Rails.logger.warn "GraduationService: Completed - Published #{publishable_etds.count} ETDs"
+    Rails.logger.warn "Results saved to #{@graduation_report.filename}"
+    @graduation_report.close
   end
 
   # Find all ETDs in the 'approved' workflow state that are eligible for graduation
@@ -54,7 +57,8 @@ class GraduationService
   def confirm_registrar_status(candidate_etds)
     registrar_matches = []
     candidate_etds.each do |etd_solr_doc|
-      grad_date, grad_record = find_registrar_match(etd_solr_doc)
+      grad_record = find_registrar_match(etd_solr_doc)
+      grad_date = extract_date(grad_record)
       etd_solr_doc['degree_awarded_dtsi'] = grad_date
       etd_solr_doc['grad_record'] = filter_address(grad_record)
       registrar_matches << etd_solr_doc if grad_date
@@ -65,9 +69,7 @@ class GraduationService
 
   # Search registrar data for a student record with matching PPID, School, and Degree
   # @param [Hash] etd_solr_doc - Solr doc hash for corresponding ETD record
-  # @return Array[Time, Hash{String->String}]
-  #     grad_date - ISO formatted date if the student has graduated;
-  #     grad_record - the corresponding registrar record
+  # @return Hash{String->String} - the closest matching registrar record
   def find_registrar_match(etd_solr_doc)
     ppid = etd_solr_doc['depositor_ssim']&.first || "no PPID present"
     school = SCHOOL_MAP[etd_solr_doc['school_tesim']&.first] || "unrecognized school"
@@ -83,11 +85,8 @@ class GraduationService
 
     # use the closest match in order of priority
     grad_record = exact_match || school_match || dual_major_match || { 'degree status descr' => 'Unmatched', 'etd record key' => registrar_key }
-
-    # extract the graduation date if a degree has been awarded
-    grad_date = extract_date(grad_record)
-    log_registrar_match(etd_solr_doc, registrar_key, grad_record, grad_date)
-    [grad_date, grad_record]
+    log_registrar_match(etd_solr_doc, registrar_key, grad_record)
+    grad_record
   end
 
   # Checks a registrar record for a valid graduation date
@@ -101,31 +100,41 @@ class GraduationService
   end
 
   # Log status data to assist auditing and reporting on this run of the GraduationService
-  def log_registrar_match(etd_solr_doc, registrar_key, grad_record, grad_date)
-    actual_key = grad_record['etd record key']
+  def log_registrar_match(etd_solr_doc, registrar_key, grad_record)
+    results = { etd_id: etd_solr_doc['id'],
+                registrar_key: registrar_key,
+                title: etd_solr_doc['title_tesim']&.first }
 
     case grad_record['degree status descr']
-
     # Exact match found with valid graduation date
     when /Awarded/i
-      msg = "awarded\", graduation_date: #{grad_date.strftime('%Y-%m-%d')}"
-      msg += ", matched_key: #{actual_key}" if registrar_key != actual_key
+      actual_key = grad_record['etd record key']
+      results[:graduation_date] = grad_record['degree status date']
+      if registrar_key == actual_key
+        results[:status] = :published_exact
+      else
+        results[:status] = :published_reconciled
+        results[:reconciled_key] = actual_key
+      end
 
     # No match found in registrar data, look for similar records with matching PPID
     when /Unmatched/i
-      msg = "PPID not found in registrar data"
+      results[:status] = :unmatched
 
       # list any keys matching PPID for other schools
       ppid = etd_solr_doc['depositor_ssim']&.first
       ppid_matches = @registrar_data.select { |k, _v| k.match ppid }.keys
-      msg += ", similar_keys: #{ppid_matches.inspect}" if ppid_matches.count > 0
+      results[:similar_keys] = ppid_matches.join(' ') if ppid_matches.count > 0
+      results[:submission_name] = etd_solr_doc['creator_tesim']&.first
+      results[:shibboleth_name] = User.find_by(ppid: ppid)&.display_name
 
     # Match found in registrar data, but no graduation date present
     else
-      msg = "graduation pending"
+      results[:status] = :pending
     end
 
-    Rails.logger.warn "GraduationService:  - ETD: #{etd_solr_doc['id']}, registrar_key: #{registrar_key}, msg: \"#{msg}\""
+    Rails.logger.warn "GraduationService:  #{results.to_json}"
+    @graduation_report.log(results)
   end
 
   # Return a filtered version of the grad record that only includes data required for potential Proquest submission
@@ -167,4 +176,31 @@ class GraduationService
     "Rollins School of Public Health" => "PUBH",
     "Woodruff School of Nursing" => "GNUR"
   }.freeze
+end
+
+class GraduationReport
+  REPORT_FIELDS = [:status, :etd_id, :registrar_key, :reconciled_key, :grad_date, :similar_keys, :shibboleth_name, :submission_name, :title].freeze
+  require 'csv'
+  include Rails.application.routes.url_helpers
+
+  attr_reader :filename
+
+  def initialize
+    @filename = Rails.root.join('log', "graduation-#{Time.current.strftime('%FT%T')}.csv")
+    @report = CSV.open(@filename, "w")
+    @report << REPORT_FIELDS + [:link]
+  end
+
+  def close
+    @report.close
+  end
+
+  def log(**fields)
+    row = []
+    REPORT_FIELDS.each do |field_name|
+      row << fields[field_name]
+    end
+    row << hyrax_etd_url(fields[:etd_id])
+    @report << row
+  end
 end

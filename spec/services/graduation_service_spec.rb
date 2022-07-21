@@ -37,29 +37,29 @@ describe GraduationService do
     describe "for exact matches" do
       let(:etd_solr_doc) { { 'id' => 'MatchingETD', 'depositor_ssim' => ['P0000003'], 'school_tesim' => ['Emory College'], 'degree_tesim' => ['B.S.'] } }
       it 'returns the matched record' do
-        record_key = grad_service.find_registrar_match(etd_solr_doc)[1]['etd record key']
+        record_key = grad_service.find_registrar_match(etd_solr_doc)['etd record key']
         expect(record_key).to eq 'P0000003-UCOL-LIBAS'
       end
-      it 'returns verified graduation dates' do
-        grad_date = grad_service.find_registrar_match(etd_solr_doc)[0]
-        expect(grad_date).to eq '2017-03-16'.to_time
+      it 'returns graduation dates' do
+        grad_record = grad_service.find_registrar_match(etd_solr_doc)
+        expect(grad_record['degree status date']).to eq '2017-03-16'
       end
       it 'logs match data', :aggregate_failures do
         allow(Rails.logger).to receive(:warn)
-        _grad_date, _grad_record = grad_service.find_registrar_match(etd_solr_doc)
+        _grad_record = grad_service.find_registrar_match(etd_solr_doc)
         expect(Rails.logger).to have_received(:warn).with(/MatchingETD/)
         expect(Rails.logger).to have_received(:warn).with(/P0000003-UCOL-LIBAS/)
         expect(Rails.logger).to have_received(:warn).with(/2017-03-16/)
       end
       describe "pending graduation" do
         let(:etd_solr_doc) { { 'id' => 'MatchingETD', 'depositor_ssim' => ['P0000001'], 'school_tesim' => ['Laney Graduate School'], 'degree_tesim' => ['Ph.D.'] } }
-        it 'returns nil graduation date' do
-          grad_date, _grad_record = grad_service.find_registrar_match(etd_solr_doc)
-          expect(grad_date).to be_nil
+        it 'has no degree award date' do
+          grad_record = grad_service.find_registrar_match(etd_solr_doc)
+          expect(grad_record['degree status date']).to be_blank
         end
         it 'logs match data', :aggregate_failures do
           allow(Rails.logger).to receive(:warn)
-          _grad_date, _grad_record = grad_service.find_registrar_match(etd_solr_doc)
+          _grad_record = grad_service.find_registrar_match(etd_solr_doc)
           expect(Rails.logger).to have_received(:warn).with(/MatchingETD/)
           expect(Rails.logger).to have_received(:warn).with(/P0000001-GSAS-PHD/)
           expect(Rails.logger).to have_received(:warn).with(/pending/)
@@ -69,19 +69,20 @@ describe GraduationService do
     describe "for undergrad business dual majors" do
       let(:etd_solr_doc) { { 'id' => 'MatchingETD', 'depositor_ssim' => ['P0000006'], 'school_tesim' => ['Emory College'], 'degree_tesim' => ['B.B.A.'] } }
       it 'accepts UBUS as relaxed match for UCOL' do
-        grad_date = grad_service.find_registrar_match(etd_solr_doc)[0]
-        expect(grad_date).to eq '2022-05-25'.to_time
+        grad_record = grad_service.find_registrar_match(etd_solr_doc)
+        expect(grad_record['degree status date']).to eq '2022-05-25'
       end
     end
+
     describe "for program mis-matchess" do
       let(:etd_solr_doc) { { 'id' => 'SameSchoolDifferentProgram', 'depositor_ssim' => ['P0000005'], 'school_tesim' => ['Laney Graduate School'], 'degree_tesim' => ['M.A.'] } }
       it 'logs warning and graduates', :aggregate_failures do
         allow(Rails.logger).to receive(:warn)
-        _grad_date, _grad_record = grad_service.find_registrar_match(etd_solr_doc)
+        _grad_record = grad_service.find_registrar_match(etd_solr_doc)
         expect(Rails.logger).to have_received(:warn).with(/SameSchoolDifferentProgram/)
-        expect(Rails.logger).to have_received(:warn).with(/registrar_key: P0000005-GSAS-MA/)
-        expect(Rails.logger).to have_received(:warn).with(/matched_key: P0000005-GSAS-PHD/)
-        expect(Rails.logger).to have_received(:warn).with(/graduation_date: 2020-05-25/)
+        expect(Rails.logger).to have_received(:warn).with(/"registrar_key":"P0000005-GSAS-MA"/)
+        expect(Rails.logger).to have_received(:warn).with(/"reconciled_key":"P0000005-GSAS-PHD"/)
+        expect(Rails.logger).to have_received(:warn).with(/"graduation_date":"2020-05-25"/)
       end
     end
 
@@ -89,7 +90,7 @@ describe GraduationService do
       let(:etd_solr_doc) { { 'id' => 'UnmatchedETD', 'depositor_ssim' => ['P0000004'], 'school_tesim' => ['Emory College'], 'degree_tesim' => ['B.S.'] } }
       it 'logs warnings for near matches with the same PPID', :aggregate_failures do
         allow(Rails.logger).to receive(:warn)
-        _grad_date, _grad_record = grad_service.find_registrar_match(etd_solr_doc)
+        _grad_record = grad_service.find_registrar_match(etd_solr_doc)
         expect(Rails.logger).to have_received(:warn).with(/UnmatchedETD/)
         expect(Rails.logger).to have_received(:warn).with(/P0000004-UCOL-LIBAS/)
         expect(Rails.logger).to have_received(:warn).with(/P0000004-THEO-MDV/)
@@ -98,15 +99,15 @@ describe GraduationService do
       it 'logs when no matches exist' do
         etd_solr_doc['depositor_ssim'] = ['P1234567']
         allow(Rails.logger).to receive(:warn)
-        _grad_date, _grad_record = grad_service.find_registrar_match(etd_solr_doc)
-        expect(Rails.logger).to have_received(:warn).with(/PPID not found in registrar data/)
+        _grad_record = grad_service.find_registrar_match(etd_solr_doc)
+        expect(Rails.logger).to have_received(:warn).with(/"status":"unmatched"/)
       end
-      it 'returns nil graduation date' do
-        grad_date, _grad_record = grad_service.find_registrar_match(etd_solr_doc)
-        expect(grad_date).to be_nil
+      it 'have no degree award date' do
+        grad_record = grad_service.find_registrar_match(etd_solr_doc)
+        expect(grad_record['degree status date']).to be_nil
       end
       it 'returns a dummy registrar record' do
-        _grad_date, grad_record = grad_service.find_registrar_match(etd_solr_doc)
+        grad_record = grad_service.find_registrar_match(etd_solr_doc)
         expect(grad_record).to include({ 'degree status descr' => 'Unmatched' })
       end
     end
