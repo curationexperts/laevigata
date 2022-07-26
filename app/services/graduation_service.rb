@@ -89,6 +89,7 @@ class GraduationService
     # use the closest match in order of priority
     grad_record = exact_match || school_match || dual_major_match || { 'degree status descr' => 'Unmatched', 'etd record key' => registrar_key }
     log_registrar_match(etd_solr_doc, registrar_key, grad_record)
+
     grad_record
   end
 
@@ -123,7 +124,6 @@ class GraduationService
     # No match found in registrar data, look for similar records with matching PPID
     when /Unmatched/i
       results[:status] = :unmatched
-
       # list any keys matching PPID for other schools
       ppid = etd_solr_doc['depositor_ssim']&.first
       ppid_matches = @registrar_data.select { |k, _v| k.match ppid }.keys

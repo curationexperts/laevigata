@@ -73,7 +73,6 @@ describe GraduationService do
         expect(grad_record['degree status date']).to eq '2022-05-25'
       end
     end
-
     describe "for program mis-matchess" do
       let(:etd_solr_doc) { { 'id' => 'SameSchoolDifferentProgram', 'depositor_ssim' => ['P0000005'], 'school_tesim' => ['Laney Graduate School'], 'degree_tesim' => ['M.A.'] } }
       it 'logs warning and graduates', :aggregate_failures do
