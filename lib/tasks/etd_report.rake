@@ -6,7 +6,7 @@ namespace :emory do
                  post_graduation_email degree_awarded graduation_date partnering_agency
                  date_created date_uploaded abstract]
 
-    CSV.open(Rails.root.join("private", "report.csv").to_s, "wb", write_headers: true, headers: headers) do |csv|
+    CSV.open(Rails.root.join("private", "etd_report.csv").to_s, "wb", write_headers: true, headers: headers) do |csv|
       Etd.search_in_batches({ workflow_state_name_ssim: 'published' }, batch_size: 10) do |batch|
         batch.map { |x| Etd.find(x['id']) }.each do |etd|
           row = {}
