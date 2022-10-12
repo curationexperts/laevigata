@@ -1,7 +1,7 @@
 [
   {
     "label": "Copyright",
-    "text": "Does your thesis or dissertation contain content, such as a previously published article, for which you no longer own copyright? If you have questions about your use of copyrighted material, contact the Scholarly Communications Office at scholcom@listserv.cc.emory.edu",
+    "text": "Does your thesis or dissertation contain content, such as a previously published article, for which you no longer own copyright? If you have questions about your use of copyrighted material, contact the Scholarly Communications Office at scholcomm@listserv.cc.emory.edu",
     "chice": "false",
     "name": "etd[other_copyrights]"
   },
