@@ -611,7 +611,7 @@ GEM
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
     logger (1.4.3)
-    loofah (2.17.0)
+    loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.6.6.rc1)
@@ -698,7 +698,7 @@ GEM
       nokogiri (~> 1.6)
       rails (>= 5.0, < 6.2)
       rdf
-    racc (1.6.0)
+    racc (1.6.1)
     rack (2.2.3.1)
     rack-proxy (0.6.5)
       rack
@@ -1076,7 +1076,7 @@ DEPENDENCIES
   jquery-rails
   launchy
   listen (~> 3.0.5)
-  loofah (~> 2.3)
+  loofah (~> 2.19)
   mail (= 2.6.6.rc1)
   net-sftp
   nokogiri (>= 1.10.4)
