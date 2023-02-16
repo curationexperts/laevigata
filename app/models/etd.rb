@@ -163,7 +163,7 @@ class Etd < ActiveFedora::Base
       super(value.to_time.utc)
     when String
       Rails.logger.warn("Assigning #{__method__} to a string is deprecated. Casting to a Time class value.")
-      super(Date.parse(value).to_time.utc)
+      super(Date.parse(value).at_midnight.utc)
     when NilClass
       super(nil)
     else

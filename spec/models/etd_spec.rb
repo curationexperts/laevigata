@@ -337,10 +337,12 @@ RSpec.describe Etd do
       Time.zone = tz # reset the timezone for the rest of the test suite
     end
     it "casts Strings from midnight local time to DateTime objects" do
+      tz = Time.zone # save the timezone before changing it
+      Time.zone = "Pacific Time (US & Canada)" # set the ruby local timezone explicitly
       etd.degree_awarded = "July 10, 2017"
-      local_zone = Time.now.zone
-      july2017 = DateTime.new(2017, 7, 10, 0, 0, 0, local_zone)
+      july2017 = Time.zone.local(2017, 0o7, 10, 0, 0, 0)
       expect(etd.degree_awarded).to eq july2017
+      Time.zone = tz # reset the timezone for the rest of the test suite
     end
     it "handles all Date and Time like classes", :aggregate_failures do
       expect { etd.degree_awarded = Time.zone.local(1984) }.not_to raise_error
