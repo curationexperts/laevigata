@@ -1,6 +1,7 @@
 require 'yaml'
 
 namespace :emory do
+  desc "Update AdminSets and associated approvers"
   task update_roles: :environment do
     # create workflows
     WorkflowSetup.new.setup
