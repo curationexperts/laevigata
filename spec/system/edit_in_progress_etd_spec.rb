@@ -1,7 +1,5 @@
-# Generated via `rails generate hyrax:work Etd`
+# frozen_string_literal: true
 require 'rails_helper'
-
-include Warden::Test::Helpers
 
 RSpec.describe 'Edit an existing ETD', :clean, integration: true, type: :system do
   context "no unauthorized users can see a student's in progress ETD" do

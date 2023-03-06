@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 require 'rails_helper'
-include Warden::Test::Helpers
 
 RSpec.describe 'Feature configuration', type: :system, integration: true do
   context 'via a config file' do

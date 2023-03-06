@@ -1,8 +1,6 @@
-# Generated via
-#  `rails generate hyrax:work Etd`
+# frozen_string_literal: true
 require 'rails_helper'
 require 'workflow_setup'
-include Warden::Test::Helpers
 
 RSpec.describe 'Virus checking', :perform_jobs, :clean, :js, integration: true, type: :system do
   let(:depositing_user) { User.where(ppid: etd.depositor).first }

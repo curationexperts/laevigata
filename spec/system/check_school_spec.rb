@@ -1,6 +1,5 @@
+# frozen_string_literal: true
 require 'rails_helper'
-
-include Warden::Test::Helpers
 
 RSpec.feature 'Check for school', :clean, integration: true, js: true, type: :system do
   let(:user) { create :user }

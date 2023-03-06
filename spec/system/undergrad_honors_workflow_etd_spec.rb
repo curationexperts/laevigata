@@ -1,8 +1,6 @@
-# Generated via
-#  `rails generate hyrax:work Etd`
+# frozen_string_literal: true
 require 'rails_helper'
 require 'workflow_setup'
-include Warden::Test::Helpers
 
 RSpec.describe 'Emory College approval workflow', :perform_jobs, :clean, :js, integration: true, type: :system, workflow: { admin_sets_config: 'spec/fixtures/config/emory/ec_admin_sets.yml' } do
   let(:depositing_user) { User.where(ppid: etd.depositor).first }

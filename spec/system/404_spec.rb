@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 require 'rails_helper'
-include Warden::Test::Helpers
 
 RSpec.describe 'Getting a 404 for RecordNotFound', type: :system do
   before do

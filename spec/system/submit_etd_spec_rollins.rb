@@ -1,8 +1,5 @@
 # frozen_string_literal: true
-
 require "rails_helper"
-
-include Warden::Test::Helpers
 
 RSpec.describe "Logged in student can submit an ETD", :clean, type: :system do
   let(:student) { create :user }

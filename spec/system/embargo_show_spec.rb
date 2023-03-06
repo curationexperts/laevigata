@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 require 'rails_helper'
 require 'workflow_setup'
-include Warden::Test::Helpers
 
 RSpec.describe 'Display an ETD with embargoed content', :perform_jobs, :js, integration: true, type: :system do
   let(:attributes) do

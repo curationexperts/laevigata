@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 require 'rails_helper'
-include Warden::Test::Helpers
 
 RSpec.describe 'Password protect non production instances', type: :system do
   let(:login) { 'admin' }
