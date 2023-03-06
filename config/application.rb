@@ -23,6 +23,9 @@ module Laevigata
     config.middleware.use(::ExceptionMiddleware)
     config.autoload_paths += %W[#{config.root}/lib]
 
+    # Allow psych to serialize additional classes - see https://stackoverflow.com/a/72970171
+    config.active_record.yaml_column_permitted_classes = [ActiveSupport::HashWithIndifferentAccess]
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

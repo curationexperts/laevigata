@@ -1,4 +1,5 @@
 require 'rails_helper'
+include Warden::Test::Helpers
 
 RSpec.feature 'Search for an ETD', type: :system, integration: true do
   let(:etd) do
