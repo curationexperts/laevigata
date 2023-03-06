@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 require 'rails_helper'
 require 'workflow_setup'
-include Warden::Test::Helpers
 
 RSpec.describe 'Dashboard workflow', :clean, integration: true, type: :system do
   let(:approving_user)  { User.find_by(uid: "candleradmin") }

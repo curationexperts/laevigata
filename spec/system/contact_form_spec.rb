@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe 'contact form page', integration: true, smoke_test: true, type: :system do

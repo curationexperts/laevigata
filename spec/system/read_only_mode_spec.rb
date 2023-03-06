@@ -1,7 +1,5 @@
-# Generated via `rails generate hyrax:work Etd`
+# frozen_string_literal: true
 require 'rails_helper'
-
-include Warden::Test::Helpers
 
 RSpec.describe 'Read Only Mode', type: :system, integration: true do
   before(:all) do

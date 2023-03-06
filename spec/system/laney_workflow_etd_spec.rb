@@ -1,8 +1,6 @@
-# Generated via
-#  `rails generate hyrax:work Etd`
+# frozen_string_literal: true
 require 'rails_helper'
 require 'workflow_setup'
-include Warden::Test::Helpers
 
 RSpec.feature 'Laney Graduate School two step approval workflow',
               :perform_jobs,

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe 'Collection objects should not appear in search results', :clean, integration: true, type: :system do

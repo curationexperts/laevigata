@@ -1,8 +1,6 @@
-# Generated via
-#  `rails generate hyrax:work Etd`
+# frozen_string_literal: true
 require 'rails_helper'
 require 'workflow_setup'
-include Warden::Test::Helpers
 
 RSpec.feature 'Edit an existing ETD',
               :perform_jobs,

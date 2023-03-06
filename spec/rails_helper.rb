@@ -129,6 +129,7 @@ RSpec.configure do |config|
 
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
+  config.include Warden::Test::Helpers, type: :system
   config.include Capybara::RSpecMatchers, type: :input
 
   config.include Warden::Test::Helpers, type: :feature

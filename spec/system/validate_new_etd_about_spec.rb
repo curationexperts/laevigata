@@ -1,6 +1,5 @@
+# frozen_string_literal: true
 require 'rails_helper'
-
-include Warden::Test::Helpers
 
 RSpec.describe 'Validate an Etd: About Me', type: :system, integration: true do
   let(:user) { create :user }

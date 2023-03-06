@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 require 'rails_helper'
-include Warden::Test::Helpers
 
 RSpec.describe 'show user profile', type: :system, integration: true do
   let(:user) { FactoryBot.create(:user) }
