@@ -1,0 +1,2 @@
+class RegistrarFeed < ApplicationRecord
+end

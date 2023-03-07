@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Registrar Feeds</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Approved etds</th>
+      <th>Graduated etds</th>
+      <th>Published etds</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @registrar_feeds.each do |registrar_feed| %>
+      <tr>
+        <td><%= registrar_feed.status %></td>
+        <td><%= registrar_feed.approved_etds %></td>
+        <td><%= registrar_feed.graduated_etds %></td>
+        <td><%= registrar_feed.published_etds %></td>
+        <td><%= link_to 'Show', registrar_feed %></td>
+        <td><%= link_to 'Edit', edit_registrar_feed_path(registrar_feed) %></td>
+        <td><%= link_to 'Destroy', registrar_feed, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Registrar Feed', new_registrar_feed_path %>

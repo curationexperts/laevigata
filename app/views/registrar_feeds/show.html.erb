@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @registrar_feed.status %>
+</p>
+
+<p>
+  <strong>Approved etds:</strong>
+  <%= @registrar_feed.approved_etds %>
+</p>
+
+<p>
+  <strong>Graduated etds:</strong>
+  <%= @registrar_feed.graduated_etds %>
+</p>
+
+<p>
+  <strong>Published etds:</strong>
+  <%= @registrar_feed.published_etds %>
+</p>
+
+<%= link_to 'Edit', edit_registrar_feed_path(@registrar_feed) %> |
+<%= link_to 'Back', registrar_feeds_path %>
