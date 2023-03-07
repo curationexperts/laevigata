@@ -1,0 +1,69 @@
+class RegistrarFeedsController < ApplicationController
+  before_action :set_registrar_feed, only: %i[ show edit update destroy ]
+
+  # GET /registrar_feeds or /registrar_feeds.json
+  def index
+    @registrar_feeds = RegistrarFeed.all
+  end
+
+  # GET /registrar_feeds/1 or /registrar_feeds/1.json
+  def show
+  end
+
+  # GET /registrar_feeds/new
+  def new
+    @registrar_feed = RegistrarFeed.new
+  end
+
+  # GET /registrar_feeds/1/edit
+  def edit
+  end
+
+  # POST /registrar_feeds or /registrar_feeds.json
+  def create
+    @registrar_feed = RegistrarFeed.new(registrar_feed_params)
+
+    respond_to do |format|
+      if @registrar_feed.save
+        format.html { redirect_to @registrar_feed, notice: "Registrar feed was successfully created." }
+        format.json { render :show, status: :created, location: @registrar_feed }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @registrar_feed.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /registrar_feeds/1 or /registrar_feeds/1.json
+  def update
+    respond_to do |format|
+      if @registrar_feed.update(registrar_feed_params)
+        format.html { redirect_to @registrar_feed, notice: "Registrar feed was successfully updated." }
+        format.json { render :show, status: :ok, location: @registrar_feed }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @registrar_feed.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /registrar_feeds/1 or /registrar_feeds/1.json
+  def destroy
+    @registrar_feed.destroy
+    respond_to do |format|
+      format.html { redirect_to registrar_feeds_url, notice: "Registrar feed was successfully destroyed." }
+      format.json { head :no_content }
+    end
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_registrar_feed
+      @registrar_feed = RegistrarFeed.find(params[:id])
+    end
+
+    # Only allow a list of trusted parameters through.
+    def registrar_feed_params
+      params.require(:registrar_feed).permit(:status, :approved_etds, :graduated_etds, :published_etds)
+    end
+end
