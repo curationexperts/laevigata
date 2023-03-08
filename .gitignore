@@ -18,6 +18,9 @@ tmp/
 *.tmp
 spec/fixtures/proquest/output.xml
 
+# Ignore ActiveStorage data directories
+**/storage/
+
 # Ignore Byebug command history file.
 .byebug_history
 

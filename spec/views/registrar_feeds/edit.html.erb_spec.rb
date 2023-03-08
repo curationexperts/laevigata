@@ -2,12 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "registrar_feeds/edit", type: :view do
   before do
-    @registrar_feed = assign(:registrar_feed, RegistrarFeed.create!(
-      status: 1,
-      approved_etds: 1,
-      graduated_etds: 1,
-      published_etds: 1
-    ))
+    @registrar_feed = assign(:registrar_feed, FactoryBot.create(:registrar_feed))
   end
 
   it "renders the edit registrar_feed form" do

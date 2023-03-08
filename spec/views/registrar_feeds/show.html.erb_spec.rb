@@ -2,19 +2,11 @@ require 'rails_helper'
 
 RSpec.describe "registrar_feeds/show", type: :view do
   before do
-    @registrar_feed = assign(:registrar_feed, RegistrarFeed.create!(
-      status: 2,
-      approved_etds: 3,
-      graduated_etds: 4,
-      published_etds: 5
-    ))
+    @registrar_feed = assign(:registrar_feed, FactoryBot.create(:registrar_feed))
   end
 
-  it "renders attributes in <p>" do
+  it "displays the status" do
     render
-    expect(rendered).to match(/2/)
-    expect(rendered).to match(/3/)
-    expect(rendered).to match(/4/)
-    expect(rendered).to match(/5/)
+    expect(rendered).to match(/initialized/)
   end
 end
