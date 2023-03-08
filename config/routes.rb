@@ -75,7 +75,6 @@ Rails.application.routes.draw do
     end
   end
 
-
   get 'error_404', to: 'pages#error_404'
   # If you go somewhere without a route, show a 404 page
   match '*path', via: :all, to: 'pages#error_404'
