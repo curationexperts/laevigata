@@ -1,5 +1,5 @@
 class RegistrarFeedsController < ApplicationController
-  before_action :set_registrar_feed, only: %i[ show edit update destroy ]
+  before_action :set_registrar_feed, only: %i[show edit update destroy]
 
   # GET /registrar_feeds or /registrar_feeds.json
   def index
@@ -7,8 +7,7 @@ class RegistrarFeedsController < ApplicationController
   end
 
   # GET /registrar_feeds/1 or /registrar_feeds/1.json
-  def show
-  end
+  def show; end
 
   # GET /registrar_feeds/new
   def new
@@ -16,8 +15,7 @@ class RegistrarFeedsController < ApplicationController
   end
 
   # GET /registrar_feeds/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /registrar_feeds or /registrar_feeds.json
   def create
@@ -57,6 +55,7 @@ class RegistrarFeedsController < ApplicationController
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_registrar_feed
       @registrar_feed = RegistrarFeed.find(params[:id])
