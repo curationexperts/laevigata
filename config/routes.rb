@@ -69,7 +69,12 @@ Rails.application.routes.draw do
   end
 
   resources :schools, only: [:index, :show]
-  resources :registrar_feeds
+  constraints UserIsAdmin do
+    scope 'admin' do
+      resources :registrar_feeds, except: [:edit, :update]
+    end
+  end
+
 
   get 'error_404', to: 'pages#error_404'
   # If you go somewhere without a route, show a 404 page
