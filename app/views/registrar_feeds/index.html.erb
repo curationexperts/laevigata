@@ -21,7 +21,7 @@
         <td><%= registrar_feed.graduated_etds %></td>
         <td><%= registrar_feed.published_etds %></td>
         <td><%= link_to 'Show', registrar_feed %></td>
-        <td><%= link_to 'Edit', edit_registrar_feed_path(registrar_feed) %></td>
+        <td><%# link_to 'Edit', edit_registrar_feed_path(registrar_feed) %></td>
         <td><%= link_to 'Destroy', registrar_feed, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
