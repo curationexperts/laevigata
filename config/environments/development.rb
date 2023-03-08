@@ -31,6 +31,9 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :test
 
+  # Store ActiveStorage attachments to local disk
+  config.active_storage.service = :local
+
   config.action_mailer.perform_caching = false
 
   # Print deprecation notices to the Rails logger.

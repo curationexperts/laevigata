@@ -135,6 +135,12 @@ RSpec.configure do |config|
   config.include Warden::Test::Helpers, type: :feature
   config.after(:each, type: :feature) { Warden.test_reset! }
 
+  # Clean up any leftover ActiveStorage blobs from disk (assumes test uses the :disk service)
+  config.after :suite do
+    active_storage_root = ActiveStorage::Blob.service.root
+    FileUtils.rm_rf(active_storage_root)
+  end
+
   # Gets around a bug in RSpec where helper methods that are defined in views aren't
   # getting scoped correctly and RSpec returns "does not implement" errors. So we
   # can disable verify_partial_doubles if a particular test is giving us problems.

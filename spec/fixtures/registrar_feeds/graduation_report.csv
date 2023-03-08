@@ -1,0 +1,5 @@
+STATUS,ETD_ID,REGISTRAR_KEY,RECONCILED_KEY,GRAD_DATE,SIMILAR_KEYS,SHIBBOLETH_NAME,SUBMISSION_NAME,TITLE,LINK
+,,,,,,,,,
+unmatched,hm50ts77s,P1234567-UCOL-LIBAS,,,,Howe Bristol,"Bristol, Howe",On the Realizability of Polymorphizm,http://etd.example.edu/concern/etds/hm50ts77s
+,,,,,,,,,
+published_reconciled,kp78gh611,P7654321-GSAS-PHD,P7654321-GSAS-MS,2021-05-24,,,,Binuaral Image Analysis with Deep Learning under Retrograde Supervision,http://etd.example.edu/concern/etds/kp78gh611
