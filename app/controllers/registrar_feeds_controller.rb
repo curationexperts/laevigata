@@ -1,5 +1,7 @@
 class RegistrarFeedsController < ApplicationController
-  before_action :set_registrar_feed, only: %i[show edit update destroy]
+  before_action :set_registrar_feed, only: %i[show edit update destroy graduation_records report]
+  before_action :auth
+  layout 'hyrax/dashboard'
 
   # GET /registrar_feeds or /registrar_feeds.json
   def index
@@ -8,6 +10,16 @@ class RegistrarFeedsController < ApplicationController
 
   # GET /registrar_feeds/1 or /registrar_feeds/1.json
   def show; end
+
+  # GET /registrar_feeds/1/graduation_records
+  def graduation_records
+    download_for(@registrar_feed.graduation_records)
+  end
+
+  # GET /registrar_feeds/1/report
+  def report
+    download_for(@registrar_feed.report)
+  end
 
   # GET /registrar_feeds/new
   def new
@@ -64,5 +76,15 @@ class RegistrarFeedsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def registrar_feed_params
       params.require(:registrar_feed).permit(:status, :approved_etds, :graduated_etds, :published_etds)
+    end
+
+    # Restrict to authorized admins
+    def auth
+      authorize! :manage, RegistrarFeed
+    end
+
+    # Provide authenticated download for attachments
+    def download_for(attachment)
+      send_data(attachment.blob.download, filename: attachment.filename.to_s, disposition: 'attachment') if attachment.attached?
     end
 end

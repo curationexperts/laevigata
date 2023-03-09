@@ -1,4 +1,7 @@
 en:
+  download_etd_report: "Download Graduation Report"
+  registrar_data: "Process Registrar Data"
+
   activefedora:
     models:
       etd:                  "ETD"

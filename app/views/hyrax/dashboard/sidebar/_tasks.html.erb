@@ -14,12 +14,18 @@
 
   <% if can?(:update, Hydra::AccessControls::Embargo) %>
     <%= menu.nav_link(hyrax.embargoes_path) do %>
-      <span class="fa fa-flag"></span> <span class="sidebar-action-text"><%= t('hyrax.embargoes.index.manage_embargoes') %></span>
+      <span class="fa fa-hourglass-2"></span> <span class="sidebar-action-text"><%= t('hyrax.embargoes.index.manage_embargoes') %></span>
     <% end %>
   <% end %>
 
   <% if current_user.admin? %>
     <%= menu.nav_link(main_app.private_file_path("etd_report.csv")) do %>
-      <span class="fa fa-flag"></span> <span class="sidebar-action-text"><%= t('download_etd_report') %></span>
+    <span class="fa fa-mortar-board"></span> <span class="sidebar-action-text"><%= t('download_etd_report') %></span>
+    <% end %>
+  <% end %>
+
+  <% if current_user.admin? %>
+    <%= menu.nav_link(main_app.registrar_feeds_path) do %>
+      <span class="fa fa-archive"></span> <span class="sidebar-action-text"><%= t('registrar_data') %></span>
     <% end %>
   <% end %>
