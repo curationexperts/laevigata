@@ -71,7 +71,12 @@ Rails.application.routes.draw do
   resources :schools, only: [:index, :show]
   constraints UserIsAdmin do
     scope 'admin' do
-      resources :registrar_feeds, except: [:edit, :update]
+      resources :registrar_feeds, except: [:edit, :update] do
+        member do
+          get :graduation_records
+          get :report
+        end
+      end
     end
   end
 
