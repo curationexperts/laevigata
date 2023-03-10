@@ -3,7 +3,7 @@ require 'workflow_setup'
 include Warden::Test::Helpers
 
 describe GraduationService do
-  let(:grad_service) { described_class.new('./spec/fixtures/registrar_sample.json') }
+  let(:grad_service) { described_class.new('./spec/fixtures/registrar_feeds/registrar_sample.json') }
 
   describe "#extract_date" do
     it "returns an Time class object" do

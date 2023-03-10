@@ -1,6 +1,6 @@
 FactoryBot.define do
   registrar_sample = Rack::Test::UploadedFile.new(
-    Rails.root.join('spec', 'fixtures', 'registrar_sample.json'), 'application/json'
+    Rails.root.join('spec', 'fixtures', 'registrar_feeds', 'registrar_sample.json'), 'application/json'
   )
   sample_report = Rack::Test::UploadedFile.new(
     Rails.root.join('spec', 'fixtures', 'registrar_feeds', 'graduation_report.csv'), 'text/csv'
@@ -12,7 +12,7 @@ FactoryBot.define do
     graduated_etds { 0 }
     published_etds { 2 }
 
-    factory :completeted_registrar_feed do
+    factory :completed_registrar_feed do
       report { sample_report }
       status { 'completed' }
     end

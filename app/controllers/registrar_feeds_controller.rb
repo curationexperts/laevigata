@@ -5,7 +5,7 @@ class RegistrarFeedsController < ApplicationController
 
   # GET /registrar_feeds or /registrar_feeds.json
   def index
-    @registrar_feeds = RegistrarFeed.all
+    @registrar_feeds = RegistrarFeed.by_recently_updated
   end
 
   # GET /registrar_feeds/1 or /registrar_feeds/1.json
@@ -35,7 +35,7 @@ class RegistrarFeedsController < ApplicationController
 
     respond_to do |format|
       if @registrar_feed.save
-        format.html { redirect_to @registrar_feed, notice: "Registrar feed was successfully created." }
+        format.html { redirect_to registrar_feeds_path, notice: "Registrar feed was successfully created." }
         format.json { render :show, status: :created, location: @registrar_feed }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -51,7 +51,7 @@ class RegistrarFeedsController < ApplicationController
         format.html { redirect_to @registrar_feed, notice: "Registrar feed was successfully updated." }
         format.json { render :show, status: :ok, location: @registrar_feed }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render :show, status: :unprocessable_entity }
         format.json { render json: @registrar_feed.errors, status: :unprocessable_entity }
       end
     end
@@ -75,7 +75,10 @@ class RegistrarFeedsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def registrar_feed_params
-      params.require(:registrar_feed).permit(:status, :approved_etds, :graduated_etds, :published_etds)
+      # params.require(:registrar_feed).permit(:graduation_records)
+      # The file field, which is the only field ont the form, may be submitted empty
+      # See https://github.com/rails/rails/issues/17947#issuecomment-225154294
+      params.fetch(:registrar_feed, {}).permit(:graduation_records)
     end
 
     # Restrict to authorized admins

@@ -1,33 +1,34 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Registrar Feeds</h1>
 
-<table>
+<p><%= link_to 'New Registrar Feed', new_registrar_feed_path %></p>
+
+<table id='registrar_feeds_index'>
   <thead>
     <tr>
-      <th>Status</th>
-      <th>Approved etds</th>
-      <th>Graduated etds</th>
-      <th>Published etds</th>
-      <th colspan="3"></th>
+      <th class="feed_timestamp">Submitted</th>
+      <th class="feed_status">Status</th>
+      <th class="graduation_records">Registrar Data</th>
+      <th class="report">Job Report</th>
+      <th class="approved_count">Approved etds</th>
+      <th class="graduated_count">Graduated etds</th>
+      <th class="published_count">Published etds</th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @registrar_feeds.each do |registrar_feed| %>
       <tr>
-        <td><%= registrar_feed.status %></td>
-        <td><%= registrar_feed.approved_etds %></td>
-        <td><%= registrar_feed.graduated_etds %></td>
-        <td><%= registrar_feed.published_etds %></td>
+        <td class="feed_timestamp"><%= formatted_date(registrar_feed.updated_at) %></td>
+        <td class="feed_status"><%= registrar_feed.status %></td>
+        <td class="graduation_records"><%= link_to(registrar_feed.graduation_records.filename, graduation_records_registrar_feed_path(registrar_feed), download: registrar_feed.graduation_records.filename) if registrar_feed.graduation_records.attached? %></td>
+        <td class="report"><%= link_to(registrar_feed.report.filename, report_registrar_feed_path(registrar_feed), download: registrar_feed.report.filename) if registrar_feed.report.attached? %></td>
+        <td class="approved_count"><%= dasher(registrar_feed.approved_etds) %></td>
+        <td class="graduated_count"><%= dasher(registrar_feed.graduated_etds) %></td>
+        <td class="published_count"><%= dasher(registrar_feed.published_etds) %></td>
         <td><%= link_to 'Show', registrar_feed %></td>
-        <td><%# link_to 'Edit', edit_registrar_feed_path(registrar_feed) %></td>
         <td><%= link_to 'Destroy', registrar_feed, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Registrar Feed', new_registrar_feed_path %>

@@ -1,37 +1,23 @@
-<%= form_with(model: registrar_feed, local: true) do |form| %>
-  <% if registrar_feed.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(registrar_feed.errors.count, "error") %> prohibited this registrar_feed from being saved:</h2>
+<% if registrar_feed.errors.any? %>
+  <div id="error_explanation" class="alert alert-danger alert-dismissable" role="alert">
+    <h2><%= pluralize(registrar_feed.errors.count, "error") %> prohibited this registrar_feed from being saved:</h2>
 
-      <ul>
+    <ul>
       <% registrar_feed.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :status %>
-    <%= form.number_field :status %>
+    </ul>
   </div>
+<% end %>
+
+<%= form_for @registrar_feed do |form| %>
 
   <div class="field">
-    <%= form.label :approved_etds %>
-    <%= form.number_field :approved_etds %>
-  </div>
-
-  <div class="field">
-    <%= form.label :graduated_etds %>
-    <%= form.number_field :graduated_etds %>
-  </div>
-
-  <div class="field">
-    <%= form.label :published_etds %>
-    <%= form.number_field :published_etds %>
+    <%# form.label :graduation_records %>
+    <%= form.file_field :graduation_records, accept: "application/json" %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit t(:registrar_data) %>
   </div>
 <% end %>
