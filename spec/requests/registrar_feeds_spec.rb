@@ -38,6 +38,13 @@ RSpec.describe "RegistrarFeeds", type: :request do
         post registrar_feeds_path, params: params
         expect(response).to redirect_to registrar_feeds_path
       end
+
+      it "enqueues a RegistrarJob" do
+        params = { registrar_feed: { graduation_records: fixture_file_upload(sample_data) } }
+        post registrar_feeds_path, params: params
+        newest_registrar_feed = RegistrarFeed.last
+        expect(RegistrarJob).to have_been_enqueued.with(newest_registrar_feed)
+      end
     end
   end
 
