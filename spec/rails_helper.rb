@@ -73,7 +73,6 @@ RSpec.configure do |config|
   config.filter_run_excluding(smoke_test: true) unless ENV['SMOKE_TEST']
 
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
-  ENV['REGISTRAR_DATA_PATH'] = "#{::Rails.root}/spec/fixtures/registrar_sample.json"
   config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
 

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe RegistrarFeed, type: :model do
-  let(:sample_data)   { Rails.root.join('spec', 'fixtures', 'registrar_files', 'registrar_sample.json') }
-  let(:sample_report) { Rails.root.join('spec', 'fixtures', 'registrar_files', 'graduation_report.csv') }
+  let(:sample_data)   { Rails.root.join('spec', 'fixtures', 'registrar_feeds', 'registrar_sample.json') }
+  let(:sample_report) { Rails.root.join('spec', 'fixtures', 'registrar_feeds', 'graduation_report.csv') }
   let(:feed) { described_class.new }
 
   describe "#status" do

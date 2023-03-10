@@ -13,4 +13,6 @@ class RegistrarFeed < ApplicationRecord
   validates_each :graduation_records do |record, attribute, value|
     record.errors.add(attribute, 'must be attached') unless record.send(attribute).attached?
   end
+
+  scope :by_recently_updated, -> { order(updated_at: :desc) }
 end

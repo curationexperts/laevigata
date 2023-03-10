@@ -24,10 +24,19 @@ RSpec.describe "RegistrarFeeds", type: :request do
 
     describe "GET /admin/registrar_feeds/:id/report" do
       it "downloads the report" do
-        feed = FactoryBot.create(:completeted_registrar_feed)
+        feed = FactoryBot.create(:completed_registrar_feed)
         get report_registrar_feed_path(feed)
         expect(response).to have_http_status(:ok)
         expect(response.body).to include "On the Realizability of Polymorphizm"
+      end
+    end
+
+    describe "POST /admin/registar_feeds" do
+      let(:sample_data) { Rails.root.join('spec', 'fixtures', 'registrar_feeds', 'registrar_sample.json') }
+      it "redirect to :index on success" do
+        params = { registrar_feed: { graduation_records: fixture_file_upload(sample_data) } }
+        post registrar_feeds_path, params: params
+        expect(response).to redirect_to registrar_feeds_path
       end
     end
   end

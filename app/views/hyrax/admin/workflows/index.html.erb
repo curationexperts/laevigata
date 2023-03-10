@@ -37,7 +37,7 @@
                           <%= safe_join(document.creator, tag(:br)) %>
                         </td>
                         <td>
-                          <%= document.date_modified %>
+                          <%= formatted_date(document.date_modified) %>
                         </td>
                         <td>
                           <span class="state state-pending"><%= document.workflow_state %></span>
@@ -73,7 +73,7 @@
                           <%= safe_join(document.creator, tag(:br)) %>
                         </td>
                         <td>
-                          <%= formatted_date(time: document.date_modified) %>
+                          <%= formatted_date(document.date_modified) %>
                         </td>
                         <td>
                           <span class="state state-pending"><%= document.workflow_state %></span>
