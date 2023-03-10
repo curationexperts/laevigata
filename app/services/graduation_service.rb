@@ -6,6 +6,8 @@
 # @example How to call this service
 #  GraduationService.run
 class GraduationService
+  attr_reader :graduation_report
+
   # Base entry point into the Service
   # @param [String] registrar_data_path - path and file name of registrar data to process - expects JSON formatted data
   def self.run(registrar_data_path = ENV['REGISTRAR_DATA_PATH'])
@@ -34,6 +36,7 @@ class GraduationService
     end
     Rails.logger.warn "GraduationService: Completed - Published #{publishable_etds.count} ETDs"
     Rails.logger.warn "Results saved to #{@graduation_report.filename}"
+    self
   end
 
   # Find all ETDs in the 'approved' workflow state that are eligible for graduation

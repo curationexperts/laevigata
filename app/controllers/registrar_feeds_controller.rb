@@ -35,7 +35,8 @@ class RegistrarFeedsController < ApplicationController
 
     respond_to do |format|
       if @registrar_feed.save
-        format.html { redirect_to registrar_feeds_path, notice: "Registrar feed was successfully created." }
+        RegistrarJob.perform_later(@registrar_feed)
+        format.html { redirect_to registrar_feeds_path, notice: "Registrar feed was successfully submitted." }
         format.json { render :show, status: :created, location: @registrar_feed }
       else
         format.html { render :new, status: :unprocessable_entity }
