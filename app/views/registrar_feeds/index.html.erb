@@ -1,34 +1,36 @@
-<h1>Registrar Feeds</h1>
+<div id="registrar_feeds_index">
+  <h1>Registrar Feeds</h1>
 
-<p><%= link_to 'New Registrar Feed', new_registrar_feed_path %></p>
+  <%= link_to 'Upload New Graduation Data', new_registrar_feed_path, class: 'btn btn-primary', id: 'upload_data' %>
 
-<table id='registrar_feeds_index'>
-  <thead>
-    <tr>
-      <th class="feed_timestamp">Submitted</th>
-      <th class="feed_status">Status</th>
-      <th class="graduation_records">Registrar Data</th>
-      <th class="report">Job Report</th>
-      <th class="approved_count">Approved etds</th>
-      <th class="graduated_count">Graduated etds</th>
-      <th class="published_count">Published etds</th>
-      <th colspan="2"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @registrar_feeds.each do |registrar_feed| %>
+  <div class="table-responsive">
+    <table id='' class='table table-striped table-bordered datatable' >
+      <thead>
       <tr>
-        <td class="feed_timestamp"><%= formatted_date(registrar_feed.updated_at) %></td>
-        <td class="feed_status"><%= registrar_feed.status %></td>
-        <td class="graduation_records"><%= link_to(registrar_feed.graduation_records.filename, graduation_records_registrar_feed_path(registrar_feed), download: registrar_feed.graduation_records.filename) if registrar_feed.graduation_records.attached? %></td>
-        <td class="report"><%= link_to(registrar_feed.report.filename, report_registrar_feed_path(registrar_feed), download: registrar_feed.report.filename) if registrar_feed.report.attached? %></td>
-        <td class="approved_count"><%= dasher(registrar_feed.approved_etds) %></td>
-        <td class="graduated_count"><%= dasher(registrar_feed.graduated_etds) %></td>
-        <td class="published_count"><%= dasher(registrar_feed.published_etds) %></td>
-        <td><%= link_to 'Show', registrar_feed %></td>
-        <td><%= link_to 'Destroy', registrar_feed, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th class="feed_timestamp">Processed</th>
+        <th class="feed_status">Status</th>
+        <th class="graduation_records">Registrar Data</th>
+        <th class="report">Job Report</th>
+        <th class="published_count">Previously<br>Published</th>
+        <th class="approved_count">Approved</th>
+        <th class="graduated_count">Graduated</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+      </thead>
+
+      <tbody>
+      <% @registrar_feeds.each_with_index do |registrar_feed, index| %>
+        <tr>
+          <%# using data-sort on the index is a hack to retain the row order provided by the controller %>
+          <td data-sort=<%= index %> class="feed_timestamp"><%= formatted_date(registrar_feed.updated_at) %></td>
+          <td class="feed_status"><%= registrar_feed.status %></td>
+          <td class="graduation_records"><%= link_to(registrar_feed.graduation_records.filename, graduation_records_registrar_feed_path(registrar_feed), download: registrar_feed.graduation_records.filename) if registrar_feed.graduation_records.attached? %></td>
+          <td class="report"><%= link_to(registrar_feed.report.filename, report_registrar_feed_path(registrar_feed), download: registrar_feed.report.filename) if registrar_feed.report.attached? %></td>
+          <td class="published_count"><%= dasher(registrar_feed.published_etds) %></td>
+          <td class="approved_count"><%= dasher(registrar_feed.approved_etds) %></td>
+          <td class="graduated_count"><%= dasher(registrar_feed.graduated_etds) %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

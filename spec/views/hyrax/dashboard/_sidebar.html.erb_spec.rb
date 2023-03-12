@@ -27,6 +27,7 @@ RSpec.describe 'hyrax/dashboard/_sidebar.html.erb', type: :view do
     allow(view).to receive(:can?).with(:manage, Sipity::WorkflowResponsibility).and_return(manage_workflow)
     allow(view).to receive(:can?).with(:manage, :collection_types).and_return(manage_collection_types)
     allow(view).to receive(:can?).with(:update, Hydra::AccessControls::Embargo).and_return(false)
+    allow(view).to receive(:can?).with(:manage, RegistrarFeed).and_return(true)
     allow(view).to receive(:current_ability).and_return(ability)
   end
 
@@ -40,7 +41,6 @@ RSpec.describe 'hyrax/dashboard/_sidebar.html.erb', type: :view do
   end
 
   context 'for admin users' do
-    let(:user) { FactoryBot.create(:admin) }
     before { render }
 
     it "gives a link to manage registrar data" do

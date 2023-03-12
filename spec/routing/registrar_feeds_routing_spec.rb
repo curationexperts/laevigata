@@ -12,16 +12,8 @@ RSpec.describe RegistrarFeedsController, type: :routing do
       expect(get: "/admin/registrar_feeds/new").to route_to("registrar_feeds#new")
     end
 
-    it "routes to #show" do
-      expect(get: "/admin/registrar_feeds/1").to route_to("registrar_feeds#show", id: "1")
-    end
-
     it "routes to #create" do
       expect(post: "/admin/registrar_feeds").to route_to("registrar_feeds#create")
-    end
-
-    it "routes to #destroy" do
-      expect(delete: "/admin/registrar_feeds/1").to route_to("registrar_feeds#destroy", id: "1")
     end
   end
 
@@ -29,6 +21,10 @@ RSpec.describe RegistrarFeedsController, type: :routing do
   # even by administrators
   describe 'disabled actions' do
     before { allow(UserIsAdmin).to receive(:matches?).and_return(true) }
+
+    it "cannot route to #show" do
+      expect(get: "/admin/registrar_feeds/1").to route_to("pages#error_404", path: "admin/registrar_feeds/1")
+    end
 
     it "cannot route to #edit" do
       expect(get: "/admin/registrar_feeds/1/edit").to route_to("pages#error_404", path: "admin/registrar_feeds/1/edit")
@@ -40,6 +36,10 @@ RSpec.describe RegistrarFeedsController, type: :routing do
 
     it "cannot route to #update via PATCH" do
       expect(patch: "/admin/registrar_feeds/1").to route_to("pages#error_404", path: "admin/registrar_feeds/1")
+    end
+
+    it "cannot route to #destroy" do
+      expect(delete: "/admin/registrar_feeds/1").to route_to("pages#error_404", path: "admin/registrar_feeds/1")
     end
   end
 
