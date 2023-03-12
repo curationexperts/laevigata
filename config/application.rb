@@ -8,6 +8,10 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 module Laevigata
   class Application < Rails::Application
+    # Settings in config/environments/* take precedence over those specified here.
+    # Application configuration should go into files in config/initializers
+    # -- all .rb files in that directory are automatically loaded.
+
     config.action_mailer.default_url_options = { host: ENV["RAILS_HOST"] }
     config.action_mailer.raise_delivery_errors = false
     config.i18n.default_locale = :en
@@ -26,9 +30,8 @@ module Laevigata
     # Allow psych to serialize additional classes - see https://stackoverflow.com/a/72970171
     config.active_record.yaml_column_permitted_classes = [ActiveSupport::HashWithIndifferentAccess]
 
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration should go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded.
+    # Disable unauthenticated access to ActiveStorage blobs
+    config.active_storage.draw_routes = false
 
     config.to_prepare do
       Dir.glob(Rails.root + "app/**/*_decorator*.rb").each do |c|
