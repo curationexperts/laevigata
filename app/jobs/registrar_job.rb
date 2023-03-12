@@ -9,13 +9,21 @@ class RegistrarJob < ApplicationJob
   def perform(registrar_feed)
     registrar_feed.processing!
 
-    registrar_data_path = ActiveStorage::Blob.service.path_for(registrar_feed.graduation_records.key)
-    grad_service = GraduationService.run(registrar_data_path)
-    registrar_feed.report.attach(io: File.open(grad_service.graduation_report.filename),
-                                 filename: grad_service.graduation_report.filename.basename,
-                                 content_type: 'text/csv')
+    GraduationService.run(registrar_feed)
+
     registrar_feed.completed!
-  rescue
+  rescue => error
+    attach_error_to(registrar_feed, error)
     registrar_feed.errored!
+  end
+
+  private
+
+  def attach_error_to(registrar_feed, error)
+    registrar_feed.report.attach(
+      io: StringIO.open("#{error.class}: #{error.message}"),
+      filename: 'error.txt',
+      content_type: 'text/plain'
+    )
   end
 end

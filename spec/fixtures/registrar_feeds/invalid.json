@@ -1,0 +1,10 @@
+{
+  "dog": {
+  "fur": true,
+  "color": "brown"
+},
+  "fish": {
+    "fur": false,
+    "color": "orange"
+  }
+}

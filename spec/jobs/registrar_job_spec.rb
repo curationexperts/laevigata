@@ -43,5 +43,12 @@ describe RegistrarJob do
       described_class.perform_now(registrar_feed)
       expect(registrar_feed.status).to eq 'errored'
     end
+
+    it 'attaches an error report on exceptions' do
+      allow(GraduationService).to receive(:run).and_raise('something bad happened...')
+      described_class.perform_now(registrar_feed)
+      expect(registrar_feed.report).to be_attached
+      expect(registrar_feed.report.download).to eq 'RuntimeError: something bad happened...'
+    end
   end
 end
