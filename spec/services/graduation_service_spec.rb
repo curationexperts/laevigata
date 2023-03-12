@@ -3,7 +3,15 @@ require 'workflow_setup'
 include Warden::Test::Helpers
 
 describe GraduationService do
-  let(:grad_service) { described_class.new('./spec/fixtures/registrar_feeds/registrar_sample.json') }
+  let(:feed) { FactoryBot.create(:registrar_feed) }
+  let(:grad_service) { described_class.new(feed) }
+
+  before do
+    # Stub out Hyrax::Admin::RepositoryObjectPresenter
+    published = double
+    allow(published).to receive(:as_json).and_return [{ label: 'Published', value: 1 }]
+    allow(Hyrax::Admin::RepositoryObjectPresenter).to receive(:new).and_return published
+  end
 
   describe "#extract_date" do
     it "returns an Time class object" do
@@ -123,6 +131,16 @@ describe GraduationService do
     let(:nongraduated_etd) { FactoryBot.actor_create(:sample_data, user: nongraduated_user) }
     # ETD for user that is graduated with one degree but is pursuing another degree with Emory
     let(:double_degree_etd) { FactoryBot.actor_create(:sample_data, degree: ["M.Div."], user: double_degree_user) }
+    # This address should match the address data for "P0000002-UCOL-LIBAS" in the registrar sample data
+    let(:home_address) {
+      {
+        "home address 1" =>            "321 Ash Way",
+      "home address city" =>         "Atlanta",
+      "home address state" =>        "GA",
+      "home address postal code" =>  "30301",
+      "home address country code" => "USA"
+      }
+    }
 
     before do
       w.setup
@@ -138,20 +156,23 @@ describe GraduationService do
       subject = Hyrax::WorkflowActionInfo.new(double_degree_etd, approving_user)
       sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
       Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: nil)
+
+      allow(GraduationJob).to receive(:perform_now).and_call_original
     end
 
-    it "finds approved etds" do
-      expect(grad_service.graduation_eligible_works.map { |doc| doc['id'] }).to contain_exactly(graduated_etd.id, nongraduated_etd.id, double_degree_etd.id)
-    end
-
+    # The setup for these tests is very expensive so we only run the GraduationService
+    # once and test multiple exepectations against the resulting data
     it "publishes approved & graduated etds", :aggregate_failures do
       expect(graduated_etd.to_sipity_entity.workflow_state_name).to eq "approved"
       expect(nongraduated_etd.to_sipity_entity.workflow_state_name).to eq "approved"
       expect(double_degree_etd.to_sipity_entity.workflow_state_name).to eq "approved"
 
+      # Finds approved ETDs
+      expect(grad_service.graduation_eligible_works.map { |doc| doc['id'] }).to contain_exactly(graduated_etd.id, nongraduated_etd.id, double_degree_etd.id)
+
       grad_service.run
 
-      # only publishes approved etds with matching registrar data
+      # Only publishes approved etds with matching registrar data
       expect(graduated_etd.to_sipity_entity.reload.workflow_state_name).to eq "published"
       expect(nongraduated_etd.to_sipity_entity.reload.workflow_state_name).to eq "approved"
       expect(double_degree_etd.to_sipity_entity.reload.workflow_state_name).to eq "published"
@@ -160,23 +181,29 @@ describe GraduationService do
       expect(graduated_etd.reload.degree_awarded).to eq '2017-05-18'.to_time
       expect(nongraduated_etd.reload.degree_awarded).to eq nil
       expect(double_degree_etd.reload.degree_awarded).to eq '2018-01-12'.to_time
-    end
 
-    it "passes registrar data to the GraduationJob" do
-      # This address should match the address data for "P0000002-UCOL-LIBAS" in the registrar sample data
-      home_address = {
-        "home address 1" =>            "321 Ash Way",
-        "home address city" =>         "Atlanta",
-        "home address state" =>        "GA",
-        "home address postal code" =>  "30301",
-        "home address country code" => "USA"
-      }
-      allow(GraduationJob).to receive(:perform_now)
-
-      grad_service.run
-
+      # Calls the GraduationJob
       expect(GraduationJob).to have_received(:perform_now).exactly(2).times
       expect(GraduationJob).to have_received(:perform_now).with(graduated_etd.id, a_kind_of(Time), hash_including(home_address))
+    end
+  end
+
+  describe '#new' do
+    it 'logs the GID for the feed' do
+      gid = feed.to_global_id.to_s
+      allow(Rails.logger).to receive(:warn)
+      grad_service # calls .new
+      expect(Rails.logger).to have_received(:warn).with(/#{gid}/)
+    end
+
+    it 'raises an error when an incompatible object is supplied' do
+      expect { described_class.new('not a vaild feed') }.to raise_exception ArgumentError, 'invalid feed object: String'
+    end
+
+    it 'raises an error when the graduation records are missing the required key-value pairs' do
+      invalid_json = Rack::Test::UploadedFile.new(Rails.root.join('spec', 'fixtures', 'registrar_feeds', 'invalid.json'), 'application/json')
+      feed = FactoryBot.create(:registrar_feed, graduation_records: invalid_json)
+      expect { described_class.new(feed) }.to raise_exception FormatError
     end
   end
 end

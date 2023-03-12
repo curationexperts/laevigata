@@ -9,23 +9,25 @@ class GraduationService
   attr_reader :graduation_report
 
   # Base entry point into the Service
-  # @param [String] registrar_data_path - path and file name of registrar data to process - expects JSON formatted data
-  def self.run(registrar_data_path = ENV['REGISTRAR_DATA_PATH'])
-    new(registrar_data_path).run
+  # @param [RegistrarFeed] registrar_feed - object with JSON graduation data data attached
+  def self.run(registrar_feed)
+    new(registrar_feed).run
   end
 
-  # Load the provided file into a JSON hash for processing
-  def initialize(registrar_data_path)
-    raise "Cannot find registrar data at: #{registrar_data_path || 'no path provided'}" unless File.file?(registrar_data_path)
-    Rails.logger.warn "Graduation service: Running graduation service with file #{registrar_data_path}"
-    @registrar_data = JSON.parse(File.read(registrar_data_path))
+  # Parse and validate the graduation data attached to the registrar feed
+  def initialize(registrar_feed)
+    raise ArgumentError, "invalid feed object: #{registrar_feed.class}" unless registrar_feed.is_a? RegistrarFeed
+    Rails.logger.warn "Graduation service: Running graduation service for #{registrar_feed.to_global_id}"
+    @registrar_feed = registrar_feed
+    @registrar_feed.published_etds = published_etds
+    @registrar_data = JSON.parse(registrar_feed.graduation_records.download)
     @graduation_report = GraduationReport.new
+    raise FormatError unless contains_graduation_data
   end
 
   # Find all ETDs that have been 'approved' but not yet 'published'
   # Match them to graduation records and check whether a degree has been awarded yet
   def run
-    return unless @registrar_data
     approved_etds = graduation_eligible_works
     Rails.logger.warn "GraduationService: There are #{approved_etds.count} ETDs approved for graduation"
     publishable_etds = confirm_registrar_status(approved_etds)
@@ -36,7 +38,18 @@ class GraduationService
     end
     Rails.logger.warn "GraduationService: Completed - Published #{publishable_etds.count} ETDs"
     Rails.logger.warn "Results saved to #{@graduation_report.filename}"
-    self
+
+    update_registrar_feed(approved_etds, publishable_etds)
+  end
+
+  # Save process stats and the report to the registrar feed
+  def update_registrar_feed(approved_etds, publishable_etds)
+    @registrar_feed.approved_etds = approved_etds.count
+    @registrar_feed.graduated_etds = publishable_etds.count
+    @registrar_feed.report.attach(io: File.open(@graduation_report.filename),
+                                  filename: @graduation_report.filename.basename,
+                                  content_type: 'text/csv')
+    @registrar_feed.save!
   end
 
   # Find all ETDs in the 'approved' workflow state that are eligible for graduation
@@ -140,12 +153,25 @@ class GraduationService
     end
 
     Rails.logger.warn "GraduationService:  #{results.to_json}"
-    @graduation_report.log(results)
+    @graduation_report.add(results)
   end
 
   # Return a filtered version of the grad record that only includes data required for potential Proquest submission
   def filter_address(grad_record)
     grad_record.slice('home address 1', 'home address 2', 'home address 3', 'home address city', 'home address state', 'home address postal code', 'home address country code')
+  end
+
+  def published_etds
+    # Todo: find a clearer way to get a count of ETDs in the 'published' workflow state
+    @published_etds_from_solr ||= Hyrax::Admin::RepositoryObjectPresenter.new.as_json.find { |e| e[:label] == 'Published' }[:value]
+  end
+
+  # Scan the registrar data for at least one key value pair with
+  # the key 'degree status date' and a value longer than 4 characters.
+  # If these keys and values are not present, the file
+  # probably does not contain correctly formatted graduation data.
+  def contains_graduation_data
+    @registrar_data.find { |k, v| v.fetch('degree status date', '').length > 4 }.present?
   end
 
   # PROGRAM_MAP: Keys = Laevigata degree codes (degree_tesim); Values = corresponding Registrar academic program codes
@@ -184,6 +210,12 @@ class GraduationService
   }.freeze
 end
 
+class FormatError < RuntimeError
+  def initialize(msg = 'file does not appear to contain valid registrar data in JSON format')
+    super
+  end
+end
+
 class GraduationReport
   REPORT_FIELDS = [:status, :etd_id, :registrar_key, :reconciled_key, :grad_date, :similar_keys, :shibboleth_name, :submission_name, :title, :link].freeze
   STATUS_ORDER = [:unmatched, :published_reconciled, :published_exact, :pending].freeze
@@ -214,7 +246,7 @@ class GraduationReport
     @report.close
   end
 
-  def log(**fields)
+  def add(**fields)
     fields[:link] = hyrax_etd_url(fields[:etd_id])
     row = REPORT_FIELDS.map { |field_name| fields[field_name] }
     @report_data << row

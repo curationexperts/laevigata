@@ -103,7 +103,6 @@ Rails/RakeEnvironment:
     - 'lib/tasks/ci.rake'
     - 'lib/tasks/embargo_enforcement.rake'
     - 'lib/tasks/fix_collection_type_labels.rake'
-    - 'lib/tasks/graduation.rake'
     - 'lib/tasks/permission_template_access_dedup.rake'
     - 'lib/tasks/read_only.rake'
     - 'lib/tasks/replace_terms_of_service.rake'
