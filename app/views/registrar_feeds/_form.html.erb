@@ -12,12 +12,14 @@
 
 <%= form_for @registrar_feed do |form| %>
 
-  <div class="field">
-    <%# form.label :graduation_records %>
-    <%= form.file_field :graduation_records, accept: "application/json" %>
-  </div>
+  <div class="row">
+    <div class="field">
+      <%# form.label :graduation_records %>
+      <%= form.file_field :graduation_records, accept: "application/json", class: "btn btn-default col-md-12" %>
+    </div>
 
-  <div class="actions">
+  </div>
+  <div class="actions btn btn-primary col-md-4">
     <%= form.submit t(:registrar_data) %>
   </div>
 <% end %>

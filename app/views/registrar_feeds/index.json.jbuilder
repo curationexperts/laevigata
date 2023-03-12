@@ -1,1 +1,1 @@
-json.array! @registrar_feeds, partial: "registrar_feeds/registrar_feed", as: :registrar_feed
+json.string "Rendering registrar feeds in JSON is not currently supported"
