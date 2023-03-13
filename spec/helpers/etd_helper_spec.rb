@@ -2,30 +2,56 @@
 require 'rails_helper'
 
 RSpec.describe EtdHelper, type: :helper do
-  let(:etd) { FactoryBot.build(:sample_data) }
+  let(:etd) { FactoryBot.build(:ateer_etd) }
+  let(:form) { double }
+  before { helper.instance_variable_set(:@curation_concern, etd) }
 
-  example "#department_form_opts" do
-    helper.instance_variable_set(:@curation_concern, etd)
-    form = double(form)
-    allow(form).to receive(:input)
-    helper.school_determined_departments(form)
-    expect(form).to have_received(:input).with(:department, hash_including(input_html: hash_including("data-option-url" => "/authorities/terms/local/:etd_school:")))
+  describe "#department_form_opts" do
+    example "for new ETDs" do
+      allow(etd).to receive(:new_record?).and_return true
+      allow(form).to receive(:input)
+      helper.school_determined_departments(form)
+      expect(form).to have_received(:input).with(:department, hash_including(required: true))
+    end
+    example "for saved ETDs" do
+      allow(etd).to receive(:new_record?).and_return false
+      allow(form).to receive(:input)
+      helper.school_determined_departments(form)
+      expect(form).to have_received(:input).with(:department, hash_including(selected: "Psychology", collection: kind_of(Array)))
+    end
   end
 
-  example "#department_determined_subfields" do
-    helper.instance_variable_set(:@curation_concern, etd)
-    form = double(form)
-    allow(form).to receive(:input)
-    helper.department_determined_subfields(form)
-    expect(form).to have_received(:input).with(:subfield, hash_including(input_html: hash_including("data-option-url" => "/authorities/terms/local/:etd_department:")))
+  describe "#department_determined_subfields" do
+    example "for new ETDs" do
+      allow(etd).to receive(:new_record?).and_return true
+      allow(form).to receive(:input)
+      helper.department_determined_subfields(form)
+      expect(form).to have_received(:input).with(:subfield, hash_including(label: "Sub Field"))
+    end
+    example "for saved ETDs" do
+      allow(etd).to receive(:new_record?).and_return false
+      allow(form).to receive(:input)
+      helper.department_determined_subfields(form)
+      expect(form).to have_received(:input).with(:subfield, hash_including(selected: "Clinical Psychology", collection: kind_of(Array)))
+    end
   end
 
-  example "#partnering_agency" do
-    helper.instance_variable_set(:@curation_concern, etd)
-    form = double(form)
-    allow(form).to receive(:input)
-    helper.partnering_agency(form)
-    expect(form).to have_received(:input).with(:partnering_agency, hash_including(collection: kind_of(Array)))
+  describe "#partnering_agency" do
+    example "for new ETDs" do
+      allow(etd).to receive(:new_record?).and_return true
+      form = double(form)
+      allow(form).to receive(:input)
+      helper.partnering_agency(form)
+      expect(form).to have_received(:input).with(:partnering_agency, hash_including(collection: kind_of(Array)))
+    end
+    example "for saved ETDs" do
+      allow(etd).to receive(:new_record?).and_return false
+      etd.partnering_agency = ['CDC']
+      form = double(form)
+      allow(form).to receive(:input)
+      helper.partnering_agency(form)
+      expect(form).to have_received(:input).with(:partnering_agency, hash_including(selected: 'CDC'))
+    end
   end
 
   example "#post_graduation_email" do
