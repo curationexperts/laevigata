@@ -13,7 +13,7 @@ module EtdHelper
 
   def department_determined_subfields(f)
     # a 'new' state, nothing is selected and disable subfields
-    if @curation_concern.new_record? || curation_concern['subfield'].empty?
+    if @curation_concern.new_record? || @curation_concern['subfield'].empty?
 
       f.input :subfield, subfield_form_opts(disabled: true)
 

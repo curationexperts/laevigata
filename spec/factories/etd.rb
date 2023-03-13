@@ -16,23 +16,6 @@ FactoryBot.define do
       abstract { [] << FFaker::Lorem.paragraph }
     end
 
-    factory :eun_etd do
-      title { ['China and its Minority Population'] }
-      creator { ['Eun, Dongwon'] }
-      keyword { ['China', 'Minority Population'] }
-      degree { ['MS'] }
-      department { ['Religion'] }
-      school { ['Laney Graduate School'] }
-      subfield { ['Ethics and Society'] }
-      submitting_type { ["Honors Thesis"] }
-      research_field { ['Religion, General'] }
-
-      after(:build) do |etd, evaluator|
-        etd.committee_chair.build(FactoryBot.attributes_for(:committee_member))
-        etd.committee_members.build(FactoryBot.attributes_for_list(:committee_member, 3))
-      end
-    end
-
     factory :ateer_etd do
       creator { ['Teer, Drew'] }
       depositor do
@@ -48,7 +31,7 @@ FactoryBot.define do
         AdminSet.where(title: 'Laney Graduate School').first
       end
       department { ['Psychology'] }
-      subfield { [] }
+      subfield { ['Clinical Psychology'] }
       degree { ['MA'] }
       language { ['English'] }
       graduation_date { "Spring 1986" }
