@@ -1,37 +1,4 @@
 terms:
-    - id: 'Fall 2017'
-      term: 'Fall 2017'
-      active: false
-    - id: 'Spring 2018'
-      term: 'Spring 2018'
-      active: false
-    - id: 'Summer 2018'
-      term: 'Summer 2018'
-      active: false
-    - id: 'Fall 2018'
-      term: 'Fall 2018'
-      active: false
-    - id: 'Spring 2019'
-      term: 'Spring 2019'
-      active: false
-    - id: 'Summer 2019'
-      term: 'Summer 2019'
-      active: false
-    - id: 'Fall 2019'
-      term: 'Fall 2019'
-      active: false
-    - id: 'Spring 2020'
-      term: 'Spring 2020'
-    - id: 'Summer 2020'
-      term: 'Summer 2020'
-    - id: 'Fall 2020'
-      term: 'Fall 2020'
-    - id: 'Spring 2021'
-      term: 'Spring 2021'
-    - id: 'Summer 2021'
-      term: 'Summer 2021'
-    - id: 'Fall 2021'
-      term: 'Fall 2021'
     - id: 'Spring 2022'
       term: 'Spring 2022'
     - id: 'Summer 2022'
@@ -50,6 +17,7 @@ terms:
       term: 'Summer 2024'
     - id: 'Fall 2024'
       term: 'Fall 2024'
+
     - id: '2000'
       term: '2000'
       active: false
@@ -100,4 +68,46 @@ terms:
       active: false
     - id: '2016'
       term: '2016'
+      active: false
+    - id: '2017'
+      term: '2017'
+      active: false
+    - id: 'Fall 2017'
+      term: 'Fall 2017'
+      active: false
+    - id: 'Spring 2018'
+      term: 'Spring 2018'
+      active: false
+    - id: 'Summer 2018'
+      term: 'Summer 2018'
+      active: false
+    - id: 'Fall 2018'
+      term: 'Fall 2018'
+      active: false
+    - id: 'Spring 2019'
+      term: 'Spring 2019'
+      active: false
+    - id: 'Summer 2019'
+      term: 'Summer 2019'
+      active: false
+    - id: 'Fall 2019'
+      term: 'Fall 2019'
+      active: false
+    - id: 'Spring 2020'
+      term: 'Spring 2020'
+      active: false
+    - id: 'Summer 2020'
+      term: 'Summer 2020'
+      active: false
+    - id: 'Fall 2020'
+      term: 'Fall 2020'
+      active: false
+    - id: 'Spring 2021'
+      term: 'Spring 2021'
+      active: false
+    - id: 'Summer 2021'
+      term: 'Summer 2021'
+      active: false
+    - id: 'Fall 2021'
+      term: 'Fall 2021'
       active: false
