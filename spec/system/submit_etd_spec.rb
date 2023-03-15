@@ -22,7 +22,8 @@ RSpec.describe "Logged in student can submit an ETD", :clean, type: :system, js:
 
       fill_in 'Student Name', with: FFaker::Name.name
       select 'Emory College', from: 'School'
-      select 'Spring 2021', from: 'Graduation Date'
+      first_active_semester = find('#graduation-date > option:nth-child(2)').text
+      select first_active_semester, from: 'Graduation Date'
       fill_in 'Post-Graduation Email', with: FFaker::Internet.email
       click_on 'Save and Continue'
 

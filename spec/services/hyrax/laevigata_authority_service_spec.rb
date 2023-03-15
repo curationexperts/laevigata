@@ -57,6 +57,7 @@ RSpec.describe Hyrax::LaevigataAuthorityService do
   describe '#include_current_value' do
     let(:render_opts) { [] }
     let(:html_opts)   { { class: 'moomin' } }
+    let(:active_value) { select_service.select_active_options.first.first }
 
     it 'adds an inactive current value' do
       expect(select_service.include_current_value('2009', :idx, render_opts, html_opts))
@@ -69,7 +70,7 @@ RSpec.describe Hyrax::LaevigataAuthorityService do
     end
 
     it 'does not add an active current value' do
-      expect(select_service.include_current_value('Spring 2020', :idx, render_opts.dup, html_opts.dup))
+      expect(select_service.include_current_value(active_value, :idx, render_opts.dup, html_opts.dup))
         .to eq [render_opts, html_opts]
     end
   end
