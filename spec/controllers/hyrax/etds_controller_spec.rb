@@ -2,11 +2,15 @@
 #  `rails generate hyrax:work Etd`
 require 'rails_helper'
 
-RSpec.describe Hyrax::EtdsController, :perform_jobs, :clean do
-  let(:user) { create :user }
+RSpec.describe Hyrax::EtdsController, :perform_jobs do
+  before :all do
+    ActiveFedora::Cleaner.clean!
+    # ensure clean! is called before rather than after WorkflowSetup - i.e. avoid using use :clean tag
+    WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null").setup
+  end
 
+  let(:user) { create :user }
   let(:approver) { User.where(uid: "tezprox").first }
-  let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
 
   let(:file1) { File.open("#{fixture_path}/miranda/miranda_thesis.pdf") }
   let(:file2) { File.open("#{fixture_path}/magic_warrior_cat.jpg") }
@@ -41,7 +45,6 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs, :clean do
     end
 
     before do
-      workflow_setup.setup
       etd.assign_admin_set
 
       # Create the ETD record
@@ -132,10 +135,6 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs, :clean do
   end
 
   describe "POST create" do
-    before do
-      workflow_setup.setup
-    end
-
     it "creates an etd" do
       expect {
         post :create, params: { etd: { title: 'a title', school: 'Emory College', department: 'Art History' } }
