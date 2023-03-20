@@ -1,7 +1,12 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.feature 'Selected school', :clean, integration: true, js: true, type: :system do
+RSpec.feature 'Selected school', integration: true, js: true, type: :system do
+  before :all do
+    ActiveFedora::Cleaner.clean!
+    WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null").setup
+  end
+
   let(:user) { create :user }
 
   let(:approver) { User.where(uid: "tezprox").first }
@@ -21,10 +26,7 @@ RSpec.feature 'Selected school', :clean, integration: true, js: true, type: :sys
       FactoryBot.build(:etd, default_attrs)
     end
 
-    let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
-
     before do
-      workflow_setup.setup
       ec_etd.assign_admin_set
 
       # Create the ETD record
