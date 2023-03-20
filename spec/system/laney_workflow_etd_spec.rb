@@ -20,6 +20,11 @@ RSpec.feature 'Laney Graduate School two step approval workflow',
       w.setup
       attributes_for_actor = { uploaded_files: [file.id] }
       env = Hyrax::Actors::Environment.new(etd, ::Ability.new(depositing_user), attributes_for_actor)
+
+      # stub non-relevant jobs to speed up test
+      allow(StreamNotificationsJob).to receive(:perform_later)
+      allow(Hyrax::RevokeEditFromMembersJob).to receive(:perform_later)
+      allow(Hyrax::GrantReadToMembersJob).to receive(:perform_later)
       Hyrax::CurationConcern.actor.create(env)
     end
 
@@ -29,12 +34,7 @@ RSpec.feature 'Laney Graduate School two step approval workflow',
 
       # Check workflow permissions for depositing user
       available_workflow_actions = Hyrax::Workflow::PermissionQuery.scope_permitted_workflow_actions_available_for_current_state(user: depositing_user, entity: etd.to_sipity_entity).pluck(:name)
-      expect(available_workflow_actions.include?("mark_as_reviewed")).to eq false
-      expect(available_workflow_actions.include?("approve")).to eq false
-      expect(available_workflow_actions.include?("request_changes")).to eq false
-      expect(available_workflow_actions.include?("comment_only")).to eq false
-      expect(available_workflow_actions.include?("hide")).to eq false
-      expect(available_workflow_actions.include?("unhide")).to eq false
+      expect(available_workflow_actions).to be_empty # after submission, and before any review
 
       # Check notifications for depositing user
       login_as depositing_user
@@ -51,27 +51,28 @@ RSpec.feature 'Laney Graduate School two step approval workflow',
 
       # Check workflow permissions for approving user
       available_workflow_actions = Hyrax::Workflow::PermissionQuery.scope_permitted_workflow_actions_available_for_current_state(user: approving_user, entity: etd.to_sipity_entity).pluck(:name)
-      expect(available_workflow_actions.include?("mark_as_reviewed")).to eq true
-      expect(available_workflow_actions.include?("approve")).to eq false # it can't be approved until after it has been marked as reviewed
-      expect(available_workflow_actions.include?("request_changes")).to eq true
-      expect(available_workflow_actions.include?("comment_only")).to eq true
-      expect(available_workflow_actions.include?("hide")).to eq true
-      expect(available_workflow_actions.include?("unhide")).to eq true
+      expect(available_workflow_actions).to contain_exactly(
+                                              "comment_only",
+                                              "request_changes",
+                                              "mark_as_reviewed",
+                                              "hide",
+                                              "unhide"
+                                            )
+      # "approve" should not be in the list until after the ETD has been marked as reviewed
 
       # Last superuser should have all workflow options available. (First superuser gets these by virtue of owning the admin sets.)
       expect(w.superusers.count).to be > 1 # This test is meaningless if there is only one superuser
       available_workflow_actions = Hyrax::Workflow::PermissionQuery.scope_permitted_workflow_actions_available_for_current_state(user: w.superusers.last, entity: etd.to_sipity_entity).pluck(:name)
-      expect(available_workflow_actions.include?("mark_as_reviewed")).to eq true
-      expect(available_workflow_actions.include?("approve")).to eq false # it can't be approved until after it has been marked as reviewed
-      expect(available_workflow_actions.include?("request_changes")).to eq true
-      expect(available_workflow_actions.include?("comment_only")).to eq true
-      expect(available_workflow_actions.include?("hide")).to eq true
-      expect(available_workflow_actions.include?("unhide")).to eq true
+      expect(available_workflow_actions).to contain_exactly(
+                                              "comment_only",
+                                              "request_changes",
+                                              "mark_as_reviewed",
+                                              "hide",
+                                              "unhide"
+                                            )
 
       # The approving user marks the etd as reviewed
-      subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
-      sipity_workflow_action = PowerConverter.convert_to_sipity_action("mark_as_reviewed", scope: subject.entity.workflow) { nil }
-      Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: nil)
+      change_workflow_status(etd, "mark_as_reviewed", approving_user)
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "pending_approval"
 
       # Check notifications for approving user
@@ -79,23 +80,19 @@ RSpec.feature 'Laney Graduate School two step approval workflow',
       expect(page).to have_content "#{etd.title.first} (#{etd.id}) deposited by #{depositing_user.display_name} has completed initial review and is awaiting final approval."
 
       # The approving user marks the etd as approved
-      subject = Hyrax::WorkflowActionInfo.new(etd, approving_user)
-      sipity_workflow_action = PowerConverter.convert_to_sipity_action("approve", scope: subject.entity.workflow) { nil }
-      Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: nil)
+      change_workflow_status(etd, "approve", approving_user)
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "approved"
 
       # The approving user hides the ETD
       expect(etd.hidden?).to eq false
-      sipity_workflow_action = PowerConverter.convert_to_sipity_action("hide", scope: subject.entity.workflow) { nil }
-      Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "hiding for reasons")
+      change_workflow_status(etd, "hide", approving_user, "hiding for reasons")
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "approved" # workflow state has not changed
       expect(etd.hidden?).to eq true
       expect(etd.visibility).to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
       expect(etd.members.first.visibility).to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE
 
       # The approving user unhides the ETD
-      sipity_workflow_action = PowerConverter.convert_to_sipity_action("unhide", scope: subject.entity.workflow) { nil }
-      Hyrax::Workflow::WorkflowActionService.run(subject: subject, action: sipity_workflow_action, comment: "unhiding for reasons")
+      change_workflow_status(etd, "unhide", approving_user, "unhiding for reasons")
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "approved" # workflow state has not changed
       expect(etd.hidden?).to eq false
       expect(etd.visibility).to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
@@ -127,6 +124,7 @@ RSpec.feature 'Laney Graduate School two step approval workflow',
       expect(page).to have_content "The work is not currently available because it has not yet completed the publishing process"
 
       # Publish the ETD via the GraduationJob
+      ActiveJob::Base.queue_adapter = :test
       GraduationJob.perform_now(etd.id, Time.zone.yesterday)
 
       # Now the work should be publicly visible
