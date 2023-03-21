@@ -123,11 +123,6 @@ RSpec.configure do |config|
   #   ActiveFedora::Cleaner.clean!
   # end
 
-  config.before do
-    class_double("Clamby").as_stubbed_const
-    allow(Clamby).to receive(:virus?).and_return(false)
-  end
-
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Warden::Test::Helpers, type: :system
