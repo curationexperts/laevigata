@@ -55,9 +55,7 @@ describe AttachFilesToWorkJob do
     let(:file_path) { "#{::Rails.root}/spec/fixtures/virus_checking/virus_check.txt" }
 
     before do
-      # Comment out these Clamby lines, and the ones in rails_helper.rb to really test virus scanning
-      class_double("Clamby").as_stubbed_const
-      allow(Clamby).to receive(:virus?).and_return(true)
+      allow(TestVirusScanner).to receive(:infected?).and_return(true)
       class_double("Hyrax::Workflow::VirusEncounteredNotification").as_stubbed_const
       allow(Hyrax::Workflow::VirusEncounteredNotification).to receive(:send_notification)
     end

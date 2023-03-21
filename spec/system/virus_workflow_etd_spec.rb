@@ -17,8 +17,7 @@ RSpec.describe 'Virus checking', :perform_jobs, :clean, :js, integration: true, 
   context 'a logged in user' do
     before do
       allow(CharacterizeJob).to receive(:perform_later) # There is no fits installed on travis-ci
-      class_double("Clamby").as_stubbed_const
-      allow(Clamby).to receive(:virus?).and_return(true)
+      allow(TestVirusScanner).to receive(:infected?).and_return(true)
       w.setup
 
       attributes_for_actor = { uploaded_files: [upload1.id] }
@@ -27,7 +26,7 @@ RSpec.describe 'Virus checking', :perform_jobs, :clean, :js, integration: true, 
       middleware.create(env)
     end
 
-    scenario "supplemental file with virus" do
+    scenario "primary PDF file with virus" do
       # Check the ETD was assigned the right workflow
       expect(etd.active_workflow.name).to eq "emory_one_step_approval"
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "pending_approval"
@@ -45,7 +44,7 @@ RSpec.describe 'Virus checking', :perform_jobs, :clean, :js, integration: true, 
       expect(page).to have_content "Virus encountered"
 
       visit("/concern/etds/#{etd.id}")
-      # expect(page).to have_content "Virus detected. File deleted."
+      expect(page).to have_content "Primary PDF\nEmpty"
     end
   end
 end

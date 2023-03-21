@@ -79,6 +79,8 @@ RSpec.configure do |config|
   config.before :suite do
     disable_production_minter!
     ActiveFedora::Cleaner.clean!
+
+    Hydra::Works.default_system_virus_scanner = TestVirusScanner
   end
 
   config.after :suite do
