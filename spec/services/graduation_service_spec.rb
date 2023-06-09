@@ -41,6 +41,37 @@ describe GraduationService do
     end
   end
 
+  describe "#parse_registrar_file" do
+    context 'with JSON data' do
+      let(:feed) { FactoryBot.create(:json_registrar_feed) }
+      it "exrtracts records successfully" do
+        parsed_data = grad_service.parse_registrar_file
+        expect(parsed_data)
+          .to include('P0000006-UBUS-BBA' =>
+                        hash_including('public person id' => 'P0000006',
+                                       'directory last name' => 'Dieu-le-Veut',
+                                       'degree status date' => '2022-05-25'))
+      end
+    end
+
+    context 'with CSV data' do
+      let(:feed) { FactoryBot.create(:registrar_feed) }
+      it 'exrtracts records successfully' do
+        parsed_data = grad_service.parse_registrar_file
+        expect(parsed_data)
+          .to include('P0000006-UBUS-BBA' =>
+                        hash_including('public person id' => 'P0000006',
+                                       'directory last name' => 'Dieu-le-Veut',
+                                       'degree status date' => '2022-05-25'))
+      end
+    end
+
+    it 'raises an error on unexpected content types' do
+      allow(feed.graduation_records).to receive(:content_type).and_return('text/html')
+      expect { grad_service.parse_registrar_file }.to raise_exception(ArgumentError, /html/)
+    end
+  end
+
   describe "#find_registrar_match" do
     describe "for exact matches" do
       let(:etd_solr_doc) { { 'id' => 'MatchingETD', 'depositor_ssim' => ['P0000003'], 'school_tesim' => ['Emory College'], 'degree_tesim' => ['B.S.'] } }

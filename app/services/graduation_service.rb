@@ -2,7 +2,7 @@
 # 1. Checks the repository for works in the `approved` workflow state
 # 2. For each of these works, query the registrar data to see if the student has graduated
 # 3. If so, call GraduationJob for the given work and the graduation_date returned by registrar data
-# @param [String] The path to the data JSON file. Expects location of registrar data to be set in REGISTRAR_DATA_PATH, e.g., in .env.production
+# @param [RegistrarFeed] a RegistarFeed object - expected to have a valid registar graduation_record file attached
 # @example How to call this service
 #  GraduationService.run
 class GraduationService
@@ -20,7 +20,7 @@ class GraduationService
     Rails.logger.warn "Graduation service: Running graduation service for #{registrar_feed.to_global_id}"
     @registrar_feed = registrar_feed
     @registrar_feed.published_etds = published_etds
-    @registrar_data = JSON.parse(registrar_feed.graduation_records.download)
+    @registrar_data = parse_registrar_file
     @graduation_report = GraduationReport.new
     raise FormatError unless contains_graduation_data
   end
@@ -40,6 +40,24 @@ class GraduationService
     Rails.logger.warn "Results saved to #{@graduation_report.filename}"
 
     update_registrar_feed(approved_etds, publishable_etds)
+  end
+
+  DOWNCASE_CONVERTER = ->(header) { header.downcase }
+
+  # Read registrar data from CSV or JSON source file
+  # responsible for massaging the input file into the same json structure
+  # @return [Hash] a hash of registrar keys pointing at the associated student graduation records
+  def parse_registrar_file
+    grad_records = @registrar_feed.graduation_records
+    case grad_records.content_type
+    when 'text/csv'
+      registrar_csv = CSV.parse(grad_records.download, headers: true, header_converters: DOWNCASE_CONVERTER)
+      registrar_csv.map { |row| [row['etd record key'], row.to_hash] }.to_h
+    when 'application/json'
+      JSON.parse(grad_records.download)
+    else
+      raise ArgumentError, "Unexpectected content type: #{grad_records.content_type.inspect}"
+    end
   end
 
   # Save process stats and the report to the registrar feed
@@ -171,7 +189,7 @@ class GraduationService
   # If these keys and values are not present, the file
   # probably does not contain correctly formatted graduation data.
   def contains_graduation_data
-    @registrar_data.find { |k, v| v.fetch('degree status date', '').length > 4 }.present?
+    @registrar_data.find { |_k, v| v.fetch('degree status date', '')&.match?(/\d{4}-\d{2}-\d{2}/) }.present?
   end
 
   # PROGRAM_MAP: Keys = Laevigata degree codes (degree_tesim); Values = corresponding Registrar academic program codes
