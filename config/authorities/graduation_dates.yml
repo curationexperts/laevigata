@@ -1,113 +1,118 @@
 terms:
-    - id: 'Spring 2022'
-      term: 'Spring 2022'
-    - id: 'Summer 2022'
-      term: 'Summer 2022'
-    - id: 'Fall 2022'
-      term: 'Fall 2022'
-    - id: 'Spring 2023'
-      term: 'Spring 2023'
-    - id: 'Summer 2023'
-      term: 'Summer 2023'
-    - id: 'Fall 2023'
-      term: 'Fall 2023'
-    - id: 'Spring 2024'
-      term: 'Spring 2024'
-    - id: 'Summer 2024'
-      term: 'Summer 2024'
-    - id: 'Fall 2024'
-      term: 'Fall 2024'
+  # Include the current semester at the top of the list
+  - id: 'Summer 2023'
+    term: 'Summer 2023'
+  - id: 'Fall 2023'
+    term: 'Fall 2023'
+  - id: 'Spring 2024'
+    term: 'Spring 2024'
+  - id: 'Summer 2024'
+    term: 'Summer 2024'
+  - id: 'Fall 2024'
+    term: 'Fall 2024'
 
-    - id: '2000'
-      term: '2000'
-      active: false
-    - id: '2001'
-      term: '2001'
-      active: false
-    - id: '2002'
-      term: '2002'
-      active: false
-    - id: '2003'
-      term: '2003'
-      active: false
-    - id: '2004'
-      term: '2004'
-      active: false
-    - id: '2005'
-      term: '2005'
-      active: false
-    - id: '2006'
-      term: '2006'
-      active: false
-    - id: '2007'
-      term: '2007'
-      active: false
-    - id: '2008'
-      term: '2008'
-      active: false
-    - id: '2009'
-      term: '2009'
-      active: false
-    - id: '2010'
-      term: '2010'
-      active: false
-    - id: '2011'
-      term: '2011'
-      active: false
-    - id: '2012'
-      term: '2012'
-      active: false
-    - id: '2013'
-      term: '2013'
-      active: false
-    - id: '2014'
-      term: '2014'
-      active: false
-    - id: '2015'
-      term: '2015'
-      active: false
-    - id: '2016'
-      term: '2016'
-      active: false
-    - id: '2017'
-      term: '2017'
-      active: false
-    - id: 'Fall 2017'
-      term: 'Fall 2017'
-      active: false
-    - id: 'Spring 2018'
-      term: 'Spring 2018'
-      active: false
-    - id: 'Summer 2018'
-      term: 'Summer 2018'
-      active: false
-    - id: 'Fall 2018'
-      term: 'Fall 2018'
-      active: false
-    - id: 'Spring 2019'
-      term: 'Spring 2019'
-      active: false
-    - id: 'Summer 2019'
-      term: 'Summer 2019'
-      active: false
-    - id: 'Fall 2019'
-      term: 'Fall 2019'
-      active: false
-    - id: 'Spring 2020'
-      term: 'Spring 2020'
-      active: false
-    - id: 'Summer 2020'
-      term: 'Summer 2020'
-      active: false
-    - id: 'Fall 2020'
-      term: 'Fall 2020'
-      active: false
-    - id: 'Spring 2021'
-      term: 'Spring 2021'
-      active: false
-    - id: 'Summer 2021'
-      term: 'Summer 2021'
-      active: false
-    - id: 'Fall 2021'
-      term: 'Fall 2021'
-      active: false
+  # Previous semesters that students can still choose
+  - id: 'Spring 2023'
+    term: 'Spring 2023'
+  - id: 'Fall 2022'
+    term: 'Fall 2022'
+  - id: 'Summer 2022'
+    term: 'Summer 2022'
+  - id: 'Spring 2022'
+    term: 'Spring 2022'
+
+  # Previous semseters that can be saved if they already exist,
+  # but not added to new submissions
+  - id: '2000'
+    term: '2000'
+    active: false
+  - id: '2001'
+    term: '2001'
+    active: false
+  - id: '2002'
+    term: '2002'
+    active: false
+  - id: '2003'
+    term: '2003'
+    active: false
+  - id: '2004'
+    term: '2004'
+    active: false
+  - id: '2005'
+    term: '2005'
+    active: false
+  - id: '2006'
+    term: '2006'
+    active: false
+  - id: '2007'
+    term: '2007'
+    active: false
+  - id: '2008'
+    term: '2008'
+    active: false
+  - id: '2009'
+    term: '2009'
+    active: false
+  - id: '2010'
+    term: '2010'
+    active: false
+  - id: '2011'
+    term: '2011'
+    active: false
+  - id: '2012'
+    term: '2012'
+    active: false
+  - id: '2013'
+    term: '2013'
+    active: false
+  - id: '2014'
+    term: '2014'
+    active: false
+  - id: '2015'
+    term: '2015'
+    active: false
+  - id: '2016'
+    term: '2016'
+    active: false
+  - id: '2017'
+    term: '2017'
+    active: false
+  - id: 'Fall 2017'
+    term: 'Fall 2017'
+    active: false
+  - id: 'Spring 2018'
+    term: 'Spring 2018'
+    active: false
+  - id: 'Summer 2018'
+    term: 'Summer 2018'
+    active: false
+  - id: 'Fall 2018'
+    term: 'Fall 2018'
+    active: false
+  - id: 'Spring 2019'
+    term: 'Spring 2019'
+    active: false
+  - id: 'Summer 2019'
+    term: 'Summer 2019'
+    active: false
+  - id: 'Fall 2019'
+    term: 'Fall 2019'
+    active: false
+  - id: 'Spring 2020'
+    term: 'Spring 2020'
+    active: false
+  - id: 'Summer 2020'
+    term: 'Summer 2020'
+    active: false
+  - id: 'Fall 2020'
+    term: 'Fall 2020'
+    active: false
+  - id: 'Spring 2021'
+    term: 'Spring 2021'
+    active: false
+  - id: 'Summer 2021'
+    term: 'Summer 2021'
+    active: false
+  - id: 'Fall 2021'
+    term: 'Fall 2021'
+    active: false
