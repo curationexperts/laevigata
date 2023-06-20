@@ -42,8 +42,6 @@ class GraduationService
     update_registrar_feed(approved_etds, publishable_etds)
   end
 
-  DOWNCASE_CONVERTER = ->(header) { header.downcase }
-
   # Read registrar data from CSV or JSON source file
   # responsible for massaging the input file into the same json structure
   # @return [Hash] a hash of registrar keys pointing at the associated student graduation records
@@ -51,7 +49,7 @@ class GraduationService
     grad_records = @registrar_feed.graduation_records
     case grad_records.content_type
     when 'text/csv', 'application/vnd.ms-excel'
-      registrar_csv = CSV.parse(grad_records.download, headers: true, header_converters: DOWNCASE_CONVERTER)
+      registrar_csv = CSV.parse(grad_records.download, headers: true, header_converters: :downcase, liberal_parsing: true)
       registrar_csv.map { |row| [row['etd record key'], row.to_hash] }.to_h
     when 'application/json'
       JSON.parse(grad_records.download)
