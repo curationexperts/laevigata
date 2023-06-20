@@ -44,7 +44,7 @@ describe GraduationService do
   describe "#parse_registrar_file" do
     context 'with JSON data' do
       let(:feed) { FactoryBot.create(:json_registrar_feed) }
-      it "exrtracts records successfully" do
+      it "extracts records successfully" do
         parsed_data = grad_service.parse_registrar_file
         expect(parsed_data)
           .to include('P0000006-UBUS-BBA' =>
@@ -56,13 +56,17 @@ describe GraduationService do
 
     context 'with CSV data' do
       let(:feed) { FactoryBot.create(:registrar_feed) }
-      it 'exrtracts records successfully' do
+      it 'extracts records successfully' do
         parsed_data = grad_service.parse_registrar_file
         expect(parsed_data)
           .to include('P0000006-UBUS-BBA' =>
                         hash_including('public person id' => 'P0000006',
                                        'directory last name' => 'Dieu-le-Veut',
                                        'degree status date' => '2022-05-25'))
+        expect(parsed_data)
+          .to include('P0000003-UCOL-LIBAS' =>
+                        hash_including('public person id' => 'P0000003',
+                                       'home address 1' => "\"12 \"Nana\" Ct\""))
       end
     end
 
