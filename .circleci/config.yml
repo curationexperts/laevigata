@@ -24,6 +24,7 @@ jobs:
         executor:
             name: samvera/ruby_fcrepo_solr_redis_postgres
             ruby_version: << parameters.ruby_version >>
+            solr_version: 8.11.1
         working_directory: ~/project
         parallelism: 4
         steps:
