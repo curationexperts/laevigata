@@ -81,6 +81,27 @@ RSpec.describe ::SolrDocument, type: :model do
       end
     end
 
+    describe '#under_embargo?' do
+      context 'with no embargo' do
+        let(:etd) { FactoryBot.build(:etd, embargo_release_date: nil) }
+        it 'returns false' do
+          expect(solr_doc.under_embargo?).to be false
+        end
+      end
+      context 'with a release date in the past' do
+        let(:etd) { FactoryBot.build(:etd, embargo_release_date: 1.month.ago) }
+        it 'returns false' do
+          expect(solr_doc.under_embargo?).to be false
+        end
+      end
+      context 'with a future release date' do
+        let(:etd) { FactoryBot.build(:etd, embargo_release_date: 1.month.from_now) }
+        it 'returns true' do
+          expect(solr_doc.under_embargo?).to be true
+        end
+      end
+    end
+
     context 'when under embargo' do
       subject(:etd) do
         FactoryBot.build(:tomorrow_expiration,
