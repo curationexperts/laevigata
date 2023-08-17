@@ -271,4 +271,33 @@ describe EtdPresenter do
       end
     end
   end
+
+  context 'with an expired embargo' do
+    let(:etd) do
+      FactoryBot.build(:etd,
+                       table_of_contents: [FFaker::Lorem.paragraph],
+                       abstract: [FFaker::Lorem.paragraph],
+                       degree_awarded: 13.months.ago,
+                       files_embargoed:    true,
+                       toc_embargoed:      true,
+                       abstract_embargoed: true,
+                       embargo: FactoryBot.create(:embargo, embargo_release_date: 1.month.ago))
+    end
+
+    it 'is open to all' do
+      expect(presenter.permission_badge).to include 'Open'
+    end
+
+    it 'does not embargo files' do
+      expect(presenter.files_embargo_check).to be_nil
+    end
+
+    it 'dos not embargo toc' do
+      expect(presenter.toc_with_embargo_check).not_to include 'under embargo'
+    end
+
+    it 'does not embargo abstract' do
+      expect(presenter.abstract_with_embargo_check).not_to include 'under embargo'
+    end
+  end
 end
