@@ -159,6 +159,6 @@ class SolrDocument
   end
 
   def under_embargo?
-    embargo_release_date.present?
+    embargo_release_date.present? && embargo_release_date > Time.current
   end
 end
