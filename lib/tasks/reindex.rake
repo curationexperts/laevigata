@@ -16,5 +16,5 @@ namespace :index do
       end
     end
   end
-  ActiveFedora::SolrService.commit
+  ActiveFedora::SolrService.commit if ActiveFedora::RuntimeRegistry.solr_service
 end
