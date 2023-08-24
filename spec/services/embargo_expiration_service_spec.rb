@@ -18,17 +18,52 @@ describe EmbargoExpirationService, :clean do
       expect(described_class).to have_received(:new).with(Date.parse("2018-01-28"))
     end
   end
-  context "date formatting" do
+  describe "#solrize_date" do
     let(:service) { described_class.new(Time.zone.today) }
     it "formats a date so it can be used in a solr query" do
       date = Date.parse('2017-07-27')
-      expect(service.solrize_date(date)).to eq "2017-07-27T00:00:00Z"
+      expect(service.solrize_date(date)).to eq "[2017-07-27T00:00:00Z TO 2017-07-28T00:00:00Z}"
     end
     it "formats single digit days correctly" do
       date = Date.parse('2017-08-04')
-      expect(service.solrize_date(date)).to eq "2017-08-04T00:00:00Z"
+      expect(service.solrize_date(date)).to eq "[2017-08-04T00:00:00Z TO 2017-08-05T00:00:00Z}"
     end
   end
+
+  describe '#find_expirations' do
+    let(:embargo) { FactoryBot.create(:embargo, embargo_release_date: Time.zone.tomorrow) }
+    let!(:etd) { FactoryBot.create(:tomorrow_expiration, embargo: embargo) }
+    let(:service) { described_class.new(Time.zone.tomorrow) }
+
+    context 'with GMT embargos' do
+      let(:embargo) { FactoryBot.create(:embargo, embargo_release_date: Time.zone.tomorrow.to_s + 'T0:00:00Z') }
+      it 'returns relevant etds' do
+        expect(service.find_expirations(0)).to include(etd)
+      end
+    end
+
+    context 'with embargoes in other timezones' do
+      let(:embargo) { FactoryBot.create(:embargo, embargo_release_date: Time.zone.tomorrow.to_s + 'T0:00:00 EST') }
+      it 'returns relevant etds' do
+        expect(service.find_expirations(0)).to include(etd)
+      end
+    end
+
+    context 'with embargos later in the day' do
+      let(:embargo) { FactoryBot.create(:embargo, embargo_release_date: Time.zone.tomorrow.to_s + 'T23:59:59Z') }
+      it 'returns relevant etds' do
+        expect(service.find_expirations(0)).to include(etd)
+      end
+    end
+
+    context 'with embargoes on the following day' do
+      let(:embargo) { FactoryBot.create(:embargo, embargo_release_date: (Time.zone.tomorrow + 1.day).to_s + 'T0:00:00Z') }
+      it 'returns relevant etds' do
+        expect(service.find_expirations(0)).not_to include(etd)
+      end
+    end
+  end
+
   context "#send_sixty_day_notifications" do
     let(:etd) { FactoryBot.create(:sixty_day_expiration) }
     let(:service) { described_class.new(Time.zone.today) }
