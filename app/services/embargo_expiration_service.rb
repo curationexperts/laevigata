@@ -20,15 +20,8 @@ class EmbargoExpirationService
       else
         Time.zone.today
       end
-    Rails.logger.info "Running embargo expiration service for #{rundate}"
+    Rails.logger.warn "EmbargoExpirationService: Running embargo expiration service for #{rundate}"
     EmbargoExpirationService.new(rundate).run
-  end
-
-  # Format a Date object such that it can be used in a solr query
-  # @param [Date] date
-  # @return [String] date formatted like "2017-07-27T00:00:00Z"
-  def solrize_date(date)
-    date.strftime('%Y-%m-%dT00:00:00Z')
   end
 
   def initialize(date)
@@ -106,6 +99,16 @@ class EmbargoExpirationService
   # @param [Integer] number of days
   def find_expirations(days)
     expiration_date = solrize_date(@date + days.send(:days))
-    Etd.where("embargo_release_date_dtsi:#{RSolr.solr_escape(expiration_date)}")
+    Etd.where("embargo_release_date_dtsi:#{expiration_date}")
+  end
+
+  # Format a Date object to serarch for any time during that day
+  # Returns Solr range query format: [x TO y} which includes the start of the range, but excludes the end of the range
+  # @param [Date] date
+  # @return [String] date formatted like "[2017-07-27T00:00:00Z TO 2017-07-28T0:00:00Z}"
+  def solrize_date(date)
+    start = date.strftime('%Y-%m-%dT00:00:00Z')
+    finish = (date + 1.day).strftime('%Y-%m-%dT00:00:00Z')
+    "[#{start} TO #{finish}}"
   end
 end
