@@ -1,7 +1,5 @@
 terms:
   # Include the current semester at the top of the list
-  - id: 'Summer 2023'
-    term: 'Summer 2023'
   - id: 'Fall 2023'
     term: 'Fall 2023'
   - id: 'Spring 2024'
@@ -12,6 +10,8 @@ terms:
     term: 'Fall 2024'
 
   # Previous semesters that students can still choose
+  - id: 'Summer 2023'
+    term: 'Summer 2023'
   - id: 'Spring 2023'
     term: 'Spring 2023'
   - id: 'Fall 2022'
