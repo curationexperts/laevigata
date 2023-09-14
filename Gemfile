@@ -46,7 +46,7 @@ gem 'sanitize', '~> 6.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 gem 'schoolie', '0.1.3'
-gem 'sidekiq', '~>6.5'
+gem 'sidekiq', '~>7.1'
 gem 'tinymce-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
