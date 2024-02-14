@@ -10,6 +10,7 @@ RSpec.describe Hyrax::Workflow::SixtyDayEmbargoNotification, :clean do
   let(:admin) { FactoryBot.create(:admin) }
   let(:etd) { FactoryBot.create(:etd, depositor: user.user_key, post_graduation_email: ["post@graduation.email"]) }
   let(:notification) { described_class.new(etd.id) }
+  let(:contact) { "https://libraries.emory.edu/research/open-access-publishing/emory-repositories-policy/etd/contact" }
   context "notifications" do
     it "sends notifications to the post-graduation email address" do
       expect(notification.recipients.pluck(:email)).to include(etd.post_graduation_email.first)
@@ -27,6 +28,9 @@ RSpec.describe Hyrax::Workflow::SixtyDayEmbargoNotification, :clean do
       expect(notification.message).to match(/Dear #{user.display_name}/)
       expect(notification.message).to match(/#{etd.title.first}/)
       expect(notification.message).to match(/proquest.com/)
+    end
+    it "links to the contact page" do
+      expect(notification.message).to match(/#{contact}/)
     end
   end
 end

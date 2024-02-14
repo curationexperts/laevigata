@@ -4,6 +4,7 @@ module Hyrax
     # Should notify work depositor only
     class SixtyDayEmbargoNotification
       include EmbargoNotificationBehavior
+      CONTACT_LINK = 'https://libraries.emory.edu/research/open-access-publishing/emory-repositories-policy/etd/contact'.freeze
 
       def subject
         "Embargo on #{title} will expire in sixty days"
@@ -16,7 +17,7 @@ module Hyrax
         Your dissertation or thesis can be accessed in the Emory University ETD Repository at: #{link_to document_url, document_url}
 
         If you need your record to remain restricted/embargoed, please contact your school administrators
-        located here: #{link_to 'http://sco.library.emory.edu/etds/contact.html', 'http://sco.library.emory.edu/etds/contact.html'} with your request. \n\n
+        located here: #{link_to CONTACT_LINK, CONTACT_LINK} with your request. \n\n
         Please do not reply directly to this email.
 
         FOR AUTHORS WHO ALSO SUBMITTED TO PROQUEST:
