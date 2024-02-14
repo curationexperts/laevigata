@@ -113,7 +113,7 @@
         </tbody>
       </table>
     </div>
-    <div class="alert alert-info"><span class="glyphicon glyphicon-info-sign"></span> Please contact <a href="http://sco.library.emory.edu/etds/help-form.html">Emory’s Scholarly Communications Office</a> if you have a supplemental file over 100 MB for assistance with uploading your file(s).</div>
+    <div class="alert alert-info"><span class="glyphicon glyphicon-info-sign"></span> Please contact <a href="https://libraries.emory.edu/research/open-access-publishing/emory-repositories-policy/etd/help-form">Emory’s Scholarly Communications Office</a> if you have a supplemental file over 100 MB for assistance with uploading your file(s).</div>
     <div v-if="sharedState.preventBoxSupplementalUpload" class="alert alert-warning" id="box-warning"><span class="glyphicon glyphicon-warning-sign"></span> Save and Continue before uploading any (more) files from Box.</div>
     <div class="form-inline">
       <input class="input-file btn-primary" id="add-supplemental-file" name="supplemental_files[]" type="file" ref="fileInput" @change="onSupplementalFileChange"/>
