@@ -3,6 +3,8 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   mount Blacklight::Engine => '/'
 
+  get '/contact', to: redirect('https://libraries.emory.edu/research/open-access-publishing/emory-repositories-policy/etd/contact')
+
   concern :searchable, Blacklight::Routes::Searchable.new
 
   resource :catalog, only: [:index], as: 'catalog', path: '/catalog', controller: 'catalog' do
