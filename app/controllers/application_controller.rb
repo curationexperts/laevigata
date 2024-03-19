@@ -40,4 +40,11 @@ class ApplicationController < ActionController::Base
   rescue_from ActionController::RoutingError do |exception|
     render plain: '404 Not found', status: 404
   end
+
+  private
+
+  def append_info_to_payload(payload)
+    super
+    payload[:request_id] = request.request_id
+  end
 end
