@@ -727,6 +727,10 @@ GEM
       loofah (~> 2.19, >= 2.19.1)
     rails_autolink (1.1.6)
       rails (> 3.1)
+    rails_semantic_logger (4.14.0)
+      rack
+      railties (>= 5.1)
+      semantic_logger (~> 4.13)
     railties (5.2.8.1)
       actionpack (= 5.2.8.1)
       activesupport (= 5.2.8.1)
@@ -902,6 +906,8 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    semantic_logger (4.15.0)
+      concurrent-ruby (~> 1.0)
     shex (0.6.3)
       ebnf (~> 2.1, >= 2.2)
       htmlentities (~> 4.3)
@@ -1092,6 +1098,7 @@ DEPENDENCIES
   rack (>= 2.1.4)
   rails (~> 5.2)
   rails-controller-testing
+  rails_semantic_logger
   rsolr (~> 1.0)
   rspec (~> 3.5)
   rspec-activemodel-mocks

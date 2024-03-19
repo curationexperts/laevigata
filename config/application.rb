@@ -27,6 +27,10 @@ module Laevigata
     config.middleware.use(::ExceptionMiddleware)
     config.autoload_paths += %W[#{config.root}/lib]
 
+    # Output logs in JSON format
+    config.rails_semantic_logger.format = :json
+    config.semantic_logger.application = Rails.version < '6' ? Rails.application.class.parent.name : Rails.application.class.module_parent_name
+
     # Allow psych to serialize additional classes - see https://stackoverflow.com/a/72970171
     config.active_record.yaml_column_permitted_classes = [ActiveSupport::HashWithIndifferentAccess]
 
