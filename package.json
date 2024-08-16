@@ -26,7 +26,7 @@
     "vue-template-compiler": "^2.6.10",
     "vue-turbolinks": "^2.0.3",
     "webpack-cli": "^3.3.2",
-    "ws": "^7.4.6",
+    "ws": "^7.5.10",
     "yargs-parser": "^21.0.1"
   },
   "scripts": {
