@@ -688,6 +688,7 @@ describe InProgressEtd do
 
       let(:new_data) do
         { 'title' => ['New ETD Title'],
+          'graduation_date' => 'Spring 2021', # Value should be present and not active in config/authorities/graduation_dates.yml
           'degree_awarded' => '2018-08-23',
           'embargo_length' => '1000 years',
           'keyword' => ['new keyword'],
@@ -714,6 +715,7 @@ describe InProgressEtd do
         # Test for affiliation_type, which we need for the form
         expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Non-Emory/)
         expect(refreshed_data['title']).to eq new_data['title'][0]
+        expect(refreshed_data['graduation_date']).to eq 'Spring 2021'
         expect(refreshed_data['ipe_id']).to eq ipe.id
         expect(refreshed_data['etd_id']).to eq etd.id
       end
