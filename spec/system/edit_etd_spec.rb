@@ -12,7 +12,14 @@ RSpec.feature 'Edit an existing ETD',
   let(:approving_user) { User.where(uid: "laneyadmin").first }
   let(:file) { FactoryBot.create(:primary_uploaded_file, user_id: depositing_user.id) }
   let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/rollins_subset_admin_sets.yml", "/dev/null") }
-  let(:etd) { FactoryBot.create(:sample_data, school: ["Rollins School of Public Health"], department: ["Biostatistics"], subfield: ["Biostatistics"], depositor: depositing_user.user_key) }
+  let(:etd) {
+    FactoryBot.create(:sample_data,
+                                school: ["Rollins School of Public Health"],
+                                department: ["Biostatistics"],
+                                subfield: ["Biostatistics"],
+                                depositor: depositing_user.user_key,
+                                graduation_date: 'Spring 2021')
+  }
   let(:admin_superuser) { User.where(uid: "tezprox").first } # uid from superuser.yml
 
   context 'an admin user' do
@@ -33,6 +40,7 @@ RSpec.feature 'Edit an existing ETD',
       expect(page).to have_content "Biostatistics and Bioinformatics"
       expect(page).to have_content etd.degree.first
       expect(page).to have_content "Biostatistics - MPH & MSPH"
+      expect(page).to have_select('graduation-date', selected: 'Spring 2021')
       click_on "Submit Your Thesis or Dissertation"
       expect(page).to have_content "Biostatistics and Bioinformatics"
       expect(page).to have_content etd.degree.first
