@@ -11,7 +11,13 @@ RSpec.describe Schools::School, type: :model do
     let(:school_labels) { subject.map { |school| school[:label] } }
 
     it 'finds the QA terms for all the active schools' do
-      expect(school_labels).to eq ['Candler School of Theology', 'Emory College', 'Laney Graduate School', 'Rollins School of Public Health']
+      expect(school_labels).to eq [
+        'Candler School of Theology',
+        'Emory College',
+        'Laney Graduate School',
+        'Nell Hodgson Woodruff School of Nursing',
+        'Rollins School of Public Health'
+      ]
     end
   end
 

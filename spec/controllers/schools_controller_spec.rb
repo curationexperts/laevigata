@@ -12,7 +12,13 @@ RSpec.describe SchoolsController, type: :controller do
         get :index
         expect(response).to have_http_status(:success)
         expect(response).to render_template(:index)
-        expect(assigns(:school_terms).map { |school| school[:label] }).to eq ['Candler School of Theology', 'Emory College', 'Laney Graduate School', 'Rollins School of Public Health']
+        expect(assigns(:school_terms).map { |school| school['label'] }).to eq [
+          'Candler School of Theology',
+          'Emory College',
+          'Laney Graduate School',
+          'Nell Hodgson Woodruff School of Nursing',
+          'Rollins School of Public Health'
+        ]
       end
     end
 
