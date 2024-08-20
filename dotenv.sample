@@ -14,9 +14,6 @@ export FAKE_DATA=true
 # Use local database auth instead of Shibboleth
 export LAEVIGATA_DATABASE_AUTH=true
 
-# Turn off coveralls during specs
-export NO_COVERAGE=true
-
 # For hyrax config
 
 UPLOAD_PATH=tmp/uploads
