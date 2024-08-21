@@ -4,6 +4,8 @@ require 'yaml'
 
 # Set up the application's initial state: load required roles, create required AdminSets, load appropriate users and workflows
 class WorkflowSetup
+  include SemanticLogger::Loggable
+
   attr_reader :admin_set_owner
   attr_reader :admin_sets_config
   attr_accessor :superusers_config
@@ -17,14 +19,12 @@ class WorkflowSetup
   # @param [String] config_file_dir the directory where the config files reside
   # @param [String] schools_config
   # @param [String] log_location where should the log files write? Default is STDOUT. /dev/null is also an option for CI builds
-  def initialize(superusers_config = DEFAULT_SUPERUSERS_CONFIG, admin_sets_config = DEFAULT_ADMIN_SETS_CONFIG, log_location = STDOUT)
+  def initialize(superusers_config = DEFAULT_SUPERUSERS_CONFIG, admin_sets_config = DEFAULT_ADMIN_SETS_CONFIG, _log_location = STDOUT)
     raise "File #{superusers_config} does not exist" unless File.exist?(superusers_config)
     @superusers_config = YAML.safe_load(File.read(superusers_config))
     raise "File #{admin_sets_config} does not exist" unless File.exist?(admin_sets_config)
     @admin_sets_config = YAML.safe_load(File.read(admin_sets_config))
-    @logger = Logger.new(log_location)
-    @logger.level = Logger::DEBUG
-    @logger.info "Initializing new workflow setup with superusers file #{superusers_config} and admin_sets_config files from #{admin_sets_config}"
+    logger.info "Initializing new workflow setup with superusers file #{superusers_config} and admin_sets_config files from #{admin_sets_config}"
     Hyrax::RoleRegistry.new.persist_registered_roles! # Ensure we have a managing and a depositing role
     @admin_set_owner = make_superuser(ADMIN_SET_OWNER)
   end
@@ -37,7 +37,7 @@ class WorkflowSetup
     make_notification_owner
     load_superusers
     admin_sets.each do |as|
-      @logger.debug "Attempting to make admin set for #{as}"
+      logger.debug "Attempting to make admin set for #{as}"
       make_admin_set_from_config(as)
     end
     load_workflows
@@ -126,7 +126,7 @@ class WorkflowSetup
   # @param [String] the uid of the superuser
   # @return [User] the superuser who was just created
   def make_superuser(uid, provider = "database")
-    @logger.debug "Making superuser #{uid}"
+    logger.debug "Making superuser #{uid}"
     admin_user = ::User.find_or_create_by(uid: uid)
     admin_user.password = "123456" if set_default_password?
     admin_user.ppid = uid # temporary ppid, will get replaced when user signs in with shibboleth
@@ -169,7 +169,7 @@ class WorkflowSetup
   # Give superusers the managing role in all AdminSets
   # Also give them all workflow roles for all AdminSets
   def give_superusers_superpowers
-    @logger.info "Giving superuser powers to #{superusers.pluck(:ppid)}"
+    logger.info "Giving superuser powers to #{superusers.pluck(:ppid)}"
     give_superusers_managing_role
     give_superusers_workflow_roles
   end
@@ -195,9 +195,7 @@ class WorkflowSetup
           workflow_role_name = Sipity::Role.where(id: workflow_role.role_id).first.name
           next if workflow_role_name == "depositing" || workflow_role_name == "managing"
           union_of_users = superusers_as_sipity_agents.concat(users_in_role(admin_set, workflow_role_name)).uniq
-          # neither of these two lines works
-          # @logger.debug "Granting #{workflow_role_name} to #{union_of_users.map { |u| User.where(id: u.proxy_for_id).first.user_key }}"
-          # @logger.debug "Granting #{workflow_role_name} to #{union_of_users.map { |u| User.where(id: u.proxy_for_id).first.ppid }}"
+          logger.debug "Granting #{workflow_role_name} to #{union_of_users.map { |u| User.where(id: u.proxy_for_id).first.ppid }.to_sentence}"
           workflow.update_responsibilities(role: Sipity::Role.where(id: workflow_role.role_id), agents: union_of_users)
         end
       end
@@ -208,7 +206,7 @@ class WorkflowSetup
   # @return [AdminSet] the admin set that was just created, or the one that existed already
   def make_admin_set(admin_set_title)
     if AdminSet.where(title_sim: admin_set_title).count > 0
-      @logger.debug "AdminSet #{admin_set_title} already exists."
+      logger.debug "AdminSet #{admin_set_title} already exists."
       return AdminSet.where(title_sim: admin_set_title).first
     end
     a = AdminSet.create(title: [admin_set_title])
@@ -223,7 +221,7 @@ class WorkflowSetup
   # the permission templates didn't get wiped from the database somehow
   def load_workflows
     raise "Can't load workflows without a Permission Template. Do you need to make an AdminSet first?" if Hyrax::PermissionTemplate.all.empty?
-    Hyrax::Workflow::WorkflowImporter.load_workflows(logger: @logger)
+    Hyrax::Workflow::WorkflowImporter.load_workflows(logger: logger)
     errors = Hyrax::Workflow::WorkflowImporter.load_errors
     abort("Failed to process all workflows:\n  #{errors.join('\n  ')}") unless errors.empty?
   end
@@ -235,14 +233,14 @@ class WorkflowSetup
   def activate_mediated_deposit(admin_set, workflow_name = "emory_one_step_approval")
     osmd = admin_set.permission_template.available_workflows.where(name: workflow_name).first
     if osmd.active == true
-      @logger.debug "AdminSet #{admin_set.title.first} already had workflow #{admin_set.permission_template.available_workflows.where(active: true).first.name}. Not making any changes."
+      logger.debug "AdminSet #{admin_set.title.first} already had workflow #{admin_set.permission_template.available_workflows.where(active: true).first.name}. Not making any changes."
       return true
     end
     Sipity::Workflow.activate!(
       permission_template: admin_set.permission_template,
       workflow_id: osmd.id
     )
-    @logger.debug "AdminSet #{admin_set.title.first} has workflow #{admin_set.permission_template.available_workflows.where(active: true).first.name}"
+    logger.debug "AdminSet #{admin_set.title.first} has workflow #{admin_set.permission_template.available_workflows.where(active: true).first.name}"
     true
   end
 
