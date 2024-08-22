@@ -36,7 +36,7 @@ RSpec.feature 'Edit a migrated ETD, whose department doesn\'t exist anymore',
     end
 
     scenario "it keeps all expected values even if they don't exist in our current controlled vocabulary" do
-      expect(etd.active_workflow.name).to eq "default"
+      expect(etd.active_workflow.name).to eq "emory_one_step_approval"
       login_as admin
       visit "/concern/etds/#{etd.id}?locale=en"
       click_on "Edit"
