@@ -3,6 +3,7 @@
     "/authorities/terms/local/candler_programs",
   "Emory College": "/authorities/terms/local/emory_programs",
   "Laney Graduate School": "/authorities/terms/local/laney_programs",
+  "Nell Hodgson Woodruff School of Nursing": "/authorities/terms/local/woodruff_programs",
   "Rollins School of Public Health":
     "/authorities/terms/local/rollins_programs",
   "selected": "",
@@ -11,6 +12,7 @@
     { "text": "Candler School of Theology", "value": "Candler School of Theology" },
     { "text": "Emory College", "value": "Emory College" },
     { "text": "Laney Graduate School", "value": "Laney Graduate School" },
+    { "text": "Nell Hodgson Woodruff School of Nursing", "value": "Nell Hodgson Woodruff School of Nursing" },
     { "text": "Rollins School of Public Health", "value": "Rollins School of Public Health" }
   ]
 }
