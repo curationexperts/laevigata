@@ -12,6 +12,12 @@ Candler School of Theology:
   approving:
    - candleradmin
    - candleradmin2
+Nell Hodgson Woodruff School of Nursing:
+  approving:
+    - woodruffadmin
+    - woodruffadmin2
+
+# Rollins School of Public Health programs
 Applied Epidemiology:
   approving:
    - applied_epidemiology_admin
