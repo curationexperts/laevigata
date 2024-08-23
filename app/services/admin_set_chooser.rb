@@ -4,7 +4,7 @@ class AdminSetChooser
   #
   # @return [String] the name of an admin set
   def determine_admin_set(school, department)
-    admin_set_determined_by_school = ["Laney Graduate School", "Candler School of Theology", "Emory College"]
+    admin_set_determined_by_school = ["Laney Graduate School", "Candler School of Theology", "Emory College", "Nell Hodgson Woodruff School of Nursing"]
     return school.first if admin_set_determined_by_school.include?(school.first) && valid_admin_sets.include?(school.first)
     return department.first if valid_admin_sets.include?(department.first)
   end
