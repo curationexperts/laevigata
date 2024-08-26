@@ -2,7 +2,12 @@
     <div>
         <label for="degree">Degree</label>
         <select id="degree" name="etd[degree]" class="form-control" aria-required="true" v-on:change="sharedState.setValid('My Program', false)">
-            <option v-for="degree in degrees" v-bind:value="degree.id" v-bind:key='degree.id' :selected='degree.selected' :disabled='degree.disabled'>
+            <option v-for="degree in degrees"
+                    v-bind:value="degree.id"
+                    v-bind:key='degree.id'
+                    v-if="degree.active"
+                    :selected='degree.selected'
+                    :disabled='degree.disabled'>
                 {{ degree.label }}
             </option>
         </select>

@@ -10,7 +10,7 @@ import axios from 'axios'
 jest.mock('axios')
 
 describe('Degree.vue', () => {
-  const resp = {data: [{'id': 'Th.D.', 'label': 'Th.D.', 'active': true}]}
+  const resp = {data: [{'id': 'Th.D.', 'label': 'Th.D.', 'active': true}, {'id': 'Inactive', 'label': 'legacy option', 'active': false}]}
   axios.get.mockResolvedValue(resp)
 
   it('renders a select element', () => {

@@ -2,9 +2,12 @@
     <div>
         <label for="submitting-type">Submission Type</label>
         <select id="submitting-type" name="etd[submitting_type]" aria-required="true" class="form-control" v-on:change="sharedState.setValid('My Program', false)">
-            <option v-for="submittingType in submittingTypes" v-bind:value="submittingType.id"
-            v-bind:key='submittingType.id' v-if="submittingType.active" :disabled="submittingType.disabled"
-            :selected="submittingType.selected">
+            <option v-for="submittingType in submittingTypes"
+                    v-bind:value="submittingType.id"
+                    v-bind:key='submittingType.id'
+                    v-if="submittingType.active"
+                    :disabled="submittingType.disabled"
+                    :selected="submittingType.selected">
                 {{ submittingType.label }}
             </option>
         </select>

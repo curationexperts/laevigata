@@ -8,7 +8,7 @@ import axios from 'axios'
 jest.mock('axios')
 
 describe('SubmittingType.vue', () => {
-  const resp = {data: [{'id': 'Honors Thesis', 'label': 'Honors Thesis', 'active': true}]}
+  const resp = {data: [{'id': 'Honors Thesis', 'label': 'Honors Thesis', 'active': true}, {'id': 'Inactive', 'label': 'legacy option', 'active': false}]}
   axios.get.mockResolvedValue(resp)
 
   it('renders a select element', () => {
