@@ -87,6 +87,12 @@ class EtdPresenter < Hyrax::WorkShowPresenter
     solr_document.submitting_type.first
   end
 
+  # School-dependent label for departments
+  # @return 'Department' unless school==nursing, which uses 'Specialty' instead
+  def department_or_specialty
+    school&.first&.match?(/Nursing|Woodruff/i) ? 'Specialty' : 'Department'
+  end
+
   def current_user_roles
     # Note: AdminSets need an exact, non-tokenized solr query. A query like
     # AdminSet.where(title: admin_set) is too broad and might match the wrong AdminSet,

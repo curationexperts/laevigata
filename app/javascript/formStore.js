@@ -401,6 +401,16 @@ export const formStore = {
       return this.departments.filter((department) => { return department.id === id })[0].label
     }
   },
+
+  getDepartmentHeading () {
+    // The nursing school uses "Specialty" instead of "Department"
+    if ( this.savedData['school']=='Nell Hodgson Woodruff School of Nursing') {
+      return 'Specialty'
+    } else {
+      return 'Department'
+    }
+  },
+
   getSavedOrSelectedSubfield () {
     if (this.selectedSubfield === undefined) {
       this.selectedSubfield = ''

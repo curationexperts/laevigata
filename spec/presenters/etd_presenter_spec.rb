@@ -300,4 +300,16 @@ describe EtdPresenter do
       expect(presenter.abstract_with_embargo_check).not_to include 'under embargo'
     end
   end
+
+  describe '#department_or_specialty' do
+    it 'returns "Specialty" for the nursing school' do
+      etd.school = ['Nell Hodgson Woodruff School of Nursing']
+      expect(presenter.department_or_specialty).to eq 'Specialty'
+    end
+
+    it 'returns "Department" when school is not nursing' do
+      etd.school = ['Any other school']
+      expect(presenter.department_or_specialty).to eq 'Department'
+    end
+  end
 end

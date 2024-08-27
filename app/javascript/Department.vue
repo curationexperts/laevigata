@@ -1,7 +1,7 @@
 <template>
   <div v-if="sharedState.allowTabSave()">
     <!-- TODO: adding v-model='selected' enables the selected value to appear in the case of an ipe_etd, but it will not without it, with a hyrax etd. But we should refactor for a better solution. -->
-    <label for="department">Department</label>
+    <label for="department"> {{ sharedState.getDepartmentHeading() }} </label>
     <select
       name="etd[department]"
       class="form-control"
@@ -53,7 +53,6 @@ export default {
       sharedState: formStore
     };
   },
-
   watch: {
     selected() {
       this.sharedState.getSavedOrSelectedDepartment();
