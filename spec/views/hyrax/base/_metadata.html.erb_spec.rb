@@ -24,4 +24,20 @@ RSpec.describe 'hyrax/base/_metadata.html.erb', type: :view do
       expect(rendered).to have_no_css('.attribute-degree_awarded')
     end
   end
+
+  context "renders department labels" do
+    it 'as "Department" by default' do
+      etd.school = ['Any School']
+      etd.department = ['Some Department']
+      render 'hyrax/base/metadata', presenter: etd_presenter
+      expect(rendered).to have_css('.etd.attributes th', text: 'Department')
+    end
+
+    it 'as "Specialty" for nursing' do
+      etd.school = ['Nell Hodgson Woodruff School of Nursing']
+      etd.department = ['Any Specialty']
+      render 'hyrax/base/metadata', presenter: etd_presenter
+      expect(rendered).to have_css('.etd.attributes th', text: 'Specialty')
+    end
+  end
 end

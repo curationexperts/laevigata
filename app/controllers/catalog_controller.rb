@@ -43,7 +43,7 @@ class CatalogController < ApplicationController
     #   The ordering of the field names is the order of the display
     config.add_facet_field solr_name("graduation_date", :facetable), label: "Year", limit: 5
     config.add_facet_field solr_name("school", :facetable), label: "School", limit: 5
-    config.add_facet_field solr_name("department", :facetable), label: "Department", limit: 5
+    config.add_facet_field solr_name("department", :facetable), label: "Department / Specialty", limit: 5
     config.add_facet_field solr_name("degree", :facetable), label: "Degree", limit: 5
     config.add_facet_field solr_name("submitting_type", :facetable), label: "Submission Type", limit: 5
     config.add_facet_field solr_name("research_field", :facetable), label: "Research Field", limit: 5
@@ -66,7 +66,7 @@ class CatalogController < ApplicationController
     config.add_index_field solr_name("creator", :stored_searchable), label: "Student Name", itemprop: 'creator'
     config.add_index_field solr_name("date_uploaded", :stored_sortable, type: :date), label: "Date Uploaded", itemprop: 'datePublished', helper_method: :human_readable_date
     config.add_index_field solr_name("research_field", :stored_searchable), label: "Research Field"
-    config.add_index_field solr_name("department", :stored_searchable), label: "Department", link_to_search: solr_name("department", :facetable)
+    config.add_index_field solr_name("department", :stored_searchable), label: "Department or Specialty", link_to_search: solr_name("department", :facetable)
 
     # solr fields to be displayed in the show (single result) view
     #   The ordering of the field names is the order of the display
@@ -78,7 +78,7 @@ class CatalogController < ApplicationController
     config.add_show_field solr_name("date_uploaded", :stored_searchable), label: "Date Uploaded"
     config.add_show_field solr_name("date_modified", :stored_searchable), label: "Date Modified"
     config.add_show_field solr_name("degree", :stored_searchable), label: "Degree"
-    config.add_show_field solr_name("department", :stored_searchable), label: "Department"
+    config.add_show_field solr_name("department", :stored_searchable), label: "Department or Specialty"
     config.add_show_field solr_name("school", :stored_searchable), label: "School"
     config.add_show_field solr_name("subfield", :stored_searchable), label: "Sub Field"
     config.add_show_field solr_name("partnering_agency", :stored_searchable), label: "Partnering Agency"

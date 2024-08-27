@@ -3,7 +3,7 @@
   <tbody>
     <%= presenter.attribute_to_html(:rights_statement, render_as: :rights_statement, html_dl: true) %>
     <%= presenter.attribute_to_html(:school, render_as: :faceted) %>
-    <%= presenter.attribute_to_html(:department, render_as: :faceted) %>
+    <%= presenter.attribute_to_html(:department, render_as: :faceted, label: presenter.department_or_specialty) %>
     <%= presenter.attribute_to_html(:subfield, label: "Subfield / Discipline", render_as: :faceted) %>
     <%= presenter.attribute_to_html(:degree, render_as: :faceted) %>
     <%= presenter.attribute_to_html(:submitting_type, label: "Submission", render_as: :faceted) %>
