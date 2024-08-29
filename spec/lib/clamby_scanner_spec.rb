@@ -8,12 +8,9 @@ RSpec.describe ClambyScanner do
   describe "Clamby" do
     before do
       # Stub Clamby to return true if filename includes "virus"
-      # in environments without ClamAV installed - e.g. CircleCI
       Clamby.configure(error_clamscan_missing: false, output_level: 'off')
-      unless Clamby.scanner_exists?
-        class_double("Clamby").as_stubbed_const
-        allow(Clamby).to receive(:virus?) { |args| args.match?(/virus/i) }
-      end
+      class_double("Clamby").as_stubbed_const
+      allow(Clamby).to receive(:virus?) { |args| args.match?(/virus/i) }
     end
 
     it 'detects viruses' do
