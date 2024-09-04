@@ -52,7 +52,7 @@ export default {
       } else {
         this.selected = this.sharedState.getSavedOrSelectedDepartment();
         if (!this.selected) {
-          this.selected = "Select a Department";
+          this.selected = "Select a " + this.sharedState.getDepartmentHeading();
         }
       }
     });
