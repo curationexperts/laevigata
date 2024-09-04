@@ -387,7 +387,8 @@ export const formStore = {
     } else {
       axios.get(selectedSchool).then(response => {
         const departmentsFromQA = response.data.filter(function(val) { if (val.active != false) { return val } })
-        departmentsFromQA.unshift({ "value": 'Select a Department', "active": true, "label": "Select a Department", "id": 'Select a Department',  "disabled":"disabled", "selected": "selected"})
+        const prompt = 'Select a ' + this.getDepartmentHeading
+        departmentsFromQA.unshift({ "value": prompt, "active": true, "label": prompt, "id": prompt,  "disabled":"disabled", "selected": "selected"})
         this.departments = departmentsFromQA
       })
     }
