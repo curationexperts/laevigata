@@ -9,7 +9,6 @@ RSpec.feature 'Edit an existing ETD',
               integration: true,
               type: :system do
   let(:depositing_user) { FactoryBot.create(:user) }
-  let(:approving_user) { User.where(uid: "laneyadmin").first }
   let(:file) { FactoryBot.create(:primary_uploaded_file, user_id: depositing_user.id) }
   let(:w) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/rollins_subset_admin_sets.yml", "/dev/null") }
   let(:etd) {
@@ -18,7 +17,11 @@ RSpec.feature 'Edit an existing ETD',
                                 department: ["Biostatistics"],
                                 subfield: ["Biostatistics"],
                                 depositor: depositing_user.user_key,
-                                graduation_date: 'Spring 2021')
+                                graduation_date: 'Spring 2021',
+                                embargo_length: '6 months',
+                                files_embargoed: true,
+                                toc_embargoed: true,
+                                abstract_embargoed: false)
   }
   let(:admin_superuser) { User.where(uid: "tezprox").first } # uid from superuser.yml
 
@@ -41,6 +44,8 @@ RSpec.feature 'Edit an existing ETD',
       expect(page).to have_content etd.degree.first
       expect(page).to have_content "Biostatistics - MPH & MSPH"
       expect(page).to have_select('graduation-date', selected: 'Spring 2021')
+      expect(page).to have_select('embargo-length', selected: '6 months')
+      expect(page).to have_select('content-to-embargo', selected: 'Files and Table of Contents')
       click_on "Submit Your Thesis or Dissertation"
       expect(page).to have_content "Biostatistics and Bioinformatics"
       expect(page).to have_content etd.degree.first
