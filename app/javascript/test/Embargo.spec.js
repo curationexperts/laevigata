@@ -15,6 +15,12 @@ describe('Embargo.vue', () => {
     expect(wrapper.html()).toContain(`<select name="etd[embargo_length]" aria-required="true" id="embargo-length" class="form-control"></select>`)
   })
 
+  it('defaults to no embargo', () => {
+    const wrapper = shallowMount(Embargo, {})
+    expect(wrapper.vm.selectedEmbargo).toBe(`None - open access immediately`)
+    expect(wrapper.html()).toContain('<input type="hidden" name="etd[embargo_type]" id="content-to-embargo" value="open">')
+  })
+
   it("After student has graduated, they can't edit embargo fields", () => {
     const wrapper = shallowMount(Embargo, { })
     formStore.savedData = { 'degree_awarded': 'August 23, 2018' }

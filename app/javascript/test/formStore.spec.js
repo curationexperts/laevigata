@@ -44,17 +44,17 @@ describe('formStore', () => {
   it('returns the correct embargo contents', () => {
     expect(formStore.getEmbargoContents()).toEqual([{
       text: 'Files',
-      value: 'files_embargoed',
+      value: 'files_restricted',
       disabled: false
     },
     {
       text: 'Files and Table of Contents',
-      value: 'files_embargoed, toc_embargoed',
+      value: 'toc_restricted',
       disabled: false
     },
     {
       text: 'Files and Table of Contents and Abstract',
-      value: 'files_embargoed, toc_embargoed, abstract_embargoed',
+      value: 'all_restricted',
       disabled: false
     }
     ])

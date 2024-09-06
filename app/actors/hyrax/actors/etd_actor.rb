@@ -18,15 +18,34 @@ module Hyrax
           end
         end
 
-        # We must translate a value like env.attributes[:embargo_type] = "files_embargoed, toc_embargoed, abstract_embargoed"
+        # We must translate a value like env.attributes[:embargo_type] = "all_restricted"
         # into the ETD's expected etd.files_embargoed = 'true', etd.toc_embargoed = 'true',
         # etd.abstract_embargoed = 'true'
+        # TODO: find a way to consildate this code with VisibilityTranslator#visibility=
         def translate_embargo_types(env)
           return unless env.attributes[:embargo_type]
           embargo_type = env.attributes.delete(:embargo_type)
-          env.attributes[:files_embargoed] = 'true' if embargo_type =~ /files_embargoed/
-          env.attributes[:toc_embargoed] = 'true' if embargo_type =~ /toc_embargoed/
-          env.attributes[:abstract_embargoed] = 'true' if embargo_type =~ /abstract_embargoed/
+
+          case embargo_type
+          when VisibilityTranslator::OPEN
+            env.attributes[:files_embargoed] = 'false'
+            env.attributes[:toc_embargoed] = 'false'
+            env.attributes[:abstract_embargoed] = 'false'
+          when VisibilityTranslator::FILES_EMBARGOED
+            env.attributes[:files_embargoed] = 'true'
+            env.attributes[:toc_embargoed] = 'false'
+            env.attributes[:abstract_embargoed] = 'false'
+          when VisibilityTranslator::TOC_EMBARGOED
+            env.attributes[:files_embargoed] = 'true'
+            env.attributes[:toc_embargoed] = 'true'
+            env.attributes[:abstract_embargoed] = 'false'
+          when VisibilityTranslator::ALL_EMBARGOED
+            env.attributes[:files_embargoed] = 'true'
+            env.attributes[:toc_embargoed] = 'true'
+            env.attributes[:abstract_embargoed] = 'true'
+          else
+            raise("Unexpected embargo_type in actor stack: #{embargo_type}")
+          end
         end
     end
   end

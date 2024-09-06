@@ -68,6 +68,25 @@ describe Hyrax::CurationConcern do
           .to '6 months'
       end
 
+      it 'clears embargo booleans when embargo_type is "open"', :aggregate_failures do
+        etd.embargo_length = '1 lustrus'
+        etd.files_embargoed = true
+        etd.save!
+        attributes.merge!({ 'embargo_length' => 'None - open access immediately',
+                            'embargo_type' => 'open' })
+
+        actor.create(env)
+
+        expect(etd.files_embargoed).to eq false
+        expect(etd.embargo_length).to eq 'None - open access immediately'
+        expect(etd.embargo_type).to eq VisibilityTranslator::OPEN
+      end
+
+      it 'raises an error on unexpected embargo settings' do
+        attributes['embargo_type'] = 'abstract_only'
+        expect { actor.create(env) }.to raise_error(/Unexpected embargo_type in actor stack: abstract_only/)
+      end
+
       it 'applies a pre-graduation embargo' do
         expect { actor.create(env) }
           .to change { etd.embargo }
@@ -107,7 +126,7 @@ describe Hyrax::CurationConcern do
               'school' => ['Emory College'],
               'embargo_length' => '6 months',
               'uploaded_files' => [uploaded_file.id],
-              'embargo_type' =>  "files_embargoed, toc_embargoed, abstract_embargoed" }
+              'embargo_type' =>  "all_restricted" }
           end
 
           it 'sets the file embargo' do

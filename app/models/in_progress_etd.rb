@@ -173,9 +173,7 @@ class InProgressEtd < ApplicationRecord
     new_data['requires_permissions'] = etd.requires_permissions
     new_data['partnering_agency'] = etd.partnering_agency
     new_data['graduation_date'] = etd.graduation_date
-
-    em_type = EmbargoTypeFromAttributes.new(etd.files_embargoed, etd.toc_embargoed, etd.abstract_embargoed)
-    new_data['embargo_type'] = em_type.s
+    new_data['embargo_type'] = etd.embargo_type
 
     # This code allows you to display and add chairs and members on the
     # edit form, but not remove them.
