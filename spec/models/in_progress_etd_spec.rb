@@ -393,6 +393,21 @@ describe InProgressEtd do
           })
         end
       end
+
+      context 'with existing embargoes and no embargo changes' do
+        let(:old_data) { { 'embargo_length': '1 Year', 'embargo_type': 'files_embargoed, toc_embargoed' } }
+
+        let(:new_data) { { 'abstract': 'Embargo should be unchanged' } }
+
+        it 'leaves embargo length and type unchanged' do
+          expect(resulting_data).to eq({
+                                         'abstract' => 'Embargo should be unchanged',
+                                         'embargo_length' => '1 Year',
+                                         'embargo_type' => 'files_embargoed, toc_embargoed',
+                                         "schoolHasChanged" => false
+                                       })
+        end
+      end
     end
 
     context 'with no new data' do
@@ -690,7 +705,10 @@ describe InProgressEtd do
         { 'title' => ['New ETD Title'],
           'graduation_date' => 'Spring 2021', # Value should be present and not active in config/authorities/graduation_dates.yml
           'degree_awarded' => '2018-08-23',
-          'embargo_length' => '1000 years',
+          'embargo_length' => '200 lustra',
+          'files_embargoed' => 'true',
+          'toc_embargoed' => 'true',
+          'abstract_embargoed' => 'false',
           'keyword' => ['new keyword'],
           'department' => ['Some'],
           'other_copyrights' => 'true',
@@ -704,9 +722,9 @@ describe InProgressEtd do
       let(:ipe) { described_class.new(etd_id: etd.id, data: stale_data.to_json) }
 
       it 'replaces the stale data with updated data', :aggregate_failures do
-        expect(
-          refreshed_data.except('committee_chair_attributes', 'ipe_id', 'etd_id', 'title', 'embargo_type', 'partnering_agency', 'degree_awarded')
-          ).to eq new_data.except('committee_chair_attributes', 'title', 'embargo_type', 'partnering_agency', 'degree_awarded')
+        special_comparisons = ['title', 'degree_awarded', 'files_embargoed', 'toc_embargoed', 'abstract_embargoed', 'committee_chair_attributes']
+        expect(refreshed_data).to include new_data.except(*special_comparisons)
+        # Special comparisons for data that's reformatted or otherwise transformed
         expect(refreshed_data['degree_awarded']).to match(new_data['degree_awarded'])
         expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Another University/)
         expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Merlin/)
@@ -715,7 +733,8 @@ describe InProgressEtd do
         # Test for affiliation_type, which we need for the form
         expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Non-Emory/)
         expect(refreshed_data['title']).to eq new_data['title'][0]
-        expect(refreshed_data['graduation_date']).to eq 'Spring 2021'
+        # Test embargo_type is set correctly from *_embargoed booleans
+        expect(refreshed_data['embargo_type']).to eq 'files_embargoed, toc_embargoed'
         expect(refreshed_data['ipe_id']).to eq ipe.id
         expect(refreshed_data['etd_id']).to eq etd.id
       end
