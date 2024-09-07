@@ -9,11 +9,11 @@ class EmbargoTypeFromAttributes
     embargo_type = [@files, @toc, @abstract]
     case embargo_type
     when [true, false, false]
-      return 'files_embargoed'
+      return 'files_restricted'
     when [true, true, false]
-      return 'files_embargoed, toc_embargoed'
+      return 'files_restricted, toc_restricted'
     when [true, true, true]
-      return 'files_embargoed, toc_embargoed, abstract_embargoed'
+      return 'files_restricted, toc_restricted, all_restricted'
     end
   end
 end
