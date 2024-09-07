@@ -70,7 +70,6 @@ module Hyrax
 
     def update
       sanitize_input(params)
-      translate_embargo_string(params)
       merge_selected_files_hashes(params) if params["selected_files"]
       apply_file_metadata(params)
 
@@ -278,29 +277,6 @@ module Hyrax
     end
 
     private
-
-      def translate_embargo_string(params)
-        return unless params['etd']['embargo_type']
-        embargo_booleans = params['etd']['embargo_type'].split(',').map { |type| ActiveModel::Type::Boolean.new.cast(type).to_s }
-        etd = Etd.find(params["id"])
-        case embargo_booleans
-        when ['true']
-          etd.files_embargoed = 'true'
-          etd.toc_embargoed = 'false'
-          etd.abstract_embargoed = 'false'
-          etd.save
-        when ['true', 'true']
-          etd.files_embargoed = 'true'
-          etd.toc_embargoed = 'true'
-          etd.abstract_embargoed = 'false'
-          etd.save
-        when ['true', 'true', 'true']
-          etd.files_embargoed = 'true'
-          etd.toc_embargoed = 'true'
-          etd.abstract_embargoed = 'true'
-          etd.save
-        end
-      end
 
       def must_update_file_visibility?(work)
         work.file_sets.present? &&
