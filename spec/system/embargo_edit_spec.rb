@@ -59,6 +59,7 @@ RSpec.describe 'edit an embargo', :perform_jobs, :js, integration: true, type: :
     expect(etd.degree_awarded).to eq nil
     expect(etd.embargo.embargo_release_date).to eq many_years_from_today
     expect(etd.embargo_length).to eq "6 months"
+    expect(etd.abstract_embargoed).to eq true
     expect(etd.reload.file_sets.first.embargo)
       .to have_attributes embargo_release_date: many_years_from_today,
                           visibility_during_embargo: restricted,

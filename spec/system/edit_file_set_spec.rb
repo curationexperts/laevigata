@@ -11,8 +11,6 @@ RSpec.describe 'Display an ETD with embargoed content', :perform_jobs, :js, inte
       'table_of_contents' => ['My table of contents'],
       'school' => ["Candler School of Theology"],
       'department' => ["Divinity"],
-      'embargo_length' => '6 months',
-      'embargo_type' =>  "files_embargoed, toc_embargoed, abstract_embargoed",
       'uploaded_files' => [uploaded_file.id] }
   end
   let(:actor)      { Hyrax::CurationConcern.actor }
