@@ -107,7 +107,7 @@ describe Hyrax::CurationConcern do
               'school' => ['Emory College'],
               'embargo_length' => '6 months',
               'uploaded_files' => [uploaded_file.id],
-              'embargo_type' =>  "files_embargoed, toc_embargoed, abstract_embargoed" }
+              'embargo_type' =>  "files_restricted, toc_restricted, all_restricted" }
           end
 
           it 'sets the file embargo' do

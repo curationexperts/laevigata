@@ -32,7 +32,7 @@ RSpec.describe 'edit an embargo', :perform_jobs, :js, integration: true, type: :
       'school' => ["Candler School of Theology"],
       'department' => ["Divinity"],
       'embargo_length' => '6 months',
-      'embargo_type' =>  "files_embargoed, toc_embargoed, abstract_embargoed",
+      'embargo_type' =>  "files_restricted, toc_restricted, all_restricted",
       'uploaded_files' => [uploaded_file.id] }
   end
   let(:actor)      { Hyrax::CurationConcern.actor }

@@ -343,7 +343,7 @@ export const formStore = {
     } else if (this.savedData['embargo_type']) {
       return this.savedData['embargo_type']
     } else {
-      return 'files_embargoed'
+      return 'files_restricted'
     }
   },
   getSavedSchool () {
