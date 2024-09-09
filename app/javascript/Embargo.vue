@@ -14,6 +14,9 @@
       </option>
     </select>
   </div>
+  <div v-else>
+    <input type="hidden" name="etd[embargo_type]" id="content-to-embargo" value="open" />
+  </div>
 </div>
 
 <div v-else>

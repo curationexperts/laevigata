@@ -22,6 +22,13 @@ describe('Embargo.vue', () => {
     expect(wrapper.html()).toContain('This form cannot be used to edit the embargo after graduation.')
   })
 
+  it('defaults to no embargo', () => {
+    const wrapper = shallowMount(Embargo, {})
+    formStore.savedData = { 'degree_awarded': null }
+    expect(wrapper.vm.selectedEmbargo).toBe(`None - open access immediately`)
+    expect(wrapper.html()).toContain('<input type="hidden" name="etd[embargo_type]" id="content-to-embargo" value="open">')
+  })
+
   describe('Embargo saved display', () => {
     beforeEach(() => {
       const wrapper = shallowMount(Embargo, {

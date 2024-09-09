@@ -76,6 +76,19 @@ describe Hyrax::CurationConcern do
                               visibility_after_embargo: open
       end
 
+      it 'clears embargo booleans when embargo_type is "open"', :aggregate_failures do
+        etd.files_embargoed = true
+        etd.save!
+        attributes.merge!({ 'embargo_length' => 'None - open access immediately',
+                            'embargo_type' => 'open' })
+
+        actor.create(env)
+
+        expect(etd.embargo_length).to eq 'None - open access immediately'
+        expect(etd.embargo_type).to eq VisibilityTranslator::OPEN
+        expect(etd.files_embargoed).to eq false
+      end
+
       context 'with an uploaded file', :perform_jobs do
         before do
           ActiveJob::Base.queue_adapter.filter = [AttachFilesToWorkJob]
