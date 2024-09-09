@@ -11,9 +11,9 @@ class EmbargoTypeFromAttributes
     when [true, false, false]
       return 'files_restricted'
     when [true, true, false]
-      return 'files_restricted, toc_restricted'
+      return 'toc_restricted'
     when [true, true, true]
-      return 'files_restricted, toc_restricted, all_restricted'
+      return 'all_restricted'
     end
   end
 end
