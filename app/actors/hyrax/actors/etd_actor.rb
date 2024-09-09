@@ -18,7 +18,7 @@ module Hyrax
           end
         end
 
-        # We must translate a value like env.attributes[:embargo_type] = "files_restricted, toc_restricted, all_restricted"
+        # We must translate a value like env.attributes[:embargo_type] = "all_restricted"
         # into the ETD's expected etd.files_embargoed = 'true', etd.toc_embargoed = 'true',
         # etd.abstract_embargoed = 'true'
         def translate_embargo_types(env)

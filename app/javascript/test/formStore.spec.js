@@ -49,12 +49,12 @@ describe('formStore', () => {
     },
     {
       text: 'Files and Table of Contents',
-      value: 'files_restricted, toc_restricted',
+      value: 'toc_restricted',
       disabled: false
     },
     {
       text: 'Files and Table of Contents and Abstract',
-      value: 'files_restricted, toc_restricted, all_restricted',
+      value: 'all_restricted',
       disabled: false
     }
     ])

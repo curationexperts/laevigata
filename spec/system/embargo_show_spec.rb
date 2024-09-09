@@ -12,7 +12,7 @@ RSpec.describe 'Display an ETD with embargoed content', :perform_jobs, :js, inte
       'school' => ["Candler School of Theology"],
       'department' => ["Divinity"],
       'embargo_length' => '6 months',
-      'embargo_type' =>  "files_restricted, toc_restricted, all_restricted",
+      'embargo_type' =>  "all_restricted",
       'uploaded_files' => [uploaded_file.id] }
   end
   let(:actor)      { Hyrax::CurationConcern.actor }

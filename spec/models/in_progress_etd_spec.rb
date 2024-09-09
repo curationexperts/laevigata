@@ -369,12 +369,12 @@ describe InProgressEtd do
 
       context 'with existing embargoes and new embargo data' do
         let(:old_data) { { 'embargo_length': '1 Year', 'embargo_type': 'files_restricted' } }
-        let(:new_data) { { 'embargo_length': '2 Years', 'embargo_type': 'files_restricted, toc_restricted' } }
+        let(:new_data) { { 'embargo_length': '2 Years', 'embargo_type': 'toc_restricted' } }
 
         it 'sets new embargo length and type and does not set no_embargoes' do
           expect(resulting_data).to eq({
             'embargo_length' => '2 Years',
-            'embargo_type' => 'files_restricted, toc_restricted',
+            'embargo_type' => 'toc_restricted',
             "schoolHasChanged" => false
           })
         end
@@ -395,7 +395,7 @@ describe InProgressEtd do
       end
 
       context 'with existing embargoes and no embargo changes' do
-        let(:old_data) { { 'embargo_length': '1 Year', 'embargo_type': 'files_restricted, toc_restricted' } }
+        let(:old_data) { { 'embargo_length': '1 Year', 'embargo_type': 'toc_restricted' } }
 
         let(:new_data) { { 'abstract': 'Embargo should be unchanged' } }
 
@@ -403,7 +403,7 @@ describe InProgressEtd do
           expect(resulting_data).to eq({
                                          'abstract' => 'Embargo should be unchanged',
                                          'embargo_length' => '1 Year',
-                                         'embargo_type' => 'files_restricted, toc_restricted',
+                                         'embargo_type' => 'toc_restricted',
                                          "schoolHasChanged" => false
                                        })
         end
@@ -734,7 +734,7 @@ describe InProgressEtd do
         expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Non-Emory/)
         expect(refreshed_data['title']).to eq new_data['title'][0]
         # Test embargo_type is set correctly from *_embargoed booleans
-        expect(refreshed_data['embargo_type']).to eq 'files_restricted, toc_restricted'
+        expect(refreshed_data['embargo_type']).to eq 'toc_restricted'
         expect(refreshed_data['ipe_id']).to eq ipe.id
         expect(refreshed_data['etd_id']).to eq etd.id
       end

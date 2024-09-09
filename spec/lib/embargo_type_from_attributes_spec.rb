@@ -9,11 +9,11 @@ RSpec.describe EmbargoTypeFromAttributes do
 
   it 'returns the correct resposne for files and toc' do
     type = embargo_type.new(true, true, false)
-    expect(type.s).to eq('files_restricted, toc_restricted')
+    expect(type.s).to eq('toc_restricted')
   end
 
   it 'returns the correct response for files, toc, and abstract' do
     type = embargo_type.new(true, true, true)
-    expect(type.s).to eq('files_restricted, toc_restricted, all_restricted')
+    expect(type.s).to eq('all_restricted')
   end
 end
