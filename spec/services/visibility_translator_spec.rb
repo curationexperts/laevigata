@@ -3,10 +3,8 @@ require 'rails_helper'
 describe VisibilityTranslator do
   subject(:translator) { described_class.new(obj: obj) }
 
-  let(:obj) { FactoryBot.create(:etd, visibility: open) }
+  let(:obj) { FactoryBot.build(:etd, visibility: described_class::OPEN) }
 
-  let(:embargo)    { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_EMBARGO }
-  let(:open)       { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
   let(:restricted) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PRIVATE }
 
   describe '.visibility' do
@@ -18,19 +16,19 @@ describe VisibilityTranslator do
 
   describe '#visibility' do
     it 'is open' do
-      expect(translator.visibility).to eq open
+      expect(translator.visibility).to eq described_class::OPEN
     end
 
     context 'when the etd is hidden' do
       before { obj.hidden = true }
 
       it 'gives the original implementation' do
-        expect(translator.visibility).to eq open
+        expect(translator.visibility).to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
       end
     end
 
     context 'when not under embargo' do
-      let(:obj) { FactoryBot.create(:sample_data_with_nothing_embargoed) }
+      let(:obj) { FactoryBot.build(:sample_data_with_nothing_embargoed) }
 
       it 'is open access' do
         expect(translator.visibility).to eq described_class::OPEN
@@ -61,7 +59,7 @@ describe VisibilityTranslator do
     end
 
     context 'when under full embargo' do
-      let(:obj) { FactoryBot.create(:sample_data_with_everything_embargoed) }
+      let(:obj) { FactoryBot.build(:sample_data_with_everything_embargoed) }
 
       it 'is embargo (all)' do
         expect(translator.visibility).to eq described_class::ALL_EMBARGOED
@@ -82,7 +80,7 @@ describe VisibilityTranslator do
     end
 
     context 'when under file-only embargo' do
-      let(:obj) { FactoryBot.create(:sample_data_with_only_files_embargoed) }
+      let(:obj) { FactoryBot.build(:sample_data_with_only_files_embargoed) }
 
       it 'is embargo (file)' do
         expect(translator.visibility).to eq described_class::FILES_EMBARGOED
@@ -91,7 +89,7 @@ describe VisibilityTranslator do
 
     context 'when under toc embargo' do
       let(:obj) do
-        FactoryBot.create(:sample_data_with_only_files_embargoed, toc_embargoed: true)
+        FactoryBot.build(:sample_data_with_only_files_embargoed, toc_embargoed: true)
       end
 
       it 'is embargo (toc + file)' do
@@ -100,7 +98,7 @@ describe VisibilityTranslator do
     end
 
     context 'when restricted' do
-      let(:obj) { FactoryBot.create(:etd, visibility: restricted) }
+      let(:obj) { FactoryBot.build(:etd, visibility: restricted) }
 
       it 'is restricted' do
         expect(translator.visibility).to eq restricted
@@ -111,18 +109,18 @@ describe VisibilityTranslator do
       before { obj.hidden = true }
 
       it 'gives the original implementation' do
-        expect(translator.visibility).to eq open
+        expect(translator.visibility).to eq Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC
       end
     end
   end
 
   describe '#visibility=' do
-    let(:obj) { FactoryBot.create(:etd, visibility: restricted) }
+    let(:obj) { FactoryBot.build(:etd, visibility: restricted) }
 
     it 'can set visibility of object to open' do
-      expect { translator.visibility = open }
+      expect { translator.visibility = described_class::OPEN }
         .to change { obj.visibility }
-        .to open
+        .to described_class::OPEN
     end
 
     context 'when the work has no embargo' do
@@ -144,7 +142,7 @@ describe VisibilityTranslator do
 
     context 'when the work is under embargo' do
       let(:obj) do
-        FactoryBot.create(:tomorrow_expiration,
+        FactoryBot.build(:tomorrow_expiration,
                           files_embargoed: false,
                           toc_embargoed:   false)
       end
@@ -168,6 +166,37 @@ describe VisibilityTranslator do
           .to change { obj.visibility }
           .to described_class::ALL_EMBARGOED
       end
+    end
+  end
+
+  describe '#embargo_type' do
+    it 'returns OPEN when there is no embargo requested' do
+      obj.embargo_length = 'None - open access immediately'
+      expect(obj.embargo_type).to be described_class::OPEN
+    end
+
+    it 'returns FILES_EMBARGOED when only files_embargoed is true' do
+      obj.embargo_length = '1 year'
+      obj.files_embargoed = true
+      obj.toc_embargoed = false
+      obj.abstract_embargoed = false
+      expect(obj.embargo_type).to be described_class::FILES_EMBARGOED
+    end
+
+    it 'returns TOC_EMBARGOED when toc_embargoed is true, but abrstract_embagoed is false' do
+      obj.embargo_length = '1 year'
+      obj.files_embargoed = false # ignored if higher level embargoes apply
+      obj.toc_embargoed = true
+      obj.abstract_embargoed = false
+      expect(obj.embargo_type).to be described_class::TOC_EMBARGOED
+    end
+
+    it 'returns ALL_EMBARGOED whenever abrstract_embagoed is true' do
+      obj.embargo_length = '1 year'
+      obj.files_embargoed = false # ignored if higher level embargoes apply
+      obj.toc_embargoed = false # ignored if higer level embargoes apply
+      obj.abstract_embargoed = true
+      expect(obj.embargo_type).to be described_class::ALL_EMBARGOED
     end
   end
 end
