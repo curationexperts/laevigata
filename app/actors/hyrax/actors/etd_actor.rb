@@ -24,10 +24,25 @@ module Hyrax
         def translate_embargo_types(env)
           return unless env.attributes[:embargo_type]
           embargo_type = env.attributes.delete(:embargo_type)
-          env.attributes[:files_embargoed] = 'true' if embargo_type =~ /files_restricted/
-          env.attributes[:toc_embargoed] = 'true' if embargo_type =~ /toc_restricted/
-          env.attributes[:abstract_embargoed] = 'true' if embargo_type =~ /all_restricted/
+          env.attributes[:files_embargoed]    = files_included?(embargo_type)
+          env.attributes[:toc_embargoed]      = toc_included?(embargo_type)
+          env.attributes[:abstract_embargoed] = abstract_included?(embargo_type)
         end
+
+      def files_included?(embargo_type)
+        embargo_type.match?(VisibilityTranslator::FILES_EMBARGOED) ||
+          embargo_type.match?(VisibilityTranslator::TOC_EMBARGOED) ||
+          embargo_type.match?(VisibilityTranslator::ALL_EMBARGOED)
+      end
+
+      def toc_included?(embargo_type)
+        embargo_type.match?(VisibilityTranslator::TOC_EMBARGOED) ||
+          embargo_type.match?(VisibilityTranslator::ALL_EMBARGOED)
+      end
+
+      def abstract_included?(embargo_type)
+        embargo_type.match?(VisibilityTranslator::ALL_EMBARGOED)
+      end
     end
   end
 end
