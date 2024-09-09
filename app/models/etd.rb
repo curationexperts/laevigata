@@ -34,6 +34,7 @@ class Etd < ActiveFedora::Base
 
   delegate :visibility,  to: :visibility_translator
   delegate :visibility=, to: :visibility_translator
+  delegate :embargo_type, to: :visibility_translator
 
   # Get all attached file sets that are "primary"
   def primary_file_fs

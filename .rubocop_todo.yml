@@ -116,10 +116,3 @@ Rails/RakeEnvironment:
 Style/RedundantBegin:
   Exclude:
     - 'app/models/ability.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: AllowMultipleReturnValues.
-Style/RedundantReturn:
-  Exclude:
-    - 'app/lib/embargo_type_from_attributes.rb'

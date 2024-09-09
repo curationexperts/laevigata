@@ -43,9 +43,7 @@ class VisibilityTranslator
   # created in Hyrax 1.x, but it's enough of our content under management that we need
   # to account for it.
   # When checking whether a value is true, check whether it has a "true" string too.
-  def visibility
-    return proxy.visibility if obj.hidden? || !obj.under_embargo?
-
+  def embargo_type
     return OPEN             if embargo_length_none?(obj)
     return ALL_EMBARGOED    if obj.abstract_embargoed.to_s == "true"
     return TOC_EMBARGOED    if obj.toc_embargoed.to_s == "true"
@@ -53,6 +51,15 @@ class VisibilityTranslator
 
     Rails.logger.error("Invalid embargo values. Returning RESTRICTED for ID: #{obj.id}")
     RESTRICTED
+  end
+
+  # When an object (ETD) is not under embargo, pass through to Hyrax visibility  via the proxy.
+  # When an embargo is present or the object is hidden due to workflow settings,
+  # return visibility based on the embargo_type determined by the ebmargo booleans
+  def visibility
+    return proxy.visibility if obj.hidden? || !obj.under_embargo?
+
+    embargo_type
   end
 
   def visibility=(value)
