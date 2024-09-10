@@ -135,7 +135,7 @@ class InProgressEtd < ApplicationRecord
     etd = Etd.find etd_id
     new_data = {}
     new_data['ipe_id'] = id unless id.blank?
-    new_data['etd_id'] = etd_id unless etd_id.blank?
+    new_data['etd_id'] = etd_id
 
     all_simple_fields.each do |field|
       new_value = etd.send field
@@ -157,32 +157,15 @@ class InProgressEtd < ApplicationRecord
     new_data['graduation_date'] = etd.graduation_date
     new_data['embargo_type'] = etd.embargo_type
 
-    # This code allows you to display and add chairs and members on the
-    # edit form, but not remove them.
-    etd_members = etd.committee_members.map { |member| JSON.parse(member.to_json) }.map { |values| { name: values["name"], affiliation: values["affiliation"] } }.uniq
-
-    members = []
-    etd_members.each do |member|
-      if member[:affiliation] != 'Emory University'
-        members.push(name: member[:name], affiliation: member[:affiliation], affiliation_type: 'Non-Emory')
-      end
-      if member[:affiliation] == 'Emory University'
-        members.push(name: member[:name], affiliation: member[:affiliation], affiliation_type: 'Emory University')
-      end
+    members = etd.committee_members.map do |member|
+      member.as_json.merge(affiliation_type: affiliation_type(member.affiliation.first))
     end
-    new_data['committee_members_attributes'] = members.uniq unless members.blank?
+    new_data['committee_members_attributes'] = members.uniq
 
-    etd_chairs = etd.committee_chair.map { |chair| JSON.parse(chair.to_json) }.map { |values| { name: values["name"], affiliation: values["affiliation"] } }.uniq
-    chairs = []
-    etd_chairs.each do |chair|
-      if chair[:affiliation] != ['Emory University']
-        chairs.push(name: chair[:name], affiliation: chair[:affiliation], affiliation_type: 'Non-Emory')
-      end
-      if chair[:affiliation] == ['Emory University']
-        chairs.push(name: chair[:name], affiliation: chair[:affiliation], affiliation_type: 'Emory University')
-      end
+    chairs = etd.committee_chair.map do |chair|
+      chair.as_json.merge(affiliation_type: affiliation_type(chair.affiliation.first))
     end
-    new_data['committee_chair_attributes'] = chairs.uniq unless chairs.blank?
+    new_data['committee_chair_attributes'] = chairs.uniq
 
     primary_file = file_for_refresh(etd.primary_file_fs.first)
     new_data['files'] = primary_file.to_json unless primary_file.blank?
@@ -193,6 +176,11 @@ class InProgressEtd < ApplicationRecord
 
     self.data = new_data.to_json
     save!
+  end
+
+  def affiliation_type(affilitation)
+    return 'Non-Emory' if affilitation != 'Emory University'
+    'Emory University'
   end
 
   # Information about the supplemental files that the JavaScript needs for the edit form.

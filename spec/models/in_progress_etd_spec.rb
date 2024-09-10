@@ -712,6 +712,7 @@ describe InProgressEtd do
           'requires_permissions' => 'true',
           'patents' => 'true',
           'research_field' => ['Cryptozoology'],
+          'committee_members_attributes' => [{ 'name' => ['Dweck'], 'affiliation' => ['A Famous University'] }, { 'name' => ['Hawking'], 'affiliation' => ['Emory University'] }],
           'committee_chair_attributes' => [{ 'name' => ['Morgan'], 'affiliation' => ['Another University'] }, { 'name' => ['Merlin'], 'affiliation' => ['Emory University'] }] }
       end
 
@@ -719,16 +720,21 @@ describe InProgressEtd do
       let(:ipe) { described_class.new(etd_id: etd.id, data: stale_data.to_json) }
 
       it 'replaces the stale data with updated data', :aggregate_failures do
-        special_comparisons = ['title', 'degree_awarded', 'files_embargoed', 'toc_embargoed', 'abstract_embargoed', 'committee_chair_attributes']
+        special_comparisons = ['title', 'degree_awarded', 'files_embargoed', 'toc_embargoed',
+                               'abstract_embargoed', 'committee_members_attributes', 'committee_chair_attributes']
         expect(refreshed_data).to include new_data.except(*special_comparisons)
         # Special comparisons for data that's reformatted or otherwise transformed
         expect(refreshed_data['degree_awarded']).to match(new_data['degree_awarded'])
-        expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Another University/)
-        expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Merlin/)
-        expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Emory University/)
-        expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Morgan/)
-        # Test for affiliation_type, which we need for the form
-        expect(refreshed_data['committee_chair_attributes'].to_s).to match(/Non-Emory/)
+        expect(refreshed_data['committee_members_attributes'])
+          .to include(
+                hash_including('name' => ['Dweck'], "affiliation_type" => 'Non-Emory'),
+                hash_including('name' => ['Hawking'], "affiliation_type" => 'Emory University')
+              )
+        expect(refreshed_data['committee_chair_attributes'])
+          .to include(
+                hash_including('name' => ['Morgan'], "affiliation_type" => 'Non-Emory'),
+                hash_including('name' => ['Merlin'], "affiliation_type" => 'Emory University')
+              )
         expect(refreshed_data['title']).to eq new_data['title'][0]
         # Test embargo_type is set correctly from *_embargoed booleans
         expect(refreshed_data['embargo_type']).to eq 'toc_restricted'
