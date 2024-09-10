@@ -60,7 +60,6 @@
   },
   "index-chair" => "1",
   "index-member" => "1",
-  "no_embargoes" => "1",
   "uploaded_files" => ["221"],
   "agreement" => "1",
   "save_with_files" => "Submit My ETD",

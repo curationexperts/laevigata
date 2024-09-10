@@ -93,7 +93,6 @@ class InProgressEtdsController < ApplicationController
       terms << "committee_chair_attributes"
       terms << "committee_members_attributes"
       terms << "uploaded_files"
-      terms << "no_embargoes"
       terms << "agreement"
       terms << "no_supplemental_files"
       params.permit(terms)
