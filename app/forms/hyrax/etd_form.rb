@@ -30,7 +30,6 @@ module Hyrax
     self.terms += [:patents]
     # my embargo terms
     self.terms += [:embargo_length]
-    self.terms += [:embargo_release_date]
     self.terms += [:embargo_type]
     self.terms += [:files_embargoed]
     self.terms += [:abstract_embargoed]
@@ -89,38 +88,11 @@ module Hyrax
       model.ordered_members.to_a.select(&:supplementary?)
     end
 
-    # Initial state for the 'No Embargo' checkbox.
-    def no_embargoes
-      model.persisted? && !model.under_embargo?
-    end
-
-    def selected_embargo_type
-      return '[:files_embargoed, :toc_embargoed, :abstract_embargoed]' if true_string?(model.abstract_embargoed)
-      return '[:files_embargoed, :toc_embargoed]' if true_string?(model.toc_embargoed)
-      return '[:files_embargoed]' if true_string?(model.files_embargoed)
-    end
-
-    # Both String and boolean 'true' should count as true.
-    def true_string?(field)
-      field == 'true' || field == true
-    end
-
     # we need to pass a nil to Hyrax in order to remove a subfield
     # from an existing ETD, because the absence of the parameter won't
     def self.sanitize_params(form_params)
       form_params["subfield"] = nil unless form_params.include?("subfield")
-      check_for_no_embargoes(form_params)
       super
-    end
-
-    # If no_embargoes is set, set all embargo fields to false
-    def self.check_for_no_embargoes(params)
-      return unless params["no_embargoes"] == "1"
-      params["files_embargoed"] = "false"
-      params["abstract_embargoed"] = "false"
-      params["toc_embargoed"] = "false"
-      params["toc_embargoed"] = "false"
-      params["embargo_length"] = ""
     end
 
     # Select the correct affiliation type for committee member

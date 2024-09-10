@@ -220,7 +220,6 @@ describe InProgressEtd do
     context "a record that has been saved" do
       before do
         in_progress_etd.save!
-        in_progress_etd.reload
       end
 
       it 'has the ID in the data' do
@@ -340,28 +339,27 @@ describe InProgressEtd do
       end
     end
 
-    describe 'no embargoes' do
-      context 'with existing no_embargoes data and new embargo data' do
-        let(:old_data) { { no_embargoes: '1' } }
-        let(:new_data) { { 'embargo_length': '1 Year', 'embargo_type': 'Files' } }
+    describe 'embargoes' do
+      context 'with existing open embargo request and new embargo data' do
+        let(:old_data) { { 'embargo_length': 'None - open access immediately' } }
+        let(:new_data) { { 'embargo_length': '1 Year', 'embargo_type': VisibilityTranslator::FILES_EMBARGOED } }
 
-        it "removes the old no_embargoes parameter and adds the new embargo lengths and types" do
+        it "updates" do
           expect(resulting_data).to eq({
             'embargo_length' => '1 Year',
-            'embargo_type' => 'Files',
-            "schoolHasChanged" => false
+            'embargo_type' => 'files_restricted',
+            'schoolHasChanged' => false
           })
         end
       end
 
       context 'with existing no_embargoes and new no_embargoes' do
-        let(:old_data) { { no_embargoes: '1' } }
+        let(:old_data) { { 'embargo_length': 'None - open access immediately' } }
         let(:new_data) { { 'embargo_length': described_class::NO_EMBARGO } }
 
         it "preserves the no_embargoes and adds the new embargo_length data" do
           expect(resulting_data).to eq({
             'embargo_length' => described_class::NO_EMBARGO,
-            'no_embargoes' => '1',
             "schoolHasChanged" => false
           })
         end
@@ -371,7 +369,7 @@ describe InProgressEtd do
         let(:old_data) { { 'embargo_length': '1 Year', 'embargo_type': 'files_restricted' } }
         let(:new_data) { { 'embargo_length': '2 Years', 'embargo_type': 'toc_restricted' } }
 
-        it 'sets new embargo length and type and does not set no_embargoes' do
+        it 'sets new embargo length and type' do
           expect(resulting_data).to eq({
             'embargo_length' => '2 Years',
             'embargo_type' => 'toc_restricted',
@@ -380,17 +378,16 @@ describe InProgressEtd do
         end
       end
 
-      context 'with existing embargoes and new no embargo data' do
-        let(:old_data) { { 'embargo_length': '1 Year', 'embargo_type': 'files_restricted' } }
+      context 'with existing embargoes and new open access data' do
+        let(:old_data) { { 'embargo_length': '1 Year', 'embargo_type': 'value does not change' } }
 
         let(:new_data) { { 'embargo_length': described_class::NO_EMBARGO } }
 
-        it 'removes old embargo lengths and types and sets no_embargoes' do
-          expect(resulting_data).to eq({
-            'embargo_length' => described_class::NO_EMBARGO,
-            'no_embargoes' => '1',
-            "schoolHasChanged" => false
-          })
+        it 'leaves embargo types unmodified' do
+          # Other parts of the codebase now have responsibility for setting embargo_type and booleans
+          # appropriately when leng => open access
+          expect(resulting_data).to include('embargo_length' => described_class::NO_EMBARGO,
+                                            'embargo_type' => 'value does not change')
         end
       end
 

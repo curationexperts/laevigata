@@ -39,25 +39,6 @@ RSpec.describe Hyrax::EtdForm do
         expect(form_params).to eq(sanitized_params)
       end
     end
-
-    context 'when selecting no embargoes' do
-      let(:params) do
-        {
-          "no_embargoes" => "1",
-          "toc_embargoed" => "",
-          "abstract_embargoed" => "",
-          "files_embargoed" => ""
-        }
-      end
-      it "sets other embargo fields false" do
-        allow(Hyrax::Forms::WorkForm).to receive(:sanitize_params).with(params)
-        described_class.sanitize_params(params)
-        expect(params["files_embargoed"]).to eq "false"
-        expect(params["abstract_embargoed"]).to eq "false"
-        expect(params["toc_embargoed"]).to eq "false"
-        expect(params["embargo_length"]).to eq ""
-      end
-    end
   end
 
   describe "#primary_pdf_name" do
@@ -134,78 +115,6 @@ RSpec.describe Hyrax::EtdForm do
         before { etd.save! }
         it { is_expected.to eq false }
       end
-    end
-  end
-
-  # Figure out the correct state for the 'No Embargo' checkbox on the ETD form.
-  describe "#no_embargoes" do
-    subject { form.no_embargoes }
-
-    context "ETD with no embargo" do
-      context "a new record" do
-        it { is_expected.to eq false }
-      end
-
-      context "an existing record" do
-        before { etd.save! }
-        it { is_expected.to eq true }
-      end
-    end
-
-    context "ETD with embargo" do
-      let(:etd) { build(:sample_data_with_only_files_embargoed) }
-
-      context "a new record" do
-        it { is_expected.to eq false }
-      end
-
-      context "an existing record" do
-        before { etd.save! }
-        it { is_expected.to eq false }
-      end
-    end
-  end
-
-  describe "#selected_embargo_type" do
-    subject { form.selected_embargo_type }
-
-    context "a new record" do
-      it { is_expected.to be_nil }
-    end
-
-    context "existing ETD with no embargo" do
-      before { etd.save! }
-      it { is_expected.to be_nil }
-    end
-
-    context "existing ETD with only files embargoed" do
-      let(:etd) { build(:sample_data_with_only_files_embargoed) }
-      before { etd.save! }
-      it { is_expected.to eq '[:files_embargoed]' }
-    end
-
-    context "existing ETD with TOC embargoed" do
-      let(:etd) { build(:etd, toc_embargoed: true, abstract_embargoed: false) }
-      before { etd.save! }
-      it { is_expected.to eq '[:files_embargoed, :toc_embargoed]' }
-    end
-
-    context "existing ETD with Abstract embargoed" do
-      let(:etd) { build(:etd, abstract_embargoed: true) }
-      before { etd.save! }
-      it { is_expected.to eq '[:files_embargoed, :toc_embargoed, :abstract_embargoed]' }
-    end
-
-    # It looks like the embargo fields get stored as strings
-    # instead of booleans if you create an ETD using the UI.
-    # Since this code is already in production, to avoid having
-    # to do a data migration, I don't want to convert these
-    # fields to strictly boolean, so we need to make sure it
-    # works with either strings or booleans.
-    context "existing ETD with TOC embargoed (string values)" do
-      let(:etd) { build(:etd, toc_embargoed: 'true', abstract_embargoed: 'false') }
-      before { etd.save! }
-      it { is_expected.to eq '[:files_embargoed, :toc_embargoed]' }
     end
   end
 
