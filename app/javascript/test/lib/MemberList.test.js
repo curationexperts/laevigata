@@ -5,7 +5,7 @@ import Member from '../../lib/Member'
 import MemberList from '../../lib/MemberList'
 
 test('that you can add a committee member to the list', () => {
-  var member = new Member({ name: 'test', 'affiliation': 'affiliation', affiliationType: 'Emory University' })
+  var member = new Member({ name: 'test', affiliation: 'Emory University' })
   var memberList = new MemberList()
   memberList.add(member)
 
@@ -13,7 +13,7 @@ test('that you can add a committee member to the list', () => {
 })
 
 test('that you can remove a Member', () => {
-  var member = new Member({ name: 'test', 'affiliation': 'affiliation', affiliationType: 'Emory University' })
+  var member = new Member({ name: 'test', affiliation: 'Emory University' })
   var memberList = new MemberList()
   memberList.add(member)
 
@@ -22,11 +22,13 @@ test('that you can remove a Member', () => {
 })
 
 test('that you can load data from attributes in savedData', () => {
-  var attributes = { "0": { "affiliation_type": "Emory University", "name": ["Jamie"] }, "1": { "affiliation_type": "Emory University", "name": ["not-jamie"] } }
+  var attributes = { "0": { "affiliation": ["Another University"], "name": ["Jamie"] }, "1": { "affiliation": ["Emory University"], "name": ["not-jamie"] } }
   var memberList = new MemberList()
   memberList.load(attributes)
   expect(memberList.members()[0].name).toEqual(['Jamie'])
-  expect(memberList.members()[0].affiliationType).toEqual('Emory University')
+  expect(memberList.members()[0].affiliationType).toEqual('Non-Emory')
+  expect(memberList.members()[1].name).toEqual(['not-jamie'])
+  expect(memberList.members()[1].affiliationType).toEqual('Emory University')
 })
 
 test('that you can add an empty member', () => {

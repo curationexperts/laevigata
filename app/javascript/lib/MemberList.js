@@ -10,7 +10,7 @@ export default class MemberList {
   }
 
   addEmpty () {
-    const member = new Member({ name: '', affiliation: 'Emory University', affiliationType: 'Emory University' })
+    const member = new Member({ name: '', affiliation: ['Emory University']})
     this.add(member)
   }
 
@@ -25,7 +25,7 @@ export default class MemberList {
   load (attributes) {
     this.memberList = []
     _.each(attributes, (member) => {
-      const loadedMember = new Member({name: member.name, affiliation: member.affiliation, affiliationType: member['affiliation_type']})
+      const loadedMember = new Member({name: member.name, affiliation: member.affiliation})
       this.add(loadedMember)
     })
   }
