@@ -5,11 +5,11 @@
             You have not selected a chair or committee members. Please
             use the buttons below to add them to your submission.
         </div>
-        <div class="member-container well" v-for="chair in sharedState.committeeChairs.chairs()" v-bind:value="chair.name">
+        <div class="member-container well" v-for="(chair,index) in sharedState.committeeChairs.chairs()" v-bind:value="chair.name">
             <div class="member-box">
             <div>
-              <label>Committee Chairs' Affiliation</label>
-                    <select v-model="chair.affiliationType" class="form-control" :name="chairAffiliationTypeAttr(chair)" v-on:change="sharedState.setValid('My Advisor', false)">
+              <label>Committee Chair's Affiliation</label>
+                    <select v-model="chair.affiliationType" class="form-control" :name="chairAttr(index, '[affiliation_type]')" v-on:change="sharedState.setValid('My Advisor', false)">
                       <option disabled selected>
                           Select an affiliation
                       </option>
@@ -18,25 +18,28 @@
                   </select>
               </div>
             <div>
-              <label>Committee Chairs' Name</label>
-              <input :name="chairNameAttr(chair)" type="text" class="form-control" 
+              <label>Committee Chair's Name</label>
+              <input :name="chairAttr(index, '[name][]')"  type="text" class="form-control"
               v-model="chair.name" 
               v-on:change="sharedState.setValid('My Advisor', false)"/>
             </div>
             <div v-if="chair.affiliationType === 'Non-Emory'">
                 {{ chair.affliation }}
             <label>Affiliation</label>
-                <input :name="chairAffiliationAttr(chair)" type="text" class="form-control" v-model="chair.affiliation" v-on:change="sharedState.setValid('My Advisor', false)"/>
+                <input :name="chairAttr(index, '[affiliation][]')" type="text" class="form-control" v-model="chair.affiliation" v-on:change="sharedState.setValid('My Advisor', false)"/>
+            </div>
+            <div v-else>
+              <input :name="chairAttr(index, '[affiliation][]')" type="hidden" class="form-control" v-model="chair.affiliation" v-on:change="sharedState.setValid('My Advisor', false)"/>
             </div>
               
         </div>
         <button type="button" class="btn btn-danger" @click="sharedState.committeeChairs.remove(chair), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-trash"></span> Remove Committee Chair</button>
         </div>
-         <div class="member-container well" v-for="member in sharedState.committeeMembers.members()" v-bind:value="member.name">
+         <div class="member-container well" v-for="(member, index) in sharedState.committeeMembers.members()">
             <div class="member-box">
            <div>
             <label>Committee Member's Affiliation</label>
-                  <select v-model="member.affiliationType" class="form-control" :name="memberAffiliationTypeAttr(member)" v-on:change="sharedState.setValid('My Advisor', false)">
+                  <select v-model="member.affiliationType" class="form-control" :name="memberAttr(index, '[affiliation_type]')" v-on:change="sharedState.setValid('My Advisor', false)">
                     <option disabled selected>
                         Select an affiliation
                     </option>
@@ -46,13 +49,16 @@
            </div>
            <div>
               <label>Committee Member's Name</label>
-              <input :name="memberNameAttr(member)" type="text" class="form-control" v-model="member.name" v-on:change="sharedState.setValid('My Advisor', false)"/>
+              <input :name="memberAttr(index, '[name][]')" type="text" class="form-control" v-model="member.name" v-on:change="sharedState.setValid('My Advisor', false)"/>
           </div>  
-            <div v-if="member.affiliationType === 'Non-Emory'">
-                {{ member.affliation }}
-            <label>Affiliation</label>
-                <input :name="memberAffiliationAttr(member)" type="text" class="form-control" v-model="member.affiliation" v-on:change="sharedState.setValid('My Advisor', false)"/>
-            </div>
+          <div v-if="member.affiliationType === 'Non-Emory'">
+              {{ member.affliation }}
+          <label>Affiliation</label>
+              <input :name="memberAttr(index, '[affiliation][]')" type="text" class="form-control" v-model="member.affiliation" v-on:change="sharedState.setValid('My Advisor', false)"/>
+          </div>
+          <div v-else>
+            <input :name="memberAttr(index, '[affiliation][]')" type="hidden" class="form-control" v-model="member.affiliation" v-on:change="sharedState.setValid('My Advisor', false)"/>
+          </div>
         </div>
         <button type="button" class="btn btn-danger" @click="sharedState.committeeMembers.remove(member), sharedState.setValid('My Advisor', false)"><span class="glyphicon glyphicon-trash"></span> Remove Committee Member</button>
         </div>
@@ -82,29 +88,11 @@ export default {
       )
   },
   methods: {
-    chairNameAttr(chair) {
-      return `etd[committee_chair_attributes][${this.sharedState.committeeChairs.chairs().indexOf(chair)}][name][]`
+    chairAttr(index, attr_name) {
+      return `etd[committee_chair_attributes][${index}]${attr_name}`
     },
-    chairAffiliationAttr(chair) {
-      return `etd[committee_chair_attributes][${this.sharedState.committeeChairs.chairs().indexOf(chair)}][affiliation][]`
-    },
-     chairAffiliationTypeAttr(chair) {
-      return `etd[committee_chair_attributes][${this.sharedState.committeeChairs.chairs().indexOf(chair)}][affiliation_type]`
-    },
-    memberNameAttr(member) {
-      return `etd[committee_members_attributes][${this.sharedState.committeeMembers
-        .members()
-        .indexOf(member)}][name][]`
-    },
-    memberAffiliationAttr(member) {
-      return `etd[committee_members_attributes][${this.sharedState.committeeMembers
-        .members()
-        .indexOf(member)}][affiliation][]`
-    },
-    memberAffiliationTypeAttr(member) {
-      return `etd[committee_members_attributes][${this.sharedState.committeeMembers
-        .members()
-        .indexOf(member)}][affiliation_type]`
+    memberAttr(index, attr_name) {
+      return `etd[committee_members_attributes][${index}]${attr_name}`
     }
   },
   watch: {

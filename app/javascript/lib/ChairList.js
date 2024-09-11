@@ -10,7 +10,7 @@ export default class ChairList {
   }
 
   addEmpty () {
-    const chair = new Chair({ name: '', affiliation: 'Emory University', affiliationType: 'Emory University' })
+    const chair = new Chair({ name: '', affiliation: ['Emory University']})
     this.add(chair)
   }
 
@@ -25,7 +25,7 @@ export default class ChairList {
   load (attributes) {
     this.chairList = []
     _.each(attributes, (chair) => {
-      const loadedChair = new Chair({name: chair.name, affiliation: chair.affiliation, affiliationType: chair['affiliation_type']})
+      const loadedChair = new Chair({name: chair.name, affiliation: chair.affiliation})
       this.add(loadedChair)
     })
   }
