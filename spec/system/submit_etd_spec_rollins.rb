@@ -4,12 +4,10 @@ require "rails_helper"
 RSpec.describe "Logged in student can submit an ETD", :clean, type: :system do
   let(:student) { create :user }
   let(:pdf) { Rails.root.join('spec', 'fixtures', 'joey', 'joey_thesis.pdf') }
-  let(:workflow_setup) { WorkflowSetup.new("#{fixture_path}/config/emory/superusers.yml", "#{fixture_path}/config/emory/ec_admin_sets.yml", "/dev/null") }
 
   context 'a logged in user', js: true do
     before do
       login_as student
-      workflow_setup.setup
     end
 
     scenario "submitting a new ETD", js: true do
@@ -19,7 +17,8 @@ RSpec.describe "Logged in student can submit an ETD", :clean, type: :system do
       expect(page).to have_content('Post-Graduation Email')
       fill_in 'Student Name', with: FFaker::Name.name
       select 'Rollins School of Public Health', from: 'School'
-      select 'Spring 2018', from: 'Graduation Date'
+      first_active_semester = find('#graduation-date > option:nth-child(2)').text
+      select first_active_semester, from: 'Graduation Date'
       fill_in 'Post-Graduation Email', with: FFaker::Internet.email
       click_on 'Save and Continue'
 
@@ -62,11 +61,10 @@ RSpec.describe "Logged in student can submit an ETD", :clean, type: :system do
 
       # File Upload
       page.attach_file('primary_files[]', pdf, make_visible: true)
-      expect(page).to have_content 'Save and Continue'
+      expect(page).to have_content 'joey_thesis.pdf'
       click_on 'Save and Continue'
 
       # Embargoes
-
       select '6 months', from: 'Requested Embargo Length'
       click_on 'Save and Continue'
 
