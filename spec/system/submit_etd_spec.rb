@@ -65,8 +65,7 @@ RSpec.describe "Logged in student can submit an ETD", :clean, type: :system, js:
       # File Upload
       expect(page).to have_content("My Files")
       page.attach_file('primary_files[]', pdf, make_visible: true)
-      expect(page).to have_content 'Save and Continue'
-      sleep(3)
+      expect(page).to have_content 'joey_thesis.pdf'
       click_on 'Save and Continue'
 
       # Embargoes
