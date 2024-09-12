@@ -156,16 +156,8 @@ class InProgressEtd < ApplicationRecord
     new_data['partnering_agency'] = etd.partnering_agency
     new_data['graduation_date'] = etd.graduation_date
     new_data['embargo_type'] = etd.embargo_type
-
-    members = etd.committee_members.map do |member|
-      member.as_json.merge(affiliation_type: affiliation_type(member.affiliation.first))
-    end
-    new_data['committee_members_attributes'] = members.uniq
-
-    chairs = etd.committee_chair.map do |chair|
-      chair.as_json.merge(affiliation_type: affiliation_type(chair.affiliation.first))
-    end
-    new_data['committee_chair_attributes'] = chairs.uniq
+    new_data['committee_members_attributes'] = etd.committee_members
+    new_data['committee_chair_attributes'] = etd.committee_chair
 
     primary_file = file_for_refresh(etd.primary_file_fs.first)
     new_data['files'] = primary_file.to_json unless primary_file.blank?
@@ -176,11 +168,6 @@ class InProgressEtd < ApplicationRecord
 
     self.data = new_data.to_json
     save!
-  end
-
-  def affiliation_type(affilitation)
-    return 'Non-Emory' if affilitation != 'Emory University'
-    'Emory University'
   end
 
   # Information about the supplemental files that the JavaScript needs for the edit form.

@@ -100,7 +100,8 @@ describe InProgressEtd do
   describe "My Advisor" do
     context "with valid data" do
       let(:data) do
-        { currentTab: "My Advisor", "committee_chair_attributes": "[0][affiliation_type]Emory" }
+        { currentTab: 'My Advisor',
+          committee_chair_attributes: [{ name: ['Professor McGonagall'], affiliation: ['Emory University'] }] }
       end
       it "is valid" do
         expect(in_progress_etd).to be_valid
@@ -727,13 +728,13 @@ describe InProgressEtd do
         expect(refreshed_data['degree_awarded']).to match(new_data['degree_awarded'])
         expect(refreshed_data['committee_members_attributes'])
           .to include(
-                hash_including('name' => ['Dweck'], "affiliation_type" => 'Non-Emory'),
-                hash_including('name' => ['Hawking'], "affiliation_type" => 'Emory University')
+                hash_including('name' => ['Dweck'], "affiliation" => ['A Famous University']),
+                hash_including('name' => ['Hawking'], "affiliation" => ['Emory University'])
               )
         expect(refreshed_data['committee_chair_attributes'])
           .to include(
-                hash_including('name' => ['Morgan'], "affiliation_type" => 'Non-Emory'),
-                hash_including('name' => ['Merlin'], "affiliation_type" => 'Emory University')
+                hash_including('name' => ['Morgan'], "affiliation" => ['Another University']),
+                hash_including('name' => ['Merlin'], "affiliation" => ['Emory University'])
               )
         expect(refreshed_data['title']).to eq new_data['title'][0]
         # Test embargo_type is set correctly from *_embargoed booleans

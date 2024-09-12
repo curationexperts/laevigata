@@ -12,23 +12,17 @@
     "submitting_type" => "Master's Thesis",
     "committee_chair_attributes" => {
       "0" => {
-        "affiliation_type" => "Emory Committee Chair",
-        "name" => ["Cook, Captain"],
-        "id" => "#nested_g75972380"
+        "name" => ["Cook, Captain"]
       },
       "1" => {
-        "affiliation_type" => "Emory Committee Chair",
         "name" => [""]
       }
     },
     "committee_members_attributes" => {
       "0" => {
-        "affiliation_type" => "Emory Committee Member",
-        "name" => ["Beard, Black"],
-        "id" => "#nested_g60722120"
+        "name" => ["Beard, Black"]
       },
       "1" => {
-        "affiliation_type" => "Emory Committee Member",
         "name" => [""]
       }
     },
