@@ -54,6 +54,12 @@ class EtdPresenter < Hyrax::WorkShowPresenter
     "http://pid.emory.edu/#{identifier.first}"
   end
 
+  # Return the post_graduation_email
+  # NOTE: The field is defined as multivalued, but the application only stores a single value
+  def post_graduation_email
+    solr_document.dig('post_graduation_email_tesim', 0)
+  end
+
   # Disabling .ttl, jsonld and nt entirely, because these methods expose embargoed content.
   # If we need it in the future, go back to using the version of this method
   # defined in Hyrax.

@@ -222,13 +222,15 @@ describe EtdPresenter do
     let(:department) { ['Religion'] }
     let(:school) { ['Laney Graduate School'] }
     let(:partnering_agency) { ["Does not apply (no collaborating organization)"] }
+    let(:post_graduation_email) { ['someone@example.org', 'other junk ignored'] }
     let(:submitting_type) { ["Honors Thesis"] }
     let(:research_field) { ['Toxicology'] }
     let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
     let :etd do
       Etd.new(title: title, creator: creator, keyword: keyword, degree: degree, department: department,
               school: school, partnering_agency: partnering_agency, submitting_type: submitting_type,
-              research_field: research_field, visibility: visibility, requires_permissions: true, other_copyrights: false, patents: true)
+              research_field: research_field, visibility: visibility, post_graduation_email: post_graduation_email,
+              requires_permissions: true, other_copyrights: false, patents: true)
     end
 
     # If the fields require no addition logic for display, you can simply delegate
@@ -242,6 +244,12 @@ describe EtdPresenter do
     it { is_expected.to delegate_method(:requires_permissions).to(:solr_document) }
     it { is_expected.to delegate_method(:other_copyrights).to(:solr_document) }
     it { is_expected.to delegate_method(:patents).to(:solr_document) }
+
+    describe '#post_graduation_email' do
+      it 'returns a single string' do
+        expect(presenter.post_graduation_email).to eq 'someone@example.org'
+      end
+    end
 
     describe '#permission_badge' do
       it 'shows Open Access' do
