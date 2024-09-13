@@ -125,8 +125,9 @@ running as expected.**
 
 ## Suppressing email for bouncing addresses
 
-If an email address is bouncing, or if someone prefers not to receive email notifications,
-add the email address to the list in `config/emory/do_not_send.yml`
+If an email address is bouncing, update the post-graduation e-mail on the relevant ETD, or
+deactivate the assoicated student account (which is generally safe since they have graduated and
+would no longer be able to access their emory account in any case).
 
 ## Copying embargo notification emails to a staff member
 
