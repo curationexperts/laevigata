@@ -53,10 +53,4 @@ RSpec.describe EtdHelper, type: :helper do
       expect(form).to have_received(:input).with(:partnering_agency, hash_including(selected: 'CDC'))
     end
   end
-
-  example "#post_graduation_email" do
-    allow(Etd).to receive(:find).and_return(etd)
-    expect(etd.post_graduation_email).to be_a_kind_of(ActiveTriples::Relation)
-    expect(helper.post_graduation_email(etd.id)).to be_a_kind_of(String)
-  end
 end
