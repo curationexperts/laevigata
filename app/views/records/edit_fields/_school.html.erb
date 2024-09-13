@@ -1,6 +1,0 @@
-<% school_service = Hyrax::SchoolService.new %>
-<%= f.input :school, as: :select,
-    collection: school_service.select_active_options,
-    include_blank: true, required: true,
-    item_helper: school_service.method(:include_current_value),
-    input_html: { class: 'form-control' } %>
