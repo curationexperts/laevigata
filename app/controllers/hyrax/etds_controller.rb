@@ -10,8 +10,6 @@ module Hyrax
     self.curation_concern_type = Etd
     self.show_presenter = EtdPresenter
 
-    helper EtdHelper
-
     # Overriding `Hyrax::WorksControllerBehavior`, which wants to use the
     # 'dashboard' theme for all but the show view. Always use the theme instead.
     with_themed_layout nil
