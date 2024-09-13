@@ -222,7 +222,7 @@ describe EtdPresenter do
     let(:department) { ['Religion'] }
     let(:school) { ['Laney Graduate School'] }
     let(:partnering_agency) { ["Does not apply (no collaborating organization)"] }
-    let(:post_graduation_email) { ['someone@example.org', 'other junk ignored'] }
+    let(:post_graduation_email) { ['someone@example.org'] }
     let(:submitting_type) { ["Honors Thesis"] }
     let(:research_field) { ['Toxicology'] }
     let(:visibility) { Hydra::AccessControls::AccessRight::VISIBILITY_TEXT_VALUE_PUBLIC }
