@@ -2,7 +2,6 @@
 #  `rails generate hyrax:work Etd`
 module Hyrax
   class EtdForm < Hyrax::Forms::WorkForm
-    include SingleValuedForm
     self.model_class = ::Etd
     # about me terms
     self.terms += [:graduation_date]
@@ -34,8 +33,6 @@ module Hyrax
     self.terms += [:files_embargoed]
     self.terms += [:abstract_embargoed]
     self.terms += [:toc_embargoed]
-
-    self.single_valued_fields = [:title, :creator, :post_graduation_email, :submitting_type, :degree, :subfield, :department, :school, :language, :abstract, :table_of_contents]
 
     # methods for accessing new tab-determined sets of terms on new form tabs in new ui
 
