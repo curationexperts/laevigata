@@ -11,22 +11,18 @@ module Schools
   class School
     # Find the QA terms for all active schools.
     def self.active_elements
-      ss = Hyrax::SchoolService.new
+      ss = Hyrax::QaSelectService.new('school')
       ss.active_elements
     end
 
     # @param id [String]: The ID for the school (as defined in config/authorities/school.yml)
     def initialize(id)
       @id = id
+      # As of 2024/09/13, the :id, :term, and :label are identical in the school authority
+      @label = id
     end
-    attr_reader :id
 
-    def label
-      return @label if @label
-      ss = Hyrax::SchoolService.new
-      qa_terms = ss.active_elements.find { |school| school['id'] == id } || {}
-      @label = qa_terms[:label]
-    end
+    attr_reader :id, :label
 
     def service
       @service ||= Hyrax::LaevigataAuthorityService.for(school: id)

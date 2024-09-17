@@ -30,7 +30,7 @@ RSpec.describe Schools::School, type: :model do
       let(:id) { 'not a real school id' }
 
       it 'doesnt raise an error' do
-        expect(school.label).to eq nil
+        expect { school }.not_to raise_error
         expect(school.departments).to eq []
       end
     end

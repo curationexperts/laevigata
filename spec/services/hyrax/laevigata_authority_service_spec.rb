@@ -10,46 +10,48 @@ RSpec.describe Hyrax::LaevigataAuthorityService do
 
     it 'raises an error if both a school and department are passed' do
       expect { described_class.for(school: 'Moomin College', department: 'Moomin Studies') }
-        .to raise_error ArgumentError
+        .to raise_error ArgumentError, /school: Moomin College; department: Moomin Studies/
     end
 
-    it 'gives a department service when a school is given' do
-      expect(described_class.for(school: 'Emory'))
-        .to be_a Hyrax::EmoryService
-    end
-
-    it 'gives a different department service when another school is given' do
-      expect(described_class.for(school: 'Laney School'))
-        .to be_a Hyrax::LaneyService
-    end
-
-    it 'is nil an invalid school is given' do
-      expect(described_class.for(school: 'Moomin College')).to be_nil
-    end
-
-    it 'gives a subfield service when a department is given' do
-      expect(described_class.for(department: 'Business'))
-        .to be_a Hyrax::BusinessService
-    end
-
-    it 'gives a different subfield service when another department is given' do
-      expect(described_class.for(department: 'Religion or something'))
-        .to be_a Hyrax::ReligionService
-    end
-
-    it 'is nil an invalid department is given' do
-      expect(described_class.for(school: 'Moomin Studies')).to be_nil
-    end
-
-    describe 'regression tests' do
-      it 'has an enviornmental service' do
-        expect(described_class.for(department: 'Environmental Studies'))
-          .to be_a Hyrax::EnvironmentalService
+    context 'with :school' do
+      it 'gives a department service when a school is given' do
+        service = described_class.for(school: 'Emory College')
+        expect(service.authority.subauthority).to eq 'emory_programs'
       end
 
-      it 'has an EMPH service' do
-        expect(described_class.for(department: 'Executive Masters of Public Health - MPH'))
-          .to be_a Hyrax::ExecutiveService
+      it 'gives a different department service when another school is given' do
+        service = described_class.for(school: 'Laney Graduate School')
+        expect(service.authority.subauthority).to eq 'laney_programs'
+      end
+
+      it 'returns nil when and invalid school is passed' do
+        expect(described_class.for(school: 'Moomin College')).to be_nil
+      end
+    end
+
+    context 'with :department' do
+      it 'has subfields for business' do
+        service = described_class.for(department: 'Business')
+        expect(service.select_all_options).to include(['Finance', 'Finance'])
+      end
+
+      it 'has subfields for religion' do
+        service = described_class.for(department: 'Religion')
+        expect(service.select_all_options).to include(['Ethics and Society', 'Ethics and Society'])
+      end
+
+      it 'has subfields for environmental studies' do
+        service = described_class.for(department: 'Environmental Studies')
+        expect(service.select_all_options).to include(['Environmental Health Epidemiology - MPH & MSPH', 'Environmental Health Epidemiology - MPH & MSPH'])
+      end
+
+      it 'has subfields for EMPH' do
+        service = described_class.for(department: 'Executive Masters of Public Health - MPH')
+        expect(service.select_all_options).to include(['Applied Public Health Informatics', 'Applied Public Health Informatics'])
+      end
+
+      it 'returns nil when an invalid department is passed' do
+        expect(described_class.for(department: 'Moomin Studies')).to be_nil
       end
     end
   end
