@@ -27,62 +27,49 @@ module Hyrax
       #
       # @raise [ArgumentError] when both a school and department are given.
       def for(school: nil, department: nil)
-        return for_school(school)         if school     && !department
-        return for_department(department) if department && !school
+        authority_name = programs_for(school) if school && !department
+        authority_name = subfields_for(department) if department && !school
+
+        return Hyrax::QaSelectService.new(authority_name) if authority_name
+        return nil if school.present? ^ department.present?
 
         raise(ArgumentError,
               "Expected one of school or department. Got school: #{school}; department: #{department}")
       end
 
-      ##
-      # @api private
-      def for_school(school)
-        case school
-        when /Emory/
-          Hyrax::EmoryService.new
-        when /Laney/
-          Hyrax::LaneyService.new
-        when /Candler/
-          Hyrax::CandlerService.new
-        when /Rollins/
-          Hyrax::RollinsService.new
-        end
+      private
+
+      # Map program/department authories for each school based on the 'programs' field in the school authority
+      def programs_for(school)
+        @program_map ||= load_program_mappings
+        @program_map[school]
       end
 
-      ##
-      # @api private
-      def for_department(department)
-        case department
-        when 'Business'
-          Hyrax::BusinessService.new
-        when 'Executive Masters of Public Health - MPH'
-          Hyrax::ExecutiveService.new
+      # Map subfields to departments for selected departments
+      # only a subset of departments have subfields
+      def subfields_for(department)
+        @subfield_map ||= load_subfield_mappings
+        @subfield_map[department]
+      end
 
-        # both Biostatistics programs have same sub-fields,
-        # returned by the same service
-        when 'Biostatistics'
-          Hyrax::BiostatisticsService.new
-        when 'Biostatistics and Bioinformatics'
-          Hyrax::BiostatisticsService.new
-        when 'Biological and Biomedical Sciences'
-          Hyrax::BiologicalService.new
-        when 'Environmental Studies'
-          Hyrax::EnvironmentalService.new
-        # both Laney and Rollins have Epidemiology departments with same set of sub-fields, returned by the service
-        when 'Epidemiology'
-          Hyrax::EpidemiologyService.new
-        when 'Psychology'
-          Hyrax::PsychologyService.new
-        when /Religion/
-          Hyrax::ReligionService.new
-        end
+      def load_subfield_mappings
+        departments = JSON.load_file(Rails.root.join('app', 'javascript', 'config', 'subfieldEndpoints.json'))
+        departments.map { |dept, path| [dept, path.split('/').last] }.to_h
+      end
+
+      def load_program_mappings
+        # TODO - refactor to avoid calling private method
+        school_authority = Qa::Authorities::Local.registry.instance_for('school')
+        school_authority.send(:terms).map { |t| [t['term'], t['programs']] }.to_h
       end
     end
 
+    # override parent to default entries to active when key is absent
     def active?(id)
       authority.find(id)&.fetch('active', true)
     end
 
+    # override parent to default entries to active when key is absent
     def active_elements
       authority.all.select { |e| e.fetch('active', true) }
     end
