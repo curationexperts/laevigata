@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.describe 'OkCompuer checks', type: :system do
+RSpec.describe 'OkCompuer', type: :system do
   it 'has checks configured', :aggregate_failures do
     visit '/okcomputer/all'
 
@@ -15,7 +15,7 @@ RSpec.describe 'OkCompuer checks', type: :system do
     expect(page).to have_content('smtp: FAILED ')
   end
 
-  it 'Checks SMTP' do
+  it 'checks SMTP' do
     # Stub a working SMTP connection
     smtp = Net::SMTP.new(ENV['ACTION_MAILER_SMTP_ADDRESS'], ENV['ACTION_MAILER_PORT'])
     allow(smtp).to receive(:start).and_yield('dummy')
@@ -23,5 +23,21 @@ RSpec.describe 'OkCompuer checks', type: :system do
 
     visit '/okcomputer/all'
     expect(page).to have_content('smtp: PASSED')
+  end
+
+  describe 'ETD check' do
+    it 'fails when there are none' do
+      allow(Etd).to receive(:first).and_return(nil)
+
+      visit '/okcomputer/etd_load'
+      expect(page).to have_content('etd_load: FAILED')
+    end
+
+    it 'passes when one or more are present' do
+      allow(Etd).to receive(:first).and_return(Etd.new)
+
+      visit '/okcomputer/etd_load'
+      expect(page).to have_content('etd_load: PASSED')
+    end
   end
 end
