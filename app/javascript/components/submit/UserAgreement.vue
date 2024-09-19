@@ -1,6 +1,6 @@
 <template>
-  <section>   
-    <h4 id="submission-agreement">Submission Agreement</h4>
+  <section id="submission-agreement">
+    <h4>Submission Agreement</h4>
     <section aria-labelledby="submission-agreement">
     <p>
       I hereby grant to Emory University and its agents the non-exclusive license to archive, make accessible, and display, subject to any embargo restrictions I have specified above, 
@@ -10,7 +10,7 @@
     </p>
     <div class="well">
       <label class="form-inline">
-        <input type="checkbox" v-model="checked" @change="sharedState.setUserAgreement()" />
+        <input id="submission-checkbox" type="checkbox" v-model="checked" @change="sharedState.setUserAgreement()" />
          I HAVE READ AND AGREE TO THE SUBMISSION AGREEMENT
      </label>
     </div>
@@ -40,11 +40,19 @@ export default {
 }
 </script>
 <style scoped>
-h4 {
-  margin-bottom: 2em;
+#submission-agreement > h4 {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
 }
+label {
+  font-size: larger;
+}
+
 h5 {
   font-weight: 700;
-  
+}
+
+#submission-checkbox {
+  margin-right: 1rem;
 }
 </style>
