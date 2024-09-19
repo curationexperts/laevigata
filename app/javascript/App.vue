@@ -356,11 +356,21 @@ ul li button:hover {
 
 .tab-content > * {
   margin-right: 2em;
-  margin-bottom: 1em;
+  /* give all elements INSIDE a tab-content block some bottom margin */
+  margin-bottom: 1rem;
+}
+
+div.tab-content {
+  /* give all tab-content blocks themselves a larger bottom margin */
+  margin-bottom: 4rem;
 }
 .tab-content > h1 {
   padding-left: 0;
   margin-bottom: 0.4em;
+}
+.tab-content > h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 1.75rem;
 }
 .tab-content > button {
   margin-bottom: 1.5em;
