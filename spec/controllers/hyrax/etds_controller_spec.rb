@@ -77,7 +77,7 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs do
       let(:new_morgan) { { name: ['Morgan (edited)'], affiliation: ['Emory University'] } }
 
       before do
-        patch :update, params: { id: etd, etd: new_attrs, request_from_form: 'true' }
+        patch :update, params: { id: etd.id, etd: new_attrs }
         etd.reload # Test persisted state
       end
 
@@ -110,7 +110,7 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs do
         allow(Hyrax::CurationConcern).to receive(:actor).and_return(test_actor)
         allow(controller).to receive(:actor_environment)
 
-        patch :update, params: { id: etd, etd: { supplemental_file_metadata: supp_file_meta }, uploaded_files: [uf.id], request_from_form: 'true' }
+        patch :update, params: { id: etd, etd: { supplemental_file_metadata: supp_file_meta }, uploaded_files: [uf.id] }
         uf.reload
       end
 
@@ -123,7 +123,7 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs do
 
     context 'new data submitted from the form' do
       it 'updates the ETD and returns json redirect path' do
-        patch :update, params: { id: etd, etd: { title: 'New Title' }, request_from_form: 'true' }
+        patch :update, params: { id: etd, etd: { title: 'New Title' } }
 
         etd.reload
         expect(etd.title).to eq ['New Title']
