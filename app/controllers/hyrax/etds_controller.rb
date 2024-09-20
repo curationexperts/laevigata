@@ -167,35 +167,6 @@ module Hyrax
       params # return the params after processing, for ease of testing
     end
 
-    def apply_metadata_to_uploaded_file(uploaded_file, params)
-      filename = get_filename_for_uploaded_file(uploaded_file)
-
-      supplemental_file_metadata = get_supplemental_file_metadata(filename, params)
-
-      if supplemental_file_metadata.empty?
-        Honeybadger.notify "No metadata was assigned for #{filename} on #{params['etd']['title']}\n" \
-                           "The uploaded file was: #{uploaded_file.id};\nThe params were: #{params}."
-      end
-
-      uploaded_file.title = supplemental_file_metadata["title"]
-      uploaded_file.description = supplemental_file_metadata["description"]
-      uploaded_file.file_type = supplemental_file_metadata["file_type"]
-      uploaded_file.pcdm_use = ::FileSet::SUPPLEMENTAL
-      uploaded_file.save
-    end
-
-    # @param [String] filename
-    # @param [Hash] params
-    # @return [Hash]
-    def get_supplemental_file_metadata(filename, params)
-      supplemental_file_metadata = params["etd"]["supplemental_file_metadata"]&.values || {}
-      supplemental_file_metadata.find { |a| a["filename"].tr(' ', '_') == filename.tr(' ', '_') } || {}
-    end
-
-    def get_filename_for_uploaded_file(uploaded_file)
-      File.basename(uploaded_file.file.file.file)
-    end
-
     private
 
       def must_update_file_visibility?(work)
@@ -228,6 +199,26 @@ module Hyrax
                                "\n\tThe existing embargo is #{fs.embargo}." \
                                "\n\tFIGURE OUT HOW TO REMOVE ME FROM THE LOG.")
         end
+      end
+
+      def apply_metadata_to_uploaded_file(uploaded_file, params)
+        supplemental_file_metadata = get_supplemental_file_metadata(uploaded_file, params)
+
+        uploaded_file.title = supplemental_file_metadata["title"]
+        uploaded_file.description = supplemental_file_metadata["description"]
+        uploaded_file.file_type = supplemental_file_metadata["file_type"]
+        uploaded_file.pcdm_use = ::FileSet::SUPPLEMENTAL
+        uploaded_file.save
+      end
+
+      def get_supplemental_file_metadata(uploaded_file, params)
+        filename = get_filename_for_uploaded_file(uploaded_file)
+        supplemental_file_metadata = params["etd"]["supplemental_file_metadata"]&.values || {}
+        supplemental_file_metadata.find { |a| a["filename"].tr(' ', '_') == filename.tr(' ', '_') } || {}
+      end
+
+      def get_filename_for_uploaded_file(uploaded_file)
+        File.basename(uploaded_file.file.file.file)
       end
   end
 end
