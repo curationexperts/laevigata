@@ -17,7 +17,6 @@ module Hyrax
     def create
       sanitize_input(params)
       update_supplemental_files
-      update_committee_members
       if params['etd'].fetch('ipe_id', false)
         create_with_response_for_form
       else
@@ -124,21 +123,6 @@ module Hyrax
     def sanitize_input(params)
       params["etd"]["abstract"] = ::InputSanitizer.sanitize(params["etd"]["abstract"]) if params["etd"]["abstract"]
       params["etd"]["table_of_contents"] = ::InputSanitizer.sanitize(params["etd"]["table_of_contents"]) if params["etd"]["table_of_contents"]
-    end
-
-    def update_committee_members
-      # check if user checked the 'no committee members'
-      # checkbox, remove any committee members from
-      # the committee_members and committee_members_names params,
-      # and delete any existing committee members and names that are already
-      # attached to the ETD.
-      return unless params["etd"]["no_committee_members"] == '1'
-      params["etd"]["committee_members_attributes"] = nil
-      return if params["id"].blank?
-      etd = Etd.find(params["id"])
-      etd.committee_members = nil
-      etd.committee_members_names = nil
-      etd.save
     end
 
     def update_supplemental_files
