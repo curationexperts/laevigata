@@ -122,14 +122,23 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs do
     end
 
     context 'new data submitted from the form' do
+      let(:actor) { Hyrax::CurationConcern.actor }
       it 'updates the ETD and returns json redirect path' do
-        patch :update, params: { id: etd, etd: { title: 'New Title' }, request_from_form: 'true' }
+        patch :update, params: { id: etd.id, etd: { title: 'New Title' }, request_from_form: 'true' }
 
         etd.reload
         expect(etd.title).to eq ['New Title']
 
         redir_path = JSON.parse(response.body)['redirectPath'].split('?').first
         expect(redir_path).to eq main_app.hyrax_etd_path(etd).split('?').first
+      end
+
+      it 'reports error' do
+        allow(Hyrax::CurationConcern).to receive(:actor).and_return(actor)
+        # Stub an unsuccessful update
+        allow(actor).to receive(:update).and_return(false)
+        patch :update, params: { id: etd.id, etd: { title: 'New Title' }, request_from_form: 'true' }
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
@@ -244,6 +253,19 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs do
       expect(file16.title).to eq("Rural Clinics Shapefile")
       expect(file16.description).to eq("rural clinics in Georgia")
       expect(file16.file_type).to eq("Data")
+    end
+  end
+
+  describe '#document_not_found!' do
+    let(:guest_user) { User.new(ppid: 'GUEST_USER') }
+    let(:etd) { FactoryBot.create(:etd, depositor: user.ppid) }
+
+    it 'override blocks access for non-depositors' do
+      allow(controller).to receive(:current_user).and_return(guest_user)
+      allow(SolrDocument).to receive(:find).and_return(SolrDocument.new(etd.to_solr))
+      controller.params = ActionController::Parameters.new("id" => etd.id)
+
+      expect { controller.document_not_found! }.to raise_exception(CanCan::AccessDenied)
     end
   end
 end
