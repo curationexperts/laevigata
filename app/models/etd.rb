@@ -47,12 +47,6 @@ class Etd < ActiveFedora::Base
   end
 
   ##
-  # @return [Enumerable<FileSet>] attached premis file(s), if any
-  def premis_files_fs
-    members.select(&:premis?)
-  end
-
-  ##
   # Get all attached file sets that are "supplementary"
   def supplemental_files_fs
     members.select(&:supplementary?)
