@@ -42,11 +42,7 @@ module Hyrax
     # Overriding this method avoids redirects to confirmation pages when
     # updating the visibility and permissions of a work.
     def after_update_response
-      if must_update_file_visibility?(curation_concern)
-        Rails.logger.debug("#{self.class} for #{curation_concern.class}: #{curation_concern.id} " \
-                           "is about to update the embargos for its FileSets")
-        enforce_file_visibility(curation_concern)
-      end
+      enforce_file_visibility(curation_concern)
 
       respond_to do |wants|
         wants.html { redirect_to [main_app, curation_concern], notice: "Work \"#{curation_concern}\" successfully updated." }
@@ -171,16 +167,12 @@ module Hyrax
 
       def must_update_file_visibility?(work)
         work.file_sets.present? &&
-          (permissions_changed? || work.visibility_changed?) ||
-          (Rails.logger.debug("#{self.class} for #{curation_concern.class}: #{curation_concern.id} " \
-                             "declined to update its FileSet embargoes. " \
-                             "\n\t`work.file_sets.present?`: #{work.file_sets.present?}" \
-                             "\n\t`permissions_changed?`: #{permissions_changed?}" \
-                             "\n\t`work.visibility_changed?`: #{work.visibility_changed?}") &&
-           false) # keep false value when logging
+          (permissions_changed? || work.visibility_changed?)
       end
 
       def enforce_file_visibility(work)
+        return unless must_update_file_visibility?(work)
+
         visibility_attrs =
           FileSetVisibilityAttributeBuilder
             .new(work: work)
@@ -189,15 +181,7 @@ module Hyrax
         work.file_sets.each do |fs|
           Hyrax::Actors::FileSetActor
             .new(fs, current_user)
-            .update_metadata(visibility_attrs) ||
-            Rails.logger.debug("#{self.class} for #{work.class}: #{work.id} " \
-                               "tried to update the embargo for #{fs.class}: " \
-                               "#{fs.id}." \
-                               "\n\tUpdate failed with a `false` return value " \
-                               'from `Hyrax::Actors::FileSetActor#update_metadata`.' \
-                               "\n\tThe visibility attributes were: #{visibility_attrs}." \
-                               "\n\tThe existing embargo is #{fs.embargo}." \
-                               "\n\tFIGURE OUT HOW TO REMOVE ME FROM THE LOG.")
+            .update_metadata(visibility_attrs)
         end
       end
 
