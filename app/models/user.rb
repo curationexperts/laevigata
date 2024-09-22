@@ -19,10 +19,6 @@ class User < ApplicationRecord
   include Hyrax::User
   include Hyrax::UserUsageStats
 
-  if Blacklight::Utils.needs_attr_accessible?
-    attr_accessible :ppid, :email, :password, :password_confirmation
-  end
-
   # this is fixing a strange bug, we never store anyone's shibboleth password
   if Hyrax::Actors::CreateWithRemoteFilesActor.needs_attr_accessible?
     attr_reader :password
