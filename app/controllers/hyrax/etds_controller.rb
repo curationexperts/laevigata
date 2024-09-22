@@ -16,7 +16,7 @@ module Hyrax
 
     def create
       sanitize_input(params)
-      update_supplemental_files
+      apply_file_metadata(params)
       if params['etd'].fetch('ipe_id', false)
         create_with_response_for_form
       else
@@ -119,33 +119,6 @@ module Hyrax
     def sanitize_input(params)
       params["etd"]["abstract"] = ::InputSanitizer.sanitize(params["etd"]["abstract"]) if params["etd"]["abstract"]
       params["etd"]["table_of_contents"] = ::InputSanitizer.sanitize(params["etd"]["table_of_contents"]) if params["etd"]["table_of_contents"]
-    end
-
-    def update_supplemental_files
-      no_supp = params["etd"].delete("no_supplemental_files")
-      # If user checked the 'no supplemental files'
-      # checkbox, remove any supplemental files from
-      # the uploaded_files param, and delete any
-      # existing supplemental files that are already
-      # attached to the ETD.
-      if no_supp == "1"
-        if params['uploaded_files']
-          supp_file_ids = []
-          params['uploaded_files'].each do |id|
-            up_file = Hyrax::UploadedFile.find(id)
-            next unless up_file
-            supp_file_ids << id if up_file.pcdm_use == ::FileSet::SUPPLEMENTARY
-          end
-          params['uploaded_files'] = params['uploaded_files'] - supp_file_ids
-        end
-
-        curation_concern.supplemental_files_fs.each do |supp_file|
-          fs_actor = Hyrax::Actors::FileSetActor.new(supp_file, current_user)
-          fs_actor.destroy
-        end
-      else
-        apply_file_metadata(params)
-      end
     end
 
     # Take supplemental file metadata and write it to the appropriate UploadedFile

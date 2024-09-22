@@ -75,15 +75,6 @@ module Hyrax
       model.primary_pdf_file_name
     end
 
-    # Initial state for the 'No Supplemental Files' checkbox.
-    # Supplemental files aren't required for an ETD, but the
-    # form validation requires the user to explicitly check the
-    # 'No Supplemental Files' checkbox if they don't intend to
-    # add any additional files.
-    def no_supplemental_files
-      model.persisted? && supplemental_files.blank?
-    end
-
     def supplemental_files
       model.ordered_members.to_a.select(&:supplementary?)
     end
