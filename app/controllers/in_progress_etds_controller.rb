@@ -64,32 +64,8 @@ class InProgressEtdsController < ApplicationController
     def prepare_etd_data
       # TODO: strong params
       new_data = request.parameters.fetch(:etd, {})
-      # Add temporarily hard-coded data into the new data
-      # TODO: Replace the hard-coded data with real data from the form
-
-      add_agreement_data(new_data)
 
       # Add the new data to the existing persisted data
       @in_progress_etd.add_data(new_data)
-    end
-
-    # TODO: Get each of these from the form
-
-    def add_uploaded_file_data(etd)
-      etd["uploaded_files"] = "3"
-    end
-
-    def add_agreement_data(etd)
-      etd["agreement"] = "1"
-    end
-
-    # TODO: confirm whether this is not needed
-    def in_progress_etd_params
-      terms = TermService.new(etd_terms: Hyrax::EtdForm.terms).filtered_terms
-      terms << "committee_chair_attributes"
-      terms << "committee_members_attributes"
-      terms << "uploaded_files"
-      terms << "agreement"
-      params.permit(terms)
     end
 end
