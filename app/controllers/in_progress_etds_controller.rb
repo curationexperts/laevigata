@@ -75,10 +75,6 @@ class InProgressEtdsController < ApplicationController
 
     # TODO: Get each of these from the form
 
-    def add_supplemental_file_data(etd)
-      etd["no_supplemental_files"] = "0"
-    end
-
     def add_uploaded_file_data(etd)
       etd["uploaded_files"] = "3"
     end
@@ -94,7 +90,6 @@ class InProgressEtdsController < ApplicationController
       terms << "committee_members_attributes"
       terms << "uploaded_files"
       terms << "agreement"
-      terms << "no_supplemental_files"
       params.permit(terms)
     end
 end

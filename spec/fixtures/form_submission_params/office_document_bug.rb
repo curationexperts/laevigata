@@ -47,7 +47,6 @@
     "requires_permissions" => "false",
     "other_copyrights" => "false",
     "patents" => "false",
-    "no_supplemental_files" => "1",
     "toc_embargoed" => "",
     "abstract_embargoed" => "",
     "files_embargoed" => ""

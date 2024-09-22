@@ -215,7 +215,6 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs do
       {
         "etd" => {
           "title" => "My Title",
-          "no_supplemental_files" => "0",
           "supplemental_file_metadata" => {
             "0" => {
               "filename" => "magic_warrior_cat.jpg",
