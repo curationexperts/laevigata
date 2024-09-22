@@ -123,6 +123,13 @@ describe VisibilityTranslator do
         .to described_class::OPEN
     end
 
+    it 'raises an exception when the item is not under embargo' do
+      allow(obj).to receive(:under_embargo?).and_return(false)
+      expect { translator.visibility = described_class::TOC_EMBARGOED }
+        .to raise_error VisibilityTranslator::InvalidVisibilityError,
+                        /Invalid embargo visibility level: toc_restricted/
+    end
+
     context 'when the work has no embargo' do
       it 'cannot set visibility of object to file restricted level' do
         expect { translator.visibility = described_class::FILES_EMBARGOED }
