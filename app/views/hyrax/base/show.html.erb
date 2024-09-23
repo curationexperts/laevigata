@@ -10,12 +10,10 @@
 
     <span>Permanent URL: <%= main_app.hyrax_etd_url(@presenter.id) %></span>
     <% if @presenter.current_ability_is_approver? %>
-    <br />
-    <span id="presenter-email">Email: <%= @presenter.post_graduation_email %></span>
+      <div id="presenter-email">Email: <%= @presenter.post_graduation_email %></div>
     <% end %>
     <% unless @presenter.workflow.state_label == 'Approved' %>
-      <br />
-      <span class="state state-<%= @presenter.workflow.state %>"><%= @presenter.workflow.state_label %></span>
+      <div class="state state-<%= @presenter.workflow.state %>"><%= @presenter.workflow.state_label %></div>
     <% end %>
   </div>
   <div class="col-sm-8">

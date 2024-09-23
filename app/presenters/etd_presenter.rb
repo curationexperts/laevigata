@@ -26,10 +26,10 @@ class EtdPresenter < Hyrax::WorkShowPresenter
   # and ensure the views get it by setting it as the file_presenter_class in the EtdMemberPresenterFactory, and creating an Etd member factory here.
 
   def subfield
-    return unless solr_document['subfield_tesim']
-    id = solr_document['subfield_tesim'][0]
-    school = Schools::School.new(solr_document['school_tesim'][0])
-    dept = Schools::Department.new(school, solr_document['department_tesim'][0])
+    return unless solr_document.subfield
+    id = solr_document.subfield.first
+    school = Schools::School.new(solr_document.school.first)
+    dept = Schools::Department.new(school, solr_document.department.first)
 
     return unless dept.service
     Schools::Subfield.new(school, dept, id).label
@@ -86,6 +86,11 @@ class EtdPresenter < Hyrax::WorkShowPresenter
   def degree_awarded
     return "graduation pending" unless solr_document.degree_awarded
     solr_document.degree_awarded.to_date.strftime("%d %B %Y")
+  end
+
+  def proquest_submission_date
+    return unless solr_document.proquest_submission_date
+    solr_document.proquest_submission_date.first.to_date.strftime("%d %B %Y")
   end
 
   def submitting_type
