@@ -188,15 +188,15 @@ Hyrax.config do |config|
   # config.binaries_directory = "tmp/binaries"
 
   # If browse-everything has been configured, load the configs.  Otherwise, set to nil.
-  begin
-    if defined? BrowseEverything
-      config.browse_everything = BrowseEverything.config
-    else
-      Rails.logger.warn "BrowseEverything is not installed"
-    end
-  rescue Errno::ENOENT
-    config.browse_everything = nil
-  end
+  # begin
+  #   if defined? BrowseEverything
+  #     config.browse_everything = BrowseEverything.config
+  #   else
+  #     Rails.logger.warn "BrowseEverything is not installed"
+  #   end
+  # rescue Errno::ENOENT
+  #   config.browse_everything = nil
+  # end
 end
 
 Date::DATE_FORMATS[:standard] = "%m/%d/%Y"

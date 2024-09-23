@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     end
   end
 
-  mount BrowseEverything::Engine => '/browse'
+  # mount BrowseEverything::Engine => '/browse'
   mount Hydra::RoleManagement::Engine => '/'
   mount Qa::Engine => '/authorities'
   mount Hyrax::Engine, at: '/'
