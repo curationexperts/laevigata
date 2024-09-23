@@ -201,16 +201,6 @@ end
 
 Date::DATE_FORMATS[:standard] = "%m/%d/%Y"
 
-Hyrax::EmbargoPresenter.class_eval do
-  def sortable_release_date
-    return solr_document.embargo_release_date&.iso8601 unless
-      method(__method__).super_method
-
-    warn "#{self.class}##{__method__} has been implemented in Hyrax and can be removed."
-    super
-  end
-end
-
 Hyrax::CurationConcern.actor_factory.insert_after(Hyrax::Actors::TransactionalRequest, PrimaryFileTitleActor)
 Hyrax::CurationConcern.actor_factory.insert_after(Hyrax::Actors::CreateWithFilesActor, Hyrax::Actors::FileVisibilityAttributesActor)
 Hyrax::CurationConcern.actor_factory.insert_before(Hyrax::Actors::InterpretVisibilityActor, Hyrax::Actors::PublicVisibilityActor)
