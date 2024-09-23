@@ -211,67 +211,6 @@ Hyrax::EmbargoPresenter.class_eval do
   end
 end
 
-Hyrax::CurationConcern.class_eval do
-  def self.actor(*args)
-    @work_middleware_stack ||= actor_factory.build(Hyrax::Actors::Terminator.new)
-    return @work_middleware_stack if args.empty?
-
-    warn "[DEPRECATION] calling `CurationConcern.actor` with arguments is " \
-         "deprecated and removed from Hyrax 2.0.0. Pass a " \
-         "`Hyrax::Actors::Environment` to `#create`, `#update` or `#delete` " \
-         "instead.\nCalled from #{Gem.location_of_caller.join(':')}"
-
-    concern, ability = args.take(2)
-    Hyrax::Actors::ActorStack.new(concern, ability, @work_middleware_stack)
-  end
-end
-
-module Hyrax
-  module Actors
-    class ActorStack
-      def initialize(work, ability, actor)
-        warn "[DEPRECATION] caling `Hyrax::Actors::ActorStack` is deprecated " \
-             "and removed from from Hyrax 2.0.0. Use " \
-             "`Hyrax::DefaultMiddlewareStack` instead.\n " \
-             "Called from #{Gem.location_of_caller.join(':')}"
-
-        @ability = ability
-        @actor   = actor
-        @work    = work
-
-        return unless @actor.respond_to? :each
-
-        stack = ActionDispatch::MiddlewareStack.new.tap do |middleware|
-          @actor.each { |a| middleware.use(a) }
-        end
-
-        @actor = stack.build(Hyrax::Actors::Terminator.new)
-      end
-
-      def create(*args)
-        return @actor.create(args.first) if
-          args.first.is_a? Hyrax::Actors::Environment
-
-        @actor.create Hyrax::Actors::Environment.new(@work, @ability, args.first)
-      end
-
-      def update(*args)
-        return @actor.update(args.first) if
-          args.first.is_a? Hyrax::Actors::Environment
-
-        @actor.update Hyrax::Actors::Environment.new(@work, @ability, args.first)
-      end
-
-      def destroy(*args)
-        return @actor.destroy(args.first) if
-          args.first.is_a? Hyrax::Actors::Environment
-
-        @actor.destroy Hyrax::Actors::Environment.new(@work, @ability, args.first)
-      end
-    end
-  end
-end
-
 Hyrax::CurationConcern.actor_factory.insert_after(Hyrax::Actors::TransactionalRequest, PrimaryFileTitleActor)
 Hyrax::CurationConcern.actor_factory.insert_after(Hyrax::Actors::CreateWithFilesActor, Hyrax::Actors::FileVisibilityAttributesActor)
 Hyrax::CurationConcern.actor_factory.insert_before(Hyrax::Actors::InterpretVisibilityActor, Hyrax::Actors::PublicVisibilityActor)
