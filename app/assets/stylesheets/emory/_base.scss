@@ -23,3 +23,18 @@ h4 {
 .col-sm-4 {
     width: 20%;
 }
+
+#not-found {
+  height: 40vh;
+}
+#message-404 {
+  margin-bottom: 3rem;
+  h1 {
+    font-family: $font-family-serif;
+    font-size: x-large;
+  }
+
+  p {
+    font-size: large;
+  }
+}

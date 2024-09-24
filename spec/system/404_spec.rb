@@ -6,7 +6,7 @@ RSpec.describe 'Getting a 404 for RecordNotFound', type: :system do
   end
   context 'visiting a work that does not exist' do
     it 'has a 404 page' do
-      visit('/concern/works/s7526c41m?locale=en')
+      visit('/concern/etds/invalid-id?locale=en')
       expect(page).to have_content('does not exist')
     end
   end
