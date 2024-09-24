@@ -12,7 +12,7 @@ module Hyrax
       end
 
       def message
-        "#{title} (#{link_to work_id, document_url}) deposited by #{depositor.display_name} requires additional changes before approval.\n\n '#{comment}'"
+        "#{title} (#{link_to work_id, document_url}) deposited by #{depositor.display_name} requires additional changes before approval.<br />\n\n #{user.display_name} commented: '#{comment}'"
       end
     end
   end
