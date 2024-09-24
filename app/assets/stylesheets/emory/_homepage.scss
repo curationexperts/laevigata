@@ -25,3 +25,19 @@
 .submit-my-etd {
   margin: 2em;
 }
+
+#masthead-banner {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+
+  h2 {
+    font-family: $font-family-headings;
+    font-size: 8rem;
+    margin-bottom: 0;
+    margin-top: 2rem;
+    text-transform: uppercase;
+    color: $emory-light-gold;
+    font-weight: bold;
+  }
+}
