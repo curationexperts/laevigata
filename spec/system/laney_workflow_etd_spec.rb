@@ -28,7 +28,7 @@ RSpec.feature 'Laney Graduate School two step approval workflow',
       Hyrax::CurationConcern.actor.create(env)
     end
 
-    scenario "an approver reviews and approves a work" do
+    scenario "an approver reviews and approves a work", :aggregate_failures do
       expect(etd.active_workflow.name).to eq "laney_graduate_school"
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "pending_review"
 
@@ -40,14 +40,14 @@ RSpec.feature 'Laney Graduate School two step approval workflow',
       login_as depositing_user
       visit("/notifications?locale=en")
       expect(page).to have_content 'Deposit needs review'
-      expect(page).to have_content "#{etd.title.first} (#{etd.id}) was deposited by #{depositing_user.display_name} and is awaiting initial review."
+      expect(page).to have_content "#{etd.title.first} (#{etd.id}) was updated by #{depositing_user.display_name} and is awaiting review & approval."
 
       # Check notifications for approving user
       logout
       login_as approving_user
       visit("/notifications?locale=en")
       expect(page).to have_content 'Deposit needs review'
-      expect(page).to have_content "#{etd.title.first} (#{etd.id}) was deposited by #{depositing_user.display_name} and is awaiting initial review."
+      expect(page).to have_content "#{etd.title.first} (#{etd.id}) was updated by #{depositing_user.display_name} and is awaiting review & approval."
 
       # Check workflow permissions for approving user
       available_workflow_actions = Hyrax::Workflow::PermissionQuery.scope_permitted_workflow_actions_available_for_current_state(user: approving_user, entity: etd.to_sipity_entity).pluck(:name)
