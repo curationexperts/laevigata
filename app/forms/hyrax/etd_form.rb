@@ -14,8 +14,8 @@ module Hyrax
     self.terms += [:partnering_agency]
     self.terms += [:submitting_type]
 
-    self.terms += [:committee_chair]
-    self.terms += [:committee_members]
+    self.terms += [:committee_chair_attributes]
+    self.terms += [:committee_members_attributes]
 
     self.terms -= [:rights]
 
@@ -86,92 +86,13 @@ module Hyrax
       super
     end
 
-    # Select the correct affiliation type for committee member
-    def cm_affiliation_type(value)
-      value = Array(value).first
-      if value.blank? || value == 'Emory University'
-        cm_affiliation_options[0]
-      else
-        cm_affiliation_options[1]
-      end
-    end
-
-    # Select the correct affiliation type for committee chair
-    def cc_affiliation_type(value)
-      value = Array(value).first
-      if value.blank? || value == 'Emory University'
-        cc_affiliation_options[0]
-      else
-        cc_affiliation_options[1]
-      end
-    end
-
-    def cm_affiliation_options
-      ["Emory Committee Member", "Non-Emory Committee Member"]
-    end
-
-    def cc_affiliation_options
-      ["Emory Committee Chair", "Non-Emory Committee Chair"]
-    end
-
-    # In the view we have "fields_for :committee_members".
-    # This method is needed to make fields_for behave as an
-    # association and populate the form with the correct
-    # committee member data.
-    delegate :committee_members_attributes=, to: :model
-    delegate :committee_chair_attributes=, to: :model
-
-    # We need to call '.to_a' on committee_members to force it
-    # to resolve.  Otherwise in the form, the fields don't
-    # display the committee member's name and affiliation.
-    # Instead they display something like:
-    # '#<ActiveTriples::Relation:0x007fb564969c88>'
-    def committee_members
-      model.committee_members.build if model.committee_members.blank?
-      model.committee_members.to_a
-    end
-
-    def committee_chair
-      model.committee_chair.build if model.committee_chair.blank?
-      model.committee_chair.to_a
-    end
-
+    # The JavaScript UI passes committe_chair and committee_member as nested arrays
+    # This method is needed to populate the model with the correct nested committee attributes.
     def self.build_permitted_params
       permitted = super
-      permitted << { committee_members_attributes: [:id, { name: [] }, { affiliation: [] }, :affiliation_type, { netid: [] }, :_destroy] }
-      permitted << { committee_chair_attributes: [:id, { name: [] }, { affiliation: [] }, :affiliation_type, { netid: [] }, :_destroy] }
+      permitted << { committee_members_attributes: [:id, { name: [] }, { affiliation: [] }, :_destroy] }
+      permitted << { committee_chair_attributes: [:id, { name: [] }, { affiliation: [] }, :_destroy] }
       permitted
-    end
-
-    # If the student selects 'Emory Committee Chair' or
-    # 'Emory Committee Member' for the 'affiliation_type' field,
-    # then the 'affiliation' field becomes disabled in the form.
-    # In that case, we need to fill in the 'affiliation' data
-    # with 'Emory University', and we need to remove the
-    # 'affiliation_type' field because that is not a valid field
-    # for the CommitteeMember model.
-    def self.model_attributes(form_params)
-      attrs = super
-      keys = ['committee_chair_attributes', 'committee_members_attributes']
-
-      keys.each do |field_name|
-        next if attrs[field_name].blank?
-        attrs[field_name].each do |member_key, member_attrs|
-          aff_type = attrs[field_name][member_key].delete 'affiliation_type'
-
-          names = attrs[field_name][member_key]['name'] || []
-          netids = attrs[field_name][member_key]['netid'] || []
-          names_blank = names.all?(&:blank?)
-          netids_blank = netids.all?(&:blank?)
-          next if names_blank && netids_blank
-
-          if member_attrs['affliation'].blank? && aff_type && aff_type.start_with?('Emory')
-            attrs[field_name][member_key]['affiliation'] = ['Emory University']
-          end
-        end
-      end
-
-      attrs
     end
   end
 end
