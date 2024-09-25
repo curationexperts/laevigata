@@ -136,13 +136,6 @@ module Hyrax
       model.committee_chair.to_a
     end
 
-    def no_committee_members
-      str_committee_members = model.committee_members.to_a.join(',')
-      value = str_committee_members.count("a-zA-Z").zero?
-      empty_committee_members = value
-      model.persisted? && empty_committee_members
-    end
-
     def self.build_permitted_params
       permitted = super
       permitted << { committee_members_attributes: [:id, { name: [] }, { affiliation: [] }, :affiliation_type, { netid: [] }, :_destroy] }
