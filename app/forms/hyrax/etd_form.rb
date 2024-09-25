@@ -59,18 +59,6 @@ module Hyrax
       [:keyword, :research_field]
     end
 
-    def about_me_fields
-      [:creator, :graduation_date, :post_graduation_email]
-    end
-
-    def about_my_program_fields
-      [:school, :department, :subfield, :partnering_agency, :degree, :submitting_type]
-    end
-
-    def about_my_etd_fields
-      [:language, :abstract, :table_of_contents, :research_field]
-    end
-
     def primary_pdf_name
       model.primary_pdf_file_name
     end
