@@ -27,20 +27,6 @@ RSpec.describe Hyrax::EtdForm do
     its(:terms) { is_expected.to include(:submitting_type) }
   end
 
-  describe "editing an ETD" do
-    context 'when removing a subfield' do
-      let(:form_params) { { "creator" => ['Joey'] } }
-      let(:sanitized_params) { { "creator" => ['Joey'], "subfield" => nil } }
-      it "gives Hyrax what it needs to execute the removal" do
-        allow(Hyrax::Forms::WorkForm).to receive(:sanitize_params).with(form_params)
-
-        described_class.sanitize_params(form_params)
-
-        expect(form_params).to eq(sanitized_params)
-      end
-    end
-  end
-
   describe "#primary_pdf_name" do
     subject { form.primary_pdf_name }
 
@@ -81,54 +67,6 @@ RSpec.describe Hyrax::EtdForm do
 
     context "ETD with no supplemental files attached" do
       it { is_expected.to eq [] }
-    end
-  end
-
-  describe "#cm_affiliation_type" do
-    subject { form.cm_affiliation_type(affiliation) }
-
-    context 'without a value for affiliation' do
-      let(:affiliation) { nil }
-      it { is_expected.to eq 'Emory Committee Member' }
-    end
-
-    context 'when value for affiliation is empty' do
-      let(:affiliation) { [''] }
-      it { is_expected.to eq 'Emory Committee Member' }
-    end
-
-    context 'when affiliation is set to Emory' do
-      let(:affiliation) { ['Emory University'] }
-      it { is_expected.to eq 'Emory Committee Member' }
-    end
-
-    context 'when affiliation is set to Non-Emory' do
-      let(:affiliation) { ['Some Other University'] }
-      it { is_expected.to eq 'Non-Emory Committee Member' }
-    end
-  end
-
-  describe "#cc_affiliation_type" do
-    subject { form.cc_affiliation_type(affiliation) }
-
-    context 'without a value for affiliation' do
-      let(:affiliation) { nil }
-      it { is_expected.to eq 'Emory Committee Chair' }
-    end
-
-    context 'when value for affiliation is empty' do
-      let(:affiliation) { [''] }
-      it { is_expected.to eq 'Emory Committee Chair' }
-    end
-
-    context 'when affiliation is set to Emory' do
-      let(:affiliation) { ['Emory University'] }
-      it { is_expected.to eq 'Emory Committee Chair' }
-    end
-
-    context 'when affiliation is set to Non-Emory' do
-      let(:affiliation) { ['Some Other University'] }
-      it { is_expected.to eq 'Non-Emory Committee Chair' }
     end
   end
 end

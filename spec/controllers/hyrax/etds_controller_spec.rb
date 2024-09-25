@@ -77,7 +77,7 @@ RSpec.describe Hyrax::EtdsController, :perform_jobs do
       let(:new_morgan) { { name: ['Morgan (edited)'], affiliation: ['Emory University'] } }
 
       before do
-        patch :update, params: { id: etd, etd: new_attrs, request_from_form: 'true' }
+        patch :update, params: { id: etd.id, etd: new_attrs, request_from_form: 'true' }
         etd.reload # Test persisted state
       end
 
