@@ -45,6 +45,7 @@ RSpec.describe 'Display an ETD with embargoed content', :perform_jobs, :js, inte
   end
 
   scenario "base etd has expected embargo values after creation", :aggregate_failures do
+    logout
     expect(etd.degree_awarded).to eq nil
     expect(etd.embargo.embargo_release_date).to eq many_years_from_today
     expect(etd.embargo_length).to eq "6 months"
@@ -121,6 +122,7 @@ RSpec.describe 'Display an ETD with embargoed content', :perform_jobs, :js, inte
     etd.reload # to clear cached data in memory after approval & graudation processes
 
     # viewed by any user - logged in or not
+    logout # ensure we're not still logged in as an admin from another test
     visit("/concern/etds/#{etd.id}")
     expect(page).to have_content "Abstract"
     expect(page).to have_content "This abstract is under embargo until #{formatted_embargo_release_date(etd)}"
