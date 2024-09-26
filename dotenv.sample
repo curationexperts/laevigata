@@ -8,7 +8,6 @@ export ACTION_MAILER_PORT=##YOUR DATA HERE##
 export ACTION_MAILER_USER_NAME=##YOUR DATA HERE##
 export ACTION_MAILER_PASSWORD=##YOUR DATA HERE##
 
-export PROQUEST_NOTIFICATION_EMAIL=PQ-DissertationETD@proquest.com
 export FAKE_DATA=true
 
 # Use local database auth instead of Shibboleth

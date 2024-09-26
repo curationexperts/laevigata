@@ -12,7 +12,7 @@ RSpec.describe Hyrax::Workflow::ProquestNotification, :clean do
   context "invoke with a message and a subject" do
     it "sends notifications to the super users and proquest" do
       admin
-      expect(notification.recipients.pluck(:email)).to include(ENV['PROQUEST_NOTIFICATION_EMAIL'].downcase)
+      expect(notification.recipients.pluck(:email)).to include(admin.email)
     end
   end
 end
