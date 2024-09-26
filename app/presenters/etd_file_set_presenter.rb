@@ -4,11 +4,7 @@ class EtdFileSetPresenter < Hyrax::FileSetPresenter
            to: :solr_document
 
   def primary?
-    solr_document.fetch("pcdm_use_tesim", []).include?("primary")
-  end
-
-  def supplementary?
-    !primary?
+    pcdm_use == "primary"
   end
 
   def permission_badge

@@ -108,6 +108,10 @@ class SolrDocument
     self[Solrizer.solr_name('partnering_agency')]
   end
 
+  def pcdm_use
+    self[Solrizer.solr_name('pcdm_use')]&.first
+  end
+
   def submitting_type
     self[Solrizer.solr_name('submitting_type')]
   end
