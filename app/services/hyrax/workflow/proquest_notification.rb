@@ -14,7 +14,7 @@ module Hyrax
       end
 
       def call
-        Rails.logger.warn "ProquestNotification sent to #{ENV['PROQUEST_NOTIFICATION_EMAIL']}: #{@message}"
+        Rails.logger.warn "ProquestNotification sent to #{recipients.map(&:email).join(', ')}: #{@message}"
         user = ::User.find_or_create_by(uid: WorkflowSetup::NOTIFICATION_OWNER)
         recipients.each do |recipient|
           user.send_message(recipient, @message, @subject)
@@ -24,15 +24,7 @@ module Hyrax
       # Send this to the application admins + proquest submission service
       def recipients
         admin_role = Role.find_by(name: "admin")
-        admin_role.users.to_a << proquest_user
-      end
-
-      def proquest_user
-        pu = ::User.find_or_create_system_user("proquest_user")
-        pu.display_name = "ProQuest ETD Submission Service"
-        pu.email = ENV['PROQUEST_NOTIFICATION_EMAIL']
-        pu.save
-        pu
+        admin_role.users.to_a
       end
     end
   end
