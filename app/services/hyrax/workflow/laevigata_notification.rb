@@ -14,16 +14,13 @@ module Hyrax
 
       # Truncate titles to 140 characters
       def title
-        original_title = @entity.proxy_for.title.first
-        max = 140
-        original_title.length > max ? "#{original_title[0...max]}..." : original_title
+        document.title.first.truncate(140, separator: /\s/)
       end
 
       # Get the full URL for email notifications
       # This should get pushed upstream to Hyrax
       def document_url
-        key = document.model_name.singular_route_key
-        Rails.application.routes.url_helpers.send(key + "_url", document.id)
+        Rails.application.routes.url_helpers.url_for(document)
       end
 
       def workflow_recipients
@@ -33,27 +30,28 @@ module Hyrax
       # The Users who have an approving role for the relevant workflow
       # @return [<Array>::User] an Array of Hyrax::User objects
       def approvers
-        users_for(role: Sipity::Role.find_by!(name: "approving"))
+        users_for(role_name: 'approving')
       end
 
       # The Users who have a reviewing role for the relevant workflow
       # @return [<Array>::User] an Array of Hyrax::User objects
       def reviewers
-        users_for(role: Sipity::Role.find_by!(name: "reviewing"))
+        users_for(role_name: 'reviewing')
       end
 
       # The Hyrax::User who desposited the work
       # @return [Hyrax::User]
       def depositor
-        ::User.where(ppid: document.depositor).first
+        ::User.find_by(ppid: document.depositor)
       end
 
       private
 
-        def users_for(role:)
+        def users_for(role_name:)
+          role = Sipity::Role.find_by!(name: role_name)
           wf_role = Sipity::WorkflowRole.find_by(workflow: document.active_workflow, role_id: role)
           agents  = Sipity::Agent.where(id: wf_role.workflow_responsibilities.pluck(:agent_id))
-          users   = agents.select { |agent| agent.proxy_for_type == 'User' }.pluck(:proxy_for_id)
+          users   = agents.where(proxy_for_type: 'User').pluck(:proxy_for_id)
 
           ::User.find(users)
         end
