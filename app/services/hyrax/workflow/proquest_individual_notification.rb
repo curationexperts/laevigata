@@ -1,5 +1,3 @@
-require 'workflow_setup'
-
 module Hyrax
   module Workflow
     # Notification to an individual that their ETD has been submitted to ProQuest.
@@ -11,8 +9,6 @@ module Hyrax
 
       def initialize(work_id)
         @work = Etd.find(work_id)
-        @message = message
-        @subject = subject
       end
 
       def message
@@ -39,7 +35,7 @@ module Hyrax
       def call
         user = ::User.find_or_create_by(uid: WorkflowSetup::NOTIFICATION_OWNER)
         recipients.each do |recipient|
-          user.send_message(recipient, @message, @subject)
+          user.send_message(recipient, message, subject)
           Rails.logger.warn "ProquestIndividualNotification: ETD #{@work.id} was sent to ProQuest -- notified #{recipient.email}"
         end
       end
