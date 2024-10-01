@@ -1,5 +1,3 @@
-require 'workflow_setup'
-
 module Hyrax
   module Workflow
     # Notification to ProQuest and application admins summarizing ProQuest uploads.
