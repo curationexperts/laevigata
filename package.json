@@ -19,7 +19,7 @@
     "ssri": "^7.1.1",
     "tar": "^6.2.1",
     "trim-newlines": "^4.0.1",
-    "vue": "^2.6.10",
+    "vue": "^3.0.0",
     "vue-axios": "^2.1.1",
     "vue-loader": "^15.7.0",
     "vue-quill-editor": "^3.0.6",
