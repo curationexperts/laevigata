@@ -138,6 +138,7 @@ terms:
     active: false
   - id: 'Summer 2024'
     term: 'Summer 2024'
+    active: false
   - id: 'Fall 2024'
     term: 'Fall 2024'
     active: false
