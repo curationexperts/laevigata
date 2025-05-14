@@ -61,6 +61,7 @@ module Hyrax
     end
 
     def update
+      debugger
       sanitize_input(params)
       apply_file_metadata(params)
 

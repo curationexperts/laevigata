@@ -77,6 +77,10 @@ RSpec.describe 'Admin dashboard',
       fill_in 'etd_embargo_release_date', with: '2199-01-01'
       click_button 'Update Embargo'
 
+      debugger
+
+      expect(page.html).to match(/success/)
+
       etd.reload
       expect(etd.embargo_release_date).to eq Date.parse('2199-01-01')
       expect(etd.visibility).to eq VisibilityTranslator::FILES_EMBARGOED
