@@ -1,17 +1,24 @@
 terms:
   # Include the current semester at the top of the list
-  - id: 'Fall 2024'
-    term: 'Fall 2024'
   - id: 'Spring 2025'
     term: 'Spring 2025'
+  - id: 'Summer 2025'
+    term: 'Summer 2025'
+  - id: 'Fall 2025'
+    term: 'Fall 2025'
+  - id: 'Spring 2026'
+    term: 'Spring 2026'
+  - id: 'Summer 2026'
+    term: 'Summer 2026'
+  - id: 'Fall 2026'
+    term: 'Fall 2026'
+  - id: 'Spring 2027'
+    term: 'Spring 2027'
+  - id: 'Spring 2025'
+    term: 'Summer 2027'
 
   # Previous semesters that students can still choose
-  - id: 'Summer 2024'
-    term: 'Summer 2024'
-  - id: 'Spring 2024'
-    term: 'Spring 2024'
-  - id: 'Fall 2023'
-    term: 'Fall 2023'
+
 
   # Previous semseters that can be saved if they already exist,
   # but not added to new submissions
@@ -122,4 +129,15 @@ terms:
     active: false
   - id: 'Summer 2023'
     term: 'Summer 2023'
+    active: false
+  - id: 'Fall 2023'
+    term: 'Fall 2023'
+    active: false
+  - id: 'Spring 2024'
+    term: 'Spring 2024'
+    active: false
+  - id: 'Summer 2024'
+    term: 'Summer 2024'
+  - id: 'Fall 2024'
+    term: 'Fall 2024'
     active: false
