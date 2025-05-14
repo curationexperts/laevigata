@@ -77,6 +77,9 @@ RSpec.describe 'Admin dashboard',
       fill_in 'etd_embargo_release_date', with: '2199-01-01'
       click_button 'Update Embargo'
 
+      # Ensure tubolinks has submitted the form data and refreshed the page
+      expect(page).to have_content(/Work "#{etd.title.first}" successfully updated./, wait: 10)
+
       etd.reload
       expect(etd.embargo_release_date).to eq Date.parse('2199-01-01')
       expect(etd.visibility).to eq VisibilityTranslator::FILES_EMBARGOED
