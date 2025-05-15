@@ -222,7 +222,7 @@ class GraduationService
     "Candler School of Theology" => "THEO",
     "Goizueta Business School" => "UBUS",
     "Rollins School of Public Health" => "PUBH",
-    "Woodruff School of Nursing" => "GNUR"
+    "Nell Hodgson Woodruff School of Nursing" => "GNUR"
   }.freeze
 end
 
