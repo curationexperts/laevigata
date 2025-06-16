@@ -39,6 +39,7 @@ gem 'omniauth', '< 2.0.0'
 gem 'omniauth-shibboleth', '~> 1.3'
 gem 'pg', '~> 1.0'
 gem 'rack', '>= 2.1.4'
+gem 'rack-attack'
 gem 'rails', '~> 5.2'
 # Support semantic logs in JSON format [https://logger.rocketjob.io/rails.html]
 gem 'rails_semantic_logger'

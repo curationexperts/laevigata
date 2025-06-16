@@ -699,6 +699,8 @@ GEM
       rdf
     racc (1.7.3)
     rack (2.2.6.4)
+    rack-attack (6.7.0)
+      rack (>= 1.0, < 4)
     rack-proxy (0.6.5)
       rack
     rack-test (2.0.2)
@@ -1096,6 +1098,7 @@ DEPENDENCIES
   pry-byebug
   puma
   rack (>= 2.1.4)
+  rack-attack
   rails (~> 5.2)
   rails-controller-testing
   rails_semantic_logger
