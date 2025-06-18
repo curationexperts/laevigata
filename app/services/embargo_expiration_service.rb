@@ -26,7 +26,7 @@ class EmbargoExpirationService
 
   def initialize(date)
     @date = date
-    @summary_report = "Summary embargo report for #{date}\n"
+    @summary_report = "Summary embargo report for #{date} \n"
     @summary_report_subject = "ETD embargos summary: #{date}"
   end
 
@@ -80,8 +80,9 @@ class EmbargoExpirationService
   end
 
   def expire_embargoes
-    @summary_report << "\n\Processing current expirations for\n"
     expirations = find_expirations(0)
+    @summary_report << "\n\nProcessing current expirations\n"
+    @summary_report << "\n\n  - no expirations occuring today\n" if expirations.count == 0
     expirations.each do |expiration|
       Rails.logger.warn(message: "EmbargoExpirationService: expiring embargo for ETD #{expiration.id}:",
                         payload: { etd_id: expiration.id })
