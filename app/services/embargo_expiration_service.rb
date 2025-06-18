@@ -32,7 +32,7 @@ class EmbargoExpirationService
 
   # Given a work, format it for inclusion in the summary report
   def format_for_summary_report(work)
-    "\n#{work.creator.first}. #{work.title.first} (#{document_path(work)})"
+    "\n  - #{work.creator.first}. #{work.title.first} (#{document_path(work)})"
   end
 
   def document_path(document)
@@ -41,9 +41,9 @@ class EmbargoExpirationService
   end
 
   def run
-    send_today_notifications
-    send_seven_day_notifications
-    send_sixty_day_notifications
+    # send_today_notifications
+    # send_seven_day_notifications
+    # send_sixty_day_notifications
     expire_embargoes
     send_summary_report
   end
@@ -80,9 +80,11 @@ class EmbargoExpirationService
   end
 
   def expire_embargoes
+    @summary_report << "\n\Processing current expirations for\n"
     expirations = find_expirations(0)
     expirations.each do |expiration|
-      Rails.logger.warn "ETD #{expiration.id}: Expiring embargo"
+      Rails.logger.warn(message: "EmbargoExpirationService: expiring embargo for ETD #{expiration.id}:",
+                        payload: { etd_id: expiration.id })
       expiration.visibility = expiration.visibility_after_embargo if expiration.visibility_after_embargo
       expiration.deactivate_embargo!
       expiration.embargo.save
@@ -92,6 +94,7 @@ class EmbargoExpirationService
         fs.deactivate_embargo!
         fs.save
       end
+      @summary_report << format_for_summary_report(expiration)
     end
   end
 
