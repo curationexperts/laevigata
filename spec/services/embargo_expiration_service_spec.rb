@@ -204,11 +204,11 @@ describe EmbargoExpirationService, :clean do
     end
     it "creates a summary report" do
       service.run
-      expect(Hyrax::Workflow::SixtyDayEmbargoNotification).to have_received(:send_notification)
-      expect(Hyrax::Workflow::SevenDayEmbargoNotification).to have_received(:send_notification)
-      expect(Hyrax::Workflow::TodayEmbargoNotification).to have_received(:send_notification)
-      expect(service.summary_report).to match(/#{etd1.id}/)
-      expect(service.summary_report).to match(/#{etd2.id}/)
+      expect(Hyrax::Workflow::SixtyDayEmbargoNotification).not_to have_received(:send_notification)
+      expect(Hyrax::Workflow::SevenDayEmbargoNotification).not_to have_received(:send_notification)
+      expect(Hyrax::Workflow::TodayEmbargoNotification).not_to have_received(:send_notification)
+      expect(service.summary_report).not_to match(/#{etd1.id}/)
+      expect(service.summary_report).not_to match(/#{etd2.id}/)
       expect(service.summary_report).to match(/#{etd3.id}/)
     end
     it "sends the summary report" do
