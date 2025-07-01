@@ -9,7 +9,8 @@ module LocalOverrides
       k.class_eval do
         def initialize(time_to_live, retry_count, retry_delay)
           @ttl = time_to_live
-          @client = Redlock::Client.new([Hyrax::RedisEventStore.instance], retry_count: retry_count, retry_delay: retry_delay)
+          redis_uri = Hyrax::RedisEventStore.instance.redis.id
+          @client = Redlock::Client.new([redis_uri], retry_count: retry_count, retry_delay: retry_delay)
         end
       end
     end
