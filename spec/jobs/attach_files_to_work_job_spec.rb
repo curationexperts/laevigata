@@ -1,58 +1,76 @@
 require 'rails_helper'
 describe AttachFilesToWorkJob do
-  let(:depositing_user) { User.where(ppid: etd.depositor).first }
-  let(:etd) { FactoryBot.create(:sample_data) }
-  let(:file_path) { "#{::Rails.root}/spec/fixtures/magic_warrior_cat.jpg" }
-  let(:pcdm_use)  { 'primary' }
-
-  let(:upload) do
-    File.open(file_path) do |file|
+  # This is expensive setup with many, many DB calls
+  # Since the tests are only checking final state, we can run
+  # this setup once and then check the resulting objects.
+  before :all do
+    etd = FactoryBot.create(:sample_data, title: ['RSpec AttachFilesToWorkJob examples'])
+    depositing_user = User.where(ppid: etd.depositor).first
+    primary = File.open("#{::Rails.root}/spec/fixtures/nasa.jpeg") do |file|
       Hyrax::UploadedFile
         .create(user: depositing_user,
                 file: file,
-                pcdm_use: pcdm_use,
+                pcdm_use:  FileSet::PRIMARY,
+                title: 'Primary ETD file',
+                description: 'typically the main PDF containing the submitted Thesis or Dissertation',
+                file_type: 'image')
+    end
+    secondary = File.open("#{::Rails.root}/spec/fixtures/magic_warrior_cat.jpg") do |file|
+      Hyrax::UploadedFile
+        .create(user: depositing_user,
+                file: file,
+                pcdm_use:  FileSet::SUPPLEMENTAL,
                 title: 'cat dot jpg',
                 description: 'magic warrior cat',
                 file_type: 'image')
     end
+
+    described_class.perform_now(etd, [primary, secondary])
   end
 
+  let(:etd) { Etd.where(title: 'RSpec AttachFilesToWorkJob examples').first }
+  let(:primary_file) { etd.file_sets.find { |file| file.primary? } }
+  let(:supplementary_file) { etd.file_sets.find { |file| file.supplementary? } }
+
   it 'sets pcdm use' do
-    described_class.perform_now(etd, [upload])
-    expect(etd.file_sets.first.reload.pcdm_use).to eq pcdm_use
+    expect(primary_file.pcdm_use).to eq FileSet::PRIMARY
   end
 
   it 'sets file title to work title' do
-    described_class.perform_now(etd, [upload])
-    expect(etd.file_sets.first.reload.title).to contain_exactly(*etd.title)
+    expect(primary_file.title).to contain_exactly(*etd.title)
   end
 
   context 'when attaching secondary file' do
-    let(:pcdm_use) { 'secondary' }
-
     it 'sets pcdm use' do
-      described_class.perform_now(etd, [upload])
-      expect(etd.file_sets.first.reload.pcdm_use).to eq pcdm_use
+      expect(supplementary_file.pcdm_use).to eq FileSet::SUPPLEMENTAL
     end
 
     it 'sets title' do
-      described_class.perform_now(etd, [upload])
-      expect(etd.file_sets.first.reload.title).to contain_exactly(upload.title)
+      expect(supplementary_file.title).to contain_exactly('cat dot jpg')
     end
 
     it 'sets description' do
-      described_class.perform_now(etd, [upload])
-      expect(etd.file_sets.first.reload.description).to contain_exactly(upload.description)
+      expect(supplementary_file.description).to contain_exactly('magic warrior cat')
     end
 
     it 'sets file_type' do
-      described_class.perform_now(etd, [upload])
-      expect(etd.file_sets.first.reload.file_type).to eq upload.file_type
+      expect(supplementary_file.file_type).to eq 'image'
     end
   end
 
   context 'virus checking', :perform_jobs do
     let(:file_path) { "#{::Rails.root}/spec/fixtures/virus_checking/virus_check.txt" }
+    let(:upload) do
+      File.open(file_path) do |file|
+        Hyrax::UploadedFile
+          .create(user: User.where(ppid: etd.depositor).first,
+                  file: file,
+                  pcdm_use:  FileSet::PRIMARY,
+                  title: 'Dummy infected file',
+                  description: 'file to trigger virus scanner - we actually just force it in the "before" setup block',
+                  file_type: 'text')
+      end
+    end
 
     before do
       allow(TestVirusScanner).to receive(:infected?).and_return(true)
