@@ -201,6 +201,7 @@ class GraduationService
     "B.A." => "LIBAS", "BA" => "LIBAS",
     "B.B.A." => "BBA", "BBA" => "BBA",
     "B.S." => "LIBAS", "BS" => "LIBAS",
+    "B.S.N." => "BSN", "BSN" => "BNS",
     "DMin" => "DM",    "D.Min" => "DM",
     "D.N.P." => "DNP", "DNP" => "DNP",
     "M.A." => "MA",    "MA" => "MA",

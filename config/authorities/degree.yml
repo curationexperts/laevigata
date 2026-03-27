@@ -23,6 +23,8 @@ terms:
       term: 'BA'
     - id: 'B.S.'
       term: 'BS'
+    - id: 'B.S.N.'
+      term: 'BSN'
     - id: 'B.B.A.'
       term: 'BBA'
     - id: 'ThD'
