@@ -8,9 +8,7 @@ RSpec.describe "_masthead", type: :view do
   end
 
   it "dsiplays the BANNER environment variable" do
-    allow(ENV).to receive(:[]).with('BANNER').and_return('banner_text')
-
     render
-    expect(rendered).to have_content('banner_text')
+    expect(rendered).to have_selector('div', id: 'environment_badge', text: 'Test')
   end
 end

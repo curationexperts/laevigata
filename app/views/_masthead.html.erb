@@ -1,7 +1,7 @@
 <div id="masthead" class="navbar navbar-inverse navbar-static-top" role="banner">
   <div class="container-fluid">
     <!-- Optional text to identify server environment - e.g. "STAGING" -->
-    <div id="masthead-banner"><%= ENV['BANNER'] -%></div>
+    <%= RuntimeInfo.badge -%>
 
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
