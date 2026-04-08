@@ -7,7 +7,7 @@ RSpec.describe "_masthead", type: :view do
     allow(view).to receive(:render).with('/user_util_links').and_return('util_links')
   end
 
-  it "dsiplays the BANNER environment variable" do
+  it "dsiplays the current environment (Test)" do
     render
     expect(rendered).to have_selector('div', id: 'environment_badge', text: 'Test')
   end
