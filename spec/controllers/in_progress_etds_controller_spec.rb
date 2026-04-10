@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe InProgressEtdsController, type: :controller do
+RSpec.describe InProgressEtdsController, type: :controller, aggregate_failures: true do
   let(:student) { FactoryBot.create(:user) }
   let(:another_user) { FactoryBot.create(:user) }
 
@@ -58,7 +58,9 @@ RSpec.describe InProgressEtdsController, type: :controller do
 
         it 'displays edit form' do
           get :edit, params: { id: ipe.id }
+          expect(assigns(:form_level)).to eq :basic
           expect(response).to render_template(:edit)
+          expect(response).to have_http_status(:success)
         end
       end
 
@@ -67,7 +69,27 @@ RSpec.describe InProgressEtdsController, type: :controller do
 
         it 'denies access' do
           get :edit, params: { id: ipe.id }
-          expect(response.status).to eq 401 # Unauthorized
+          expect(response).to have_http_status(:unauthorized)
+        end
+      end
+
+      context 'for approvers' do
+        let(:etd) { FactoryBot.create(:etd) } #, school: ['Rollins School of Public Health'], department: ['Epidemiology']) }
+        let(:ipe) { InProgressEtd.create(user_ppid: student.ppid, etd_id: etd.id)} # }
+        let(:approver) { User.find_by(uid: 'epidemiology_admin') }
+
+        before do
+          # Set up a minimal workflow
+          WorkflowSetup.new("#{fixture_path}/config/emory/superusers_empty.yml",
+                            "#{fixture_path}/config/emory/epidemiology_admin_sets.yml",
+                            "/dev/null").setup
+          sign_in approver
+        end
+
+        it 'displays the edit form with advanced options' do
+          get :edit, params: { id: ipe.id }
+          expect(assigns(:form_level)).to eq :advanced
+          expect(response).to have_http_status(:success)
         end
       end
     end

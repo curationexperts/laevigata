@@ -1,5 +1,5 @@
 superusers:
   database:
-   - admin
+   - BUSSE2
   shibboleth:
    - tezprox # tezprox

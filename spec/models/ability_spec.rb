@@ -41,4 +41,12 @@ describe Ability do
       end
     end
   end # a student
+
+  describe 'for approvers' do
+
+  end # approvers
+
+  describe 'for super_admins' do
+    
+  end
 end

@@ -54,6 +54,9 @@ terms:
     - id: English and History
       term: English and History
     - id: Environmental Studies
+      term: Environmental Studies
+      active: false
+    - id: Environmental Sciences
       term: Environmental Sciences
     - id: Film and Media Studies
       term: Film and Media Studies
@@ -99,6 +102,12 @@ terms:
       term: Middle Eastern and South Asian Studies
     - id: Middle Eastern Studies
       term: Middle Eastern Studies
+    - id: Muppet Physiology
+      term: Muppet Physiology
+      active: true
+    - id: Muppet Studies
+      term: Muppet Studies
+      active: false
     - id: Music
       term: Music
     - id: Neuroscience and Behavioral Biology
