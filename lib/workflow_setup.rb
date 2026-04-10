@@ -40,7 +40,6 @@ class WorkflowSetup
       logger.debug "Attempting to make admin set for #{as}"
       make_admin_set_from_config(as)
     end
-    load_workflows
     everyone_can_deposit_everywhere
     give_superusers_superpowers
   end
@@ -212,18 +211,6 @@ class WorkflowSetup
     a = AdminSet.create(title: [admin_set_title])
     Hyrax::AdminSetCreateService.call(admin_set: a, creating_user: @admin_set_owner)
     a
-  end
-
-  # Load the workflows from config/workflows
-  # Does the same thing as `bin/rails hyrax:workflow:load`
-  # Note: You MUST create an AdminSet (and its associated PermissionTemplate first)
-  # If you think you have the right AdminSet, but workflows won't load, check that
-  # the permission templates didn't get wiped from the database somehow
-  def load_workflows
-    raise "Can't load workflows without a Permission Template. Do you need to make an AdminSet first?" if Hyrax::PermissionTemplate.all.empty?
-    Hyrax::Workflow::WorkflowImporter.load_workflows(logger: logger)
-    errors = Hyrax::Workflow::WorkflowImporter.load_errors
-    abort("Failed to process all workflows:\n  #{errors.join('\n  ')}") unless errors.empty?
   end
 
   # Activate a mediated deposit workflow for the given admin_set.
