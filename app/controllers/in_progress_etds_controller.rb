@@ -22,6 +22,7 @@ class InProgressEtdsController < ApplicationController
       authorize! :update, @in_progress_etd
       @in_progress_etd.refresh_from_etd!
       @data = @in_progress_etd.data
+      @form_level = form_level
     end
   rescue ActiveRecord::RecordNotFound
     redirect_to root_url
@@ -67,5 +68,12 @@ class InProgressEtdsController < ApplicationController
 
       # Add the new data to the existing persisted data
       @in_progress_etd.add_data(new_data)
+    end
+
+    # Show :basic form for regular users - e.g. active field values only
+    # Or :advanced form for super_admins - e.g. also show inactive fields values
+    def form_level
+      return :advanced if current_user.admin?
+      :basic
     end
 end

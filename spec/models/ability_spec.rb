@@ -41,4 +41,13 @@ describe Ability do
       end
     end
   end # a student
+
+  describe 'a super_admin' do
+    let(:current_user) { admin }
+    let(:student_ipe) { InProgressEtd.new(user_ppid: student.ppid) }
+
+    it 'can edit a student ipe' do
+      expect(current_ability.can?(:update, student_ipe)).to eq true
+    end
+  end
 end
