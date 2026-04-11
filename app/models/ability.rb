@@ -37,6 +37,7 @@ class Ability
   def ipe_permissions
     can :create, InProgressEtd if registered_user?
     can :update, InProgressEtd, user_ppid: current_user.ppid
+    can :manage, InProgressEtd if admin?
 
     # A user who has permission to edit the corresponding Etd should be able to edit the InProgressEtd. (e.g. admin users, proxy permissions, etc)
     can :update, InProgressEtd do |ipe|

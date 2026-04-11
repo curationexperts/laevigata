@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe InProgressEtdsController, type: :controller do
+RSpec.describe InProgressEtdsController, type: :controller, aggregate_failures: true do
   let(:student) { FactoryBot.create(:user) }
   let(:another_user) { FactoryBot.create(:user) }
 
@@ -51,23 +51,32 @@ RSpec.describe InProgressEtdsController, type: :controller do
     end
 
     describe 'GET EDIT' do
-      let(:ipe) { InProgressEtd.create(user_ppid: another_user.ppid, etd_id: etd.id) }
-
-      context 'with permission to edit Etd' do
-        let(:etd) { FactoryBot.create(:etd, user: another_user, edit_users: [student.user_key]) }
-
+      context 'for the owner of the ipe' do
         it 'displays edit form' do
           get :edit, params: { id: ipe.id }
+          expect(response).to have_http_status(:success)
           expect(response).to render_template(:edit)
+          expect(assigns(:form_level)).to eq :basic
         end
       end
 
-      context 'without permission to edit Etd' do
-        let(:etd) { FactoryBot.create(:etd, user: another_user) }
-
+      context "for someone else's ipe" do
+        let(:ipe) { InProgressEtd.create(user_ppid: another_user.ppid) }
         it 'denies access' do
           get :edit, params: { id: ipe.id }
-          expect(response.status).to eq 401 # Unauthorized
+          expect(response).to have_http_status(:unauthorized)
+        end
+      end
+
+      context 'for super_admins' do
+        let(:admin) { FactoryBot.create(:admin) }
+        before { sign_in admin }
+
+        it 'sends the advanced view flag' do
+          expect(ipe.user_ppid).not_to eq admin.ppid
+          get :edit, params: { id: ipe.id }
+          expect(response).to have_http_status(:success)
+          expect(assigns(:form_level)).to eq :advanced
         end
       end
     end
