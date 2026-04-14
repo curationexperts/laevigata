@@ -2,11 +2,13 @@
     <div>
         <label for="graduation-date">Graduation Date</label>
         <select id="graduation-date" name="etd[graduation_date]" class="form-control" aria-required="true">
-            <option v-for="graduationDate in graduationDates" v-bind:value="graduationDate.id"
-            v-bind:key='graduationDate.id' v-if="graduationDate.active" :disabled="graduationDate.disabled"
-            :selected="graduationDate.selected">
-                {{ graduationDate.label }}
-            </option>
+            <template v-for="graduationDate in graduationDates">
+                <option v-if="graduationDate.active || showInactive()"
+                        v-bind:value="graduationDate.id"
+                        :selected="graduationDate.selected">
+                    {{ labelFor(graduationDate.label, graduationDate.active) }}
+                </option>
+            </template>
         </select>
     </div>
 </template>
@@ -14,6 +16,7 @@
 <script>
 import axios from "axios"
 import { formStore } from './formStore'
+import {labelFor, showInactive} from './lib/formHelpers'
 import _ from 'lodash'
 export default {
   data() {
@@ -25,6 +28,8 @@ export default {
     }
   },
   methods: {
+    labelFor,
+    showInactive,
     fetchData() {
       axios.get(this.graduationDatesEndpoint).then(response => {
         this.graduationDates = this.getSelected(response.data)
@@ -33,10 +38,10 @@ export default {
       })
     },
     getSelected(data){
-      var selected = this.sharedState.getGraduationDate()
+      const selected = this.sharedState.getGraduationDate()
       if (selected !== undefined) {
         _.forEach(data, function(o){
-          if (o.id == selected){
+          if (o.id === selected){
             o.selected = 'selected'
             o.active = true
           }
