@@ -7,11 +7,11 @@ class Ability
   def custom_permissions
     if can_review_submissions?
       can [:manage], String do |id|
-        approver_for?(admin_set: ActiveFedora::Base.find(id)&.admin_set)
+        approver_for?(ActiveFedora::Base.find(id)&.admin_set)
       end
 
       can [:manage], ActiveFedora::Base do |obj|
-        approver_for?(admin_set: obj.admin_set)
+        approver_for?(obj.admin_set)
       end
     end
     return unless admin?
@@ -62,17 +62,15 @@ class Ability
     true
   end
 
-  private
+  # Does the current user have the 'approving' role for a specific workflows?
+  # @return [Boolean]
+  def approver_for?(admin_set)
+    PermissionChecker.user_can_approve_admin_set?(current_user, admin_set)
+  end
 
-    def approver_for?(admin_set:)
-      return false unless admin_set
-
-      workflow = admin_set.active_workflow
-      Hyrax::Workflow::PermissionQuery
-        .scope_processing_workflow_roles_for_user_and_workflow(user:     @user,
-                                                               workflow: workflow)
-        .pluck(:role_id)
-        .map { |id| Sipity::Role.find(id).name }
-        .include?('approving')
-    end
+  # Does the current user have the 'approving' role in any workflows?
+  # @return [Boolean]
+  def can_review_submissions?
+    PermissionChecker.sipity_approver?(current_user)
+  end
 end
