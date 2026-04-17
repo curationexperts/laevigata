@@ -1,4 +1,3 @@
-require 'etd_factory'
 Rails.application.config.active_job.queue_adapter = :inline
 
 namespace :sample_data do
@@ -55,23 +54,6 @@ namespace :sample_data do
         end
       end
     end
-  end
-
-  task :embargo_demo do
-    etd = FactoryBot.create(
-      :sample_data_with_everything_embargoed,
-      title: ["Embargo Demo: #{FFaker::Book.title}"],
-      school: ["Candler School of Theology"]
-    )
-    etd_factory = EtdFactory.new
-    primary_pdf_file = "#{::Rails.root}/spec/fixtures/joey/joey_thesis.pdf"
-    etd_factory.etd = etd
-    etd_factory.primary_pdf_file = primary_pdf_file
-    etd_factory.attach_primary_pdf_file
-    etd_factory.supplemental_files = ["#{::Rails.root}/spec/fixtures/miranda/rural_clinics.zip", "#{::Rails.root}/spec/fixtures/miranda/image.tif"]
-    etd_factory.attach_supplemental_files
-    etd.save
-    puts "Created #{etd.id}"
   end
 
   desc "Build sample data to demo daily jobs (graduation and embargo expiration)"
