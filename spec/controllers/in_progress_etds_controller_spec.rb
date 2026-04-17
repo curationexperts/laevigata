@@ -67,18 +67,6 @@ RSpec.describe InProgressEtdsController, type: :controller, aggregate_failures: 
           expect(response).to have_http_status(:unauthorized)
         end
       end
-
-      context 'for super_admins' do
-        let(:admin) { FactoryBot.create(:admin) }
-        before { sign_in admin }
-
-        it 'sends the advanced view flag' do
-          expect(ipe.user_ppid).not_to eq admin.ppid
-          get :edit, params: { id: ipe.id }
-          expect(response).to have_http_status(:success)
-          expect(assigns(:form_level)).to eq :advanced
-        end
-      end
     end
 
     describe 'DELETE DESTROY' do
@@ -158,6 +146,70 @@ RSpec.describe InProgressEtdsController, type: :controller, aggregate_failures: 
       it 'redirects to login' do
         delete :destroy, params: { id: ipe.id }
         expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+  end
+
+  context 'as a super_admin' do
+    let(:super_admin) { FactoryBot.create(:admin) }
+
+    before do
+      sign_in super_admin
+    end
+
+    describe 'GET EDIT' do
+      it 'sets the advanced view flag' do
+        expect(ipe.user_ppid).not_to eq super_admin.ppid
+        get :edit, params: { id: ipe.id }
+        expect(response).to have_http_status(:success)
+        expect(assigns(:form_level)).to eq :advanced
+      end
+    end
+
+    describe 'PATCH UPDATE' do
+      let(:ipe) { InProgressEtd.create(user_ppid: student.ppid, data: ipe_data.to_json) }
+      let(:ipe_data) { { post_graduation_email: 'student@emory.edu' } }
+
+      context 'with permission to edit' do
+        it 'updates the record' do
+          patch :update, params: { id: ipe.id, etd: { post_graduation_email: 'graduate@gmail.com' } }
+          expect(response).to have_http_status(:success)
+          expect(JSON.parse(ipe.reload.data)['post_graduation_email']).to eq 'graduate@gmail.com'
+        end
+      end
+    end
+  end
+
+  context 'as a school approver' do
+    let(:school_approver) { FactoryBot.create(:user) }
+
+    before do
+      sign_in school_approver
+
+      # Stub workflow checks
+      allow(PermissionChecker).to receive(:sipity_approver?).and_return(true)
+      allow(PermissionChecker).to receive(:user_can_approve_admin_set?).and_return(true)
+    end
+
+    describe 'GET EDIT' do
+      it 'sets the advanced view flag' do
+        expect(ipe.user_ppid).not_to eq school_approver.ppid
+        get :edit, params: { id: ipe.id }
+        expect(response).to have_http_status(:success)
+        expect(assigns(:form_level)).to eq :advanced
+      end
+    end
+
+    describe 'PATCH UPDATE' do
+      let(:ipe) { InProgressEtd.create(user_ppid: student.ppid, data: ipe_data.to_json) }
+      let(:ipe_data) { { school: 'Emory College', department: 'Muppet Studies' } }
+
+      context 'with permission to edit' do
+        it 'updates the record' do
+          patch :update, params: { id: ipe.id, etd: { department: 'Muppet Sciences' } }
+          expect(response).to have_http_status(:success)
+          expect(JSON.parse(ipe.reload.data)['department']).to eq 'Muppet Sciences'
+        end
       end
     end
   end

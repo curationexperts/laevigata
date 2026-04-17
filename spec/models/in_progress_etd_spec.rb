@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe InProgressEtd do
+RSpec.describe InProgressEtd do
   let(:in_progress_etd) { described_class.new(data: data.to_json) }
 
   describe "About Me" do
@@ -742,6 +742,41 @@ describe InProgressEtd do
         expect(refreshed_data['ipe_id']).to eq ipe.id
         expect(refreshed_data['etd_id']).to eq etd.id
       end
+    end
+  end
+
+  describe '#admin_set' do
+    # ActiveFedora (AdminSet) is slow, so we're stubbing out the persistence layer in these
+    # tests, so we can focus on the matching logic.
+    # This does require our test to be slightly aware of the implementation,
+    # but it cuts the test speed from 3.5 seconds to under 0.25 seconds
+    let(:school_admin_set) { AdminSet.new(title: ['Henson College']) }
+    let(:department_admin_set) { AdminSet.new(title: ['Design and Fabrication']) }
+
+    before do
+      allow(AdminSet).to receive(:where).and_return([])
+      allow(AdminSet).to receive(:where).with(title: 'Henson College').and_return([school_admin_set])
+      allow(AdminSet).to receive(:where).with(title: 'Design and Fabrication').and_return([department_admin_set])
+    end
+
+    it 'is nil when no school or department are set' do
+      ipe = described_class.new(data: {}.to_json)
+      expect(ipe.admin_set).to be_nil
+    end
+
+    it 'returns the school admin set if it exists' do
+      ipe = described_class.new(data: { school: 'Henson College' }.to_json)
+      expect(ipe.admin_set).to eq school_admin_set
+    end
+
+    it 'returns the department admin set if it exists' do
+      ipe = described_class.new(data: { department: 'Design and Fabrication' }.to_json)
+      expect(ipe.admin_set).to eq department_admin_set
+    end
+
+    it 'prioritzes school matches' do
+      ipe = described_class.new(data: { school: 'Henson College', department: 'Design and Fabrication' }.to_json)
+      expect(ipe.admin_set).to eq school_admin_set
     end
   end
 end

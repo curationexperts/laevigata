@@ -74,6 +74,7 @@ class InProgressEtdsController < ApplicationController
     # Or :advanced form for super_admins - e.g. also show inactive fields values
     def form_level
       return :advanced if current_user.admin?
+      return :advanced if current_ability.can_review_submissions?
       :basic
     end
 end
