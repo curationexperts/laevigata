@@ -1,0 +1,7 @@
+Emory College:
+  approving:
+   - school_approver
+
+Applied Epidemiology:
+  approving:
+    - department_approver
