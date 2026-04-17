@@ -28,24 +28,12 @@ RSpec.describe Hyrax::EtdForm do
   end
 
   describe "#primary_pdf_name" do
-    subject { form.primary_pdf_name }
+    let(:etd) { FactoryBot.create(:etd, ordered_members: [primary_file]) }
+    let(:primary_file) {  build(:primary_file_set, label: 'joey_thesis.pdf') }
 
-    let(:depositor) do
-      u = User.new(uid: FFaker::Internet.user_name, ppid: Noid::Rails::Service.new.mint, display_name: 'Joey')
-      u.save
-      u
+    it 'returns the label of the etd primary file' do
+      expect(form.primary_pdf_name).to eq 'joey_thesis.pdf'
     end
-    let(:etd) { build(:etd, depositor: depositor.user_key) }
-
-    before do
-      etd_factory = EtdFactory.new
-      etd_factory.etd = etd
-      etd_factory.primary_pdf_file = "#{fixture_path}/joey/joey_thesis.pdf"
-      etd_factory.attach_primary_pdf_file
-      etd.save
-    end
-
-    it { is_expected.to eq 'joey_thesis.pdf' }
   end
 
   describe "#supplemental_files" do
