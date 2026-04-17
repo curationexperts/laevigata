@@ -170,6 +170,16 @@ class InProgressEtd < ApplicationRecord
     save!
   end
 
+  # Find and return the admin set associated with the School or Department
+  # @return [AdminSet]
+  def admin_set
+    return @admin_set if @admin_set
+    etd_data = JSON.parse(data)
+    school = etd_data['school']
+    department = etd_data['department']
+    @admin_set ||= AdminSet.where(title: school).first || AdminSet.where(title: department).first
+  end
+
   # Information about the supplemental files that the JavaScript needs for the edit form.
   # @returns {Array} that contains 2 things: 'supplemental_files' (an array converted to JSON), and 'supplemental_file_metadata' (an array).
   # The 2 arrays are expected to keep the same order between them.

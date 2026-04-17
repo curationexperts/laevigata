@@ -38,6 +38,11 @@ class Ability
     can :create, InProgressEtd if registered_user?
     can :update, InProgressEtd, user_ppid: current_user.ppid
     can :manage, InProgressEtd if admin?
+    if can_review_submissions?
+      can :manage, InProgressEtd do |ipe|
+        approver_for?(ipe.admin_set)
+      end
+    end
 
     # A user who has permission to edit the corresponding Etd should be able to edit the InProgressEtd. (e.g. admin users, proxy permissions, etc)
     can :update, InProgressEtd do |ipe|
