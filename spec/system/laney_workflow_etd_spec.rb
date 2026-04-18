@@ -71,12 +71,18 @@ RSpec.feature 'Laney Graduate School two step approval workflow',
                                               "unhide"
                                             )
 
+      # The approving user adds a comment (this doesn't usually happen, but we need to test comments somewhere...)
+      change_workflow_status(etd, "comment_only", approving_user, 'Nice Work!')
+      # Comments don't change workflow state
+      expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "pending_review"
+
       # The approving user marks the etd as reviewed
       change_workflow_status(etd, "mark_as_reviewed", approving_user)
       expect(etd.to_sipity_entity.reload.workflow_state_name).to eq "pending_approval"
 
       # Check notifications for approving user
       visit("/notifications?locale=en")
+      expect(page).to have_content 'Nice Work!'
       expect(page).to have_content "#{etd.title.first} (#{etd.id}) deposited by #{depositing_user.display_name} has completed initial review and is awaiting final approval."
 
       # The approving user marks the etd as approved
