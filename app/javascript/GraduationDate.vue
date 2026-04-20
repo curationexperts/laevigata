@@ -5,6 +5,7 @@
             <template v-for="graduationDate in graduationDates">
                 <option v-if="graduationDate.active || showInactive()"
                         v-bind:value="graduationDate.id"
+                        :disabled="graduationDate.disabled"
                         :selected="graduationDate.selected">
                     {{ labelFor(graduationDate.label, graduationDate.active) }}
                 </option>

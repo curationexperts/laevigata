@@ -14,6 +14,7 @@ import embargoLengths from './config/embargoLengths.json'
 import schools from './config/schools.json'
 import helpText from './config/helpText.json'
 import PartneringAgency from './lib/PartneringAgency'
+import {showInactive} from "./lib/formHelpers";
 
 export const formStore = {
   tabs: {
@@ -374,24 +375,32 @@ export const formStore = {
     this.selectedDepartment = department
   },
 
-  getDepartments (selectedSchool) {
-    if (!this.allowTabSave()) {
-      var savedValue = { "value": this.getSavedDepartment()[0], "active": true, "label": this.getSavedDepartment()[0], "selected": "selected" }
-      axios.get(selectedSchool).then(response => {
-        this.departments = response.data
-        if (!this.allowTabSave()) {
-          this.departments.unshift(savedValue)
+  getDepartments: function (selectedSchool) {
+    debugger;
+    axios.get(selectedSchool).then(response => {
+      this.departments = response.data.filter(function (val) {
+        if (val.active || showInactive() ) {
+          return val
         }
       })
-      return savedValue
+    })
+    let initialOption;
+    if (this.allowTabSave()) {
+      let initialOption = {
+        "id": this.getSavedDepartment()[0],
+        "active": true,
+        "label": this.getSavedDepartment()[0],
+        "selected": "selected"
+      }
     } else {
-      axios.get(selectedSchool).then(response => {
-        const departmentsFromQA = response.data.filter(function(val) { if (val.active != false) { return val } })
-        const prompt = 'Select a ' + this.getDepartmentHeading()
-        departmentsFromQA.unshift({ "value": prompt, "active": true, "label": prompt, "id": prompt,  "disabled":"disabled", "selected": "selected"})
-        this.departments = departmentsFromQA
-      })
+      let initialOption = {
+        "id": this.getSavedDepartment()[0],
+        "active": true,
+        "label": this.getSavedDepartment()[0],
+        "selected": "selected"
+      }
     }
+    // this.departments.unshift(initialOption)
   },
   loadDepartments () {
     var schoolEndpoint = this.schools[this.getSavedOrSelectedSchool()]

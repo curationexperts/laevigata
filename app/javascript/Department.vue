@@ -11,12 +11,11 @@
       v-on:change="sharedState.clearSubfields(), sharedState.setSelectedDepartment(selected), sharedState.setValid('My Program', false)"
     >
       <option
-        v-for="(department, i) in sharedState.departments"
+        v-for="(department) in sharedState.departments"
         v-bind:value="department.id"
-        v-bind:key="`${i}-${department.label}`"
         :disabled="department.disabled"
       >
-        {{ department.label }}
+        {{ labelFor(department.label, department.active) }}
       </option>
     </select>
   </div>
@@ -25,8 +24,10 @@
 <script>
 import { formStore } from "./formStore";
 import _ from "lodash";
+import {labelFor} from "./lib/formHelpers";
 
 export default {
+  methods: {labelFor},
   data() {
     return {
       selected: "",
@@ -59,9 +60,3 @@ export default {
   }
 };
 </script>
-
-<style>
-select {
-  margin-bottom: 1em;
-}
-</style>
