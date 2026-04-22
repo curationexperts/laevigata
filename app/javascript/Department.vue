@@ -1,67 +1,59 @@
 <template>
-  <div>
-    <!-- TODO: adding v-model='selected' enables the selected value to appear in the case of an ipe_etd, but it will not without it, with a hyrax etd. But we should refactor for a better solution. -->
-    <label for="department"> {{ sharedState.getDepartmentHeading() }} </label>
-    <select
-      name="etd[department]"
-      class="form-control"
-      id="department"
-      aria-required="true"
-      v-model="selected"
-      v-on:change="sharedState.clearSubfields(), sharedState.setSelectedDepartment(selected), sharedState.setValid('My Program', false)"
-    >
-      <option
-        v-for="(department, i) in sharedState.departments"
-        v-bind:value="department.id"
-        v-bind:key="`${i}-${department.label}`"
-        :disabled="department.disabled"
-      >
-        {{ department.label }}
-      </option>
-    </select>
-  </div>
+    <div>
+      <label for="department"> {{ sharedState.getDepartmentHeading() }} </label>
+        <select id="department" name="etd[department]" class="form-control" aria-required="true" v-model="selected"
+                v-on:change="this.sharedState.getSubfields(), sharedState.setSelectedDepartment(selected), sharedState.setValid('My Program', false)">
+            <option v-for="department in departments"
+                    v-bind:value="department.id"
+                    v-bind:disabled="department.disabled">
+                    {{ labelFor(department.label, department.active) }}
+            </option>
+        </select>
+    </div>
 </template>
 
 <script>
-import { formStore } from "./formStore";
-import _ from "lodash";
+import axios from "axios"
+import {formStore} from './formStore'
+import {labelFor, showInactive} from './lib/formHelpers'
 
 export default {
   data() {
     return {
-      selected: "",
-      sharedState: formStore
-    };
-  },
-  watch: {
-    selected() {
-      this.sharedState.getSavedOrSelectedDepartment();
-      this.sharedState.getSubfields();
+      sharedState: formStore,
+      selected: '',
+      departmentsEndpoint: '',
+      departments: {}
     }
   },
-  beforeMount: function() {
-    this.sharedState.loadDepartments();
-    this.selected = this.sharedState.getSavedOrSelectedDepartment();
+  created() {
+    this.selected = this.sharedState.getSavedDepartment()
+    this.fetchData()
+    this.sharedState.getSubfields()
   },
-  mounted: function() {
-    this.$nextTick(function() {
-      //this is to handle the case of a saved department
-      if (_.has(this.sharedState.savedData, "etd_id")) {
-        var selectedArray = this.sharedState.getSavedOrSelectedDepartment();
-        this.selected = selectedArray[0];
-      } else {
-        this.selected = this.sharedState.getSavedOrSelectedDepartment();
-        if (!this.selected) {
-          this.selected = "Select a " + this.sharedState.getDepartmentHeading();
-        }
-      }
-    });
-  }
-};
-</script>
+  methods: {
+    labelFor,
+    fetchData() {
+      // We need to choose a department list based on the selected school
+      this.departmentsEndpoint = this.sharedState.schools[this.sharedState.getSavedOrSelectedSchool()]
+      axios.get(this.departmentsEndpoint).then(response => {
+        this.departments = this.getSelected(response.data)
+      }).catch(e => {
+        console.log(e)
+      })
+    },
+    getSelected(data){
+      // Add a placeholder option at the top of the options list
+      data.unshift({ "label": `Select a ${this.sharedState.getDepartmentHeading()}`, "disabled":"disabled","active": true, "id": "" })
 
-<style>
-select {
-  margin-bottom: 1em;
+      // If a previously saved option exists, ensure it's active
+      // If no match is found, we use the placeholder index
+      const selected_index = Math.max(data.findIndex((option) => option.id === this.selected),0)
+      data[selected_index].active = true
+
+      // Filter out inactive options when appropriate
+      return showInactive() ? data : data.filter((option) => option.active)
+    }
+  }
 }
-</style>
+</script>

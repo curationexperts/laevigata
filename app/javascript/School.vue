@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import _ from 'lodash'
+
 import { formStore } from './formStore'
 import StartOverModal from './components/StartOverModal'
 export default {
@@ -38,14 +38,9 @@ export default {
   },
   methods: {
     fetchData() {
-      var selectedSchool = this.sharedState.schools[this.selected]
+      const selectedSchool = this.sharedState.schools[this.selected]
       this.sharedState.setSelectedSchool(this.selected)
       this.sharedState.getDepartments(selectedSchool)
-    },
-    // this only executes when the change event fires (user selects something)
-    clearDepartmentAndSubfields() {
-      this.sharedState.clearDepartment()
-      this.sharedState.clearSubfields()
     }
   },
   mounted: function() {

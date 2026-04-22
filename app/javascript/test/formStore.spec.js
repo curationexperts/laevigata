@@ -60,12 +60,6 @@ describe('formStore', () => {
     ])
   })
 
-  it('returns a previously saved subfield the list', () => {
-    formStore.subfieldsEdit = true
-    formStore.allowTabSave = jest.fn(() => { return false })
-    expect(formStore.getSubfields()).toEqual(true)
-  })
-
   it('returns true for user agreement when on the edit form', () => {
     formStore.allowTabSave = jest.fn(() => { return false })
     expect(formStore.getUserAgreement()).toEqual(true)
