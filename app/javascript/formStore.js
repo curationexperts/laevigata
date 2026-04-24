@@ -432,24 +432,13 @@ export const formStore = {
     const dept = this.getSavedOrSelectedDepartment()
     const endpoints = this.subfieldEndpoints
     const endpoint = endpoints[dept]
-    if (endpoints[dept] || formStore.subfieldsEdit) {
-      if (!this.allowTabSave()) {
-        axios.get(endpoint).then((response) => {
-          this.clearSubfields()
-          this.subfields = response.data
-          this.subfields.unshift({ 'id': this.savedData['subfield'], 'active': true, 'label': this.savedData['subfield'], 'selected': 'selected' })
-        })
-        return true
-      } else {
-        axios.get(endpoint).then((response) => {
-          this.clearSubfields()
-          this.subfields = response.data
-        })
-      }
+    if (endpoint) {
+      axios.get(endpoint).then((response) => {
+        this.subfields = response.data
+      })
+    } else {
+      this.subfields = []
     }
-  },
-  clearSubfields () {
-    this.subfields = []
   },
   getSubfieldLabelFromId (id) {
     if (this.subfields.length > 0){
