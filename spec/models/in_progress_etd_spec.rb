@@ -691,7 +691,7 @@ RSpec.describe InProgressEtd do
         title: 'Stale Title from IPE',
         partnering_agency: ['Stale parter agency'],
         embargo_length: '1000 years',
-        department: ['Some'],
+        department: 'Some',
         other_copyrights: 'true',
         requires_permissions: 'true',
         patents: 'true',
@@ -721,11 +721,12 @@ RSpec.describe InProgressEtd do
       let(:ipe) { described_class.new(etd_id: etd.id, data: stale_data.to_json) }
 
       it 'replaces the stale data with updated data', :aggregate_failures do
-        special_comparisons = ['title', 'degree_awarded', 'files_embargoed', 'toc_embargoed',
+        special_comparisons = ['title', 'degree_awarded', 'department', 'files_embargoed', 'toc_embargoed',
                                'abstract_embargoed', 'committee_members_attributes', 'committee_chair_attributes']
         expect(refreshed_data).to include new_data.except(*special_comparisons)
         # Special comparisons for data that's reformatted or otherwise transformed
         expect(refreshed_data['degree_awarded']).to match(new_data['degree_awarded'])
+        expect(refreshed_data['department']).to match(new_data['department'][0])
         expect(refreshed_data['committee_members_attributes'])
           .to include(
                 hash_including('name' => ['Dweck'], "affiliation" => ['A Famous University']),

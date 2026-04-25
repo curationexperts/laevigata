@@ -40,9 +40,10 @@ RSpec.feature 'Edit an existing ETD',
       login_as admin_superuser
       visit "/concern/etds/#{etd.id}?locale=en"
       click_on "Edit"
-      expect(page).to have_content "Biostatistics and Bioinformatics"
-      expect(page).to have_content etd.degree.first
-      expect(page).to have_content "Biostatistics - MPH & MSPH"
+      expect(page).to have_select('department', selected: 'Biostatistics and Bioinformatics')
+      expect(page).to have_select('subfield', selected: 'Biostatistics - MPH & MSPH')
+      expect(page).to have_select('degree', selected: 'Th.D.')
+      expect(page).to have_select('submitting-type', selected: 'Dissertation')
       expect(page).to have_select('graduation-date', selected: 'Spring 2021')
       expect(page).to have_select('embargo-length', selected: '6 months')
       expect(page).to have_select('content-to-embargo', selected: 'Files and Table of Contents')
