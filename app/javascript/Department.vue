@@ -1,8 +1,8 @@
 <template>
     <div>
       <label for="department"> {{ sharedState.getDepartmentHeading() }} </label>
-        <select id="department" name="etd[department]" class="form-control" aria-required="true" v-model="selected"
-                v-on:change="this.sharedState.getSubfields(), sharedState.setSelectedDepartment(selected), sharedState.setValid('My Program', false)">
+        <select id="department" name="etd[department]" class="form-control" aria-required="true" v-model="department"
+                v-on:change="this.sharedState.getSubfields(), sharedState.setValid('My Program', false)">
             <option v-for="department in departments"
                     v-bind:value="department.id"
                     v-bind:disabled="department.disabled">
@@ -21,15 +21,23 @@ export default {
   data() {
     return {
       sharedState: formStore,
-      selected: '',
       departmentsEndpoint: '',
       departments: {}
     }
   },
   created() {
-    this.selected = this.sharedState.getSavedDepartment()
     this.fetchData()
     this.sharedState.getSubfields()
+  },
+  computed: {
+    department: {
+      get() {
+        return this.sharedState.getDepartment()
+      },
+      set(value) {
+        this.sharedState.setDepartment(value)
+      }
+    }
   },
   methods: {
     labelFor,
@@ -48,7 +56,7 @@ export default {
 
       // If a previously saved option exists, ensure it's active
       // If no match is found, we use the placeholder index
-      const selected_index = Math.max(data.findIndex((option) => option.id === this.selected),0)
+      const selected_index = Math.max(data.findIndex((option) => option.id === this.department),0)
       data[selected_index].active = true
 
       // Filter out inactive options when appropriate

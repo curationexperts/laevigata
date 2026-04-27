@@ -175,7 +175,7 @@ export const formStore = {
   supplementalFiles: [],
   supplementalFilesMetadata: [],
   departments: [],
-  selectedDepartment: '',
+  department: '',
   selectedSubfield: '',
   subfields: [],
   keywords: new KeywordList(),
@@ -353,30 +353,17 @@ export const formStore = {
     this.schools.selected = school
 
   },
-  getSelectedDepartment () {
-    return this.selectedDepartment
+  getDepartment () {
+    return this.department
   },
 
-  getSavedOrSelectedDepartment () {
-    if (this.getSelectedDepartment().length > 0) {
-      return this.getSelectedDepartment()
-    }
-
-    if (this.getSelectedDepartment().length <= 0) {
-      return this.getSavedDepartment()
-    }
-  },
-
-  getSavedDepartment () {
-    return this.savedData['department']
-  },
-  setSelectedDepartment (department) {
-    this.selectedDepartment = department
+  setDepartment (department) {
+    this.department = department
   },
 
   getDepartments (selectedSchool) {
     if (!this.allowTabSave()) {
-      var savedValue = { "value": this.getSavedDepartment()[0], "active": true, "label": this.getSavedDepartment()[0], "selected": "selected" }
+      var savedValue = { "value": this.getDepartment(), "active": true, "label": this.getDepartment(), "selected": "selected" }
       axios.get(selectedSchool).then(response => {
         this.departments = response.data
         if (!this.allowTabSave()) {
@@ -429,7 +416,7 @@ export const formStore = {
     this.selectedSubfield = subfield
   },
   getSubfields () {
-    const dept = this.getSavedOrSelectedDepartment()
+    const dept = this.getDepartment()
     const endpoints = this.subfieldEndpoints
     const endpoint = endpoints[dept]
     if (endpoint) {
@@ -620,6 +607,7 @@ export const formStore = {
     if (Object.keys(this.savedData).length > 0) {
       this.setIpeId(this.savedData['ipe_id'])
       this.setEtdId(this.savedData['etd_id'])
+      this.department = this.savedData['department'] || ''
       for (var tab in this.tabs) {
         var inputKeys = Object.keys(this.tabs[tab].inputs)
         inputKeys.forEach(function (el) {
@@ -629,7 +617,7 @@ export const formStore = {
     }
   },
   showSavedData (data) {
-    this.tabs.submit.fields = JSON.parse(data['in_progress_etd'])
+    this.tabs.submit.fields = JSON.parse(data['in_progress-etd'])
   },
   submit () {
     var saveAndSubmit = new SaveAndSubmit({

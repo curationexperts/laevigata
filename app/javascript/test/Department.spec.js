@@ -87,7 +87,7 @@ describe('Department.vue', () => {
   it('Uses "Specialty" instead of "Department" for School of Nursing ', async () =>  {
     const wrapper = shallowMount(Department, {
       data() {
-        // set Candler as the previously saved school
+        // set Nursing as the previously saved school
         return {sharedState: {savedData: {school: 'Nell Hodgson Woodruff School of Nursing'}}}
       }
     })

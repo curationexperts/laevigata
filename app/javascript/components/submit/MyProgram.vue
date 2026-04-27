@@ -2,7 +2,7 @@
   <section>
     <h4>My Program</h4>
     <h5>{{ sharedState.getDepartmentHeading() }}</h5>
-    <div> {{ sharedState.getDepartmentLabelFromId(sharedState.getSavedOrSelectedDepartment()) }} </div>
+    <div> {{ sharedState.getDepartmentLabelFromId(sharedState.getDepartment()) }} </div>
     <div v-if="sharedState.getSavedOrSelectedSubfield() && sharedState.getSavedOrSelectedSubfield().length > 0">
           <h5>Subfield</h5>
       <div> {{ sharedState.getSubfieldLabelFromId(sharedState.getSavedOrSelectedSubfield()) }} </div>
