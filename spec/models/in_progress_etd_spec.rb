@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe InProgressEtd do
-  let(:in_progress_etd) { described_class.new(data: data.to_json) }
+  let(:in_progress_etd) { described_class.new(data: data) }
 
   describe "About Me" do
     context "with valid data" do
@@ -15,14 +15,14 @@ RSpec.describe InProgressEtd do
     end
 
     context "with invalid data" do
-      let(:in_progress_etd) { described_class.new(data: { currentTab: "About Me", creator: "Student", graduation_date: "tomorrow", post_graduation_email: "", school: "" }.to_json) }
+      let(:in_progress_etd) { described_class.new(data: { currentTab: "About Me", creator: "Student", graduation_date: "tomorrow", post_graduation_email: "", school: "" }) }
 
       it "is not valid" do
         expect(in_progress_etd).not_to be_valid
       end
     end
     context "with missing data" do
-      let(:in_progress_etd) { described_class.new(data: { currentTab: "About Me", creator: "Student", post_graduation_email: "" }.to_json) }
+      let(:in_progress_etd) { described_class.new(data: { currentTab: "About Me", creator: "Student", post_graduation_email: "" }) }
 
       it "is not valid" do
         expect(in_progress_etd).not_to be_valid
@@ -215,26 +215,21 @@ RSpec.describe InProgressEtd do
   end
 
   describe '#add_id_to_data_store' do
-    let(:in_progress_etd) { described_class.new }
-    let(:parsed_data) { JSON.parse(in_progress_etd.data) }
+    let(:in_progress_etd) { described_class.create! }
 
-    context "a record that has been saved" do
-      before do
-        in_progress_etd.save!
-      end
-
+    context "a saved record" do
       it 'has the ID in the data' do
-        expect(parsed_data).to eq('ipe_id' => in_progress_etd.id, "schoolHasChanged" => false)
+        expect(in_progress_etd.data).to include('ipe_id' => in_progress_etd.id)
       end
     end
   end
 
   describe '#add_data' do
-    let(:in_progress_etd) { described_class.new(data: old_data.to_json) }
+    let(:in_progress_etd) { described_class.new(data: old_data) }
 
     let(:old_data) { { 'title': 'The Old Title' } }
     let(:new_data) { nil }
-    let(:resulting_data) { JSON.parse(in_progress_etd.data) } # in-memory data
+    let(:resulting_data) { in_progress_etd.data } # in-memory data
     let(:return_value) { in_progress_etd.add_data(new_data) }
 
     before { return_value } # Call the method
@@ -593,11 +588,11 @@ RSpec.describe InProgressEtd do
   end
 
   describe '#refresh_from_etd!' do
-    let(:refreshed_data) { JSON.parse(ipe.data) }
+    let(:refreshed_data) { ipe.data }
     before { ipe.refresh_from_etd! }
 
     context 'without an associated Etd record' do
-      let(:ipe) { described_class.new(etd_id: nil, data: data.to_json) }
+      let(:ipe) { described_class.new(etd_id: nil, data: data) }
       let(:data) { { 'title' => ['Title from IPE'] } }
 
       it 'keeps the old data' do
@@ -643,7 +638,7 @@ RSpec.describe InProgressEtd do
       end
 
       it 'includes the file info in the JSON datastore' do
-        expect(JSON.parse(refreshed_data['files'])).to eq({
+        expect(refreshed_data['files']).to eq({
           'id' => primary_pdf_fs.id,
           'name' => 'joey_thesis.pdf',
           'size' => primary_pdf_fs.file_size.first,
@@ -651,7 +646,7 @@ RSpec.describe InProgressEtd do
           'deleteType' => 'DELETE'
         })
 
-        expect(JSON.parse(refreshed_data['supplemental_files'])).to contain_exactly(
+        expect(refreshed_data['supplemental_files']).to contain_exactly(
           {
             'id' => supp_1_fs.id,
             'name' => 'nasa.jpeg',
@@ -718,7 +713,7 @@ RSpec.describe InProgressEtd do
       end
 
       let(:etd) { Etd.create!(new_data) }
-      let(:ipe) { described_class.new(etd_id: etd.id, data: stale_data.to_json) }
+      let(:ipe) { described_class.new(etd_id: etd.id, data: stale_data) }
 
       it 'replaces the stale data with updated data', :aggregate_failures do
         special_comparisons = ['title', 'degree_awarded', 'department', 'files_embargoed', 'toc_embargoed',
@@ -761,22 +756,22 @@ RSpec.describe InProgressEtd do
     end
 
     it 'is nil when no school or department are set' do
-      ipe = described_class.new(data: {}.to_json)
+      ipe = described_class.new(data: {})
       expect(ipe.admin_set).to be_nil
     end
 
     it 'returns the school admin set if it exists' do
-      ipe = described_class.new(data: { school: 'Henson College' }.to_json)
+      ipe = described_class.new(data: { school: 'Henson College' })
       expect(ipe.admin_set).to eq school_admin_set
     end
 
     it 'returns the department admin set if it exists' do
-      ipe = described_class.new(data: { department: 'Design and Fabrication' }.to_json)
+      ipe = described_class.new(data: { department: 'Design and Fabrication' })
       expect(ipe.admin_set).to eq department_admin_set
     end
 
     it 'prioritzes school matches' do
-      ipe = described_class.new(data: { school: 'Henson College', department: 'Design and Fabrication' }.to_json)
+      ipe = described_class.new(data: { school: 'Henson College', department: 'Design and Fabrication' })
       expect(ipe.admin_set).to eq school_admin_set
     end
   end

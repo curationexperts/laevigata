@@ -9,12 +9,7 @@ class EmbargoValidator < ActiveModel::Validator
     # end
   end
 
-  def parsed_data(record)
-    return {} unless record.data
-    JSON.parse(record.data)
-  end
-
   def current_tab?(record)
-    parsed_data(record)['currentTab'] == "Embargo"
+    record.data['currentTab'] == "Embargo"
   end
 end

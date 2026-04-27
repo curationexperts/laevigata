@@ -20,7 +20,9 @@
 
 class InProgressEtd < ApplicationRecord
   NO_EMBARGO = 'None - open access immediately'
+  serialize :data, JSON
 
+  after_initialize :initialize_data
   after_create :add_id_to_data_store
 
   # custom validators check for presence of tab-determined set of fields based on presence of tab-identifying data
@@ -31,6 +33,10 @@ class InProgressEtd < ApplicationRecord
   validates_with KeywordValidator
   validates_with EmbargoValidator
   validates_with MyFilesValidator
+
+  def initialize_data
+    self.data ||= {}
+  end
 
   # @param new_data [Hash, HashWithIndifferentAccess] New data to add to the existing data store.
   # @return [Hash] The resulting hash, with new data added to old data.
@@ -49,19 +55,16 @@ class InProgressEtd < ApplicationRecord
   # Blank fields should be first-class data, just like
   # populated fields.
   def add_data(new_data)
-    json_data = data || {}.to_json
-    existing_data = JSON.parse(json_data)
-    return existing_data unless new_data
+    return data unless new_data
 
-    new_data = keep_last_completed_step(existing_data, new_data)
-    new_data = keep_school_has_changed(existing_data, new_data)
-    new_data = strip_blank_fields(new_data)
+    new_data = new_data.with_indifferent_access
+    keep_last_completed_step(data, new_data)
+    keep_school_has_changed(data, new_data)
+    strip_blank_fields(new_data)
     remove_blank_members(new_data)
     remove_blank_supp_files(new_data)
 
-    resulting_data = existing_data.merge(new_data)
-    self.data = resulting_data.to_json
-    resulting_data
+    data.merge!(new_data)
   end
 
   # If we see the 'files' key in the new_data, then
@@ -97,31 +100,28 @@ class InProgressEtd < ApplicationRecord
       next unless value.respond_to?(:reject)
       new_data[key] = value.reject { |v| v.blank? }
     end
-    new_data
   end
 
   def keep_last_completed_step(existing_data, new_data)
-    return new_data unless new_data[:currentStep]
-    new_data[:currentStep] = existing_data['currentStep'] if existing_data.keys.include?('currentStep') && existing_data['currentStep'] >= new_data[:currentStep]
-    new_data
+    existing_step = existing_data['currentStep']
+    new_step = new_data['currentStep']
+    return unless existing_step && new_step
+    new_data['currentStep'] = existing_step if existing_step > new_step
   end
 
   def keep_school_has_changed(existing_data, new_data)
     return new_data unless etd_id.blank?
-    if existing_data['school'].blank? || new_data[:school].blank?
-      new_data[:schoolHasChanged] = false
-      return new_data
-    end
+    both_schools_present = existing_data['school'].present? && new_data['school'].present?
+    different_schools = new_data['currentStep'] != existing_data['school']
 
-    new_data[:schoolHasChanged] = new_data[:school] != existing_data['school'] ? true : false
-    new_data
+    new_data[:schoolHasChanged] = both_schools_present && different_schools
   end
 
   # Store this record's ID for the javascript form to use.
   def add_id_to_data_store
     return unless id
     add_data('ipe_id' => id)
-    save
+    save!
   end
 
   # If this record is associated with an Etd record
@@ -159,24 +159,20 @@ class InProgressEtd < ApplicationRecord
     new_data['committee_chair_attributes'] = etd.committee_chair
 
     primary_file = file_for_refresh(etd.primary_file_fs.first)
-    new_data['files'] = primary_file.to_json unless primary_file.blank?
+    new_data['files'] = primary_file unless primary_file.blank?
 
     unless etd.supplemental_files_fs.blank?
       new_data['supplemental_files'], new_data['supplemental_file_metadata'] = supplemental_files_for_refresh(etd)
     end
 
-    self.data = new_data.to_json
+    self.data = new_data
     save!
   end
 
   # Find and return the admin set associated with the School or Department
   # @return [AdminSet]
   def admin_set
-    return @admin_set if @admin_set
-    etd_data = JSON.parse(data)
-    school = etd_data['school']
-    department = etd_data['department']
-    @admin_set ||= AdminSet.where(title: school).first || AdminSet.where(title: department).first
+    @admin_set ||= AdminSet.where(title: data['school']).first || AdminSet.where(title: data['department']).first
   end
 
   # Information about the supplemental files that the JavaScript needs for the edit form.
@@ -192,7 +188,7 @@ class InProgressEtd < ApplicationRecord
       supp_files_metadata << file_metadata_for_refresh(supp_file)
     end
 
-    [supp_files.to_json, supp_files_metadata]
+    [supp_files, supp_files_metadata]
   end
 
   # Information about the file that the JavaScript needs for display and to render the 'Remove' button.
