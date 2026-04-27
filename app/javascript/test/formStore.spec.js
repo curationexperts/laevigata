@@ -30,7 +30,7 @@ describe('formStore', () => {
   it('loads the saved department as the first choice', () => {
 
     formStore.allowTabSave = jest.fn(() => { return false })
-    formStore.getSavedDepartment = jest.fn(() => { return ['African Studies'] })
+    formStore.getDepartment = jest.fn(() => { return 'African Studies' })
     formStore.getDepartments()
     expect(formStore.getDepartments()).toEqual({'active': true, 'label': 'African Studies', 'selected': 'selected', 'value': 'African Studies'})
   })

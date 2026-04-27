@@ -2,7 +2,7 @@
     <div>
       <label for="department"> {{ sharedState.getDepartmentHeading() }} </label>
         <select id="department" name="etd[department]" class="form-control" aria-required="true" v-model="selected"
-                v-on:change="this.sharedState.getSubfields(), sharedState.setSelectedDepartment(selected), sharedState.setValid('My Program', false)">
+                v-on:change="this.sharedState.getSubfields(), sharedState.setDepartment(selected), sharedState.setValid('My Program', false)">
             <option v-for="department in departments"
                     v-bind:value="department.id"
                     v-bind:disabled="department.disabled">
@@ -27,7 +27,7 @@ export default {
     }
   },
   created() {
-    this.selected = this.sharedState.getSavedDepartment()
+    this.selected = this.sharedState.getDepartment()
     this.fetchData()
     this.sharedState.getSubfields()
   },
