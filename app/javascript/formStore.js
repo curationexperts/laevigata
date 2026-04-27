@@ -249,10 +249,6 @@ export const formStore = {
           this.tabs[tab].disabled = true
           this.tabs[tab].valid = false
         }
-        // rather than complicate condition above, just adjust my program if it is invalid
-        if (this.savedData['schoolHasChanged'] === true) {
-          this.tabs.my_program.valid = false
-        }
 
         if (this.tabs[tab].step === this.getNextStep()) {
           this.tabs[tab].currentStep = true
@@ -260,6 +256,10 @@ export const formStore = {
         } else {
           this.tabs[tab].currentStep = false
         }
+      }
+      // rather than complicate condition above, just adjust my program if it is invalid
+      if (this.savedData['schoolHasChanged'] === true) {
+        this.tabs.my_program.valid = false
       }
     }
   },

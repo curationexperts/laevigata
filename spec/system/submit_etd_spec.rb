@@ -28,6 +28,7 @@ RSpec.describe "Logged in student can submit an ETD", :clean, type: :system, js:
       click_on 'Save and Continue'
 
       # My Program
+      debugger
       expect(page).to have_content('Department')
       select 'Environmental Sciences', from: 'Department'
       select 'MA', from: 'Degree'

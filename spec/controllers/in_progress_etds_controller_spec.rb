@@ -167,7 +167,7 @@ RSpec.describe InProgressEtdsController, type: :controller, aggregate_failures: 
     end
 
     describe 'PATCH UPDATE' do
-      let(:ipe) { InProgressEtd.create(user_ppid: student.ppid, data: ipe_data.to_json) }
+      let(:ipe) { InProgressEtd.create(user_ppid: student.ppid, data: ipe_data) }
       let(:ipe_data) { { post_graduation_email: 'student@emory.edu' } }
 
       context 'with permission to edit' do
@@ -201,7 +201,7 @@ RSpec.describe InProgressEtdsController, type: :controller, aggregate_failures: 
     end
 
     describe 'PATCH UPDATE' do
-      let(:ipe) { InProgressEtd.create(user_ppid: student.ppid, data: ipe_data.to_json) }
+      let(:ipe) { InProgressEtd.create(user_ppid: student.ppid, data: ipe_data) }
       let(:ipe_data) { { school: 'Emory College', department: 'Muppet Studies' } }
 
       context 'with permission to edit' do

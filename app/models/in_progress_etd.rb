@@ -110,11 +110,20 @@ class InProgressEtd < ApplicationRecord
   end
 
   def keep_school_has_changed(existing_data, new_data)
-    return new_data unless etd_id.blank?
-    both_schools_present = existing_data['school'].present? && new_data['school'].present?
-    different_schools = new_data['currentStep'] != existing_data['school']
+    # return new_data unless etd_id.blank?
+    # both_schools_present = existing_data['school'].present? && new_data['school'].present?
+    # different_schools = new_data['currentStep'] != existing_data['school']
+    #
+    # new_data[:schoolHasChanged] = both_schools_present && different_schools
 
-    new_data[:schoolHasChanged] = both_schools_present && different_schools
+    return new_data unless etd_id.blank?
+    if existing_data['school'].blank? || new_data[:school].blank?
+      new_data[:schoolHasChanged] = false
+      return new_data
+    end
+
+    new_data[:schoolHasChanged] = new_data[:school] != existing_data['school'] ? true : false
+    new_data
   end
 
   # Store this record's ID for the javascript form to use.

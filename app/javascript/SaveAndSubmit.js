@@ -29,6 +29,7 @@ export default class SaveAndSubmit {
       }
     }
 
+    debugger
     axios
       .patch(this.formStore.getUpdateRoute(), this.formData, {
         config: { headers: { 'Content-Type': 'multipart/form-data' } }
