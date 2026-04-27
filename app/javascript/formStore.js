@@ -353,30 +353,22 @@ export const formStore = {
     this.schools.selected = school
 
   },
-  getSelectedDepartment () {
-    return this.selectedDepartment
-  },
 
-  getSavedOrSelectedDepartment () {
-    if (this.getSelectedDepartment().length > 0) {
-      return this.getSelectedDepartment()
-    }
-
-    if (this.getSelectedDepartment().length <= 0) {
-      return this.getSavedDepartment()
+  getDepartment () {
+    if (this.selectedDepartment.length > 0) {
+      return this.selectedDepartment
+    } else {
+      return this.savedData['department']
     }
   },
 
-  getSavedDepartment () {
-    return this.savedData['department']
-  },
-  setSelectedDepartment (department) {
+  setDepartment (department) {
     this.selectedDepartment = department
   },
 
   getDepartments (selectedSchool) {
     if (!this.allowTabSave()) {
-      var savedValue = { "value": this.getSavedDepartment()[0], "active": true, "label": this.getSavedDepartment()[0], "selected": "selected" }
+      var savedValue = { "value": this.getDepartment(), "active": true, "label": this.getDepartment(), "selected": "selected" }
       axios.get(selectedSchool).then(response => {
         this.departments = response.data
         if (!this.allowTabSave()) {
@@ -404,7 +396,8 @@ export const formStore = {
   },
 
   getDepartmentHeading () {
-    // The nursing school uses "Specialty" instead of "Department"
+    // The nursing school uses "Specialty"
+    // All other schools use "Department"
     if ( this.savedData['school']=='Nell Hodgson Woodruff School of Nursing') {
       return 'Specialty'
     } else {
@@ -429,7 +422,7 @@ export const formStore = {
     this.selectedSubfield = subfield
   },
   getSubfields () {
-    const dept = this.getSavedOrSelectedDepartment()
+    const dept = this.getDepartment()
     const endpoints = this.subfieldEndpoints
     const endpoint = endpoints[dept]
     if (endpoint) {
