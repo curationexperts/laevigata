@@ -48,7 +48,7 @@ export default class SaveAndSubmit {
         this.formStore.setComplete(response.data.tab_name)
         this.formStore.loadTabs()
       })
-      .catch(error => {
+      .catch((error) => {
         this.formStore.errored = true
         this.formStore.errors = []
         this.formStore.errors.push(error.response.data.errors)
