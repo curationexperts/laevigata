@@ -88,7 +88,7 @@ RSpec.describe InProgressEtdsController, type: :controller, aggregate_failures: 
         end
 
         it 'updates the record' do
-          expect(JSON.parse(ipe.data)['title']).to eq new_title
+          expect(ipe.data['title']).to eq new_title
         end
       end
 
@@ -167,14 +167,14 @@ RSpec.describe InProgressEtdsController, type: :controller, aggregate_failures: 
     end
 
     describe 'PATCH UPDATE' do
-      let(:ipe) { InProgressEtd.create(user_ppid: student.ppid, data: ipe_data.to_json) }
+      let(:ipe) { InProgressEtd.create(user_ppid: student.ppid, data: ipe_data) }
       let(:ipe_data) { { post_graduation_email: 'student@emory.edu' } }
 
       context 'with permission to edit' do
         it 'updates the record' do
           patch :update, params: { id: ipe.id, etd: { post_graduation_email: 'graduate@gmail.com' } }
           expect(response).to have_http_status(:success)
-          expect(JSON.parse(ipe.reload.data)['post_graduation_email']).to eq 'graduate@gmail.com'
+          expect(ipe.reload.data['post_graduation_email']).to eq 'graduate@gmail.com'
         end
       end
     end
@@ -201,14 +201,14 @@ RSpec.describe InProgressEtdsController, type: :controller, aggregate_failures: 
     end
 
     describe 'PATCH UPDATE' do
-      let(:ipe) { InProgressEtd.create(user_ppid: student.ppid, data: ipe_data.to_json) }
+      let(:ipe) { InProgressEtd.create(user_ppid: student.ppid, data: ipe_data) }
       let(:ipe_data) { { school: 'Emory College', department: 'Muppet Studies' } }
 
       context 'with permission to edit' do
         it 'updates the record' do
           patch :update, params: { id: ipe.id, etd: { department: 'Muppet Sciences' } }
           expect(response).to have_http_status(:success)
-          expect(JSON.parse(ipe.reload.data)['department']).to eq 'Muppet Sciences'
+          expect(ipe.reload.data['department']).to eq 'Muppet Sciences'
         end
       end
     end

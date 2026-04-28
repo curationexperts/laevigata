@@ -1,11 +1,9 @@
 require 'rails_helper'
 
 describe AboutMeValidator do
-  context "parsed_data method" do
-    subject(:about_me_validator) { described_class.new }
-    let(:record) { InProgressEtd.new }
-    it "returns an empty hash if passed a record without data" do
-      expect(about_me_validator.parsed_data(record)).to eq({})
-    end
+  let(:record) { InProgressEtd.new(data: { 'currentTab': 'About Me', 'creator': '', 'post_graduation_email': 'graduate@somewhere.else' }) }
+  it 'returns an empty hash if passed a record without data' do
+    expect(record.valid?).to be false
+    expect(record.errors.details).to include(school: [{ error: "school is required" }])
   end
 end

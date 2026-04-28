@@ -32,11 +32,11 @@ class InProgressEtdsController < ApplicationController
   def update
     @in_progress_etd = InProgressEtd.find(params[:id])
     authorize! :update, @in_progress_etd
-    @in_progress_etd.data = prepare_etd_data.to_json
+    @in_progress_etd.data = prepare_etd_data
 
     if @in_progress_etd.save
       @data = @in_progress_etd.data
-      render json: { in_progress_etd: @data, lastCompletedStep: current_step(@data), tab_name: tab_name }, status: 200
+      render json: { in_progress_etd: @data.to_json, lastCompletedStep: current_step(@data), tab_name: tab_name }, status: 200
     else
       render json: { errors: @in_progress_etd.errors.messages }, status: 422
     end
@@ -53,8 +53,7 @@ class InProgressEtdsController < ApplicationController
   private
 
     def current_step(data)
-      saved_data = JSON.parse(data)
-      saved_data['currentStep']
+      data['currentStep']
     end
 
     def tab_name
