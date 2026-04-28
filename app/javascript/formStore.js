@@ -355,11 +355,7 @@ export const formStore = {
   },
 
   getDepartment () {
-    if (this.selectedDepartment.length > 0) {
-      return this.selectedDepartment
-    } else {
-      return this.savedData['department']
-    }
+    return this.selectedDepartment || this.savedData['department'] || ''
   },
 
   setDepartment (department) {
