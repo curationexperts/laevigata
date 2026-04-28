@@ -51,6 +51,7 @@ describe('Department.vue', () => {
     // use findAll instead of find to ensure we only have one disabled option
     const disabled_option = wrapper.findAll('#department option[disabled]').wrappers.map((wrapper) => wrapper.text())
     expect(disabled_option).toEqual(['Select a Department'])
+    expect(wrapper.vm.selected).toEqual('')
   })
 
   it('lists inacive departments in advanced mode', async () =>  {
