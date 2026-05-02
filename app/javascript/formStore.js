@@ -14,6 +14,7 @@ import embargoLengths from './config/embargoLengths.json'
 import schools from './config/schools.json'
 import helpText from './config/helpText.json'
 import PartneringAgency from './lib/PartneringAgency'
+import {labelFor, showInactive} from "./lib/formHelpers";
 
 export const formStore = {
   tabs: {
@@ -362,29 +363,36 @@ export const formStore = {
     this.selectedDepartment = department
   },
 
-  getDepartments (selectedSchool) {
-    if (!this.allowTabSave()) {
-      var savedValue = { "value": this.getDepartment(), "active": true, "label": this.getDepartment(), "selected": "selected" }
-      axios.get(selectedSchool).then(response => {
-        this.departments = response.data
-        if (!this.allowTabSave()) {
-          this.departments.unshift(savedValue)
-        }
-      })
-      return savedValue
-    } else {
-      axios.get(selectedSchool).then(response => {
-        const departmentsFromQA = response.data.filter(function(val) { if (val.active != false) { return val } })
-        const prompt = 'Select a ' + this.getDepartmentHeading()
-        departmentsFromQA.unshift({ "value": prompt, "active": true, "label": prompt, "id": prompt,  "disabled":"disabled", "selected": "selected"})
-        this.departments = departmentsFromQA
-      })
-    }
-  },
   loadDepartments () {
-    var schoolEndpoint = this.schools[this.getSavedOrSelectedSchool()]
-    this.getDepartments(schoolEndpoint)
+    // The deparment list depends on the current school
+    const departmentsEndpoint = this.schools[this.getSavedOrSelectedSchool()]
+    let departmentOptions = []
+    axios.get(departmentsEndpoint).then(response => {
+      this.setupDepartmentOptions(response.data)
+    }).catch(e => {
+      console.log(e)
+    })
   },
+
+  setupDepartmentOptions (authority_data) {
+    // Add a placeholder option at the top of the options list
+    authority_data.unshift({ "id": "", "label": `Select a ${this.getDepartmentHeading()}`,"active": true, "disabled":"disabled" })
+
+    // If a previously saved option exists, ensure it's active
+    // If no match is found, use the placeholder option (i.e. set index to 0)
+    this.selectedDepartment = this.getDepartment()
+    const selected_index = Math.max(authority_data.findIndex((option) => option.id === this.selectedDepartment),0)
+    authority_data[selected_index].active = true
+
+    // Flag inactive department labels
+    authority_data.forEach((dept_option) => {
+      dept_option.label = labelFor(dept_option.label, dept_option.active)
+    })
+
+    // Filter out inactive options when appropriate
+    this.departments = showInactive() ? authority_data : authority_data.filter((option) => option.active)
+  },
+
   getDepartmentLabelFromId (id) {
     if(this.departments.length > 0){
       return this.departments.filter((department) => { return department.id === id })[0].label

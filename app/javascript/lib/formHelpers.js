@@ -6,6 +6,6 @@ export function labelFor(label, active) {
     if (active === true) {
         return label
     } else {
-        return `⚠️ ${label}`
+        return `⚠️ ${label} (inactive)`
     }
 }

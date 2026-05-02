@@ -19,6 +19,9 @@ export default {
       sharedState: formStore
     }
   },
+  beforeMount() {
+    this.sharedState.getSubfields()
+  },
   mounted: function(){
     this.$nextTick(function () {
       this.selected = this.sharedState.getSavedOrSelectedSubfield()
