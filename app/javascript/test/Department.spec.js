@@ -2,15 +2,15 @@
 /* global it */
 /* global expect */
 /* global jest */
-import { shallowMount, flushPromises } from '@vue/test-utils'
+import {shallowMount} from '@vue/test-utils'
 import Department from 'Department'
+import * as formHelpers from "../lib/formHelpers"
 import axios from 'axios'
-import * as formHelpers from "../lib/formHelpers";
 jest.mock('axios')
 
 describe('Department.vue', () => {
   beforeEach(() => {
-    // mock an response from the candler_rograms endpoint
+    // mock a response from the candler_programs endpoint
     const mockResponse =  {data:
         [ {"id":"Divinity",             "label":"Divinity",             "active":true},
           {"id":"Ministry",             "label":"Ministry",             "active":true},
@@ -25,16 +25,13 @@ describe('Department.vue', () => {
   })
 
   it('lists active departments', async () =>  {
-    const wrapper = shallowMount(Department, {
-      data() {
-        // set Candler as the previously saved school
-        return {sharedState: {savedData: {school: 'Candler School of Theology'}}}
-      }
-    })
+    const wrapper = shallowMount(Department)
 
-    await flushPromises
+    await wrapper.vm.$nextTick()
+    await wrapper.vm.$forceUpdate()
 
     const enabled_options = wrapper.findAll('option:not([disabled])').wrappers.map((wrapper) => wrapper.text())
+
     expect(enabled_options).toEqual(['Divinity', 'Ministry'])
   })
 
@@ -46,7 +43,8 @@ describe('Department.vue', () => {
       }
     })
 
-    await flushPromises
+    await wrapper.vm.$nextTick()
+    await wrapper.vm.$forceUpdate()
 
     // use findAll instead of find to ensure we only have one disabled option
     const disabled_option = wrapper.findAll('#department option[disabled]').wrappers.map((wrapper) => wrapper.text())
@@ -54,46 +52,38 @@ describe('Department.vue', () => {
     expect(wrapper.vm.selected).toEqual('')
   })
 
-  it('lists inacive departments in advanced mode', async () =>  {
+  it('lists inactive departments in advanced mode', async () =>  {
     // render the form using the admin view option
     jest.spyOn(formHelpers, "showInactive").mockReturnValue(true);
 
-    const wrapper = shallowMount(Department, {
-      data() {
-        // set Candler as the previously saved school
-        return {sharedState: {savedData: {school: 'Candler School of Theology'}}}
-      }
-    })
-
-    await flushPromises
+    const wrapper = shallowMount(Department)
+    await wrapper.vm.$nextTick()
+    await wrapper.vm.$forceUpdate()
 
     const enabled_options = wrapper.findAll('option:not([disabled])').wrappers.map((wrapper) => wrapper.text())
-    expect(enabled_options).toEqual(['Divinity', 'Ministry', '⚠️ Pastoral Counseling', '⚠️ Theological Studies'])
+    expect(enabled_options).toEqual(['Divinity', 'Ministry', '⚠️ Pastoral Counseling (inactive)', '⚠️ Theological Studies (inactive)'])
   })
 
-  it('lists includes inactive departments if they were preiously saved', async () =>  {
-    const wrapper = shallowMount(Department, {
-      data() {
-        // set Candler as the previously saved school
-        return {sharedState: {savedData: {school: 'Candler School of Theology', department: 'Theological Studies'}}}
-      }
-    })
+  it('lists includes inactive departments if they were previously saved', async () =>  {
+    const wrapper = shallowMount(Department)
 
-    await flushPromises
+    wrapper.vm.formStore.savedData['department'] = 'Theological Studies'
+    await wrapper.vm.$nextTick()
+    await wrapper.vm.$forceUpdate()
 
     const enabled_options = wrapper.findAll('option:not([disabled])').wrappers.map((wrapper) => wrapper.text())
     expect(enabled_options).toEqual(['Divinity', 'Ministry', 'Theological Studies'])
   })
 
   it('Uses "Specialty" instead of "Department" for School of Nursing ', async () =>  {
-    const wrapper = shallowMount(Department, {
-      data() {
-        // set Candler as the previously saved school
-        return {sharedState: {savedData: {school: 'Nell Hodgson Woodruff School of Nursing'}}}
-      }
-    })
+    const wrapper = shallowMount(Department)
 
-    await flushPromises
+    wrapper.vm.formStore.savedData['school'] = 'Nell Hodgson Woodruff School of Nursing'
+    await wrapper.vm.$nextTick()
+    await wrapper.vm.$forceUpdate()
+
+    // Check the input label
+    expect(wrapper.find('label[for="department"').text()).toEqual('Specialty')
 
     // Check the text of the first option
     expect(wrapper.find('#department option').text()).toEqual('Select a Specialty')

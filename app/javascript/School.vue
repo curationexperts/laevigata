@@ -38,9 +38,8 @@ export default {
   },
   methods: {
     fetchData() {
-      const selectedSchool = this.sharedState.schools[this.selected]
       this.sharedState.setSelectedSchool(this.selected)
-      this.sharedState.getDepartments(selectedSchool)
+      this.sharedState.loadDepartments()
     }
   },
   mounted: function() {

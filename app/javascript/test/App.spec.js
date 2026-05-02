@@ -3,9 +3,6 @@
 /* global expect */
 import { shallowMount } from '@vue/test-utils'
 import App from 'App'
-import { quillEditor } from 'vue-quill-editor'
-import axios from 'axios'
-jest.mock('axios')
 
 describe('App.vue', () => {
   it('renders a form', () => {
@@ -90,8 +87,7 @@ describe('App.vue', () => {
       expect(wrapper.find('h1').text()).toBe('Submit Your Thesis or Dissertation')
     })
     it("displays all of the user's data on the submit tab", () => {
-      const wrapper = shallowMount(App, {
-      })
+
     })
     it('lets the user submit their data for publication as an ETD', () => {
 
@@ -137,7 +133,7 @@ describe('App.vue', () => {
       wrapper.vm.$data.sharedState.tabs.my_files.complete = false
       wrapper.vm.$data.sharedState.tabs.embargo.complete = false
 
-      wrapper.vm.$data.sharedState.hasError = jest.fn((value) => { return true })
+      wrapper.vm.$data.sharedState.hasError = jest.fn(() => { return true })
 
       expect(wrapper.html()).toContain('Table of Contents is required')
       expect(wrapper.html()).toContain('Abstract is required')      
@@ -146,12 +142,13 @@ describe('App.vue', () => {
 
   describe('Edit form:', () => {
     it('contains hidden flag needed on back end', () => {
-      const wrapper = shallowMount(App, { })
-      expect(wrapper.contains('input[name=request_from_form][value=true]')).toBe(true)
+      const wrapper = shallowMount(App)
+      const hiddenFlag = wrapper.find('input[name="request_from_form"][value="true"]')
+      expect(hiddenFlag.exists()).toBe(true)
     })
 
     it('with an associated ETD record, renders the form without tabs', () => {
-      const wrapper = shallowMount(App, { })
+      const wrapper = shallowMount(App)
       wrapper.vm.$data.sharedState.setEtdId('123')
       expect(wrapper.html()).toContain('Submit Your Thesis')
       expect(wrapper.findAll('ul.navtabs').length).toEqual(0)

@@ -65,6 +65,6 @@ describe('GraduationDate.vue with an inactive legacy term', () => {
     await flushPromises
 
     const option_labels = wrapper.findAll('#graduation-date option').wrappers.map((option) => option.text())
-    expect(option_labels).toEqual(['Select a Graduation Date', 'Fall 2017', '⚠️ 2013'])
+    expect(option_labels).toEqual(['Select a Graduation Date', 'Fall 2017', '⚠️ 2013 (inactive)'])
   })
 })
