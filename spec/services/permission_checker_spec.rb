@@ -11,6 +11,12 @@ RSpec.describe PermissionChecker, use_transactional_tests: false do
     # Wrap the entire context in a transaction
     ActiveRecord::Base.connection.begin_transaction
 
+    # Remove any pre-existing AdminSets
+    AdminSet.all.each do |admin_set|
+      admin_set.delete
+      ActiveFedora::Base.eradicate(admin_set.id)
+    end
+
     # Set Up Workflows
     Hyrax::Workflow::WorkflowImporter.path_to_workflow_files = "#{fixture_path}/config/workflows/minimal_one_step_approval.json"
     WorkflowSetup.new("#{fixture_path}/config/emory/superusers_db_only.yml", "#{fixture_path}/config/emory/admin_sets_school_department.yml", "/dev/null").setup
