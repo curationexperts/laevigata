@@ -19,7 +19,7 @@ RSpec.describe 'Dashboard workflow', :clean, integration: true, type: :system do
     login_as approving_user
   end
 
-  scenario 'approver can approve submitted etd', :perform_jobs do
+  scenario 'approver can approve submitted etd', :perform_jobs, :aggregate_failures do
     expect(etd.active_workflow.name).to eq 'emory_one_step_approval'
     expect(etd.to_sipity_entity.reload.workflow_state_name).to eq 'pending_approval'
 
@@ -28,6 +28,6 @@ RSpec.describe 'Dashboard workflow', :clean, integration: true, type: :system do
 
     expect(page).to have_content etd.title.first
     expect(page).to have_content etd.contributor.first
-    expect(page).to have_content 'pending_approval'
+    expect(page).to have_content 'Pending Approval'
   end
 end
