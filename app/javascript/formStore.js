@@ -13,7 +13,6 @@ import embargoContents from './config/embargoContents.json'
 import embargoLengths from './config/embargoLengths.json'
 import schools from './config/schools.json'
 import helpText from './config/helpText.json'
-import PartneringAgency from './lib/PartneringAgency'
 import {labelFor, showInactive} from "./lib/formHelpers";
 
 export const formStore = {
@@ -195,17 +194,12 @@ export const formStore = {
   getSavedLanguage () {
     return this.savedData['language']
   },
-  getSchoolKeyFromName (name) {
-    return this.schools.options.filter((option) => { return option.text === name })[0].value
-  },
   getSchoolHasChanged () {
     return this.savedData['schoolHasChanged']
   },
-
   isValid (tab) {
     return this.tabs[`${tab}`].valid
   },
-
   setValid (tab, validity, otherTabs) {
     _.forEach(this.tabs, (t) => {
       // passing in the object or the label is ok
@@ -222,17 +216,10 @@ export const formStore = {
   },
   getSchoolText (schoolKey) {
     if (schoolKey) {
-      var school = _.find(this.schools.options, (school) => { return school.value === schoolKey })
+      const school = _.find(this.schools.options, (school) => { return school.value === schoolKey })
       return school.text
     }
   },
-
-  getSchoolValue (schoolKey) {
-    var school = _.find(this.schools.options, (school) => { return school.text === schoolKey })
-
-    return school.value
-  },
-
   getNextStep () {
     return parseInt(this.savedData['currentStep']) + 1
   },
@@ -242,7 +229,7 @@ export const formStore = {
       this.tabs.about_me.currentStep = true
     } else {
       // we want to display the next tab the student has not completed, which will be the tab's step index in the saved currentStep property, plus 1.
-      for (var tab in this.tabs) {
+      for (let tab in this.tabs) {
         if (this.tabs[tab].step <= this.getNextStep()) {
           this.tabs[tab].disabled = false
           this.tabs[tab].valid = true
@@ -265,24 +252,14 @@ export const formStore = {
     }
   },
   setComplete (tabName) {
-    for (var tab in this.tabs) {
+    for (let tab in this.tabs) {
       if (this.tabs[tab].label === tabName) {
         this.tabs[tab].complete = true
       }
     }
   },
-  // tabs that have been validated and the current tab are enabled
-  enableTabs () {
-    for (var tab in this.tabs) {
-      if (this.tabs[tab].complete === true || this.tabs[tab].currentStep === true) {
-        this.tabs[tab].disabled = false
-      } else {
-        this.tabs[tab].disabled = true
-      }
-    }
-  },
   hasError (inputKey) {
-    var hasError = false
+    let hasError = false
     _.forEach(this.errors, function (error) {
       _.forEach(error, function (value, key) {
         if (inputKey === key) {
@@ -294,7 +271,7 @@ export const formStore = {
   },
 
   getErrorMessage(key){
-    var error = _.find(this.errors, key)
+    const error = _.find(this.errors, key)
     if (_.isObject(error)) {
       return error
     }
@@ -304,19 +281,11 @@ export const formStore = {
     return 'etd[' + index + ']'
   },
 
-  addCommitteeMember (affiliation, name) {
-    this.committeeChairs.push({ affiliation: [affiliation], name: name })
-  },
-
   /* Getters & Setters */
 
   /* Schools, Departments & Subfields */
   getSelectedSchool () {
-    if (this.schools.selected) {
-      return this.schools.selected
-    } else {
-      return ''
-    }
+    return this.schools.selected ?? ''
   },
   getSavedOrSelectedSchool () {
     if (this.savedData['school']) {
@@ -366,7 +335,6 @@ export const formStore = {
   loadDepartments () {
     // The deparment list depends on the current school
     const departmentsEndpoint = this.schools[this.getSavedOrSelectedSchool()]
-    let departmentOptions = []
     axios.get(departmentsEndpoint).then(response => {
       this.setupDepartmentOptions(response.data)
     }).catch(e => {
@@ -402,40 +370,49 @@ export const formStore = {
   getDepartmentHeading () {
     // The nursing school uses "Specialty"
     // All other schools use "Department"
-    if ( this.savedData['school']=='Nell Hodgson Woodruff School of Nursing') {
+    if ( this.savedData['school'] === 'Nell Hodgson Woodruff School of Nursing') {
       return 'Specialty'
     } else {
       return 'Department'
     }
   },
-
-  getSavedOrSelectedSubfield () {
-    if (this.selectedSubfield === undefined) {
-      this.selectedSubfield = ''
-    }
-
-    if (this.savedData['subfield'] && this.savedData['subfield'].length > 0) {
-      return this.savedData['subfield']
-    }
-
-    if (this.savedData['subfield'] && this.savedData['subfield'].length <= 0) {
-      return this.selectedSubfield
-    }
+  getSubfield () {
+    return this.selectedSubfield || this.savedData['subfield'] || ''
   },
-  setSelectedSubfield (subfield) {
+  setSubfield (subfield) {
     this.selectedSubfield = subfield
   },
   getSubfields () {
-    const dept = this.getDepartment()
-    const endpoints = this.subfieldEndpoints
-    const endpoint = endpoints[dept]
+    const endpoint = this.subfieldEndpoints[this.getDepartment()]
     if (endpoint) {
       axios.get(endpoint).then((response) => {
-        this.subfields = response.data
+        this.subfields = this.filterInactiveSubfields(response.data)
       })
     } else {
       this.subfields = []
     }
+  },
+  filterInactiveSubfields(optionList) {
+    // Add a placeholder option at the top of the options list
+    optionList.unshift({ "id": "", "label": "Select a Subfield","active": true, "disabled":"disabled" })
+
+    // Make sure the selected option is active
+    const selected = this.getSubfield()
+    const selected_index = Math.max(optionList.findIndex((option) => option.id === selected),0)
+    optionList[selected_index].active = true
+
+    // Flag inactive department labels
+    optionList.forEach((option) => {
+      option.label = labelFor(option.label, option.active)
+    })
+
+    // Filter out inactive options when appropriate
+    if (showInactive()) {
+      return optionList
+    } else {
+      return optionList.filter((option) => option.active)
+    }
+
   },
   getSubfieldLabelFromId (id) {
     if (this.subfields.length > 0){
@@ -512,7 +489,7 @@ export const formStore = {
     if (this.savedData['supplemental_file_metadata']) {
       // check for duplicates
       _.forEach(this.savedData['supplemental_file_metadata'], (sfm) => {
-        var file = _.find(this.supplementalFilesMetadata, function (o) { return o.filename === sfm.filename })
+        const file = _.find(this.supplementalFilesMetadata, function (o) { return o.filename === sfm.filename })
         // add only if it isn't there
         if (!(_.isObject(file))) {
           this.supplementalFilesMetadata.push({ filename: sfm.filename, title: sfm.title, description: sfm.description, file_type: sfm.file_type })
@@ -522,12 +499,12 @@ export const formStore = {
   },
   addSupplementalFiles () {
     if (this.savedData['supplemental_files']) {
-      var parsedFiles = this.tryParseJSON(this.savedData['supplemental_files'])
+      const parsedFiles = this.tryParseJSON(this.savedData['supplemental_files'])
       // we have a legit parsed file array of objects
       if (!(_.isError(parsedFiles))) {
         // check for duplicates
         _.forEach(parsedFiles, (psf) => {
-          var file = _.find(this.supplementalFiles, function (sf) {
+          const file = _.find(this.supplementalFiles, function (sf) {
             return sf.deleteUrl === psf.deleteUrl
           })
           // add only if it isn't there
@@ -540,10 +517,10 @@ export const formStore = {
   },
   addFileData () {
     if (_.has(this.savedData, 'files') && this.savedData['files'] !== 'undefined') {
-      var parsedFiles = this.tryParseJSON(this.savedData['files'])
+      const parsedFiles = this.tryParseJSON(this.savedData['files'])
       // we have a legit parsed file object
       if (!(_.isError(parsedFiles))) {
-        // if there's nothing in the the files array, just go ahead
+        // if there's nothing in the files array, just go ahead
         if (this.files.length === 0) {
           this.files.push([parsedFiles])
           this.savedData['files'] = [parsedFiles]
@@ -568,30 +545,30 @@ export const formStore = {
   removeSavedFile (deleteUrl) {
     // TODO: this assumes files contains only one object, and returns it
     // TODO: rename files primaryFile
-    var file = this.tryParseJSON(this.savedData['files'])
+    const file = this.tryParseJSON(this.savedData['files'])
     if (file['deleteUrl'] === deleteUrl) {
       delete this.savedData.files
     }
   },
   removeSavedSupplementalFile (deleteUrl) {
-    var files = this.savedData['supplementalFiles']
-    var supplementalFile = _.find(files, (f) => {
+    const files = this.savedData['supplementalFiles']
+    const supplementalFile = _.find(files, (f) => {
       return f.deleteUrl === deleteUrl
     })
 
     if (_.isObject(supplementalFile)) {
-      var filteredFiles = _.filter(this.savedData['supplementalFiles'], (f) => {
+      this.savedData['supplementalFiles'] = _.filter(this.savedData['supplementalFiles'], (f) => {
         return f.deleteUrl !== deleteUrl
       })
-      this.savedData['supplementalFiles'] = filteredFiles
     }
   },
 
   removeSavedSupplementalFileMetadata (id) {
-    var metadata = this.savedData['supplementalFilesMetadata']
-    var supplementalMetadata = _.find(metadata, (f) => {
+    const metadata = this.savedData['supplementalFilesMetadata']
+    const supplementalMetadata = _.find(metadata, (f) => {
       return f.id === id
     })
+
     if (_.isObject(supplementalMetadata)) {
       var filteredFiles = _.filter(this.savedData['supplementalFilesMetadata'], (f) => {
         return f.id !== id
@@ -603,11 +580,11 @@ export const formStore = {
   savedData: {},
   formData: undefined,
   setFormData (formElement) {
-    var formData = new FormData(formElement)
+    const formData = new FormData(formElement)
     this.formData = formData
   },
   loadSavedData () {
-    var el = document.getElementById('saved_data')
+    const el = document.getElementById('saved_data')
     if (el && el.hasAttribute('data-in-progress-etd')) {
       this.savedData = JSON.parse(el.dataset.inProgressEtd)
     }
@@ -617,8 +594,8 @@ export const formStore = {
     if (Object.keys(this.savedData).length > 0) {
       this.setIpeId(this.savedData['ipe_id'])
       this.setEtdId(this.savedData['etd_id'])
-      for (var tab in this.tabs) {
-        var inputKeys = Object.keys(this.tabs[tab].inputs)
+      for (let tab in this.tabs) {
+        const inputKeys = Object.keys(this.tabs[tab].inputs)
         inputKeys.forEach(function (el) {
           this.tabs[tab].inputs[el].value = this.savedData[el]
         }, this)
@@ -629,7 +606,7 @@ export const formStore = {
     this.tabs.submit.fields = JSON.parse(data['in_progress_etd'])
   },
   submit () {
-    var saveAndSubmit = new SaveAndSubmit({
+    const saveAndSubmit = new SaveAndSubmit({
       token: this.token,
       formData: this.formData
     })
