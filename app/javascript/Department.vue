@@ -22,7 +22,7 @@ export default {
   },
   data() {
     return {
-      selected: formStore.getDepartment(),
+      selected: formStore.getDepartment()
     }
   },
   beforeCreate() {
@@ -32,6 +32,7 @@ export default {
     selected(newDepartment) {
       formStore.setDepartment(newDepartment)
       formStore.getSubfields()
+      formStore.setSubfield('')
       formStore.setValid('My Program', false)
     }
   }

@@ -1,42 +1,35 @@
 <template>
-  <div v-if="this.sharedState.subfields.length > 0">
+  <div v-if="formStore.subfields.length > 0">
     <label for="subfield">Subfield</label>
     <select id="subfield" name="etd[subfield]" class="form-control" v-model="selected">
-      <option v-for="(option, i) in this.sharedState.subfields"  v-bind:value="option.id" v-bind:key="`${i}-${option.label}`">{{ option.label }}</option>
+      <option v-for="(option) in formStore.subfields"
+              v-bind:value="option.id"
+              v-bind:disabled="option.disabled">{{ option.label }}</option>
     </select>
   </div>
 </template>
 
 <script>
-import Vue from "vue"
-import App from "./App"
 import { formStore } from './formStore'
 
 export default {
-  data() {
-    return {
-      selected: "",
-      sharedState: formStore
+  computed: {
+    formStore() {
+      return formStore
     }
   },
-  beforeMount() {
-    this.sharedState.getSubfields()
+  data() {
+    return {
+      selected: formStore.getSubfield()
+    }
   },
-  mounted: function(){
-    this.$nextTick(function () {
-      this.selected = this.sharedState.getSavedOrSelectedSubfield()
-    })
+  beforeCreate() {
+    formStore.getSubfields()
   },
   watch: {
-    selected() {
-      this.sharedState.setSelectedSubfield(this.selected)
+    selected(newSubfield) {
+      formStore.setSubfield(newSubfield)
     }
   }
 }
 </script>
-
-<style>
-select {
-  margin-bottom: 1em;
-}
-</style>

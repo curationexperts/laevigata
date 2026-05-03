@@ -3,9 +3,9 @@
     <h4>My Program</h4>
     <h5>{{ sharedState.getDepartmentHeading() }}</h5>
     <div> {{ sharedState.getDepartmentLabelFromId(sharedState.getDepartment()) }} </div>
-    <div v-if="sharedState.getSavedOrSelectedSubfield() && sharedState.getSavedOrSelectedSubfield().length > 0">
-          <h5>Subfield</h5>
-      <div> {{ sharedState.getSubfieldLabelFromId(sharedState.getSavedOrSelectedSubfield()) }} </div>
+    <div v-if="sharedState.getSubfield().length > 0">
+      <h5>Subfield</h5>
+      <div> {{ sharedState.getSubfieldLabelFromId(sharedState.getSubfield()) }} </div>
     </div>
     <div v-if="sharedState.getSavedOrSelectedSchool() === 'Rollins School of Public Health'">
       <h5>Partnering Agencies</h5>
