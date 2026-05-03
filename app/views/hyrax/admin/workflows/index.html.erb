@@ -21,10 +21,11 @@
                 <table class="table table-condensed table-striped datatable">
                   <thead>
                     <tr>
-                      <th width="40%">Work</th>
-                      <th width="20%">Depositor</th>
-                      <th width="20%">Submission Date</th>
-                      <th width="20%">Status</th>
+                      <th width="50%">Work</th>
+                      <th width="15%">Depositor</th>
+                      <th width="15%">Submission Date</th>
+                      <th width="10%">Degree</th>
+                      <th width="10%">Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -40,7 +41,10 @@
                           <%= formatted_date(document.date_modified) %>
                         </td>
                         <td>
-                          <span class="state state-pending"><%= document.workflow_state %></span>
+                          <%= safe_join(document.degree, tag(:br)) %>
+                        </td>
+                        <td>
+                          <span class="state state-pending"><%= document.workflow_state.titlecase %></span>
                         </td>
                       </tr>
                     <% end %>
@@ -56,12 +60,13 @@
               <div class="table-responsive">
                 <table class="table table-condensed table-striped datatable">
                   <thead>
-                    <tr>
-                      <th width="40%">Work</th>
-                      <th width="20%">Depositor</th>
-                      <th width="20%">Submission Date</th>
-                      <th width="20%">Status</th>
-                    </tr>
+                  <tr>
+                    <th width="50%">Work</th>
+                    <th width="15%">Depositor</th>
+                    <th width="15%">Submission Date</th>
+                    <th width="10%">Degree</th>
+                    <th width="10%">Status</th>
+                  </tr>
                   </thead>
                   <tbody>
                     <% @published_list.each do |document| %>
@@ -76,7 +81,10 @@
                           <%= formatted_date(document.date_modified) %>
                         </td>
                         <td>
-                          <span class="state state-pending"><%= document.workflow_state %></span>
+                          <%= safe_join(document.degree, tag(:br)) %>
+                        </td>
+                        <td>
+                          <span class="state state-pending"><%= document.workflow_state.titlecase %></span>
                         </td>
                       </tr>
                     <% end %>
