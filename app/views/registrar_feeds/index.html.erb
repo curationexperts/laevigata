@@ -14,6 +14,7 @@
         <th class="published_count">Previously<br>Published</th>
         <th class="approved_count">Approved</th>
         <th class="graduated_count">Graduated</th>
+        <th class="total_count">New Total</th>
       </tr>
       </thead>
 
@@ -28,6 +29,7 @@
           <td class="published_count"><%= dasher(registrar_feed.published_etds) %></td>
           <td class="approved_count"><%= dasher(registrar_feed.approved_etds) %></td>
           <td class="graduated_count"><%= dasher(registrar_feed.graduated_etds) %></td>
+          <td class="total_count"><%= dasher(registrar_feed.published_etds+registrar_feed.graduated_etds) %></td>
         </tr>
       <% end %>
       </tbody>

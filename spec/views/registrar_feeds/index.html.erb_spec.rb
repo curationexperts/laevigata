@@ -24,6 +24,7 @@ RSpec.describe "registrar_feeds/index", type: :view do
     expect(rendered).to have_selector 'td.approved_count', text: '7'
     expect(rendered).to have_selector 'td.graduated_count', text: '2'
     expect(rendered).to have_selector 'td.published_count', text: '13'
+    expect(rendered).to have_selector 'td.total_count', text: '15'
   end
 
   it "displays links to download the source data file" do

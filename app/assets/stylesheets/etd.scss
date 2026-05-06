@@ -174,11 +174,11 @@ table.user-info {
   .feed_timestamp {
     max-width: 7.5rem;
   }
-  .feed_status, .published_count, .approved_count, .graduated_count {
+  .feed_status, .published_count, .approved_count, .graduated_count, .total_count {
     max-width: 3.5rem;
   }
 
-  .published_count, .approved_count, .graduated_count {
+  .published_count, .approved_count, .graduated_count, .total_count {
     text-align: center;
   }
 }
