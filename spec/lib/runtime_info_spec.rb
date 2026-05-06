@@ -3,6 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe RuntimeInfo do
+  # We're seeing intermittent failures in other tests that expect the Rails
+  # environment to be set to test, so ensure it's propoerly reset here.
+  after(:all) do
+    Rails.env = 'test'.inquiry unless Rails.env.test?
+  end
+
   describe '.environment' do
     describe 'in AWS environments' do
       let(:response) { nil }
@@ -18,31 +24,17 @@ RSpec.describe RuntimeInfo do
         allow(metadata_service).to receive(:get).and_return(response)
       end
 
-      context 'with tag:Environment=prod' do
-        let(:response) { 'prod' }
-        it 'returns "Production"' do
-          expect(described_class.environment).to eq('production')
+      context 'with tag:Environment=QA' do
+        let(:response) { 'QA' }
+        it 'keeps capitalization' do
+          expect(described_class.environment).to eq('QA')
         end
       end
 
-      context 'with tag:Environment=stage' do
-        let(:response) { 'stage' }
-        it 'returns "Staging"' do
-          expect(described_class.environment).to eq('staging')
-        end
-      end
-
-      context 'with tag:Environment=qa' do
-        let(:response) { 'qa' }
-        it 'returns "quality assurance"' do
-          expect(described_class.environment).to eq('qa testing')
-        end
-      end
-
-      context 'with tag:Environment=any other string' do
-        let(:response) { 'any_other_string' }
+      context 'with tag:Environment=any_string' do
+        let(:response) { 'any_string' }
         it 'returns the tag' do
-          expect(described_class.environment).to eq('any_other_string')
+          expect(described_class.environment).to eq('any_string')
         end
       end
 
@@ -56,7 +48,7 @@ RSpec.describe RuntimeInfo do
           allow(metadata_service).to receive(:get).and_raise(Aws::EC2Metadata::MetadataNotFoundError)
         end
 
-        it 'returns the Rails environment' do
+        it 'returns the a tag missing message' do
           expect(described_class.environment).to match('missing')
         end
       end
@@ -64,7 +56,7 @@ RSpec.describe RuntimeInfo do
 
     describe 'in local environments' do
       before do
-        allow(Rails).to receive(:env).and_return('test')
+        allow(Rails).to receive(:env).and_return('test'.inquiry)
 
         # stub an EC2Metadata object
         metadata_service = instance_double(Aws::EC2Metadata)
@@ -82,7 +74,7 @@ RSpec.describe RuntimeInfo do
 
       context 'in development' do
         before do
-          allow(Rails).to receive(:env).and_return('development')
+          allow(Rails).to receive(:env).and_return('development'.inquiry)
         end
 
         it 'returns the Rails environment' do
@@ -99,7 +91,7 @@ RSpec.describe RuntimeInfo do
       context 'in EC2 production environments' do
         before do
           allow(described_class).to receive(:ec2?).and_return(true)
-          allow(described_class).to receive(:environment_tag).and_return('prod')
+          allow(described_class).to receive(:environment_tag).and_return('Production')
         end
 
         it 'returns a hidden div' do
@@ -109,7 +101,7 @@ RSpec.describe RuntimeInfo do
 
       context 'in non-EC2 environments' do
         it 'returns the rails environment' do
-          expect(described_class.badge).to match(/>Test</)
+          expect(described_class.badge).to match(/>test</)
         end
 
         it 'is not hidden' do
@@ -119,7 +111,7 @@ RSpec.describe RuntimeInfo do
 
       context 'in other environments' do
         before do
-          allow(described_class).to receive(:environment_tag).and_return('testing qa3')
+          allow(described_class).to receive(:environment_tag).and_return('testing QA3')
           allow(described_class).to receive(:ec2?).and_return(true)
         end
 
@@ -127,8 +119,8 @@ RSpec.describe RuntimeInfo do
           expect(described_class.badge).to match('<div id="environment_badge"')
         end
 
-        it 'capitalizes the envioronment name' do
-          expect(described_class.badge).to match('Testing Qa3')
+        it 'does not modify the tag' do
+          expect(described_class.badge).to match('testing QA3')
         end
       end
     end

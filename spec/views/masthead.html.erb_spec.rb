@@ -9,6 +9,6 @@ RSpec.describe "_masthead", type: :view do
 
   it "dsiplays the current environment (Test)" do
     render
-    expect(rendered).to have_selector('div', id: 'environment_badge', text: 'Test')
+    expect(rendered).to have_selector('div', id: 'environment_badge', text: 'test')
   end
 end

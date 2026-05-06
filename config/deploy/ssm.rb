@@ -12,7 +12,7 @@
 
 require 'net/ssh/proxy/command'
 set :rails_env, 'production'
-set :host_env, -> { ENV['HOST_ENV'] || 'stage' }
+set :host_env, -> { ENV['HOST_ENV'] || 'Staging' }
 set :instance_id, lambda {
                     ENV['HOST_ID'] ||
                       `aws ec2 describe-instances --region us-east-2  --profile emory-etd \

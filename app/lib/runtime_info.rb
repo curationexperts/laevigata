@@ -5,21 +5,19 @@ require 'aws-sdk-core/ec2_metadata'
 include ActionView::Helpers::TagHelper
 
 class RuntimeInfo
-  TAG_MAPPER = { 'prod' => 'production', 'stage' => 'staging', 'qa' => 'qa testing' }.freeze
-
   class << self
     def badge
-      @badge ||= tag.div(environment.titleize, id: 'environment_badge', class: display_class)
+      @badge ||= tag.div(environment, id: 'environment_badge', class: display_class)
     end
 
     def environment
-      TAG_MAPPER[environment_tag] || environment_tag || Rails.env
+      environment_tag || Rails.env
     end
 
     private
 
     def display_class
-      'hidden' if environment_tag == 'prod'
+      'hidden' if environment == 'Production'
     end
 
     def environment_tag
