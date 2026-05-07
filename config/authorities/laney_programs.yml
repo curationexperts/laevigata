@@ -29,6 +29,7 @@ terms:
       term: Economics
     - id: Educational Studies
       term: Educational Studies
+      active: false
     - id: English
       term: English
     - id: Environmental Health
@@ -39,10 +40,12 @@ terms:
       term: Epidemiology
     - id: Film and Media Studies
       term: Film and Media Studies
+      active: false
     - id: French
       term: French
     - id: Graduate Institute of the Liberal Arts
       term: Graduate Institute of the Liberal Arts
+      active: false
     - id: Health Services and Research Health Policy
       term: Health Services and Research Health Policy
     - id: Hispanic Studies
@@ -53,6 +56,7 @@ terms:
       term: Islamic Civilizations Studies
     - id: Jewish Studies
       term: Jewish Studies
+      active: false
     - id: Mathematics
       term: Mathematics
     - id: Music
@@ -75,5 +79,6 @@ terms:
       term: Sociology
     - id: Spanish
       term: Spanish
+      active: false
     - id: Women's, Gender, and Sexuality Studies
       term: Women's, Gender, and Sexuality Studies
