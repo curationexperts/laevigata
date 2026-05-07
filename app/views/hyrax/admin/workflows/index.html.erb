@@ -37,7 +37,7 @@
                         <td>
                           <%= safe_join(document.creator, tag(:br)) %>
                         </td>
-                        <td>
+                        <td data-order="<%= document.date_modified -%>">
                           <%= formatted_date(document.date_modified) %>
                         </td>
                         <td>
@@ -77,7 +77,7 @@
                         <td>
                           <%= safe_join(document.creator, tag(:br)) %>
                         </td>
-                        <td>
+                        <td data-order="<%= document.date_modified -%>">
                           <%= formatted_date(document.date_modified) %>
                         </td>
                         <td>
