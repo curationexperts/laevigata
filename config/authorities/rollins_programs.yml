@@ -4,6 +4,12 @@
 # `config/emory/admin_sets.yml`, both in this code base and on every server
 # where this code is deployed.
 terms:
+    - id: Applied Epidemiology
+      term: Applied Epidemiology
+      active: false
+    - id: Applied Public Health Informatics
+      term: Applied Public Health Informatics
+      active: false
     - id: Behavioral Sciences and Health Education
       term: Behavioral, Social, and Health Education Sciences
     - id: Biostatistics
@@ -19,11 +25,11 @@ terms:
     - id: Hubert Department of Global Health
       term: Hubert Department of Global Health - MPH
     - id: Biostatistics and Bioinformatics
-      term: Biostatistics and Bioinformatics
+      term: "[migrated] Biostatistics and Bioinformatics"
       active: false
     - id: Career Masters of Public Health
-      term: Career Masters of Public Health
+      term: "[migrated] Career Masters of Public Health"
       active: false
     - id: Executive Masters of Public Health
-      term: Executive Masters of Public Health
+      term: "[migrated] Executive Masters of Public Health"
       active: false
