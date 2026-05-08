@@ -14,6 +14,10 @@ set :bundle_env_variables, nokogiri_use_system_libraries: 1
 set :keep_releases, 5
 set :assets_prefix, "#{shared_path}/public/assets"
 
+set :default_env, {
+  'NODE_OPTIONS' => '--openssl-legacy-provider'
+}
+
 SSHKit.config.command_map[:rake] = 'bundle exec rake'
 
 # Default branch is :main
