@@ -37,6 +37,8 @@ terms:
       term: Computer Science
     - id: Dance and Movement Studies
       term: Dance and Movement Studies
+    - id: Data and Decision Sciences
+      term: Data and Decision Sciences
     - id: East Asian Studies
       term: East Asian Studies
     - id: Economics
@@ -53,8 +55,11 @@ terms:
       term: English and Creative Writing
     - id: English and History
       term: English and History
-    - id: Environmental Studies
+    - id: Environmental Sciences
       term: Environmental Sciences
+    - id: Environmental Studies
+      term: Environmental Studies
+      active: false
     - id: Film and Media Studies
       term: Film and Media Studies
     - id: French Studies
@@ -123,6 +128,7 @@ terms:
       term: Psychology and Linguistics
     - id: Quantitative Science
       term: Quantitative Science
+      active: false
     - id: Religion
       term: Religion
     - id: Religion and Anthropology
