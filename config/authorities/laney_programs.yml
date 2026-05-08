@@ -1,4 +1,6 @@
 terms:
+    - id: African American Studies
+      term: African American Studies
     - id: Anthropology
       term: Anthropology
     - id: Art History
@@ -36,6 +38,8 @@ terms:
       term: Environmental Health Sciences
     - id: Environmental Sciences
       term: Environmental Sciences
+    - id: Environmental Sciences and Society
+      term: Environmental Sciences and Society
     - id: Epidemiology
       term: Epidemiology
     - id: Film and Media Studies
@@ -43,6 +47,8 @@ terms:
       active: false
     - id: French
       term: French
+    - id: Global Health and Development
+      term: Global Health and Development
     - id: Graduate Institute of the Liberal Arts
       term: Graduate Institute of the Liberal Arts
       active: false
