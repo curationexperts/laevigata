@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe RuntimeInfo do
   # We're seeing intermittent failures in other tests that expect the Rails
-  # environment to be set to test, so ensure it's propoerly reset here.
+  # environment to be set to test, so ensure it's properly reset here.
   after(:all) do
     Rails.env = 'test'.inquiry unless Rails.env.test?
   end
