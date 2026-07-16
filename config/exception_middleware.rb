@@ -7,8 +7,8 @@ class ExceptionMiddleware
 
   def call(env)
     @app.call(env)
-  rescue Blacklight::Exceptions::RecordNotFound
+  rescue Blacklight::Exceptions::RecordNotFound, ActiveFedora::ObjectNotFoundError
     # Redirect to non-existant location, which goes to the 404 page
-    [301, { 'Location' => '/not-found', 'Content-Type' => 'text/html' }, ['Moved Permanently']]
+    [301, { 'Location' => '/error_404', 'Content-Type' => 'text/html' }, ['Moved Permanently']]
   end
 end
