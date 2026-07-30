@@ -17,6 +17,8 @@ module Hyrax
     def create
       sanitize_input(params)
       apply_file_metadata(params)
+      debugger
+
       if params['etd'].fetch('ipe_id', false)
         create_with_response_for_form
       else
@@ -63,6 +65,7 @@ module Hyrax
     def update
       sanitize_input(params)
       apply_file_metadata(params)
+      debugger
 
       if params['request_from_form'] == 'true'
         curation_concern.committee_chair = nil
