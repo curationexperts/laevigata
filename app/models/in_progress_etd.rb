@@ -163,7 +163,7 @@ class InProgressEtd < ApplicationRecord
     new_data['committee_chair_attributes'] = etd.committee_chair
 
     primary_file = file_for_refresh(etd.primary_file_fs.first)
-    new_data['files'] = primary_file unless primary_file.blank?
+    new_data['files'] = primary_file.to_json unless primary_file.blank?
 
     unless etd.supplemental_files_fs.blank?
       new_data['supplemental_files'], new_data['supplemental_file_metadata'] = supplemental_files_for_refresh(etd)
@@ -192,7 +192,7 @@ class InProgressEtd < ApplicationRecord
       supp_files_metadata << file_metadata_for_refresh(supp_file)
     end
 
-    [supp_files, supp_files_metadata]
+    [supp_files.to_json, supp_files_metadata]
   end
 
   # Information about the file that the JavaScript needs for display and to render the 'Remove' button.
