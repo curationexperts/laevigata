@@ -642,8 +642,8 @@ RSpec.describe InProgressEtd do
         end
       end
 
-      it 'includes the file info in the JSON datastore' do
-        expect(refreshed_data['files']).to eq({
+      it 'includes the file info in the JSON datastore', :aggregate_failures do
+        expect(JSON.parse(refreshed_data['files'])).to eq({
           'id' => primary_pdf_fs.id,
           'name' => 'joey_thesis.pdf',
           'size' => primary_pdf_fs.file_size.first,
@@ -651,7 +651,7 @@ RSpec.describe InProgressEtd do
           'deleteType' => 'DELETE'
         })
 
-        expect(refreshed_data['supplemental_files']).to contain_exactly(
+        expect(JSON.parse(refreshed_data['supplemental_files'])).to contain_exactly(
           {
             'id' => supp_1_fs.id,
             'name' => 'nasa.jpeg',
