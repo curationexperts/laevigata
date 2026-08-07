@@ -1,7 +1,7 @@
 require 'csv'
 namespace :emory do
   task etd_report: [:environment] do
-    headers = %w[id uid creator title school department degree submitting_type
+    headers = %w[id ppid uid creator title school department degree submitting_type
                  language subfield research_field keyword committee_chair committee_members
                  post_graduation_email degree_awarded graduation_date partnering_agency
                  date_created date_uploaded abstract]
@@ -20,7 +20,7 @@ namespace :emory do
               end
           end
           # handle the fields that aren't stored directly in the ETD record
-          row['uid'] = User.find_by(ppid: etd.depositor).uid
+          row['uid'] = User.find_by(ppid: etd.depositor)&.uid
           csv << row
         end
       end
