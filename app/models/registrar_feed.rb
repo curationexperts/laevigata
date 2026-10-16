@@ -15,4 +15,11 @@ class RegistrarFeed < ApplicationRecord
   end
 
   scope :by_recently_updated, -> { order(updated_at: :desc) }
+
+  # Projected published total once the graduation job completes;
+  # nil until counts are present
+  def total_etds
+    return unless published_etds && graduated_etds
+    published_etds + graduated_etds
+  end
 end
