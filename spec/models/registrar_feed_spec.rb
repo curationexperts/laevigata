@@ -30,4 +30,22 @@ RSpec.describe RegistrarFeed, type: :model do
       expect(feed.report).to be_a_kind_of ActiveStorage::Attached::One
     end
   end
+
+  describe '#total_etds' do
+    let(:feed) { described_class.new(published_etds: 100, graduated_etds: 25) }
+
+    it 'predicts the total number of published ETDs after the graduation job runs' do
+      expect(feed.total_etds).to eq 125
+    end
+
+    it 'returns nil when published_etds is nil' do
+      feed.published_etds = nil
+      expect(feed.total_etds).to be_nil
+    end
+
+    it 'returns nil when graduated_etds is nil' do
+      feed.graduated_etds = nil
+      expect(feed.total_etds).to be_nil
+    end
+  end
 end
